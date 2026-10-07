@@ -12,7 +12,7 @@ import org.koin.core.scope.Scope
 import org.openeel.credentials.passkey.CheckPasskeySupportUseCase
 import org.openeel.credentials.passkey.CreatePasskeyUseCase
 import org.openeel.credentials.passkey.RespectPasskeyCredential
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.shared.domain.account.RespectAccountManager
@@ -36,7 +36,7 @@ data class OtherOptionsSignupUiState(
 
 class OtherOptionsSignupViewModel(
     savedStateHandle: SavedStateHandle,
-    private val respectAppDataSource: RespectAppDataSource,
+    private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val accountManager: RespectAccountManager,
 ) : RespectViewModel(savedStateHandle), KoinScopeComponent {
 
@@ -90,7 +90,7 @@ class OtherOptionsSignupViewModel(
         val createPasskeyUseCaseVal = createPasskeyUseCase
         viewModelScope.launch {
             try {
-                val schoolDirEntry = respectAppDataSource.schoolDirectoryEntryDataSource
+                val schoolDirEntry = this@OtherOptionsSignupViewModel.schoolDirectoryDataSource.schoolDirectoryEntryDataSource
                     .getSchoolDirectoryEntryByUrl(route.schoolUrl).dataOrNull() ?: throw IllegalStateException()
                 val rpId = schoolDirEntry.rpId
                 val username = route.respectRedeemInviteRequest.account.username

@@ -9,7 +9,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.util.reflect.typeInfo
 import org.koin.ktor.ext.inject
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
 import org.openeel.lib.dataloadstate.DataLoadParams
@@ -26,12 +26,12 @@ const val AUTH_CONFIG_DIRECTORY_ADMIN_BASIC = "auth-directory-admin-basic"
  *        SchoolDirectoryEntry.inDirectoryUrl matches the virtual host for the request.
  */
 fun Route.RespectSchoolDirectoryRoute(
-    respectAppDataSource: RespectAppDataSource,
+    schoolDirectoryDataSource: SchoolDirectoryDataSource,
     filterByHost: Boolean = false,
 ) {
     get("school") {
         call.respondDataLoadState(
-            dataLoadState = respectAppDataSource.schoolDirectoryEntryDataSource.list(
+            dataLoadState = schoolDirectoryDataSource.schoolDirectoryEntryDataSource.list(
                 loadParams = DataLoadParams(),
                 listParams = SchoolDirectoryEntryDataSource.GetListParams.fromParams(
                     call.request.queryParameters

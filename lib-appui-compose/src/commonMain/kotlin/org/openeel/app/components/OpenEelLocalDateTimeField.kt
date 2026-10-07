@@ -18,7 +18,7 @@ import org.openeel.shared.generated.resources.date
 import org.openeel.shared.generated.resources.time
 
 @Composable
-fun RespectLocalDateTimeField(
+fun OpenEelLocalDateTimeField(
     modifier: Modifier = Modifier,
     dateFieldWeight: Float = 0.6f,
     value: LocalDateTime?,
@@ -37,7 +37,7 @@ fun RespectLocalDateTimeField(
     }
 
     Row(modifier = modifier) {
-        RespectLocalDateField(
+        OpenEelLocalDateField(
             modifier = Modifier.weight(dateFieldWeight, true)
                 .testTagIfNotNull(dateTestTag),
             value = value?.date ?: dateVar,
@@ -57,7 +57,7 @@ fun RespectLocalDateTimeField(
 
         Spacer(Modifier.width(16.dp))
 
-        RespectLocalTimeField(
+        OpenEelLocalTimeField(
             modifier = Modifier.weight(1f - dateFieldWeight, true)
                 .testTagIfNotNull(timeTestTag),
             value = value?.time ?: timeVar,

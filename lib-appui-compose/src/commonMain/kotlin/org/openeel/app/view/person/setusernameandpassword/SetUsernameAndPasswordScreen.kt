@@ -21,10 +21,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPasswordField
+import org.openeel.app.components.OpenEelPasswordField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
-import org.openeel.app.components.RespectQrBadgeInfoBox
+import org.openeel.app.components.OpenEelQrBadgeInfoBox
 import org.openeel.shared.domain.account.username.validateusername.ValidateUsernameUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.change_password
@@ -92,7 +92,7 @@ fun CreateAccountSetUsernameScreen(
         )
 
         if (uiState.showQrBadgeInfoBox) {
-            RespectQrBadgeInfoBox(
+            OpenEelQrBadgeInfoBox(
                 onClickQrBadgeLearnMore,
                 onClickAssignQrCodeBadge,
                 modifier = Modifier
@@ -121,7 +121,7 @@ fun CreateAccountSetUsernameScreen(
                 )
             }
         }else {
-            RespectPasswordField(
+            OpenEelPasswordField(
                 value = uiState.password,
                 onValueChange = onPasswordChanged,
                 label = { Text(stringResource(Res.string.password_label)) },

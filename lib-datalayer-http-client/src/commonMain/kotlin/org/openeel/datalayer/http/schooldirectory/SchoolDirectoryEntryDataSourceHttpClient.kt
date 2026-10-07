@@ -14,7 +14,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.DataReadyState
-import org.openeel.datalayer.RespectAppDataSourceLocal
+import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.ext.getAsDataLoadState
 import org.openeel.datalayer.ext.getDataLoadResultAsFlow
@@ -28,7 +28,7 @@ import kotlin.collections.map
 
 class SchoolDirectoryEntryDataSourceHttpClient(
     private val httpClient: HttpClient,
-    private val local : RespectAppDataSourceLocal,
+    private val local : SchoolDirectoryDataSourceLocal,
 ): SchoolDirectoryEntryDataSource {
 
     /**

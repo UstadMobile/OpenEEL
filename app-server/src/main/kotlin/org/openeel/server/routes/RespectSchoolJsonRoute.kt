@@ -3,7 +3,7 @@ package org.openeel.server.routes
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import org.koin.ktor.ext.getKoin
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
 import org.openeel.server.util.ext.virtualHost
 
@@ -15,7 +15,7 @@ import org.openeel.server.util.ext.virtualHost
 fun Route.getRespectSchoolJson(
     path: String
 ) {
-    val appDataSource: RespectAppDataSource = getKoin().get()
+    val appDataSource: SchoolDirectoryDataSource = getKoin().get()
 
     get(path) {
         call.respondDataLoadState(

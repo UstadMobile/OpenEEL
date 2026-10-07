@@ -48,7 +48,7 @@ import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.getKoin
 import org.koin.compose.koinInject
-import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.app.util.ext.toImageVector
 import org.openeel.datalayer.db.school.ext.fullName
@@ -260,7 +260,7 @@ fun RespectAppBar(
                             onClick = onProfileClick,
                             modifier = Modifier.testTag("user_account_icon"),
                         ) {
-                            RespectPersonAvatar(name = it.person.fullName())
+                            OpenEelPersonAvatar(name = it.person.fullName())
                         }
                     }
                 }

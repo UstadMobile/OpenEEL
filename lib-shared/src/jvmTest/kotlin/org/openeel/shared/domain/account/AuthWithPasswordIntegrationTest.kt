@@ -75,7 +75,7 @@ class AuthWithPasswordIntegrationTest {
             schoolDb = schoolDb,
             xxHash = xxHash,
             verifyPasskeyUseCase = mock { },
-            respectAppDataSource = mock { },
+            schoolDirectoryDataSource = mock { },
             authenticatePasswordUseCase = AuthenticatePasswordUseCaseDbImpl(
                 schoolDb = schoolDb,
                 encryptPersonPasswordUseCase = EncryptPersonPasswordUseCaseImpl(),

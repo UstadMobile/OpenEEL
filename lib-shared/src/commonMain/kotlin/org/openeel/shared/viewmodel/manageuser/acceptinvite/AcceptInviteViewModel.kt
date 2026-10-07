@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.scope.Scope
 import org.openeel.credentials.passkey.RespectPasswordCredential
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.respect.model.invite.RespectInviteInfo
@@ -52,7 +52,7 @@ data class AcceptInviteUiState(
 class AcceptInviteViewModel(
     savedStateHandle: SavedStateHandle,
     private val getDeviceInfoUseCase: GetDeviceInfoUseCase,
-    private val respectAppDataSource: RespectAppDataSource,
+    private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
 ) : RespectViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: AcceptInvite = savedStateHandle.toRoute()
@@ -98,7 +98,7 @@ class AcceptInviteViewModel(
         }
 
         viewModelScope.launch {
-            val schoolDirEntry = respectAppDataSource.schoolDirectoryEntryDataSource.getSchoolDirectoryEntryByUrl(
+            val schoolDirEntry = schoolDirectoryDataSource.schoolDirectoryEntryDataSource.getSchoolDirectoryEntryByUrl(
                 route.schoolUrl
             ).dataOrNull() ?: return@launch
 

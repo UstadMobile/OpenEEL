@@ -33,7 +33,7 @@ import org.openeel.shared.generated.resources.undraw_qr_code_scan_bewe
 
 
 @Composable
-fun RespectQrBadgeInfoBox(
+fun OpenEelQrBadgeInfoBox(
     onClickLearnMore: () -> Unit,
     onClickAssignQrCodeBadge: () -> Unit,
     modifier: Modifier,

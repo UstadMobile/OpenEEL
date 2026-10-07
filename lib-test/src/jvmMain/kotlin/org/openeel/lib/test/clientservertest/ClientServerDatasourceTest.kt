@@ -24,10 +24,10 @@ import okhttp3.OkHttpClient
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.spy
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.RespectAppDataSourceLocal
+import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
-import org.openeel.datalayer.db.RespectAppDataSourceDb
+import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
 import org.openeel.datalayer.db.RespectAppDatabase
 import org.openeel.datalayer.db.RespectSchoolDatabase
 import org.openeel.datalayer.db.networkvalidation.ExtendedDataSourceValidationHelperImpl
@@ -184,7 +184,7 @@ class ClientServerDataSourceTestBuilder internal constructor(
         ).setDriver(BundledSQLiteDriver())
             .build()
 
-        val clientAppDataSource: RespectAppDataSourceLocal = RespectAppDataSourceDb(
+        val clientAppDataSource: SchoolDirectoryDataSourceLocal = SchoolDirectoryDataSourceDb(
             respectAppDatabase = clientAppDb,
             json = json,
             xxStringHasher = stringHasher

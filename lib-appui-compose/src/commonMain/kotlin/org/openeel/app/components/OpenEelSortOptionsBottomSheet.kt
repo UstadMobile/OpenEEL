@@ -22,7 +22,7 @@ import org.openeel.shared.util.description
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RespectSortOptionsBottomSheet(
+fun OpenEelSortOptionsBottomSheet(
     sortOptions: List<SortOrderOption> = emptyList(),
     onClickSortOption: (SortOrderOption) -> Unit = { },
     onDismissRequest: () -> Unit,
@@ -44,7 +44,7 @@ fun RespectSortOptionsBottomSheet(
             ).fillMaxSize()
         ) {
             sortOptions.forEach { sortOption ->
-                RespectBottomSheetOption(
+                OpenEelBottomSheetOption(
                     modifier = Modifier.clickable {
                         onDismissRequest()
                         onClickSortOption(sortOption)

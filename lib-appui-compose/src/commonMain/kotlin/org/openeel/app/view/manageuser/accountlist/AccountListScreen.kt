@@ -22,8 +22,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectLongVersionInfoItem
-import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.OpenEelLongVersionInfoItem
+import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.model.Person
@@ -116,7 +116,7 @@ fun AccountListScreen(
                         onClickFamilyPerson(account)
                     },
                     leadingContent = {
-                        RespectPersonAvatar(name = account.fullName())
+                        OpenEelPersonAvatar(name = account.fullName())
                     },
                     headlineContent = {
                         Text(account.fullName())
@@ -181,7 +181,7 @@ fun AccountListScreen(
         }
 
         item("version_info") {
-            RespectLongVersionInfoItem()
+            OpenEelLongVersionInfoItem()
         }
 
         item("copyright_info") {

@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectDetailField
+import org.openeel.app.components.OpenEelDetailField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.langMapString
 import org.openeel.app.components.uiTextStringResource
@@ -100,7 +100,7 @@ fun AcceptInviteScreen(
             invite != null -> {
                 when(invite) {
                     is NewUserInvite -> {
-                        RespectDetailField(
+                        OpenEelDetailField(
                             modifier = Modifier.defaultItemPadding(),
                             label = { Text(stringResource(Res.string.role)) },
                             value = { Text(stringResource(invite.role.label)) }
@@ -108,13 +108,13 @@ fun AcceptInviteScreen(
                     }
 
                     is ClassInvite -> {
-                        RespectDetailField(
+                        OpenEelDetailField(
                             modifier = Modifier.defaultItemPadding(),
                             label = { Text(stringResource(Res.string.class_name)) },
                             value = { Text(uiState.inviteInfo?.className ?: "") },
                         )
 
-                        RespectDetailField(
+                        OpenEelDetailField(
                             modifier = Modifier.defaultItemPadding(),
                             label = { Text(stringResource(Res.string.role)) },
                             value = { Text(stringResource(invite.roleLabel)) }
@@ -126,13 +126,13 @@ fun AcceptInviteScreen(
                     }
                 }
 
-                RespectDetailField(
+                OpenEelDetailField(
                     modifier = Modifier.defaultItemPadding(),
                     label = { Text(stringResource(Res.string.school_name)) },
                     value = { Text(uiState.schoolName?.let { langMapString(it) } ?: "") }
                 )
 
-                RespectDetailField(
+                OpenEelDetailField(
                     modifier = Modifier.defaultItemPadding(),
                     label = { Text(stringResource(Res.string.school_server_url)) },
                     value = { Text(uiState.schoolUrl?.toString() ?: "") }

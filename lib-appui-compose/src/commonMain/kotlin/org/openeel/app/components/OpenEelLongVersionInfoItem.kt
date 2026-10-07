@@ -9,7 +9,7 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.app_version
 
 @Composable
-fun RespectLongVersionInfoItem(
+fun OpenEelLongVersionInfoItem(
     modifier: Modifier = Modifier,
     onDevModeEnabled: () -> Unit = { },
 ) {

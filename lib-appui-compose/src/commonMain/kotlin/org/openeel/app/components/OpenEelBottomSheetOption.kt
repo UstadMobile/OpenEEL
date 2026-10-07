@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
  * implementation can then be adjusted as needed.
  */
 @Composable
-fun RespectBottomSheetOption(
+fun OpenEelBottomSheetOption(
     headlineContent: @Composable () -> Unit,
     secondaryContent: (@Composable () -> Unit)? = null,
     leadingContent: (@Composable () -> Unit)? = null,

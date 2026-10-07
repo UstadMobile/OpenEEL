@@ -9,7 +9,7 @@ import androidx.paging.compose.LazyPagingItems
  * Function to avoid common pitfalls with using LazyPagingItems, specifically avoids calling
  * LazyPagingItems.get in the key or contentType function (which leads to infinite loops)
  */
-fun <T: Any> LazyListScope.respectPagingItems(
+fun <T: Any> LazyListScope.openEelPagingItems(
     items: LazyPagingItems<T>,
     key: ((item: T?, index: Int) -> Any)?,
     contentType: (item: T?) -> Any? = { null },

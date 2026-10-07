@@ -18,13 +18,13 @@ import org.koin.core.scope.Scope
 import org.koin.dsl.module
 import org.openeel.credentials.passkey.request.DecodeUserHandleUseCase
 import org.openeel.credentials.passkey.request.GetPasskeyProviderInfoUseCase
-import org.openeel.datalayer.RespectAppDataSource
-import org.openeel.datalayer.RespectAppDataSourceLocal
+import org.openeel.datalayer.SchoolDirectoryDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_SERVER
-import org.openeel.datalayer.db.RespectAppDataSourceDb
+import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
 import org.openeel.datalayer.db.RespectAppDatabase
 import org.openeel.datalayer.db.RespectSchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
@@ -147,23 +147,23 @@ fun serverKoinModule(
         XXHashUidNumberMapper(xxStringHasher = get())
     }
 
-    single<SchoolDirectoryDataSourceLocal> {
-        SchoolDirectoryDataSourceDb(
+    single<org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal> {
+        org.openeel.datalayer.db.schooldirectory.SchoolDirectoryDataSourceDb(
             respectAppDb = get(),
             xxStringHasher = get()
         )
     }
 
-    single<RespectAppDataSourceLocal> {
-        RespectAppDataSourceDb(
+    single<SchoolDirectoryDataSourceLocal> {
+        SchoolDirectoryDataSourceDb(
             respectAppDatabase = get(),
             json = get(),
             xxStringHasher = get(),
         )
     }
 
-    single<RespectAppDataSource> {
-        get<RespectAppDataSourceLocal>()
+    single<SchoolDirectoryDataSource> {
+        get<SchoolDirectoryDataSourceLocal>()
     }
 
     single<FilterUsernameUseCase> {
@@ -172,8 +172,8 @@ fun serverKoinModule(
 
     single<AddSchoolUseCase> {
         AddSchoolUseCase(
-            directoryDataSource = get<RespectAppDataSourceLocal>().schoolDirectoryDataSource,
-            schoolDirectoryEntryDataSource = get<RespectAppDataSourceLocal>().schoolDirectoryEntryDataSource,
+            directoryDataSource = get<SchoolDirectoryDataSourceLocal>().schoolDirectoryDataSource,
+            schoolDirectoryEntryDataSource = get<SchoolDirectoryDataSourceLocal>().schoolDirectoryEntryDataSource,
             encryptPasswordUseCase = get(),
         )
     }
@@ -314,7 +314,7 @@ fun serverKoinModule(
                 schoolDb = get(),
                 xxHash = get(),
                 verifyPasskeyUseCase = get(),
-                respectAppDataSource = get(),
+                schoolDirectoryDataSource = get(),
                 authenticatePasswordUseCase = get(),
                 authenticateQrBadgeUseCase  = get()
             )

@@ -9,7 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectEmptyListComponent
+import org.openeel.app.components.OpenEelEmptyListComponent
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.model.XapiStatement
@@ -51,7 +51,7 @@ fun StatementListScreen(
 
         if (statements.isEmpty() ) {
             item("emptyitem") {
-                RespectEmptyListComponent(
+                OpenEelEmptyListComponent(
                     modifier = Modifier.fillMaxWidth().defaultItemPadding(),
                     text = stringResource(Res.string.no_matching_activity)
                 )

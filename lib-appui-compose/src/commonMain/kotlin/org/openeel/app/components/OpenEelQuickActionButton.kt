@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RespectQuickActionButton(
+fun OpenEelQuickActionButton(
     labelText: String,
     modifier: Modifier = Modifier,
     iconContent: (@Composable () -> Unit)? = null,
@@ -49,13 +49,13 @@ fun RespectQuickActionButton(
 }
 
 @Composable
-fun RespectQuickActionButton(
+fun OpenEelQuickActionButton(
     imageVector: ImageVector? = null,
     labelText: String,
     enabled: Boolean = true,
     onClick: (() -> Unit) = {  },
 ){
-    RespectQuickActionButton(
+    OpenEelQuickActionButton(
         iconContent = {
             if (imageVector != null) {
                 Icon(imageVector = imageVector, contentDescription = null)

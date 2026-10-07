@@ -1,21 +1,21 @@
 package org.openeel.datalayer.repository
 
-import org.openeel.datalayer.RespectAppDataSource
-import org.openeel.datalayer.RespectAppDataSourceLocal
+import org.openeel.datalayer.SchoolDirectoryDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.datalayer.repository.schooldirectory.SchoolDirectoryEntryDataSourceRepository
 import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSource
 import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
 
-class RespectAppDataSourceRepository(
-    private val local: RespectAppDataSourceLocal,
-    private val remote: RespectAppDataSource,
-): RespectAppDataSource {
+class SchoolDirectoryDataSourceRepository(
+    private val local: SchoolDirectoryDataSourceLocal,
+    private val remote: SchoolDirectoryDataSource,
+): SchoolDirectoryDataSource {
 
     /*
      * There is no remote school directory data source. SchoolDirectoryDataSource is simply a list of
      * the available directories.
      */
-    override val schoolDirectoryDataSource: SchoolDirectoryDataSource by lazy {
+    override val schoolDirectoryDataSource: org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSource by lazy {
         local.schoolDirectoryDataSource
     }
 

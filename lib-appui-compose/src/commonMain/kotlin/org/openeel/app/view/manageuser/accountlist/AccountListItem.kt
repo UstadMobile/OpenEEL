@@ -17,7 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.rememberCountryFlagEmoji
 import org.openeel.shared.domain.account.RespectAccount
 import org.openeel.datalayer.db.school.ext.fullName
@@ -37,7 +37,7 @@ fun AccountListItem(
             }
         },
         leadingContent = {
-            RespectPersonAvatar(name = account.person.fullName())
+            OpenEelPersonAvatar(name = account.person.fullName())
         },
         headlineContent = {
             Text(account.person.fullName())

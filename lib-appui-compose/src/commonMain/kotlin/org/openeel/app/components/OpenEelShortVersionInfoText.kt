@@ -13,7 +13,7 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.app_version
 
 @Composable
-fun RespectShortVersionInfoText(
+fun OpenEelShortVersionInfoText(
     modifier: Modifier = Modifier,
     onDevModeEnabled: () -> Unit = { },
 ) {

@@ -35,7 +35,7 @@ import org.openeel.demo.demolaunchableappserver.DemoLaunchableAppManifestRoute
 import org.openeel.demo.demolaunchableappserver.DemoLaunchableAppCollectionsRoute
 import org.openeel.Greeting
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.http.server.XapiStatementsResourceRoute
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
@@ -265,9 +265,9 @@ fun Application.module() {
                 )
             }
             route("directory") {
-                val respectAppDataSource: RespectAppDataSource by inject()
+                val schoolDirectoryDataSource: SchoolDirectoryDataSource by inject()
                 RespectSchoolDirectoryRoute(
-                    respectAppDataSource = respectAppDataSource,
+                    schoolDirectoryDataSource = schoolDirectoryDataSource,
                     filterByHost = environment.config.schoolDirsUseVirtualHost()
                 )
             }

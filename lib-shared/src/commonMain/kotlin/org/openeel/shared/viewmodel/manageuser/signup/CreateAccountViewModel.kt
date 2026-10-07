@@ -15,7 +15,7 @@ import org.koin.core.scope.Scope
 import org.openeel.credentials.passkey.CheckPasskeySupportUseCase
 import org.openeel.credentials.passkey.CreatePasskeyUseCase
 import org.openeel.credentials.passkey.RespectPasskeyCredential
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.respect.model.invite.RespectInviteInfo
@@ -56,7 +56,7 @@ data class CreateAccountViewModelUiState(
 
 class CreateAccountViewModel(
     savedStateHandle: SavedStateHandle,
-    private val respectAppDataSource: RespectAppDataSource,
+    private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val accountManager: RespectAccountManager,
     private val filterUsernameUseCase: FilterUsernameUseCase,
     private val validateUsernameUseCase: ValidateUsernameUseCase,
@@ -111,7 +111,7 @@ class CreateAccountViewModel(
             }
 
             val inviteInfo = inviteInfoUseCase(route.respectRedeemInviteRequest.code)
-            respectAppDataSource.schoolDirectoryEntryDataSource
+            this@CreateAccountViewModel.schoolDirectoryDataSource.schoolDirectoryEntryDataSource
                 .getSchoolDirectoryEntryByUrl(route.schoolUrl).dataOrNull()?.also {
                     schoolDirectoryEntry.complete(it)
                 } ?: throw IllegalStateException()

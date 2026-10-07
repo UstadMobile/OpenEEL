@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.RespectExposedDropDownMenuField
-import org.openeel.app.components.RespectShortVersionInfoText
+import org.openeel.app.components.OpenEelShortVersionInfoText
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.langMapString
 import org.openeel.app.components.uiTextStringResource
@@ -217,7 +217,7 @@ fun GetStartedScreen(
             }
         }
 
-        RespectShortVersionInfoText(Modifier.defaultItemPadding().fillMaxWidth())
+        OpenEelShortVersionInfoText(Modifier.defaultItemPadding().fillMaxWidth())
     }
 
     LaunchedEffect(Unit) {

@@ -6,7 +6,7 @@ import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSourceLocal
 /**
  *
  */
-interface RespectAppDataSourceLocal: RespectAppDataSource {
+interface SchoolDirectoryDataSourceLocal: SchoolDirectoryDataSource {
 
     override val schoolDirectoryDataSource: SchoolDirectoryDataSourceLocal
 

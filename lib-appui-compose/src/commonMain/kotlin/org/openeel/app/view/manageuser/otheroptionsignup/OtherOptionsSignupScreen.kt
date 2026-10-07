@@ -13,7 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPasskeySignInFasterCard
+import org.openeel.app.components.OpenEelPasskeySignInFasterCard
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.sign_up_with_password
@@ -57,7 +57,7 @@ fun OtherOptionsSignupScreenContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        RespectPasskeySignInFasterCard(
+        OpenEelPasskeySignInFasterCard(
             onClickPasskeySignup = onClickPasskeySignup,
             onClickHowPasskeysWork = onClickHowPasskeysWork,
             generalError = uiState.generalError

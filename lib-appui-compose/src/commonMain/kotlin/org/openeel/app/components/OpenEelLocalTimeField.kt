@@ -78,7 +78,7 @@ class TimeVisualTransformation: VisualTransformation {
 }
 
 @Composable
-fun RespectLocalTimeField(
+fun OpenEelLocalTimeField(
     value: LocalTime?,
     label: @Composable () -> Unit,
     onValueChange: (LocalTime?) -> Unit,

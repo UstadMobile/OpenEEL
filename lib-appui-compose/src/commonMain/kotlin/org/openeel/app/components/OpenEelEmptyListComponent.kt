@@ -16,7 +16,7 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.nothing_here_at_the_moment
 
 @Composable
-fun RespectEmptyListComponent(
+fun OpenEelEmptyListComponent(
     modifier: Modifier = Modifier,
     text: String = stringResource(Res.string.nothing_here_at_the_moment)
 ) {
@@ -37,6 +37,6 @@ fun RespectEmptyListComponent(
 
 @Preview
 @Composable
-fun RespectEmptyListComponentPreview() {
-    RespectEmptyListComponent()
+fun OpenEelEmptyListComponentPreview() {
+    OpenEelEmptyListComponent()
 }

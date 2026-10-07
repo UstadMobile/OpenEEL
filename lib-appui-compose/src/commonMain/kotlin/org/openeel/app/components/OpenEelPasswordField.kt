@@ -22,7 +22,7 @@ import org.openeel.shared.generated.resources.toggle_visibility
 
 
 @Composable
-fun RespectPasswordField(
+fun OpenEelPasswordField(
     value: String,
     onValueChange: (String) -> Unit,
     label: @Composable () -> Unit,

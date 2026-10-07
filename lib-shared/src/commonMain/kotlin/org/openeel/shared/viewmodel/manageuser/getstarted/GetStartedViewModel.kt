@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.DataReadyState
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.respect.model.RespectSchoolDirectory
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
@@ -50,7 +50,7 @@ data class GetStartedUiState(
 
 class GetStartedViewModel(
     savedStateHandle: SavedStateHandle,
-    val respectAppDataSource: RespectAppDataSource,
+    val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val getWarningsUseCase: GetWarningsUseCase? = null,
 ) : RespectViewModel(savedStateHandle) {
 
@@ -71,7 +71,7 @@ class GetStartedViewModel(
         }
 
         viewModelScope.launch {
-            respectAppDataSource.schoolDirectoryDataSource.allDirectoriesAsFlow().collect { directories ->
+            schoolDirectoryDataSource.schoolDirectoryDataSource.allDirectoriesAsFlow().collect { directories ->
                 _uiState.update {
                     it.copy(
                         directoryOptions = directories,
@@ -93,7 +93,7 @@ class GetStartedViewModel(
         debouncer.launch(RESPECT_REALMS) {
             val nameIsNotBlank = name.isNotBlank()
             val flow = if(nameIsNotBlank) {
-                respectAppDataSource.schoolDirectoryEntryDataSource.listAsFlow(
+                schoolDirectoryDataSource.schoolDirectoryEntryDataSource.listAsFlow(
                     loadParams = DataLoadParams(),
                     listParams = SchoolDirectoryEntryDataSource.GetListParams(
                         name = name,

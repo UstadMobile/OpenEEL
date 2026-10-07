@@ -18,7 +18,7 @@ import org.openeel.credentials.passkey.RespectPasskeyCredential
 import org.openeel.credentials.passkey.RespectPasswordCredential
 import org.openeel.credentials.passkey.password.SavePasswordUseCase
 import org.openeel.lib.dataloadstate.DataReadyState
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.lib.dataloadstate.throwable.unwrapHttpStatusCode
@@ -56,7 +56,7 @@ class LoginViewModel(
     savedStateHandle: SavedStateHandle,
     private val accountManager: RespectAccountManager,
     getCredentialUseCase: GetCredentialUseCase,
-    respectAppDataSource: RespectAppDataSource,
+    schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val filterUsernameUseCase: FilterUsernameUseCase,
     private val savePasswordUseCase: SavePasswordUseCase
 ) : RespectViewModel(savedStateHandle), KoinScopeComponent {
@@ -90,7 +90,7 @@ class LoginViewModel(
         }
         viewModelScope.launch {
             try {
-                val school = respectAppDataSource.schoolDirectoryEntryDataSource
+                val school = schoolDirectoryDataSource.schoolDirectoryEntryDataSource
                     .getSchoolDirectoryEntryByUrl(route.schoolUrl)
                 val rpId: String? = when (school) {
                     is DataReadyState -> school.data.rpId

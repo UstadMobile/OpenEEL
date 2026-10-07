@@ -24,7 +24,7 @@ import org.openeel.lib.xapi.XapiResourceProvider
 import org.openeel.lib.xapi.resources.XapiResource
 import org.openeel.libcache.ipc.server.OkHttpClientProvider
 
-class RespectApp : Application(), SingletonImageLoader.Factory, XapiResourceProvider, OkHttpClientProvider {
+class OpenEelApp : Application(), SingletonImageLoader.Factory, XapiResourceProvider, OkHttpClientProvider {
 
 
     override fun onCreate() {
@@ -41,7 +41,7 @@ class RespectApp : Application(), SingletonImageLoader.Factory, XapiResourceProv
         */
 
         startKoin {
-            androidContext(this@RespectApp)
+            androidContext(this@OpenEelApp)
             modules(appKoinModule)
         }
     }

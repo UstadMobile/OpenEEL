@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectGenderExposedDropDownMenuField
-import org.openeel.app.components.RespectLocalDateField
+import org.openeel.app.components.OpenEelGenderExposedDropDownMenuField
+import org.openeel.app.components.OpenEelLocalDateField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.datalayer.school.model.PersonGenderEnum
@@ -76,7 +76,7 @@ fun SignupScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        RespectGenderExposedDropDownMenuField(
+        OpenEelGenderExposedDropDownMenuField(
             value = uiState.personInfo.gender,
             onValueChanged = onGenderChanged,
             modifier = Modifier.testTag("gender").fillMaxWidth(),
@@ -86,7 +86,7 @@ fun SignupScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        RespectLocalDateField(
+        OpenEelLocalDateField(
             modifier = Modifier.fillMaxWidth().testTag("dateOfBirth"),
             value = uiState.personInfo.dateOfBirth.takeIf {
                 it != RespectRedeemInviteRequest.DATE_OF_BIRTH_EPOCH

@@ -14,7 +14,7 @@ import org.openeel.shared.util.avatarColorForName
 import org.openeel.shared.util.initial
 
 @Composable
-fun RespectPersonAvatar(
+fun OpenEelPersonAvatar(
     name: String,
     modifier: Modifier = Modifier.defaultAvatarSize(),
     fontScale: Float = 1.0f,

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.respect.model.RespectSchoolDirectory
 import org.openeel.libutil.ext.appendEndpointSegments
 import org.openeel.shared.domain.appversioninfo.GetAppVersionInfoUseCase
@@ -34,7 +34,7 @@ data class SchoolDirectoryListUiState(
 
 class SchoolDirectoryListViewModel(
     savedStateHandle: SavedStateHandle,
-    private val respectAppDataSource: RespectAppDataSource,
+    private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val launchCustomTabUseCase: LaunchCustomTabUseCase,
     private val getAppVersionInfoUseCase: GetAppVersionInfoUseCase,
     private val snackBarDispatcher: SnackBarDispatcher,
@@ -67,7 +67,7 @@ class SchoolDirectoryListViewModel(
         }
 
         viewModelScope.launch {
-            respectAppDataSource.schoolDirectoryDataSource.allDirectoriesAsFlow().collect { directories ->
+            schoolDirectoryDataSource.schoolDirectoryDataSource.allDirectoriesAsFlow().collect { directories ->
                 _uiState.update { prev ->
                     prev.copy(schoolDirectory = directories)
                 }
@@ -86,7 +86,7 @@ class SchoolDirectoryListViewModel(
 
     fun onDeleteDirectory(directory: RespectSchoolDirectory) {
         viewModelScope.launch {
-            respectAppDataSource.schoolDirectoryDataSource.deleteDirectory(directory)
+            schoolDirectoryDataSource.schoolDirectoryDataSource.deleteDirectory(directory)
         }
     }
 

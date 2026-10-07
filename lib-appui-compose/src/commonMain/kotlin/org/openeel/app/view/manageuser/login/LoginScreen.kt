@@ -22,8 +22,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPasswordField
-import org.openeel.app.components.RespectShortVersionInfoText
+import org.openeel.app.components.OpenEelPasswordField
+import org.openeel.app.components.OpenEelShortVersionInfoText
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.defaultScreenPadding
 import org.openeel.app.components.rememberCountryFlagEmoji
@@ -95,7 +95,7 @@ fun LoginScreen(
                 }
         )
 
-        RespectPasswordField(
+        OpenEelPasswordField(
             value = uiState.password,
             onValueChange = onPasswordChanged,
             label = { Text(stringResource(Res.string.password_label)) },
@@ -148,6 +148,6 @@ fun LoginScreen(
             )
         }
 
-        RespectShortVersionInfoText(Modifier.defaultItemPadding().fillMaxWidth())
+        OpenEelShortVersionInfoText(Modifier.defaultItemPadding().fillMaxWidth())
     }
 }

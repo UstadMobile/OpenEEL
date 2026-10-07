@@ -67,11 +67,11 @@ import org.openeel.credentials.passkey.request.GetPasskeyProviderInfoUseCase
 import org.openeel.credentials.password.SavePasswordUseCaseAndroidImpl
 import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectAppDataSourceDb
+import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
 import org.openeel.datalayer.db.RespectAppDatabase
 import org.openeel.datalayer.db.RespectSchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
@@ -83,10 +83,10 @@ import org.openeel.datalayer.db.school.writequeue.RemoteWriteQueueDbImpl
 import org.openeel.datalayer.db.school.xapi.writequeue.XapiRemoteWriteQueueDbImpl
 import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryDataSourceDb
 import org.openeel.datalayer.db.shared.PullSyncTrackerDbImpl
-import org.openeel.datalayer.http.RespectAppDataSourceHttp
+import org.openeel.datalayer.http.SchoolDirectoryDataSourceHttp
 import org.openeel.datalayer.http.SchoolDataSourceHttpClient
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
-import org.openeel.datalayer.repository.RespectAppDataSourceRepository
+import org.openeel.datalayer.repository.SchoolDirectoryDataSourceRepository
 import org.openeel.datalayer.repository.SchoolDataSourceRepository
 import org.openeel.datalayer.repository.school.pullsync.EnqueueRunPullSyncUseCaseAndroidImpl
 import org.openeel.datalayer.repository.school.pullsync.RunPullSyncUseCase
@@ -588,7 +588,7 @@ val appKoinModule = module {
     }
 
     single<SchoolDirectoryDataSourceLocal> {
-        SchoolDirectoryDataSourceDb(
+        org.openeel.datalayer.db.schooldirectory.SchoolDirectoryDataSourceDb(
             respectAppDb = get(),
             xxStringHasher = get()
         )
@@ -612,15 +612,15 @@ val appKoinModule = module {
             .build()
     }
 
-    single<RespectAppDataSource> {
-        RespectAppDataSourceRepository(
-            local = RespectAppDataSourceDb(
+    single<SchoolDirectoryDataSource> {
+        SchoolDirectoryDataSourceRepository(
+            local = SchoolDirectoryDataSourceDb(
                 respectAppDatabase = get(),
                 json = get(),
                 xxStringHasher = get(),
             ),
-            remote = RespectAppDataSourceHttp(
-                local = RespectAppDataSourceDb(
+            remote = SchoolDirectoryDataSourceHttp(
+                local = SchoolDirectoryDataSourceDb(
                     respectAppDatabase = get(),
                     json = get(),
                     xxStringHasher = get(),
@@ -921,7 +921,7 @@ val appKoinModule = module {
         scoped<GetInviteInfoUseCase> {
             GetInviteInfoUseCaseClient(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
-                schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                schoolDirectoryEntryDataSource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryDataSource,
                 httpClient = get(),
             )
         }
@@ -933,7 +933,7 @@ val appKoinModule = module {
         scoped<UsernameSuggestionUseCase> {
             UsernameSuggestionUseCaseClient(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
-                schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                schoolDirectoryEntryDataSource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryDataSource,
                 httpClient = get(),
             )
         }
@@ -941,7 +941,7 @@ val appKoinModule = module {
         scoped<CheckUsernameUniqueUseCase> {
             CheckUsernameUniqueUseCaseClient(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
-                schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                schoolDirectoryEntryDataSource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryDataSource,
                 httpClient = get(),
             )
         }
@@ -971,7 +971,7 @@ val appKoinModule = module {
             CheckPasskeySupportUseCaseAndroidImpl(
                 verifyDomainUseCase = get(),
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
-                respectAppDataSource = get(),
+                schoolDirectoryDataSource = get(),
             )
         }
 
@@ -1109,7 +1109,7 @@ val appKoinModule = module {
                 local = localDs,
                 remote = SchoolDataSourceHttpClient(
                     schoolUrl = schoolUrl.url,
-                    schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                    schoolDirectoryEntryDataSource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryDataSource,
                     httpClient = get(),
                     tokenProvider = get(),
                     validationHelper = get(),
@@ -1138,7 +1138,7 @@ val appKoinModule = module {
                 schoolUrl = RespectAccountScopeId.parse(id).schoolUrl,
                 authTokenProvider = get(),
                 httpClient = get(),
-                schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                schoolDirectoryEntryDataSource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryDataSource,
                 schoolDataSourceLocal = get(),
             )
         }
@@ -1273,7 +1273,7 @@ val appKoinModule = module {
              val accountScopeId = RespectAccountScopeId.parse(id)
              MakePlaylistOpdsFeedUseCase(
                  schoolUrl = accountScopeId.schoolUrl,
-                 schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                 schoolDirectoryEntryDataSource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryDataSource,
              )
          }
 

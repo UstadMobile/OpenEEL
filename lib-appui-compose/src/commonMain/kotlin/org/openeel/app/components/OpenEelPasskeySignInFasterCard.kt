@@ -29,7 +29,7 @@ import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
 
 @Composable
-fun RespectPasskeySignInFasterCard(
+fun OpenEelPasskeySignInFasterCard(
     onClickPasskeySignup: () -> Unit,
     onClickHowPasskeysWork: () -> Unit,
     modifier: Modifier = Modifier,

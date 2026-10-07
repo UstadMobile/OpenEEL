@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import com.ustadmobile.libcache.PublicationPinState
 
 @Composable
-fun RespectOfflineItemStatusIcon(
+fun OpenEelOfflineItemStatusIcon(
     state: PublicationPinState,
     modifier: Modifier = Modifier
 ) {

@@ -38,7 +38,7 @@ import kotlin.math.min
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RespectPhoneNumberTextField(
+fun OpenEelPhoneNumberTextField(
     value: String,
     onValueChange: (String) -> Unit,
     onNationalNumberSetChanged: ((Boolean) -> Unit)? = null,

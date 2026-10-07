@@ -8,7 +8,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 
 @Composable
-fun RespectDetailField(
+fun OpenEelDetailField(
     label: @Composable () -> Unit,
     value: @Composable () -> Unit,
     modifier: Modifier = Modifier,

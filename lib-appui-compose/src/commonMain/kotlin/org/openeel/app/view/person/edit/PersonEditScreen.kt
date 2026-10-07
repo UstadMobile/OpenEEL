@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.RespectExposedDropDownMenuField
-import org.openeel.app.components.RespectGenderExposedDropDownMenuField
-import org.openeel.app.components.RespectLocalDateField
-import org.openeel.app.components.RespectPersonAvatar
-import org.openeel.app.components.RespectPhoneNumberTextField
+import org.openeel.app.components.OpenEelGenderExposedDropDownMenuField
+import org.openeel.app.components.OpenEelLocalDateField
+import org.openeel.app.components.OpenEelPersonAvatar
+import org.openeel.app.components.OpenEelPhoneNumberTextField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.datalayer.db.school.ext.fullName
@@ -115,7 +115,7 @@ fun PersonEditScreen(
             }
         )
 
-        RespectGenderExposedDropDownMenuField(
+        OpenEelGenderExposedDropDownMenuField(
             value = person?.gender ?: PersonGenderEnum.UNSPECIFIED,
             onValueChanged = { gender ->
                 person?.also {
@@ -179,7 +179,7 @@ fun PersonEditScreen(
             familyMembers.forEach { familyPerson ->
                 ListItem(
                     leadingContent = {
-                        RespectPersonAvatar(familyPerson.fullName())
+                        OpenEelPersonAvatar(familyPerson.fullName())
                     },
                     headlineContent = {
                         Text(familyPerson.fullName())
@@ -197,7 +197,7 @@ fun PersonEditScreen(
             }
         }
 
-        RespectLocalDateField(
+        OpenEelLocalDateField(
             modifier = Modifier.testTag("date_of_birth").fillMaxWidth().defaultItemPadding(),
             value = person?.dateOfBirth,
             label = { Text(stringResource(Res.string.date_of_birth)) },
@@ -213,7 +213,7 @@ fun PersonEditScreen(
             }
         )
 
-        RespectPhoneNumberTextField(
+        OpenEelPhoneNumberTextField(
             value = person?.phoneNumber ?: "",
             modifier = Modifier.testTag("phone_number").fillMaxWidth().defaultItemPadding(),
             label = { Text(stringResource(Res.string.phone_number)) },

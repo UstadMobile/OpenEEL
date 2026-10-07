@@ -25,7 +25,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.app.RespectAsyncImage
-import org.openeel.app.components.RespectQuickActionButton
+import org.openeel.app.components.OpenEelQuickActionButton
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.ext.feedIconLinkOrNull
@@ -86,7 +86,7 @@ fun OpdsFeedDetailHeader(
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState()),
             ) {
-                RespectQuickActionButton(
+                OpenEelQuickActionButton(
                     modifier = Modifier.testTag("share_btn"),
                     labelText = stringResource(Res.string.share),
                     iconContent = {
@@ -95,7 +95,7 @@ fun OpdsFeedDetailHeader(
                     onClick = onClickShare
                 )
 
-                RespectQuickActionButton(
+                OpenEelQuickActionButton(
                     modifier = Modifier.testTag("copy_btn"),
                     labelText = stringResource(Res.string.remix_collection),
                     iconContent = {
@@ -105,7 +105,7 @@ fun OpdsFeedDetailHeader(
                 )
 
                 if(uiState.showAssignButton) {
-                    RespectQuickActionButton(
+                    OpenEelQuickActionButton(
                         modifier = Modifier.testTag("header_assign_btn"),
                         labelText = stringResource(Res.string.assign),
                         iconContent = {
@@ -116,7 +116,7 @@ fun OpdsFeedDetailHeader(
                 }
 
                 if (uiState.isTeacherOrAdmin) {
-                    RespectQuickActionButton(
+                    OpenEelQuickActionButton(
                         modifier = Modifier.testTag("delete_btn"),
                         labelText = stringResource(Res.string.delete),
                         iconContent = {

@@ -27,7 +27,7 @@ import org.openeel.shared.util.ext.asUiText
  * @param dataLoadState The data load state as above.
  */
 @Composable
-fun RespectDataLoadHost(
+fun OpenEelDataLoadHost(
     dataLoadState: DataLoadState<*>,
     modifier: Modifier = Modifier,
     contents: @Composable () -> Unit

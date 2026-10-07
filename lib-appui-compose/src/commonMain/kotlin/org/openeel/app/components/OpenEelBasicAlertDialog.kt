@@ -28,7 +28,7 @@ import org.openeel.shared.generated.resources.dismiss
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RespectBasicAlertDialog(
+fun OpenEelBasicAlertDialog(
     headlineText: String? = null,
     bodyText: String,
     onConfirm: (() -> Unit),

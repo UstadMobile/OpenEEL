@@ -34,7 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectDateField
+import org.openeel.app.components.OpenEelDateField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.lib.xapi.extensions.reportoptions.Comparisons
@@ -550,7 +550,7 @@ fun DatePickerButton(
     modifier: Modifier
 ) {
     Column(modifier = modifier) {
-        RespectDateField(
+        OpenEelDateField(
             modifier = Modifier.fillMaxWidth(),
             value = timestamp,
             label = { Text(label) },

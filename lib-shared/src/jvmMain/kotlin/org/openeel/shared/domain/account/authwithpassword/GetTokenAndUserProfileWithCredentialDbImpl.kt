@@ -5,7 +5,7 @@ import org.openeel.credentials.passkey.RespectCredential
 import org.openeel.credentials.passkey.RespectPasskeyCredential
 import org.openeel.credentials.passkey.RespectPasswordCredential
 import org.openeel.credentials.passkey.RespectQRBadgeCredential
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.db.RespectSchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toEntity
 import org.openeel.datalayer.db.school.adapters.toModel
@@ -36,7 +36,7 @@ class GetTokenAndUserProfileWithCredentialDbImpl(
     private val schoolDb: RespectSchoolDatabase,
     private val xxHash: XXStringHasher,
     private val verifyPasskeyUseCase: VerifySignInWithPasskeyUseCase?,
-    private val respectAppDataSource: RespectAppDataSource,
+    private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val authenticatePasswordUseCase: AuthenticatePasswordUseCase,
     private val authenticateQrBadgeUseCase: AuthenticateQrBadgeUseCase
 ): GetTokenAndUserProfileWithCredentialUseCase {
@@ -52,7 +52,7 @@ class GetTokenAndUserProfileWithCredentialDbImpl(
             }
 
             is RespectPasskeyCredential -> {
-                val rpId = respectAppDataSource.schoolDirectoryEntryDataSource
+                val rpId = this@GetTokenAndUserProfileWithCredentialDbImpl.schoolDirectoryDataSource.schoolDirectoryEntryDataSource
                     .getSchoolDirectoryEntryByUrl(schoolUrl).dataOrNull()?.rpId
                     ?: throw IllegalStateException("School $schoolUrl has no rpId")
                         .withHttpStatus(400)

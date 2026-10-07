@@ -11,14 +11,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.collectAsLazyPagingItems
-import org.openeel.app.components.RespectEmptyListComponent
-import org.openeel.app.components.RespectListSortHeader
-import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.OpenEelEmptyListComponent
+import org.openeel.app.components.OpenEelListSortHeader
+import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.SortListMode
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.defaultSortListMode
-import org.openeel.app.components.respectPagingItems
-import org.openeel.app.components.respectRememberPager
+import org.openeel.app.components.openEelPagingItems
+import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.school.ClassDataSource
 import org.openeel.datalayer.school.model.Clazz
 import org.openeel.shared.util.SortOrderOption
@@ -47,14 +47,14 @@ fun ClazzListScreen(
     sortListMode: SortListMode = defaultSortListMode(),
 ) {
 
-    val pager = respectRememberPager(uiState.classes)
+    val pager = openEelRememberPager(uiState.classes)
 
     val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
 
         item("header") {
-            RespectListSortHeader(
+            OpenEelListSortHeader(
                 modifier = Modifier.defaultItemPadding(),
                 activeSortOrderOption = uiState.activeSortOrderOption,
                 sortOptions = uiState.sortOptions,
@@ -64,7 +64,7 @@ fun ClazzListScreen(
             )
         }
 
-        respectPagingItems(
+        openEelPagingItems(
             items = lazyPagingItems,
             key = { item, index -> item?.guid ?: index.toString() },
             contentType = { ClassDataSource.ENDPOINT_NAME },
@@ -77,7 +77,7 @@ fun ClazzListScreen(
                     },
 
                 leadingContent = {
-                    RespectPersonAvatar(name = clazz?.title ?: "")
+                    OpenEelPersonAvatar(name = clazz?.title ?: "")
                 },
 
                 headlineContent = {
@@ -88,7 +88,7 @@ fun ClazzListScreen(
 
         if(lazyPagingItems.itemCount == 0) {
             item("empty_item") {
-                RespectEmptyListComponent(Modifier.fillMaxWidth().defaultItemPadding())
+                OpenEelEmptyListComponent(Modifier.fillMaxWidth().defaultItemPadding())
             }
         }
 

@@ -28,12 +28,11 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPersonAvatar
-import org.openeel.app.components.respectPagingItems
-import org.openeel.app.components.respectRememberPager
+import org.openeel.app.components.OpenEelPersonAvatar
+import org.openeel.app.components.openEelPagingItems
+import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.PersonDataSource
-import org.openeel.datalayer.school.ext.primaryRole
 import org.openeel.datalayer.school.ext.primaryRoleOrNull
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.composites.PersonListDetails
@@ -41,10 +40,8 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.accept_invite
 import org.openeel.shared.generated.resources.add_person
 import org.openeel.shared.generated.resources.dismiss_invite
-import org.openeel.shared.generated.resources.gender_literal
 import org.openeel.shared.generated.resources.invite_person
 import org.openeel.shared.generated.resources.pending_requests_to_join
-import org.openeel.shared.util.ext.fullName
 import org.openeel.shared.util.ext.label
 import org.openeel.shared.viewmodel.person.list.PersonListUiState
 import org.openeel.shared.viewmodel.person.list.PersonListViewModel
@@ -73,8 +70,8 @@ fun PersonListScreen(
     onClickInvitePerson: () -> Unit,
     onTogglePendingInvites: () -> Unit,
 ) {
-    val pager = respectRememberPager(uiState.persons)
-    val pendingPager = respectRememberPager(uiState.pendingPersons)
+    val pager = openEelRememberPager(uiState.persons)
+    val pendingPager = openEelRememberPager(uiState.pendingPersons)
     val pendingItems = pendingPager.flow.collectAsLazyPagingItems()
 
 
@@ -139,7 +136,7 @@ fun PersonListScreen(
         }
 
         if (uiState.isPendingExpanded) {
-            respectPagingItems(
+            openEelPagingItems(
                 items = pendingItems,
                 key = { item, index -> (item?.guid + index.toString()) }
             ) { person ->
@@ -150,7 +147,7 @@ fun PersonListScreen(
                 ListItem(
                     modifier = Modifier.fillMaxWidth(),
                     leadingContent = {
-                        RespectPersonAvatar(
+                        OpenEelPersonAvatar(
                             name = person?.fullName() ?: ""
                         )
                     },
@@ -198,7 +195,7 @@ fun PersonListScreen(
             HorizontalDivider(Modifier.height(1.dp))
         }
 
-        respectPagingItems(
+        openEelPagingItems(
             items = lazyPagingItems,
             key = { item, index -> item?.guid ?: index.toString() },
             contentType = { PersonDataSource.ENDPOINT_NAME },

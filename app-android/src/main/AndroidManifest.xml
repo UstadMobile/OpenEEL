@@ -44,7 +44,7 @@
     </queries>
 
     <application
-        android:name="org.openeel.RespectApp"
+        android:name="org.openeel.OpenEelApp"
         android:allowBackup="false"
         android:fullBackupContent="@xml/backup_rules"
         android:dataExtractionRules="@xml/data_extraction_rules"

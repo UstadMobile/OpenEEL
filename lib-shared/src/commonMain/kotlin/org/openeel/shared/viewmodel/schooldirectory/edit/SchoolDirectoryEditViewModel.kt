@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
 import org.openeel.datalayer.respect.model.RespectSchoolDirectory
 import org.openeel.shared.generated.resources.Res
@@ -32,7 +32,7 @@ data class SchoolDirectoryEditUIState(
 
 class SchoolDirectoryEditViewModel(
     savedStateHandle: SavedStateHandle,
-    private val respectAppDataSource: RespectAppDataSource
+    private val schoolDirectoryDataSource: SchoolDirectoryDataSource
 ) : RespectViewModel(savedStateHandle) {
 
 
@@ -71,7 +71,7 @@ class SchoolDirectoryEditViewModel(
                     baseUrl = schoolBaseUrl,
                 )
 
-                respectAppDataSource.schoolDirectoryDataSource.insertOrIgnore(directory)
+                schoolDirectoryDataSource.schoolDirectoryDataSource.insertOrIgnore(directory)
 
                 _navCommandFlow.tryEmit(
                     NavCommand.Navigate(

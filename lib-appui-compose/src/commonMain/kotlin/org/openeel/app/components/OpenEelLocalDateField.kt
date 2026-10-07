@@ -107,7 +107,7 @@ class DateVisualTransformation: VisualTransformation {
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 @Composable
-fun RespectLocalDateField(
+fun OpenEelLocalDateField(
     value: LocalDate?,
     label: @Composable () -> Unit,
     modifier: Modifier = Modifier,

@@ -10,12 +10,10 @@ import org.openeel.shared.generated.resources.gender
 import org.openeel.shared.generated.resources.required
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.generated.resources.required_field
-import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.label
 
 @Composable
-fun RespectGenderExposedDropDownMenuField(
+fun OpenEelGenderExposedDropDownMenuField(
     value: PersonGenderEnum,
     onValueChanged: (PersonGenderEnum) -> Unit,
     modifier: Modifier = Modifier,

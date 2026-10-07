@@ -18,9 +18,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectDetailField
-import org.openeel.app.components.RespectPersonAvatar
-import org.openeel.app.components.RespectQuickActionButton
+import org.openeel.app.components.OpenEelDetailField
+import org.openeel.app.components.OpenEelPersonAvatar
+import org.openeel.app.components.OpenEelQuickActionButton
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.shared.generated.resources.Res
@@ -66,7 +66,7 @@ fun PersonDetailScreen(
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             if (uiState.manageAccountVisible){
-                RespectQuickActionButton(
+                OpenEelQuickActionButton(
                     labelText = stringResource(Res.string.manage_account),
                     imageVector = Icons.Default.Key,
                     onClick = onClickManageAccount
@@ -74,7 +74,7 @@ fun PersonDetailScreen(
             }
 
             if(uiState.createAccountVisible){
-                RespectQuickActionButton(
+                OpenEelQuickActionButton(
                     labelText = stringResource(Res.string.create_account),
                     imageVector = Icons.Default.Key,
                     onClick = onClickCreateAccount,
@@ -85,7 +85,7 @@ fun PersonDetailScreen(
         HorizontalDivider()
 
         person?.roles?.firstOrNull()?.also { role ->
-            RespectDetailField(
+            OpenEelDetailField(
                 modifier = Modifier.defaultItemPadding(),
                 value = { Text(stringResource(role.roleEnum.label)) },
                 label = { Text(stringResource(Res.string.role)) },
@@ -93,28 +93,28 @@ fun PersonDetailScreen(
         }
 
         person?.username?.also {
-            RespectDetailField(
+            OpenEelDetailField(
                 modifier = Modifier.defaultItemPadding(),
                 label = { Text(stringResource(Res.string.username_label)) },
                 value = { Text(it) }
             )
         }
 
-        RespectDetailField(
+        OpenEelDetailField(
             modifier = Modifier.defaultItemPadding(),
             label = { Text(stringResource(Res.string.gender)) },
             value = { Text(person?.gender?.label?.let { stringResource(it) } ?: "")}
         )
 
         person?.dateOfBirth?.also {
-            RespectDetailField(
+            OpenEelDetailField(
                 modifier = Modifier.defaultItemPadding(),
                 label = { (Text(stringResource(Res.string.date_of_birth))) },
                 value = { Text(it.toString()) }
             )
         }
         person?.phoneNumber?.also {
-            RespectDetailField(
+            OpenEelDetailField(
                 modifier = Modifier.defaultItemPadding().fillMaxWidth().clickable {
                     onClickPhoneNumber()
                 },
@@ -125,7 +125,7 @@ fun PersonDetailScreen(
         person?.email
             ?.takeIf { it.isNotBlank() }
             ?.also { email ->
-                RespectDetailField(
+                OpenEelDetailField(
                     modifier = Modifier.defaultItemPadding(),
                     label = { Text(stringResource(Res.string.email)) },
                     value = { Text(email) }
@@ -145,7 +145,7 @@ fun PersonDetailScreen(
                         onClickFamilyMember(familyPerson.guid)
                     },
                     leadingContent = {
-                        RespectPersonAvatar(familyPerson.fullName())
+                        OpenEelPersonAvatar(familyPerson.fullName())
                     },
                     headlineContent = {
                         Text(familyPerson.fullName())

@@ -36,7 +36,7 @@ enum class SortListMode {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RespectListSortHeader(
+fun OpenEelListSortHeader(
     activeSortOrderOption: SortOrderOption,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -97,7 +97,7 @@ fun RespectListSortHeader(
                                 expanded = false
                             }
                         ) {
-                            RespectSortOptionsBottomSheet(
+                            OpenEelSortOptionsBottomSheet(
                                 sortOptions = sortOptions,
                                 onClickSortOption = onClickSortOption,
                                 onDismissRequest = {

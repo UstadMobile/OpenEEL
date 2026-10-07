@@ -22,7 +22,7 @@ import org.koin.core.scope.Scope
 import org.openeel.credentials.passkey.RespectCredential
 import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
 import org.openeel.lib.dataloadstate.DataLoadParams
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
@@ -46,7 +46,7 @@ class RespectAccountManager(
     private val settings: Settings,
     private val json: Json,
     private val tokenManager: RespectTokenManager,
-    private val appDataSource: RespectAppDataSource,
+    private val appDataSource: SchoolDirectoryDataSource,
 ): KoinComponent {
 
     private val _storedAccounts = MutableStateFlow<List<RespectAccount>>(

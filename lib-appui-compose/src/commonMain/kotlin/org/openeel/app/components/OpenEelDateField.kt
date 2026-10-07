@@ -22,7 +22,7 @@ import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RespectDateField(
+fun OpenEelDateField(
     value: Long,
     label: @Composable () -> Unit,
     timeZoneId: String,

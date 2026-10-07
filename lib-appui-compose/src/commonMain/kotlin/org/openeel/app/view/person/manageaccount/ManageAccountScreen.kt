@@ -26,12 +26,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectBottomSheetOption
-import org.openeel.app.components.RespectPasskeySignInFasterCard
+import org.openeel.app.components.OpenEelBottomSheetOption
+import org.openeel.app.components.OpenEelPasskeySignInFasterCard
 import org.openeel.app.components.appendStringRes
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
-import org.openeel.app.components.RespectQrBadgeInfoBox
+import org.openeel.app.components.OpenEelQrBadgeInfoBox
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.assign_new_badge_replace
@@ -120,7 +120,7 @@ fun ManageAccountScreenContent(
             )
 
             if (uiState.showCreatePasskey) {
-                RespectPasskeySignInFasterCard(
+                OpenEelPasskeySignInFasterCard(
                     modifier = Modifier.fillMaxWidth().defaultItemPadding(),
                     onClickPasskeySignup = onCreatePasskeyClick,
                     onClickHowPasskeysWork = onClickHowPasskeysWork,
@@ -194,7 +194,7 @@ fun ManageAccountScreenContent(
                 )
             } else {
                 // Show QR code info box for assigning a badge
-                RespectQrBadgeInfoBox(
+                OpenEelQrBadgeInfoBox(
                     onClickLearnMore = onClickQrBadgeLearnMore,
                     onClickAssignQrCodeBadge = onClickAssignQrCodeBadge,
                     modifier = Modifier
@@ -272,7 +272,7 @@ fun RespectQRBadgeOptionsBottomSheet(
                 state = rememberScrollState()
             ).fillMaxSize()
         ) {
-            RespectBottomSheetOption(
+            OpenEelBottomSheetOption(
                 modifier = Modifier.clickable {
                     onDismissRequest()
                     onAssignNewBadge()
@@ -281,7 +281,7 @@ fun RespectQRBadgeOptionsBottomSheet(
                     Text(stringResource(Res.string.assign_new_badge_replace))
                 },
             )
-            RespectBottomSheetOption(
+            OpenEelBottomSheetOption(
                 modifier = Modifier.clickable {
                     onDismissRequest()
                     onRemoveBadge()

@@ -15,7 +15,7 @@ const val DEFAULT_MAX_SIZE = 200
  * Simple shorthand for remember pager to include default values
  */
 @Composable
-fun <Key: Any, Value: Any> respectRememberPager(
+fun <Key: Any, Value: Any> openEelRememberPager(
     pagingSourceFactory: () -> PagingSource<Key, Value>,
 ): Pager<Key, Value> {
     return remember(pagingSourceFactory) {
@@ -27,12 +27,12 @@ fun <Key: Any, Value: Any> respectRememberPager(
 }
 
 @Composable
-fun <Key: Any, Value: Any> respectRememberPager(
+fun <Key: Any, Value: Any> openEelRememberPager(
     iPagingSourceFactory: IPagingSourceFactory<Key, Value>
 ): Pager<Key, Value> {
     val pagingSourceFactory = remember(iPagingSourceFactory) {
         { iPagingSourceFactory.invoke() }
     }
-    return respectRememberPager(pagingSourceFactory)
+    return openEelRememberPager(pagingSourceFactory)
 }
 
