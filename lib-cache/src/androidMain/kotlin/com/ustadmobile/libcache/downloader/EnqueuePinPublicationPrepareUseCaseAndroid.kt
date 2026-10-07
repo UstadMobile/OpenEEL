@@ -11,7 +11,7 @@ import androidx.work.WorkManager
 import com.ustadmobile.libcache.db.UstadCacheDb
 import com.ustadmobile.libcache.db.entities.DownloadJob
 import io.ktor.http.Url
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.libxxhash.XXStringHasher
 import java.util.concurrent.TimeUnit
 
 class EnqueuePinPublicationPrepareUseCaseAndroid(

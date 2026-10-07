@@ -6,7 +6,7 @@ import com.ustadmobile.libcache.db.entities.DownloadJobItem
 import com.ustadmobile.libcache.db.entities.TransferJobItemStatus
 import com.ustadmobile.libcache.util.withWriterTransaction
 import io.ktor.http.Url
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.libxxhash.XXStringHasher
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 

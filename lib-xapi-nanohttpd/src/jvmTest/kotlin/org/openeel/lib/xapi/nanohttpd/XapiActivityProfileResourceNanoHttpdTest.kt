@@ -1,0 +1,50 @@
+package org.openeel.lib.xapi.nanohttpd
+
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import org.junit.Rule
+import org.junit.rules.TemporaryFolder
+import org.openeel.libxapi.test.AbstractXapiActivityProfileResourceTest
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import kotlin.test.Test
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ContentNegotiationClient
+
+class XapiActivityProfileResourceNanoHttpdTest : AbstractXapiActivityProfileResourceTest() {
+
+    @Rule
+    @JvmField
+    val temporaryFolder: TemporaryFolder = TemporaryFolder()
+
+    val json = Json
+
+    val httpClient = HttpClient(OkHttp) {
+        install(ContentNegotiationClient) {
+            json(json = json)
+        }
+    }
+
+    override suspend fun withXapiDocumentResource(
+        authenticatedAgents: GetAuthenticatedXapiAgentsUseCase,
+        block: suspend (XapiActivityProfileResource) -> Unit
+    ) {
+        withNanoHttpdXapiResource(
+            dbDir = temporaryFolder.newFolder(),
+            json = json,
+            authenticatedXapiAgents = authenticatedAgents,
+            httpClient = httpClient,
+        ) {
+            block(it.activityProfile)
+        }
+    }
+
+    /**
+     * This function exists just to tell Android Studio/IntelliJ that this is a test class,
+     * without at least one function annotated test it won't show the run test option
+     */
+    @Test
+    fun thisIsATestClass() {}
+
+}

@@ -44,7 +44,7 @@
     </queries>
 
     <application
-        android:name="world.respect.RespectApp"
+        android:name="org.openeel.RespectApp"
         android:allowBackup="false"
         android:fullBackupContent="@xml/backup_rules"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -60,13 +60,13 @@
         <meta-data android:name="asset_statements" android:resource="@string/asset_statements" />
 
         <activity
-            android:name="world.respect.WebViewActivity"
+            android:name="org.openeel.WebViewActivity"
             android:exported="false"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|mnc|colorMode|density|fontScale|fontWeightAdjustment|keyboard|layoutDirection|locale|mcc|navigation|smallestScreenSize|touchscreen|uiMode"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
 
             <intent-filter>
-                <action android:name="world.respect.WebViewOpen" />
+                <action android:name="org.openeel.WebViewOpen" />
             </intent-filter>
 
         </activity>
@@ -76,7 +76,7 @@
         single account.
         -->
         <activity
-            android:name="world.respect.MainActivity"
+            android:name="org.openeel.MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|mnc|colorMode|density|fontScale|fontWeightAdjustment|keyboard|layoutDirection|locale|mcc|navigation|smallestScreenSize|touchscreen|uiMode"
             android:launchMode="singleTop"
             android:exported="true">
@@ -124,7 +124,7 @@
 
 
         <activity
-            android:name="world.respect.app.domain.e2eartifactupload.E2EArtifactUploadActivity"
+            android:name="org.openeel.app.domain.e2eartifactupload.E2EArtifactUploadActivity"
             android:exported="true" >
 
             <intent-filter>
@@ -141,7 +141,7 @@
         Android Manifest permission not required because messages are checked for authentication
         -->
         <service
-            android:name="world.respect.xapi.ipc.server.XapiIpcService"
+            android:name="org.openeel.xapi.ipc.server.XapiIpcService"
             android:exported="true"
             tools:ignore="ExportedService">
 

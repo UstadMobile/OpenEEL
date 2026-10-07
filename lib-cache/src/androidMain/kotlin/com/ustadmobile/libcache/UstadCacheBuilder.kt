@@ -9,8 +9,8 @@ import com.ustadmobile.libcache.downloader.EnqueuePinPublicationPrepareUseCaseAn
 import com.ustadmobile.libcache.logging.UstadCacheLogger
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
-import world.respect.libxxhash.XXStringHasher
-import world.respect.libxxhash.jvmimpl.XXStringHasherCommonJvm
+import org.openeel.libxxhash.XXStringHasher
+import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 
 @Suppress("MemberVisibilityCanBePrivate")
 class UstadCacheBuilder(

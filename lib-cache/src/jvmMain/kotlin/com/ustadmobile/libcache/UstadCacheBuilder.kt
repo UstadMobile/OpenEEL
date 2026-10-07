@@ -9,8 +9,8 @@ import com.ustadmobile.libcache.downloader.EnqueuePinPublicationPrepareUseCaseJv
 import com.ustadmobile.libcache.logging.UstadCacheLogger
 
 import kotlinx.io.files.Path
-import world.respect.libxxhash.XXStringHasher
-import world.respect.libxxhash.jvmimpl.XXStringHasherCommonJvm
+import org.openeel.libxxhash.XXStringHasher
+import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import java.io.File
 
 /**
