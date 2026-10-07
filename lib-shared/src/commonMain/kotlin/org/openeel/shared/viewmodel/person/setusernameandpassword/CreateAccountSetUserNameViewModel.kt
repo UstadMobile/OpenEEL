@@ -17,7 +17,7 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.db.school.ext.isStudent
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
 import org.openeel.shared.domain.account.username.UsernameSuggestionUseCase
 import org.openeel.shared.domain.account.username.checkusernameunique.CheckUsernameUniqueUseCase
@@ -36,7 +36,7 @@ import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.exception.getUiTextOrGeneric
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import kotlin.time.Clock
 
@@ -56,12 +56,12 @@ data class CreateAccountSetUserNameUiState(
  */
 class CreateAccountSetUserNameViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val filterUsernameUseCase: FilterUsernameUseCase,
     private val encryptPersonPasswordUseCase: EncryptPersonPasswordUseCase,
     private val validateUsernameUseCase: ValidateUsernameUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

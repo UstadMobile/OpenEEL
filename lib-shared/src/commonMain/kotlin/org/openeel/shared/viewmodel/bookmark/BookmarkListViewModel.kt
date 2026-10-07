@@ -33,7 +33,7 @@ import org.openeel.lib.xapi.ext.objectActivityOrNull
 import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.bookmark.RemoveBookmarkUseCase
 import org.openeel.shared.ext.resultExpected
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
@@ -50,7 +50,7 @@ import org.openeel.shared.util.SortOrderOption
 import org.openeel.shared.util.ext.appbarTitleString
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.resolve
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.catalog.OpdsPickType
@@ -67,10 +67,10 @@ data class BookmarkListUiState(
 
 class BookmarkListViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val snackBarDispatcher: SnackBarDispatcher,
     private val resultReturner: NavResultReturner,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
     private val _uiState = MutableStateFlow(BookmarkListUiState())
 
     val uiState = _uiState.asStateFlow()

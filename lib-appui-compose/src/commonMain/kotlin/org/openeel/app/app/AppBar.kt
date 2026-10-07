@@ -54,7 +54,7 @@ import org.openeel.app.util.ext.toImageVector
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
 import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.back
 import org.openeel.shared.generated.resources.search
@@ -86,7 +86,7 @@ fun RespectAppBar(
 
     val showUserAccountIcon = appUiState.userAccountIconVisible ?: !appUiState.actionBarButtonState.visible
 
-    val accountManager: RespectAccountManager = koinInject()
+    val accountManager: AppAccountManager = koinInject()
     val activeAccount by accountManager.selectedAccountAndPersonFlow.collectAsState(null)
     val activeSessionVal = activeAccount?.session
 

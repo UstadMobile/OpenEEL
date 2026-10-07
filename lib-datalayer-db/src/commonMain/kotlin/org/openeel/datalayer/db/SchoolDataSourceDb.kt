@@ -53,13 +53,13 @@ import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
  *           testing.
  */
 class SchoolDataSourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
     private val authenticatedUser: AuthenticatedUserPrincipalId,
     private val checkPersonPermissionUseCase: CheckPersonPermissionUseCase,
     private val json: Json,
     private val defaultAppCatalogUrl: String?,
-    private val primaryKeyGenerator: PrimaryKeyGenerator = PrimaryKeyGenerator(RespectSchoolDatabase.TABLE_IDS),
+    private val primaryKeyGenerator: PrimaryKeyGenerator = PrimaryKeyGenerator(SchoolDatabase.TABLE_IDS),
     private val schoolUrl: Url,
     authenticatedXapiAgentsUseCase: GetAuthenticatedXapiAgentsUseCase? = null,
 ) : SchoolDataSourceLocal {
@@ -119,7 +119,7 @@ class SchoolDataSourceDb(
 
     override val opdsPublicationDataSource: OpdsPublicationDataSourceLocal by lazy {
         OpdsPublicationDataSourceDb(
-            respectSchoolDatabase = schoolDb,
+            schoolDatabase = schoolDb,
             json = json,
             uidNumberMapper = uidNumberMapper,
             primaryKeyGenerator = primaryKeyGenerator,

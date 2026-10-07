@@ -20,7 +20,7 @@ import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
 import org.openeel.datalayer.school.model.Clazz
 import org.openeel.datalayer.school.model.Clazz.Companion.DEFAULT_INVITE_CODE_LEN
 import org.openeel.datalayer.school.model.Clazz.Companion.DEFAULT_INVITE_CODE_MAX
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.createclass.CreateClassUseCase
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.generated.resources.Res
@@ -34,7 +34,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.LaunchDebouncer
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import kotlin.random.Random
 import kotlin.time.Clock
@@ -49,9 +49,9 @@ data class ClazzEditUiState(
 
 class ClazzEditViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val json: Json,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

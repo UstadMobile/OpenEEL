@@ -12,7 +12,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.xapi.writequeue.XapiRemoteWriteQueueDbImpl
 import org.openeel.datalayer.http.school.xapi.XapiResourceHttpClient
 import org.openeel.datalayer.repository.util.mkdirsIfNotExists
@@ -32,7 +32,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ContentNe
 
 class RepositoryTestClient(
     val dir: File,
-    val schoolDb: RespectSchoolDatabase,
+    val schoolDb: SchoolDatabase,
     val localDataSource: XapiResourceLocal,
     val remoteDataSource: XapiResource,
     val authenticatedUser: AuthenticatedUserPrincipalId,

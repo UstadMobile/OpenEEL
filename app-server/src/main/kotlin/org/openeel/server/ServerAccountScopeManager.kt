@@ -5,8 +5,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.qualifier.TypeQualifier
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.shared.domain.account.RespectAccount
-import org.openeel.shared.util.di.RespectAccountScopeId
+import org.openeel.shared.domain.account.UserAccount
+import org.openeel.shared.util.di.UserAccountScopeId
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
@@ -31,13 +31,13 @@ class ServerAccountScopeManager(
     fun getOrCreateAccountScope(
         authenticatedUserPrincipalId: AuthenticatedUserPrincipalId
     ): Scope {
-        val accountScopeId = RespectAccountScopeId(schoolUrl, authenticatedUserPrincipalId)
+        val accountScopeId = UserAccountScopeId(schoolUrl, authenticatedUserPrincipalId)
         return lock.withLock {
             val accountScope = getKoin().getScopeOrNull(accountScopeId.scopeId)
 
             if(accountScope == null) {
                 val accountScope = getKoin().createScope(
-                    accountScopeId.scopeId, TypeQualifier(RespectAccount::class)
+                    accountScopeId.scopeId, TypeQualifier(UserAccount::class)
                 )
                 accountScope.linkTo(schoolScope)
                 accountScope

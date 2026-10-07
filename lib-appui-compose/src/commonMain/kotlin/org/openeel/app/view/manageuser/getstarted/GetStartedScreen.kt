@@ -35,12 +35,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectExposedDropDownMenuField
+import org.openeel.app.components.OpenEelExposedDropDownMenuField
 import org.openeel.app.components.OpenEelShortVersionInfoText
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.langMapString
 import org.openeel.app.components.uiTextStringResource
-import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.SchoolDirectory
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_my_school
@@ -77,7 +77,7 @@ fun GetStartedScreen(
     onClickOtherOptions: () -> Unit,
     onClickScanQRBadge: () -> Unit,
     onAddMySchool: () -> Unit,
-    onDirectorySelected: (RespectSchoolDirectory) -> Unit,
+    onDirectorySelected: (SchoolDirectory) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -103,7 +103,7 @@ fun GetStartedScreen(
         }
 
         uiState.selectedDirectory?.also { selectedDirectory ->
-            RespectExposedDropDownMenuField(
+            OpenEelExposedDropDownMenuField(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                 value = selectedDirectory,
                 options = uiState.directoryOptions,

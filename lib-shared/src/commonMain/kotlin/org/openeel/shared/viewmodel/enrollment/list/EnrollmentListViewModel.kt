@@ -22,12 +22,12 @@ import org.openeel.datalayer.school.model.StatusEnum
 import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.navigation.EnrollmentEdit
 import org.openeel.shared.navigation.EnrollmentList
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import kotlin.time.Clock
 
 data class EnrollmentListUiState(
@@ -37,8 +37,8 @@ data class EnrollmentListUiState(
 
 class EnrollmentListViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    accountManager: AppAccountManager
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

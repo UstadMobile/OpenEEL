@@ -13,11 +13,11 @@ import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.ext.useTokenProvider
 import org.openeel.datalayer.http.ext.respectEndpointUrl
 import org.openeel.datalayer.http.school.SchoolUrlBasedDataSource
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResource
 
 class AddChildAccountUseCaseClient(
     override val schoolUrl: Url,
-    override val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSource,
+    override val schoolDirectoryEntryResource: SchoolDirectoryEntryResource,
     private val httpClient: HttpClient,
     private val authTokenProvider: AuthTokenProvider,
     private val schoolDataSourceLocal: SchoolDataSourceLocal,

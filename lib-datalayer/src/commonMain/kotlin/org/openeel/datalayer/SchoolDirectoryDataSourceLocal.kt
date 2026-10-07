@@ -1,15 +1,15 @@
 package org.openeel.datalayer
 
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSourceLocal
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryResourceLocal
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResourceLocal
 
 /**
  *
  */
 interface SchoolDirectoryDataSourceLocal: SchoolDirectoryDataSource {
 
-    override val schoolDirectoryDataSource: SchoolDirectoryDataSourceLocal
+    override val schoolDirectoryResource: SchoolDirectoryResourceLocal
 
-    override val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSourceLocal
+    override val schoolDirectoryEntryResource: SchoolDirectoryEntryResourceLocal
 
 }

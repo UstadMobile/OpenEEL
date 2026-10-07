@@ -19,24 +19,24 @@ import org.koin.dsl.module
 import org.openeel.credentials.passkey.request.DecodeUserHandleUseCase
 import org.openeel.credentials.passkey.request.GetPasskeyProviderInfoUseCase
 import org.openeel.datalayer.SchoolDirectoryDataSource
-import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
+import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_SERVER
 import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
 import org.openeel.datalayer.db.RespectAppDatabase
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.addCommonMigrations
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
 import org.openeel.datalayer.db.school.domain.GetPermissionLastModifiedUseCaseDbImpl
-import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryDataSourceDb
+import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryResourceDb
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.domain.GetPermissionLastModifiedUseCase
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryResourceLocal
 import org.openeel.datalayer.shared.XXHashUidNumberMapper
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 import org.openeel.libutil.ext.sanitizedForFilename
@@ -57,7 +57,7 @@ import org.openeel.server.domain.school.demoapp.MakeDemoAppManifestUseCase
 import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitTinCanXmlUseCase
 import org.openeel.server.domain.school.verify.VerifySchoolUrlPointsToThisServerUseCase
 import org.openeel.server.util.SchoolUrlVerificationManager
-import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticateQrBadgeUseCase
 import org.openeel.shared.domain.account.authwithpassword.GetTokenAndUserProfileWithCredentialDbImpl
@@ -87,10 +87,10 @@ import org.openeel.shared.domain.account.validateauth.ValidateAuthorizationUseCa
 import org.openeel.shared.domain.createlink.CreateInviteLinkUseCase
 import org.openeel.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
 import org.openeel.shared.domain.navigation.deeplink.UrlToCustomDeepLinkUseCase
-import org.openeel.shared.domain.school.RespectSchoolPath
+import org.openeel.shared.domain.school.SchoolPath
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.domain.school.add.RegisterSchoolUseCase
-import org.openeel.shared.util.di.RespectAccountScopeId
+import org.openeel.shared.util.di.UserAccountScopeId
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.sharedse.domain.account.authenticatepassword.AuthenticatePasswordUseCaseDbImpl
 import org.openeel.sharedse.domain.account.authenticatepassword.AuthenticateQrBadgeUseCaseDbImpl
@@ -147,8 +147,8 @@ fun serverKoinModule(
         XXHashUidNumberMapper(xxStringHasher = get())
     }
 
-    single<org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal> {
-        org.openeel.datalayer.db.schooldirectory.SchoolDirectoryDataSourceDb(
+    single<SchoolDirectoryResourceLocal> {
+        SchoolDirectoryResourceDb(
             respectAppDb = get(),
             xxStringHasher = get()
         )
@@ -172,8 +172,8 @@ fun serverKoinModule(
 
     single<AddSchoolUseCase> {
         AddSchoolUseCase(
-            directoryDataSource = get<SchoolDirectoryDataSourceLocal>().schoolDirectoryDataSource,
-            schoolDirectoryEntryDataSource = get<SchoolDirectoryDataSourceLocal>().schoolDirectoryEntryDataSource,
+            directoryDataSource = get< SchoolDirectoryDataSourceLocal>().schoolDirectoryResource,
+            schoolDirectoryEntryDataSource = get<SchoolDirectoryDataSourceLocal>().schoolDirectoryEntryResource,
             encryptPasswordUseCase = get(),
         )
     }
@@ -274,20 +274,20 @@ fun serverKoinModule(
                 decodeUserHandleUseCase = get(),
             )
         }
-        scoped<RespectSchoolPath> {
+        scoped<SchoolPath> {
             val schoolDirName = schoolUrl().sanitizedForFilename()
             val schoolDirFile = File(dataDir, schoolDirName).also {
                 if(!it.exists())
                     it.mkdirs()
             }
 
-            RespectSchoolPath(
+            SchoolPath(
                 path = Path(schoolDirFile.absolutePath)
             )
         }
 
-        scoped<RespectSchoolDatabase> {
-            val schoolPath: RespectSchoolPath = get()
+        scoped<SchoolDatabase> {
+            val schoolPath: SchoolPath = get()
             val appDb: RespectAppDatabase = get()
             val xxHasher: XXStringHasher = get()
 
@@ -298,7 +298,7 @@ fun serverKoinModule(
             val schoolConfigFile = File(schoolPath.path.toString())
             val dbFile = schoolConfigFile.resolve(schoolConfig.dbUrl)
 
-            Room.databaseBuilder<RespectSchoolDatabase>(dbFile.absolutePath)
+            Room.databaseBuilder<SchoolDatabase>(dbFile.absolutePath)
                 .setDriver(BundledSQLiteDriver())
                 .addCommonMigrations()
                 .build()
@@ -419,9 +419,9 @@ fun serverKoinModule(
      * authentication plugin in Application.kt. Scope creation and linking using factories must
      * be done in a way that is thread safe.
      */
-    scope<RespectAccount> {
+    scope<UserAccount> {
         factory<CheckPersonPermissionUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             CheckPersonPermissionUseCaseDbImpl(
                 authenticatedUser = accountScopeId.accountPrincipalId,
@@ -431,7 +431,7 @@ fun serverKoinModule(
         }
 
         factory<SchoolDataSourceLocal> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             SchoolDataSourceDb(
                 schoolDb = get(),
@@ -450,7 +450,7 @@ fun serverKoinModule(
         }
 
         factory<GetPermissionLastModifiedUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             GetPermissionLastModifiedUseCaseDbImpl(
                 schoolDb = get(),
@@ -460,7 +460,7 @@ fun serverKoinModule(
         }
 
         factory<AddChildAccountUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             AddChildAccountUseCaseDb(
                 schoolPrimaryKeyGenerator = get(),
@@ -470,7 +470,7 @@ fun serverKoinModule(
         }
 
         factory<UpdateClazzStudentXapiGroupUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             UpdateClazzStudentXapiGroupUseCase(
                 schoolDataSource = get(),

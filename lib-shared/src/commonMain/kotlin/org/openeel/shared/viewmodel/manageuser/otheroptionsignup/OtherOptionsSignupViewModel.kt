@@ -11,11 +11,11 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.scope.Scope
 import org.openeel.credentials.passkey.CheckPasskeySupportUseCase
 import org.openeel.credentials.passkey.CreatePasskeyUseCase
-import org.openeel.credentials.passkey.RespectPasskeyCredential
+import org.openeel.credentials.passkey.OpenEelPasskeyCredential
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.other_options
 import org.openeel.shared.generated.resources.passkey_not_supported
@@ -26,7 +26,7 @@ import org.openeel.shared.navigation.OtherOptionsSignup
 import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class OtherOptionsSignupUiState(
     val passkeyError: String? = null,
@@ -37,8 +37,8 @@ data class OtherOptionsSignupUiState(
 class OtherOptionsSignupViewModel(
     savedStateHandle: SavedStateHandle,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
-    private val accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    private val accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: OtherOptionsSignup = savedStateHandle.toRoute()
 
@@ -90,10 +90,10 @@ class OtherOptionsSignupViewModel(
         val createPasskeyUseCaseVal = createPasskeyUseCase
         viewModelScope.launch {
             try {
-                val schoolDirEntry = this@OtherOptionsSignupViewModel.schoolDirectoryDataSource.schoolDirectoryEntryDataSource
+                val schoolDirEntry = this@OtherOptionsSignupViewModel.schoolDirectoryDataSource.schoolDirectoryEntryResource
                     .getSchoolDirectoryEntryByUrl(route.schoolUrl).dataOrNull() ?: throw IllegalStateException()
                 val rpId = schoolDirEntry.rpId
-                val username = route.respectRedeemInviteRequest.account.username
+                val username = route.redeemInviteRequest.account.username
 
                 if (createPasskeyUseCaseVal == null || rpId==null){
                     _uiState.update {
@@ -104,7 +104,7 @@ class OtherOptionsSignupViewModel(
                 }else {
                     val createPasskeyResult = createPasskeyUseCaseVal(
                         CreatePasskeyUseCase.Request(
-                            personUid = route.respectRedeemInviteRequest.account.guid,
+                            personUid = route.redeemInviteRequest.account.guid,
                             username = username,
                             rpId = rpId
                         )
@@ -112,9 +112,9 @@ class OtherOptionsSignupViewModel(
 
                     when (createPasskeyResult) {
                         is CreatePasskeyUseCase.PasskeyCreatedResult -> {
-                            val redeemRequest = route.respectRedeemInviteRequest.copy(
-                                account = route.respectRedeemInviteRequest.account.copy(
-                                    credential = RespectPasskeyCredential(
+                            val redeemRequest = route.redeemInviteRequest.copy(
+                                account = route.redeemInviteRequest.account.copy(
+                                    credential = OpenEelPasskeyCredential(
                                         createPasskeyResult.authenticationResponseJSON
                                     )
                                 )
@@ -176,7 +176,7 @@ class OtherOptionsSignupViewModel(
             NavCommand.Navigate(
                 EnterPasswordSignup.create(
                     schoolUrl = route.schoolUrl,
-                    inviteRequest = route.respectRedeemInviteRequest
+                    inviteRequest = route.redeemInviteRequest
                 )
             )
         )

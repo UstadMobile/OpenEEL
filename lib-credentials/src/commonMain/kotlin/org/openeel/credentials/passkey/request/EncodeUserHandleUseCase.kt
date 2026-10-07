@@ -1,6 +1,6 @@
 package org.openeel.credentials.passkey.request
 
-import org.openeel.credentials.passkey.RespectUserHandle
+import org.openeel.credentials.passkey.OpenEelUserHandle
 
 /**
  * UseCase that will encode a user handle into a Byte64 encoded string, suitable for passkey
@@ -16,6 +16,6 @@ interface EncodeUserHandleUseCase {
      * @return the user handle, base64 encoded. The W3C spec specifies that the user handle is an
      * opaque byte sequence.
      */
-    operator fun invoke(userHandle: RespectUserHandle): String
+    operator fun invoke(openEelUserHandle: OpenEelUserHandle): String
 
 }

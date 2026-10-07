@@ -15,7 +15,7 @@ class CheckPasskeySupportUseCaseAndroidImpl(
         if (Build.VERSION.SDK_INT < 28)
             return false
 
-        val schoolDirEntry = this@CheckPasskeySupportUseCaseAndroidImpl.schoolDirectoryDataSource.schoolDirectoryEntryDataSource
+        val schoolDirEntry = this@CheckPasskeySupportUseCaseAndroidImpl.schoolDirectoryDataSource.schoolDirectoryEntryResource
             .getSchoolDirectoryEntryByUrl(schoolUrl).dataOrNull() ?: return false
 
         val rpId = schoolDirEntry.rpId ?: return false

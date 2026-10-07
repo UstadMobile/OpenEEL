@@ -42,7 +42,7 @@ import com.ustadmobile.libcache.PublicationPinState
 import com.ustadmobile.libuicompose.theme.black
 import com.ustadmobile.libuicompose.theme.white
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.app.components.AlternativeLangLinks
 import org.openeel.app.components.OpenEelDataLoadHost
 import org.openeel.app.components.OpenEelOfflineItemStatusIcon
@@ -120,7 +120,7 @@ fun PublicationDetailScreen(
                 val iconUrl = lessonDetail?.images?.firstOrNull()?.href
 
                 iconUrl?.also { icon ->
-                    RespectAsyncImage(
+                    OpenEelAsyncImage(
                         uri = icon,
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
@@ -157,7 +157,7 @@ fun PublicationDetailScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 if (appIconUrl != null) {
-                                    RespectAsyncImage(
+                                    OpenEelAsyncImage(
                                         uri = appIconUrl,
                                         contentDescription = "",
                                         contentScale = ContentScale.Fit,

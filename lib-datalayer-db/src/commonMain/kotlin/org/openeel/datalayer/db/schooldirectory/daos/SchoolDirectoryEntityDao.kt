@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.db.schooldirectory.entities.SchoolDirectoryEntity
-import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.SchoolDirectory
 
 @Dao
 interface SchoolDirectoryEntityDao {
@@ -43,7 +43,7 @@ interface SchoolDirectoryEntityDao {
     @Query("""
         SELECT SchoolDirectoryEntity.*
           FROM SchoolDirectoryEntity
-         WHERE SchoolDirectoryEntity.rdUrl = '${RespectSchoolDirectory.SERVER_MANAGED_DIRECTORY_URL}'
+         WHERE SchoolDirectoryEntity.rdUrl = '${SchoolDirectory.SERVER_MANAGED_DIRECTORY_URL}'
     """
     )
     suspend fun getServerManagerSchoolDirectory(): SchoolDirectoryEntity?

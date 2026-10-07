@@ -1,6 +1,6 @@
 package org.openeel.credentials.passkey.request
 
-import org.openeel.credentials.passkey.RespectUserHandle
+import org.openeel.credentials.passkey.OpenEelUserHandle
 
 
 /**
@@ -9,6 +9,6 @@ import org.openeel.credentials.passkey.RespectUserHandle
  */
 interface DecodeUserHandleUseCase {
 
-    operator fun invoke(encodedHandle: String): RespectUserHandle
+    operator fun invoke(encodedHandle: String): OpenEelUserHandle
 
 }

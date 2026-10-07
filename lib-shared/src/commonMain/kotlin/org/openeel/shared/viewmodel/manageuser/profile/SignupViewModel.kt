@@ -14,10 +14,10 @@ import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.model.PersonGenderEnum
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.child.AddChildAccountUseCase
-import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
-import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest.Companion.DATE_OF_BIRTH_EPOCH
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest.Companion.DATE_OF_BIRTH_EPOCH
 import org.openeel.shared.domain.navigation.onaccountcreated.NavigateOnAccountCreatedUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.child_dob_label
@@ -39,7 +39,7 @@ import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.manageuser.signup.SignupScreenModeEnum
 import java.lang.IllegalStateException
@@ -51,7 +51,7 @@ data class SignupUiState(
     val dateOfBirthLabel: UiText?=null,
     val personPicture: String?=null,
 
-    val personInfo: RespectRedeemInviteRequest.PersonInfo = RespectRedeemInviteRequest.PersonInfo(),
+    val personInfo: RedeemInviteRequest.PersonInfo = RedeemInviteRequest.PersonInfo(),
 
     val fullNameError: UiText? = null,
     val genderError: UiText? = null,
@@ -61,8 +61,8 @@ data class SignupUiState(
 
 class SignupViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent{
+    private val accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent{
 
     override val scope: Scope
         get() = getKoin().getOrCreateScope<SchoolDirectoryEntry>(
@@ -218,7 +218,7 @@ class SignupViewModel(
                             request = AddChildAccountUseCase.AddChildAccountRequest(
                                 childPersonInfo = personInfo,
                                 parentUid = parentPersonUid,
-                                inviteRedeemRequest = route.respectRedeemInviteRequest,
+                                inviteRedeemRequest = route.redeemInviteRequest,
                             )
                         )
 
@@ -236,7 +236,7 @@ class SignupViewModel(
                             value = NavCommand.Navigate(
                                 destination = CreateAccount.create(
                                     schoolUrl = route.schoolUrl,
-                                    inviteRequest = route.respectRedeemInviteRequest.copy(
+                                    inviteRequest = route.redeemInviteRequest.copy(
                                         accountPersonInfo = personInfo
                                     )
                                 )

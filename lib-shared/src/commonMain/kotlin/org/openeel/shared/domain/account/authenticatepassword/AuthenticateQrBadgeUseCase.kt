@@ -1,6 +1,6 @@
 package org.openeel.shared.domain.account.authenticatepassword
 
-import org.openeel.credentials.passkey.RespectQRBadgeCredential
+import org.openeel.credentials.passkey.OpenEelQRBadgeCredential
 import org.openeel.datalayer.school.model.Person
 
 interface AuthenticateQrBadgeUseCase {
@@ -9,6 +9,6 @@ interface AuthenticateQrBadgeUseCase {
     )
 
     suspend operator fun invoke(
-        credential: RespectQRBadgeCredential
+        credential: OpenEelQRBadgeCredential
     ): Response
 }

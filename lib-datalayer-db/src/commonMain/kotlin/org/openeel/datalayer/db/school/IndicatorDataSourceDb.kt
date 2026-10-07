@@ -6,7 +6,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toIndicator
 import org.openeel.datalayer.db.school.adapters.toIndicatorEntity
 import org.openeel.lib.xapi.extensions.reportoptions.Indicator
@@ -14,7 +14,7 @@ import org.openeel.datalayer.school.IndicatorDataSource
 import org.openeel.lib.xapi.extensions.reportoptions.DefaultIndicators
 
 class IndicatorDataSourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
 ): IndicatorDataSource {
 
     override suspend fun allIndicatorAsFlow(): Flow<DataLoadState<List<Indicator>>> {

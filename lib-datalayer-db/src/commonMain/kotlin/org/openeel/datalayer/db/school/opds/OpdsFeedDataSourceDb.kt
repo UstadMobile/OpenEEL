@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.opds.adapters.OpdsFeedEntities
 import org.openeel.datalayer.db.school.opds.adapters.asEntities
 import org.openeel.datalayer.db.school.opds.adapters.asModel
@@ -33,7 +33,7 @@ import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 import kotlin.time.Clock
 
 class OpdsFeedDataSourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
     @Suppress("unused")
     private val authenticatedUser: AuthenticatedUserPrincipalId,

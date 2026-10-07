@@ -21,7 +21,7 @@ fun OpenEelGenderExposedDropDownMenuField(
     enabled: Boolean = true,
     errorText: UiText?,
 ) {
-    RespectExposedDropDownMenuField(
+    OpenEelExposedDropDownMenuField(
         value = value,
         options = PersonGenderEnum.entries.filter {
             it != PersonGenderEnum.UNSPECIFIED

@@ -1,20 +1,20 @@
 package org.openeel.sharedse.domain.account.authenticatepassword
 
-import org.openeel.credentials.passkey.RespectQRBadgeCredential
+import org.openeel.credentials.passkey.OpenEelQRBadgeCredential
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toModel
 import org.openeel.datalayer.db.school.adapters.toPersonEntities
 import org.openeel.lib.dataloadstate.throwable.ForbiddenException
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticateQrBadgeUseCase
 
 class AuthenticateQrBadgeUseCaseDbImpl(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
 ) : AuthenticateQrBadgeUseCase {
 
     override suspend fun invoke(
-        credential: RespectQRBadgeCredential
+        credential: OpenEelQRBadgeCredential
     ): AuthenticateQrBadgeUseCase.Response {
 
         // First, find the QR badge by the URL from the credential

@@ -1,12 +1,12 @@
 package org.openeel.shared.domain.account.authwithpassword
 
 import io.ktor.http.Url
-import org.openeel.credentials.passkey.RespectCredential
-import org.openeel.credentials.passkey.RespectPasskeyCredential
-import org.openeel.credentials.passkey.RespectPasswordCredential
-import org.openeel.credentials.passkey.RespectQRBadgeCredential
+import org.openeel.credentials.passkey.OpenEelCredential
+import org.openeel.credentials.passkey.OpenEelPasskeyCredential
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
+import org.openeel.credentials.passkey.OpenEelQRBadgeCredential
 import org.openeel.datalayer.SchoolDirectoryDataSource
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toEntity
 import org.openeel.datalayer.db.school.adapters.toModel
 import org.openeel.datalayer.db.school.adapters.toPersonEntities
@@ -33,7 +33,7 @@ import java.lang.IllegalStateException
  */
 class GetTokenAndUserProfileWithCredentialDbImpl(
     private val schoolUrl: Url,
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val xxHash: XXStringHasher,
     private val verifyPasskeyUseCase: VerifySignInWithPasskeyUseCase?,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
@@ -42,17 +42,17 @@ class GetTokenAndUserProfileWithCredentialDbImpl(
 ): GetTokenAndUserProfileWithCredentialUseCase {
 
     override suspend fun invoke(
-        credential: RespectCredential,
+        credential: OpenEelCredential,
         deviceInfo: DeviceInfo?
     ): AuthResponse {
 
         val authenticatedPerson = when(credential) {
-            is RespectPasswordCredential -> {
+            is OpenEelPasswordCredential -> {
                 authenticatePasswordUseCase(credential).authenticatedPerson
             }
 
-            is RespectPasskeyCredential -> {
-                val rpId = this@GetTokenAndUserProfileWithCredentialDbImpl.schoolDirectoryDataSource.schoolDirectoryEntryDataSource
+            is OpenEelPasskeyCredential -> {
+                val rpId = this@GetTokenAndUserProfileWithCredentialDbImpl.schoolDirectoryDataSource.schoolDirectoryEntryResource
                     .getSchoolDirectoryEntryByUrl(schoolUrl).dataOrNull()?.rpId
                     ?: throw IllegalStateException("School $schoolUrl has no rpId")
                         .withHttpStatus(400)
@@ -74,7 +74,7 @@ class GetTokenAndUserProfileWithCredentialDbImpl(
                 )?.toPersonEntities()?.toModel() ?: throw ForbiddenException("Person not found")
             }
 
-            is RespectQRBadgeCredential -> {
+            is OpenEelQRBadgeCredential -> {
                 authenticateQrBadgeUseCase(credential).authenticatedPerson
             }
         }

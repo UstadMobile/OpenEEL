@@ -29,7 +29,7 @@ import org.openeel.datalayer.school.model.PersonGenderEnum
 import org.openeel.datalayer.school.model.PersonRole
 import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.shared.params.GetListCommonParams
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.phonenumber.PhoneNumValidatorUseCase
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.domain.validateemail.ValidateEmailUseCase
@@ -52,7 +52,7 @@ import org.openeel.shared.navigation.sendResultIfResultExpected
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.LaunchDebouncer
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import kotlin.collections.first
@@ -108,13 +108,13 @@ data class PersonEditUiState(
 
 class PersonEditViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val json: Json,
     private val phoneNumValidatorUseCase: PhoneNumValidatorUseCase,
     private val navResultReturner: NavResultReturner,
     private val validateEmailUseCase: ValidateEmailUseCase,
     private val snackBarDispatcher: SnackBarDispatcher,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

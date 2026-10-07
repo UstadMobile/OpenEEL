@@ -17,7 +17,7 @@ import org.koin.core.scope.Scope
 import org.openeel.shared.navigation.AppsDetail
 import org.openeel.shared.navigation.PublicationDetail
 import org.openeel.shared.navigation.OpdsFeedDetail
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
@@ -27,7 +27,7 @@ import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.libutil.ext.resolve
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.datalayer.db.school.ext.isAdmin
@@ -72,9 +72,9 @@ data class AppsDetailUiState(
 
 class AppsDetailViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val snackBarDispatcher: SnackBarDispatcher,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

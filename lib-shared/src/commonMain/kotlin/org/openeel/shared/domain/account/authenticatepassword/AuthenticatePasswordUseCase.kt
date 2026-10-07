@@ -1,6 +1,6 @@
 package org.openeel.shared.domain.account.authenticatepassword
 
-import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.datalayer.school.model.Person
 
 interface AuthenticatePasswordUseCase {
@@ -10,7 +10,7 @@ interface AuthenticatePasswordUseCase {
     )
 
     suspend operator fun invoke(
-        credential: RespectPasswordCredential
+        credential: OpenEelPasswordCredential
     ): Response
 
 }

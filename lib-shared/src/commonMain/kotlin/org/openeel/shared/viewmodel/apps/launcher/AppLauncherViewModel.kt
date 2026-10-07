@@ -19,7 +19,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.app
@@ -48,7 +48,7 @@ import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.libutil.ext.resolve
 import org.openeel.shared.domain.geticonforxapiactivity.GetPublicationForXapiActivityUseCase
 import org.openeel.shared.util.ext.appbarTitleString
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 
 data class AppLauncherUiState(
@@ -69,9 +69,9 @@ data class AppLauncherUiState(
 
 class AppLauncherViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val getDevModeEnabledUseCase: GetDevModeEnabledUseCase,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

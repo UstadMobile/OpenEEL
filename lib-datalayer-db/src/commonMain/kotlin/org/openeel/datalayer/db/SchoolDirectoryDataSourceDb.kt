@@ -2,10 +2,10 @@ package org.openeel.datalayer.db
 
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
-import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryDataSourceDb
-import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryEntryDataSourceDb
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSourceLocal
+import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryResourceDb
+import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryEntryResourceDb
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryResourceLocal
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResourceLocal
 import org.openeel.libxxhash.XXStringHasher
 
 class SchoolDirectoryDataSourceDb(
@@ -14,14 +14,14 @@ class SchoolDirectoryDataSourceDb(
     private val xxStringHasher: XXStringHasher,
 ): SchoolDirectoryDataSourceLocal {
 
-    override val schoolDirectoryDataSource: org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal by lazy {
-        SchoolDirectoryDataSourceDb(
+    override val schoolDirectoryResource: SchoolDirectoryResourceLocal by lazy {
+        SchoolDirectoryResourceDb(
             respectAppDatabase, xxStringHasher
         )
     }
 
-    override val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSourceLocal by lazy {
-        SchoolDirectoryEntryDataSourceDb(
+    override val schoolDirectoryEntryResource: SchoolDirectoryEntryResourceLocal by lazy {
+        SchoolDirectoryEntryResourceDb(
             respectAppDatabase, json, xxStringHasher
         )
     }

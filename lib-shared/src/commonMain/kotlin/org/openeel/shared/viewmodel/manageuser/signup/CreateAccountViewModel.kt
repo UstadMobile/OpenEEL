@@ -14,12 +14,12 @@ import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.credentials.passkey.CheckPasskeySupportUseCase
 import org.openeel.credentials.passkey.CreatePasskeyUseCase
-import org.openeel.credentials.passkey.RespectPasskeyCredential
+import org.openeel.credentials.passkey.OpenEelPasskeyCredential
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
-import org.openeel.datalayer.respect.model.invite.RespectInviteInfo
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.datalayer.respect.model.invite.InviteInfo
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.invite.GetInviteInfoUseCase
 import org.openeel.shared.domain.navigation.onaccountcreated.NavigateOnAccountCreatedUseCase
 import org.openeel.shared.domain.account.username.UsernameSuggestionUseCase
@@ -41,7 +41,7 @@ import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.exception.getUiTextOrGeneric
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
 
 data class CreateAccountViewModelUiState(
@@ -49,7 +49,7 @@ data class CreateAccountViewModelUiState(
     val usernameError: UiText? = null,
     val generalError: UiText? = null,
     val signupError: UiText? = null,
-    val inviteInfo: RespectInviteInfo? = null,
+    val inviteInfo: InviteInfo? = null,
     val passkeySupported : Boolean = false,
     val fieldsEnabled: Boolean = true,
 )
@@ -57,10 +57,10 @@ data class CreateAccountViewModelUiState(
 class CreateAccountViewModel(
     savedStateHandle: SavedStateHandle,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val filterUsernameUseCase: FilterUsernameUseCase,
     private val validateUsernameUseCase: ValidateUsernameUseCase,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
     private val route: CreateAccount = savedStateHandle.toRoute()
 
     override val scope: Scope
@@ -102,7 +102,7 @@ class CreateAccountViewModel(
         viewModelScope.launch {
             try {
                 val suggestion = usernameSuggestionUseCase.invoke(
-                    name = route.respectRedeemInviteRequest.accountPersonInfo.name
+                    name = route.redeemInviteRequest.accountPersonInfo.name
                 )
 
                 onUsernameChanged(suggestion)
@@ -110,8 +110,8 @@ class CreateAccountViewModel(
                 Napier.w("Failed to get username suggestion", t)
             }
 
-            val inviteInfo = inviteInfoUseCase(route.respectRedeemInviteRequest.code)
-            this@CreateAccountViewModel.schoolDirectoryDataSource.schoolDirectoryEntryDataSource
+            val inviteInfo = inviteInfoUseCase(route.redeemInviteRequest.code)
+            this@CreateAccountViewModel.schoolDirectoryDataSource.schoolDirectoryEntryResource
                 .getSchoolDirectoryEntryByUrl(route.schoolUrl).dataOrNull()?.also {
                     schoolDirectoryEntry.complete(it)
                 } ?: throw IllegalStateException()
@@ -206,7 +206,7 @@ class CreateAccountViewModel(
                 if (createPasskeyUseCase != null && rpIdVal != null && passkeySupported.await()) {
                     val createPasskeyResult = createPasskeyUseCase(
                         CreatePasskeyUseCase.Request(
-                            personUid = route.respectRedeemInviteRequest.account.guid,
+                            personUid = route.redeemInviteRequest.account.guid,
                             username = usernameVal,
                             rpId = rpIdVal
                         )
@@ -214,10 +214,10 @@ class CreateAccountViewModel(
 
                     when (createPasskeyResult) {
                         is CreatePasskeyUseCase.PasskeyCreatedResult -> {
-                            val redeemRequest = route.respectRedeemInviteRequest.copy(
-                                account = route.respectRedeemInviteRequest.account.copy(
+                            val redeemRequest = route.redeemInviteRequest.copy(
+                                account = route.redeemInviteRequest.account.copy(
                                     username = usernameVal,
-                                    credential = RespectPasskeyCredential(
+                                    credential = OpenEelPasskeyCredential(
                                         passkeyWebAuthNResponse = createPasskeyResult.authenticationResponseJSON
                                     ),
                                 )
@@ -253,8 +253,8 @@ class CreateAccountViewModel(
                         NavCommand.Navigate(
                             EnterPasswordSignup.create(
                                 schoolUrl = route.schoolUrl,
-                                inviteRequest = route.respectRedeemInviteRequest.copy(
-                                    account = route.respectRedeemInviteRequest.account.copy(
+                                inviteRequest = route.redeemInviteRequest.copy(
+                                    account = route.redeemInviteRequest.account.copy(
                                         username = usernameVal,
                                     )
                                 )
@@ -287,8 +287,8 @@ class CreateAccountViewModel(
                 NavCommand.Navigate(
                     OtherOptionsSignup.create(
                         schoolUrl = route.schoolUrl,
-                        inviteRequest = route.respectRedeemInviteRequest.copy(
-                            account = route.respectRedeemInviteRequest.account.copy(
+                        inviteRequest = route.redeemInviteRequest.copy(
+                            account = route.redeemInviteRequest.account.copy(
                                 username = username
                             )
                         )

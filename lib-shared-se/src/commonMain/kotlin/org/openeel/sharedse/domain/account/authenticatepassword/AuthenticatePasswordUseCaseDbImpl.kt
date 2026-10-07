@@ -1,9 +1,9 @@
 package org.openeel.sharedse.domain.account.authenticatepassword
 
 import io.github.aakira.napier.Napier
-import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
 import io.ktor.util.decodeBase64Bytes
@@ -13,13 +13,13 @@ import org.openeel.lib.dataloadstate.throwable.ForbiddenException
 import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase.Companion.LOGTAG_AUTH
 
 class AuthenticatePasswordUseCaseDbImpl(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val encryptPersonPasswordUseCase: EncryptPersonPasswordUseCase,
     private val uidNumberMapper: UidNumberMapper,
 ) : AuthenticatePasswordUseCase {
 
     override suspend fun invoke(
-        credential: RespectPasswordCredential
+        credential: OpenEelPasswordCredential
     ) : AuthenticatePasswordUseCase.Response {
         val personEntity = schoolDb.getPersonEntityDao().findByUsername(credential.username)
             ?: throw ForbiddenException("Invalid username/password").also {

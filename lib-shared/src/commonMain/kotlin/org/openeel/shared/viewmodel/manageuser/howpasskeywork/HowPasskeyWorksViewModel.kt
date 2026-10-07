@@ -5,12 +5,12 @@ import kotlinx.coroutines.flow.update
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.how_passkey_works
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 
 class HowPasskeyWorksViewModel(
     savedStateHandle: SavedStateHandle,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
     init {
         _appUiState.update { prev ->
             prev.copy(

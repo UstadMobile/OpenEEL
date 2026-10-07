@@ -12,7 +12,7 @@ import org.koin.core.scope.Scope
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
 import org.openeel.shared.domain.account.validatepassword.ValidatePasswordUseCase
 import org.openeel.shared.generated.resources.Res
@@ -25,7 +25,7 @@ import org.openeel.shared.navigation.PersonDetail
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.exception.getUiTextOrGeneric
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import kotlin.time.Clock
 
@@ -36,10 +36,10 @@ data class CreateAccountSetPasswordUiState(
 
 class CreateAccountSetPasswordViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
     private val encryptPersonPasswordUseCase: EncryptPersonPasswordUseCase
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

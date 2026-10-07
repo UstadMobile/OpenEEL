@@ -19,7 +19,7 @@ fun Route.getRespectSchoolJson(
 
     get(path) {
         call.respondDataLoadState(
-            appDataSource.schoolDirectoryEntryDataSource.getSchoolDirectoryEntryByUrl(
+            appDataSource.schoolDirectoryEntryResource.getSchoolDirectoryEntryByUrl(
                 url = call.virtualHost
             )
         )

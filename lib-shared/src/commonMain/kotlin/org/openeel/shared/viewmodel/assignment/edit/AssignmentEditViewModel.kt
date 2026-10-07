@@ -40,7 +40,7 @@ import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource.GetStatementParams
 import org.openeel.libutil.ext.appendEndpointSegments
 import org.openeel.libutil.ext.isNullOrAllBlank
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.opds.getxapiactivityid.GetXapiActivityForPublicationUseCase
 import org.openeel.shared.domain.xapi.createBlankAssignmentStatement
 import org.openeel.shared.ext.studentsXapiGroup
@@ -59,7 +59,7 @@ import org.openeel.shared.navigation.RouteResultDest
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.LaunchDebouncer
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
@@ -86,11 +86,11 @@ data class AssignmentEditUiState(
 @OptIn(ExperimentalUuidApi::class)
 class AssignmentEditViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val json: Json,
     private val resultReturner: NavResultReturner,
     private val snackBarDispatcher: SnackBarDispatcher,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

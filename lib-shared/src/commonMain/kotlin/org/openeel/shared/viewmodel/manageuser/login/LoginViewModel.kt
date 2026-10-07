@@ -14,15 +14,15 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.scope.Scope
 import org.openeel.credentials.passkey.CheckPasskeySupportUseCase
 import org.openeel.credentials.passkey.GetCredentialUseCase
-import org.openeel.credentials.passkey.RespectPasskeyCredential
-import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.credentials.passkey.OpenEelPasskeyCredential
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.credentials.passkey.password.SavePasswordUseCase
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.lib.dataloadstate.throwable.unwrapHttpStatusCode
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.username.filterusername.FilterUsernameUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.login
@@ -41,7 +41,7 @@ import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.exception.getUiText
 import org.openeel.shared.util.exception.getUiTextOrGeneric
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class LoginUiState(
     val username: String = "",
@@ -54,12 +54,12 @@ data class LoginUiState(
 
 class LoginViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     getCredentialUseCase: GetCredentialUseCase,
     schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val filterUsernameUseCase: FilterUsernameUseCase,
     private val savePasswordUseCase: SavePasswordUseCase
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: LoginScreen = savedStateHandle.toRoute()
 
@@ -90,7 +90,7 @@ class LoginViewModel(
         }
         viewModelScope.launch {
             try {
-                val school = schoolDirectoryDataSource.schoolDirectoryEntryDataSource
+                val school = schoolDirectoryDataSource.schoolDirectoryEntryResource
                     .getSchoolDirectoryEntryByUrl(route.schoolUrl)
                 val rpId: String? = when (school) {
                     is DataReadyState -> school.data.rpId
@@ -103,7 +103,7 @@ class LoginViewModel(
                     when (val credentialResult = getCredentialUseCase(rpId?:"")) {
                         is GetCredentialUseCase.PasskeyCredentialResult -> {
                             val authResponse = accountManager.login(
-                                RespectPasskeyCredential(
+                                OpenEelPasskeyCredential(
                                     passkeyWebAuthNResponse = credentialResult.passkeyWebAuthNResponse
                                 ),
                                 schoolUrl = route.schoolUrl,
@@ -208,7 +208,7 @@ class LoginViewModel(
 
             try {
                 val authResponse = accountManager.login(
-                    credential = RespectPasswordCredential(username.trim(), password.trim()),
+                    credential = OpenEelPasswordCredential(username.trim(), password.trim()),
                     schoolUrl = route.schoolUrl
                 )
 

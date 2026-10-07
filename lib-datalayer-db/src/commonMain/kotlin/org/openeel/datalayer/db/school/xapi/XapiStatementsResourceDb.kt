@@ -16,7 +16,7 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
 import org.openeel.datalayer.db.school.ext.isAdminOrTeacher
 import org.openeel.datalayer.db.school.ext.toLongPair
@@ -82,7 +82,7 @@ import org.openeel.lib.xapi.resources.XapiStatementsResource.GetStatementParams
 import kotlin.time.Instant
 
 class XapiStatementsResourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val authenticatedUser: AuthenticatedUserPrincipalId,
     private val getAuthenticatedPersonUseCase: GetAuthenticatedPersonUseCase,
     private val schoolUrl: Url,

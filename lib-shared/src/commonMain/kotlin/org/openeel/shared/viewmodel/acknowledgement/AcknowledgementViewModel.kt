@@ -11,7 +11,7 @@ import org.openeel.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
 import org.openeel.shared.domain.onboarding.ShouldShowOnboardingUseCase
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.Onboarding
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class AcknowledgementUiState(
     val isLoading: Boolean = false,
@@ -20,7 +20,7 @@ class AcknowledgementViewModel(
     savedStateHandle: SavedStateHandle,
     private val navigateOnAppStartUseCase: NavigateOnAppStartUseCase,
     private val shouldShowOnboardingUseCase: ShouldShowOnboardingUseCase,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     private val _uiState = MutableStateFlow(AcknowledgementUiState())
 

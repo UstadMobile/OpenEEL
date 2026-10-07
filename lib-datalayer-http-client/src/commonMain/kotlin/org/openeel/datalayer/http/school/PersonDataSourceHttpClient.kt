@@ -28,14 +28,14 @@ import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.adapters.asListDetails
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.composites.PersonListDetails
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.map
 import org.openeel.datalayer.shared.params.GetListCommonParams
 
 class PersonDataSourceHttpClient(
     override val schoolUrl: Url,
-    override val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSource,
+    override val schoolDirectoryEntryResource: SchoolDirectoryEntryResource,
     private val httpClient: HttpClient,
     private val tokenProvider: AuthTokenProvider,
     private val validationHelper: ExtendedDataSourceValidationHelper?,

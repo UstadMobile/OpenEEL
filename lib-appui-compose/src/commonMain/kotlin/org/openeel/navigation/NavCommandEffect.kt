@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import kotlinx.coroutines.flow.Flow
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.RespectComposeNavController
+import org.openeel.shared.navigation.OpenEelComposeNavController
 
 /**
  * The RespectViewModel provides a Flow of NavCommand(s) that can be collected by the navigation
@@ -17,7 +17,7 @@ import org.openeel.shared.navigation.RespectComposeNavController
  */
 @Composable
 fun NavCommandEffect(
-    navHostController: RespectComposeNavController,
+    navHostController: OpenEelComposeNavController,
     navCommandFlow: Flow<NavCommand>,
 ) {
     LaunchedEffect(navHostController) {

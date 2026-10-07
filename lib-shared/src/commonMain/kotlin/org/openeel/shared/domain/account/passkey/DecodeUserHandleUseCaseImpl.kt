@@ -1,7 +1,7 @@
 package org.openeel.shared.domain.account.passkey
 
 import io.ktor.http.Url
-import org.openeel.credentials.passkey.RespectUserHandle
+import org.openeel.credentials.passkey.OpenEelUserHandle
 import org.openeel.credentials.passkey.request.DecodeUserHandleUseCase
 import org.openeel.shared.util.base64StringToByteArray
 import java.nio.ByteBuffer
@@ -12,7 +12,7 @@ class DecodeUserHandleUseCaseImpl : DecodeUserHandleUseCase {
 
     override operator fun invoke(
         encodedHandle: String
-    ): RespectUserHandle {
+    ): OpenEelUserHandle {
         val decodedBytes = encodedHandle.base64StringToByteArray()
         val byteBuffer = ByteBuffer.wrap(decodedBytes)
         byteBuffer.order(ByteOrder.BIG_ENDIAN)
@@ -22,7 +22,7 @@ class DecodeUserHandleUseCaseImpl : DecodeUserHandleUseCase {
         byteBuffer.get(urlBytes)
         val schoolUrl = urlBytes.decodeToString()
 
-        return RespectUserHandle(
+        return OpenEelUserHandle(
             personUidNum = personUid,
             schoolUrl = Url(schoolUrl),
         )

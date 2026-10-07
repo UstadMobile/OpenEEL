@@ -12,7 +12,7 @@ app, Routes in KTOR http server, and domain layer use cases in the lib-shared mo
 [Experience API (xAPI)](https://github.com/adlnet/xAPI-Spec) experience data (e.g. scores, what content has been experienced, etc),
 user profile data, etc. 
 
-`SchoolDirectoryDataSource` is used to provide a directory of schools for users to select when 
+`SchoolDirectoryResource` is used to provide a directory of schools for users to select when 
 logging in.
 
 ## DataSources guidance

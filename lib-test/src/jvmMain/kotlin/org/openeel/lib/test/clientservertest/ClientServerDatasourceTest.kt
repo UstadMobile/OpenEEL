@@ -29,7 +29,7 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
 import org.openeel.datalayer.db.RespectAppDatabase
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.networkvalidation.ExtendedDataSourceValidationHelperImpl
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
 import org.openeel.datalayer.db.school.writequeue.RemoteWriteQueueDbImpl
@@ -80,7 +80,7 @@ class ClientServerDataSourceTestBuilder internal constructor(
         serverDir, stringHasher, adminUserId
     )
 
-    val serverDb: RespectSchoolDatabase
+    val serverDb: SchoolDatabase
         get() = serverSchoolSourceAndDb.first
 
     val serverAdminPerson = Person(
@@ -94,7 +94,7 @@ class ClientServerDataSourceTestBuilder internal constructor(
     )
 
     inner class DataSourceTestClient(
-        val schoolDb: RespectSchoolDatabase,
+        val schoolDb: SchoolDatabase,
         val schoolDataSource: SchoolDataSource,
         val schoolDataSourceLocal: SchoolDataSourceLocal,
         val schoolDataSourceRemote: SchoolDataSource,
@@ -197,7 +197,7 @@ class ClientServerDataSourceTestBuilder internal constructor(
 
 
         runBlocking {
-            clientAppDataSource.schoolDirectoryEntryDataSource.updateLocal(
+            clientAppDataSource.schoolDirectoryEntryResource.updateLocal(
                 listOf(schoolDirectoryEntry)
             )
         }
@@ -213,7 +213,7 @@ class ClientServerDataSourceTestBuilder internal constructor(
         val token = "secret"
         val schoolDataSourceRemote = SchoolDataSourceHttpClient(
             schoolUrl = schoolUrl,
-            schoolDirectoryEntryDataSource = clientAppDataSource.schoolDirectoryEntryDataSource,
+            schoolDirectoryEntryResource = clientAppDataSource.schoolDirectoryEntryResource,
             httpClient = httpClient,
             tokenProvider =  { AuthToken(token, systemTimeInMillis(), 3600) },
             validationHelper = clientValidationHelper,

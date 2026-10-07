@@ -2,7 +2,7 @@ package org.openeel.shared.domain.account.invite
 
 import org.koin.core.component.KoinComponent
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toEntity
 import org.openeel.datalayer.school.model.Invite2
 
@@ -11,7 +11,7 @@ import org.openeel.datalayer.school.model.Invite2
  * as part of setting up a school instance, hence no permission checks.
  */
 class CreateInviteUseCaseDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
 ) : CreateInviteUseCase, KoinComponent {
 

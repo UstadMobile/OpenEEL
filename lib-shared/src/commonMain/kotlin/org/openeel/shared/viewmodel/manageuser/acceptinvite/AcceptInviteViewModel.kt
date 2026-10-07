@@ -11,17 +11,17 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.scope.Scope
-import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
-import org.openeel.datalayer.respect.model.invite.RespectInviteInfo
+import org.openeel.datalayer.respect.model.invite.InviteInfo
 import org.openeel.datalayer.school.ext.isChildUser
 import org.openeel.datalayer.school.model.Person
 import org.openeel.lib.opds.model.LangMap
 import org.openeel.shared.domain.account.invite.GetInviteInfoUseCase
-import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
-import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest.PersonInfo
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest.PersonInfo
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.toUserFriendlyString
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
@@ -35,10 +35,10 @@ import org.openeel.shared.navigation.TermsAndCondition
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class AcceptInviteUiState(
-    val inviteInfo: RespectInviteInfo? = null,
+    val inviteInfo: InviteInfo? = null,
     val errorText: UiText? = null,
     val isTeacherInvite: Boolean = false,
     val schoolName: LangMap? = null,
@@ -53,7 +53,7 @@ class AcceptInviteViewModel(
     savedStateHandle: SavedStateHandle,
     private val getDeviceInfoUseCase: GetDeviceInfoUseCase,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: AcceptInvite = savedStateHandle.toRoute()
 
@@ -98,7 +98,7 @@ class AcceptInviteViewModel(
         }
 
         viewModelScope.launch {
-            val schoolDirEntry = schoolDirectoryDataSource.schoolDirectoryEntryDataSource.getSchoolDirectoryEntryByUrl(
+            val schoolDirEntry = schoolDirectoryDataSource.schoolDirectoryEntryResource.getSchoolDirectoryEntryByUrl(
                 route.schoolUrl
             ).dataOrNull() ?: return@launch
 
@@ -111,13 +111,13 @@ class AcceptInviteViewModel(
     fun onClickNext() {
         val invite = uiState.value.inviteInfo?.invite ?: return
 
-        val inviteRedeemRequest = RespectRedeemInviteRequest(
+        val inviteRedeemRequest = RedeemInviteRequest(
             code = invite.code,
             accountPersonInfo = PersonInfo(),
-            account = RespectRedeemInviteRequest.Account(
+            account = RedeemInviteRequest.Account(
                 guid = schoolPrimaryKeyGenerator.primaryKeyGenerator.nextId(Person.TABLE_ID).toString(),
                 username = "",
-                credential = RespectPasswordCredential(username = "", password = ""),
+                credential = OpenEelPasswordCredential(username = "", password = ""),
             ),
             deviceName = getDeviceInfoUseCase().toUserFriendlyString(),
             deviceInfo = getDeviceInfoUseCase(),

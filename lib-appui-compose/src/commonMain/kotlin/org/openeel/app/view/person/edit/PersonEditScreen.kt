@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectExposedDropDownMenuField
+import org.openeel.app.components.OpenEelExposedDropDownMenuField
 import org.openeel.app.components.OpenEelGenderExposedDropDownMenuField
 import org.openeel.app.components.OpenEelLocalDateField
 import org.openeel.app.components.OpenEelPersonAvatar
@@ -129,7 +129,7 @@ fun PersonEditScreen(
 
         if(uiState.showRoleDropdown) {
             val roleEnumVal = person?.roles?.first()?.roleEnum ?: PersonRoleEnum.STUDENT
-            RespectExposedDropDownMenuField(
+            OpenEelExposedDropDownMenuField(
                 value = roleEnumVal,
                 modifier = Modifier.defaultItemPadding().fillMaxWidth().testTag("role"),
                 label = {

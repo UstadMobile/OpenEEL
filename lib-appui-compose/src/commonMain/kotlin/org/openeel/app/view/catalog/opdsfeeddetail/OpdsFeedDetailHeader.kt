@@ -24,7 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.app.components.OpenEelQuickActionButton
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.lib.dataloadstate.ext.dataOrNull
@@ -63,7 +63,7 @@ fun OpdsFeedDetailHeader(
             verticalAlignment = Alignment.Top,
         ) {
             feedIconLink?.also {
-                RespectAsyncImage(
+                OpenEelAsyncImage(
                     uri = it.href,
                     contentDescription = "",
                     contentScale = ContentScale.Crop,

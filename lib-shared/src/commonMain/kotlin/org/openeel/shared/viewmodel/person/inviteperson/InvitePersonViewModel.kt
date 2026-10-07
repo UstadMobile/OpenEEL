@@ -36,7 +36,7 @@ import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.libutil.ext.CHAR_POOL_NUMBERS
 import org.openeel.libutil.ext.randomString
 import org.openeel.libutil.util.time.systemTimeInMillis
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.clipboard.SetClipboardStringUseCase
 import org.openeel.shared.domain.createlink.CreateInviteLinkUseCase
 import org.openeel.shared.generated.resources.Res
@@ -44,7 +44,7 @@ import org.openeel.shared.generated.resources.invitation
 import org.openeel.shared.generated.resources.invite_person
 import org.openeel.shared.navigation.InvitePerson
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.minutes
@@ -77,12 +77,12 @@ data class InvitePersonUiState(
 
 class InvitePersonViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val setClipboardStringUseCase: SetClipboardStringUseCase,
     private val smsLinkLauncher: LaunchSendSmsUseCase,
     private val shareLinkLauncher: LaunchShareLinkUseCase,
     private val launchSendEmailUseCase: LaunchSendEmailUseCase
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: InvitePerson = savedStateHandle.toRoute()
 

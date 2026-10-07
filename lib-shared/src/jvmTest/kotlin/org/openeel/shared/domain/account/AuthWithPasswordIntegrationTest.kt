@@ -7,8 +7,8 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.mockito.kotlin.mock
-import org.openeel.credentials.passkey.RespectPasswordCredential
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toEntities
 import org.openeel.datalayer.school.model.Person
 import org.openeel.libxxhash.XXStringHasher
@@ -37,7 +37,7 @@ class AuthWithPasswordIntegrationTest {
     @Rule
     val temporaryFolder = TemporaryFolder()
 
-    private lateinit var schoolDb: RespectSchoolDatabase
+    private lateinit var schoolDb: SchoolDatabase
 
     private lateinit var xxHash: XXStringHasher
 
@@ -63,7 +63,7 @@ class AuthWithPasswordIntegrationTest {
     @BeforeTest
     fun setup() {
         val dbDir = temporaryFolder.newFolder("dbdir")
-        schoolDb = Room.databaseBuilder<RespectSchoolDatabase>(
+        schoolDb = Room.databaseBuilder<SchoolDatabase>(
             File(dbDir, "realm-test.db").absolutePath
         ).setDriver(BundledSQLiteDriver())
             .build()
@@ -110,7 +110,7 @@ class AuthWithPasswordIntegrationTest {
             )
 
             val authResponse = getTokenUseCase(
-                RespectPasswordCredential(defaultTestPerson.username!!, password)
+                OpenEelPasswordCredential(defaultTestPerson.username!!, password)
             )
 
             val userIdPrincipal = validateAuthUseCase(
@@ -145,7 +145,7 @@ class AuthWithPasswordIntegrationTest {
                 )
 
                 getTokenUseCase(
-                    RespectPasswordCredential(defaultTestPerson.username!!, "wrong")
+                    OpenEelPasswordCredential(defaultTestPerson.username!!, "wrong")
                 )
             }catch(e: Throwable) {
                 exception = e

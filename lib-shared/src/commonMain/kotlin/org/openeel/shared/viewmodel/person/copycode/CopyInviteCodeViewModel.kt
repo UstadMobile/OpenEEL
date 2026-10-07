@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.scope.Scope
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.clipboard.SetClipboardStringUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.code
 import org.openeel.shared.navigation.CopyCode
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 
 data class CopyInviteCodeUiState(
@@ -22,9 +22,9 @@ data class CopyInviteCodeUiState(
 
 class CopyInviteCodeViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val setClipboardStringUseCase: SetClipboardStringUseCase
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
     private val route: CopyCode = savedStateHandle.toRoute()

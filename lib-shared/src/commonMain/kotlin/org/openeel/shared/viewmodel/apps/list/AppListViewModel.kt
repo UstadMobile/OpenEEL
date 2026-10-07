@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.select_app
 import org.openeel.shared.navigation.AppsDetail
@@ -25,7 +25,7 @@ import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.datalayer.school.SchoolConfigSettingDataSource
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.findSelfLinks
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.resolve
@@ -36,8 +36,8 @@ data class AppListUiState(
 
 class AppListViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
     override val scope: Scope = accountManager.requireActiveAccountScope()
     private val _uiState = MutableStateFlow(AppListUiState())
     val uiState = _uiState.asStateFlow()

@@ -22,7 +22,7 @@ import org.openeel.app.components.OpenEelLocalDateField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.datalayer.school.model.PersonGenderEnum
-import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.required
 import org.openeel.shared.viewmodel.manageuser.profile.SignupUiState
@@ -89,7 +89,7 @@ fun SignupScreen(
         OpenEelLocalDateField(
             modifier = Modifier.fillMaxWidth().testTag("dateOfBirth"),
             value = uiState.personInfo.dateOfBirth.takeIf {
-                it != RespectRedeemInviteRequest.DATE_OF_BIRTH_EPOCH
+                it != RedeemInviteRequest.DATE_OF_BIRTH_EPOCH
             },
             onValueChange = {onDateOfBirthChanged(it) },
             isError = uiState.dateOfBirthError!=null,

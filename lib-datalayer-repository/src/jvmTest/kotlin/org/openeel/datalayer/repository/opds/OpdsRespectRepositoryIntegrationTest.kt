@@ -28,7 +28,7 @@ import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.opds.OpdsFeedDataSourceDb
 import org.openeel.datalayer.db.school.opds.OpdsPublicationDataSourceDb
 import org.openeel.lib.dataloadstate.ext.dataOrNull
@@ -58,7 +58,7 @@ class OpdsRespectRepositoryIntegrationTest {
 
     data class OpdsRepositoryIntegrationTestContext(
         val port: Int,
-        val db: RespectSchoolDatabase,
+        val db: SchoolDatabase,
         val json: Json,
         val okHttpClient: OkHttpClient,
         val httpClient: HttpClient,
@@ -87,7 +87,7 @@ class OpdsRespectRepositoryIntegrationTest {
 
         try {
             val dbFile = temporaryFolder.newFile("respect-school.db")
-            val db = Room.databaseBuilder<RespectSchoolDatabase>(dbFile.absolutePath)
+            val db = Room.databaseBuilder<SchoolDatabase>(dbFile.absolutePath)
                 .setDriver(BundledSQLiteDriver())
                 .build()
 
@@ -106,7 +106,7 @@ class OpdsRespectRepositoryIntegrationTest {
 
             val xxStringHasher = XXStringHasherCommonJvm()
             val numberMapper = XXHashUidNumberMapper(xxStringHasher)
-            val primaryKeyGenerator = PrimaryKeyGenerator(RespectSchoolDatabase.TABLE_IDS)
+            val primaryKeyGenerator = PrimaryKeyGenerator(SchoolDatabase.TABLE_IDS)
 
             val localDataSource = OpdsFeedDataSourceDb(
                 json = json,
@@ -126,7 +126,7 @@ class OpdsRespectRepositoryIntegrationTest {
             )
 
             val opdsPubLocal = OpdsPublicationDataSourceDb(
-                respectSchoolDatabase = db,
+                schoolDatabase = db,
                 json = json,
                 uidNumberMapper = numberMapper,
                 primaryKeyGenerator = primaryKeyGenerator,

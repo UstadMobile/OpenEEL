@@ -1,11 +1,11 @@
 package org.openeel.shared.domain.account.passkey
 
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.entities.PersonPasskeyEntity
 import org.openeel.libxxhash.XXStringHasher
 
 class GetActivePersonPasskeysDbImpl(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val xxStringHasher: XXStringHasher
 ) : GetActivePersonPasskeysUseCase {
 

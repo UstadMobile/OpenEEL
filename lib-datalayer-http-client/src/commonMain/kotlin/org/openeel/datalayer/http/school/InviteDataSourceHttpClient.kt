@@ -25,13 +25,13 @@ import org.openeel.datalayer.http.shared.paging.OffsetLimitHttpPagingSource
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
 import org.openeel.datalayer.school.InviteDataSource
 import org.openeel.datalayer.school.model.Invite2
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.params.GetListCommonParams
 
 class InviteDataSourceHttpClient(
     override val schoolUrl: Url,
-    override val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSource,
+    override val schoolDirectoryEntryResource: SchoolDirectoryEntryResource,
     private val httpClient: HttpClient,
     private val tokenProvider: AuthTokenProvider,
     private val validationHelper: ExtendedDataSourceValidationHelper?,

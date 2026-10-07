@@ -11,7 +11,7 @@ import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
-import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.SchoolDirectory
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_directory
 import org.openeel.shared.generated.resources.error_link_message
@@ -19,12 +19,12 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class SchoolDirectoryEditUIState(
     val linkUrl: String = "",
     val errorMessage: UiText? = null,
-    val schoolDirectory: DataLoadState<RespectSchoolDirectory> = DataLoadingState(),
+    val schoolDirectory: DataLoadState<SchoolDirectory> = DataLoadingState(),
 ) {
     val fieldsEnabled: Boolean
         get() = schoolDirectory.isReadyAndSettled()
@@ -33,7 +33,7 @@ data class SchoolDirectoryEditUIState(
 class SchoolDirectoryEditViewModel(
     savedStateHandle: SavedStateHandle,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
 
     private val _uiState = MutableStateFlow(SchoolDirectoryEditUIState())
@@ -66,12 +66,12 @@ class SchoolDirectoryEditViewModel(
             try {
                 val schoolBaseUrl = Url(link)
 
-                val directory = RespectSchoolDirectory(
+                val directory = SchoolDirectory(
                     invitePrefix = "",
                     baseUrl = schoolBaseUrl,
                 )
 
-                schoolDirectoryDataSource.schoolDirectoryDataSource.insertOrIgnore(directory)
+                schoolDirectoryDataSource.schoolDirectoryResource.insertOrIgnore(directory)
 
                 _navCommandFlow.tryEmit(
                     NavCommand.Navigate(

@@ -26,7 +26,7 @@ import org.koin.logger.slf4jLogger
 import org.openeel.libutil.ext.randomString
 import org.openeel.server.routes.AUTH_CONFIG_DIRECTORY_ADMIN_BASIC
 import org.openeel.server.routes.AuthRoute
-import org.openeel.server.routes.RespectSchoolDirectoryRoute
+import org.openeel.server.routes.SchoolDirectoryRoute
 import org.openeel.server.routes.getRespectSchoolJson
 import java.io.File
 import java.util.Properties
@@ -266,7 +266,7 @@ fun Application.module() {
             }
             route("directory") {
                 val schoolDirectoryDataSource: SchoolDirectoryDataSource by inject()
-                RespectSchoolDirectoryRoute(
+                SchoolDirectoryRoute(
                     schoolDirectoryDataSource = schoolDirectoryDataSource,
                     filterByHost = environment.config.schoolDirsUseVirtualHost()
                 )

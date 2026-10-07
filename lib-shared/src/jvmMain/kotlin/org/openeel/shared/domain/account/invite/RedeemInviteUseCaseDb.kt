@@ -6,15 +6,15 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.openeel.credentials.passkey.CreatePasskeyUseCase
-import org.openeel.credentials.passkey.RespectPasskeyCredential
-import org.openeel.credentials.passkey.RespectPasswordCredential
-import org.openeel.credentials.passkey.RespectQRBadgeCredential
-import org.openeel.credentials.passkey.RespectUserHandle
+import org.openeel.credentials.passkey.OpenEelPasskeyCredential
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
+import org.openeel.credentials.passkey.OpenEelQRBadgeCredential
+import org.openeel.credentials.passkey.OpenEelUserHandle
 import org.openeel.credentials.passkey.request.GetPasskeyProviderInfoUseCase
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toEntity
 import org.openeel.datalayer.db.school.adapters.toModel
 import org.openeel.datalayer.school.adapters.toPersonPasskey
@@ -51,7 +51,7 @@ import kotlin.time.Clock
  * name, gender, username, password/passkey, etc).
  */
 class RedeemInviteUseCaseDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
     private val schoolUrl: Url,
     private val schoolPrimaryKeyGenerator: SchoolPrimaryKeyGenerator,
@@ -64,7 +64,7 @@ class RedeemInviteUseCaseDb(
 ) : RedeemInviteUseCase, KoinComponent {
 
     override suspend fun invoke(
-        redeemRequest: RespectRedeemInviteRequest
+        redeemRequest: RedeemInviteRequest
     ): AuthResponse {
         val inviteFromDb = schoolDb.getInviteEntityDao().getInviteByInviteCode(
             redeemRequest.code
@@ -139,7 +139,7 @@ class RedeemInviteUseCaseDb(
         val credential = redeemRequest.account.credential
 
         val authResponse = when (credential) {
-            is RespectPasswordCredential -> {
+            is OpenEelPasswordCredential -> {
                 schoolDataSourceVal.personPasswordDataSource.store(
                     listOf(
                         encryptPersonPasswordUseCase(
@@ -154,9 +154,9 @@ class RedeemInviteUseCaseDb(
                 getTokenAndUserProfileUseCase(credential)
             }
 
-            is RespectPasskeyCredential -> {
+            is OpenEelPasskeyCredential -> {
                 val passkeyCreatedResult = CreatePasskeyUseCase.PasskeyCreatedResult(
-                    respectUserHandle = RespectUserHandle(
+                    openEelUserHandle = OpenEelUserHandle(
                         personUidNum = uidNumberMapper(accountGuid),
                         schoolUrl = schoolUrl
                     ),
@@ -197,7 +197,7 @@ class RedeemInviteUseCaseDb(
                 )
             }
 
-            is RespectQRBadgeCredential -> {
+            is OpenEelQRBadgeCredential -> {
                 throw IllegalArgumentException("Using a QR code badge to redeem invite for new account not yet supported")
             }
         }

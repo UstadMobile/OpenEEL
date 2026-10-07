@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.openeel.datalayer.SchoolDirectoryDataSource
-import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.SchoolDirectory
 import org.openeel.libutil.ext.appendEndpointSegments
 import org.openeel.shared.domain.appversioninfo.GetAppVersionInfoUseCase
 import org.openeel.shared.domain.school.LaunchCustomTabUseCase
@@ -23,12 +23,12 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.SchoolDirectoryEdit
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 
 data class SchoolDirectoryListUiState(
-    val schoolDirectory: List<RespectSchoolDirectory> = emptyList(),
+    val schoolDirectory: List<SchoolDirectory> = emptyList(),
     val mode: SchoolDirectoryMode = SchoolDirectoryMode.MANAGE
 )
 
@@ -38,7 +38,7 @@ class SchoolDirectoryListViewModel(
     private val launchCustomTabUseCase: LaunchCustomTabUseCase,
     private val getAppVersionInfoUseCase: GetAppVersionInfoUseCase,
     private val snackBarDispatcher: SnackBarDispatcher,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     private val route: SchoolDirectoryList = savedStateHandle.toRoute()
     private val _uiState = MutableStateFlow(SchoolDirectoryListUiState(mode = route.mode))
@@ -67,7 +67,7 @@ class SchoolDirectoryListViewModel(
         }
 
         viewModelScope.launch {
-            schoolDirectoryDataSource.schoolDirectoryDataSource.allDirectoriesAsFlow().collect { directories ->
+            schoolDirectoryDataSource.schoolDirectoryResource.allDirectoriesAsFlow().collect { directories ->
                 _uiState.update { prev ->
                     prev.copy(schoolDirectory = directories)
                 }
@@ -84,13 +84,13 @@ class SchoolDirectoryListViewModel(
         )
     }
 
-    fun onDeleteDirectory(directory: RespectSchoolDirectory) {
+    fun onDeleteDirectory(directory: SchoolDirectory) {
         viewModelScope.launch {
-            schoolDirectoryDataSource.schoolDirectoryDataSource.deleteDirectory(directory)
+            schoolDirectoryDataSource.schoolDirectoryResource.deleteDirectory(directory)
         }
     }
 
-    fun onSelectDirectory(directory: RespectSchoolDirectory) {
+    fun onSelectDirectory(directory: SchoolDirectory) {
         when (route.mode) {
             SchoolDirectoryMode.SELECT -> {
                 viewModelScope.launch {

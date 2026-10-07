@@ -18,7 +18,7 @@ class RedeemInviteUseCaseClient(
     private val httpClient: HttpClient,
 ) : RedeemInviteUseCase {
 
-    override suspend fun invoke(redeemRequest: RespectRedeemInviteRequest): AuthResponse {
+    override suspend fun invoke(redeemRequest: RedeemInviteRequest): AuthResponse {
         return httpClient.post(
             schoolUrl.appendEndpointSegments("api/school/respect/invite/redeem")
         ) {

@@ -29,14 +29,13 @@ import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
 import org.openeel.libutil.util.time.localDateInCurrentTimeZone
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUseCase
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.ext.whenSubscribed
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.first_name
 import org.openeel.shared.generated.resources.last_name
-import org.openeel.shared.generated.resources.all
 import org.openeel.shared.generated.resources.active
 import org.openeel.shared.generated.resources.edit
 import org.openeel.shared.navigation.ClazzEdit
@@ -61,11 +60,12 @@ import org.openeel.datalayer.school.writequeue.EnqueueRunPullSyncUseCase
 import org.openeel.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
 import org.openeel.shared.domain.permissions.CheckSchoolPermissionsUseCase
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.clazz.detail.ClazzDetailViewModel.Companion.ALL
+import org.openeel.shared.generated.resources.all
 import kotlin.getValue
 import kotlin.time.Clock
 
@@ -103,10 +103,10 @@ data class ClazzDetailUiState(
 
 class ClazzDetailViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val resultReturner: NavResultReturner,
     private val snackBarDispatcher: SnackBarDispatcher,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

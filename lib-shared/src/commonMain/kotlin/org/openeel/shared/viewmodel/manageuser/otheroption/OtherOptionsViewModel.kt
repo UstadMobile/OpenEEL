@@ -21,7 +21,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 
 data class OtherOptionsUiState(
@@ -35,7 +35,7 @@ class OtherOptionsViewModel(
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val getDevModeEnabledUseCase: GetDevModeEnabledUseCase,
     private val resolveUrlToNavCommandUseCase: ResolveUrlToNavCommandUseCase,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     private val _uiState = MutableStateFlow(OtherOptionsUiState())
     val uiState = _uiState.asStateFlow()
@@ -84,7 +84,7 @@ class OtherOptionsViewModel(
                  }
 
                  val schoolUrl = url.normalizeForEndpoint()
-                 val schoolEntry = this@OtherOptionsViewModel.schoolDirectoryDataSource.schoolDirectoryEntryDataSource
+                 val schoolEntry = this@OtherOptionsViewModel.schoolDirectoryDataSource.schoolDirectoryEntryResource
                      .getSchoolDirectoryEntryByUrl(schoolUrl).dataOrNull()
 
                  if(schoolEntry == null)

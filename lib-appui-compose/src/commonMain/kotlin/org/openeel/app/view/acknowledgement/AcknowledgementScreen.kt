@@ -21,7 +21,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.app.AppIcon
 import org.openeel.shared.viewmodel.acknowledgement.AcknowledgementUiState
 import org.openeel.shared.viewmodel.acknowledgement.AcknowledgementViewModel
-import org.openeel.images.RespectImage
+import org.openeel.images.OpenEelImage
 import org.openeel.images.respectImagePainter
 import org.openeel.shared.generated.resources.*
 
@@ -55,7 +55,7 @@ fun AcknowledgementScreen(
             )
             Spacer(Modifier.height(8.dp))
             Image(
-                painter =  respectImagePainter(RespectImage.SPIX_LOGO),
+                painter =  respectImagePainter(OpenEelImage.SPIX_LOGO),
                 contentDescription = "Supported by",
                 modifier = Modifier
                     .size(120.dp)

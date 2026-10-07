@@ -5,7 +5,7 @@ import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
 import org.openeel.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCase
 import org.openeel.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
@@ -32,7 +32,7 @@ import kotlin.time.Duration.Companion.milliseconds
  *    user clicks the get started button.
  */
 class NavigateOnAppStartUseCase(
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val initDeepLinkUriProvider: InitDeepLinkUriProviderUseCase,
     val getDeferredDeepLinkUseCase: GetDeferredDeepLinkUseCase?,
     private val customDeepLinkToUrlUseCase: CustomDeepLinkToUrlUseCase,

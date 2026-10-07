@@ -14,7 +14,7 @@ import org.openeel.lib.dataloadstate.DataErrorResult
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.libutil.ext.appendEndpointSegments
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.sharelink.CreatePlaylistShareLinkUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.enter_link
@@ -25,7 +25,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class EnterLinkUiState(
     val linkUrl: String = "",
@@ -34,8 +34,8 @@ data class EnterLinkUiState(
 
 class EnterLinkViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

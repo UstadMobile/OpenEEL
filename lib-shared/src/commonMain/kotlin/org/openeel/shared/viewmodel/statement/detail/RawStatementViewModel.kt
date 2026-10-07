@@ -19,12 +19,12 @@ import org.openeel.lib.dataloadstate.ext.firstOrNotLoaded
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.lib.xapi.resources.XapiStatementsResource
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.raw_statement
 import org.openeel.shared.navigation.RawStatement
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class RawStatementUiState(
     val statement: DataLoadState<XapiStatement> = DataLoadingState(),
@@ -33,8 +33,8 @@ data class RawStatementUiState(
 
 class RawStatementViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope = accountManager.requireActiveAccountScope()
 

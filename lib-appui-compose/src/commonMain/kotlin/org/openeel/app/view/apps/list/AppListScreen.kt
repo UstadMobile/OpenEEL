@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_from_link
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.app.components.langMapString
 import org.openeel.shared.viewmodel.apps.list.AppListUiState
 import org.openeel.shared.viewmodel.apps.list.AppListViewModel
@@ -84,7 +84,7 @@ fun AppListScreen(
                     },
                 leadingContent = {
                     app.findIcons().firstOrNull()?.also { iconLink ->
-                        RespectAsyncImage(
+                        OpenEelAsyncImage(
                             uri = iconLink.href,
                             contentDescription = "",
                             contentScale = ContentScale.Crop,

@@ -1,0 +1,32 @@
+package org.openeel.shared.util.di
+
+import io.ktor.http.Url
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+
+/**
+ * Data class that handles Koin scope id for Respect account scope.
+ *
+ * @property schoolUrl the SchoolUrl as per SchoolDirectoryEntry.self
+ * @property accountPrincipalId the authenticated user principal id as per Person.guid
+ */
+data class UserAccountScopeId(
+    val schoolUrl: Url,
+    val accountPrincipalId: AuthenticatedUserPrincipalId,
+) {
+
+    val scopeId = "a:${accountPrincipalId.guid}@${schoolUrl}"
+
+    companion object {
+
+        fun parse(scopeId: String): UserAccountScopeId {
+            return scopeId.substringAfter(":").let {
+                val atIndex = it.lastIndexOf('@')
+                UserAccountScopeId(
+                    accountPrincipalId = AuthenticatedUserPrincipalId(it.substring(0, atIndex)),
+                    schoolUrl = Url(it.substring(atIndex + 1)),
+                )
+            }
+        }
+
+    }
+}

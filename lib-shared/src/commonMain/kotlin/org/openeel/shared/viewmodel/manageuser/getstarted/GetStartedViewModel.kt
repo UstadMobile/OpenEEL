@@ -12,11 +12,11 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.SchoolDirectoryDataSource
-import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.SchoolDirectory
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResource
 import org.openeel.shared.domain.getwarnings.GetWarningsUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.lets_get_started
@@ -30,7 +30,7 @@ import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.LaunchDebouncer
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
 import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryMode
 
@@ -40,8 +40,8 @@ data class GetStartedUiState(
     val errorText: UiText? = null,
     val showButtons: Boolean = true,
     val errorMessage: UiText? = null,
-    val directoryOptions: List<RespectSchoolDirectory> = emptyList(),
-    val selectedDirectory: RespectSchoolDirectory? = null,
+    val directoryOptions: List<SchoolDirectory> = emptyList(),
+    val selectedDirectory: SchoolDirectory? = null,
     val suggestions: List<SchoolDirectoryEntry> = emptyList(),
     val warning: UiText? = null,
     val showAddMySchool: Boolean = false
@@ -52,7 +52,7 @@ class GetStartedViewModel(
     savedStateHandle: SavedStateHandle,
     val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val getWarningsUseCase: GetWarningsUseCase? = null,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     private val _uiState = MutableStateFlow(GetStartedUiState())
     val uiState = _uiState.asStateFlow()
@@ -71,7 +71,7 @@ class GetStartedViewModel(
         }
 
         viewModelScope.launch {
-            schoolDirectoryDataSource.schoolDirectoryDataSource.allDirectoriesAsFlow().collect { directories ->
+            schoolDirectoryDataSource.schoolDirectoryResource.allDirectoriesAsFlow().collect { directories ->
                 _uiState.update {
                     it.copy(
                         directoryOptions = directories,
@@ -93,9 +93,9 @@ class GetStartedViewModel(
         debouncer.launch(RESPECT_REALMS) {
             val nameIsNotBlank = name.isNotBlank()
             val flow = if(nameIsNotBlank) {
-                schoolDirectoryDataSource.schoolDirectoryEntryDataSource.listAsFlow(
+                schoolDirectoryDataSource.schoolDirectoryEntryResource.listAsFlow(
                     loadParams = DataLoadParams(),
-                    listParams = SchoolDirectoryEntryDataSource.GetListParams(
+                    listParams = SchoolDirectoryEntryResource.GetListParams(
                         name = name,
                         directoryUrl = _uiState.value.selectedDirectory?.baseUrl,
                     )
@@ -154,7 +154,7 @@ class GetStartedViewModel(
         _navCommandFlow.tryEmit(NavCommand.Navigate(OtherOption))
     }
 
-    fun onDirectorySelected(directory: RespectSchoolDirectory) {
+    fun onDirectorySelected(directory: SchoolDirectory) {
         _uiState.update { it.copy(selectedDirectory = directory) }
     }
 

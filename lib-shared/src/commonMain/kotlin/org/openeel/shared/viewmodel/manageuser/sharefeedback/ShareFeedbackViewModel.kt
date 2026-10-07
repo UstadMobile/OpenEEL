@@ -11,14 +11,14 @@ import org.openeel.shared.domain.sharelink.LaunchSendEmailUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.send_feedback
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 class ShareFeedbackViewModel(
     savedStateHandle: SavedStateHandle,
     private val launchSendWhatsAppUseCase: LaunchSendWhatsAppUseCase,
     private val launchSendEmailUseCase: LaunchSendEmailUseCase,
     private val openExternalLinkUseCase: OpenExternalLinkUseCase,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     init {
         _appUiState.update {

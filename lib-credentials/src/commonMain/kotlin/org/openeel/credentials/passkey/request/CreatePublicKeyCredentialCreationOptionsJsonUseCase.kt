@@ -2,7 +2,7 @@ package org.openeel.credentials.passkey.request
 
 import io.ktor.http.Url
 import io.ktor.util.encodeBase64
-import org.openeel.credentials.passkey.RespectUserHandle
+import org.openeel.credentials.passkey.OpenEelUserHandle
 import org.openeel.credentials.passkey.model.AuthenticatorSelectionCriteria
 import org.openeel.credentials.passkey.model.PublicKeyCredentialCreationOptionsJSON
 import org.openeel.credentials.passkey.model.PublicKeyCredentialParameters
@@ -39,8 +39,8 @@ class CreatePublicKeyCredentialCreationOptionsJsonUseCase(
     ): PublicKeyCredentialCreationOptionsJSON {
         val challenge = randomString(16) //TODO note: this should really take place on the server side
 
-        val encodedUserHandle = encodeUserHandleUseCase(
-            RespectUserHandle(request.personUidNum, schoolUrl)
+        val encodedOpenEelUserHandle = encodeUserHandleUseCase(
+            OpenEelUserHandle(request.personUidNum, schoolUrl)
         )
 
         return PublicKeyCredentialCreationOptionsJSON(
@@ -50,7 +50,7 @@ class CreatePublicKeyCredentialCreationOptionsJsonUseCase(
                 icon = null,
             ),
             user = PublicKeyCredentialUserEntityJSON(
-                id = encodedUserHandle,
+                id = encodedOpenEelUserHandle,
                 name = request.username,
                 displayName = request.username,
             ),

@@ -19,15 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.rememberCountryFlagEmoji
-import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.shared.domain.account.UserAccount
 import org.openeel.datalayer.db.school.ext.fullName
-import org.openeel.shared.domain.account.RespectSessionAndPerson
+import org.openeel.shared.domain.account.UserSessionAndPerson
 
 
 @Composable
 fun AccountListItem(
-    account: RespectSessionAndPerson,
-    onClickAccount: ((RespectAccount) -> Unit)?,
+    account: UserSessionAndPerson,
+    onClickAccount: ((UserAccount) -> Unit)?,
     extras: @Composable () -> Unit = { },
 ){
    ListItem(

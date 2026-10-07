@@ -10,7 +10,7 @@ import kotlinx.serialization.Transient
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.school.model.EnrollmentRoleEnum
 import org.openeel.datalayer.school.model.Person
-import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
 import org.openeel.lib.xapi.model.XapiActor
@@ -389,7 +389,7 @@ class EnterPasswordSignup private constructor(
 ) : RespectAppRoute {
 
     @Transient
-    val respectRedeemInviteRequest: RespectRedeemInviteRequest =
+    val redeemInviteRequest: RedeemInviteRequest =
         Json.decodeFromString(inviteRedeemRequestStr)
 
     @Transient
@@ -398,7 +398,7 @@ class EnterPasswordSignup private constructor(
     companion object {
         fun create(
             schoolUrl: Url,
-            inviteRequest: RespectRedeemInviteRequest,
+            inviteRequest: RedeemInviteRequest,
         ): EnterPasswordSignup {
             return EnterPasswordSignup(
                 schoolUrl.toString(),
@@ -415,7 +415,7 @@ class OtherOptionsSignup private constructor(
 ) : RespectAppRoute {
 
     @Transient
-    val respectRedeemInviteRequest: RespectRedeemInviteRequest =
+    val redeemInviteRequest: RedeemInviteRequest =
         Json.decodeFromString(inviteRedeemRequestStr)
 
     @Transient
@@ -424,7 +424,7 @@ class OtherOptionsSignup private constructor(
     companion object {
         fun create(
             schoolUrl: Url,
-            inviteRequest: RespectRedeemInviteRequest,
+            inviteRequest: RedeemInviteRequest,
         ): OtherOptionsSignup {
             val respectRedeemInviteRequest = Json.encodeToString(inviteRequest)
             return OtherOptionsSignup(
@@ -469,7 +469,7 @@ class SignupScreen(
 ) : RespectAppRoute {
 
     @Transient
-    val respectRedeemInviteRequest: RespectRedeemInviteRequest =
+    val redeemInviteRequest: RedeemInviteRequest =
         Json.decodeFromString(inviteRedeemRequestStr)
 
     @Transient
@@ -484,7 +484,7 @@ class SignupScreen(
     companion object {
         fun create(
             schoolUrl: Url,
-            inviteRequest: RespectRedeemInviteRequest,
+            inviteRequest: RedeemInviteRequest,
             signupMode: SignupScreenModeEnum = SignupScreenModeEnum.STANDARD,
             parentPerson: Person? = null,
         ): SignupScreen {
@@ -505,7 +505,7 @@ class TermsAndCondition(
 ) : RespectAppRoute {
 
     @Transient
-    val respectRedeemInviteRequest: RespectRedeemInviteRequest =
+    val redeemInviteRequest: RedeemInviteRequest =
         Json.decodeFromString(inviteRedeemRequestStr)
 
     @Transient
@@ -514,7 +514,7 @@ class TermsAndCondition(
     companion object {
         fun create(
             schoolUrl: Url,
-            inviteRequest: RespectRedeemInviteRequest
+            inviteRequest: RedeemInviteRequest
         ): TermsAndCondition {
             return TermsAndCondition(
                 schoolUrlStr = schoolUrl.toString(),
@@ -537,7 +537,7 @@ class CreateAccount(
 ) : RespectAppRoute {
 
     @Transient
-    val respectRedeemInviteRequest: RespectRedeemInviteRequest = Json.decodeFromString(
+    val redeemInviteRequest: RedeemInviteRequest = Json.decodeFromString(
         inviteRedeemRequestStr
     )
 
@@ -547,7 +547,7 @@ class CreateAccount(
     companion object {
         fun create(
             schoolUrl: Url,
-            inviteRequest: RespectRedeemInviteRequest
+            inviteRequest: RedeemInviteRequest
         ): CreateAccount {
             return CreateAccount(
                 schoolUrlStr = schoolUrl.toString(),

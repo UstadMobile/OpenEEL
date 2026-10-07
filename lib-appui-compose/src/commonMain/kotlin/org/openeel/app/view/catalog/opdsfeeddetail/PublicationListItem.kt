@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.app.components.langMapString
 import org.openeel.lib.opds.model.Publication
 import org.openeel.shared.generated.resources.Res
@@ -53,7 +53,7 @@ fun PublicationListItem(
                 contentAlignment = Alignment.Center
             ) {
                 iconUrl.also { icon ->
-                    RespectAsyncImage(
+                    OpenEelAsyncImage(
                         uri = icon,
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
