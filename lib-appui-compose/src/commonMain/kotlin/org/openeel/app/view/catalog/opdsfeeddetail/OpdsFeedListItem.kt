@@ -38,6 +38,7 @@ fun FeedListItem(
     isSelected: Boolean,
     onClick: () -> Unit,
     onLongPress: () -> Unit,
+    trailingContent: (@Composable () -> Unit)? = null,
 ) {
     ListItem(
         modifier = Modifier
@@ -87,7 +88,7 @@ fun FeedListItem(
                 )
             }
         } else {
-            null
+            trailingContent
         },
     )
 }

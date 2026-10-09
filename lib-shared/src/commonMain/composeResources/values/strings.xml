@@ -52,6 +52,8 @@
     <string name="msg_see_bookmark">Bookmark a lesson or a collection to see it here.</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="remove_bookmark">Bookmark removed</string>
+    <string name="unpin">Unpin</string>
+    <string name="unpinned_1_collection">Unpinned 1 Collection</string>
     <string name="undo">Undo</string>
     <string name="related_lessons">Related Lessons</string>
     <string name="duration">Duration</string>

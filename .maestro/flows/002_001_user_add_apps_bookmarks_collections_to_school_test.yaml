@@ -1,0 +1,406 @@
+appId: world.respect.app
+onFlowStart:
+  - clearState: world.respect.app
+  - runScript:
+      file: "scripts/school_init.js"
+      env:
+        TESTCONTROLLER_URL: ${TESTCONTROLLER_URL}
+        SCHOOL_ADMIN_PASSWORD: ${SCHOOL_ADMIN_PASSWORD}
+        DIR_ADMIN_AUTH_HEADER: ${DIR_ADMIN_AUTH_HEADER}
+        SCHOOL_URL: ${SCHOOL_URL}
+        SCHOOL_NAME: ${SCHOOL_NAME}
+        URL_SUBSTITUTION: ${URL_SUBSTITUTION}
+        NAME: "002_001_user_add_apps_bookmarks_collections_to_school_test.yaml"
+
+onFlowComplete:
+  - runScript:
+      file: "scripts/teardown.js"
+---
+- runFlow: "subflows/school_admin_login_flow.yaml"
+- assertVisible: "Home"
+- assertVisible:
+    id: "app_title"
+    text: "Home"
+- tapOn:
+    id: "nav_home"
+- tapOn:
+    id: "floating_action_button"
+- tapOn: "Add from Link"
+- tapOn: "Link*"
+- inputText: ${output.TEST_APP_URL}
+- tapOn: "Next"
+- assertVisible:
+    id: "app_title"
+    text: "App detail"
+- assertVisible: "Example Web App"
+# verify App got added to Apps section
+- tapOn: "Add to school apps"
+- tapOn:
+    id: "nav_home"
+- assertVisible:
+    id: "app_title"
+    text: "Home"
+- assertVisible: "Example Web App"
+- tapOn: "Example Web App"
+- assertVisible: "Lessons"
+- tapOn: "Lessons"
+- tapOn: "Examples"
+- tapOn: "Lesson 001"
+- assertVisible: "Lesson 001"
+- assertVisible: "Download"
+- tapOn: "Open"
+- extendedWaitUntil:
+    visible: "Lesson 001"
+    timeout: 10000
+- assertVisible: "Hello World Lesson"
+- tapOn: "Close"
+- setAirplaneMode: disabled
+- tapOn:
+    id: "nav_home"
+- tapOn: "Example Web App"
+- tapOn: "Lessons"
+- tapOn: "Examples"
+- tapOn: "Assignment Result Statement Demo"
+- assertVisible:
+    id: "publication_title"
+    text: "Assignment Result Statement Demo"
+- tapOn: "Download"
+- extendedWaitUntil:
+    visible: "Downloaded"
+    timeout: 10000
+# Set device on Offline mode
+- setAirplaneMode: enabled
+- assertVisible: "Downloaded"
+- stopApp
+- launchApp
+- assertVisible:
+    id: "nav_home"
+- tapOn: "Example Web App"
+- tapOn: "Lessons"
+- tapOn: "Examples"
+- tapOn: "Assignment Result Statement Demo"
+- assertVisible:
+    id: "publication_title"
+    text: "Assignment Result Statement Demo"
+- assertVisible: "Downloaded"
+- tapOn: "Open"
+- extendedWaitUntil:
+    visible: "Assignment Result Statement Demo"
+    timeout: 10000
+- assertVisible: "Assignment Result.*"
+- tapOn: "Score"
+- inputText: 1
+- retry:
+    maxRetries: 3
+    commands:
+      - tapOn: "Send statement"
+      - assertVisible: "Statement sent.*"
+- tapOn: "Close"
+- setAirplaneMode: disabled # Set device on Online mode
+- tapOn:
+    id: "nav_home"
+- tapOn: "Apps"
+- assertVisible: "Collections"
+- assertVisible: "Bookmarks"
+- assertVisible: "Example Web App"
+- tapOn: "Bookmarks"
+- assertVisible: "No bookmarks yet"
+- assertVisible: "Bookmark a lesson or a Collection to see it here."
+- tapOn: "Apps"
+- tapOn: "Example Web App"
+- tapOn: "Examples"
+- tapOn: "Lesson 001"
+- assertVisible: "Lesson 001"
+- tapOn: "Open"
+- extendedWaitUntil:
+    visible: "Lesson 001"
+    timeout: 1000
+- assertVisible: "Hello World Lesson"
+- tapOn: "Close"
+- assertVisible: "Download"
+- assertVisible: "Assign"
+- assertVisible: "License:.*"
+- assertVisible: "Subject:.*"
+- tapOn: "Bookmark"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Apps"
+- tapOn: "Example Web App"
+- tapOn: "Examples"
+- tapOn: "Statement Maker"
+- tapOn: "Bookmark"
+- tapOn:
+    id: "nav_home"
+- assertVisible:
+    id: "app_title"
+    text: "Home"
+- tapOn: "Bookmarks"
+- assertVisible: "Lesson 001"
+- assertVisible: "Statement Maker"
+- tapOn:                       #Remove bookmark
+    text: "Bookmark"
+    index: 0
+- assertNotVisible: "Lesson 001"
+- assertVisible: "Statement Maker"
+
+- runFlow:
+    file: "subflows/admin_add_class.yaml"
+    env:
+      CLASSNAME: "TestClass"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Collections"
+- assertVisible: "No collections yet"
+- assertVisible: "Add a collection by clicking on the + collection"
+- tapOn:
+    id: "ExpandableFab"
+- assertVisible: "Add new"
+- assertVisible: "Add from a link"
+- tapOn: "Add new"
+- assertVisible:
+    id: "app_title"
+    text: "Add collection"
+- tapOn: "Save" # To test mandatory fields
+- assertVisible: "Required field"  #Title field is mandatory
+- tapOn: "Title*"
+- inputText: "Collections for Grade 1"
+- tapOn: "Description"
+- inputText: "Test list"
+#- tapOn: "Subject"    # Needs to be implemented in the app
+#- tapOn: "English"
+#- tapOn: "Grade"
+#- tapOn: "Grade 1"
+- tapOn: "Section"
+- assertVisible: "Choose section type"
+- assertVisible:
+    text: "Collections section"
+    index: 0
+- assertVisible: "Links to other collections."
+- assertVisible:
+    text: "Learning item section"
+    index: 1
+- assertVisible: "Links direct to items e.g. lessons, assessments, videos, etc"
+- tapOn:
+    text: "Collections section"
+    index: 0
+- assertVisible: "Collections section"
+- tapOn: "Collections section"
+- runFlow:
+    file: "subflows/erase_text.yaml"
+    env:
+      TEXT: "Collections section"
+- inputText: "Day 1-Collections section"
+- hideKeyboard
+- tapOn: "Link to collection here"
+- assertVisible:
+    id: "app_title"
+    text: "Select collection(s)"
+- assertVisible: "Apps"
+- tapOn: "Example Web App"
+- tapOn: "Examples"
+- tapOn: "Select this collection"
+- assertVisible:
+    id: "app_title"
+    text: "Add Collection"
+- assertVisible: "Examples"
+- tapOn: "Save"
+- assertVisible:
+    id: "app_title"
+    text: "Collections for Grade 1"
+- assertVisible: "Day 1-Collections section"
+- assertVisible: "Examples"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Collections"
+- tapOn: "More Options"
+- tapOn: "Unpin"
+- tapOn: "Undo"
+- tapOn: "Collections for Grade 1"
+- tapOn:
+    id: "floating_action_button"    # Edit button
+- assertVisible:
+    id: "app_title"
+    text: "Edit Collection"
+- tapOn: "Section"
+- tapOn:
+    text: "Learning item section"
+    index: 1
+- assertVisible: "Learning item section"
+- tapOn: "Learning item here"
+- assertVisible: "Browse"
+- assertVisible: "Add from RESPECT apps, lessons, collections"
+- assertVisible: "Use link"
+- assertVisible: "Add from an external link"
+- tapOn: "Browse"
+- assertVisible:
+    id: "app_title"
+    text: "Select unit(s)"
+- tapOn: "Bookmarks"
+- tapOn: "Statement Maker"
+- assertVisible:
+    id: "app_title"
+    text: "Edit Collection"
+- assertVisible: "Day 1-Collections section"
+- assertVisible: "Learning item section"
+- tapOn: "Save"
+- assertVisible:
+    id: "app_title"
+    text: "Collections for Grade 1"
+- assertVisible: "Day 1-Collections section"
+- tapOn: "Examples"
+- assertVisible: "Statement Maker"
+- back
+- tapOn:
+    id: "expand_collapse_icon"    #Collapse - Collection section day 1
+    index: 0
+- assertNotVisible: "Examples"
+- assertVisible: "Learning item section"
+- assertVisible: "Statement Maker"
+- tapOn:
+    id: "floating_action_button"    # Edit button
+- assertVisible:
+    id: "app_title"
+    text: "Edit Collection"
+- tapOn: "Learning item section"
+- runFlow:
+    file: "subflows/erase_text.yaml"
+    env:
+      TEXT: "Learning item section"
+- inputText: "Day 2-Learning item section"
+- hideKeyboard
+- tapOn: "Learning item here"
+- tapOn: "Use Link"
+- assertVisible:
+    id: "app_title"
+    text: "External link"
+- tapOn:
+    id: "external_link_url_field"
+- inputText: ${output.SCHOOL_URL}static-resources/respect-ds/case_valid/examples/assignable-unit-1/index.html
+- tapOn: "Next"
+- assertVisible: "Assignment Result Statement Demo"
+- tapOn: "Done"
+- assertVisible: "Assignment Result Statement Demo"
+- tapOn: "Save"
+- assertVisible:
+    id: "app_title"
+    text: "Collections for Grade 1"
+- assertVisible: "Day 1-Collections section"
+- assertVisible: "Examples"
+- assertVisible: "Day 2-Learning item section"
+- assertVisible: "Statement Maker"
+- assertVisible: "Assignment Result Statement Demo"
+- assertVisible:
+    text: "Remix Collection"
+    index: 1
+- assertVisible: "Assign"
+- tapOn: "Assignment Result Statement Demo"
+- assertVisible: "Assignment Result Statement Demo"
+- assertVisible: "Demo Launchable App"
+- tapOn: "Open"
+- extendedWaitUntil:
+    visible: "Lesson 001"
+    timeout: 6000
+- assertVisible: "Hello World Lesson"
+- tapOn: "Close"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Collections"
+- assertVisible: "Collections for Grade 1"
+- assertVisible: "2 sections, 3 items"
+- assertVisible: "Created by: Admin"
+
+# Assigning lessons in a Collection to an assignment
+- tapOn:
+    id: "header_assign_btn"
+- assertVisible:
+    id: "app_title"
+    text: "Add assignment"
+- tapOn: "Assignment title*"
+- inputText: "Homework 1"
+- tapOn: "Assign to"
+- tapOn: "TestClass"
+- tapOn: "Due date"
+- runScript:
+    file: "scripts/setDate.js"
+- inputText: ${output.futureDate}
+- tapOn: "Time"
+- runScript:
+    file: "scripts/setDate.js"
+- inputText: ${output.currentTime}
+- runFlow:
+    when:
+      notVisible: "Task"
+    commands:
+      - hideKeyboard
+- assertVisible: "Task"
+- assertVisible: "Lesson 001"
+- assertVisible: "Assignment Result Statement Demo"
+- tapOn: "Save"
+- assertVisible:
+    id: "app_title"
+    text: "Homework 1"
+- assertVisible: "Lesson 001"
+- assertVisible: "Assignment Result Statement Demo"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Collections"
+- tapOn: "Collections for Grade 1"
+- tapOn:
+    id: "Remix_btn"
+- assertVisible:
+    id: "app_title"
+    text: "Edit collection"
+- tapOn: "Remix the Collection - Grade 1"
+- runFlow:
+    file: "subflows/erase_text.yaml"
+    env:
+      TEXT: "Remix the Collection - Grade 1"
+- inputText: "Collections for Term 1"
+- hideKeyboard
+- assertVisible: "Collection section day 1"
+- assertVisible: "Learning item section day 2"
+- tapOn: "Save"
+- assertVisible:
+    id: "app_title"
+    text: "Collections for Term 1"
+
+
+# Adding Collection to an assignment
+- tapOn: "Assignments"
+- tapOn:
+    id: "floating_action_button"   #  +Assignment button
+- assertVisible:
+    id: "app_title"
+    text: "Add assignment"
+- tapOn: "Assignment title*"
+- inputText: "Homework 2"
+- tapOn: "Assign to"
+- tapOn: "TestClass"
+- tapOn: "Due date"
+- runScript:
+    file: "scripts/setDate.js"
+- inputText: ${output.futureDate}
+- tapOn: "Time"
+- runScript:
+    file: "scripts/setDate.js"
+- inputText: ${output.currentTime}
+- tapOn: "Task"
+- assertVisible:
+    id: "app_title"
+- tapOn: "Collections"
+- tapOn: "Collections for Grade 1"
+- assertVisible:
+    id: "app_title"
+    text: "Collections for Grade 1"
+- tapOn: "Examples"
+- tapOn: "Statement Maker"
+- assertVisible:
+    id: "app_title"
+    text: "Add assignment"
+- tapOn: "Save"
+- assertVisible:
+    id: "app_title"
+    text: "Homework 2"
+- tapOn: "Assignments"
+- assertVisible: "Homework 1"
+- assertVisible: "Homework 2"

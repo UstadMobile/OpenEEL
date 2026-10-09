@@ -42,6 +42,12 @@ data class XapiVerb(
          */
         const val ID_LISTED_APP = "https://id.openeel.org/verb/listed-app"
 
+        /**
+         * As per https://id.openeel.org/verb/pin-collection , see also
+         * README_COLLECTIONS_LISTING_RECIPE.md
+         */
+        const val ID_PIN_COLLECTION = "https://id.openeel.org/verb/pin-collection"
+
     }
 
 }

@@ -29,6 +29,25 @@ fun XapiActivityDefinition.webPubManifestAsUrlOrNull(): Url? {
 }
 
 /**
+ * Get the OPDS collection link (xAPI Activity Profile Resource url) as a string via the
+ * extension if present, as per README_COLLECTIONS_LISTING_RECIPE.md
+ */
+fun XapiActivityDefinition.opdsCollectionLinkOrNull(): String? {
+    val jsonPrimitive = extensions?.get(
+        OpenEelXapiConstants.ACTIVITY_EXTENSION_OPDS_COLLECTION_LINK
+    ) as? JsonPrimitive
+    return jsonPrimitive?.contentOrNull
+}
+
+/**
+ * Get the OPDS collection link as a Url via the extension if present and a valid url, as per
+ * README_COLLECTIONS_LISTING_RECIPE.md
+ */
+fun XapiActivityDefinition.opdsCollectionLinkAsUrlOrNull(): Url? {
+    return opdsCollectionLinkOrNull()?.runCatching { Url(this) }?.getOrNull()
+}
+
+/**
  * Get the deadline as a string via the extension if present
  */
 fun XapiActivityDefinition.extensionDeadlineAsInstantOrNull(): Instant? {

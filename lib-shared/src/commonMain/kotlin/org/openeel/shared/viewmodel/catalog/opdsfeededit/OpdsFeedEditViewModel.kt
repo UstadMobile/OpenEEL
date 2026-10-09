@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -503,7 +504,10 @@ class OpdsFeedEditViewModel(
         }
 
         viewModelScope.launch {
-            saveOpdsFeedUseCase(feed)
+            val actor = accountManager.selectedAccountAndPersonFlow.first()?.xapiAgent
+                ?: throw IllegalStateException("onClickSave: no active account, cannot save")
+
+            saveOpdsFeedUseCase(feed, actor)
 
             _navCommandFlow.tryEmit(
                 NavCommand.Navigate(
