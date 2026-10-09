@@ -1,7 +1,7 @@
 package org.openeel.app.userdirectory.model
 
 import kotlinx.serialization.json.JsonObject
-import world.respect.datalayer.school.model.PersonGenderEnum
+import org.openeel.datalayer.school.model.PersonGenderEnum
 import java.time.LocalDate
 
 class Person2(

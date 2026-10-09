@@ -1,0 +1,11 @@
+package org.openeel.credentials.passkey.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class AuthenticatorSelectionCriteria(
+    val authenticatorAttachment: String,
+    val residentKey: String,
+    val requireResidentKey: Boolean = false,
+    val userVerification: String = "preferred"
+)

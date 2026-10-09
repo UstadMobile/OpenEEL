@@ -1,0 +1,210 @@
+package org.openeel.datalayer.db.school.xapi
+
+import androidx.room.Transactor
+import androidx.room.useReaderConnection
+import androidx.room.useWriterConnection
+import io.ktor.http.HttpHeaders
+import io.ktor.http.headersOf
+import io.ktor.http.toHttpDate
+import io.ktor.util.sha1
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.Json
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.xapi.adapters.toXapiActivityProfileDocumentEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiActivityProfileDocumentShaEntity
+import org.openeel.datalayer.db.shared.InstantAsTimestampString
+import org.openeel.datalayer.db.shared.toModel
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.ext.hasIfNotModifiedHeaders
+import org.openeel.lib.dataloadstate.ext.isStillValid
+import org.openeel.lib.dataloadstate.ext.requestEtagAndLastModified
+import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.ext.isJson
+import org.openeel.lib.xapi.ext.mergeJsonDoc
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.xapi.resources.local.XapiActivityProfileResourceLocal
+import kotlin.uuid.Uuid
+
+class XapiActivityProfileResourceDb(
+    private val schoolDb: RespectSchoolDatabase,
+    private val json: Json,
+) : XapiActivityProfileResourceLocal {
+
+    override suspend fun updateLocal(
+        params: XapiActivityProfileResource.SingleDocumentParams,
+        document: XapiDocument
+    ) {
+        schoolDb.useWriterConnection { con ->
+            con.withTransaction(Transactor.SQLiteTransactionType.IMMEDIATE) {
+                val existing = schoolDb.getActivityProfileDocumentDao().findByActivityIriAndProfileId(
+                    activityIri = params.activityId,
+                    profileId = params.profileId,
+                )
+                val entity = document.toXapiActivityProfileDocumentEntity(
+                    params = params,
+                    id = existing?.document?.id,
+                )
+
+                schoolDb.getActivityProfileDocumentDao().upsert(entity)
+                schoolDb.getActivityProfileDocumentShaDao().upsert(
+                    XapiActivityProfileDocumentShaEntity(
+                        docId = entity.id,
+                        sha1digest = sha1(entity.contents).toHexString(),
+                    )
+                )
+            }
+        }
+
+    }
+
+    override suspend fun getMultipleDocuments(
+        params: XapiActivityProfileResource.MultiDocParams,
+        dataLoadParams: DataLoadParams
+    ): DataLoadState<List<String>> {
+        val profileIds = schoolDb.getActivityProfileDocumentDao().getProfileIds(
+            activityIri = params.activityId,
+            since = params.since?.let { InstantAsTimestampString(it) },
+        )
+        return DataReadyState(profileIds)
+    }
+
+    override suspend fun get(
+        params: XapiActivityProfileResource.SingleDocumentParams,
+        dataLoadParams: DataLoadParams
+    ): DataLoadState<XapiDocument> {
+        return schoolDb.useReaderConnection { con ->
+            con.withTransaction(Transactor.SQLiteTransactionType.DEFERRED) {
+                val etagAndLastModifiedInDb = schoolDb.takeIf {
+                    dataLoadParams.requestHeaders.hasIfNotModifiedHeaders()
+                }?.getActivityProfileDocumentDao()
+                    ?.findETagAndLastModifiedByActivityIriAndProfileId(
+                        activityIri = params.activityId,
+                        profileId = params.profileId
+                    )?.toModel()
+
+                if(etagAndLastModifiedInDb != null &&
+                    dataLoadParams.requestHeaders.requestEtagAndLastModified().isStillValid(
+                        other = etagAndLastModifiedInDb
+                    )
+                ) {
+                    return@withTransaction NoDataLoadedState.notModified()
+                }
+
+                val entity = schoolDb.getActivityProfileDocumentDao().findByActivityIriAndProfileId(
+                    activityIri = params.activityId,
+                    profileId = params.profileId,
+                )
+
+                if (entity != null) {
+                    DataReadyState(
+                        data = entity.document,
+                        metaInfo = DataLoadMetaInfo(
+                            lastModified = entity.document.updated.timestamp,
+                            headers = headersOf(
+                                HttpHeaders.LastModified to listOf(entity.document.updated.toHttpDate()),
+                                HttpHeaders.ETag to listOf(entity.sha1)
+                            )
+                        )
+                    )
+                } else {
+                    NoDataLoadedState.notFound()
+                }
+            }
+        }
+    }
+
+    override fun getAsFlow(
+        params: XapiActivityProfileResource.SingleDocumentParams,
+        dataLoadParams: DataLoadParams
+    ): Flow<DataLoadState<XapiDocument>> {
+        return schoolDb.invalidationTracker.createFlow(
+            "activity_profile_document", emitInitialState = true
+        ).map {
+            get(params, dataLoadParams)
+        }
+    }
+
+    override suspend fun post(
+        params: XapiActivityProfileResource.SingleDocumentParams,
+        document: XapiDocument
+    ) {
+        schoolDb.useWriterConnection { con ->
+            con.withTransaction(Transactor.SQLiteTransactionType.IMMEDIATE) {
+                if(!document.isJson())
+                    throw XapiException(400, "Cannot post non-JSON document")
+
+                val existing = schoolDb.getActivityProfileDocumentDao().findByActivityIriAndProfileId(
+                    activityIri = params.activityId,
+                    profileId = params.profileId,
+                )
+                val existingDoc = existing?.document
+
+                if(existingDoc?.isJson() == false)
+                    throw XapiException(400, "Cannot post when there is an existing non-JSON document")
+
+                val entity = (existingDoc?.mergeJsonDoc(document, json) ?: document)
+                    .toXapiActivityProfileDocumentEntity(
+                        params = params,
+                        id = existingDoc?.id ?: Uuid.random().toString()
+                    )
+
+                schoolDb.getActivityProfileDocumentDao().upsert(entity)
+                schoolDb.getActivityProfileDocumentShaDao().upsert(
+                    XapiActivityProfileDocumentShaEntity(
+                        docId = entity.id,
+                        sha1digest = sha1(entity.contents).toHexString(),
+                    )
+                )
+            }
+        }
+    }
+
+    override suspend fun put(
+        params: XapiActivityProfileResource.SingleDocumentParams,
+        document: XapiDocument
+    ) {
+        schoolDb.useWriterConnection { con ->
+            con.withTransaction(Transactor.SQLiteTransactionType.IMMEDIATE) {
+                val existing = schoolDb.getActivityProfileDocumentDao().findByActivityIriAndProfileId(
+                    activityIri = params.activityId,
+                    profileId = params.profileId,
+                )
+                val entity = document.toXapiActivityProfileDocumentEntity(
+                    params = params,
+                    id = existing?.document?.id,
+                )
+                schoolDb.getActivityProfileDocumentDao().upsert(entity)
+                schoolDb.getActivityProfileDocumentShaDao().upsert(
+                    XapiActivityProfileDocumentShaEntity(
+                        docId = entity.id,
+                        sha1digest = sha1(entity.contents).toHexString(),
+                    )
+                )
+            }
+        }
+    }
+
+    override suspend fun delete(params: XapiActivityProfileResource.SingleDocumentParams) {
+        schoolDb.useWriterConnection { con ->
+            con.withTransaction(Transactor.SQLiteTransactionType.IMMEDIATE) {
+                val existing = schoolDb.getActivityProfileDocumentDao().findByActivityIriAndProfileId(
+                    activityIri = params.activityId,
+                    profileId = params.profileId,
+                )
+                existing?.document?.id?.let {
+                    schoolDb.getActivityProfileDocumentShaDao().deleteByDocId(it)
+                }
+                schoolDb.getActivityProfileDocumentDao().deleteByActivityIriAndProfileId(
+                    activityIri = params.activityId,
+                    profileId = params.profileId,
+                )
+            }
+        }
+    }
+}

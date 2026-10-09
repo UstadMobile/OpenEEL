@@ -1,0 +1,62 @@
+package org.openeel.shared.domain.account.gettokenanduser
+
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.plugins.retry
+import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.Url
+import io.ktor.http.appendPathSegments
+import io.ktor.http.contentType
+import io.ktor.http.isSuccess
+import io.ktor.http.takeFrom
+import org.openeel.credentials.passkey.RespectCredential
+import org.openeel.shared.domain.account.AuthResponse
+import org.openeel.datalayer.school.model.DeviceInfo
+import org.openeel.lib.dataloadstate.throwable.ForbiddenException
+import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
+
+class GetTokenAndUserProfileWithCredentialUseCaseClient(
+    private val schoolUrl: Url,
+    private val httpClient: HttpClient,
+    private val getDeviceInfoUseCase: GetDeviceInfoUseCase,
+): GetTokenAndUserProfileWithCredentialUseCase {
+
+    override suspend fun invoke(
+        credential: RespectCredential,
+        deviceInfo: DeviceInfo?,
+    ): AuthResponse {
+        val response = httpClient.post {
+            retry {
+                retryOnExceptionOrServerErrors(maxRetries = DEFAULT_MAX_RETRIES)
+            }
+
+            url {
+                takeFrom(schoolUrl)
+                appendPathSegments("api/school/respect/auth/auth-with-password")
+            }
+
+            header(
+                key = DeviceInfo.HEADER_NAME,
+                value = (deviceInfo ?: getDeviceInfoUseCase()).toHeaderLine(),
+            )
+
+            contentType(ContentType.Application.Json)
+            setBody(credential)
+        }
+
+        return when {
+            response.status.isSuccess() -> response.body()
+            response.status == HttpStatusCode.Forbidden -> throw ForbiddenException()
+            else -> throw IllegalStateException(response.status.description)
+        }
+    }
+
+    companion object {
+
+        const val DEFAULT_MAX_RETRIES = 3
+    }
+}

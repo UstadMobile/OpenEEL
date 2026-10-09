@@ -45,7 +45,7 @@ plugins {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "world.respect.app.generated.resources"
+    packageOfResClass = "org.openeel.app.generated.resources"
 }
 
 kotlin {
@@ -55,7 +55,7 @@ kotlin {
     }
 
     android {
-        namespace = "world.respect.appcompose"
+        namespace = "org.openeel.appcompose"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -154,11 +154,11 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "world.respect.MainKt"
+        mainClass = "org.openeel.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "world.respect.app"
+            packageName = "org.openeel.app"
             packageVersion = "1.0.0"
         }
     }

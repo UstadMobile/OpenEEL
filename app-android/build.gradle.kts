@@ -117,13 +117,13 @@ android {
         }
     }
 
-    namespace = "world.respect.app"
+    namespace = "org.openeel.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "world.respect.app"
+        applicationId = "org.openeel.app"
         //as per https://github.com/openid/AppAuth-Android#capturing-the-authorization-redirect
-        manifestPlaceholders["appAuthRedirectScheme"] = "world.respect.oauth"
+        manifestPlaceholders["appAuthRedirectScheme"] = "org.openeel.oauth"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 132
