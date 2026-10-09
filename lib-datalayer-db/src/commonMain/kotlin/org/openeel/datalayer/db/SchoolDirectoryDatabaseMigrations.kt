@@ -75,9 +75,9 @@ val APP_MIGRATION_10_11 = object: Migration(10, 11) {
     }
 }
 
-fun RoomDatabase.Builder<RespectAppDatabase>.addCommonMigrations(
+fun RoomDatabase.Builder<SchoolDirectoryDatabase>.addCommonMigrations(
 
-): RoomDatabase.Builder<RespectAppDatabase> {
+): RoomDatabase.Builder<SchoolDirectoryDatabase> {
     return this.addMigrations(
         APP_MIGRATION_2_3,
         APP_MIGRATION_3_4,

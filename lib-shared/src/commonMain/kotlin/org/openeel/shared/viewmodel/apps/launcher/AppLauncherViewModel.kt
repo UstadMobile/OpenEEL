@@ -30,8 +30,8 @@ import org.openeel.shared.navigation.AppsDetail
 import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.Settings
-import org.openeel.shared.navigation.RespectAppLauncher
-import org.openeel.shared.navigation.RespectAppList
+import org.openeel.shared.navigation.OpenEelAppLauncher
+import org.openeel.shared.navigation.OpenEelAppList
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.datalayer.db.school.ext.isAdmin
@@ -79,7 +79,7 @@ class AppLauncherViewModel(
 
     val uiState = _uiState.asStateFlow()
 
-    private val route: RespectAppLauncher = savedStateHandle.toRoute()
+    private val route: OpenEelAppLauncher = savedStateHandle.toRoute()
 
     private val schoolDataSource: SchoolDataSource by inject()
 
@@ -96,7 +96,7 @@ class AppLauncherViewModel(
                     onClick = {
                         _navCommandFlow.tryEmit(
                             NavCommand.Navigate(
-                                RespectAppList
+                                OpenEelAppList
                             )
                         )
                     }

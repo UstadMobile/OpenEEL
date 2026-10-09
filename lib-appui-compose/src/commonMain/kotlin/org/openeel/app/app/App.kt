@@ -206,7 +206,7 @@ fun App(
             Scaffold(
                 topBar = {
                     if (!appUiStateVal.hideAppBar) {
-                        RespectAppBar(
+                        OpenEelAppBar(
                             compactHeader = (widthClass != SizeClass.EXPANDED),
                             appUiState = appUiStateVal,
                             navController = navController,

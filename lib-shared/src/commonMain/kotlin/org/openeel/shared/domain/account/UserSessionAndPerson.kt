@@ -7,9 +7,9 @@ import org.openeel.lib.xapi.model.XapiAgent
 
 /**
  *
- * @property session the session that includes the RespectAccount and active person uid
+ * @property session the session that includes the [UserAccount] and active person uid
  * @property person the person that is the active person for the session
- * @property relatedPersons where the RespectAccount's related personUid has related personUids as
+ * @property relatedPersons where the [UserAccount]'s related personUid has related personUids as
  *           per Person.relatedPersonUids (eg a parents' account), then the relatedPersons are all
  *           those returned by PersonDataSource.list (common.guid = session.account.userGuid,
  *           includeRelated=true).

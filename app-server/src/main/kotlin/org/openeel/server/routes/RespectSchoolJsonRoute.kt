@@ -8,7 +8,7 @@ import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
 import org.openeel.server.util.ext.virtualHost
 
 /**
- * Serve the RespectRealm as a JSON according to the virtual host
+ * Serve the Respect school as a JSON according to the virtual host
  *
  * @param path typically "respect-school.json"
  */

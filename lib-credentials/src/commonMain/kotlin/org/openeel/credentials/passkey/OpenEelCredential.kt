@@ -11,7 +11,7 @@ import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
 /**
  * Sealed class that represents a password, passkey, or QR Code Badge credential
  */
-@Serializable(with = RespectCredentialSerializer::class)
+@Serializable(with = OpenEelCredentialSerializer::class)
 sealed class OpenEelCredential
 
 @Serializable
@@ -41,7 +41,7 @@ data class OpenEelQRBadgeCredential(
     val qrCodeUrl: Url
 ): OpenEelCredential()
 
-object RespectCredentialSerializer: JsonContentPolymorphicSerializer<OpenEelCredential>(
+object OpenEelCredentialSerializer: JsonContentPolymorphicSerializer<OpenEelCredential>(
     OpenEelCredential::class
 ) {
     override fun selectDeserializer(element: JsonElement): DeserializationStrategy<OpenEelCredential> {

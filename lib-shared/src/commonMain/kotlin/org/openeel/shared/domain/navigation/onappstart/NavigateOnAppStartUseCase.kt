@@ -22,7 +22,7 @@ import kotlin.time.Duration.Companion.milliseconds
  * - If there is any deep link to use (Deferred Deep Link or cold start deep link) then go there
  *   using resolveUrlToNavCommandUseCase
  * - If user already has account signed in: Go to AssignmentList if it is a simplified child mode
- *   account, otherwise go to RespectAppLauncher
+ *   account, otherwise go to AppLauncher
  *
  * This is used in two places:
  *

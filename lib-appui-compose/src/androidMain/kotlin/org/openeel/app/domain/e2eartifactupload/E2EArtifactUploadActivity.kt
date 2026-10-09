@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.lifecycle.lifecycleScope
-import com.ustadmobile.libuicompose.theme.RespectAppTheme
+import com.ustadmobile.libuicompose.theme.OpenEelAppTheme
 import io.ktor.http.Url
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,7 +45,7 @@ class E2EArtifactUploadActivity : AppCompatActivity() {
 
         setContent {
             val uiStateVal by _uiState.collectAsState()
-            RespectAppTheme {
+            OpenEelAppTheme {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()

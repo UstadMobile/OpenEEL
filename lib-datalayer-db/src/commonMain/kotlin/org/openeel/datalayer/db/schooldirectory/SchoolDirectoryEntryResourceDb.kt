@@ -10,7 +10,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
-import org.openeel.datalayer.db.RespectAppDatabase
+import org.openeel.datalayer.db.SchoolDirectoryDatabase
 import org.openeel.datalayer.db.schooldirectory.adapters.toEntities
 import org.openeel.datalayer.db.schooldirectory.adapters.toModel
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
@@ -19,7 +19,7 @@ import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResourceLocal
 import org.openeel.libxxhash.XXStringHasher
 
 class SchoolDirectoryEntryResourceDb(
-    private val respectAppDb: RespectAppDatabase,
+    private val respectAppDb: SchoolDirectoryDatabase,
     private val json: Json,
     private val xxStringHasher: XXStringHasher,
 ) : SchoolDirectoryEntryResourceLocal{

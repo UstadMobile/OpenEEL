@@ -88,7 +88,7 @@ fun Application.module() {
     val absoluteDataDir = environment.config.absoluteDataDir()
     absoluteDataDir.takeIf { !it.exists() }?.mkdirs()
 
-    Napier.d("Respect-server: init : Data dir=$absoluteDataDir")
+    Napier.d("app-server: init : Data dir=$absoluteDataDir")
 
     environment.config.filePropertyOrNull(SERVER_CONFIG_PID_FILE)?.also { pidFile ->
         pidFile.parentFile?.takeIf { !it.exists() }?.mkdirs()

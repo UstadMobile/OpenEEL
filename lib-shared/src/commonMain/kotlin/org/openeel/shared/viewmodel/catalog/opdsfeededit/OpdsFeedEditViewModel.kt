@@ -35,7 +35,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.NavResultReturner
 import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.OpdsFeedEdit
-import org.openeel.shared.navigation.RespectAppLauncher
+import org.openeel.shared.navigation.OpenEelAppLauncher
 import org.openeel.shared.navigation.RouteResultDest
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
@@ -447,7 +447,7 @@ class OpdsFeedEditViewModel(
 
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                destination = RespectAppLauncher.create(
+                destination = OpenEelAppLauncher.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
                         resultKey = KEY_LEARNING_UNIT,
@@ -478,7 +478,7 @@ class OpdsFeedEditViewModel(
         pendingAddItemGroupIndex = sectionIndex
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                destination = RespectAppLauncher.create(
+                destination = OpenEelAppLauncher.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
                         resultKey = KEY_PLAYLIST,

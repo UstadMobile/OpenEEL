@@ -34,8 +34,8 @@ import org.openeel.datalayer.db.shared.SharedConverters
     version = 11,
 )
 @TypeConverters(SharedConverters::class)
-@ConstructedBy(RespectAppDatabaseConstructor::class)
-abstract class RespectAppDatabase : RoomDatabase() {
+@ConstructedBy(SchoolDirectoryDatabaseConstructor::class)
+abstract class SchoolDirectoryDatabase : RoomDatabase() {
 
     abstract fun getSchoolDirectoryEntryEntityDao(): SchoolDirectoryEntryEntityDao
 
@@ -55,6 +55,6 @@ abstract class RespectAppDatabase : RoomDatabase() {
 @Suppress("NO_ACTUAL_FOR_EXPECT", "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
     "KotlinNoActualForExpect", "RedundantSuppression"
 )
-expect object RespectAppDatabaseConstructor : RoomDatabaseConstructor<RespectAppDatabase> {
-    override fun initialize(): RespectAppDatabase
+expect object SchoolDirectoryDatabaseConstructor : RoomDatabaseConstructor<SchoolDirectoryDatabase> {
+    override fun initialize(): SchoolDirectoryDatabase
 }

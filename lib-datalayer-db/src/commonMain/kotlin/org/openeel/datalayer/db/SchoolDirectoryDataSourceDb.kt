@@ -9,20 +9,20 @@ import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResourceLocal
 import org.openeel.libxxhash.XXStringHasher
 
 class SchoolDirectoryDataSourceDb(
-    private val respectAppDatabase: RespectAppDatabase,
+    private val schoolDirectoryDatabase: SchoolDirectoryDatabase,
     private val json: Json,
     private val xxStringHasher: XXStringHasher,
 ): SchoolDirectoryDataSourceLocal {
 
     override val schoolDirectoryResource: SchoolDirectoryResourceLocal by lazy {
         SchoolDirectoryResourceDb(
-            respectAppDatabase, xxStringHasher
+            schoolDirectoryDatabase, xxStringHasher
         )
     }
 
     override val schoolDirectoryEntryResource: SchoolDirectoryEntryResourceLocal by lazy {
         SchoolDirectoryEntryResourceDb(
-            respectAppDatabase, json, xxStringHasher
+            schoolDirectoryDatabase, json, xxStringHasher
         )
     }
 }

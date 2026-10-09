@@ -1,6 +1,6 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 
-val defaultAppList = System.getenv("RESPECT_DEFAULT_APPLIST") ?: "https://respect.directory/respect-ds/base.json"
+val defaultAppList = System.getenv("DEFAULT_APPLIST") ?: "https://respect.directory/respect-ds/base.json"
 
 plugins {
     alias(libs.plugins.kotlinJvm)
@@ -30,9 +30,9 @@ kotlin {
 
 buildConfig {
     packageName("org.openeel.server")
-    className("RespectServerBuildConfig")
+    className("OpenEelServerBuildConfig")
 
-    buildConfigField<String>("RESPECT_DEFAULT_APPLIST", defaultAppList)
+    buildConfigField<String>("DEFAULT_APPLIST", defaultAppList)
 }
 
 dependencies {

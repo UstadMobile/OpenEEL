@@ -219,7 +219,7 @@ class AppAccountManager(
             DataLoadParams(), SchoolPermissionGrantDataSource.GetListParams()
         ).dataOrNull() ?: throw IllegalStateException("Could not load permission grants")
 
-        //now we can get the datalayer by creating a RespectAccount scope
+        //now we can get the datalayer by creating a UserAccount scope
         val mkDirUseCase: MakeSchoolPathDirUseCase? = schoolScope.getOrNull()
         mkDirUseCase?.invoke()
 

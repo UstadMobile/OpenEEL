@@ -7,8 +7,8 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.OpenEelComposeNavController
 
 /**
- * The RespectViewModel provides a Flow of NavCommand(s) that can be collected by the navigation
- * system whilst the component is active.
+ * The [org.openeel.shared.viewmodel.OpenEelViewModel] provides a Flow of NavCommand(s) that can be
+ * collected by the navigation system whilst the component is active.
  *
  * This avoids the ViewModel having any reference to the context, which in turn avoids memory leaks.
  *

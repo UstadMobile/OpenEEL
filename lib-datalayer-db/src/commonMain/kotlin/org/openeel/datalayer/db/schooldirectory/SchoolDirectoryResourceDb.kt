@@ -4,7 +4,7 @@ import androidx.room.Transactor
 import androidx.room.useWriterConnection
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.openeel.datalayer.db.RespectAppDatabase
+import org.openeel.datalayer.db.SchoolDirectoryDatabase
 import org.openeel.datalayer.db.schooldirectory.adapters.toEntity
 import org.openeel.datalayer.db.schooldirectory.adapters.toModel
 import org.openeel.datalayer.db.schooldirectory.entities.SchoolConfigEntity
@@ -14,7 +14,7 @@ import org.openeel.datalayer.schooldirectory.SchoolDirectoryResourceLocal
 import org.openeel.libxxhash.XXStringHasher
 
 class SchoolDirectoryResourceDb(
-    private val respectAppDb: RespectAppDatabase,
+    private val respectAppDb: SchoolDirectoryDatabase,
     private val xxStringHasher: XXStringHasher,
 ) : SchoolDirectoryResourceLocal {
 

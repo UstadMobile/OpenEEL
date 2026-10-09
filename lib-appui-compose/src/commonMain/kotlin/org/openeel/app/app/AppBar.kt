@@ -69,7 +69,7 @@ import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RespectAppBar(
+fun OpenEelAppBar(
     compactHeader: Boolean,
     appUiState: AppUiState,
     navController: NavController,

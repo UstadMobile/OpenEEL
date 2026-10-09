@@ -28,7 +28,7 @@ import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
-import org.openeel.datalayer.db.RespectAppDatabase
+import org.openeel.datalayer.db.SchoolDirectoryDatabase
 import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.networkvalidation.ExtendedDataSourceValidationHelperImpl
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
@@ -179,13 +179,13 @@ class ClientServerDataSourceTestBuilder internal constructor(
 
     val clients = (0 until numClients).map {
         val clientDir = File(baseDir, "client-$it").also { file -> file.mkdirs() }
-        val clientAppDb = Room.databaseBuilder<RespectAppDatabase>(
+        val clientAppDb = Room.databaseBuilder<SchoolDirectoryDatabase>(
             File(clientDir, "respect-app.db").absolutePath
         ).setDriver(BundledSQLiteDriver())
             .build()
 
         val clientAppDataSource: SchoolDirectoryDataSourceLocal = SchoolDirectoryDataSourceDb(
-            respectAppDatabase = clientAppDb,
+            schoolDirectoryDatabase = clientAppDb,
             json = json,
             xxStringHasher = stringHasher
         )

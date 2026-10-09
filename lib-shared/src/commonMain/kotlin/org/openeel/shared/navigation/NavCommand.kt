@@ -7,16 +7,16 @@ sealed class NavCommand(
     val timestamp: Long = systemTimeInMillis(),
 ) {
     class Navigate(
-        val destination: RespectAppRoute,
+        val destination: OpenEelAppRoute,
         val clearBackStack: Boolean = false,
-        val popUpTo: RespectAppRoute? = null,
+        val popUpTo: OpenEelAppRoute? = null,
         val popUpToClass: KClass<*>? = null,
         val popUpToInclusive: Boolean = false,
         timestamp: Long = systemTimeInMillis(),
     ) : NavCommand(timestamp)
 
     class PopToRoute(
-        val destination: RespectAppRoute,
+        val destination: OpenEelAppRoute,
         val inclusive: Boolean,
         timestamp: Long = systemTimeInMillis(),
     ): NavCommand(timestamp)

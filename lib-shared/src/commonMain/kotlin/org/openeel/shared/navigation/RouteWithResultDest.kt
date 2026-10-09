@@ -34,7 +34,7 @@ data class KClassResultDest(
 
 @Serializable
 data class RouteResultDest(
-    val resultPopUpTo: RespectAppRoute,
+    val resultPopUpTo: OpenEelAppRoute,
     override val resultKey: String,
 ): ResultDest
 

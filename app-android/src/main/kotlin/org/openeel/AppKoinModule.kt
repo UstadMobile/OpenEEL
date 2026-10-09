@@ -72,7 +72,7 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
-import org.openeel.datalayer.db.RespectAppDatabase
+import org.openeel.datalayer.db.SchoolDirectoryDatabase
 import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.addCommonMigrations
@@ -599,9 +599,9 @@ val appKoinModule = module {
         )
     }
 
-    single<RespectAppDatabase> {
+    single<SchoolDirectoryDatabase> {
         val appContext = androidContext().applicationContext
-        Room.databaseBuilder<RespectAppDatabase>(
+        Room.databaseBuilder<SchoolDirectoryDatabase>(
             appContext, appContext.getDatabasePath("respect_3_app.db").absolutePath
         ).setDriver(BundledSQLiteDriver())
             .addCallback(AddSchoolDirectoryCallback(addDirectoriesFromPropertiesUseCase = get()))
@@ -614,13 +614,13 @@ val appKoinModule = module {
     single<SchoolDirectoryDataSource> {
         SchoolDirectoryResourceRepository(
             local = SchoolDirectoryDataSourceDb(
-                respectAppDatabase = get(),
+                schoolDirectoryDatabase = get(),
                 json = get(),
                 xxStringHasher = get(),
             ),
             remote = SchoolDirectoryDataSourceHttp(
                 local = SchoolDirectoryDataSourceDb(
-                    respectAppDatabase = get(),
+                    schoolDirectoryDatabase = get(),
                     json = get(),
                     xxStringHasher = get(),
                 ),
@@ -994,9 +994,9 @@ val appKoinModule = module {
         }
     }
     /**
-     * ScopeId is set as per RespectAccountScopeId
+     * ScopeId is set as per [UserAccountScopeId]
      *
-     * The RespectAccount scope will be linked to SchoolDirectoryEntry (the parent) scope.
+     * The UserAccount scope will be linked to SchoolDirectoryEntry (the parent) scope.
      */
     scope<UserAccount> {
         scoped<UserAccountSchoolScopeLink> {
@@ -1095,7 +1095,7 @@ val appKoinModule = module {
                 ),
                 checkPersonPermissionUseCase = get(),
                 json = get(),
-                defaultAppCatalogUrl = BuildConfig.RESPECT_DEFAULT_APP_LIST,
+                defaultAppCatalogUrl = BuildConfig.DEFAULT_APP_LIST,
                 schoolUrl = accountScopeId.schoolUrl,
             )
         }
@@ -1113,7 +1113,7 @@ val appKoinModule = module {
                     tokenProvider = get(),
                     validationHelper = get(),
                     json = get(),
-                    defaultAppCatalogUrl = BuildConfig.RESPECT_DEFAULT_APP_LIST,
+                    defaultAppCatalogUrl = BuildConfig.DEFAULT_APP_LIST,
                     opdsFeedValidationHelper = localDs.opdsFeedDataSource,
                     opdsPublicationValidationHelper = localDs.opdsPublicationDataSource
                         .publicationNetworkValidationHelper

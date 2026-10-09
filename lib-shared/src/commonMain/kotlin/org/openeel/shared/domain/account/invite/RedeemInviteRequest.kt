@@ -27,10 +27,6 @@ data class RedeemInviteRequest(
        val dateOfBirth: LocalDate = DATE_OF_BIRTH_EPOCH,
     )
 
-    /**
-     * @param userHandleEncoded the base64 encoded user handle, as would be used with a passkey,
-     *        as per RespectUserHandle.
-     */
     @Serializable
     data class Account(
         val guid: String,

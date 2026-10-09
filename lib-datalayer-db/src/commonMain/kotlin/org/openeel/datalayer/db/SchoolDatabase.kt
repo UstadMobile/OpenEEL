@@ -159,7 +159,7 @@ import org.openeel.datalayer.school.model.Report
     version = 19,
 )
 @TypeConverters(SharedConverters::class, SchoolTypeConverters::class, OpdsTypeConverters::class)
-@ConstructedBy(RespectSchoolDatabaseConstructor::class)
+@ConstructedBy(SchoolDatabaseConstructor::class)
 abstract class SchoolDatabase: RoomDatabase() {
 
     abstract fun getPersonEntityDao(): PersonEntityDao
@@ -271,6 +271,6 @@ abstract class SchoolDatabase: RoomDatabase() {
 @Suppress("NO_ACTUAL_FOR_EXPECT", "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
     "KotlinNoActualForExpect", "RedundantSuppression"
 )
-expect object RespectSchoolDatabaseConstructor : RoomDatabaseConstructor<SchoolDatabase> {
+expect object SchoolDatabaseConstructor : RoomDatabaseConstructor<SchoolDatabase> {
     override fun initialize(): SchoolDatabase
 }

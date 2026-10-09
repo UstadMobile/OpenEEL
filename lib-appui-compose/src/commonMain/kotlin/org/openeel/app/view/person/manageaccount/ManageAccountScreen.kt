@@ -63,7 +63,7 @@ fun ManageAccountScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     if (uiState.showBottomSheet) {
-        RespectQRBadgeOptionsBottomSheet(
+        OpenEelQRBadgeOptionsBottomSheet(
             onAssignNewBadge = viewModel::onClickQRCodeBadge,
             onRemoveBadge = viewModel::onRemoveQRBadge,
             onDismissRequest = viewModel::onDismissBottomSheet
@@ -259,7 +259,7 @@ fun ManageAccountScreenContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RespectQRBadgeOptionsBottomSheet(
+fun OpenEelQRBadgeOptionsBottomSheet(
     onAssignNewBadge: () -> Unit = {},
     onRemoveBadge: () -> Unit = {},
     onDismissRequest: () -> Unit,

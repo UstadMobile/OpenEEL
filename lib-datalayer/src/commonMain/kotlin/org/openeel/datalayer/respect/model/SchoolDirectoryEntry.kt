@@ -7,11 +7,11 @@ import org.openeel.lib.opds.model.LangMap
 import org.openeel.lib.serializers.InstantAsISO8601
 
 /**
- * A RESPECT school endpoint (a logical grouping of networked resources), each with its own users,
+ * A school endpoint (a logical grouping of networked resources), each with its own users,
  * usage data, and apps. This is typically a single school. Each has its own xAPI URL.
  *
  * @property name the name of the school potentially in more than one language
- * @property self the absolute URL to this Respect school, under which . https://school.example.org/ .
+ * @property self the absolute URL to this school, under which . https://school.example.org/ .
  *           The JSON should be available at https://school.example.org/.well-known/respect-school.json
  * @property xapi URL to xAPI endpoint e.g. https://school.example.org/api/school/xapi/
  * @property respectExt URL to Respect extensions endpoint (if available). Required for invites etc

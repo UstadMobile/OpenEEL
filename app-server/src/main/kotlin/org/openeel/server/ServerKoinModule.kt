@@ -1,4 +1,5 @@
 package org.openeel.server
+
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.SQLiteConnection
@@ -25,7 +26,7 @@ import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_SERVER
 import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
-import org.openeel.datalayer.db.RespectAppDatabase
+import org.openeel.datalayer.db.SchoolDirectoryDatabase
 import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.addCommonMigrations
@@ -104,9 +105,9 @@ fun serverKoinModule(
     dataDir: File = config.absoluteDataDir()
 ) = module {
 
-    single<RespectAppDatabase> {
+    single<SchoolDirectoryDatabase> {
         val dbFile = File(dataDir, APP_DB_FILENAME)
-        Room.databaseBuilder<RespectAppDatabase>(dbFile.absolutePath)
+        Room.databaseBuilder<SchoolDirectoryDatabase>(dbFile.absolutePath)
             .setDriver(BundledSQLiteDriver())
             .addCallback(AddServerManagedDirectoryCallback(xxStringHasher = get()))
             .addCommonMigrations()
@@ -156,7 +157,7 @@ fun serverKoinModule(
 
     single<SchoolDirectoryDataSourceLocal> {
         SchoolDirectoryDataSourceDb(
-            respectAppDatabase = get(),
+            schoolDirectoryDatabase = get(),
             json = get(),
             xxStringHasher = get(),
         )
@@ -288,7 +289,7 @@ fun serverKoinModule(
 
         scoped<SchoolDatabase> {
             val schoolPath: SchoolPath = get()
-            val appDb: RespectAppDatabase = get()
+            val appDb: SchoolDirectoryDatabase = get()
             val xxHasher: XXStringHasher = get()
 
             val schoolConfig = runBlocking {
@@ -410,8 +411,9 @@ fun serverKoinModule(
      * AccountScope: as per the client, the Account Scope is linked to a parent School scope.
      *
      * All server-side dependencies in the account scope are "cheap" wrappers e.g. the
-     * SchoolDataSource wrapper (which is tied to a specific account guid) is kept in the AccountScope,
-     * but the RespectSchoolDatabase which has the actual DB connection is kept in the school scope.
+     * SchoolDataSource wrapper (which is tied to a specific account guid) is kept in the
+     * [UserAccount] scope, but the SchoolDatabase which has the actual DB connection is kept
+     * in the school scope.
      *
      * Dependencies in the account scope use factory so they are not retained in memory
      *
@@ -440,7 +442,7 @@ fun serverKoinModule(
                 checkPersonPermissionUseCase = get(),
                 json = get(),
                 primaryKeyGenerator = get<SchoolPrimaryKeyGenerator>().primaryKeyGenerator,
-                defaultAppCatalogUrl = RespectServerBuildConfig.RESPECT_DEFAULT_APPLIST,
+                defaultAppCatalogUrl = OpenEelServerBuildConfig.DEFAULT_APPLIST,
                 schoolUrl = accountScopeId.schoolUrl,
             )
         }

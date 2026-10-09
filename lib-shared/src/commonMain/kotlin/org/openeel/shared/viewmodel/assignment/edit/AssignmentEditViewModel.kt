@@ -54,7 +54,7 @@ import org.openeel.shared.navigation.AssignmentDetail
 import org.openeel.shared.navigation.AssignmentEdit
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.NavResultReturner
-import org.openeel.shared.navigation.RespectAppLauncher
+import org.openeel.shared.navigation.OpenEelAppLauncher
 import org.openeel.shared.navigation.RouteResultDest
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.LaunchDebouncer
@@ -267,7 +267,7 @@ class AssignmentEditViewModel(
     fun onClickAddLearningUnit() {
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                RespectAppLauncher.create(
+                OpenEelAppLauncher.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
                         resultKey = KEY_LEARNING_UNIT,

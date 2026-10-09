@@ -118,8 +118,8 @@ import org.openeel.shared.navigation.ReportDetail
 import org.openeel.shared.navigation.ReportEdit
 import org.openeel.shared.navigation.ReportEditFilter
 import org.openeel.shared.navigation.ReportTemplateList
-import org.openeel.shared.navigation.RespectAppLauncher
-import org.openeel.shared.navigation.RespectAppList
+import org.openeel.shared.navigation.OpenEelAppLauncher
+import org.openeel.shared.navigation.OpenEelAppList
 import org.openeel.shared.navigation.OpenEelComposeNavController
 import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.navigation.SchoolDirectoryEdit
@@ -213,7 +213,7 @@ fun AppNavHost(
             EnterInviteCodeScreen(viewModel)
         }
 
-        composable<RespectAppLauncher> {
+        composable<OpenEelAppLauncher> {
             HomeScreen(
                 respectNavController = respectNavController,
                 onSetAppUiState = onSetAppUiState,
@@ -409,7 +409,7 @@ fun AppNavHost(
             HowPasskeyWorksScreen(viewModel = viewModel)
         }
 
-        composable<RespectAppList> {
+        composable<OpenEelAppList> {
             val viewModel: AppListViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
