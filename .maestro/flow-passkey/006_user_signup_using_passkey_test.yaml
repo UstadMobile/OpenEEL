@@ -1,6 +1,6 @@
-appId: world.respect.app
+appId: org.openeel.app
 onFlowStart:
-  - clearState: world.respect.app
+  - clearState: org.openeel.app
   - runScript:
       file: "scripts/school_init.js"
       env:
@@ -68,7 +68,7 @@ onFlowComplete:
 - tapOn: ".*Copy invite code.*"
 
 # C) Teacher sign-up via invite code to the class
-- clearState: world.respect.app
+- clearState: org.openeel.app
 - launchApp:
     arguments:
       respect_directory: ${output.SCHOOL_URL}

@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 
 ---
 - tapOn: "Classes"

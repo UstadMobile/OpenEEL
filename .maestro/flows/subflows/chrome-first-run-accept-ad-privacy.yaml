@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 # Newer versions of Chrome show an "Enhanced ad privacy in Chrome" screen
 ---
 - tapOn: "More"

@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 
 ---
 - assertVisible: "Choose a saved passkey for Respect"

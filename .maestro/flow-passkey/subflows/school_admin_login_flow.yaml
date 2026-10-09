@@ -1,7 +1,7 @@
-appId: world.respect.app
+appId: org.openeel.app
 
 ---
-- clearState: world.respect.app
+- clearState: org.openeel.app
 - launchApp:
       arguments:
           respect_directory: ${output.SCHOOL_URL}

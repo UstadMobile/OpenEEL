@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 
 ---
 # eraseText command got a known issue on Maestro, reference:  https://docs.maestro.dev/api-reference/commands/erasetext

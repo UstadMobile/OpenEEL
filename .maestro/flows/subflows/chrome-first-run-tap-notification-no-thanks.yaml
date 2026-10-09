@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 
 ---
 # This flow will check if Chrome is showing its chrome notification permission screen.

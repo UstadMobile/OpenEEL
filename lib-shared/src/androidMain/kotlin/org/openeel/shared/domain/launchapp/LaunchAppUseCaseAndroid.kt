@@ -272,7 +272,7 @@ class LaunchAppUseCaseAndroid(
 
     companion object {
 
-        private const val WEBVIEW_ACTIVITY_NAME = "world.respect.WebViewActivity"
+        private const val WEBVIEW_ACTIVITY_NAME = "org.openeel.WebViewActivity"
 
         const val EXTRA_URL = "url"
 
