@@ -1,6 +1,6 @@
-package world.respect.shared.domain.launchapp.getxapilaunchparams
+package org.openeel.shared.domain.launchapp.getxapilaunchparams
 
-import world.respect.shared.domain.xapi.getxapilaunchurl.GetXapiLaunchUrlUseCase
+import org.openeel.shared.domain.xapi.getxapilaunchurl.GetXapiLaunchUrlUseCase
 
 
 /**

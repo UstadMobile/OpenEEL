@@ -1,19 +1,19 @@
-package world.respect.datalayer.db.school.xapi
+package org.openeel.datalayer.db.school.xapi
 
 import androidx.room.Transactor
 import androidx.room.useWriterConnection
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.xapi.adapters.toEntities
-import world.respect.datalayer.db.school.xapi.adapters.toModel
-import world.respect.datalayer.db.school.xapi.entities.XapiActivityLangMapEntry
-import world.respect.lib.xapi.resources.local.XapiActivitiesResourceLocal
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.model.XapiObjectType
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.xapi.adapters.toEntities
+import org.openeel.datalayer.db.school.xapi.adapters.toModel
+import org.openeel.datalayer.db.school.xapi.entities.XapiActivityLangMapEntry
+import org.openeel.lib.xapi.resources.local.XapiActivitiesResourceLocal
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.model.XapiObjectType
 import kotlin.time.Clock
 import kotlin.time.Instant
 

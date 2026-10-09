@@ -1,10 +1,10 @@
-package world.respect.datalayer.db.school.entities
+package org.openeel.datalayer.db.school.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlin.time.Instant
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.StatusEnum
 
 @Entity
 class SchoolPermissionGrantEntity(

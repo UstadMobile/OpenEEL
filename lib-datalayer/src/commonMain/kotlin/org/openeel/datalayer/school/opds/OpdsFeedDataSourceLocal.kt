@@ -1,9 +1,9 @@
-package world.respect.datalayer.school.opds
+package org.openeel.datalayer.school.opds
 
 import io.ktor.http.Url
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.datalayer.networkvalidation.BaseDataSourceValidationHelper
-import world.respect.lib.opds.model.OpdsFeed
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
+import org.openeel.lib.opds.model.OpdsFeed
 
 interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationHelper {
 

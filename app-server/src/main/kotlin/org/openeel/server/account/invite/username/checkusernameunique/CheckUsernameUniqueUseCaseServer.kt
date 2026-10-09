@@ -1,7 +1,7 @@
-package world.respect.server.account.invite.username.checkusernameunique
+package org.openeel.server.account.invite.username.checkusernameunique
 
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.shared.domain.account.username.checkusernameunique.CheckUsernameUniqueUseCase
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.shared.domain.account.username.checkusernameunique.CheckUsernameUniqueUseCase
 
 class CheckUsernameUniqueUseCaseServer(
     private val schoolDb:  RespectSchoolDatabase

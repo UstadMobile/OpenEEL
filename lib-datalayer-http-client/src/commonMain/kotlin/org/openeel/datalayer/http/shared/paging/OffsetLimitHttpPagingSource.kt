@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.shared.paging
+package org.openeel.datalayer.http.shared.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -8,24 +8,24 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
 import io.ktor.util.reflect.TypeInfo
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLayerHeaders
-import world.respect.lib.dataloadstate.DataLayerParams
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.lib.dataloadstate.NoDataLoadedState.Reason
-import world.respect.datalayer.ext.getAsDataLoadState
-import world.respect.datalayer.networkvalidation.BaseDataSourceValidationHelper
-import world.respect.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
-import world.respect.datalayer.shared.DataLayerTags
-import world.respect.datalayer.shared.paging.CacheableHttpPagingSource
-import world.respect.datalayer.shared.paging.DelegatedInvalidationPagingSource
-import world.respect.datalayer.shared.paging.LogPrefixFunction
-import world.respect.datalayer.shared.paging.getClippedRefreshKey
-import world.respect.datalayer.shared.paging.getLimit
-import world.respect.datalayer.shared.paging.getOffset
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLayerHeaders
+import org.openeel.lib.dataloadstate.DataLayerParams
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.NoDataLoadedState.Reason
+import org.openeel.datalayer.ext.getAsDataLoadState
+import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
+import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
+import org.openeel.datalayer.shared.DataLayerTags
+import org.openeel.datalayer.shared.paging.CacheableHttpPagingSource
+import org.openeel.datalayer.shared.paging.DelegatedInvalidationPagingSource
+import org.openeel.datalayer.shared.paging.LogPrefixFunction
+import org.openeel.datalayer.shared.paging.getClippedRefreshKey
+import org.openeel.datalayer.shared.paging.getLimit
+import org.openeel.datalayer.shared.paging.getOffset
 
 /**
  * Fundamentally an http based paging source could be one of the two:

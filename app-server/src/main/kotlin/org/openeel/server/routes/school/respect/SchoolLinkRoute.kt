@@ -1,4 +1,4 @@
-package world.respect.server.routes.school.respect
+package org.openeel.server.routes.school.respect
 
 import io.ktor.http.ContentType
 import io.ktor.http.URLBuilder
@@ -8,10 +8,10 @@ import io.ktor.http.parametersOf
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
-import world.respect.datalayer.respect.model.APPSTORE_REDIRECT_BASE
-import world.respect.libutil.ext.RESPECT_SCHOOL_LINK_SEGMENT
-import world.respect.server.util.ext.virtualHost
-import world.respect.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
+import org.openeel.datalayer.respect.model.APPSTORE_REDIRECT_BASE
+import org.openeel.libutil.ext.RESPECT_SCHOOL_LINK_SEGMENT
+import org.openeel.server.util.ext.virtualHost
+import org.openeel.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
 
 /**
  * Redirect and set the referrer parameter such that it will be picked up by hte

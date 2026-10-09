@@ -1,4 +1,4 @@
-package world.respect.app.view.sharedschooldevice
+package org.openeel.app.view.sharedschooldevice
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,13 +26,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.enter_school_device_pin
-import world.respect.shared.generated.resources.next
-import world.respect.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationUiState
-import world.respect.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationViewmodel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.enter_school_device_pin
+import org.openeel.shared.generated.resources.next
+import org.openeel.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationUiState
+import org.openeel.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationViewmodel
 
 
 @Composable

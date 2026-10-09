@@ -1,4 +1,4 @@
-package world.respect.server.domain.school.verify
+package org.openeel.server.domain.school.verify
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -7,8 +7,8 @@ import io.ktor.http.Url
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withTimeout
-import world.respect.server.util.SchoolUrlVerificationManager
-import world.respect.server.util.ext.HttpStatusException
+import org.openeel.server.util.SchoolUrlVerificationManager
+import org.openeel.server.util.ext.HttpStatusException
 import kotlin.time.Duration.Companion.seconds
 
 class VerifySchoolUrlPointsToThisServerUseCase(

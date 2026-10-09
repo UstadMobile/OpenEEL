@@ -1,4 +1,4 @@
-package world.respect.app.view.apps.list
+package org.openeel.app.view.apps.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,15 +20,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.add_from_link
-import world.respect.app.app.RespectAsyncImage
-import world.respect.app.components.langMapString
-import world.respect.shared.viewmodel.apps.list.AppListUiState
-import world.respect.shared.viewmodel.apps.list.AppListViewModel
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.findIcons
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add_from_link
+import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.components.langMapString
+import org.openeel.shared.viewmodel.apps.list.AppListUiState
+import org.openeel.shared.viewmodel.apps.list.AppListViewModel
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.findIcons
 
 @Composable
 fun AppListScreen(

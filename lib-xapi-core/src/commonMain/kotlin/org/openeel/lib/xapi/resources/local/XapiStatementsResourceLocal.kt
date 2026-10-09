@@ -1,7 +1,7 @@
-package world.respect.lib.xapi.resources.local
+package org.openeel.lib.xapi.resources.local
 
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.resources.XapiStatementsResource
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.resources.XapiStatementsResource
 import kotlin.uuid.Uuid
 
 interface XapiStatementsResourceLocal: XapiStatementsResource{

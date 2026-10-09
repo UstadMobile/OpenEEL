@@ -1,17 +1,17 @@
-package world.respect.shared.viewmodel.onboarding
+package org.openeel.shared.viewmodel.onboarding
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.RespectViewModel
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
-import world.respect.shared.domain.onboarding.ShouldShowOnboardingUseCase
-import world.respect.shared.domain.usagereporting.GetUsageReportingEnabledUseCase
-import world.respect.shared.domain.usagereporting.SetUsageReportingEnabledUseCase
+import org.openeel.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
+import org.openeel.shared.domain.onboarding.ShouldShowOnboardingUseCase
+import org.openeel.shared.domain.usagereporting.GetUsageReportingEnabledUseCase
+import org.openeel.shared.domain.usagereporting.SetUsageReportingEnabledUseCase
 
 data class OnboardingUiState(
     val isLoading: Boolean = false,

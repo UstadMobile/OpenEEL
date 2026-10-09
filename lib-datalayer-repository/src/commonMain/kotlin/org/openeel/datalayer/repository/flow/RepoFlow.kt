@@ -1,4 +1,4 @@
-package world.respect.datalayer.repository.flow
+package org.openeel.datalayer.repository.flow
 
 import io.ktor.http.Headers
 import kotlinx.coroutines.flow.Flow
@@ -11,15 +11,15 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
-import world.respect.datalayer.repository.ext.copyToValidateOnRemote
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.ext.combineWithRemote
-import world.respect.lib.dataloadstate.ext.responseETagAndLastModified
-import world.respect.lib.dataloadstate.ext.isStillValid
-import world.respect.lib.dataloadstate.ext.takeIfShouldUpdateLocal
+import org.openeel.datalayer.repository.ext.copyToValidateOnRemote
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.ext.combineWithRemote
+import org.openeel.lib.dataloadstate.ext.responseETagAndLastModified
+import org.openeel.lib.dataloadstate.ext.isStillValid
+import org.openeel.lib.dataloadstate.ext.takeIfShouldUpdateLocal
 
 const val LOADED_DEQUE_SIZE = 4
 

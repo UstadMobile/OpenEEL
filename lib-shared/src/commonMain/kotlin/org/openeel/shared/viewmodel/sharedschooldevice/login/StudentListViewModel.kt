@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.sharedschooldevice.login
+package org.openeel.shared.viewmodel.sharedschooldevice.login
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -10,25 +10,25 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.school.PersonDataSource
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.PersonStatusEnum
-import world.respect.datalayer.school.writequeue.EnqueueRunPullSyncUseCase
-import world.respect.datalayer.shared.paging.EmptyPagingSourceFactory
-import world.respect.datalayer.shared.paging.IPagingSourceFactory
-import world.respect.datalayer.shared.paging.PagingSourceFactoryHolder
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.libutil.util.time.localDateInCurrentTimeZone
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.navigation.AssignmentList
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.StudentList
-import world.respect.shared.navigation.WaitingForApproval
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.datalayer.school.writequeue.EnqueueRunPullSyncUseCase
+import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
+import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.libutil.util.time.localDateInCurrentTimeZone
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.navigation.AssignmentList
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.StudentList
+import org.openeel.shared.navigation.WaitingForApproval
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 data class StudentListUiState(
     val error: UiText? = null,

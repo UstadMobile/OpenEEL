@@ -1,4 +1,4 @@
-package world.respect.datalayer
+package org.openeel.datalayer
 
 /**
  * Each type of data has a uid which needs to support abstract strings (e.g. activity id urls in

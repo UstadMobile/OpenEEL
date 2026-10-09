@@ -1,10 +1,10 @@
-package world.respect.shared.domain.launchapp
+package org.openeel.shared.domain.launchapp
 
-import world.respect.lib.opds.model.LangMapStringValue
-import world.respect.lib.opds.model.OpenEelConstants
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.ReadiumMetadata
+import org.openeel.lib.opds.model.LangMapStringValue
+import org.openeel.lib.opds.model.OpenEelConstants
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ReadiumMetadata
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull

@@ -1,4 +1,4 @@
-package world.respect.server.demoapp
+package org.openeel.server.demoapp
 
 import io.ktor.http.ContentType
 import io.ktor.server.html.respondHtml
@@ -8,15 +8,15 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import nl.adaptivity.xmlutil.serialization.XML
 import org.koin.ktor.ext.getKoin
-import world.respect.lib.xapi.rusticilaunch.model.TinCanXmlDocument
-import world.respect.server.demoapp.ext.demoAppBaseUrl
-import world.respect.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.GRADES_DIR_NAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.LEARNING_UNITS_DIR_NAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.LEARNING_UNIT_HTML_FILENAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppLearningUnitManifestUseCase
-import world.respect.server.domain.school.demoapp.MakeDemoAppLearningUnitManifestUseCase.Companion.LESSON_MANIFEST_FILENAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppLearningUnitTinCanXmlUseCase
-import world.respect.server.domain.school.demoapp.demoAppLearningUnitHtml
+import org.openeel.lib.xapi.rusticilaunch.model.TinCanXmlDocument
+import org.openeel.server.demoapp.ext.demoAppBaseUrl
+import org.openeel.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.GRADES_DIR_NAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.LEARNING_UNITS_DIR_NAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.LEARNING_UNIT_HTML_FILENAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitManifestUseCase
+import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitManifestUseCase.Companion.LESSON_MANIFEST_FILENAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitTinCanXmlUseCase
+import org.openeel.server.domain.school.demoapp.demoAppLearningUnitHtml
 
 fun Route.DemoLaunchableAppLessonRoute() {
     val koin = getKoin()

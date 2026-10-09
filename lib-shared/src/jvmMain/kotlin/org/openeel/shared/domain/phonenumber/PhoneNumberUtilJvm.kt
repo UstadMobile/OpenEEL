@@ -1,4 +1,4 @@
-package world.respect.shared.domain.phonenumber
+package org.openeel.shared.domain.phonenumber
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 

@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*

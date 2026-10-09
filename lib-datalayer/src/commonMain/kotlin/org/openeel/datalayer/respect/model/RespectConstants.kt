@@ -1,4 +1,4 @@
-package world.respect.datalayer.respect.model
+package org.openeel.datalayer.respect.model
 
 //Acceptable mime types for HTML as per
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types#texthtml

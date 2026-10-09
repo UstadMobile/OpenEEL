@@ -1,13 +1,13 @@
-package world.respect.lib.xapi.ext
+package org.openeel.lib.xapi.ext
 
 import io.ktor.http.toHttpDate
 import io.ktor.util.date.GMTDate
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.model.XapiAgent
-import world.respect.lib.xapi.model.XapiContext
-import world.respect.lib.xapi.model.XapiContextActivities
-import world.respect.lib.xapi.model.XapiObjectType
-import world.respect.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.lib.xapi.model.XapiContext
+import org.openeel.lib.xapi.model.XapiContextActivities
+import org.openeel.lib.xapi.model.XapiObjectType
+import org.openeel.lib.xapi.model.XapiStatement
 import kotlin.time.Instant
 
 /**

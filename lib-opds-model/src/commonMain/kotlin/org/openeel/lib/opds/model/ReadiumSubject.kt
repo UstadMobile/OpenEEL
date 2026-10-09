@@ -1,12 +1,12 @@
-package world.respect.lib.opds.model
+package org.openeel.lib.opds.model
 
 import com.eygraber.uri.Uri
 import kotlinx.serialization.Serializable
-import world.respect.lib.serializers.SingleItemToListTransformer
-import world.respect.lib.serializers.StringOrObjectSerializer
-import world.respect.lib.serializers.StringValue
-import world.respect.lib.serializers.StringValueSerializer
-import world.respect.lib.serializers.UriStringSerializer
+import org.openeel.lib.serializers.SingleItemToListTransformer
+import org.openeel.lib.serializers.StringOrObjectSerializer
+import org.openeel.lib.serializers.StringValue
+import org.openeel.lib.serializers.StringValueSerializer
+import org.openeel.lib.serializers.UriStringSerializer
 
 /**
  * Schema: https://readium.org/webpub-manifest/schema/subject.schema.json

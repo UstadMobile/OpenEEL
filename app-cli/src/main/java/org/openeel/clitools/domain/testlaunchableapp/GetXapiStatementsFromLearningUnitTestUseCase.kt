@@ -1,12 +1,12 @@
-package world.respect.clitools.domain.testlaunchableapp
+package org.openeel.clitools.domain.testlaunchableapp
 
 import io.ktor.http.Url
-import world.respect.datalayer.school.opds.OpdsPublicationDataSource
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.model.XapiStatementResult
-import world.respect.lib.xapi.resources.XapiStatementsResource
-import world.respect.shared.domain.launchapp.getlaunchoptionsforpublication.GetLaunchOptionsForPublicationUseCase
+import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.model.XapiStatementResult
+import org.openeel.lib.xapi.resources.XapiStatementsResource
+import org.openeel.shared.domain.launchapp.getlaunchoptionsforpublication.GetLaunchOptionsForPublicationUseCase
 import kotlin.time.Instant
 
 /**

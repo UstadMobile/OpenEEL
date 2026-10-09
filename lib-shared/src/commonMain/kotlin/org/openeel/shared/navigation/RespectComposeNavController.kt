@@ -1,4 +1,4 @@
-package world.respect.shared.navigation
+package org.openeel.shared.navigation
 
 import androidx.navigation.NavHostController
 import kotlin.time.Clock

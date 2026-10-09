@@ -1,4 +1,4 @@
-package world.respect.shared.domain.externallink
+package org.openeel.shared.domain.externallink
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -7,7 +7,7 @@ import io.ktor.client.statement.request
 import io.ktor.http.isSuccess
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import world.respect.libutil.ext.resolve
+import org.openeel.libutil.ext.resolve
 
 /**
  * Extracts the title, description, and preview image for a web page so that a preview can be

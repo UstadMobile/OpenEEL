@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.extensions.queryresponse
+package org.openeel.lib.xapi.extensions.queryresponse
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonArray

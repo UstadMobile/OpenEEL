@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.nanohttpd.ext
+package org.openeel.lib.xapi.nanohttpd.ext
 
 import fi.iki.elonen.NanoHTTPD
 import fi.iki.elonen.NanoHTTPD.Method
@@ -9,11 +9,11 @@ import io.ktor.http.ParametersImpl
 import io.ktor.http.Url
 import io.ktor.http.fromHttpToGmtDate
 import net.thauvin.erik.urlencoder.UrlEncoderUtil
-import world.respect.lib.dataloadstate.datetime.toGMTDate
-import world.respect.lib.xapi.exceptions.XapiException
-import world.respect.lib.xapi.model.XapiDocument
-import world.respect.lib.xapi.model.XapiDocumentByteArrayImpl
-import world.respect.lib.xapi.nanohttpd.XapiNanoHttpdApp.Companion.ENDPOINT_SEGMENT_INDEX
+import org.openeel.lib.dataloadstate.datetime.toGMTDate
+import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.model.XapiDocumentByteArrayImpl
+import org.openeel.lib.xapi.nanohttpd.XapiNanoHttpdApp.Companion.ENDPOINT_SEGMENT_INDEX
 import java.io.File
 import kotlin.time.Clock
 

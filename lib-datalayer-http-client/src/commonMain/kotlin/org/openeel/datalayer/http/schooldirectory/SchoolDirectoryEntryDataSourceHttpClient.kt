@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.schooldirectory
+package org.openeel.datalayer.http.schooldirectory
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.retry
@@ -9,21 +9,21 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.datalayer.RespectAppDataSourceLocal
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.datalayer.ext.getAsDataLoadState
-import world.respect.datalayer.ext.getDataLoadResultAsFlow
-import world.respect.datalayer.respect.model.RESPECT_SCHOOL_JSON_PATH
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
-import world.respect.lib.dataloadstate.ext.map
-import world.respect.libutil.ext.appendEndpointSegments
-import world.respect.libutil.ext.resolve
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.datalayer.RespectAppDataSourceLocal
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.datalayer.ext.getAsDataLoadState
+import org.openeel.datalayer.ext.getDataLoadResultAsFlow
+import org.openeel.datalayer.respect.model.RESPECT_SCHOOL_JSON_PATH
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.lib.dataloadstate.ext.map
+import org.openeel.libutil.ext.appendEndpointSegments
+import org.openeel.libutil.ext.resolve
 import kotlin.collections.map
 
 class SchoolDirectoryEntryDataSourceHttpClient(

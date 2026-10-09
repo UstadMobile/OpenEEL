@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.extensions.reportoptions
+package org.openeel.lib.xapi.extensions.reportoptions
 
 import kotlinx.serialization.Serializable
 

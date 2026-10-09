@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,9 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.confirm
-import world.respect.shared.generated.resources.dismiss
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.confirm
+import org.openeel.shared.generated.resources.dismiss
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

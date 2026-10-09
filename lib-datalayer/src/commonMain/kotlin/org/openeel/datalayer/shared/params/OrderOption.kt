@@ -1,4 +1,4 @@
-package world.respect.datalayer.shared.params
+package org.openeel.datalayer.shared.params
 
 /**
  * Order option used to sort list results

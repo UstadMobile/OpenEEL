@@ -1,4 +1,4 @@
-package world.respect.libutil.ext
+package org.openeel.libutil.ext
 
 import io.ktor.http.Url
 import org.junit.Test

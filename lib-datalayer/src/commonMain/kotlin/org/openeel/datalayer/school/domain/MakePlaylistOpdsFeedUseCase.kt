@@ -1,17 +1,17 @@
-package world.respect.datalayer.school.domain
+package org.openeel.datalayer.school.domain
 
 import com.eygraber.uri.Uri
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
 import net.thauvin.erik.urlencoder.UrlEncoderUtil
-import world.respect.datalayer.school.opds.ext.withAbsoluteSelfUrl
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.xapi.OpenEelXapiConstants
-import world.respect.libutil.ext.appendEndpointPathSegments
-import world.respect.libutil.ext.appendEndpointSegments
+import org.openeel.datalayer.school.opds.ext.withAbsoluteSelfUrl
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.xapi.OpenEelXapiConstants
+import org.openeel.libutil.ext.appendEndpointPathSegments
+import org.openeel.libutil.ext.appendEndpointSegments
 import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid

@@ -1,20 +1,20 @@
-package world.respect.shared.domain.launchapp.getlaunchoptionsforpublication
+package org.openeel.shared.domain.launchapp.getlaunchoptionsforpublication
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.Url
 import nl.adaptivity.xmlutil.serialization.XML
-import world.respect.datalayer.school.opds.OpdsPublicationDataSource
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.findLaunchableAppLink
-import world.respect.lib.opds.model.findLearningUnitAcquisitionLinks
-import world.respect.lib.opds.model.findTinCanXmlLink
-import world.respect.lib.xapi.rusticilaunch.model.TinCanXmlDocument
-import world.respect.libutil.ext.resolve
-import world.respect.shared.util.ext.legacyActivityIdForLink
+import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.findLaunchableAppLink
+import org.openeel.lib.opds.model.findLearningUnitAcquisitionLinks
+import org.openeel.lib.opds.model.findTinCanXmlLink
+import org.openeel.lib.xapi.rusticilaunch.model.TinCanXmlDocument
+import org.openeel.libutil.ext.resolve
+import org.openeel.shared.util.ext.legacyActivityIdForLink
 
 /**
  * Get a list of launch options that can be used for a given publication. Will look for a link to

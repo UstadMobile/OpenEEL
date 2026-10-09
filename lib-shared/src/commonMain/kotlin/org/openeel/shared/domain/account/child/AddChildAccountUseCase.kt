@@ -1,8 +1,8 @@
-package world.respect.shared.domain.account.child
+package org.openeel.shared.domain.account.child
 
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.school.model.Person
-import world.respect.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.datalayer.school.model.Person
+import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
 
 interface AddChildAccountUseCase {
 

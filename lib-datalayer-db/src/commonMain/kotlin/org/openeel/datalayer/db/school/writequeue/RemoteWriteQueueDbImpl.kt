@@ -1,14 +1,14 @@
-package world.respect.datalayer.db.school.writequeue
+package org.openeel.datalayer.db.school.writequeue
 
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.adapters.asEntity
-import world.respect.datalayer.db.school.adapters.asModel
-import world.respect.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
-import world.respect.datalayer.school.writequeue.RemoteWriteQueue
-import world.respect.datalayer.school.writequeue.WriteQueueItem
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.adapters.asEntity
+import org.openeel.datalayer.db.school.adapters.asModel
+import org.openeel.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
+import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
+import org.openeel.datalayer.school.writequeue.WriteQueueItem
+import org.openeel.libutil.util.time.systemTimeInMillis
 
 class RemoteWriteQueueDbImpl(
     private val schoolDb: RespectSchoolDatabase,

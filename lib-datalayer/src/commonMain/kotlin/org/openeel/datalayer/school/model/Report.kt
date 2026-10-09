@@ -1,9 +1,9 @@
-package world.respect.datalayer.school.model
+package org.openeel.datalayer.school.model
 
 import kotlinx.serialization.Serializable
-import world.respect.lib.xapi.extensions.reportoptions.ReportOptions
-import world.respect.datalayer.shared.ModelWithTimes
-import world.respect.lib.serializers.InstantAsISO8601
+import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
+import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.serializers.InstantAsISO8601
 import kotlin.time.Clock
 
 @Serializable

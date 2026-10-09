@@ -1,4 +1,4 @@
-package world.respect.libutil.util
+package org.openeel.libutil.util
 
 private const val INDEX_END_LANG_CODE = 2
 

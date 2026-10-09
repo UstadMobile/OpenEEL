@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.opds.entities
+package org.openeel.datalayer.db.school.opds.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.eygraber.uri.Uri
-import world.respect.datalayer.db.school.opds.OpdsParentType
+import org.openeel.datalayer.db.school.opds.OpdsParentType
 
 /**
  * @property rseStringValue a ReadiumSubject can be a simple string value type or an object type.

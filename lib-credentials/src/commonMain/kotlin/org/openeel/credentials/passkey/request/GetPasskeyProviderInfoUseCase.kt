@@ -1,4 +1,4 @@
-package world.respect.credentials.passkey.request
+package org.openeel.credentials.passkey.request
 
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid

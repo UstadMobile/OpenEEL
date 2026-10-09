@@ -1,4 +1,4 @@
-package world.respect.shared.domain.opds.getxapiactivityid
+package org.openeel.shared.domain.opds.getxapiactivityid
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -9,17 +9,17 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import nl.adaptivity.xmlutil.serialization.XML
-import world.respect.datalayer.school.opds.ext.requireAbsoluteSelfUrl
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.findLearningUnitAcquisitionLinks
-import world.respect.lib.opds.model.findTinCanXmlLink
-import world.respect.lib.opds.model.toStringMap
-import world.respect.lib.xapi.OpenEelXapiConstants.ACTIVITY_EXTENSION_WEBPUB_MANIFEST_LINK
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.model.XapiActivityDefinition
-import world.respect.lib.xapi.rusticilaunch.model.TinCanXmlDocument
-import world.respect.libutil.ext.resolve
-import world.respect.shared.util.ext.legacyActivityIdForLink
+import org.openeel.datalayer.school.opds.ext.requireAbsoluteSelfUrl
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.findLearningUnitAcquisitionLinks
+import org.openeel.lib.opds.model.findTinCanXmlLink
+import org.openeel.lib.opds.model.toStringMap
+import org.openeel.lib.xapi.OpenEelXapiConstants.ACTIVITY_EXTENSION_WEBPUB_MANIFEST_LINK
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.model.XapiActivityDefinition
+import org.openeel.lib.xapi.rusticilaunch.model.TinCanXmlDocument
+import org.openeel.libutil.ext.resolve
+import org.openeel.shared.util.ext.legacyActivityIdForLink
 
 /**
  * Get an XapiActivity (including definition) for a given publication. If the publication includes

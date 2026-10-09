@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeedlist
+package org.openeel.app.view.catalog.opdsfeedlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -27,20 +27,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.all
-import world.respect.shared.generated.resources.created_by
-import world.respect.shared.generated.resources.empty
-import world.respect.shared.generated.resources.my_collections
-import world.respect.shared.generated.resources.no_collections_yet
-import world.respect.shared.generated.resources.no_collections_yet_description
-import world.respect.shared.generated.resources.sections_and_items
-import world.respect.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListFilter
-import world.respect.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListUiState
-import world.respect.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.all
+import org.openeel.shared.generated.resources.created_by
+import org.openeel.shared.generated.resources.empty
+import org.openeel.shared.generated.resources.my_collections
+import org.openeel.shared.generated.resources.no_collections_yet
+import org.openeel.shared.generated.resources.no_collections_yet_description
+import org.openeel.shared.generated.resources.sections_and_items
+import org.openeel.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListFilter
+import org.openeel.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListUiState
+import org.openeel.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListViewModel
 
 @Composable
 fun OpdsFeedListScreen(

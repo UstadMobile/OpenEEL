@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.enrollment.list
+package org.openeel.shared.viewmodel.enrollment.list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -10,24 +10,24 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.datalayer.school.EnrollmentDataSource
-import world.respect.datalayer.school.model.Enrollment
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.StatusEnum
-import world.respect.datalayer.shared.paging.EmptyPagingSourceFactory
-import world.respect.datalayer.shared.paging.IPagingSourceFactory
-import world.respect.datalayer.shared.paging.PagingSourceFactoryHolder
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.navigation.EnrollmentEdit
-import world.respect.shared.navigation.EnrollmentList
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.datalayer.school.EnrollmentDataSource
+import org.openeel.datalayer.school.model.Enrollment
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
+import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.navigation.EnrollmentEdit
+import org.openeel.shared.navigation.EnrollmentList
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 import kotlin.time.Clock
 
 data class EnrollmentListUiState(

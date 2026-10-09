@@ -1,4 +1,4 @@
-package world.respect.app.view.apps.enterlink
+package org.openeel.app.view.apps.enterlink
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,14 +10,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectShortVersionInfoText
-import world.respect.app.components.defaultItemPadding
-import world.respect.shared.generated.resources.*
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.util.ext.isLoading
-import world.respect.shared.viewmodel.app.appstate.AppUiState
-import world.respect.shared.viewmodel.apps.enterlink.EnterLinkUiState
-import world.respect.shared.viewmodel.apps.enterlink.EnterLinkViewModel
+import org.openeel.app.components.RespectShortVersionInfoText
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.shared.generated.resources.*
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.util.ext.isLoading
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.shared.viewmodel.apps.enterlink.EnterLinkUiState
+import org.openeel.shared.viewmodel.apps.enterlink.EnterLinkViewModel
 
 @Composable
 fun EnterLinkScreen(

@@ -1,13 +1,13 @@
-package world.respect.datalayer.schooldirectory
+package org.openeel.datalayer.schooldirectory
 
 import io.ktor.http.Url
 import io.ktor.util.StringValues
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
-import world.respect.lib.dataloadstate.DataLayerParams
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.lib.dataloadstate.DataLayerParams
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 
 interface SchoolDirectoryEntryDataSource {
 

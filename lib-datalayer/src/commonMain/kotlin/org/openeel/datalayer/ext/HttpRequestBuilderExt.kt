@@ -1,4 +1,4 @@
-package world.respect.datalayer.ext
+package org.openeel.datalayer.ext
 
 import com.ustadmobile.ihttp.headers.asIHttpHeaders
 import io.github.aakira.napier.Napier
@@ -6,9 +6,9 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.http.HttpHeaders
 import io.ktor.http.toHttpDate
 import io.ktor.util.date.GMTDate
-import world.respect.datalayer.AuthTokenProvider
-import world.respect.datalayer.networkvalidation.BaseDataSourceValidationHelper
-import world.respect.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
+import org.openeel.datalayer.AuthTokenProvider
+import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
+import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
 
 /**
  * Add if-modified-since and if-none-match headers to the request using the validationHelper.

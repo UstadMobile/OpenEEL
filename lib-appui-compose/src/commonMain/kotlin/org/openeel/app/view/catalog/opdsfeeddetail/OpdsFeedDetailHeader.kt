@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeeddetail
+package org.openeel.app.view.catalog.opdsfeeddetail
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -24,17 +24,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.app.RespectAsyncImage
-import world.respect.app.components.RespectQuickActionButton
-import world.respect.app.components.defaultItemPadding
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.opds.model.ext.feedIconLinkOrNull
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.assign
-import world.respect.shared.generated.resources.remix_collection
-import world.respect.shared.generated.resources.delete
-import world.respect.shared.generated.resources.share
-import world.respect.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailUiState
+import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.components.RespectQuickActionButton
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.ext.feedIconLinkOrNull
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.assign
+import org.openeel.shared.generated.resources.remix_collection
+import org.openeel.shared.generated.resources.delete
+import org.openeel.shared.generated.resources.share
+import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailUiState
 
 
 @Composable

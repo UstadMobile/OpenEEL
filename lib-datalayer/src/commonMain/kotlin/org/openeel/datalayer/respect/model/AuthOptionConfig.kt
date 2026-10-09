@@ -1,9 +1,9 @@
-package world.respect.datalayer.respect.model
+package org.openeel.datalayer.respect.model
 
 import io.ktor.http.Url
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.respect.model.invite.AuthOptionConfigTypeEnum
+import org.openeel.datalayer.respect.model.invite.AuthOptionConfigTypeEnum
 
 
 @Serializable

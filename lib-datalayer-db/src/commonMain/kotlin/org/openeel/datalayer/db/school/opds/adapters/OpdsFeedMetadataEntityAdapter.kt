@@ -1,7 +1,7 @@
-package world.respect.datalayer.db.school.opds.adapters
+package org.openeel.datalayer.db.school.opds.adapters
 
-import world.respect.datalayer.db.school.opds.entities.OpdsFeedMetadataEntity
-import world.respect.lib.opds.model.OpdsFeedMetadata
+import org.openeel.datalayer.db.school.opds.entities.OpdsFeedMetadataEntity
+import org.openeel.lib.opds.model.OpdsFeedMetadata
 
 fun OpdsFeedMetadata.asEntity(
     ofmeOfeUid: Long,

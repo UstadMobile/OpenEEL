@@ -1,10 +1,10 @@
-package world.respect.credentials.passkey.request
+package org.openeel.credentials.passkey.request
 
 import io.ktor.http.Url
 import io.ktor.util.encodeBase64
-import world.respect.credentials.passkey.model.PublicKeyCredentialDescriptorJSON
-import world.respect.credentials.passkey.model.PublicKeyCredentialRequestOptionsJSON
-import world.respect.libutil.ext.randomString
+import org.openeel.credentials.passkey.model.PublicKeyCredentialDescriptorJSON
+import org.openeel.credentials.passkey.model.PublicKeyCredentialRequestOptionsJSON
+import org.openeel.libutil.ext.randomString
 
 /**
  * Create the Json that is used to request an (existing) passkey for sign-in.

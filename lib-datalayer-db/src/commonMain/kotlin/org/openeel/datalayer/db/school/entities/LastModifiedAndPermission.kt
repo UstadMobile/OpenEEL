@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.entities
+package org.openeel.datalayer.db.school.entities
 
 
 data class LastModifiedAndPermission(

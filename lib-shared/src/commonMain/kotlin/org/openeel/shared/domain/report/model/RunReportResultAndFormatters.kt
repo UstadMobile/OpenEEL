@@ -1,7 +1,7 @@
-package world.respect.shared.domain.report.model
+package org.openeel.shared.domain.report.model
 
-import world.respect.shared.domain.report.formatter.GraphFormatter
-import world.respect.shared.domain.report.query.RunReportUseCase
+import org.openeel.shared.domain.report.formatter.GraphFormatter
+import org.openeel.shared.domain.report.query.RunReportUseCase
 
 data class RunReportResultAndFormatters(
     val reportResult: RunReportUseCase.RunReportResult,

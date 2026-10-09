@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.client
+package org.openeel.xapi.ipc.client
 
 import android.os.Bundle
 import android.util.Log
@@ -11,21 +11,21 @@ import kotlinx.serialization.json.Json
 import org.openeel.lib.ipc.messagebridge.IpcMessageBridge
 import org.openeel.lib.ipc.messagebridge.IpcMessageBridgeWhatFlags
 import org.openeel.lib.ipc.messagebridge.MessageData
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.ext.toPrettyString
-import world.respect.lib.xapi.model.XapiDocument
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
-import world.respect.xapi.ipc.client.ext.throwXapiExceptionIfStatusNotSuccessful
-import world.respect.xapi.ipc.shared.messages.XapiIpcKeys
-import world.respect.xapi.ipc.shared.messages.XapiIpcResourceFlags
-import world.respect.xapi.ipc.shared.messages.XapiIpcTags
-import world.respect.xapi.ipc.shared.messages.ext.putAllFromStringMap
-import world.respect.xapi.ipc.shared.messages.ext.putXapiIpcHeaders
-import world.respect.xapi.ipc.shared.messages.ext.putXapiIpcQueryParameters
-import world.respect.xapi.ipc.shared.messages.ext.toBundle
-import world.respect.xapi.ipc.shared.messages.ext.toXapiDocumentDataLoadState
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.ext.toPrettyString
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.xapi.ipc.client.ext.throwXapiExceptionIfStatusNotSuccessful
+import org.openeel.xapi.ipc.shared.messages.XapiIpcKeys
+import org.openeel.xapi.ipc.shared.messages.XapiIpcResourceFlags
+import org.openeel.xapi.ipc.shared.messages.XapiIpcTags
+import org.openeel.xapi.ipc.shared.messages.ext.putAllFromStringMap
+import org.openeel.xapi.ipc.shared.messages.ext.putXapiIpcHeaders
+import org.openeel.xapi.ipc.shared.messages.ext.putXapiIpcQueryParameters
+import org.openeel.xapi.ipc.shared.messages.ext.toBundle
+import org.openeel.xapi.ipc.shared.messages.ext.toXapiDocumentDataLoadState
 import java.util.concurrent.ExecutorService
 
 class XapiActivityProfileResourceIpcClient(

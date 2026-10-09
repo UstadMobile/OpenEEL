@@ -1,6 +1,6 @@
-package world.respect.shared.domain.validator
+package org.openeel.shared.domain.validator
 
-import world.respect.domain.validator.ValidateLinkUseCase
+import org.openeel.domain.validator.ValidateLinkUseCase
 
 interface Validator {
 

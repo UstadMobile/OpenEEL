@@ -1,4 +1,4 @@
-package world.respect.credentials.passkey
+package org.openeel.credentials.passkey
 
 import io.ktor.http.Url
 import kotlinx.serialization.DeserializationStrategy
@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
-import world.respect.credentials.passkey.model.AuthenticationResponseJSON
+import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
 
 /**
  * Sealed class that represents a password, passkey, or QR Code Badge credential

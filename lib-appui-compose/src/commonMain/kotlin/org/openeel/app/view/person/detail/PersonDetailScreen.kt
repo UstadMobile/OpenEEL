@@ -1,4 +1,4 @@
-package world.respect.app.view.person.detail
+package org.openeel.app.view.person.detail
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -18,24 +18,24 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectDetailField
-import world.respect.app.components.RespectPersonAvatar
-import world.respect.app.components.RespectQuickActionButton
-import world.respect.app.components.defaultItemPadding
-import world.respect.datalayer.db.school.ext.fullName
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.create_account
-import world.respect.shared.generated.resources.date_of_birth
-import world.respect.shared.generated.resources.email
-import world.respect.shared.generated.resources.family_members
-import world.respect.shared.generated.resources.gender
-import world.respect.shared.generated.resources.manage_account
-import world.respect.shared.generated.resources.phone_number
-import world.respect.shared.generated.resources.role
-import world.respect.shared.generated.resources.username_label
-import world.respect.shared.util.ext.label
-import world.respect.shared.viewmodel.person.detail.PersonDetailUiState
-import world.respect.shared.viewmodel.person.detail.PersonDetailViewModel
+import org.openeel.app.components.RespectDetailField
+import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.RespectQuickActionButton
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.datalayer.db.school.ext.fullName
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.create_account
+import org.openeel.shared.generated.resources.date_of_birth
+import org.openeel.shared.generated.resources.email
+import org.openeel.shared.generated.resources.family_members
+import org.openeel.shared.generated.resources.gender
+import org.openeel.shared.generated.resources.manage_account
+import org.openeel.shared.generated.resources.phone_number
+import org.openeel.shared.generated.resources.role
+import org.openeel.shared.generated.resources.username_label
+import org.openeel.shared.util.ext.label
+import org.openeel.shared.viewmodel.person.detail.PersonDetailUiState
+import org.openeel.shared.viewmodel.person.detail.PersonDetailViewModel
 
 @Composable
 fun PersonDetailScreen(

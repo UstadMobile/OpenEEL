@@ -1,12 +1,12 @@
-package world.respect.xapi.ipc.client
+package org.openeel.xapi.ipc.client
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.json.Json
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.ipc.messagebridge.MessageData
 import org.openeel.lib.ipc.messagebridge.IpcMessageBridge
-import world.respect.xapi.ipc.shared.messages.ext.toDataLoadState
+import org.openeel.xapi.ipc.shared.messages.ext.toDataLoadState
 
 suspend fun <T:Any> IpcMessageBridge.executeRequestAsDataLoadState(
     request: MessageData,

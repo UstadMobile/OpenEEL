@@ -1,16 +1,16 @@
-package world.respect.shared.domain.xapi
+package org.openeel.shared.domain.xapi
 
 import kotlinx.serialization.json.JsonPrimitive
-import world.respect.lib.xapi.OpenEelXapiConstants
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.model.XapiActivityDefinition
-import world.respect.lib.xapi.model.XapiActor
-import world.respect.lib.xapi.model.XapiContext
-import world.respect.lib.xapi.model.XapiContextActivities
-import world.respect.lib.xapi.model.XapiGroup
-import world.respect.lib.xapi.model.XapiObjectType
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.model.XapiVerb
+import org.openeel.lib.xapi.OpenEelXapiConstants
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.model.XapiActivityDefinition
+import org.openeel.lib.xapi.model.XapiActor
+import org.openeel.lib.xapi.model.XapiContext
+import org.openeel.lib.xapi.model.XapiContextActivities
+import org.openeel.lib.xapi.model.XapiGroup
+import org.openeel.lib.xapi.model.XapiObjectType
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiVerb
 import kotlin.time.Clock
 import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi

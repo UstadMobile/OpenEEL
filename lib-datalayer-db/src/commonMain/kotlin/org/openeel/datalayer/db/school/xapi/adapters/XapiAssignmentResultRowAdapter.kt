@@ -1,7 +1,7 @@
-package world.respect.datalayer.db.school.xapi.adapters
+package org.openeel.datalayer.db.school.xapi.adapters
 
-import world.respect.datalayer.db.school.xapi.composites.XapiAssignmentResultRow
-import world.respect.lib.xapi.composites.XapiAssignmentTaskProgress
+import org.openeel.datalayer.db.school.xapi.composites.XapiAssignmentResultRow
+import org.openeel.lib.xapi.composites.XapiAssignmentTaskProgress
 
 fun XapiAssignmentResultRow.toXapiAssignmentResult(
     activityId: String,

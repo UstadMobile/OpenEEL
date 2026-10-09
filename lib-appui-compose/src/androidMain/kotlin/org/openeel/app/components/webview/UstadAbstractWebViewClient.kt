@@ -1,4 +1,4 @@
-package world.respect.app.components.webview
+package org.openeel.app.components.webview
 
 import android.webkit.WebView
 import android.webkit.WebViewClient

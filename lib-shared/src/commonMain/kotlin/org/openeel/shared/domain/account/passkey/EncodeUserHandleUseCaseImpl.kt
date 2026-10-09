@@ -1,8 +1,8 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
 import io.ktor.util.encodeBase64
-import world.respect.credentials.passkey.RespectUserHandle
-import world.respect.credentials.passkey.request.EncodeUserHandleUseCase
+import org.openeel.credentials.passkey.RespectUserHandle
+import org.openeel.credentials.passkey.request.EncodeUserHandleUseCase
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 

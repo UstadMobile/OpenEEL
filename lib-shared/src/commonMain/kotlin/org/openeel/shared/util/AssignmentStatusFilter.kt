@@ -1,11 +1,11 @@
-package world.respect.shared.util
+package org.openeel.shared.util
 
 import org.jetbrains.compose.resources.StringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.all_students
-import world.respect.shared.generated.resources.completed_status
-import world.respect.shared.generated.resources.in_progress_status
-import world.respect.shared.generated.resources.not_started_status
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.all_students
+import org.openeel.shared.generated.resources.completed_status
+import org.openeel.shared.generated.resources.in_progress_status
+import org.openeel.shared.generated.resources.not_started_status
 
 enum class AssignmentStatusFilter(val titleRes: StringResource) {
     ALL(Res.string.all_students),

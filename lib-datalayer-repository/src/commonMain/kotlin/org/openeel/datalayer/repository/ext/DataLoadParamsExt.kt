@@ -1,9 +1,9 @@
-package world.respect.datalayer.repository.ext
+package org.openeel.datalayer.repository.ext
 
 import io.ktor.http.HttpHeaders
 import io.ktor.http.headers
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
-import world.respect.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.DataLoadParams
 
 /**
  * Copy the receiver [DataLoadParams] to be used to validate the data from a remote data source.

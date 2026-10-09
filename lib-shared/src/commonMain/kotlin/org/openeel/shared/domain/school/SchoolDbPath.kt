@@ -1,7 +1,7 @@
-package world.respect.shared.domain.school
+package org.openeel.shared.domain.school
 
 import io.ktor.http.Url
-import world.respect.libutil.ext.sanitizedForFilename
+import org.openeel.libutil.ext.sanitizedForFilename
 
 data class SchoolDbPath(
     val filename: String,

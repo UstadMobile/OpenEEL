@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.shared.messages.ext
+package org.openeel.xapi.ipc.shared.messages.ext
 
 import android.os.Bundle
 import io.ktor.util.StringValues

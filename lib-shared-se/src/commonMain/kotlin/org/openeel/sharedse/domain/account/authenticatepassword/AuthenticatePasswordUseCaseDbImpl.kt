@@ -1,16 +1,16 @@
-package world.respect.sharedse.domain.account.authenticatepassword
+package org.openeel.sharedse.domain.account.authenticatepassword
 
 import io.github.aakira.napier.Napier
-import world.respect.credentials.passkey.RespectPasswordCredential
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
-import world.respect.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
+import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
+import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
 import io.ktor.util.decodeBase64Bytes
-import world.respect.datalayer.db.school.adapters.toModel
-import world.respect.datalayer.db.school.adapters.toPersonEntities
-import world.respect.lib.dataloadstate.throwable.ForbiddenException
-import world.respect.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase.Companion.LOGTAG_AUTH
+import org.openeel.datalayer.db.school.adapters.toModel
+import org.openeel.datalayer.db.school.adapters.toPersonEntities
+import org.openeel.lib.dataloadstate.throwable.ForbiddenException
+import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase.Companion.LOGTAG_AUTH
 
 class AuthenticatePasswordUseCaseDbImpl(
     private val schoolDb: RespectSchoolDatabase,

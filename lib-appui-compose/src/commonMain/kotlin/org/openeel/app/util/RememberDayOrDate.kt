@@ -1,4 +1,4 @@
-package world.respect.app.util
+package org.openeel.app.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -8,9 +8,9 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.daysUntil
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.today
-import world.respect.shared.generated.resources.yesterday
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.today
+import org.openeel.shared.generated.resources.yesterday
 import java.text.DateFormat
 import java.util.Date
 import kotlin.time.Instant

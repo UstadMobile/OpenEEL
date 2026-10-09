@@ -1,6 +1,6 @@
-package world.respect.shared.viewmodel.app.appstate
+package org.openeel.shared.viewmodel.app.appstate
 
-import world.respect.shared.resources.UiText
+import org.openeel.shared.resources.UiText
 
 data class Snack(
     val message: UiText,

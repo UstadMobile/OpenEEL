@@ -1,17 +1,17 @@
-package world.respect.datalayer.db.school.opds.adapters
+package org.openeel.datalayer.db.school.opds.adapters
 
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.opds.OpdsParentType
-import world.respect.datalayer.db.school.opds.entities.OpdsFeedMetadataEntity
-import world.respect.datalayer.db.school.opds.entities.OpdsGroupEntity
-import world.respect.datalayer.db.school.opds.entities.OpdsPublicationEntity
-import world.respect.datalayer.db.school.opds.entities.ReadiumLinkEntity
-import world.respect.datalayer.db.school.opds.entities.ReadiumSubjectEntity
-import world.respect.datalayer.db.shared.entities.LangMapEntity
-import world.respect.lib.opds.model.OpdsGroup
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.primarykeygen.PrimaryKeyGenerator
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.opds.OpdsParentType
+import org.openeel.datalayer.db.school.opds.entities.OpdsFeedMetadataEntity
+import org.openeel.datalayer.db.school.opds.entities.OpdsGroupEntity
+import org.openeel.datalayer.db.school.opds.entities.OpdsPublicationEntity
+import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity
+import org.openeel.datalayer.db.school.opds.entities.ReadiumSubjectEntity
+import org.openeel.datalayer.db.shared.entities.LangMapEntity
+import org.openeel.lib.opds.model.OpdsGroup
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 
 data class OpdsGroupEntities(
     val group: OpdsGroupEntity,

@@ -1,7 +1,7 @@
-package world.respect.datalayer.db.school.opds.ext
+package org.openeel.datalayer.db.school.opds.ext
 
-import world.respect.datalayer.db.school.opds.entities.OpdsFeedEntity
-import world.respect.lib.dataloadstate.ETagAndLastModified
+import org.openeel.datalayer.db.school.opds.entities.OpdsFeedEntity
+import org.openeel.lib.dataloadstate.ETagAndLastModified
 
 fun OpdsFeedEntity.etagAndLastModified(): ETagAndLastModified {
     return ETagAndLastModified(

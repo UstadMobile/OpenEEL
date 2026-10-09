@@ -1,4 +1,4 @@
-package world.respect.app.util.phonenum
+package org.openeel.app.util.phonenum
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString

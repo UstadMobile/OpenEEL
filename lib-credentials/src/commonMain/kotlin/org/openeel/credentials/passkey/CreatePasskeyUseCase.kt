@@ -1,7 +1,7 @@
-package world.respect.credentials.passkey
+package org.openeel.credentials.passkey
 
-import world.respect.credentials.passkey.model.AuthenticationResponseJSON
-import world.respect.credentials.passkey.request.GetPasskeyProviderInfoUseCase
+import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
+import org.openeel.credentials.passkey.request.GetPasskeyProviderInfoUseCase
 
 interface CreatePasskeyUseCase {
 

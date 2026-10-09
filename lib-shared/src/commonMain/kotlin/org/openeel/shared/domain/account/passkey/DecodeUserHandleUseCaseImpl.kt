@@ -1,9 +1,9 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
 import io.ktor.http.Url
-import world.respect.credentials.passkey.RespectUserHandle
-import world.respect.credentials.passkey.request.DecodeUserHandleUseCase
-import world.respect.shared.util.base64StringToByteArray
+import org.openeel.credentials.passkey.RespectUserHandle
+import org.openeel.credentials.passkey.request.DecodeUserHandleUseCase
+import org.openeel.shared.util.base64StringToByteArray
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 

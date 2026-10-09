@@ -1,4 +1,4 @@
-package world.respect.libutil.util
+package org.openeel.libutil.util
 
 import org.acra.ACRA
 

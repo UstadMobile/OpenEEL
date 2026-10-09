@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.adapters
+package org.openeel.datalayer.db.school.adapters
 
-import world.respect.datalayer.db.school.entities.AuthTokenEntity
-import world.respect.datalayer.school.model.AuthToken
-import world.respect.datalayer.school.model.DeviceInfo
-import world.respect.libutil.ext.randomString
+import org.openeel.datalayer.db.school.entities.AuthTokenEntity
+import org.openeel.datalayer.school.model.AuthToken
+import org.openeel.datalayer.school.model.DeviceInfo
+import org.openeel.libutil.ext.randomString
 
 fun AuthToken.toEntity(
     pGuid: String,

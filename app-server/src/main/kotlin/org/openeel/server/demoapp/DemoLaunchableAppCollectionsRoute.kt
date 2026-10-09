@@ -4,9 +4,9 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import org.koin.ktor.ext.getKoin
-import world.respect.server.demoapp.ext.demoAppBaseUrl
-import world.respect.server.domain.school.demoapp.MakeDemoAppCollectionUseCase
-import world.respect.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase
+import org.openeel.server.demoapp.ext.demoAppBaseUrl
+import org.openeel.server.domain.school.demoapp.MakeDemoAppCollectionUseCase
+import org.openeel.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase
 
 
 fun Route.DemoLaunchableAppCollectionsRoute() {

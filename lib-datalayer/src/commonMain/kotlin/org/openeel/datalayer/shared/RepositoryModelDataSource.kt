@@ -1,4 +1,4 @@
-package world.respect.datalayer.shared
+package org.openeel.datalayer.shared
 
 /**
  * Interface that is implemented on RESPECT Repository DataSources that includes a local model

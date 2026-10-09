@@ -1,8 +1,8 @@
-package world.respect.lib.opds.model
+package org.openeel.lib.opds.model
 
 import com.eygraber.uri.Uri
 import kotlinx.serialization.Serializable
-import world.respect.lib.serializers.UriStringSerializer
+import org.openeel.lib.serializers.UriStringSerializer
 
 /**
  * As per https://readium.org/webpub-manifest/schema/extensions/encryption/properties.schema.json

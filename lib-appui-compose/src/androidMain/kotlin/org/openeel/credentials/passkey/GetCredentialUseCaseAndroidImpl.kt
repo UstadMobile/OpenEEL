@@ -1,4 +1,4 @@
-package world.respect.credentials.passkey
+package org.openeel.credentials.passkey
 
 import android.util.Log
 import androidx.credentials.GetCredentialRequest
@@ -13,8 +13,8 @@ import androidx.credentials.exceptions.NoCredentialException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.channels.Channel
 import kotlinx.serialization.json.Json
-import world.respect.credentials.passkey.model.AuthenticationResponseJSON
-import world.respect.credentials.passkey.request.CreatePublicKeyCredentialRequestOptionsJsonUseCase
+import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
+import org.openeel.credentials.passkey.request.CreatePublicKeyCredentialRequestOptionsJsonUseCase
 
 class GetCredentialUseCaseAndroidImpl(
     private val createPublicKeyCredentialRequestOptionsJsonUseCase: CreatePublicKeyCredentialRequestOptionsJsonUseCase,

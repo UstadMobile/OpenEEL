@@ -1,4 +1,4 @@
-package world.respect.app.view.apps.detail
+package org.openeel.app.view.apps.detail
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,22 +45,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.app.RespectAsyncImage
-import world.respect.app.components.AlternativeLangLinks
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.langMapString
-import world.respect.app.components.uiTextStringResource
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.findIcons
-import world.respect.shared.ext.alternateLanguageLinks
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.add_app
-import world.respect.shared.generated.resources.google_play
-import world.respect.shared.generated.resources.lessons
-import world.respect.shared.viewmodel.apps.detail.AppsDetailUiState
-import world.respect.shared.viewmodel.apps.detail.AppsDetailViewModel
+import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.components.AlternativeLangLinks
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.langMapString
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.findIcons
+import org.openeel.shared.ext.alternateLanguageLinks
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add_app
+import org.openeel.shared.generated.resources.google_play
+import org.openeel.shared.generated.resources.lessons
+import org.openeel.shared.viewmodel.apps.detail.AppsDetailUiState
+import org.openeel.shared.viewmodel.apps.detail.AppsDetailViewModel
 
 @Composable
 fun AppsDetailScreen(

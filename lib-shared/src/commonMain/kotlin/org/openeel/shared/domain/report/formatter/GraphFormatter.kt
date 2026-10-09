@@ -1,6 +1,6 @@
-package world.respect.shared.domain.report.formatter
+package org.openeel.shared.domain.report.formatter
 
-import world.respect.shared.resources.UiText
+import org.openeel.shared.resources.UiText
 
 /**
  * @param T the type of value e.g. Double for numerical axis, String for category/subgroups, etc.

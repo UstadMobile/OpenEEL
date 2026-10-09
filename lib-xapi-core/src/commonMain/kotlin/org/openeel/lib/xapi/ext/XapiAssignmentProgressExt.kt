@@ -1,7 +1,7 @@
-package world.respect.lib.xapi.ext
+package org.openeel.lib.xapi.ext
 
-import world.respect.lib.xapi.composites.XapiActorAndAssignmentProgress
-import world.respect.lib.xapi.composites.XapiAssignmentTaskProgress
+import org.openeel.lib.xapi.composites.XapiActorAndAssignmentProgress
+import org.openeel.lib.xapi.composites.XapiAssignmentTaskProgress
 
 fun List<XapiAssignmentTaskProgress>.averageScore(): XapiAssignmentTaskProgress {
     return XapiAssignmentTaskProgress(

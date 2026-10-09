@@ -1,7 +1,7 @@
-package world.respect.datalayer.schooldirectory
+package org.openeel.datalayer.schooldirectory
 
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
 
 /**
  * DataSource to access all known directories

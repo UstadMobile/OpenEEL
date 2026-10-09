@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account
+package org.openeel.shared.domain.account
 
 import io.ktor.http.Url
 

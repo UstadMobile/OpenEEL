@@ -1,6 +1,6 @@
-package world.respect.credentials.passkey.request
+package org.openeel.credentials.passkey.request
 
-import world.respect.credentials.passkey.RespectUserHandle
+import org.openeel.credentials.passkey.RespectUserHandle
 
 /**
  * UseCase that will encode a user handle into a Byte64 encoded string, suitable for passkey

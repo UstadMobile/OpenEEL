@@ -1,4 +1,4 @@
-package world.respect.shared.util
+package org.openeel.shared.util
 
 import java.util.Base64
 

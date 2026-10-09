@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.school.entities
+package org.openeel.datalayer.db.school.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import world.respect.datalayer.school.writequeue.WriteQueueItem
+import org.openeel.datalayer.school.writequeue.WriteQueueItem
 
 /**
  *

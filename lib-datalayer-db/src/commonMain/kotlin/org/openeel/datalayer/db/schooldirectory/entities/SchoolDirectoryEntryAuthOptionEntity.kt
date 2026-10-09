@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.schooldirectory.entities
+package org.openeel.datalayer.db.schooldirectory.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.ktor.http.Url
-import world.respect.datalayer.respect.model.invite.AuthOptionConfigTypeEnum
+import org.openeel.datalayer.respect.model.invite.AuthOptionConfigTypeEnum
 
 /**
  * Entity that represents AuthenticationOption model, used via a 1:many join from [SchoolDirectoryEntity]

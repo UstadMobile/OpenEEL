@@ -1,12 +1,12 @@
-package world.respect.datalayer.db.school.adapters
+package org.openeel.datalayer.db.school.adapters
 
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.entities.InviteEntity
-import world.respect.datalayer.school.model.ClassInvite
-import world.respect.datalayer.school.model.ClassInviteModeEnum
-import world.respect.datalayer.school.model.FamilyMemberInvite
-import world.respect.datalayer.school.model.Invite2
-import world.respect.datalayer.school.model.NewUserInvite
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.entities.InviteEntity
+import org.openeel.datalayer.school.model.ClassInvite
+import org.openeel.datalayer.school.model.ClassInviteModeEnum
+import org.openeel.datalayer.school.model.FamilyMemberInvite
+import org.openeel.datalayer.school.model.Invite2
+import org.openeel.datalayer.school.model.NewUserInvite
 
 fun InviteEntity.toModel(): Invite2 {
     return when {

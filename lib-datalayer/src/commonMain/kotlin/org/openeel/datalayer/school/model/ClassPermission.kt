@@ -1,4 +1,4 @@
-package world.respect.datalayer.school.model
+package org.openeel.datalayer.school.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

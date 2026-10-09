@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account.gettokenanduser
+package org.openeel.shared.domain.account.gettokenanduser
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -13,11 +13,11 @@ import io.ktor.http.appendPathSegments
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import io.ktor.http.takeFrom
-import world.respect.credentials.passkey.RespectCredential
-import world.respect.shared.domain.account.AuthResponse
-import world.respect.datalayer.school.model.DeviceInfo
-import world.respect.lib.dataloadstate.throwable.ForbiddenException
-import world.respect.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
+import org.openeel.credentials.passkey.RespectCredential
+import org.openeel.shared.domain.account.AuthResponse
+import org.openeel.datalayer.school.model.DeviceInfo
+import org.openeel.lib.dataloadstate.throwable.ForbiddenException
+import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 
 class GetTokenAndUserProfileWithCredentialUseCaseClient(
     private val schoolUrl: Url,

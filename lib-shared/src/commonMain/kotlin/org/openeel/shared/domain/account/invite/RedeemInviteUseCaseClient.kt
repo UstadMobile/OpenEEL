@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account.invite
+package org.openeel.shared.domain.account.invite
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -8,10 +8,10 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.Url
 import io.ktor.http.contentType
-import world.respect.datalayer.AuthTokenProvider
-import world.respect.libutil.ext.appendEndpointSegments
-import world.respect.shared.domain.account.AuthResponse
-import world.respect.shared.domain.account.RespectAccountManager
+import org.openeel.datalayer.AuthTokenProvider
+import org.openeel.libutil.ext.appendEndpointSegments
+import org.openeel.shared.domain.account.AuthResponse
+import org.openeel.shared.domain.account.RespectAccountManager
 
 /**
  * RedeemInviteUseCase should be used by the RespectAccountManager, not directly by any ViewModel

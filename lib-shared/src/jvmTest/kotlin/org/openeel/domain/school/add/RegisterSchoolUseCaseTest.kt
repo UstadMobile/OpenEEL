@@ -1,7 +1,7 @@
-package world.respect.domain.school.add
+package org.openeel.domain.school.add
 
 import io.ktor.http.parametersOf
-import world.respect.shared.domain.school.add.RegisterSchoolUseCase
+import org.openeel.shared.domain.school.add.RegisterSchoolUseCase
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

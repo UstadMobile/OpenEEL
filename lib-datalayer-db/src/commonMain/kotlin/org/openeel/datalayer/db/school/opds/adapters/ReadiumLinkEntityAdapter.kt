@@ -1,12 +1,12 @@
-package world.respect.datalayer.db.school.opds.adapters
+package org.openeel.datalayer.db.school.opds.adapters
 
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.db.school.opds.OpdsParentType
-import world.respect.datalayer.db.school.opds.entities.ReadiumLinkEntity
-import world.respect.datalayer.db.school.opds.entities.ReadiumLinkEntity.PropertyType
-import world.respect.datalayer.db.shared.ext.takeIfNotEmpty
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.primarykeygen.PrimaryKeyGenerator
+import org.openeel.datalayer.db.school.opds.OpdsParentType
+import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity
+import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity.PropertyType
+import org.openeel.datalayer.db.shared.ext.takeIfNotEmpty
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 
 /**
  * Convert a ReadiumLink to a list of database entities. Also generates entities for alternate,

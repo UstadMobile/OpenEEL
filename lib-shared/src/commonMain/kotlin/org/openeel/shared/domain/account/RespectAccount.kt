@@ -1,9 +1,9 @@
-package world.respect.shared.domain.account
+package org.openeel.shared.domain.account
 
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.shared.util.di.RespectAccountScopeId
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.shared.util.di.RespectAccountScopeId
 
 /**
  * Represents a single Respect account

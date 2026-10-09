@@ -1,10 +1,10 @@
-package world.respect.shared.util
+package org.openeel.shared.util
 
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.ascending
-import world.respect.shared.generated.resources.descending
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.ascending
+import org.openeel.shared.generated.resources.descending
 
 
 /**

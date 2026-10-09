@@ -1,15 +1,15 @@
-package world.respect.shared.domain.opds.validator
+package org.openeel.shared.domain.opds.validator
 
 import com.networknt.schema.InputFormat
 import io.ktor.client.HttpClient
 import kotlinx.serialization.json.Json
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.domain.opds.validator.verifyMimeTypeAndGetBodyAsText
-import world.respect.domain.validator.ValidateLinkUseCase
-import world.respect.shared.domain.validator.ValidatorMessage
-import world.respect.shared.domain.validator.ValidatorReporter
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.domain.opds.validator.verifyMimeTypeAndGetBodyAsText
+import org.openeel.domain.validator.ValidateLinkUseCase
+import org.openeel.shared.domain.validator.ValidatorMessage
+import org.openeel.shared.domain.validator.ValidatorReporter
 
 /**
  * Validate on OPDS Feed

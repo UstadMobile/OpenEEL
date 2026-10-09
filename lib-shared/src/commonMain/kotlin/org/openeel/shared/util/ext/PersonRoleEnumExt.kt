@@ -1,14 +1,14 @@
-package world.respect.shared.util.ext
+package org.openeel.shared.util.ext
 
 import org.jetbrains.compose.resources.StringResource
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.parent
-import world.respect.shared.generated.resources.shared_school_devices
-import world.respect.shared.generated.resources.site_administrator
-import world.respect.shared.generated.resources.student
-import world.respect.shared.generated.resources.system_administrator
-import world.respect.shared.generated.resources.teacher
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.parent
+import org.openeel.shared.generated.resources.shared_school_devices
+import org.openeel.shared.generated.resources.site_administrator
+import org.openeel.shared.generated.resources.student
+import org.openeel.shared.generated.resources.system_administrator
+import org.openeel.shared.generated.resources.teacher
 
 val PersonRoleEnum.label: StringResource
     get() = when(this) {

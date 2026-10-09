@@ -1,4 +1,4 @@
-package world.respect.app.util.scanqrcode
+package org.openeel.app.util.scanqrcode
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

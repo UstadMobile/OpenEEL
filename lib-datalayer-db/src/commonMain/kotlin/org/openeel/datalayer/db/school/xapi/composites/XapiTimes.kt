@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.xapi.composites
+package org.openeel.datalayer.db.school.xapi.composites
 
 data class XapiTimes(
     val timeStored: Long,

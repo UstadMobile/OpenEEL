@@ -1,7 +1,7 @@
-package world.respect.shared.viewmodel.respectaccount.list
+package org.openeel.shared.viewmodel.respectaccount.list
 
-import world.respect.shared.domain.account.RespectAccount
-import world.respect.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.shared.domain.account.RespectAccountManager
 
 data class AccountAndName(
     val account: RespectAccount,

@@ -1,7 +1,7 @@
 package com.ustadmobile.core.domain.phonenumber
 
-import world.respect.shared.domain.phonenumber.IPhoneNumberUtil
-import world.respect.shared.domain.phonenumber.PhoneNumValidatorUseCase
+import org.openeel.shared.domain.phonenumber.IPhoneNumberUtil
+import org.openeel.shared.domain.phonenumber.PhoneNumValidatorUseCase
 
 
 class PhoneNumValidatorJvm(

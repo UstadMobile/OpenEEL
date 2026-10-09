@@ -1,18 +1,18 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import world.respect.datalayer.school.model.PersonGenderEnum
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.gender
-import world.respect.shared.generated.resources.required
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.generated.resources.required_field
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.util.ext.label
+import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.gender
+import org.openeel.shared.generated.resources.required
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.generated.resources.required_field
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.util.ext.label
 
 @Composable
 fun RespectGenderExposedDropDownMenuField(

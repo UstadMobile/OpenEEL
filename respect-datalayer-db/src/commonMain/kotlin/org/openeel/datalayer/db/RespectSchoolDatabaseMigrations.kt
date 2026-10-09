@@ -1,4 +1,4 @@
-package world.respect.datalayer.db
+package org.openeel.datalayer.db
 
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration

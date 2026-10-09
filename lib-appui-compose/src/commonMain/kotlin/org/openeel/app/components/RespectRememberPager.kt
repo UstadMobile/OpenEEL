@@ -1,11 +1,11 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
-import world.respect.datalayer.shared.paging.IPagingSourceFactory
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 
 const val DEFAULT_PAGE_SIZE = 20
 

@@ -1,4 +1,4 @@
-package world.respect.lib.serializers
+package org.openeel.lib.serializers
 
 
 import kotlin.time.Duration.Companion.milliseconds

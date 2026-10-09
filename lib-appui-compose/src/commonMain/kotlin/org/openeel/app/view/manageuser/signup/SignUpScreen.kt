@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.signup
+package org.openeel.app.view.manageuser.signup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,16 +17,16 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectGenderExposedDropDownMenuField
-import world.respect.app.components.RespectLocalDateField
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.datalayer.school.model.PersonGenderEnum
-import world.respect.shared.domain.account.invite.RespectRedeemInviteRequest
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.required
-import world.respect.shared.viewmodel.manageuser.profile.SignupUiState
-import world.respect.shared.viewmodel.manageuser.profile.SignupViewModel
+import org.openeel.app.components.RespectGenderExposedDropDownMenuField
+import org.openeel.app.components.RespectLocalDateField
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.required
+import org.openeel.shared.viewmodel.manageuser.profile.SignupUiState
+import org.openeel.shared.viewmodel.manageuser.profile.SignupViewModel
 
 @Composable
 fun SignupScreen(

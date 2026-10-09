@@ -1,4 +1,4 @@
-package world.respect.app.view.report.graph
+package org.openeel.app.view.report.graph
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -27,17 +27,17 @@ import io.github.koalaplot.core.xygraph.Point
 import io.github.koalaplot.core.xygraph.XYGraph
 import io.github.koalaplot.core.xygraph.rememberFloatLinearAxisModel
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.domain.report.formatter.GraphFormatter
-import world.respect.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
-import world.respect.lib.xapi.extensions.reportoptions.YAxisTypes
-import world.respect.shared.domain.report.query.RunReportUseCase
-import world.respect.shared.ext.label
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.count
-import world.respect.shared.generated.resources.duration
-import world.respect.shared.generated.resources.hour_unit
-import world.respect.shared.generated.resources.minute_unit
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.domain.report.formatter.GraphFormatter
+import org.openeel.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
+import org.openeel.lib.xapi.extensions.reportoptions.YAxisTypes
+import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.shared.ext.label
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.count
+import org.openeel.shared.generated.resources.duration
+import org.openeel.shared.generated.resources.hour_unit
+import org.openeel.shared.generated.resources.minute_unit
 
 private const val MS_IN_HOUR = 3_600_000
 

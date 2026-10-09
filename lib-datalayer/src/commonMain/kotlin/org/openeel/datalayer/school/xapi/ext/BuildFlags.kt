@@ -1,4 +1,4 @@
-package world.respect.datalayer.school.xapi.ext
+package org.openeel.datalayer.school.xapi.ext
 
 
 class IntFlagBuilder internal constructor(

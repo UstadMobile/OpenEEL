@@ -1,4 +1,4 @@
-package world.respect.server.routes.school.respect
+package org.openeel.server.routes.school.respect
 
 //fun Route.InviteCreateRoute(
 //    createInviteUseCase: (ApplicationCall) -> CreateInviteUseCase,

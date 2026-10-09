@@ -1,4 +1,4 @@
-package world.respect.app.view.person.manageaccount
+package org.openeel.app.view.person.manageaccount
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -26,33 +26,33 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectBottomSheetOption
-import world.respect.app.components.RespectPasskeySignInFasterCard
-import world.respect.app.components.appendStringRes
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.app.components.RespectQrBadgeInfoBox
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.assign_new_badge_replace
-import world.respect.shared.generated.resources.assigned
-import world.respect.shared.generated.resources.change
-import world.respect.shared.generated.resources.create_passkey
-import world.respect.shared.generated.resources.last_updated
-import world.respect.shared.generated.resources.manage
-import world.respect.shared.generated.resources.passkeys
-import world.respect.shared.generated.resources.password_label
-import world.respect.shared.generated.resources.qr_code_badge
-import world.respect.shared.generated.resources.revoke_badge
-import world.respect.shared.generated.resources.security
-import world.respect.shared.generated.resources.username_label
-import world.respect.shared.generated.resources.badge
-import world.respect.shared.generated.resources.not_set
-import world.respect.shared.generated.resources.set_password
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.util.rememberFormattedDateTime
-import world.respect.shared.viewmodel.person.manageaccount.ManageAccountUiState
-import world.respect.shared.viewmodel.person.manageaccount.ManageAccountViewModel
+import org.openeel.app.components.RespectBottomSheetOption
+import org.openeel.app.components.RespectPasskeySignInFasterCard
+import org.openeel.app.components.appendStringRes
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.app.components.RespectQrBadgeInfoBox
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.assign_new_badge_replace
+import org.openeel.shared.generated.resources.assigned
+import org.openeel.shared.generated.resources.change
+import org.openeel.shared.generated.resources.create_passkey
+import org.openeel.shared.generated.resources.last_updated
+import org.openeel.shared.generated.resources.manage
+import org.openeel.shared.generated.resources.passkeys
+import org.openeel.shared.generated.resources.password_label
+import org.openeel.shared.generated.resources.qr_code_badge
+import org.openeel.shared.generated.resources.revoke_badge
+import org.openeel.shared.generated.resources.security
+import org.openeel.shared.generated.resources.username_label
+import org.openeel.shared.generated.resources.badge
+import org.openeel.shared.generated.resources.not_set
+import org.openeel.shared.generated.resources.set_password
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.util.rememberFormattedDateTime
+import org.openeel.shared.viewmodel.person.manageaccount.ManageAccountUiState
+import org.openeel.shared.viewmodel.person.manageaccount.ManageAccountViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,11 +1,11 @@
-package world.respect.server.routes
+package org.openeel.server.routes
 
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import org.koin.ktor.ext.getKoin
-import world.respect.datalayer.RespectAppDataSource
-import world.respect.lib.dataloadstate.ktorserver.respondDataLoadState
-import world.respect.server.util.ext.virtualHost
+import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
+import org.openeel.server.util.ext.virtualHost
 
 /**
  * Serve the RespectRealm as a JSON according to the virtual host

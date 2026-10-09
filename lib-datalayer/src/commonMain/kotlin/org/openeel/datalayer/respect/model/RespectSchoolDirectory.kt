@@ -1,4 +1,4 @@
-package world.respect.datalayer.respect.model
+package org.openeel.datalayer.respect.model
 
 import io.ktor.http.Url
 import kotlinx.serialization.Serializable

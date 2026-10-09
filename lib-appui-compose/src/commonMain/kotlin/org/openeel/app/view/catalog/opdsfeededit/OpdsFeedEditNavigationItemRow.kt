@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeededit
+package org.openeel.app.view.catalog.opdsfeededit
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -13,9 +13,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import sh.calvin.reorderable.ReorderableListItemScope
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.move
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.move
 
 
 @Composable

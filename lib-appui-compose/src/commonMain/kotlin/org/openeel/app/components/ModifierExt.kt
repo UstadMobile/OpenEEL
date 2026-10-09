@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size

@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -22,14 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.assign_qr_code_badge
-import world.respect.shared.generated.resources.change_qr_code_badge
-import world.respect.shared.generated.resources.learn_more
-import world.respect.shared.generated.resources.qr_code_badge
-import world.respect.shared.generated.resources.qr_code_badge_description
-import world.respect.shared.generated.resources.quick_easy_sign_in
-import world.respect.shared.generated.resources.undraw_qr_code_scan_bewe
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.assign_qr_code_badge
+import org.openeel.shared.generated.resources.change_qr_code_badge
+import org.openeel.shared.generated.resources.learn_more
+import org.openeel.shared.generated.resources.qr_code_badge
+import org.openeel.shared.generated.resources.qr_code_badge_description
+import org.openeel.shared.generated.resources.quick_easy_sign_in
+import org.openeel.shared.generated.resources.undraw_qr_code_scan_bewe
 
 
 @Composable

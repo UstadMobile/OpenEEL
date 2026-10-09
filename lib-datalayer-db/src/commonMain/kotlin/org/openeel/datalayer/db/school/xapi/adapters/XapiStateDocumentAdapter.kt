@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.xapi.adapters
+package org.openeel.datalayer.db.school.xapi.adapters
 
-import world.respect.datalayer.db.school.xapi.entities.XapiStateDocumentEntity
-import world.respect.datalayer.db.shared.InstantAsTimestampString
-import world.respect.lib.dataloadstate.datetime.toInstant
-import world.respect.lib.xapi.ext.requireIfi
-import world.respect.lib.xapi.model.XapiDocument
-import world.respect.lib.xapi.resources.XapiStateResource
+import org.openeel.datalayer.db.school.xapi.entities.XapiStateDocumentEntity
+import org.openeel.datalayer.db.shared.InstantAsTimestampString
+import org.openeel.lib.dataloadstate.datetime.toInstant
+import org.openeel.lib.xapi.ext.requireIfi
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.resources.XapiStateResource
 import kotlin.uuid.Uuid
 
 /**

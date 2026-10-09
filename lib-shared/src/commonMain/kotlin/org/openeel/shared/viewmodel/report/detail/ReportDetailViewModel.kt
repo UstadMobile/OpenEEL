@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.report.detail
+package org.openeel.shared.viewmodel.report.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -12,22 +12,22 @@ import kotlinx.datetime.TimeZone
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.extensions.reportoptions.ReportOptions
-import world.respect.datalayer.school.model.Report
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.domain.report.formatter.CreateGraphFormatterUseCase
-import world.respect.shared.domain.report.formatter.GraphFormatter
-import world.respect.shared.domain.report.query.RunReportUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.edit
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.ReportDetail
-import world.respect.shared.navigation.ReportEdit
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.FabUiState
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
+import org.openeel.datalayer.school.model.Report
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.report.formatter.CreateGraphFormatterUseCase
+import org.openeel.shared.domain.report.formatter.GraphFormatter
+import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.edit
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.ReportDetail
+import org.openeel.shared.navigation.ReportEdit
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.FabUiState
 
 data class ReportDetailUiState(
     val report: Report? = null,

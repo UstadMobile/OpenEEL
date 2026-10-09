@@ -1,4 +1,4 @@
-package world.respect.datalayer.school.model
+package org.openeel.datalayer.school.model
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -7,8 +7,8 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import world.respect.datalayer.school.model.Invite2.Companion.DIRECT_STR
-import world.respect.datalayer.school.model.Invite2.Companion.VIA_PARENT_STR
+import org.openeel.datalayer.school.model.Invite2.Companion.DIRECT_STR
+import org.openeel.datalayer.school.model.Invite2.Companion.VIA_PARENT_STR
 
 @Serializable(with = ClassInviteModeEnumSerializer::class)
 enum class ClassInviteModeEnum(val value: String, val flag: Int) {

@@ -1,7 +1,7 @@
-package world.respect.domain.validator
+package org.openeel.domain.validator
 
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.shared.domain.validator.ValidatorReporter
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.shared.domain.validator.ValidatorReporter
 
 
 /**

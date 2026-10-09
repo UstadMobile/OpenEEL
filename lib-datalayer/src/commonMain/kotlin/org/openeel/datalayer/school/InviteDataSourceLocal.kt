@@ -1,6 +1,6 @@
-package world.respect.datalayer.school
+package org.openeel.datalayer.school
 
-import world.respect.datalayer.school.model.Invite2
-import world.respect.datalayer.shared.LocalModelDataSource
+import org.openeel.datalayer.school.model.Invite2
+import org.openeel.datalayer.shared.LocalModelDataSource
 
 interface InviteDataSourceLocal: InviteDataSource, LocalModelDataSource<Invite2>

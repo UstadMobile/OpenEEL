@@ -1,14 +1,14 @@
-package world.respect.server.domain.school.demoapp
+package org.openeel.server.domain.school.demoapp
 
 import com.eygraber.uri.Uri
 import io.ktor.http.Url
 import org.openeel.demo.demolaunchableappserver.DemoConstants
-import world.respect.lib.opds.model.LangMapStringValue
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumContributorObject
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.ReadiumMetadata
-import world.respect.libutil.ext.resolve
+import org.openeel.lib.opds.model.LangMapStringValue
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumContributorObject
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ReadiumMetadata
+import org.openeel.libutil.ext.resolve
 
 class MakeDemoAppManifestUseCase(
     private val demoStrings: DemoStringMaps,

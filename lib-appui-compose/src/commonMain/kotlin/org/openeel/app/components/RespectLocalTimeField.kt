@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withStyle
 import kotlinx.datetime.LocalTime
-import world.respect.libutil.ext.pad0
+import org.openeel.libutil.ext.pad0
 import kotlin.math.min
 
 

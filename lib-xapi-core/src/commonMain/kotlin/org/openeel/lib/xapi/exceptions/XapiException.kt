@@ -1,6 +1,6 @@
-package world.respect.lib.xapi.exceptions
+package org.openeel.lib.xapi.exceptions
 
-import world.respect.lib.dataloadstate.throwable.ExceptionWithHttpStatusCode
+import org.openeel.lib.dataloadstate.throwable.ExceptionWithHttpStatusCode
 
 class XapiException(
     val httpStatusCode: Int,

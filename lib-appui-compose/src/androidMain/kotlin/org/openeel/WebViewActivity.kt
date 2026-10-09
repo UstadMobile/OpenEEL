@@ -1,4 +1,4 @@
-package world.respect
+package org.openeel
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -17,8 +17,8 @@ import com.ustadmobile.libcache.webview.OkHttpWebViewClient
 import io.github.aakira.napier.Napier
 import okhttp3.OkHttpClient
 import org.koin.android.ext.android.inject
-import world.respect.appcompose.R
-import world.respect.shared.domain.launchapp.LaunchAppUseCaseAndroid
+import org.openeel.appcompose.R
+import org.openeel.shared.domain.launchapp.LaunchAppUseCaseAndroid
 
 /**
  * A separate activity that only shows a WebView (e.g. to view a LearningUnit) .

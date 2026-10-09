@@ -1,8 +1,8 @@
-package world.respect.datalayer.http.ext
+package org.openeel.datalayer.http.ext
 
 import io.ktor.http.ParametersBuilder
-import world.respect.lib.dataloadstate.DataLayerParams
-import world.respect.datalayer.shared.params.GetListCommonParams
+import org.openeel.lib.dataloadstate.DataLayerParams
+import org.openeel.datalayer.shared.params.GetListCommonParams
 import kotlin.uuid.Uuid
 
 fun ParametersBuilder.appendIfNotNull(

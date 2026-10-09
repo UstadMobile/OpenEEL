@@ -1,4 +1,4 @@
-package world.respect.datalayer.repository.school.xapi
+package org.openeel.datalayer.repository.school.xapi
 
 import app.cash.turbine.test
 import io.ktor.server.routing.route
@@ -8,14 +8,14 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.libxapi.test.XapiActivityProfileTestParams
-import world.respect.datalayer.http.server.XapiActivityProfileResourceRoute
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.model.XapiDocument
-import world.respect.lib.xapi.resources.ISingleDocumentParams
-import world.respect.lib.xapi.resources.XapiDocumentResource
-import world.respect.lib.xapi.resources.XapiResource
+import org.openeel.datalayer.http.server.XapiActivityProfileResourceRoute
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.resources.ISingleDocumentParams
+import org.openeel.lib.xapi.resources.XapiDocumentResource
+import org.openeel.lib.xapi.resources.XapiResource
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertIs

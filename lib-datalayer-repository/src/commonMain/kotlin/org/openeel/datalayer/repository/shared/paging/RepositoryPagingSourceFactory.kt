@@ -1,11 +1,11 @@
-package world.respect.datalayer.repository.shared.paging
+package org.openeel.datalayer.repository.shared.paging
 
 import androidx.paging.PagingSource
 import io.github.aakira.napier.Napier
-import world.respect.datalayer.shared.DataLayerTags.TAG_DATALAYER
-import world.respect.datalayer.shared.paging.DelegatedInvalidationPagingSource
-import world.respect.datalayer.shared.paging.IPagingSourceFactory
-import world.respect.datalayer.shared.paging.LogPrefixFunction
+import org.openeel.datalayer.shared.DataLayerTags.TAG_DATALAYER
+import org.openeel.datalayer.shared.paging.DelegatedInvalidationPagingSource
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
+import org.openeel.datalayer.shared.paging.LogPrefixFunction
 
 /**
  * RepositoryPagingSourceFactory serves two purposes:

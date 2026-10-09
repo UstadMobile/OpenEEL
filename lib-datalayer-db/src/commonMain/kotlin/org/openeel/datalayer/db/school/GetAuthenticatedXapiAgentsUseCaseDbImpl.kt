@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school
+package org.openeel.datalayer.db.school
 
 import io.ktor.http.Url
-import world.respect.datalayer.school.ext.asXapiAgent
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.model.XapiAgent
+import org.openeel.datalayer.school.ext.asXapiAgent
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.model.XapiAgent
 
 class GetAuthenticatedXapiAgentsUseCaseDbImpl(
     private val getAuthenticatedPersonUseCase: GetAuthenticatedPersonUseCase,

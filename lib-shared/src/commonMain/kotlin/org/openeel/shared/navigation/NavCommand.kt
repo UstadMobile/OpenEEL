@@ -1,6 +1,6 @@
-package world.respect.shared.navigation
+package org.openeel.shared.navigation
 
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.libutil.util.time.systemTimeInMillis
 import kotlin.reflect.KClass
 
 sealed class NavCommand(

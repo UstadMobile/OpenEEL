@@ -1,18 +1,18 @@
-package world.respect.datalayer.db.schooldirectory.adapters
+package org.openeel.datalayer.db.schooldirectory.adapters
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import world.respect.datalayer.db.schooldirectory.entities.SchoolDirectoryEntryAuthOptionEntity
-import world.respect.datalayer.db.schooldirectory.entities.SchoolDirectoryEntryEntity
-import world.respect.datalayer.db.schooldirectory.entities.SchoolDirectoryEntryLangMapEntity
-import world.respect.datalayer.db.shared.adapters.asEntities
-import world.respect.datalayer.db.shared.adapters.toIModel
-import world.respect.datalayer.respect.model.AuthenticationOption
-import world.respect.datalayer.respect.model.BuiltinAuthOptionConfig
-import world.respect.datalayer.respect.model.OpenIdAuthOptionConfig
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.datalayer.respect.model.invite.AuthOptionConfigTypeEnum
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.datalayer.db.schooldirectory.entities.SchoolDirectoryEntryAuthOptionEntity
+import org.openeel.datalayer.db.schooldirectory.entities.SchoolDirectoryEntryEntity
+import org.openeel.datalayer.db.schooldirectory.entities.SchoolDirectoryEntryLangMapEntity
+import org.openeel.datalayer.db.shared.adapters.asEntities
+import org.openeel.datalayer.db.shared.adapters.toIModel
+import org.openeel.datalayer.respect.model.AuthenticationOption
+import org.openeel.datalayer.respect.model.BuiltinAuthOptionConfig
+import org.openeel.datalayer.respect.model.OpenIdAuthOptionConfig
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.respect.model.invite.AuthOptionConfigTypeEnum
+import org.openeel.libxxhash.XXStringHasher
 
 data class SchoolDirectoryEntryEntities(
     @Embedded

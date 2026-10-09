@@ -1,11 +1,11 @@
-package world.respect.shared.domain.account.username.validateusername
+package org.openeel.shared.domain.account.username.validateusername
 
 import org.jetbrains.compose.resources.StringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.invalid_username
-import world.respect.shared.generated.resources.username_starts_with_number
-import world.respect.shared.generated.resources.username_too_long
-import world.respect.shared.generated.resources.username_too_short
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.invalid_username
+import org.openeel.shared.generated.resources.username_starts_with_number
+import org.openeel.shared.generated.resources.username_too_long
+import org.openeel.shared.generated.resources.username_too_short
 
 /**
  * Validates whether a username meets all required criteria:

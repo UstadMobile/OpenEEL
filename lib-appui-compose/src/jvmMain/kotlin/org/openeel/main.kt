@@ -1,4 +1,4 @@
-package world.respect
+package org.openeel
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application

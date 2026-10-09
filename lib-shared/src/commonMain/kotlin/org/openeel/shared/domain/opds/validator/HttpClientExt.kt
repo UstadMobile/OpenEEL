@@ -1,12 +1,12 @@
-package world.respect.domain.opds.validator
+package org.openeel.domain.opds.validator
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.expectSuccess
 import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.isSuccess
-import world.respect.shared.domain.validator.ValidatorMessage
-import world.respect.shared.domain.validator.ValidatorReporter
+import org.openeel.shared.domain.validator.ValidatorMessage
+import org.openeel.shared.domain.validator.ValidatorReporter
 
 suspend fun HttpClient.verifyMimeTypeAndGetBodyAsText(
     url: String,

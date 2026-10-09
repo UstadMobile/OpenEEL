@@ -1,4 +1,4 @@
-package world.respect.shared.domain.launchers
+package org.openeel.shared.domain.launchers
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.core.net.toUri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import world.respect.shared.domain.openexternallink.OpenExternalLinkUseCase
+import org.openeel.shared.domain.openexternallink.OpenExternalLinkUseCase
 
 class OpenExternalLinkUseCaseAndroid(
     private val context: Context

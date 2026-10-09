@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.catalog
+package org.openeel.shared.viewmodel.catalog
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable

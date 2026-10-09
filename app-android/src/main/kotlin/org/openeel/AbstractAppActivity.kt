@@ -1,4 +1,4 @@
-package world.respect.view.app
+package org.openeel.view.app
 
 import android.content.Intent
 import android.os.Bundle
@@ -23,13 +23,13 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import org.koin.android.ext.android.inject
-import world.respect.app.app.App
-import world.respect.app.app.SizeClass
-import world.respect.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
-import world.respect.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCaseAndroid
-import world.respect.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
-import world.respect.shared.ext.withClearBackstack
-import world.respect.shared.navigation.NavCommand
+import org.openeel.app.app.App
+import org.openeel.app.app.SizeClass
+import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
+import org.openeel.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCaseAndroid
+import org.openeel.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
+import org.openeel.shared.ext.withClearBackstack
+import org.openeel.shared.navigation.NavCommand
 
 
 abstract class AbstractAppActivity : AppCompatActivity() {

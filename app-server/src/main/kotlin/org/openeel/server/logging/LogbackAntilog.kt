@@ -1,4 +1,4 @@
-package world.respect.server.logging
+package org.openeel.server.logging
 
 
 import io.github.aakira.napier.Antilog

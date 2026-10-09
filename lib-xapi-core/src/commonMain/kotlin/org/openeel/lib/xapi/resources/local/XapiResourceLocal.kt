@@ -1,6 +1,6 @@
-package world.respect.lib.xapi.resources.local
+package org.openeel.lib.xapi.resources.local
 
-import world.respect.lib.xapi.resources.XapiResource
+import org.openeel.lib.xapi.resources.XapiResource
 
 interface XapiResourceLocal: XapiResource {
 

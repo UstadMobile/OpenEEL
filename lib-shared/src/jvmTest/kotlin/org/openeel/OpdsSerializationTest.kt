@@ -1,7 +1,7 @@
-package world.respect
+package org.openeel
 
 import kotlinx.serialization.json.Json
-import world.respect.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.OpdsFeed
 import kotlin.test.Test
 
 class OpdsSerializationTest {

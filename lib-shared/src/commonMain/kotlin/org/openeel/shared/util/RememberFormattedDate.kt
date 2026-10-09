@@ -1,4 +1,4 @@
-package world.respect.shared.util
+package org.openeel.shared.util
 
 import androidx.compose.runtime.Composable
 import kotlinx.datetime.LocalDate

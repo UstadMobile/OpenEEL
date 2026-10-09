@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.model
+package org.openeel.lib.xapi.model
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KeepGeneratedSerializer
@@ -10,9 +10,9 @@ import kotlinx.serialization.json.JsonTransformingSerializer
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
-import world.respect.lib.serializers.InstantAsISO8601
-import world.respect.lib.serializers.SingleItemToListTransformer
-import world.respect.lib.xapi.ext.putAllExcept
+import org.openeel.lib.serializers.InstantAsISO8601
+import org.openeel.lib.serializers.SingleItemToListTransformer
+import org.openeel.lib.xapi.ext.putAllExcept
 import kotlin.uuid.Uuid
 
 const val XAPI_RESULT_EXTENSION_PROGRESS = "https://w3id.org/xapi/cmi5/result/extensions/progress"

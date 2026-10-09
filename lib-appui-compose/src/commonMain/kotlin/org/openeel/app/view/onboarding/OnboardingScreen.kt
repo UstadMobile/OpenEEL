@@ -1,4 +1,4 @@
-package world.respect.app.view.onboarding
+package org.openeel.app.view.onboarding
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -28,23 +28,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import world.respect.images.RespectImage
-import world.respect.images.respectImagePainter
-import world.respect.shared.viewmodel.onboarding.OnboardingUiState
-import world.respect.shared.viewmodel.onboarding.OnboardingViewModel
+import org.openeel.images.RespectImage
+import org.openeel.images.respectImagePainter
+import org.openeel.shared.viewmodel.onboarding.OnboardingUiState
+import org.openeel.shared.viewmodel.onboarding.OnboardingViewModel
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.get_started
-import world.respect.shared.generated.resources.onboardingDescription1
-import world.respect.shared.generated.resources.onboardingDescription2
-import world.respect.shared.generated.resources.onboardingDescription3
-import world.respect.shared.generated.resources.onboardingDescription4
-import world.respect.shared.generated.resources.onboardingTitle1
-import world.respect.shared.generated.resources.onboardingTitle2
-import world.respect.shared.generated.resources.onboardingTitle3
-import world.respect.shared.generated.resources.onboardingTitle4
-import world.respect.shared.generated.resources.send_usage_stats_and_crash_reports
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.get_started
+import org.openeel.shared.generated.resources.onboardingDescription1
+import org.openeel.shared.generated.resources.onboardingDescription2
+import org.openeel.shared.generated.resources.onboardingDescription3
+import org.openeel.shared.generated.resources.onboardingDescription4
+import org.openeel.shared.generated.resources.onboardingTitle1
+import org.openeel.shared.generated.resources.onboardingTitle2
+import org.openeel.shared.generated.resources.onboardingTitle3
+import org.openeel.shared.generated.resources.onboardingTitle4
+import org.openeel.shared.generated.resources.send_usage_stats_and_crash_reports
 
 
 data class OnboardingItem(

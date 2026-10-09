@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.howpasskeywork
+package org.openeel.app.view.manageuser.howpasskeywork
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -6,9 +6,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.shared.generated.resources.*
-import world.respect.shared.viewmodel.manageuser.howpasskeywork.HowPasskeyWorksViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.shared.generated.resources.*
+import org.openeel.shared.viewmodel.manageuser.howpasskeywork.HowPasskeyWorksViewModel
 
 @Composable
 fun HowPasskeyWorksScreen(

@@ -1,4 +1,4 @@
-package world.respect.server.routes.school.respect
+package org.openeel.server.routes.school.respect
 
 import io.github.aakira.napier.Napier
 import io.ktor.http.CacheControl
@@ -29,11 +29,11 @@ import kotlinx.html.meta
 import kotlinx.html.style
 import kotlinx.html.title
 import org.koin.ktor.ext.inject
-import world.respect.server.SchoolConfig
-import world.respect.server.schoolDirsUseVirtualHost
-import world.respect.server.util.ext.getStatusCode
-import world.respect.server.util.ext.virtualHost
-import world.respect.shared.domain.school.add.RegisterSchoolUseCase
+import org.openeel.server.SchoolConfig
+import org.openeel.server.schoolDirsUseVirtualHost
+import org.openeel.server.util.ext.getStatusCode
+import org.openeel.server.util.ext.virtualHost
+import org.openeel.shared.domain.school.add.RegisterSchoolUseCase
 
 fun Route.SchoolRegistrationRoute() {
     val registerSchoolUseCase: RegisterSchoolUseCase by inject()

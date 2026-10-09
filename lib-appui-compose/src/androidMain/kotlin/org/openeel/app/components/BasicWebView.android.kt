@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import android.view.ViewGroup
 import android.webkit.WebResourceRequest

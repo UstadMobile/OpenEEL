@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
 
 interface RevokePasskeyUseCase {

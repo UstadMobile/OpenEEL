@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,10 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.util.SortOrderOption
-import world.respect.shared.generated.resources.sort_by
-import world.respect.shared.util.description
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.util.SortOrderOption
+import org.openeel.shared.generated.resources.sort_by
+import org.openeel.shared.util.description
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,8 +1,8 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.entities.PersonPasskeyEntity
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.entities.PersonPasskeyEntity
+import org.openeel.libxxhash.XXStringHasher
 
 class GetActivePersonPasskeysDbImpl(
     private val schoolDb: RespectSchoolDatabase,

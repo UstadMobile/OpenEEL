@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.composites
+package org.openeel.lib.xapi.composites
 
 
 /**

@@ -1,8 +1,8 @@
-package world.respect.lib.opds.model.ext
+package org.openeel.lib.opds.model.ext
 
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
 
 fun OpdsFeed.feedIconLinkOrNull(): ReadiumLink? {
     return links.filterByHasRel("icon").firstOrNull()

@@ -1,9 +1,9 @@
-package world.respect.lib.xapi.ext
+package org.openeel.lib.xapi.ext
 
 import io.ktor.http.ContentType
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import world.respect.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.model.XapiDocument
 
 /**
  * Simple shorthand method to check if the receiver [XapiDocument] is Json.

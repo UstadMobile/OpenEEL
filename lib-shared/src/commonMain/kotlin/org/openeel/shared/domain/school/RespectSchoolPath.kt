@@ -1,4 +1,4 @@
-package world.respect.shared.domain.school
+package org.openeel.shared.domain.school
 
 import kotlinx.io.files.Path
 

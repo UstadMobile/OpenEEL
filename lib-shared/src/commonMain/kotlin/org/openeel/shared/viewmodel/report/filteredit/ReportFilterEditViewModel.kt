@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.report.filteredit
+package org.openeel.shared.viewmodel.report.filteredit
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -7,19 +7,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.lib.xapi.extensions.reportoptions.FilterType
-import world.respect.lib.xapi.extensions.reportoptions.ReportConditionFilterOptions
-import world.respect.lib.xapi.extensions.reportoptions.ReportFilter
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.done
-import world.respect.shared.generated.resources.edit_filters
-import world.respect.shared.navigation.ReportEditFilter
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.ActionBarButtonUiState
-import world.respect.shared.viewmodel.app.appstate.AppUiState
-import world.respect.shared.viewmodel.app.appstate.LoadingUiState
-import world.respect.shared.viewmodel.report.edit.ReportEditViewModel.Companion.REPORT_EDIT_FILTER_RESULT
+import org.openeel.lib.xapi.extensions.reportoptions.FilterType
+import org.openeel.lib.xapi.extensions.reportoptions.ReportConditionFilterOptions
+import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.done
+import org.openeel.shared.generated.resources.edit_filters
+import org.openeel.shared.navigation.ReportEditFilter
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
+import org.openeel.shared.viewmodel.report.edit.ReportEditViewModel.Companion.REPORT_EDIT_FILTER_RESULT
 
 data class ReportFilterEditUiState(
     val filters: ReportFilter? = ReportFilter(),

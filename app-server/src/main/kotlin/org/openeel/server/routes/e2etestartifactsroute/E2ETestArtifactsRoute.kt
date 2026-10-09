@@ -1,4 +1,4 @@
-package world.respect.server.routes.e2etestartifactsroute
+package org.openeel.server.routes.e2etestartifactsroute
 
 import io.github.aakira.napier.Napier
 import io.ktor.http.HttpStatusCode
@@ -6,11 +6,11 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
-import world.respect.server.util.ext.HttpStatusException
-import world.respect.shared.domain.e2eartifactupload.E2EArtifactUploadUseCase
+import org.openeel.server.util.ext.HttpStatusException
+import org.openeel.shared.domain.e2eartifactupload.E2EArtifactUploadUseCase
 import java.io.File
 import java.sql.DriverManager
-import world.respect.shared.domain.school.SchoolDbPath
+import org.openeel.shared.domain.school.SchoolDbPath
 
 
 @Suppress("FunctionName")

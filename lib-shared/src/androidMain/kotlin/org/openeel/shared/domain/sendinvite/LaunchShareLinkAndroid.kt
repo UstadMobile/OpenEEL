@@ -1,11 +1,11 @@
-package world.respect.shared.domain.sendinvite
+package org.openeel.shared.domain.sendinvite
 
 import android.content.Context
 import android.content.Intent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import world.respect.shared.domain.sharelink.LaunchShareLinkUseCase
-import world.respect.shared.domain.sharelink.LaunchShareLinkUseCase.Companion.MIME_TYPE
+import org.openeel.shared.domain.sharelink.LaunchShareLinkUseCase
+import org.openeel.shared.domain.sharelink.LaunchShareLinkUseCase.Companion.MIME_TYPE
 
 class LaunchShareLinkAndroid(
     private val context: Context

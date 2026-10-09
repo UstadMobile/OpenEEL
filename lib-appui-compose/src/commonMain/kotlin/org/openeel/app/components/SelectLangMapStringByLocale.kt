@@ -1,10 +1,10 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.runtime.Composable
-import world.respect.lib.opds.model.LangMap
-import world.respect.lib.opds.model.LangMapObjectValue
-import world.respect.lib.opds.model.LangMapStringValue
-import world.respect.libutil.util.selectLangOrNull
+import org.openeel.lib.opds.model.LangMap
+import org.openeel.lib.opds.model.LangMapObjectValue
+import org.openeel.lib.opds.model.LangMapStringValue
+import org.openeel.libutil.util.selectLangOrNull
 
 @Composable
 fun langMapString(

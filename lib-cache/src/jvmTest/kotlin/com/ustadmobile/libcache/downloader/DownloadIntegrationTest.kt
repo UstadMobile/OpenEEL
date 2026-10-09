@@ -17,10 +17,10 @@ import nl.adaptivity.xmlutil.core.XmlVersion
 import nl.adaptivity.xmlutil.serialization.XML
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verifyBlocking
-import world.respect.lib.opds.model.Publication
-import world.respect.libutil.ext.resolve
-import world.respect.libutil.findFreePort
-import world.respect.libxxhash.jvmimpl.XXStringHasherCommonJvm
+import org.openeel.lib.opds.model.Publication
+import org.openeel.libutil.ext.resolve
+import org.openeel.libutil.findFreePort
+import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

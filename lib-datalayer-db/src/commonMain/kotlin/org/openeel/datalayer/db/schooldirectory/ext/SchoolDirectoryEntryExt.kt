@@ -1,6 +1,6 @@
-package world.respect.datalayer.db.schooldirectory.ext
+package org.openeel.datalayer.db.schooldirectory.ext
 
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 
 val SchoolDirectoryEntry.virtualHostScopeId: String
     get() = self.toString()

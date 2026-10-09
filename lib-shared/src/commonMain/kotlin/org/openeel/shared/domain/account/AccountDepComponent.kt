@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account
+package org.openeel.shared.domain.account
 
 data class AccountDepComponent(
     val accountId: String,

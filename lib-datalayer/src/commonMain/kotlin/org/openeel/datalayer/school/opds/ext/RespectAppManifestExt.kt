@@ -1,10 +1,10 @@
-package world.respect.datalayer.school.opds.ext
+package org.openeel.datalayer.school.opds.ext
 
-import world.respect.datalayer.compatibleapps.model.RespectAppManifest
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.REL_RESPECT_DEFAULT_CATALOG
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.ReadiumMetadata
+import org.openeel.datalayer.compatibleapps.model.RespectAppManifest
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.REL_RESPECT_DEFAULT_CATALOG
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ReadiumMetadata
 
 fun RespectAppManifest.asOpdsPublication(): Publication {
     return Publication(

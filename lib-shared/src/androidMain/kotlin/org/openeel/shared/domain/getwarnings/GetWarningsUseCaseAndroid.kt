@@ -1,10 +1,10 @@
-package world.respect.shared.domain.getwarnings
+package org.openeel.shared.domain.getwarnings
 
 import android.os.Build
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.android6_warning
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.ext.asUiText
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.android6_warning
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.asUiText
 
 class GetWarningsUseCaseAndroid(): GetWarningsUseCase {
 

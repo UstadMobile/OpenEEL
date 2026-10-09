@@ -1,6 +1,6 @@
-package world.respect.datalayer.school.ext
+package org.openeel.datalayer.school.ext
 
-import world.respect.datalayer.school.model.SchoolPermissionGrant
+import org.openeel.datalayer.school.model.SchoolPermissionGrant
 
 /**
  * Given a list of SchoolPermissionGrants and a list of permission flags, filter the list of

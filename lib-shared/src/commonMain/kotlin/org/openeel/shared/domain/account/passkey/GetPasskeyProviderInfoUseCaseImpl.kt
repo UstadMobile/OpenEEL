@@ -1,9 +1,9 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
 import io.github.aakira.napier.Napier
 import io.ktor.util.decodeBase64Bytes
 import kotlinx.serialization.json.Json
-import world.respect.credentials.passkey.request.GetPasskeyProviderInfoUseCase
+import org.openeel.credentials.passkey.request.GetPasskeyProviderInfoUseCase
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

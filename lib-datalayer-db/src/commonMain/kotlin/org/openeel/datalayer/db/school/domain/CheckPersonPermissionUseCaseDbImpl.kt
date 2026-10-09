@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.domain
+package org.openeel.datalayer.db.school.domain
 
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.school.domain.CheckPersonPermissionUseCase
-import world.respect.datalayer.school.domain.CheckPersonPermissionUseCase.PermissionsRequiredByRole
-import world.respect.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
+import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase.PermissionsRequiredByRole
+import org.openeel.datalayer.school.model.PersonRoleEnum
 
 class CheckPersonPermissionUseCaseDbImpl(
     private val authenticatedUser: AuthenticatedUserPrincipalId,

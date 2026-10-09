@@ -1,4 +1,4 @@
-package world.respect.datalayer.school.writequeue
+package org.openeel.datalayer.school.writequeue
 
 import kotlinx.coroutines.flow.Flow
 

@@ -1,13 +1,13 @@
-package world.respect.datalayer.repository.school.xapi
+package org.openeel.datalayer.repository.school.xapi
 
 import io.ktor.server.routing.route
 import kotlinx.serialization.json.Json
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.libxapi.test.AbstractXapiStateResourceTest
-import world.respect.datalayer.http.server.XapiStateResourceRoute
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.resources.XapiStateResource
+import org.openeel.datalayer.http.server.XapiStateResourceRoute
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.resources.XapiStateResource
 import kotlin.test.Test
 
 class XapiStateResourceRepositoryTest : AbstractXapiStateResourceTest() {

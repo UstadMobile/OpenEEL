@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.person.changepassword
+package org.openeel.shared.viewmodel.person.changepassword
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -11,29 +11,29 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.credentials.passkey.RespectPasswordCredential
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
-import world.respect.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
-import world.respect.shared.domain.account.validatepassword.ValidatePasswordUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.change_password
-import world.respect.shared.generated.resources.invalid_password
-import world.respect.shared.generated.resources.save
-import world.respect.shared.generated.resources.saved
-import world.respect.shared.navigation.ChangePassword
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.exception.getUiTextOrGeneric
-import world.respect.shared.util.ext.asUiText
-import world.respect.datalayer.db.school.ext.canAdminAccountFor
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.ActionBarButtonUiState
-import world.respect.shared.viewmodel.app.appstate.Snack
-import world.respect.shared.viewmodel.app.appstate.SnackBarDispatcher
+import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
+import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
+import org.openeel.shared.domain.account.validatepassword.ValidatePasswordUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.change_password
+import org.openeel.shared.generated.resources.invalid_password
+import org.openeel.shared.generated.resources.save
+import org.openeel.shared.generated.resources.saved
+import org.openeel.shared.navigation.ChangePassword
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.exception.getUiTextOrGeneric
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.datalayer.db.school.ext.canAdminAccountFor
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
+import org.openeel.shared.viewmodel.app.appstate.Snack
+import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 
 data class ChangePasswordUiState(
     val requireOldPassword: Boolean = true,

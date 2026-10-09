@@ -1,4 +1,4 @@
-package world.respect.app.view.sharedschooldevice.login
+package org.openeel.app.view.sharedschooldevice.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,14 +11,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.collectAsLazyPagingItems
-import world.respect.app.components.RespectPersonAvatar
-import world.respect.app.components.respectPagingItems
-import world.respect.app.components.respectRememberPager
-import world.respect.datalayer.db.school.ext.fullName
-import world.respect.datalayer.school.ClassDataSource
-import world.respect.datalayer.school.model.Person
-import world.respect.shared.viewmodel.sharedschooldevice.login.StudentListUiState
-import world.respect.shared.viewmodel.sharedschooldevice.login.StudentListViewModel
+import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.respectPagingItems
+import org.openeel.app.components.respectRememberPager
+import org.openeel.datalayer.db.school.ext.fullName
+import org.openeel.datalayer.school.ClassDataSource
+import org.openeel.datalayer.school.model.Person
+import org.openeel.shared.viewmodel.sharedschooldevice.login.StudentListUiState
+import org.openeel.shared.viewmodel.sharedschooldevice.login.StudentListViewModel
 
 @Composable
 fun StudentListScreen(

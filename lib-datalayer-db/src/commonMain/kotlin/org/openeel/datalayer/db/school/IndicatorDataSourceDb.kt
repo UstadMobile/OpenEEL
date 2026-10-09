@@ -1,17 +1,17 @@
-package world.respect.datalayer.db.school
+package org.openeel.datalayer.db.school
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.adapters.toIndicator
-import world.respect.datalayer.db.school.adapters.toIndicatorEntity
-import world.respect.lib.xapi.extensions.reportoptions.Indicator
-import world.respect.datalayer.school.IndicatorDataSource
-import world.respect.lib.xapi.extensions.reportoptions.DefaultIndicators
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.adapters.toIndicator
+import org.openeel.datalayer.db.school.adapters.toIndicatorEntity
+import org.openeel.lib.xapi.extensions.reportoptions.Indicator
+import org.openeel.datalayer.school.IndicatorDataSource
+import org.openeel.lib.xapi.extensions.reportoptions.DefaultIndicators
 
 class IndicatorDataSourceDb(
     private val schoolDb: RespectSchoolDatabase,

@@ -1,4 +1,4 @@
-package world.respect.app.view.schooldirectory.list
+package org.openeel.app.view.schooldirectory.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,12 +17,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.delete
-import world.respect.shared.viewmodel.schooldirectory.list.SchoolDirectoryListUiState
-import world.respect.shared.viewmodel.schooldirectory.list.SchoolDirectoryListViewModel
-import world.respect.shared.viewmodel.schooldirectory.list.SchoolDirectoryMode
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.delete
+import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryListUiState
+import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryListViewModel
+import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryMode
 
 @Composable
 fun SchoolDirectoryListScreen(

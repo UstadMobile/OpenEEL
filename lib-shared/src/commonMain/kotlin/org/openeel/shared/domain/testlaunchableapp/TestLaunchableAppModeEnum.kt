@@ -1,4 +1,4 @@
-package world.respect.shared.domain.testlaunchableapp
+package org.openeel.shared.domain.testlaunchableapp
 
 enum class TestLaunchableAppModeEnum(val id: String) {
     WEBVIEW("webview"), NATIVE("native");

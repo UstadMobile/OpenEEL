@@ -1,23 +1,23 @@
-package world.respect.datalayer.repository.school
+package org.openeel.datalayer.repository.school
 
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.ext.combineWithRemote
-import world.respect.lib.dataloadstate.ext.combineWithRemoteIfNotNull
-import world.respect.datalayer.ext.updateFromRemoteIfNeeded
-import world.respect.datalayer.ext.updateFromRemoteListIfNeeded
-import world.respect.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
-import world.respect.datalayer.school.PersonQrCodeBadgeDataSourceLocal
-import world.respect.datalayer.school.PersonQrBadgeDataSource
-import world.respect.datalayer.school.model.PersonQrBadge
-import world.respect.datalayer.school.writequeue.RemoteWriteQueue
-import world.respect.datalayer.school.writequeue.WriteQueueItem
-import world.respect.datalayer.shared.DataLayerTags
-import world.respect.datalayer.shared.RepositoryModelDataSource
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.ext.combineWithRemote
+import org.openeel.lib.dataloadstate.ext.combineWithRemoteIfNotNull
+import org.openeel.datalayer.ext.updateFromRemoteIfNeeded
+import org.openeel.datalayer.ext.updateFromRemoteListIfNeeded
+import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
+import org.openeel.datalayer.school.PersonQrCodeBadgeDataSourceLocal
+import org.openeel.datalayer.school.PersonQrBadgeDataSource
+import org.openeel.datalayer.school.model.PersonQrBadge
+import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
+import org.openeel.datalayer.school.writequeue.WriteQueueItem
+import org.openeel.datalayer.shared.DataLayerTags
+import org.openeel.datalayer.shared.RepositoryModelDataSource
+import org.openeel.libutil.util.time.systemTimeInMillis
 
 class PersonQrCodeBadgeDataSourceRepository(
     override val local: PersonQrCodeBadgeDataSourceLocal,

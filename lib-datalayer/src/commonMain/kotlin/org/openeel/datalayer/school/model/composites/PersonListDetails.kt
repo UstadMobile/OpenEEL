@@ -1,6 +1,6 @@
-package world.respect.datalayer.school.model.composites
+package org.openeel.datalayer.school.model.composites
 
-import world.respect.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.PersonRoleEnum
 
 
 /**

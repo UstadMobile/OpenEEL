@@ -1,3 +1,3 @@
-package world.respect.libutil.util.time
+package org.openeel.libutil.util.time
 
 expect fun systemTimeInMillis(): Long

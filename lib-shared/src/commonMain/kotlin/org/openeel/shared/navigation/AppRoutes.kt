@@ -1,25 +1,25 @@
 //Transient properties are used as documented below, cannot be removed because they are needed for serialization
 @file:Suppress("CanBeParameter")
 
-package world.respect.shared.navigation
+package org.openeel.shared.navigation
 
 import io.ktor.http.Url
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
-import world.respect.datalayer.school.model.Person
-import world.respect.shared.domain.account.invite.RespectRedeemInviteRequest
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.lib.xapi.extensions.reportoptions.ReportFilter
-import world.respect.lib.xapi.model.XapiActor
-import world.respect.shared.ext.NextAfterScan
-import world.respect.shared.viewmodel.catalog.PublicationsSelection
-import world.respect.shared.viewmodel.manageuser.signup.SignupScreenModeEnum
-import world.respect.shared.viewmodel.schooldirectory.list.SchoolDirectoryMode
-import world.respect.lib.opds.model.LangMap
-import world.respect.shared.viewmodel.catalog.OpdsPickType
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.Person
+import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
+import org.openeel.lib.xapi.model.XapiActor
+import org.openeel.shared.ext.NextAfterScan
+import org.openeel.shared.viewmodel.catalog.PublicationsSelection
+import org.openeel.shared.viewmodel.manageuser.signup.SignupScreenModeEnum
+import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryMode
+import org.openeel.lib.opds.model.LangMap
+import org.openeel.shared.viewmodel.catalog.OpdsPickType
 import kotlin.uuid.Uuid
 
 @Serializable

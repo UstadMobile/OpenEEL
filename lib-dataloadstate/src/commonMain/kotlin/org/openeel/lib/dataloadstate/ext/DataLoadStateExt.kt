@@ -1,13 +1,13 @@
-package world.respect.lib.dataloadstate.ext
+package org.openeel.lib.dataloadstate.ext
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
 import io.ktor.http.HttpHeaders
 import io.ktor.http.toHttpDate
 import io.ktor.util.date.GMTDate

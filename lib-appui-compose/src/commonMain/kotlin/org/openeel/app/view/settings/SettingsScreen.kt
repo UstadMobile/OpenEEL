@@ -1,4 +1,4 @@
-package world.respect.app.view.settings
+package org.openeel.app.view.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -19,12 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.loading
-import world.respect.shared.generated.resources.mappings
-import world.respect.shared.generated.resources.policies_shared_devices
-import world.respect.shared.generated.resources.school
-import world.respect.shared.viewmodel.settings.SettingsViewModel
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.loading
+import org.openeel.shared.generated.resources.mappings
+import org.openeel.shared.generated.resources.policies_shared_devices
+import org.openeel.shared.generated.resources.school
+import org.openeel.shared.viewmodel.settings.SettingsViewModel
 
 @Composable
 fun SettingsScreen(

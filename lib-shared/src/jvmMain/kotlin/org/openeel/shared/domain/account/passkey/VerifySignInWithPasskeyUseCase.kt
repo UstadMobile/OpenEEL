@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
 import com.webauthn4j.WebAuthnManager
 import com.webauthn4j.converter.exception.DataConversionException
@@ -12,13 +12,13 @@ import com.webauthn4j.data.client.challenge.DefaultChallenge
 import com.webauthn4j.server.ServerProperty
 import io.github.aakira.napier.Napier
 import kotlinx.serialization.json.Json
-import world.respect.credentials.passkey.model.AuthenticationResponseJSON
-import world.respect.credentials.passkey.model.ClientDataJSON
-import world.respect.credentials.passkey.model.PasskeyVerifyResult
-import world.respect.credentials.passkey.request.DecodeUserHandleUseCase
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.entities.PersonPasskeyEntity
-import world.respect.lib.dataloadstate.throwable.withHttpStatus
+import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
+import org.openeel.credentials.passkey.model.ClientDataJSON
+import org.openeel.credentials.passkey.model.PasskeyVerifyResult
+import org.openeel.credentials.passkey.request.DecodeUserHandleUseCase
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.entities.PersonPasskeyEntity
+import org.openeel.lib.dataloadstate.throwable.withHttpStatus
 import java.util.Base64
 
 /**

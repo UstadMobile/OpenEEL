@@ -1,7 +1,7 @@
-package world.respect.shared.domain.school
+package org.openeel.shared.domain.school
 
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.lib.primarykeygen.PrimaryKeyGenerator
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 
 /**
  * Wrapper class used only for purposes of differentiating it for dependency injection purposes

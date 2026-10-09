@@ -1,11 +1,11 @@
-package world.respect.app.effects
+package org.openeel.app.effects
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
-import world.respect.libutil.util.putDebugCrashCustomData
+import org.openeel.libutil.util.putDebugCrashCustomData
 
 @Composable
 fun NavControllerLogEffect(

@@ -1,13 +1,13 @@
-package world.respect.datalayer.db.opds.adapters
+package org.openeel.datalayer.db.opds.adapters
 
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.opds.adapters.asEntities
-import world.respect.datalayer.db.school.opds.adapters.asModel
-import world.respect.datalayer.shared.XXHashUidNumberMapper
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.primarykeygen.PrimaryKeyGenerator
-import world.respect.libxxhash.jvmimpl.XXStringHasherCommonJvm
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.opds.adapters.asEntities
+import org.openeel.datalayer.db.school.opds.adapters.asModel
+import org.openeel.datalayer.shared.XXHashUidNumberMapper
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
+import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

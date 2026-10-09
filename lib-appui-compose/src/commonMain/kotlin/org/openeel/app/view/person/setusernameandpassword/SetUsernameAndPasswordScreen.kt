@@ -1,4 +1,4 @@
-package world.respect.app.view.person.setusernameandpassword
+package org.openeel.app.view.person.setusernameandpassword
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,20 +21,20 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectPasswordField
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.app.components.RespectQrBadgeInfoBox
-import world.respect.shared.domain.account.username.validateusername.ValidateUsernameUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.change_password
-import world.respect.shared.generated.resources.password_label
-import world.respect.shared.generated.resources.set_password
-import world.respect.shared.generated.resources.username_label
-import world.respect.shared.util.ext.isLoading
-import world.respect.shared.viewmodel.app.appstate.AppUiState
-import world.respect.shared.viewmodel.person.setusernameandpassword.CreateAccountSetUserNameUiState
-import world.respect.shared.viewmodel.person.setusernameandpassword.CreateAccountSetUserNameViewModel
+import org.openeel.app.components.RespectPasswordField
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.app.components.RespectQrBadgeInfoBox
+import org.openeel.shared.domain.account.username.validateusername.ValidateUsernameUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.change_password
+import org.openeel.shared.generated.resources.password_label
+import org.openeel.shared.generated.resources.set_password
+import org.openeel.shared.generated.resources.username_label
+import org.openeel.shared.util.ext.isLoading
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.shared.viewmodel.person.setusernameandpassword.CreateAccountSetUserNameUiState
+import org.openeel.shared.viewmodel.person.setusernameandpassword.CreateAccountSetUserNameViewModel
 
 @Composable
 fun CreateAccountSetUsernameScreen(

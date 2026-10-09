@@ -1,4 +1,4 @@
-package world.respect.app.view.statement.detail
+package org.openeel.app.view.statement.detail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,10 +13,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import kotlinx.serialization.json.Json
-import world.respect.app.components.defaultItemPadding
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.shared.viewmodel.statement.detail.RawStatementUiState
-import world.respect.shared.viewmodel.statement.detail.RawStatementViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.shared.viewmodel.statement.detail.RawStatementUiState
+import org.openeel.shared.viewmodel.statement.detail.RawStatementViewModel
 
 @Composable
 fun RawStatementScreen(

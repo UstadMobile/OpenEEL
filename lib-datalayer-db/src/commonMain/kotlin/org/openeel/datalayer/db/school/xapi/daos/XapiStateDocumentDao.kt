@@ -1,13 +1,13 @@
-package world.respect.datalayer.db.school.xapi.daos
+package org.openeel.datalayer.db.school.xapi.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import world.respect.datalayer.db.school.xapi.composites.XapiStateDocumentAndShaEntities
-import world.respect.datalayer.db.school.xapi.entities.XapiStateDocumentEntity
-import world.respect.datalayer.db.shared.ETagAndLastModifiedAsStrings
-import world.respect.datalayer.db.shared.InstantAsTimestampString
+import org.openeel.datalayer.db.school.xapi.composites.XapiStateDocumentAndShaEntities
+import org.openeel.datalayer.db.school.xapi.entities.XapiStateDocumentEntity
+import org.openeel.datalayer.db.shared.ETagAndLastModifiedAsStrings
+import org.openeel.datalayer.db.shared.InstantAsTimestampString
 import kotlin.uuid.Uuid
 
 @Dao

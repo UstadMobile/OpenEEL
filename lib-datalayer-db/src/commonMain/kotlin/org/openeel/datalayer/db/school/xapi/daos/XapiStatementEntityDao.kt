@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.xapi.daos
+package org.openeel.datalayer.db.school.xapi.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -7,17 +7,17 @@ import androidx.room.Query
 import androidx.room.RawQuery
 import androidx.room.RoomRawQuery
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.xapi.composites.XapiAssignmentResultRow
-import world.respect.datalayer.db.school.xapi.composites.XapiStatementAndJsonEntities
-import world.respect.datalayer.db.school.xapi.composites.XapiSubstatementAndVerbEntity
-import world.respect.datalayer.db.school.xapi.composites.XapiSummaryResultRow
-import world.respect.datalayer.db.school.xapi.composites.XapiTimes
-import world.respect.datalayer.db.school.xapi.entities.XapiActivityLangMapEntryPropEnum
-import world.respect.datalayer.db.school.xapi.entities.XapiEntityObjectTypeFlags
-import world.respect.datalayer.db.school.xapi.entities.XapiStatementContextActivityJoinTypeEnum
-import world.respect.datalayer.db.school.xapi.entities.XapiStatementEntity
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.lib.xapi.extensions.reportoptions.StatementReportRow
+import org.openeel.datalayer.db.school.xapi.composites.XapiAssignmentResultRow
+import org.openeel.datalayer.db.school.xapi.composites.XapiStatementAndJsonEntities
+import org.openeel.datalayer.db.school.xapi.composites.XapiSubstatementAndVerbEntity
+import org.openeel.datalayer.db.school.xapi.composites.XapiSummaryResultRow
+import org.openeel.datalayer.db.school.xapi.composites.XapiTimes
+import org.openeel.datalayer.db.school.xapi.entities.XapiActivityLangMapEntryPropEnum
+import org.openeel.datalayer.db.school.xapi.entities.XapiEntityObjectTypeFlags
+import org.openeel.datalayer.db.school.xapi.entities.XapiStatementContextActivityJoinTypeEnum
+import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntity
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.xapi.extensions.reportoptions.StatementReportRow
 
 @Dao
 interface XapiStatementEntityDao {

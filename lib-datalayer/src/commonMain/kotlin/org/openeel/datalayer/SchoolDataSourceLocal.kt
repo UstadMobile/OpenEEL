@@ -1,17 +1,17 @@
-package world.respect.datalayer
+package org.openeel.datalayer
 
-import world.respect.datalayer.school.opds.OpdsPublicationDataSourceLocal
-import world.respect.datalayer.school.ClassDataSourceLocal
-import world.respect.datalayer.school.EnrollmentDataSourceLocal
-import world.respect.datalayer.school.InviteDataSourceLocal
-import world.respect.datalayer.school.PersonDataSourceLocal
-import world.respect.datalayer.school.PersonPasskeyDataSourceLocal
-import world.respect.datalayer.school.PersonPasswordDataSourceLocal
-import world.respect.datalayer.school.PersonQrCodeBadgeDataSourceLocal
-import world.respect.datalayer.school.ReportDataSourceLocal
-import world.respect.datalayer.school.SchoolPermissionGrantDataSourceLocal
-import world.respect.datalayer.school.opds.OpdsFeedDataSourceLocal
-import world.respect.lib.xapi.resources.local.XapiResourceLocal
+import org.openeel.datalayer.school.opds.OpdsPublicationDataSourceLocal
+import org.openeel.datalayer.school.ClassDataSourceLocal
+import org.openeel.datalayer.school.EnrollmentDataSourceLocal
+import org.openeel.datalayer.school.InviteDataSourceLocal
+import org.openeel.datalayer.school.PersonDataSourceLocal
+import org.openeel.datalayer.school.PersonPasskeyDataSourceLocal
+import org.openeel.datalayer.school.PersonPasswordDataSourceLocal
+import org.openeel.datalayer.school.PersonQrCodeBadgeDataSourceLocal
+import org.openeel.datalayer.school.ReportDataSourceLocal
+import org.openeel.datalayer.school.SchoolPermissionGrantDataSourceLocal
+import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
+import org.openeel.lib.xapi.resources.local.XapiResourceLocal
 
 /**
  * Local DataSource implementation (eg based on a database). Local DataSources include putLocal

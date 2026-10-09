@@ -1,4 +1,4 @@
-package world.respect.lib.primarykeygen
+package org.openeel.lib.primarykeygen
 
 import java.net.NetworkInterface
 import kotlin.random.Random

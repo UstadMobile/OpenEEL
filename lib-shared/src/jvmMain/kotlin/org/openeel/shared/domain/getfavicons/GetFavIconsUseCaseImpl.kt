@@ -1,9 +1,9 @@
-package world.respect.shared.domain.getfavicons
+package org.openeel.shared.domain.getfavicons
 
 import io.ktor.http.Url
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import world.respect.domain.getfavicons.GetFavIconUseCase
+import org.openeel.domain.getfavicons.GetFavIconUseCase
 
 class GetFavIconsUseCaseImpl: GetFavIconUseCase {
 

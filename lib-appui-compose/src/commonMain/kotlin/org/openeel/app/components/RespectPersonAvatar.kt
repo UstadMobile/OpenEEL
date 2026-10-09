@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
-import world.respect.app.util.ext.rgbaColor
-import world.respect.shared.util.avatarColorForName
-import world.respect.shared.util.initial
+import org.openeel.app.util.ext.rgbaColor
+import org.openeel.shared.util.avatarColorForName
+import org.openeel.shared.util.initial
 
 @Composable
 fun RespectPersonAvatar(

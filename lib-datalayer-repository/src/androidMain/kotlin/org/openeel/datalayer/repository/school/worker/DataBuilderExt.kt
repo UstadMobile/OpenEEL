@@ -1,7 +1,7 @@
-package world.respect.datalayer.repository.school.worker
+package org.openeel.datalayer.repository.school.worker
 
 import androidx.work.Data
-import world.respect.datalayer.repository.school.RepoWorkerConstants
+import org.openeel.datalayer.repository.school.RepoWorkerConstants
 import kotlin.reflect.KClass
 
 /**

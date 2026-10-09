@@ -1,4 +1,4 @@
-package world.respect.shared.domain.onboarding
+package org.openeel.shared.domain.onboarding
 
 import com.russhwolf.settings.Settings
 

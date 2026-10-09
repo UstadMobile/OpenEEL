@@ -1,7 +1,7 @@
-package world.respect.shared.util.ext
+package org.openeel.shared.util.ext
 
-import world.respect.shared.viewmodel.app.appstate.AppUiState
-import world.respect.shared.viewmodel.app.appstate.LoadingUiState
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
 
 val AppUiState.isLoading: Boolean
     get() = loadingState.loadingState == LoadingUiState.State.INDETERMINATE

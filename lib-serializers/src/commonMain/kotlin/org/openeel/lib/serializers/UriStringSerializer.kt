@@ -1,4 +1,4 @@
-package world.respect.lib.serializers
+package org.openeel.lib.serializers
 
 import com.eygraber.uri.Uri
 import kotlinx.serialization.KSerializer

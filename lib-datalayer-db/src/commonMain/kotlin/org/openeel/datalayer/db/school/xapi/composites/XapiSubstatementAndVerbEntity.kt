@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.school.xapi.composites
+package org.openeel.datalayer.db.school.xapi.composites
 
 import androidx.room.Embedded
-import world.respect.datalayer.db.school.xapi.entities.XapiVerbEntity
-import world.respect.datalayer.db.school.xapi.entities.XapiStatementEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiVerbEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntity
 
 data class XapiSubstatementAndVerbEntity(
     @Embedded

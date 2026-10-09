@@ -1,10 +1,10 @@
-package world.respect.shared.domain.getdeviceinfo
+package org.openeel.shared.domain.getdeviceinfo
 
 import android.app.ActivityManager
 import android.content.Context
 import android.os.Build
 import io.github.aakira.napier.Napier
-import world.respect.datalayer.school.model.DeviceInfo
+import org.openeel.datalayer.school.model.DeviceInfo
 
 class GetDeviceInfoUseCaseAndroid(
     context: Context

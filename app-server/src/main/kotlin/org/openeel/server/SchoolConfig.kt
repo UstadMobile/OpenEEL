@@ -1,4 +1,4 @@
-package world.respect.server
+package org.openeel.server
 
 import io.ktor.http.DEFAULT_PORT
 import io.ktor.server.config.ApplicationConfig

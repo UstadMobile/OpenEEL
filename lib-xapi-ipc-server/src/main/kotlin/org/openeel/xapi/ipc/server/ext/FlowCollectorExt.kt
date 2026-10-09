@@ -1,10 +1,10 @@
-package world.respect.xapi.ipc.server.ext
+package org.openeel.xapi.ipc.server.ext
 
 import android.os.Message
 import android.util.Log
 import kotlinx.coroutines.Job
 import org.openeel.lib.ipc.messagebridge.IpcMessageBridgeWhatFlags
-import world.respect.xapi.ipc.shared.messages.XapiIpcTags
+import org.openeel.xapi.ipc.shared.messages.XapiIpcTags
 
 /**
  * Used by xAPI-IPC handlers to handle a flow completion message being received. Cancel the job

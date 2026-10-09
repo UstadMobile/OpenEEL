@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account
+package org.openeel.shared.domain.account
 
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
@@ -19,23 +19,23 @@ import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.scope.Scope
-import world.respect.credentials.passkey.RespectCredential
-import world.respect.shared.domain.account.invite.RespectRedeemInviteRequest
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.datalayer.RespectAppDataSource
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.datalayer.school.PersonDataSource
-import world.respect.datalayer.shared.params.GetListCommonParams
-import world.respect.datalayer.school.SchoolPermissionGrantDataSource
-import world.respect.datalayer.school.model.Person
-import world.respect.libutil.util.putDebugCrashCustomData
-import world.respect.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
-import world.respect.shared.domain.account.invite.RedeemInviteUseCase
-import world.respect.shared.domain.school.MakeSchoolPathDirUseCase
-import world.respect.shared.util.di.SchoolDirectoryEntryScopeId
-import world.respect.shared.util.ext.isSameAccount
+import org.openeel.credentials.passkey.RespectCredential
+import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.shared.params.GetListCommonParams
+import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
+import org.openeel.datalayer.school.model.Person
+import org.openeel.libutil.util.putDebugCrashCustomData
+import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
+import org.openeel.shared.domain.account.invite.RedeemInviteUseCase
+import org.openeel.shared.domain.school.MakeSchoolPathDirUseCase
+import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
+import org.openeel.shared.util.ext.isSameAccount
 
 /**
  *

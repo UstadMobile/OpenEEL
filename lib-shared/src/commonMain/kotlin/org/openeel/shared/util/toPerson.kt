@@ -1,10 +1,10 @@
-package world.respect.shared.util
+package org.openeel.shared.util
 
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.PersonRole
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.school.model.PersonStatusEnum
-import world.respect.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.PersonRole
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
 
 fun RespectRedeemInviteRequest.PersonInfo.toPerson(
     role: PersonRoleEnum,

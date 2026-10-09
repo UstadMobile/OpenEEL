@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.shared.messages
+package org.openeel.xapi.ipc.shared.messages
 
 object XapiIpcKeys {
 

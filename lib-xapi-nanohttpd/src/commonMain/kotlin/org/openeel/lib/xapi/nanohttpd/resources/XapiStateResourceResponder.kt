@@ -1,11 +1,11 @@
-package world.respect.lib.xapi.nanohttpd.resources
+package org.openeel.lib.xapi.nanohttpd.resources
 
 import fi.iki.elonen.NanoHTTPD
 import kotlinx.serialization.json.Json
-import world.respect.lib.xapi.XapiResourceProvider
-import world.respect.lib.xapi.nanohttpd.ext.parametersAsKtorParams
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.lib.xapi.resources.XapiStateResource
+import org.openeel.lib.xapi.XapiResourceProvider
+import org.openeel.lib.xapi.nanohttpd.ext.parametersAsKtorParams
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.lib.xapi.resources.XapiStateResource
 
 class XapiStateResourceResponder(
     resourceProvider: XapiResourceProvider,

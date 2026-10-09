@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.school.adapters
+package org.openeel.datalayer.db.school.adapters
 
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.entities.SchoolPermissionGrantEntity
-import world.respect.datalayer.school.model.SchoolPermissionGrant
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.entities.SchoolPermissionGrantEntity
+import org.openeel.datalayer.school.model.SchoolPermissionGrant
 
 fun SchoolPermissionGrantEntity.toModel(): SchoolPermissionGrant {
     return SchoolPermissionGrant(

@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.schooldirectory.adapters
+package org.openeel.datalayer.db.schooldirectory.adapters
 
-import world.respect.datalayer.db.schooldirectory.entities.SchoolDirectoryEntity
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.datalayer.db.schooldirectory.entities.SchoolDirectoryEntity
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.libxxhash.XXStringHasher
 
 
 fun RespectSchoolDirectory.toEntity(

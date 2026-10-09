@@ -1,12 +1,12 @@
-package world.respect.datalayer.db.school.opds.adapters
+package org.openeel.datalayer.db.school.opds.adapters
 
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.db.school.opds.OpdsParentType
-import world.respect.datalayer.db.school.opds.entities.OpdsFacetEntity
-import world.respect.datalayer.db.school.opds.entities.OpdsFeedMetadataEntity
-import world.respect.datalayer.db.school.opds.entities.ReadiumLinkEntity
-import world.respect.lib.opds.model.OpdsFacet
-import world.respect.lib.primarykeygen.PrimaryKeyGenerator
+import org.openeel.datalayer.db.school.opds.OpdsParentType
+import org.openeel.datalayer.db.school.opds.entities.OpdsFacetEntity
+import org.openeel.datalayer.db.school.opds.entities.OpdsFeedMetadataEntity
+import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity
+import org.openeel.lib.opds.model.OpdsFacet
+import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 
 data class OpdsFacetEntities(
     val facet: OpdsFacetEntity,

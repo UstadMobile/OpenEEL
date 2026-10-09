@@ -1,4 +1,4 @@
-package world.respect.app.view.assignment.detail
+package org.openeel.app.view.assignment.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,10 +22,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import world.respect.shared.generated.resources.Res
-import world.respect.lib.xapi.composites.XapiAssignmentTaskProgress
-import world.respect.shared.generated.resources.completed_status
-import world.respect.shared.generated.resources.failed
+import org.openeel.shared.generated.resources.Res
+import org.openeel.lib.xapi.composites.XapiAssignmentTaskProgress
+import org.openeel.shared.generated.resources.completed_status
+import org.openeel.shared.generated.resources.failed
 import kotlin.math.roundToInt
 
 /**

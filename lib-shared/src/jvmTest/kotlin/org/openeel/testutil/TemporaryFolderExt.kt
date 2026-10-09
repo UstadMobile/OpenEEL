@@ -1,4 +1,4 @@
-package world.respect.testutil
+package org.openeel.testutil
 
 import org.junit.rules.TemporaryFolder
 import java.io.File

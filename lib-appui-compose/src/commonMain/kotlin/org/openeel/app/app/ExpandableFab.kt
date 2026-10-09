@@ -1,4 +1,4 @@
-package world.respect.app.app
+package org.openeel.app.app
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,10 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.viewmodel.app.appstate.ExpandableFabIcon
-import world.respect.shared.viewmodel.app.appstate.ExpandableFabItem
-import world.respect.shared.viewmodel.app.appstate.ExpandableFabUiState
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.viewmodel.app.appstate.ExpandableFabIcon
+import org.openeel.shared.viewmodel.app.appstate.ExpandableFabItem
+import org.openeel.shared.viewmodel.app.appstate.ExpandableFabUiState
 
 @Composable
 fun ExpandableFab(

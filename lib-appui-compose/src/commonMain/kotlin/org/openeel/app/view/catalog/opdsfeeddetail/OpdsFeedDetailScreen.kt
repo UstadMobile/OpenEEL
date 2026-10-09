@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeeddetail
+package org.openeel.app.view.catalog.opdsfeeddetail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,28 +30,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.langMapString
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.ext.OpdsFeedItemIndex
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.assign
-import world.respect.shared.generated.resources.cancel
-import world.respect.shared.generated.resources.copy
-import world.respect.shared.generated.resources.copy_of
-import world.respect.shared.generated.resources.delete
-import world.respect.shared.generated.resources.make_a_copy
-import world.respect.shared.generated.resources.name
-import world.respect.shared.generated.resources.permanently_delete
-import world.respect.shared.generated.resources.permanently_delete_description
-import world.respect.shared.generated.resources.select_count_items
-import world.respect.shared.generated.resources.select_this_collection
-import world.respect.shared.util.SortOrderOption
-import world.respect.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailUiState
-import world.respect.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailViewModel
-import world.respect.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailViewModel.Companion.ICON
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.langMapString
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ext.OpdsFeedItemIndex
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.assign
+import org.openeel.shared.generated.resources.cancel
+import org.openeel.shared.generated.resources.copy
+import org.openeel.shared.generated.resources.copy_of
+import org.openeel.shared.generated.resources.delete
+import org.openeel.shared.generated.resources.make_a_copy
+import org.openeel.shared.generated.resources.name
+import org.openeel.shared.generated.resources.permanently_delete
+import org.openeel.shared.generated.resources.permanently_delete_description
+import org.openeel.shared.generated.resources.select_count_items
+import org.openeel.shared.generated.resources.select_this_collection
+import org.openeel.shared.util.SortOrderOption
+import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailUiState
+import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailViewModel
+import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailViewModel.Companion.ICON
 
 @Composable
 fun OpdsFeedDetailScreen(

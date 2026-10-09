@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.opds.daos
+package org.openeel.datalayer.db.school.opds.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.opds.entities.OpdsPublicationEntity
-import world.respect.datalayer.db.shared.LastModifiedAndETagDb
+import org.openeel.datalayer.db.school.opds.entities.OpdsPublicationEntity
+import org.openeel.datalayer.db.shared.LastModifiedAndETagDb
 
 @Dao
 abstract class OpdsPublicationEntityDao {

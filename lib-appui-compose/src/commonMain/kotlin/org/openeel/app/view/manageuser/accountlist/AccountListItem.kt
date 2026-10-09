@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.accountlist
+package org.openeel.app.view.manageuser.accountlist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,11 +17,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import world.respect.app.components.RespectPersonAvatar
-import world.respect.app.components.rememberCountryFlagEmoji
-import world.respect.shared.domain.account.RespectAccount
-import world.respect.datalayer.db.school.ext.fullName
-import world.respect.shared.domain.account.RespectSessionAndPerson
+import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.rememberCountryFlagEmoji
+import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.datalayer.db.school.ext.fullName
+import org.openeel.shared.domain.account.RespectSessionAndPerson
 
 
 @Composable

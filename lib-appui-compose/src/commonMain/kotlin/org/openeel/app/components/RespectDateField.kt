@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 
 import androidx.compose.foundation.layout.padding
@@ -13,10 +13,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.cancel
-import world.respect.shared.generated.resources.ok
-import world.respect.shared.generated.resources.select_date
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.cancel
+import org.openeel.shared.generated.resources.ok
+import org.openeel.shared.generated.resources.select_date
 import java.text.SimpleDateFormat
 import java.util.*
 

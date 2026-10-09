@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeededit
+package org.openeel.app.view.catalog.opdsfeededit
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -25,19 +25,19 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import sh.calvin.reorderable.ReorderableColumn
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.add_section
-import world.respect.shared.generated.resources.description
-import world.respect.shared.generated.resources.required
-import world.respect.shared.generated.resources.sections
-import world.respect.shared.generated.resources.title
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.util.ext.groupType
-import world.respect.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditUiState
-import world.respect.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditViewModel
-import world.respect.shared.viewmodel.catalog.opdsfeededit.OpdsGroupType
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add_section
+import org.openeel.shared.generated.resources.description
+import org.openeel.shared.generated.resources.required
+import org.openeel.shared.generated.resources.sections
+import org.openeel.shared.generated.resources.title
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.util.ext.groupType
+import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditUiState
+import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditViewModel
+import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsGroupType
 
 /**
  * The width of one IconButton as per

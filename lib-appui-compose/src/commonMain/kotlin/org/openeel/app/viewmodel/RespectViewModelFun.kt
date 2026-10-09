@@ -1,12 +1,12 @@
-package world.respect.app.viewmodel
+package org.openeel.app.viewmodel
 
 import androidx.compose.runtime.Composable
 import org.koin.compose.viewmodel.koinViewModel
-import world.respect.shared.viewmodel.app.appstate.AppUiState
-import world.respect.app.effects.AppUiStateEffect
-import world.respect.navigation.NavCommandEffect
-import world.respect.shared.navigation.RespectComposeNavController
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.app.effects.AppUiStateEffect
+import org.openeel.navigation.NavCommandEffect
+import org.openeel.shared.navigation.RespectComposeNavController
+import org.openeel.shared.viewmodel.RespectViewModel
 
 @Composable
 inline fun <reified T : RespectViewModel> respectViewModel(

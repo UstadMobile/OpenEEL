@@ -1,6 +1,6 @@
-package world.respect.datalayer.exceptions
+package org.openeel.datalayer.exceptions
 
-import world.respect.lib.dataloadstate.throwable.ExceptionWithHttpStatusCode
+import org.openeel.lib.dataloadstate.throwable.ExceptionWithHttpStatusCode
 
 /**
  * As per http 403: who the user is is understood, but they do not have permission to perform the

@@ -1,7 +1,7 @@
-package world.respect.shared.domain.report.formatter
+package org.openeel.shared.domain.report.formatter
 
-import world.respect.shared.resources.StringUiText
-import world.respect.shared.resources.UiText
+import org.openeel.shared.resources.StringUiText
+import org.openeel.shared.resources.UiText
 
 /**
  * Base formatter for count values (simple numeric display)

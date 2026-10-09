@@ -1,4 +1,4 @@
-package world.respect.shared.domain.clipboard
+package org.openeel.shared.domain.clipboard
 
 
 interface SetClipboardStringUseCase {

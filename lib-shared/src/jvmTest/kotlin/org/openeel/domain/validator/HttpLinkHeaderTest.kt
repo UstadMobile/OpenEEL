@@ -1,4 +1,4 @@
-package world.respect.domain.validator
+package org.openeel.domain.validator
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

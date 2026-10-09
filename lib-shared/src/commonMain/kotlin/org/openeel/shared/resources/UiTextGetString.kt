@@ -1,7 +1,7 @@
-package world.respect.shared.resources
+package org.openeel.shared.resources
 
 import org.jetbrains.compose.resources.getString
-import world.respect.libutil.util.selectStringOrNull
+import org.openeel.libutil.util.selectStringOrNull
 
 
 suspend fun getUiTextString(

@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.model
+package org.openeel.lib.xapi.model
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.Serializable
@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import world.respect.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.exceptions.XapiException
 
 /**
  * An XapiActor can be an Agent or Group as per the spec

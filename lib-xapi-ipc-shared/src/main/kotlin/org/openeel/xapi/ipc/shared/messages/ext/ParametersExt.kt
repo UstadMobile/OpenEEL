@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.shared.messages.ext
+package org.openeel.xapi.ipc.shared.messages.ext
 
 import io.ktor.http.Parameters
 

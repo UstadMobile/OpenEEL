@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.schooldirectory.list
+package org.openeel.shared.viewmodel.schooldirectory.list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -9,23 +9,23 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.datalayer.RespectAppDataSource
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
-import world.respect.libutil.ext.appendEndpointSegments
-import world.respect.shared.domain.appversioninfo.GetAppVersionInfoUseCase
-import world.respect.shared.domain.school.LaunchCustomTabUseCase
-import world.respect.shared.ext.tryOrShowSnackbarOnError
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.school_directories
-import world.respect.shared.generated.resources.school_directory
-import world.respect.shared.generated.resources.select_host
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.SchoolDirectoryEdit
-import world.respect.shared.navigation.SchoolDirectoryList
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.FabUiState
-import world.respect.shared.viewmodel.app.appstate.SnackBarDispatcher
+import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.libutil.ext.appendEndpointSegments
+import org.openeel.shared.domain.appversioninfo.GetAppVersionInfoUseCase
+import org.openeel.shared.domain.school.LaunchCustomTabUseCase
+import org.openeel.shared.ext.tryOrShowSnackbarOnError
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.school_directories
+import org.openeel.shared.generated.resources.school_directory
+import org.openeel.shared.generated.resources.select_host
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.SchoolDirectoryEdit
+import org.openeel.shared.navigation.SchoolDirectoryList
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.FabUiState
+import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 
 data class SchoolDirectoryListUiState(
     val schoolDirectory: List<RespectSchoolDirectory> = emptyList(),

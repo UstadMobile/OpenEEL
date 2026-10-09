@@ -1,4 +1,4 @@
-package world.respect.shared.domain.storage
+package org.openeel.shared.domain.storage
 
 import com.russhwolf.settings.Settings
 import com.ustadmobile.core.domain.storage.GetOfflineStorageOptionsUseCase

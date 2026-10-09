@@ -1,4 +1,4 @@
-package world.respect.server.routes.school.respect
+package org.openeel.server.routes.school.respect
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Url
@@ -8,14 +8,14 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.school.opds.OpdsFeedDataSource
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.libutil.ext.appendEndpointSegments
-import world.respect.server.util.ext.requireAccountScope
-import world.respect.lib.dataloadstate.ktorserver.respondDataLoadState
-import world.respect.server.util.ext.virtualHost
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.libutil.ext.appendEndpointSegments
+import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
+import org.openeel.server.util.ext.virtualHost
 
 fun Route.PlaylistRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->

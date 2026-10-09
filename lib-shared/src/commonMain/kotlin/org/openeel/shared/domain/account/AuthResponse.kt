@@ -1,8 +1,8 @@
-package world.respect.shared.domain.account
+package org.openeel.shared.domain.account
 
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.AuthToken
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.AuthToken
 
 /**
  * Internal authorization response.

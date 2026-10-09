@@ -1,10 +1,10 @@
-package world.respect.lib.xapi.resources
+package org.openeel.lib.xapi.resources
 
 import io.ktor.http.Parameters
 import io.ktor.http.ParametersBuilder
 import io.ktor.util.StringValues
-import world.respect.lib.xapi.exceptions.XapiException
-import world.respect.libutil.ext.appendIfNotNull
+import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.libutil.ext.appendIfNotNull
 import kotlin.time.Instant
 
 /**

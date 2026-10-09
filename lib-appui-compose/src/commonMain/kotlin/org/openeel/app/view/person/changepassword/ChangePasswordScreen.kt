@@ -1,4 +1,4 @@
-package world.respect.app.view.person.changepassword
+package org.openeel.app.view.person.changepassword
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,17 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectPasswordField
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.new_password
-import world.respect.shared.generated.resources.old_password
-import world.respect.shared.generated.resources.required
-import world.respect.shared.util.ext.isLoading
-import world.respect.shared.viewmodel.app.appstate.AppUiState
-import world.respect.shared.viewmodel.person.changepassword.ChangePasswordUiState
-import world.respect.shared.viewmodel.person.changepassword.ChangePasswordViewModel
+import org.openeel.app.components.RespectPasswordField
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.new_password
+import org.openeel.shared.generated.resources.old_password
+import org.openeel.shared.generated.resources.required
+import org.openeel.shared.util.ext.isLoading
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.shared.viewmodel.person.changepassword.ChangePasswordUiState
+import org.openeel.shared.viewmodel.person.changepassword.ChangePasswordViewModel
 
 @Composable
 fun ChangePasswordScreen(

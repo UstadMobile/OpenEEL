@@ -1,7 +1,7 @@
-package world.respect.libxxhash.jvmimpl
+package org.openeel.libxxhash.jvmimpl
 
 import net.jpountz.xxhash.StreamingXXHash64
-import world.respect.libxxhash.XXHasher64
+import org.openeel.libxxhash.XXHasher64
 
 class XXHasher64CommonJvm(
     private val xxHasher: StreamingXXHash64

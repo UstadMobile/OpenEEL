@@ -1,16 +1,16 @@
-package world.respect.lib.xapi.nanohttpd
+package org.openeel.lib.xapi.nanohttpd
 
 import io.ktor.client.HttpClient
 import io.ktor.http.Url
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.http.school.xapi.XapiResourceHttpClient
-import world.respect.datalayer.school.model.AuthToken
-import world.respect.lib.test.clientservertest.insertAdminAndDefaultGrants
-import world.respect.lib.test.clientservertest.withSchoolDbDataSource
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.libutil.findFreePort
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.http.school.xapi.XapiResourceHttpClient
+import org.openeel.datalayer.school.model.AuthToken
+import org.openeel.lib.test.clientservertest.insertAdminAndDefaultGrants
+import org.openeel.lib.test.clientservertest.withSchoolDbDataSource
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.libutil.findFreePort
+import org.openeel.libutil.util.time.systemTimeInMillis
 import java.io.File
 
 suspend fun withNanoHttpdXapiResource(

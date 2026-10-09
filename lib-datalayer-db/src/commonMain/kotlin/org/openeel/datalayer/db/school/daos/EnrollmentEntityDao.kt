@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.daos
+package org.openeel.datalayer.db.school.daos
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
@@ -6,12 +6,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.entities.EnrollmentEntity
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
-import world.respect.datalayer.school.model.PermissionFlags
-import world.respect.datalayer.school.model.StatusEnum
-import world.respect.datalayer.shared.params.OrderOption
-import world.respect.libutil.util.time.TimeConstants
+import org.openeel.datalayer.db.school.entities.EnrollmentEntity
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.PermissionFlags
+import org.openeel.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.shared.params.OrderOption
+import org.openeel.libutil.util.time.TimeConstants
 
 @Dao
 interface EnrollmentEntityDao {

@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeededit
+package org.openeel.app.view.catalog.opdsfeededit
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,13 +9,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import world.respect.lib.opds.model.OpdsGroup
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.cancel
-import world.respect.shared.generated.resources.move_to_section
-import world.respect.shared.generated.resources.n_items
-import world.respect.shared.generated.resources.section_title
-import world.respect.shared.viewmodel.catalog.opdsfeededit.MovingItemState
+import org.openeel.lib.opds.model.OpdsGroup
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.cancel
+import org.openeel.shared.generated.resources.move_to_section
+import org.openeel.shared.generated.resources.n_items
+import org.openeel.shared.generated.resources.section_title
+import org.openeel.shared.viewmodel.catalog.opdsfeededit.MovingItemState
 import kotlin.collections.forEach
 
 

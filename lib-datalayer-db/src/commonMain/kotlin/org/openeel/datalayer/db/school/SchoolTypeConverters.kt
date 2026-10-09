@@ -1,27 +1,27 @@
-package world.respect.datalayer.db.school
+package org.openeel.datalayer.db.school
 
 import androidx.room.TypeConverter
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.StatusEnum
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import world.respect.datalayer.db.school.xapi.entities.XapiActivityInteractionEntityPropEnum
-import world.respect.datalayer.db.school.xapi.entities.XapiActivityLangMapEntryPropEnum
-import world.respect.datalayer.db.school.xapi.entities.XapiActorEntityTypeEnum
-import world.respect.datalayer.db.school.xapi.entities.XapiStatementContextActivityJoinTypeEnum
-import world.respect.datalayer.db.school.xapi.entities.XapiStatementEntityObjectTypeEnum
-import world.respect.datalayer.school.model.AssignmentAssigneeRefTypeEnum
-import world.respect.datalayer.school.model.ClassInviteModeEnum
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
-import world.respect.datalayer.school.model.PersonGenderEnum
-import world.respect.datalayer.school.model.PersonStatusEnum
-import world.respect.datalayer.school.writequeue.WriteQueueItem
-import world.respect.lib.xapi.model.XapiInteractionTypeEnum
-import world.respect.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
+import org.openeel.datalayer.db.school.xapi.entities.XapiActivityInteractionEntityPropEnum
+import org.openeel.datalayer.db.school.xapi.entities.XapiActivityLangMapEntryPropEnum
+import org.openeel.datalayer.db.school.xapi.entities.XapiActorEntityTypeEnum
+import org.openeel.datalayer.db.school.xapi.entities.XapiStatementContextActivityJoinTypeEnum
+import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntityObjectTypeEnum
+import org.openeel.datalayer.school.model.AssignmentAssigneeRefTypeEnum
+import org.openeel.datalayer.school.model.ClassInviteModeEnum
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.datalayer.school.writequeue.WriteQueueItem
+import org.openeel.lib.xapi.model.XapiInteractionTypeEnum
+import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
 import kotlin.time.Instant
 
 class SchoolTypeConverters {

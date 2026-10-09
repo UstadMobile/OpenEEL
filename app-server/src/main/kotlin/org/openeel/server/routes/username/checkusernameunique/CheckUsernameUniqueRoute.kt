@@ -1,4 +1,4 @@
-package world.respect.server.routes.username.checkusernameunique
+package org.openeel.server.routes.username.checkusernameunique
 
 import io.ktor.http.CacheControl
 import io.ktor.server.application.ApplicationCall
@@ -6,8 +6,8 @@ import io.ktor.server.response.cacheControl
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
-import world.respect.lib.dataloadstate.throwable.withHttpStatus
-import world.respect.shared.domain.account.username.checkusernameunique.CheckUsernameUniqueUseCase
+import org.openeel.lib.dataloadstate.throwable.withHttpStatus
+import org.openeel.shared.domain.account.username.checkusernameunique.CheckUsernameUniqueUseCase
 
 fun Route.CheckUsernameUniqueRoute(
     checkUsernameUniqueUseCase: (ApplicationCall) -> CheckUsernameUniqueUseCase

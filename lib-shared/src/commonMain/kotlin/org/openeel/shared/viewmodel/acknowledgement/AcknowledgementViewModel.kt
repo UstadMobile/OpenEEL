@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.acknowledgement
+package org.openeel.shared.viewmodel.acknowledgement
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
-import world.respect.shared.domain.onboarding.ShouldShowOnboardingUseCase
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.Onboarding
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
+import org.openeel.shared.domain.onboarding.ShouldShowOnboardingUseCase
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.Onboarding
+import org.openeel.shared.viewmodel.RespectViewModel
 
 data class AcknowledgementUiState(
     val isLoading: Boolean = false,

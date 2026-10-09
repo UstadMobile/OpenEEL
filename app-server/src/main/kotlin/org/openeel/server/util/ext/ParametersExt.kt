@@ -1,8 +1,8 @@
-package world.respect.server.util.ext
+package org.openeel.server.util.ext
 
 import androidx.paging.PagingSource
 import io.ktor.http.Parameters
-import world.respect.lib.dataloadstate.DataLayerParams
+import org.openeel.lib.dataloadstate.DataLayerParams
 import kotlin.text.toInt
 
 fun Parameters.offsetLimitPagingLoadParams(): PagingSource.LoadParams<Int> {

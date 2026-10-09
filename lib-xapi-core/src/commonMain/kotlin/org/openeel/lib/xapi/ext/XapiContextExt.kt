@@ -1,7 +1,7 @@
-package world.respect.lib.xapi.ext
+package org.openeel.lib.xapi.ext
 
-import world.respect.lib.xapi.model.XapiContext
-import world.respect.lib.xapi.model.XapiContextActivities
+import org.openeel.lib.xapi.model.XapiContext
+import org.openeel.lib.xapi.model.XapiContextActivities
 
 fun XapiContext.contextActivitiesOrBlank(): XapiContextActivities {
     return contextActivities ?: XapiContextActivities()

@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.opds.daos
+package org.openeel.datalayer.db.school.opds.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import world.respect.datalayer.db.school.opds.entities.OpdsGroupEntity
+import org.openeel.datalayer.db.school.opds.entities.OpdsGroupEntity
 
 @Dao
 abstract class OpdsGroupEntityDao {

@@ -1,7 +1,7 @@
-package world.respect.datalayer.respect.model.invite
+package org.openeel.datalayer.respect.model.invite
 
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.school.model.Invite2
+import org.openeel.datalayer.school.model.Invite2
 
 /**
  * @property invite: The invite itself

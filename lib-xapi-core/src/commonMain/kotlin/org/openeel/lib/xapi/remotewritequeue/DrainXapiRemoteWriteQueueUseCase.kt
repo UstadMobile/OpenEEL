@@ -1,14 +1,14 @@
-package world.respect.lib.xapi.remotewritequeue
+package org.openeel.lib.xapi.remotewritequeue
 
 import io.ktor.http.parseQueryString
 import kotlinx.serialization.json.Json
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
-import world.respect.lib.xapi.resources.XapiAgentProfileResource
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.lib.xapi.resources.XapiStateResource
-import world.respect.lib.xapi.resources.XapiStatementsResource
-import world.respect.lib.xapi.resources.local.XapiResourceLocal
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.xapi.resources.XapiAgentProfileResource
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.lib.xapi.resources.XapiStateResource
+import org.openeel.lib.xapi.resources.XapiStatementsResource
+import org.openeel.lib.xapi.resources.local.XapiResourceLocal
 import kotlin.uuid.Uuid
 
 /**

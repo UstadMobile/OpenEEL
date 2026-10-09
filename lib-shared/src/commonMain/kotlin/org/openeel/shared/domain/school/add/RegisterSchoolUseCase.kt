@@ -1,4 +1,4 @@
-package world.respect.shared.domain.school.add
+package org.openeel.shared.domain.school.add
 
 import io.ktor.http.DEFAULT_PORT
 import io.ktor.http.Parameters

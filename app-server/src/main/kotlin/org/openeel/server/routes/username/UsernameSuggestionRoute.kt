@@ -1,11 +1,11 @@
-package world.respect.server.routes.username
+package org.openeel.server.routes.username
 
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
-import world.respect.lib.dataloadstate.throwable.withHttpStatus
-import world.respect.shared.domain.account.username.UsernameSuggestionUseCase
+import org.openeel.lib.dataloadstate.throwable.withHttpStatus
+import org.openeel.shared.domain.account.username.UsernameSuggestionUseCase
 
 fun Route.UsernameSuggestionRoute(
     usernameSuggestionUseCase: (ApplicationCall) -> UsernameSuggestionUseCase

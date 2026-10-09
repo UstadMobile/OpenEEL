@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.daos
+package org.openeel.datalayer.db.school.daos
 
 import androidx.paging.PagingSource
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.entities.InviteEntity
+import org.openeel.datalayer.db.school.entities.InviteEntity
 
 @Dao
 interface InviteEntityDao {

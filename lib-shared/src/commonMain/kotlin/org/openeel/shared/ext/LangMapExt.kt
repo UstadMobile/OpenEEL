@@ -1,9 +1,9 @@
-package world.respect.shared.ext
+package org.openeel.shared.ext
 
-import world.respect.lib.opds.model.LangMap
-import world.respect.lib.opds.model.LangMapObjectValue
-import world.respect.lib.opds.model.LangMapStringValue
-import world.respect.libutil.util.selectLangOrNull
+import org.openeel.lib.opds.model.LangMap
+import org.openeel.lib.opds.model.LangMapObjectValue
+import org.openeel.lib.opds.model.LangMapStringValue
+import org.openeel.libutil.util.selectLangOrNull
 import kotlin.collections.get
 
 fun LangMap.selectPreferredString(

@@ -1,4 +1,4 @@
-package world.respect.app.app
+package org.openeel.app.app
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,23 +48,23 @@ import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.getKoin
 import org.koin.compose.koinInject
-import world.respect.app.components.RespectPersonAvatar
-import world.respect.app.components.uiTextStringResource
-import world.respect.app.util.ext.toImageVector
-import world.respect.datalayer.db.school.ext.fullName
-import world.respect.datalayer.school.writequeue.RemoteWriteQueue
-import world.respect.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.back
-import world.respect.shared.generated.resources.search
-import world.respect.shared.generated.resources.settings
-import world.respect.shared.generated.resources.more_options
-import world.respect.shared.util.ext.isLoading
-import world.respect.shared.viewmodel.app.appstate.AppActionButton
-import world.respect.shared.viewmodel.app.appstate.AppBarColors
-import world.respect.shared.viewmodel.app.appstate.AppUiState
-import world.respect.shared.viewmodel.app.appstate.LoadingUiState
+import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.app.util.ext.toImageVector
+import org.openeel.datalayer.db.school.ext.fullName
+import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
+import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.back
+import org.openeel.shared.generated.resources.search
+import org.openeel.shared.generated.resources.settings
+import org.openeel.shared.generated.resources.more_options
+import org.openeel.shared.util.ext.isLoading
+import org.openeel.shared.viewmodel.app.appstate.AppActionButton
+import org.openeel.shared.viewmodel.app.appstate.AppBarColors
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
 
 
 @OptIn(ExperimentalMaterial3Api::class)

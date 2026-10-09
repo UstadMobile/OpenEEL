@@ -1,4 +1,4 @@
-package world.respect.server.routes.qrcode
+package org.openeel.server.routes.qrcode
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
@@ -7,11 +7,11 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.school.PersonQrBadgeDataSource
-import world.respect.server.util.ext.requireAccountScope
-import world.respect.lib.dataloadstate.ktorserver.respondDataLoadState
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.PersonQrBadgeDataSource
+import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
 
 fun Route.PersonQrBadgeRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->

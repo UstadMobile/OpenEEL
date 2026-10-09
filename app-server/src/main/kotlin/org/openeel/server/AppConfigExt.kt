@@ -1,4 +1,4 @@
-package world.respect.server
+package org.openeel.server
 
 import io.ktor.server.config.*
 import java.io.File

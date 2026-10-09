@@ -1,7 +1,7 @@
-package world.respect.datalayer.repository.school.xapi
+package org.openeel.datalayer.repository.school.xapi
 
 import kotlinx.coroutines.channels.Channel
-import world.respect.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
+import org.openeel.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
 
 /**
  * The normal EnqueueDrainRemoteWriteQueueUseCase uses WorkManager on Android.

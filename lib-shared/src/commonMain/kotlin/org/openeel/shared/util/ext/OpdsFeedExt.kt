@@ -1,7 +1,7 @@
-package world.respect.shared.util.ext
+package org.openeel.shared.util.ext
 
 import io.ktor.http.Url
-import world.respect.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.OpdsFeed
 
 /**
  * Resolves all relative URLs (navigation, images, groups, alternates)

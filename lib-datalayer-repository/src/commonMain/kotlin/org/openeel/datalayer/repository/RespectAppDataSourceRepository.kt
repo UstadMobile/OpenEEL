@@ -1,10 +1,10 @@
-package world.respect.datalayer.repository
+package org.openeel.datalayer.repository
 
-import world.respect.datalayer.RespectAppDataSource
-import world.respect.datalayer.RespectAppDataSourceLocal
-import world.respect.datalayer.repository.schooldirectory.SchoolDirectoryEntryDataSourceRepository
-import world.respect.datalayer.schooldirectory.SchoolDirectoryDataSource
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.RespectAppDataSourceLocal
+import org.openeel.datalayer.repository.schooldirectory.SchoolDirectoryEntryDataSourceRepository
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
 
 class RespectAppDataSourceRepository(
     private val local: RespectAppDataSourceLocal,

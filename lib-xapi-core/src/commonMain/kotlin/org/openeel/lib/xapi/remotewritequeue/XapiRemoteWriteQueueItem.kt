@@ -1,12 +1,12 @@
-package world.respect.lib.xapi.remotewritequeue
+package org.openeel.lib.xapi.remotewritequeue
 
 import io.ktor.http.Parameters
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import world.respect.lib.xapi.ext.decodeFromXapiDocument
-import world.respect.lib.xapi.ext.isJson
-import world.respect.lib.xapi.ext.toParametersFormUrlEncoded
-import world.respect.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.ext.decodeFromXapiDocument
+import org.openeel.lib.xapi.ext.isJson
+import org.openeel.lib.xapi.ext.toParametersFormUrlEncoded
+import org.openeel.lib.xapi.model.XapiDocument
 
 /**
  * Represents a piece of Xapi data that needs written to the remote datasource.

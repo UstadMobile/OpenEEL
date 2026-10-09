@@ -1,18 +1,18 @@
-package world.respect.datalayer
+package org.openeel.datalayer
 
-import world.respect.datalayer.school.opds.OpdsPublicationDataSource
-import world.respect.datalayer.school.ClassDataSource
-import world.respect.datalayer.school.EnrollmentDataSource
-import world.respect.datalayer.school.ReportDataSource
-import world.respect.datalayer.school.IndicatorDataSource
-import world.respect.datalayer.school.InviteDataSource
-import world.respect.datalayer.school.PersonDataSource
-import world.respect.datalayer.school.PersonPasskeyDataSource
-import world.respect.datalayer.school.PersonPasswordDataSource
-import world.respect.datalayer.school.PersonQrBadgeDataSource
-import world.respect.datalayer.school.SchoolPermissionGrantDataSource
-import world.respect.datalayer.school.opds.OpdsFeedDataSource
-import world.respect.lib.xapi.resources.XapiResource
+import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
+import org.openeel.datalayer.school.ClassDataSource
+import org.openeel.datalayer.school.EnrollmentDataSource
+import org.openeel.datalayer.school.ReportDataSource
+import org.openeel.datalayer.school.IndicatorDataSource
+import org.openeel.datalayer.school.InviteDataSource
+import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.PersonPasskeyDataSource
+import org.openeel.datalayer.school.PersonPasswordDataSource
+import org.openeel.datalayer.school.PersonQrBadgeDataSource
+import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
+import org.openeel.lib.xapi.resources.XapiResource
 
 /**
  * DataSource for data which is specific to a given School and authenticated user (see

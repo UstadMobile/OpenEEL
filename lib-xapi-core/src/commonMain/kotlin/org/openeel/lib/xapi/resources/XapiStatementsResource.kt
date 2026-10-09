@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.resources
+package org.openeel.lib.xapi.resources
 
 import io.ktor.http.Parameters
 import io.ktor.http.ParametersBuilder
@@ -6,17 +6,17 @@ import io.ktor.util.StringValues
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.serializers.InstantAsISO8601
-import world.respect.lib.xapi.composites.AssignmentAndProgress
-import world.respect.lib.xapi.ext.getUuidOrNull
-import world.respect.lib.xapi.model.AssignmentSummary
-import world.respect.lib.xapi.model.XapiActor
-import world.respect.lib.xapi.model.XapiAgent
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.model.XapiStatementResult
-import world.respect.libutil.ext.appendIfNotNull
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.serializers.InstantAsISO8601
+import org.openeel.lib.xapi.composites.AssignmentAndProgress
+import org.openeel.lib.xapi.ext.getUuidOrNull
+import org.openeel.lib.xapi.model.AssignmentSummary
+import org.openeel.lib.xapi.model.XapiActor
+import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiStatementResult
+import org.openeel.libutil.ext.appendIfNotNull
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
 

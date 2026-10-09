@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.entities
+package org.openeel.datalayer.db.school.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.json.JsonObject
-import world.respect.datalayer.school.model.PersonGenderEnum
-import world.respect.datalayer.school.model.PersonStatusEnum
+import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.datalayer.school.model.PersonStatusEnum
 
 /**
  * @property pGuid the uid of the person

@@ -1,20 +1,20 @@
-package world.respect.datalayer.db.school
+package org.openeel.datalayer.db.school
 
 import androidx.room.Transactor
 import androidx.room.useWriterConnection
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.adapters.asEntity
-import world.respect.datalayer.db.school.adapters.asModel
-import world.respect.datalayer.school.PersonPasskeyDataSource.GetListParams
-import world.respect.datalayer.school.PersonPasskeyDataSourceLocal
-import world.respect.datalayer.school.model.PersonPasskey
-import world.respect.lib.dataloadstate.throwable.ForbiddenException
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.adapters.asEntity
+import org.openeel.datalayer.db.school.adapters.asModel
+import org.openeel.datalayer.school.PersonPasskeyDataSource.GetListParams
+import org.openeel.datalayer.school.PersonPasskeyDataSourceLocal
+import org.openeel.datalayer.school.model.PersonPasskey
+import org.openeel.lib.dataloadstate.throwable.ForbiddenException
 import kotlin.time.Clock
 
 class PersonPasskeyDataSourceDb(

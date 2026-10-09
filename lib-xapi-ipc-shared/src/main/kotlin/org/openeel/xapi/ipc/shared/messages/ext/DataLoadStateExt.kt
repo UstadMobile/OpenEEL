@@ -1,15 +1,15 @@
-package world.respect.xapi.ipc.shared.messages.ext
+package org.openeel.xapi.ipc.shared.messages.ext
 
 import android.os.Bundle
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.lib.dataloadstate.throwable.unwrapHttpStatusCode
-import world.respect.xapi.ipc.shared.messages.XapiIpcKeys
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.throwable.unwrapHttpStatusCode
+import org.openeel.xapi.ipc.shared.messages.XapiIpcKeys
 
 const val STATUS_LOADING = -2
 

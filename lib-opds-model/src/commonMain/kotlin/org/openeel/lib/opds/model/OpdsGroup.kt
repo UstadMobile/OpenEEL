@@ -1,4 +1,4 @@
-package world.respect.lib.opds.model
+package org.openeel.lib.opds.model
 
 import kotlinx.serialization.Serializable
 

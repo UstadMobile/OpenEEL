@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import org.koin.compose.getKoin
-import world.respect.shared.domain.appversioninfo.GetAppVersionInfoUseCase
+import org.openeel.shared.domain.appversioninfo.GetAppVersionInfoUseCase
 
 @Composable
 fun rememberAppVersionInfo(): GetAppVersionInfoUseCase.AppVersionInfo? {

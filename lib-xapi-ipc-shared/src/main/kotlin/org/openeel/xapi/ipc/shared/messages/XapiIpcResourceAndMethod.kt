@@ -1,6 +1,6 @@
-package world.respect.xapi.ipc.shared.messages
+package org.openeel.xapi.ipc.shared.messages
 
-import world.respect.xapi.ipc.shared.messages.XapiIpcResourceFlags.FLAG_TO_ENUMS_MAP
+import org.openeel.xapi.ipc.shared.messages.XapiIpcResourceFlags.FLAG_TO_ENUMS_MAP
 
 /**
  * Simple data pair class that includes the resource and method for a given request. This is

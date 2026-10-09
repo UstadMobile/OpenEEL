@@ -1,7 +1,7 @@
-package world.respect.datalayer.networkvalidation
+package org.openeel.datalayer.networkvalidation
 
 import com.ustadmobile.ihttp.headers.IHttpHeaders
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
 
 interface ExtendedDataSourceValidationHelper: BaseDataSourceValidationHelper {
 

@@ -1,4 +1,4 @@
-package world.respect.datalayer.repository.school.writequeue
+package org.openeel.datalayer.repository.school.writequeue
 
 import android.content.Context
 import androidx.work.Constraints
@@ -8,8 +8,8 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
-import world.respect.datalayer.repository.school.worker.putKoinScope
-import world.respect.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
+import org.openeel.datalayer.repository.school.worker.putKoinScope
+import org.openeel.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
 import kotlin.reflect.KClass
 
 class EnqueueDrainRemoteWriteQueueUseCaseAndroidImpl(

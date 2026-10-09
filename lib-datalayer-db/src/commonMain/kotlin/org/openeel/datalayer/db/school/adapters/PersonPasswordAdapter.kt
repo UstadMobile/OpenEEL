@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.school.adapters
+package org.openeel.datalayer.db.school.adapters
 
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.entities.PersonPasswordEntity
-import world.respect.datalayer.school.model.PersonPassword
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.entities.PersonPasswordEntity
+import org.openeel.datalayer.school.model.PersonPassword
 
 fun PersonPassword.asEntity(
     uidNumberMapper: UidNumberMapper

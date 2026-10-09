@@ -1,4 +1,4 @@
-package world.respect.shared.util
+package org.openeel.shared.util
 
 enum class AssignmentListScreenFilter(val displayName: String) {
     ALL("All"),

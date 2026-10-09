@@ -1,7 +1,7 @@
-package world.respect.lib.xapi.ext
+package org.openeel.lib.xapi.ext
 
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.model.XapiActivityDefinition
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.model.XapiActivityDefinition
 
 fun List<XapiActivity>.addOrReplaceById(
     other: XapiActivity

@@ -1,10 +1,10 @@
-package world.respect.xapi.ipc.client.ext
+package org.openeel.xapi.ipc.client.ext
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.isSuccess
 import org.openeel.lib.ipc.messagebridge.MessageData
-import world.respect.lib.xapi.exceptions.XapiException
-import world.respect.xapi.ipc.shared.messages.XapiIpcKeys
+import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.xapi.ipc.shared.messages.XapiIpcKeys
 
 /**
  * Check the status code in the message data. If the status is not successful, throw a [XapiException]

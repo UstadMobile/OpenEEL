@@ -1,4 +1,4 @@
-package world.respect.libutil.ext
+package org.openeel.libutil.ext
 
 fun String.requirePostfix(
     postFix: String,

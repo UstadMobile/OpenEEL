@@ -1,6 +1,6 @@
-package world.respect.datalayer.db.school.opds
+package org.openeel.datalayer.db.school.opds
 
-import world.respect.datalayer.db.shared.entities.LangMapEntity
+import org.openeel.datalayer.db.shared.entities.LangMapEntity
 /**
  * The OPDS network models are represented in the database using various 1:many joins e.g. with
  * ReadiumLinkEntity, ReadiumSubjectEntity etc. These joins often represent nested

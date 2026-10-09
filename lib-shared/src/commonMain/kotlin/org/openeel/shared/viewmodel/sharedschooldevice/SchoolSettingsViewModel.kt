@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.sharedschooldevice
+package org.openeel.shared.viewmodel.sharedschooldevice
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -9,20 +9,20 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.school.PersonDataSource
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.school.model.PersonStatusEnum
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.school
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.SharedDevicesSettings
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.school
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.SharedDevicesSettings
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 data class SchoolSettingsUiState(
     val schoolName: UiText? = null,

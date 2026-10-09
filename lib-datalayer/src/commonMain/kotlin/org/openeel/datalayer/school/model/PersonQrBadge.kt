@@ -1,9 +1,9 @@
-package world.respect.datalayer.school.model
+package org.openeel.datalayer.school.model
 
 import io.ktor.http.Url
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.shared.ModelWithTimes
-import world.respect.lib.serializers.InstantAsISO8601
+import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.serializers.InstantAsISO8601
 import kotlin.time.Clock
 
 /**

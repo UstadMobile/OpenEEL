@@ -1,3 +1,3 @@
-package world.respect.libutil.util
+package org.openeel.libutil.util
 
 expect fun <T> concurrentSafeListOf(vararg items: T) : MutableList<T>

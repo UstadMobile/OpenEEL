@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.material3.ListItem
 import androidx.compose.runtime.Composable

@@ -1,17 +1,17 @@
-package world.respect.datalayer.http.school.opds
+package org.openeel.datalayer.http.school.opds
 
 import io.ktor.client.HttpClient
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.datalayer.ext.getAsDataLoadState
-import world.respect.datalayer.ext.getDataLoadResultAsFlow
-import world.respect.lib.dataloadstate.ext.map
-import world.respect.datalayer.school.opds.OpdsFeedDataSource
-import world.respect.datalayer.school.opds.ext.withAbsoluteSelfUrl
-import world.respect.lib.opds.model.OpdsFeed
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.datalayer.ext.getAsDataLoadState
+import org.openeel.datalayer.ext.getDataLoadResultAsFlow
+import org.openeel.lib.dataloadstate.ext.map
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
+import org.openeel.datalayer.school.opds.ext.withAbsoluteSelfUrl
+import org.openeel.lib.opds.model.OpdsFeed
 
 class OpdsFeedDataSourceHttpClient(
     private val httpClient: HttpClient,

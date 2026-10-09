@@ -1,6 +1,6 @@
-package world.respect.shared.viewmodel.app.appstate
+package org.openeel.shared.viewmodel.app.appstate
 
-import world.respect.shared.resources.UiText
+import org.openeel.shared.resources.UiText
 
 /**
  * @property showBackButton when null (default) the top left back button visibility is managed by

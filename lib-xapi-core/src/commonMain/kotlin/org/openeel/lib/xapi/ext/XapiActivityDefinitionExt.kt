@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.ext
+package org.openeel.lib.xapi.ext
 
 import io.ktor.http.Url
 import kotlinx.serialization.DeserializationStrategy
@@ -7,8 +7,8 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
-import world.respect.lib.xapi.OpenEelXapiConstants
-import world.respect.lib.xapi.model.XapiActivityDefinition
+import org.openeel.lib.xapi.OpenEelXapiConstants
+import org.openeel.lib.xapi.model.XapiActivityDefinition
 import kotlin.time.Instant
 
 /**

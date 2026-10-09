@@ -1,7 +1,7 @@
-package world.respect.datalayer.school
+package org.openeel.datalayer.school
 
-import world.respect.datalayer.school.model.PersonPasskey
-import world.respect.datalayer.shared.LocalModelDataSource
+import org.openeel.datalayer.school.model.PersonPasskey
+import org.openeel.datalayer.shared.LocalModelDataSource
 
 interface PersonPasskeyDataSourceLocal: PersonPasskeyDataSource, LocalModelDataSource<PersonPasskey>
 

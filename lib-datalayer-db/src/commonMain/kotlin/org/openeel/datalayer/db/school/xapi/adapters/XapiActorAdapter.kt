@@ -1,15 +1,15 @@
-package world.respect.datalayer.db.school.xapi.adapters
+package org.openeel.datalayer.db.school.xapi.adapters
 
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.xapi.entities.XapiActorEntity
-import world.respect.datalayer.db.school.xapi.entities.XapiActorEntityTypeEnum
-import world.respect.datalayer.db.school.xapi.entities.XapiGroupMemberActorJoin
-import world.respect.lib.xapi.ext.idStr
-import world.respect.lib.xapi.model.XapiAccount
-import world.respect.lib.xapi.model.XapiActor
-import world.respect.lib.xapi.model.XapiAgent
-import world.respect.lib.xapi.model.XapiGroup
-import world.respect.lib.xapi.model.XapiObjectType
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.xapi.entities.XapiActorEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiActorEntityTypeEnum
+import org.openeel.datalayer.db.school.xapi.entities.XapiGroupMemberActorJoin
+import org.openeel.lib.xapi.ext.idStr
+import org.openeel.lib.xapi.model.XapiAccount
+import org.openeel.lib.xapi.model.XapiActor
+import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.lib.xapi.model.XapiGroup
+import org.openeel.lib.xapi.model.XapiObjectType
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
 

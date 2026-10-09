@@ -1,8 +1,8 @@
-package world.respect.datalayer.respect
+package org.openeel.datalayer.respect
 
 import kotlinx.coroutines.flow.Flow
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.datalayer.respect.model.invite.RespectInviteInfo
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.datalayer.respect.model.invite.RespectInviteInfo
 
 interface RespectUserDataSource {
 

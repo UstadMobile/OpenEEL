@@ -1,11 +1,11 @@
-package world.respect.shared.domain.account
+package org.openeel.shared.domain.account
 
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.school.model.AuthToken
-import world.respect.datalayer.AuthTokenProvider
+import org.openeel.datalayer.school.model.AuthToken
+import org.openeel.datalayer.AuthTokenProvider
 
 /**
  * On Android this could move to using:

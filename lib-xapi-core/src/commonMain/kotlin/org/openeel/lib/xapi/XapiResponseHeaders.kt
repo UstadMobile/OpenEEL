@@ -1,7 +1,7 @@
-package world.respect.lib.xapi
+package org.openeel.lib.xapi
 
 import kotlinx.serialization.Serializable
-import world.respect.lib.serializers.InstantAsISO8601
+import org.openeel.lib.serializers.InstantAsISO8601
 import kotlin.time.Clock
 
 @Serializable

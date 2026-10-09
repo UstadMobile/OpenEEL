@@ -1,11 +1,11 @@
-package world.respect.datalayer.repository.shared.paging
+package org.openeel.datalayer.repository.shared.paging
 
 import androidx.paging.PagingSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import world.respect.datalayer.shared.paging.copyWithLoadSize
+import org.openeel.datalayer.shared.paging.copyWithLoadSize
 
 class RemoteMediator2(
     val onRemoteLoad: suspend (PagingSource.LoadParams<Int>) -> Unit,

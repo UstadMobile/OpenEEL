@@ -1,4 +1,4 @@
-package world.respect.shared.domain.navigation.deferreddeeplink
+package org.openeel.shared.domain.navigation.deferreddeeplink
 
 /**
  * Get a deferred deep link: If a user opens a link that was shared with them, but they don't yet

@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.daos
+package org.openeel.datalayer.db.school.daos
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
@@ -7,12 +7,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.daos.PersonEntityDao.Companion.SELECT_AUTHENTICATED_PERMISSION_PERSON_UIDS_SQL
-import world.respect.datalayer.db.school.entities.ClassEntity
-import world.respect.datalayer.db.school.entities.ClassEntityWithPermissions
-import world.respect.datalayer.db.school.entities.LastModifiedAndPermission
-import world.respect.datalayer.school.model.PermissionFlags
-import world.respect.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.db.school.daos.PersonEntityDao.Companion.SELECT_AUTHENTICATED_PERMISSION_PERSON_UIDS_SQL
+import org.openeel.datalayer.db.school.entities.ClassEntity
+import org.openeel.datalayer.db.school.entities.ClassEntityWithPermissions
+import org.openeel.datalayer.db.school.entities.LastModifiedAndPermission
+import org.openeel.datalayer.school.model.PermissionFlags
+import org.openeel.datalayer.school.model.StatusEnum
 
 @Dao
 interface ClassEntityDao {

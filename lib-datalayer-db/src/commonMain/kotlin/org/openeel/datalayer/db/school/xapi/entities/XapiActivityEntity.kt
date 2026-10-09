@@ -1,10 +1,10 @@
-package world.respect.datalayer.db.school.xapi.entities
+package org.openeel.datalayer.db.school.xapi.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.ext.EPOCH
-import world.respect.lib.xapi.model.XapiInteractionTypeEnum
+import org.openeel.datalayer.ext.EPOCH
+import org.openeel.lib.xapi.model.XapiInteractionTypeEnum
 import kotlin.time.Clock
 import kotlin.time.Instant
 

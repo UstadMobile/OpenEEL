@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.xapi
+package org.openeel.datalayer.db.school.xapi
 
 import io.ktor.http.HttpHeaders
 import io.ktor.http.Url
@@ -8,16 +8,16 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.libxapi.test.AbstractXapiActivityProfileResourceTest
-import world.respect.datalayer.db.school.insertAdmin
-import world.respect.datalayer.db.school.testSchoolDb
-import world.respect.datalayer.db.school.toDataSource
-import world.respect.lib.dataloadstate.datetime.roundToEpochSeconds
-import world.respect.lib.dataloadstate.datetime.toGMTDate
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.model.XapiAgent
-import world.respect.lib.xapi.model.XapiDocumentByteArrayImpl
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.datalayer.db.school.insertAdmin
+import org.openeel.datalayer.db.school.testSchoolDb
+import org.openeel.datalayer.db.school.toDataSource
+import org.openeel.lib.dataloadstate.datetime.roundToEpochSeconds
+import org.openeel.lib.dataloadstate.datetime.toGMTDate
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.lib.xapi.model.XapiDocumentByteArrayImpl
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals

@@ -1,4 +1,4 @@
-package world.respect.datalayer
+package org.openeel.datalayer
 
 import kotlinx.serialization.Serializable
 

@@ -1,13 +1,13 @@
-package world.respect.shared.domain.account.username
+package org.openeel.shared.domain.account.username
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
-import world.respect.datalayer.http.ext.respectEndpointUrl
-import world.respect.datalayer.http.school.SchoolUrlBasedDataSource
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.http.ext.respectEndpointUrl
+import org.openeel.datalayer.http.school.SchoolUrlBasedDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
 
 class UsernameSuggestionUseCaseClient (
     override val schoolUrl: Url,

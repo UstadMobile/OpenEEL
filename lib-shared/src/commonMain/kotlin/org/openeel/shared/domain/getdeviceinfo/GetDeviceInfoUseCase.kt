@@ -1,6 +1,6 @@
-package world.respect.shared.domain.getdeviceinfo
+package org.openeel.shared.domain.getdeviceinfo
 
-import world.respect.datalayer.school.model.DeviceInfo
+import org.openeel.datalayer.school.model.DeviceInfo
 
 interface GetDeviceInfoUseCase {
 

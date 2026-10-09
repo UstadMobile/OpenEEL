@@ -1,4 +1,4 @@
-package world.respect.datalayer.repository.shared.paging
+package org.openeel.datalayer.repository.shared.paging
 
 import androidx.paging.PagingSource
 import io.github.aakira.napier.Napier
@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.datalayer.shared.paging.getLimit
-import world.respect.datalayer.shared.paging.getOffset
-import world.respect.libutil.util.concurrentSafeListOf
-import world.respect.libutil.util.time.systemTimeInMillis
-import world.respect.datalayer.shared.paging.toPrettyString
+import org.openeel.datalayer.shared.paging.getLimit
+import org.openeel.datalayer.shared.paging.getOffset
+import org.openeel.libutil.util.concurrentSafeListOf
+import org.openeel.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.shared.paging.toPrettyString
 
 /**
  * A "normal" RemoteMediator doesn't work in the following situations:

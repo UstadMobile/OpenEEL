@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.manageuser.otheroption
+package org.openeel.shared.viewmodel.manageuser.otheroption
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -7,21 +7,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.datalayer.RespectAppDataSource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.libutil.ext.normalizeForEndpoint
-import world.respect.shared.domain.devmode.GetDevModeEnabledUseCase
-import world.respect.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.invalid_code
-import world.respect.shared.generated.resources.invalid_url
-import world.respect.shared.generated.resources.other_options
-import world.respect.shared.navigation.LoginScreen
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.SchoolDirectoryList
-import world.respect.shared.resources.StringResourceUiText
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.libutil.ext.normalizeForEndpoint
+import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
+import org.openeel.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.invalid_code
+import org.openeel.shared.generated.resources.invalid_url
+import org.openeel.shared.generated.resources.other_options
+import org.openeel.shared.navigation.LoginScreen
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.SchoolDirectoryList
+import org.openeel.shared.resources.StringResourceUiText
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 
 data class OtherOptionsUiState(

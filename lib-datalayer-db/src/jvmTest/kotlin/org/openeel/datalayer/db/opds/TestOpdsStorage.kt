@@ -1,18 +1,18 @@
-package world.respect.datalayer.db.opds
+package org.openeel.datalayer.db.opds
 
 import io.ktor.http.Url
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
-import world.respect.datalayer.db.school.testSchoolDb
-import world.respect.datalayer.db.school.toDataSource
-import world.respect.datalayer.school.opds.ext.withAbsoluteSelfUrl
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.opds.model.Publication
+import org.openeel.datalayer.db.school.testSchoolDb
+import org.openeel.datalayer.db.school.toDataSource
+import org.openeel.datalayer.school.opds.ext.withAbsoluteSelfUrl
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.Publication
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

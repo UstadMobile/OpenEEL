@@ -1,4 +1,4 @@
-package world.respect.domain.licenses.model
+package org.openeel.domain.licenses.model
 
 import kotlinx.serialization.Serializable
 

@@ -1,4 +1,4 @@
-package world.respect.shared.domain.validateemail
+package org.openeel.shared.domain.validateemail
 
 class ValidateEmailUseCase() {
 

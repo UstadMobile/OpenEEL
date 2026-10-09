@@ -1,22 +1,22 @@
-package world.respect.datalayer.db.school
+package org.openeel.datalayer.db.school
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.adapters.toEntity
-import world.respect.datalayer.db.school.adapters.toModel
-import world.respect.datalayer.db.school.daos.SchoolPermissionGrantDao
-import world.respect.datalayer.school.SchoolPermissionGrantDataSource
-import world.respect.datalayer.school.SchoolPermissionGrantDataSourceLocal
-import world.respect.datalayer.school.ext.assertPersonHasRole
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.school.model.SchoolPermissionGrant
-import world.respect.datalayer.shared.paging.IPagingSourceFactory
-import world.respect.datalayer.shared.paging.map
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.adapters.toEntity
+import org.openeel.datalayer.db.school.adapters.toModel
+import org.openeel.datalayer.db.school.daos.SchoolPermissionGrantDao
+import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
+import org.openeel.datalayer.school.SchoolPermissionGrantDataSourceLocal
+import org.openeel.datalayer.school.ext.assertPersonHasRole
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.SchoolPermissionGrant
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
+import org.openeel.datalayer.shared.paging.map
 
 class SchoolPermissionGrantDataSourceDb(
     private val schoolPermissionGrantDao: SchoolPermissionGrantDao,

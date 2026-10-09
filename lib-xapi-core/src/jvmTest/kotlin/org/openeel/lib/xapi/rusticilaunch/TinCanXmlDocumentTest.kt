@@ -1,7 +1,7 @@
-package world.respect.lib.xapi.rusticilaunch
+package org.openeel.lib.xapi.rusticilaunch
 
 import nl.adaptivity.xmlutil.serialization.XML
-import world.respect.lib.xapi.rusticilaunch.model.TinCanXmlDocument
+import org.openeel.lib.xapi.rusticilaunch.model.TinCanXmlDocument
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

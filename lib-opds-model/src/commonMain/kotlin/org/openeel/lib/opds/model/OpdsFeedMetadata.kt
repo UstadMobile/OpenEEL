@@ -1,10 +1,10 @@
-package world.respect.lib.opds.model
+package org.openeel.lib.opds.model
 
 import com.eygraber.uri.Uri
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import world.respect.lib.serializers.InstantAsISO8601
-import world.respect.lib.serializers.UriStringSerializer
+import org.openeel.lib.serializers.InstantAsISO8601
+import org.openeel.lib.serializers.UriStringSerializer
 
 /**
  * OPDS Feed Metadata.

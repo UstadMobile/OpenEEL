@@ -1,4 +1,4 @@
-package world.respect.app.domain.e2eartifactupload
+package org.openeel.app.domain.e2eartifactupload
 
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
@@ -23,12 +23,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.getKoin
-import world.respect.app.view.testing.SendDbToServerScreen
-import world.respect.app.view.testing.SendDbToServerUiState
-import world.respect.shared.domain.school.SchoolDbPath
-import world.respect.shared.domain.e2eartifactupload.E2EArtifactUploadUseCase
-import world.respect.shared.domain.e2eartifactupload.E2EArtifactUploadUseCase.Companion.PARAM_NAME_SCHOOL_URL
-import world.respect.shared.util.di.SchoolDirectoryEntryScopeId
+import org.openeel.app.view.testing.SendDbToServerScreen
+import org.openeel.app.view.testing.SendDbToServerUiState
+import org.openeel.shared.domain.school.SchoolDbPath
+import org.openeel.shared.domain.e2eartifactupload.E2EArtifactUploadUseCase
+import org.openeel.shared.domain.e2eartifactupload.E2EArtifactUploadUseCase.Companion.PARAM_NAME_SCHOOL_URL
+import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 
 /**
  * The end-to-end artifact uploading (see E2EArtifactUploadUseCase) needs to be done when everything

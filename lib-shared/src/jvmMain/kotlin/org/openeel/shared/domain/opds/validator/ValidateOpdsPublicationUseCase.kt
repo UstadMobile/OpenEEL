@@ -1,16 +1,16 @@
-package world.respect.shared.domain.opds.validator
+package org.openeel.shared.domain.opds.validator
 
 import io.ktor.http.Url
 import io.ktor.util.toMap
 import org.jsoup.Jsoup
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.toStringMap
-import world.respect.datalayer.respect.model.LEARNING_UNIT_MIME_TYPES
-import world.respect.domain.validator.HttpLinkHeader
-import world.respect.shared.domain.validator.ValidateHttpResponseForUrlUseCase
-import world.respect.shared.domain.validator.ValidatorMessage
-import world.respect.shared.domain.validator.ValidatorReporter
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.toStringMap
+import org.openeel.datalayer.respect.model.LEARNING_UNIT_MIME_TYPES
+import org.openeel.domain.validator.HttpLinkHeader
+import org.openeel.shared.domain.validator.ValidateHttpResponseForUrlUseCase
+import org.openeel.shared.domain.validator.ValidatorMessage
+import org.openeel.shared.domain.validator.ValidatorReporter
 import java.net.URI
 
 /**

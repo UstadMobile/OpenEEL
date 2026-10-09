@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.report.indictor.detail
+package org.openeel.shared.viewmodel.report.indictor.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -10,20 +10,20 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.xapi.extensions.reportoptions.Indicator
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.edit
-import world.respect.shared.generated.resources.indicator_detail
-import world.respect.shared.navigation.IndicatorDetail
-import world.respect.shared.navigation.IndictorEdit
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.FabUiState
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.xapi.extensions.reportoptions.Indicator
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.edit
+import org.openeel.shared.generated.resources.indicator_detail
+import org.openeel.shared.navigation.IndicatorDetail
+import org.openeel.shared.navigation.IndictorEdit
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.FabUiState
 
 data class IndicatorDetailUiState(
     val indicator: DataLoadState<Indicator> = DataLoadingState(),

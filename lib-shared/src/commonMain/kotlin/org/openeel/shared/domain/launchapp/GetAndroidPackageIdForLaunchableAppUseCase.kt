@@ -1,10 +1,10 @@
-package world.respect.shared.domain.launchapp
+package org.openeel.shared.domain.launchapp
 
 import io.github.aakira.napier.Napier
 import io.ktor.http.URLProtocol
 import io.ktor.http.Url
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.findAppStoreAndroidLinks
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.findAppStoreAndroidLinks
 
 /**
  * Get the package id for a launchable app manifest (as represented by a [Publication]) by

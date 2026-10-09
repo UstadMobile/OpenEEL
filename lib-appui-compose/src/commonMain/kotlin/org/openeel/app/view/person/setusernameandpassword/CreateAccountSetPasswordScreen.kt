@@ -1,4 +1,4 @@
-package world.respect.app.view.person.setusernameandpassword
+package org.openeel.app.view.person.setusernameandpassword
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -9,13 +9,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectPasswordField
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.password_label
-import world.respect.shared.util.ext.isLoading
-import world.respect.shared.viewmodel.person.setusernameandpassword.CreateAccountSetPasswordViewModel
+import org.openeel.app.components.RespectPasswordField
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.password_label
+import org.openeel.shared.util.ext.isLoading
+import org.openeel.shared.viewmodel.person.setusernameandpassword.CreateAccountSetPasswordViewModel
 
 @Composable
 fun CreateAccountSetPasswordScreen(

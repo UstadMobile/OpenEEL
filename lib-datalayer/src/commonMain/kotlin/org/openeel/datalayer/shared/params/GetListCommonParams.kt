@@ -1,7 +1,7 @@
-package world.respect.datalayer.shared.params
+package org.openeel.datalayer.shared.params
 
 import io.ktor.util.StringValues
-import world.respect.lib.dataloadstate.DataLayerParams
+import org.openeel.lib.dataloadstate.DataLayerParams
 import kotlin.time.Instant
 
 /**

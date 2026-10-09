@@ -1,7 +1,7 @@
-package world.respect.datalayer
+package org.openeel.datalayer
 
-import world.respect.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSourceLocal
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSourceLocal
 
 /**
  *

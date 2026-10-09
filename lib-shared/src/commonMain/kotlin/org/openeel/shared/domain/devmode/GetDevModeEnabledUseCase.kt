@@ -1,4 +1,4 @@
-package world.respect.shared.domain.devmode
+package org.openeel.shared.domain.devmode
 
 import com.russhwolf.settings.Settings
 

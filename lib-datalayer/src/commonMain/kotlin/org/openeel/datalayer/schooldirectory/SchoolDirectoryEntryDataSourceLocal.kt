@@ -1,6 +1,6 @@
-package world.respect.datalayer.schooldirectory
+package org.openeel.datalayer.schooldirectory
 
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.datalayer.shared.LocalModelDataSource
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.shared.LocalModelDataSource
 
 interface SchoolDirectoryEntryDataSourceLocal: SchoolDirectoryEntryDataSource, LocalModelDataSource<SchoolDirectoryEntry>

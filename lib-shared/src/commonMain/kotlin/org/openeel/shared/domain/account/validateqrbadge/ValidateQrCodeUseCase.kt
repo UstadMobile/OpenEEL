@@ -1,9 +1,9 @@
-package world.respect.shared.domain.account.validateqrbadge
+package org.openeel.shared.domain.account.validateqrbadge
 
 import io.ktor.http.Url
 import org.jetbrains.compose.resources.StringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.*
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.*
 
 data class QrValidationResult(
     val isValid: Boolean = true,

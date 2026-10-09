@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account.child
+package org.openeel.shared.domain.account.child
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -8,12 +8,12 @@ import io.ktor.http.ContentType
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
 import io.ktor.http.contentType
-import world.respect.datalayer.AuthTokenProvider
-import world.respect.datalayer.SchoolDataSourceLocal
-import world.respect.datalayer.ext.useTokenProvider
-import world.respect.datalayer.http.ext.respectEndpointUrl
-import world.respect.datalayer.http.school.SchoolUrlBasedDataSource
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.AuthTokenProvider
+import org.openeel.datalayer.SchoolDataSourceLocal
+import org.openeel.datalayer.ext.useTokenProvider
+import org.openeel.datalayer.http.ext.respectEndpointUrl
+import org.openeel.datalayer.http.school.SchoolUrlBasedDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
 
 class AddChildAccountUseCaseClient(
     override val schoolUrl: Url,

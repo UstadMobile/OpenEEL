@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.person.qrcode
+package org.openeel.shared.viewmodel.person.qrcode
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.scope.Scope
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.qr_code
-import world.respect.shared.navigation.QrCode
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.AppBarSearchUiState
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.qr_code
+import org.openeel.shared.navigation.QrCode
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 
 data class InviteQrUiState(
     val link: String? = null,

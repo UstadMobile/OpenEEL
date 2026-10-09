@@ -1,4 +1,4 @@
-package world.respect.credentials.passkey
+package org.openeel.credentials.passkey
 
 /**
  * UseCase to check if passkeys are supported for a given RP. Underlying implementations check:

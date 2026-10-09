@@ -1,17 +1,17 @@
-package world.respect.datalayer.db.schooldirectory
+package org.openeel.datalayer.db.schooldirectory
 
 import androidx.room.Transactor
 import androidx.room.useWriterConnection
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import world.respect.datalayer.db.RespectAppDatabase
-import world.respect.datalayer.db.schooldirectory.adapters.toEntity
-import world.respect.datalayer.db.schooldirectory.adapters.toModel
-import world.respect.datalayer.db.schooldirectory.entities.SchoolConfigEntity
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.datalayer.db.RespectAppDatabase
+import org.openeel.datalayer.db.schooldirectory.adapters.toEntity
+import org.openeel.datalayer.db.schooldirectory.adapters.toModel
+import org.openeel.datalayer.db.schooldirectory.entities.SchoolConfigEntity
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal
+import org.openeel.libxxhash.XXStringHasher
 
 class SchoolDirectoryDataSourceDb(
     private val respectAppDb: RespectAppDatabase,

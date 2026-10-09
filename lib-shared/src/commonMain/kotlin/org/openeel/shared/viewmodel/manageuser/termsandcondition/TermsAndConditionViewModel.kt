@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.manageuser.termsandcondition
+package org.openeel.shared.viewmodel.manageuser.termsandcondition
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.libutil.ext.appendEndpointSegments
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.terms_and_conditions
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.SignupScreen
-import world.respect.shared.navigation.TermsAndCondition
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.libutil.ext.appendEndpointSegments
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.terms_and_conditions
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.SignupScreen
+import org.openeel.shared.navigation.TermsAndCondition
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 data class TermsAndConditionUiState(
     val termsAndConditionsUrl: Url,

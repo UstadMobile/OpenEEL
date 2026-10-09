@@ -1,4 +1,4 @@
-package world.respect.shared.domain.license
+package org.openeel.shared.domain.license
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

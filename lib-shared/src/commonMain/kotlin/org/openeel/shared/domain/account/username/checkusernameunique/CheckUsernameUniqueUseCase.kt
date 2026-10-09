@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account.username.checkusernameunique
+package org.openeel.shared.domain.account.username.checkusernameunique
 
 /**
  * Checks that the given username is unique for the school.

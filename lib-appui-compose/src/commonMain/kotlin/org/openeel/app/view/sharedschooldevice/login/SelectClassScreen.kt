@@ -1,4 +1,4 @@
-package world.respect.app.view.sharedschooldevice.login
+package org.openeel.app.view.sharedschooldevice.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -23,17 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectPersonAvatar
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.respectPagingItems
-import world.respect.app.components.respectRememberPager
-import world.respect.datalayer.school.ClassDataSource
-import world.respect.datalayer.school.model.Clazz
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.scan_qr_code
-import world.respect.shared.generated.resources.teacher_admin_login
-import world.respect.shared.viewmodel.sharedschooldevice.login.SelectClassUiState
-import world.respect.shared.viewmodel.sharedschooldevice.login.SelectClassViewModel
+import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.respectPagingItems
+import org.openeel.app.components.respectRememberPager
+import org.openeel.datalayer.school.ClassDataSource
+import org.openeel.datalayer.school.model.Clazz
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.scan_qr_code
+import org.openeel.shared.generated.resources.teacher_admin_login
+import org.openeel.shared.viewmodel.sharedschooldevice.login.SelectClassUiState
+import org.openeel.shared.viewmodel.sharedschooldevice.login.SelectClassViewModel
 
 @Composable
 fun SelectClassScreen(

@@ -1,21 +1,21 @@
-package world.respect.shared.domain.account.invite
+package org.openeel.shared.domain.account.invite
 
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.db.school.ext.isStudent
-import world.respect.datalayer.db.school.ext.isTeacher
-import world.respect.datalayer.school.EnrollmentDataSource
-import world.respect.datalayer.school.PersonDataSource
-import world.respect.datalayer.school.ext.copyAsApproved
-import world.respect.datalayer.school.ext.inviteCodeOrNull
-import world.respect.datalayer.school.ext.relatedPersonRoleEnum
-import world.respect.datalayer.school.model.ClassInvite
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.school.model.PersonStatusEnum
-import world.respect.datalayer.school.model.StatusEnum
-import world.respect.datalayer.shared.params.GetListCommonParams
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.db.school.ext.isStudent
+import org.openeel.datalayer.db.school.ext.isTeacher
+import org.openeel.datalayer.school.EnrollmentDataSource
+import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.ext.copyAsApproved
+import org.openeel.datalayer.school.ext.inviteCodeOrNull
+import org.openeel.datalayer.school.ext.relatedPersonRoleEnum
+import org.openeel.datalayer.school.model.ClassInvite
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.shared.params.GetListCommonParams
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
 import kotlin.time.Clock
 
 

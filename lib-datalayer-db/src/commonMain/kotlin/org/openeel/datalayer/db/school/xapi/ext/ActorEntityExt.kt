@@ -1,6 +1,6 @@
-package world.respect.datalayer.db.school.xapi.ext
+package org.openeel.datalayer.db.school.xapi.ext
 
-import world.respect.datalayer.db.school.xapi.entities.XapiActorEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiActorEntity
 
 
 /**

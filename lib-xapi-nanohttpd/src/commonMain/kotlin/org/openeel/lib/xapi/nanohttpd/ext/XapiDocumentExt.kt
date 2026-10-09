@@ -1,8 +1,8 @@
-package world.respect.lib.xapi.nanohttpd.ext
+package org.openeel.lib.xapi.nanohttpd.ext
 
 import fi.iki.elonen.NanoHTTPD
 import fi.iki.elonen.NanoHTTPD.newFixedLengthResponse
-import world.respect.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.model.XapiDocument
 import java.io.ByteArrayInputStream
 
 suspend fun XapiDocument.toFixedLengthResponse(): NanoHTTPD.Response {

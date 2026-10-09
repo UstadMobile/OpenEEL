@@ -1,4 +1,4 @@
-package world.respect.lib.primarykeygen.ext
+package org.openeel.lib.primarykeygen.ext
 
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant

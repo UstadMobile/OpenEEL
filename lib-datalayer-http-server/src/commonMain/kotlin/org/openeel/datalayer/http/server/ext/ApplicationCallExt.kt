@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.server.ext
+package org.openeel.datalayer.http.server.ext
 
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -6,11 +6,11 @@ import io.ktor.http.fromHttpToGmtDate
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.request.receive
 import io.ktor.server.response.respondBytes
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.ktorserver.respondDataLoadState
-import world.respect.lib.xapi.exceptions.XapiException
-import world.respect.lib.xapi.model.XapiDocument
-import world.respect.lib.xapi.model.XapiDocumentByteArrayImpl
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
+import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.model.XapiDocumentByteArrayImpl
 
 /**
  * Receive an XAPI document from the request. This will use receive<ByteArray> to get the contents

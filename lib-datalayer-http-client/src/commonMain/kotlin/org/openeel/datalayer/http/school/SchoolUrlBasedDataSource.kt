@@ -1,7 +1,7 @@
-package world.respect.datalayer.http.school
+package org.openeel.datalayer.http.school
 
 import io.ktor.http.Url
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
 
 /**
  * Interface for http SchoolDataSources. This is used by various school-scope HTTP datasources.

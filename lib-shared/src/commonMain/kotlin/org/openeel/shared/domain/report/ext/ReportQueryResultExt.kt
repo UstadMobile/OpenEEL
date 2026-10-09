@@ -1,7 +1,7 @@
-package world.respect.shared.domain.report.ext
+package org.openeel.shared.domain.report.ext
 
-import world.respect.datalayer.db.shared.entities.ReportQueryResult
-import world.respect.lib.xapi.extensions.reportoptions.StatementReportRow
+import org.openeel.datalayer.db.shared.entities.ReportQueryResult
+import org.openeel.lib.xapi.extensions.reportoptions.StatementReportRow
 
 fun ReportQueryResult.asStatementReportRow() = StatementReportRow(
     xAxis = rqrXAxis,

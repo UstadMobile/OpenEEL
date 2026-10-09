@@ -1,4 +1,4 @@
-package world.respect.lib.dataloadstate.ktorserver
+package org.openeel.lib.dataloadstate.ktorserver
 
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
@@ -11,14 +11,14 @@ import io.ktor.server.response.respond
 import io.ktor.util.date.GMTDate
 import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLayerHeaders
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.lib.dataloadstate.ext.etagForHttpResponseHeader
-import world.respect.lib.dataloadstate.ext.lastModifiedForHttpResponseHeader
-import world.respect.lib.dataloadstate.throwable.ExceptionWithHttpStatusCode
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLayerHeaders
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.ext.etagForHttpResponseHeader
+import org.openeel.lib.dataloadstate.ext.lastModifiedForHttpResponseHeader
+import org.openeel.lib.dataloadstate.throwable.ExceptionWithHttpStatusCode
 import kotlin.time.Instant
 
 

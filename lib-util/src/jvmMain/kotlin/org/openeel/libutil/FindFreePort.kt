@@ -1,4 +1,4 @@
-package world.respect.libutil
+package org.openeel.libutil
 
 import java.io.IOException
 import java.net.ServerSocket

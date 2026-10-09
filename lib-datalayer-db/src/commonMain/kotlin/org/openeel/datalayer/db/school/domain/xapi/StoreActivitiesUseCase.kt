@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.domain.xapi
+package org.openeel.datalayer.db.school.domain.xapi
 
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.xapi.entities.XapiActivityEntity
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.xapi.entities.XapiActivityEntity
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.libutil.util.time.systemTimeInMillis
 import kotlin.time.Instant
 
 

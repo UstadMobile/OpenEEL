@@ -1,4 +1,4 @@
-package world.respect.datalayer.repository.school.xapi
+package org.openeel.datalayer.repository.school.xapi
 
 import app.cash.turbine.test
 import kotlinx.coroutines.flow.filter
@@ -9,11 +9,11 @@ import kotlinx.serialization.json.decodeFromJsonElement
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.libxapi.test.res.xapiSampleStatements
-import world.respect.datalayer.http.server.XapiStatementsResourceRoute
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.resources.XapiStatementsResource
+import org.openeel.datalayer.http.server.XapiStatementsResourceRoute
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.resources.XapiStatementsResource
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

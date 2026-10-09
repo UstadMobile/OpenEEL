@@ -1,8 +1,8 @@
-package world.respect.datalayer.shared.paging
+package org.openeel.datalayer.shared.paging
 
 import androidx.paging.PagingSource
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
-import world.respect.lib.dataloadstate.throwable.ExceptionWithHttpStatusCode
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.throwable.ExceptionWithHttpStatusCode
 
 /**
  * A Cacheable Http Paging Source is one that loads data over http that can be cached by a

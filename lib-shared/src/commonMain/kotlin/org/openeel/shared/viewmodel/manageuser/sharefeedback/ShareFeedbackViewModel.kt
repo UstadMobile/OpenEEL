@@ -1,17 +1,17 @@
-package world.respect.shared.viewmodel.manageuser.sharefeedback
+package org.openeel.shared.viewmodel.manageuser.sharefeedback
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.shared.domain.openexternallink.OpenExternalLinkUseCase
-import world.respect.shared.domain.launchers.LaunchSendWhatsAppUseCase
-import world.respect.shared.domain.sharelink.LaunchSendEmailUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.send_feedback
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.shared.domain.openexternallink.OpenExternalLinkUseCase
+import org.openeel.shared.domain.launchers.LaunchSendWhatsAppUseCase
+import org.openeel.shared.domain.sharelink.LaunchSendEmailUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.send_feedback
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 class ShareFeedbackViewModel(
     savedStateHandle: SavedStateHandle,

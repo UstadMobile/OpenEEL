@@ -1,19 +1,19 @@
-package world.respect.datalayer.repository.school
+package org.openeel.datalayer.repository.school
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.ext.combineWithRemote
-import world.respect.datalayer.ext.updateFromRemoteListIfNeeded
-import world.respect.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
-import world.respect.datalayer.school.PersonPasswordDataSource
-import world.respect.datalayer.school.PersonPasswordDataSourceLocal
-import world.respect.datalayer.school.model.PersonPassword
-import world.respect.datalayer.school.writequeue.RemoteWriteQueue
-import world.respect.datalayer.school.writequeue.WriteQueueItem
-import world.respect.datalayer.shared.RepositoryModelDataSource
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.ext.combineWithRemote
+import org.openeel.datalayer.ext.updateFromRemoteListIfNeeded
+import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
+import org.openeel.datalayer.school.PersonPasswordDataSource
+import org.openeel.datalayer.school.PersonPasswordDataSourceLocal
+import org.openeel.datalayer.school.model.PersonPassword
+import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
+import org.openeel.datalayer.school.writequeue.WriteQueueItem
+import org.openeel.datalayer.shared.RepositoryModelDataSource
+import org.openeel.libutil.util.time.systemTimeInMillis
 
 class PersonPasswordDataSourceRepository(
     override val local: PersonPasswordDataSourceLocal,

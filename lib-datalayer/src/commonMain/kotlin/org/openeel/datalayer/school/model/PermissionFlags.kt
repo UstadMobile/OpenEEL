@@ -1,4 +1,4 @@
-package world.respect.datalayer.school.model
+package org.openeel.datalayer.school.model
 
 @Suppress("unused")
 object PermissionFlags {

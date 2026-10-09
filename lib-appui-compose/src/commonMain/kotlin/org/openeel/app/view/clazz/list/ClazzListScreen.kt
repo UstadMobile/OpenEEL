@@ -1,4 +1,4 @@
-package world.respect.app.view.clazz.list
+package org.openeel.app.view.clazz.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,19 +11,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.collectAsLazyPagingItems
-import world.respect.app.components.RespectEmptyListComponent
-import world.respect.app.components.RespectListSortHeader
-import world.respect.app.components.RespectPersonAvatar
-import world.respect.app.components.SortListMode
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.defaultSortListMode
-import world.respect.app.components.respectPagingItems
-import world.respect.app.components.respectRememberPager
-import world.respect.datalayer.school.ClassDataSource
-import world.respect.datalayer.school.model.Clazz
-import world.respect.shared.util.SortOrderOption
-import world.respect.shared.viewmodel.clazz.list.ClazzListUiState
-import world.respect.shared.viewmodel.clazz.list.ClazzListViewModel
+import org.openeel.app.components.RespectEmptyListComponent
+import org.openeel.app.components.RespectListSortHeader
+import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.SortListMode
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.defaultSortListMode
+import org.openeel.app.components.respectPagingItems
+import org.openeel.app.components.respectRememberPager
+import org.openeel.datalayer.school.ClassDataSource
+import org.openeel.datalayer.school.model.Clazz
+import org.openeel.shared.util.SortOrderOption
+import org.openeel.shared.viewmodel.clazz.list.ClazzListUiState
+import org.openeel.shared.viewmodel.clazz.list.ClazzListViewModel
 
 @Composable
 fun ClazzListScreen(

@@ -1,4 +1,4 @@
-package world.respect.lib.xapi
+package org.openeel.lib.xapi
 
 object OpenEelXapiConstants {
 

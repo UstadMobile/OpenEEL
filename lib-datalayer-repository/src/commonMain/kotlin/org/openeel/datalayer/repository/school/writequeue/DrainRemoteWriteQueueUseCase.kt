@@ -1,14 +1,14 @@
-package world.respect.datalayer.repository.school.writequeue
+package org.openeel.datalayer.repository.school.writequeue
 
 import io.github.aakira.napier.Napier
 import io.ktor.http.Url
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.repository.SchoolDataSourceRepository
-import world.respect.datalayer.school.writequeue.RemoteWriteQueue
-import world.respect.datalayer.school.writequeue.WriteQueueItem
-import world.respect.datalayer.shared.RepositoryModelDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.repository.SchoolDataSourceRepository
+import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
+import org.openeel.datalayer.school.writequeue.WriteQueueItem
+import org.openeel.datalayer.shared.RepositoryModelDataSource
 import kotlin.uuid.Uuid
 
 

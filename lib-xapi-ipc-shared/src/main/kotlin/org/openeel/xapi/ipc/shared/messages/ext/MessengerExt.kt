@@ -1,12 +1,12 @@
-package world.respect.xapi.ipc.shared.messages.ext
+package org.openeel.xapi.ipc.shared.messages.ext
 
 import android.os.Bundle
 import android.os.Message
 import android.os.Messenger
 import kotlinx.serialization.builtins.serializer
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.throwable.unwrapHttpStatusCode
-import world.respect.xapi.ipc.shared.messages.XapiIpcKeys
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.throwable.unwrapHttpStatusCode
+import org.openeel.xapi.ipc.shared.messages.XapiIpcKeys
 
 /**
  * Shorthand function to send a response message back to a client. Will obtain a new Message using

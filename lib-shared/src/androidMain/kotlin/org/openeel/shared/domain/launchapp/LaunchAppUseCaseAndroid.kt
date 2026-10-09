@@ -1,4 +1,4 @@
-package world.respect.shared.domain.launchapp
+package org.openeel.shared.domain.launchapp
 
 import android.content.Context
 import android.content.Intent
@@ -18,19 +18,19 @@ import io.ktor.http.Url
 import io.ktor.http.headersOf
 import kotlinx.serialization.json.Json
 import net.thauvin.erik.urlencoder.UrlEncoderUtil
-import world.respect.datalayer.school.opds.OpdsPublicationDataSource
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.findLaunchableAppLink
-import world.respect.lib.xapi.model.XapiActor
-import world.respect.libutil.ext.resolve
-import world.respect.shared.domain.launchapp.LaunchAppUseCase.LaunchAppRequest
-import world.respect.shared.domain.launchapp.getlaunchoptionsforpublication.GetLaunchOptionsForPublicationUseCase
-import world.respect.shared.domain.launchapp.getxapilaunchparams.GetXapiLaunchParamsUseCase
-import world.respect.shared.domain.launchapp.getxapilaunchparams.XapiLaunchParams
-import world.respect.shared.domain.xapi.getxapilaunchurl.GetXapiLaunchUrlUseCase
-import world.respect.xapi.ipc.shared.messages.XapiIpcIntent
+import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.findLaunchableAppLink
+import org.openeel.lib.xapi.model.XapiActor
+import org.openeel.libutil.ext.resolve
+import org.openeel.shared.domain.launchapp.LaunchAppUseCase.LaunchAppRequest
+import org.openeel.shared.domain.launchapp.getlaunchoptionsforpublication.GetLaunchOptionsForPublicationUseCase
+import org.openeel.shared.domain.launchapp.getxapilaunchparams.GetXapiLaunchParamsUseCase
+import org.openeel.shared.domain.launchapp.getxapilaunchparams.XapiLaunchParams
+import org.openeel.shared.domain.xapi.getxapilaunchurl.GetXapiLaunchUrlUseCase
+import org.openeel.xapi.ipc.shared.messages.XapiIpcIntent
 
 /**
  * Implementation of LaunchAppUseCase for Android.

@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.server
+package org.openeel.datalayer.http.server
 
 import io.ktor.http.HttpHeaders
 import io.ktor.server.application.ApplicationCall
@@ -9,11 +9,11 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.ktorserver.respondDataLoadState
-import world.respect.lib.xapi.resources.XapiStatementsResource
-import world.respect.lib.xapi.model.XapiSingleItemToListSerializer
-import world.respect.lib.xapi.model.XapiStatement
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
+import org.openeel.lib.xapi.resources.XapiStatementsResource
+import org.openeel.lib.xapi.model.XapiSingleItemToListSerializer
+import org.openeel.lib.xapi.model.XapiStatement
 
 fun Route.XapiStatementsResourceRoute(
     statementResource: (ApplicationCall) -> XapiStatementsResource,

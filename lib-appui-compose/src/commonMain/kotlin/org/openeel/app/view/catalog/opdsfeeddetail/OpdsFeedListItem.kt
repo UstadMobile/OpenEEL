@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeeddetail
+package org.openeel.app.view.catalog.opdsfeeddetail
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
@@ -22,9 +22,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.app.RespectAsyncImage
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.duration
+import org.openeel.app.app.RespectAsyncImage
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.duration
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

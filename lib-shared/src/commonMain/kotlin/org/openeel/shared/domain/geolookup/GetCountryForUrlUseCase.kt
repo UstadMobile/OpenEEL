@@ -1,4 +1,4 @@
-package world.respect.shared.domain.geolookup
+package org.openeel.shared.domain.geolookup
 
 import io.ktor.http.Url
 

@@ -1,9 +1,9 @@
-package world.respect.shared.domain.storage
+package org.openeel.shared.domain.storage
 
 import com.ustadmobile.core.domain.storage.GetOfflineStorageOptionsUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.memory_card
-import world.respect.shared.generated.resources.phone_memory
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.memory_card
+import org.openeel.shared.generated.resources.phone_memory
 
 class GetOfflineStorageOptionsUseCaseAndroid(
     private val getAndroidSdCardDirUseCase: GetAndroidSdCardDirUseCase

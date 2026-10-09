@@ -1,9 +1,9 @@
-package world.respect.lib.xapi.resources
+package org.openeel.lib.xapi.resources
 
 import kotlinx.coroutines.flow.Flow
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.xapi.model.XapiDocument
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.xapi.model.XapiDocument
 
 /**
  * Generic interface for Experience API document resources including the activity profile resource,

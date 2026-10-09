@@ -1,11 +1,11 @@
-package world.respect.shared.domain.appversioninfo
+package org.openeel.shared.domain.appversioninfo
 
 import android.content.Context
 import android.os.Build
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import world.respect.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.Res
 import java.io.ByteArrayInputStream
 import java.util.Properties
 

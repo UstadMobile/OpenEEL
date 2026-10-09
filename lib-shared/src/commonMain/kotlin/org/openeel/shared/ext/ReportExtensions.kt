@@ -1,16 +1,16 @@
-package world.respect.shared.ext
+package org.openeel.shared.ext
 
 import org.jetbrains.compose.resources.StringResource
-import world.respect.lib.xapi.extensions.reportoptions.Comparisons
-import world.respect.lib.xapi.extensions.reportoptions.FilterType
-import world.respect.lib.xapi.extensions.reportoptions.GenderType
-import world.respect.lib.xapi.extensions.reportoptions.ReportPeriodOption
-import world.respect.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
-import world.respect.lib.xapi.extensions.reportoptions.ReportTimeRangeUnit
-import world.respect.lib.xapi.extensions.reportoptions.ReportXAxis
-import world.respect.lib.xapi.extensions.reportoptions.YAxisTypes
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.*
+import org.openeel.lib.xapi.extensions.reportoptions.Comparisons
+import org.openeel.lib.xapi.extensions.reportoptions.FilterType
+import org.openeel.lib.xapi.extensions.reportoptions.GenderType
+import org.openeel.lib.xapi.extensions.reportoptions.ReportPeriodOption
+import org.openeel.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
+import org.openeel.lib.xapi.extensions.reportoptions.ReportTimeRangeUnit
+import org.openeel.lib.xapi.extensions.reportoptions.ReportXAxis
+import org.openeel.lib.xapi.extensions.reportoptions.YAxisTypes
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.*
 
 val ReportTimeRangeUnit.label: StringResource
     get() = when(this) {

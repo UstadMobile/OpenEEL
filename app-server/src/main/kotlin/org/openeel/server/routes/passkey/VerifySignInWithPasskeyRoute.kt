@@ -1,13 +1,13 @@
-package world.respect.server.routes.passkey
+package org.openeel.server.routes.passkey
 
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
-import world.respect.credentials.passkey.model.AuthenticationResponseJSON
-import world.respect.lib.dataloadstate.throwable.withHttpStatus
-import world.respect.shared.domain.account.passkey.VerifySignInWithPasskeyUseCase
+import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
+import org.openeel.lib.dataloadstate.throwable.withHttpStatus
+import org.openeel.shared.domain.account.passkey.VerifySignInWithPasskeyUseCase
 
 fun Route.VerifySignInWithPasskeyRoute(
     useCase: (ApplicationCall) -> VerifySignInWithPasskeyUseCase,

@@ -1,4 +1,4 @@
-package world.respect.app.view.acknowledgement
+package org.openeel.app.view.acknowledgement
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,12 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.app.AppIcon
-import world.respect.shared.viewmodel.acknowledgement.AcknowledgementUiState
-import world.respect.shared.viewmodel.acknowledgement.AcknowledgementViewModel
-import world.respect.images.RespectImage
-import world.respect.images.respectImagePainter
-import world.respect.shared.generated.resources.*
+import org.openeel.app.app.AppIcon
+import org.openeel.shared.viewmodel.acknowledgement.AcknowledgementUiState
+import org.openeel.shared.viewmodel.acknowledgement.AcknowledgementViewModel
+import org.openeel.images.RespectImage
+import org.openeel.images.respectImagePainter
+import org.openeel.shared.generated.resources.*
 
 @Composable
 fun AcknowledgementScreen(

@@ -1,4 +1,4 @@
-package world.respect.server
+package org.openeel.server
 
 import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.helper.HelpScreenException

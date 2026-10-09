@@ -1,4 +1,4 @@
-package world.respect.app.view.clazz.edit
+package org.openeel.app.view.clazz.edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,17 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.datalayer.school.model.Clazz
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.class_name
-import world.respect.shared.generated.resources.description
-import world.respect.shared.generated.resources.required
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.clazz.edit.ClazzEditUiState
-import world.respect.shared.viewmodel.clazz.edit.ClazzEditViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.datalayer.school.model.Clazz
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.class_name
+import org.openeel.shared.generated.resources.description
+import org.openeel.shared.generated.resources.required
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.clazz.edit.ClazzEditUiState
+import org.openeel.shared.viewmodel.clazz.edit.ClazzEditViewModel
 
 @Composable
 fun ClazzEditScreen(

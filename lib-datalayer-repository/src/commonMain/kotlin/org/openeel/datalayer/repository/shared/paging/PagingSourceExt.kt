@@ -1,11 +1,11 @@
-package world.respect.datalayer.repository.shared.paging
+package org.openeel.datalayer.repository.shared.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingSource.LoadParams
 import androidx.paging.PagingSource.LoadResult
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
-import world.respect.datalayer.shared.paging.CacheableHttpPagingSource
+import org.openeel.datalayer.shared.paging.CacheableHttpPagingSource
 
 
 suspend fun <T: Any> PagingSource<Int, T>.loadAndUpdateLocal2(

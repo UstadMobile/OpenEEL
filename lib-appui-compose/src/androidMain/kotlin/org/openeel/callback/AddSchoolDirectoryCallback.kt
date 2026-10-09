@@ -1,9 +1,9 @@
-package world.respect.callback
+package org.openeel.callback
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.libxxhash.XXStringHasher
 import java.util.Properties
 
 class AddSchoolDirectoryCallback(

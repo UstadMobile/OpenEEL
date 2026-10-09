@@ -1,4 +1,4 @@
-package world.respect.app.view.clazz.detail
+package org.openeel.app.view.clazz.detail
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,14 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectPersonAvatar
-import world.respect.datalayer.db.school.ext.fullName
-import world.respect.datalayer.school.model.Person
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.accept_invite
-import world.respect.shared.generated.resources.date_of_birth
-import world.respect.shared.generated.resources.dismiss_invite
-import world.respect.shared.generated.resources.gender_literal
+import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.datalayer.db.school.ext.fullName
+import org.openeel.datalayer.school.model.Person
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.accept_invite
+import org.openeel.shared.generated.resources.date_of_birth
+import org.openeel.shared.generated.resources.dismiss_invite
+import org.openeel.shared.generated.resources.gender_literal
 
 @Composable
 fun ClassPendingPersonListItem(

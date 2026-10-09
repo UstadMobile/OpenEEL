@@ -1,16 +1,16 @@
-package world.respect.shared.domain.bookmark
+package org.openeel.shared.domain.bookmark
 import io.ktor.http.Url
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.OpenEelXapiConstants
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.model.XapiAgent
-import world.respect.lib.xapi.model.XapiContext
-import world.respect.lib.xapi.model.XapiContextActivities
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.model.XapiStatementRef
-import world.respect.lib.xapi.model.XapiVerb
-import world.respect.lib.xapi.resources.XapiStatementsResource
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.OpenEelXapiConstants
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.lib.xapi.model.XapiContext
+import org.openeel.lib.xapi.model.XapiContextActivities
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiStatementRef
+import org.openeel.lib.xapi.model.XapiVerb
+import org.openeel.lib.xapi.resources.XapiStatementsResource
 /**
  * UseCase to remove a bookmark by voiding the bookmark xAPI statement(s) for a given activity.
  */

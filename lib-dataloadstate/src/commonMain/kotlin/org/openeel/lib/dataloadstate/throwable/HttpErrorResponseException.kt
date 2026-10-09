@@ -1,4 +1,4 @@
-package world.respect.lib.dataloadstate.throwable
+package org.openeel.lib.dataloadstate.throwable
 
 class HttpErrorResponseException(
     override val statusCode: Int,

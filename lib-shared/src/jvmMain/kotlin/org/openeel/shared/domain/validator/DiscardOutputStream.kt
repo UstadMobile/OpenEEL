@@ -1,4 +1,4 @@
-package world.respect.shared.domain.validator
+package org.openeel.shared.domain.validator
 
 import java.io.OutputStream
 

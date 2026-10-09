@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.entities
+package org.openeel.datalayer.db.school.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.datetime.LocalDate
-import world.respect.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.PersonRoleEnum
 
 @Entity
 data class PersonRoleEntity(

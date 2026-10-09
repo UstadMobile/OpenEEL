@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.sharedschooldevice
+package org.openeel.shared.viewmodel.sharedschooldevice
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -9,16 +9,16 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.invalid
-import world.respect.shared.generated.resources.teacher_admin_login
-import world.respect.shared.navigation.LoginScreen
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.invalid
+import org.openeel.shared.generated.resources.teacher_admin_login
+import org.openeel.shared.navigation.LoginScreen
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 data class TeacherPinConfirmationUiState(
     val errorMessage: UiText? = null,

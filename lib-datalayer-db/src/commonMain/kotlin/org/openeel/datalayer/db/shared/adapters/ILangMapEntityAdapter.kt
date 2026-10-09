@@ -1,6 +1,6 @@
-package world.respect.datalayer.db.shared.adapters
+package org.openeel.datalayer.db.shared.adapters
 
-import world.respect.datalayer.db.shared.entities.ILangMapEntity
+import org.openeel.datalayer.db.shared.entities.ILangMapEntity
 
 /**
  * Functional interface that enables sharing logic between ILangMapEntity classes for different

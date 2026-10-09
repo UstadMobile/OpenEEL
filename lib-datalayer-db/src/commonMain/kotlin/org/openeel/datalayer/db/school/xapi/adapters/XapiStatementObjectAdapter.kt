@@ -1,10 +1,10 @@
-package world.respect.datalayer.db.school.xapi.adapters
+package org.openeel.datalayer.db.school.xapi.adapters
 
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.xapi.entities.XapiStatementEntityObjectTypeEnum
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.model.XapiObjectType
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntityObjectTypeEnum
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.model.XapiObjectType
 import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 

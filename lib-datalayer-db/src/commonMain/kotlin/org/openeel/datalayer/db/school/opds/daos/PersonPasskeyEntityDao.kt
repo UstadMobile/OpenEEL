@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.opds.daos
+package org.openeel.datalayer.db.school.opds.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.entities.PersonPasskeyEntity
+import org.openeel.datalayer.db.school.entities.PersonPasskeyEntity
 
 @Dao
 abstract class PersonPasskeyEntityDao {

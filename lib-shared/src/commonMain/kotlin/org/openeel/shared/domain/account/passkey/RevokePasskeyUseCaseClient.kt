@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -7,7 +7,7 @@ import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.Url
 import io.ktor.http.contentType
-import world.respect.libutil.ext.appendEndpointSegments
+import org.openeel.libutil.ext.appendEndpointSegments
 
 class RevokePasskeyUseCaseClient(
     private val schoolUrl: Url,

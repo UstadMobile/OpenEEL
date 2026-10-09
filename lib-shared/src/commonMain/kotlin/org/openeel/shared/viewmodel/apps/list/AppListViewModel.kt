@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.apps.list
+package org.openeel.shared.viewmodel.apps.list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -10,22 +10,22 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.select_app
-import world.respect.shared.navigation.AppsDetail
-import world.respect.shared.navigation.EnterLink
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.ext.map
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.findSelfLinks
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.util.ext.resolve
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.select_app
+import org.openeel.shared.navigation.AppsDetail
+import org.openeel.shared.navigation.EnterLink
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.ext.map
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.findSelfLinks
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.util.ext.resolve
 
 data class AppListUiState(
     val appList: DataLoadState<List<Publication>> = DataReadyState(emptyList())

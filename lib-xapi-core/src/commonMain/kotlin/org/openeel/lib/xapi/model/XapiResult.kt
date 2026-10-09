@@ -1,8 +1,8 @@
-package world.respect.lib.xapi.model
+package org.openeel.lib.xapi.model
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
-import world.respect.lib.serializers.DurationAsISO8601
+import org.openeel.lib.serializers.DurationAsISO8601
 
 @Serializable
 data class XapiResult(

@@ -1,4 +1,4 @@
-package world.respect.shared.ext
+package org.openeel.shared.ext
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest

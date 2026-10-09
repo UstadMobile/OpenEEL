@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.school.opds.entities
+package org.openeel.datalayer.db.school.opds.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import world.respect.datalayer.db.school.opds.OpdsParentType
+import org.openeel.datalayer.db.school.opds.OpdsParentType
 
 /**
  * Database Entity that represents a ReadiumLink. ReadiumLinks are always associated with an

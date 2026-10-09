@@ -1,8 +1,8 @@
-package world.respect.libxxhash.jvmimpl
+package org.openeel.libxxhash.jvmimpl
 
 import net.jpountz.xxhash.XXHashFactory
-import world.respect.libxxhash.XXHasher64
-import world.respect.libxxhash.XXHasher64Factory
+import org.openeel.libxxhash.XXHasher64
+import org.openeel.libxxhash.XXHasher64Factory
 
 class XXHasher64FactoryCommonJvm(): XXHasher64Factory {
 

@@ -1,4 +1,4 @@
-package world.respect.shared.domain.launchapp
+package org.openeel.shared.domain.launchapp
 
 object LaunchAppTags {
 

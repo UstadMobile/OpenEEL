@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.clazz.list
+package org.openeel.shared.viewmodel.clazz.list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -9,29 +9,29 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.school.ClassDataSource
-import world.respect.datalayer.school.model.Clazz
-import world.respect.datalayer.shared.paging.EmptyPagingSourceFactory
-import world.respect.datalayer.shared.paging.IPagingSourceFactory
-import world.respect.datalayer.shared.paging.PagingSourceFactoryHolder
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.classes
-import world.respect.shared.generated.resources.clazz
-import world.respect.shared.generated.resources.first_name
-import world.respect.shared.generated.resources.last_name
-import world.respect.shared.navigation.ClazzDetail
-import world.respect.shared.navigation.ClazzEdit
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.util.SortOrderOption
-import world.respect.shared.util.ext.asUiText
-import world.respect.datalayer.school.model.PermissionFlags
-import world.respect.datalayer.school.writequeue.EnqueueRunPullSyncUseCase
-import world.respect.shared.domain.permissions.CheckSchoolPermissionsUseCase
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.FabUiState
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.ClassDataSource
+import org.openeel.datalayer.school.model.Clazz
+import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
+import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.classes
+import org.openeel.shared.generated.resources.clazz
+import org.openeel.shared.generated.resources.first_name
+import org.openeel.shared.generated.resources.last_name
+import org.openeel.shared.navigation.ClazzDetail
+import org.openeel.shared.navigation.ClazzEdit
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.util.SortOrderOption
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.datalayer.school.model.PermissionFlags
+import org.openeel.datalayer.school.writequeue.EnqueueRunPullSyncUseCase
+import org.openeel.shared.domain.permissions.CheckSchoolPermissionsUseCase
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.FabUiState
 
 data class ClazzListUiState(
     val classes: IPagingSourceFactory<Int, Clazz> = EmptyPagingSourceFactory(),

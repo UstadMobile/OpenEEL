@@ -1,6 +1,6 @@
-package world.respect.shared.util.ext
+package org.openeel.shared.util.ext
 
-import world.respect.shared.domain.account.RespectAccount
+import org.openeel.shared.domain.account.RespectAccount
 
 /**
  * Returns true if the two accounts are the same account - the same user guid on the same school

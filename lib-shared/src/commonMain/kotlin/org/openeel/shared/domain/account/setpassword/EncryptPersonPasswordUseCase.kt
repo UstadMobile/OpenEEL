@@ -1,7 +1,7 @@
-package world.respect.shared.domain.account.setpassword
+package org.openeel.shared.domain.account.setpassword
 
-import world.respect.datalayer.school.model.PersonPassword
-import world.respect.libutil.ext.randomString
+import org.openeel.datalayer.school.model.PersonPassword
+import org.openeel.libutil.ext.randomString
 
 interface EncryptPersonPasswordUseCase {
 

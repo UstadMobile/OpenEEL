@@ -1,4 +1,4 @@
-package world.respect.shared.domain.navigation.deeplink
+package org.openeel.shared.domain.navigation.deeplink
 
 import com.ustadmobile.ihttp.ext.requirePrefix
 import io.ktor.http.URLBuilder

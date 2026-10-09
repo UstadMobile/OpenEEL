@@ -1,7 +1,7 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.libxxhash.XXStringHasher
 
 class RevokePersonPasskeyUseCaseDbImpl(
     private val schoolDb: RespectSchoolDatabase,

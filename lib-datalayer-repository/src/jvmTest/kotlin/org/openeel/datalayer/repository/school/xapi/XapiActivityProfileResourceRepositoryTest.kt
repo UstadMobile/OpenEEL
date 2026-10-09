@@ -1,11 +1,11 @@
-package world.respect.datalayer.repository.school.xapi
+package org.openeel.datalayer.repository.school.xapi
 
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.libxapi.test.AbstractXapiActivityProfileResourceTest
-import world.respect.datalayer.http.server.XapiActivityProfileResourceRoute
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.datalayer.http.server.XapiActivityProfileResourceRoute
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 
 
 class XapiActivityProfileResourceRepositoryTest: AbstractXapiActivityProfileResourceTest() {

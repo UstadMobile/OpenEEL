@@ -1,4 +1,4 @@
-package world.respect.shared.domain.report.query
+package org.openeel.shared.domain.report.query
 
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.flow.Flow

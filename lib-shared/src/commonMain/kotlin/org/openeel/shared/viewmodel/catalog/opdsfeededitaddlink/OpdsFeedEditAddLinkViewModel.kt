@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.catalog.opdsfeededitaddlink
+package org.openeel.shared.viewmodel.catalog.opdsfeededitaddlink
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -9,26 +9,26 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.lib.opds.model.LangMapStringValue
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.ReadiumMetadata
-import world.respect.shared.domain.externallink.ExtractWebPageMetadataUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.could_not_load_link
-import world.respect.shared.generated.resources.done
-import world.respect.shared.generated.resources.external_link
-import world.respect.shared.generated.resources.required_field
-import world.respect.shared.navigation.ExternalLinkEdit
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.NavResult
-import world.respect.shared.navigation.NavResultReturner
-import world.respect.shared.navigation.RouteResultDest
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.ActionBarButtonUiState
-import world.respect.shared.viewmodel.catalog.PublicationsSelection
+import org.openeel.lib.opds.model.LangMapStringValue
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ReadiumMetadata
+import org.openeel.shared.domain.externallink.ExtractWebPageMetadataUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.could_not_load_link
+import org.openeel.shared.generated.resources.done
+import org.openeel.shared.generated.resources.external_link
+import org.openeel.shared.generated.resources.required_field
+import org.openeel.shared.navigation.ExternalLinkEdit
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.NavResult
+import org.openeel.shared.navigation.NavResultReturner
+import org.openeel.shared.navigation.RouteResultDest
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
+import org.openeel.shared.viewmodel.catalog.PublicationsSelection
 
 data class OpdsFeedEditAddLinkUiState(
     val url: String = "",

@@ -1,14 +1,14 @@
-package world.respect.datalayer.school.model
+package org.openeel.datalayer.school.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.school.model.Invite2.Companion.TYPE_CLASS
-import world.respect.datalayer.school.model.Invite2.Companion.TYPE_FAMILY_MEMBER
-import world.respect.datalayer.school.model.Invite2.Companion.TYPE_NEW_USER
-import world.respect.datalayer.shared.ModelWithTimes
-import world.respect.lib.serializers.InstantAsISO8601
-import world.respect.libutil.ext.CHAR_POOL_NUMBERS
-import world.respect.libutil.ext.randomString
+import org.openeel.datalayer.school.model.Invite2.Companion.TYPE_CLASS
+import org.openeel.datalayer.school.model.Invite2.Companion.TYPE_FAMILY_MEMBER
+import org.openeel.datalayer.school.model.Invite2.Companion.TYPE_NEW_USER
+import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.serializers.InstantAsISO8601
+import org.openeel.libutil.ext.CHAR_POOL_NUMBERS
+import org.openeel.libutil.ext.randomString
 import kotlin.time.Clock
 import kotlin.time.Instant
 

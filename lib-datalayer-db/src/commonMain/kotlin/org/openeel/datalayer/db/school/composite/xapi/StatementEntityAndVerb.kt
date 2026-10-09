@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.composite.xapi
+package org.openeel.datalayer.db.school.composite.xapi
 
 object StatementConst{
     const val SORT_BY_TIMESTAMP_DESC = 1

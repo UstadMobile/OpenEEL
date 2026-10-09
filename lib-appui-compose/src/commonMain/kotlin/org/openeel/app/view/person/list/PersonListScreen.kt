@@ -1,4 +1,4 @@
-package world.respect.app.view.person.list
+package org.openeel.app.view.person.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -28,26 +28,26 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectPersonAvatar
-import world.respect.app.components.respectPagingItems
-import world.respect.app.components.respectRememberPager
-import world.respect.datalayer.db.school.ext.fullName
-import world.respect.datalayer.school.PersonDataSource
-import world.respect.datalayer.school.ext.primaryRole
-import world.respect.datalayer.school.ext.primaryRoleOrNull
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.composites.PersonListDetails
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.accept_invite
-import world.respect.shared.generated.resources.add_person
-import world.respect.shared.generated.resources.dismiss_invite
-import world.respect.shared.generated.resources.gender_literal
-import world.respect.shared.generated.resources.invite_person
-import world.respect.shared.generated.resources.pending_requests_to_join
-import world.respect.shared.util.ext.fullName
-import world.respect.shared.util.ext.label
-import world.respect.shared.viewmodel.person.list.PersonListUiState
-import world.respect.shared.viewmodel.person.list.PersonListViewModel
+import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.respectPagingItems
+import org.openeel.app.components.respectRememberPager
+import org.openeel.datalayer.db.school.ext.fullName
+import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.ext.primaryRole
+import org.openeel.datalayer.school.ext.primaryRoleOrNull
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.composites.PersonListDetails
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.accept_invite
+import org.openeel.shared.generated.resources.add_person
+import org.openeel.shared.generated.resources.dismiss_invite
+import org.openeel.shared.generated.resources.gender_literal
+import org.openeel.shared.generated.resources.invite_person
+import org.openeel.shared.generated.resources.pending_requests_to_join
+import org.openeel.shared.util.ext.fullName
+import org.openeel.shared.util.ext.label
+import org.openeel.shared.viewmodel.person.list.PersonListUiState
+import org.openeel.shared.viewmodel.person.list.PersonListViewModel
 
 @Composable
 fun PersonListScreen(

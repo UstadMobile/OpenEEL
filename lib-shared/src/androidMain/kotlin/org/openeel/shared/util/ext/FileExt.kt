@@ -1,4 +1,4 @@
-package world.respect.shared.util.ext
+package org.openeel.shared.util.ext
 
 import java.io.File
 

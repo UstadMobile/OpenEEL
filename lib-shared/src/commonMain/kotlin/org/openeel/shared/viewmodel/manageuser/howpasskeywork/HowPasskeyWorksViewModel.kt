@@ -1,11 +1,11 @@
-package world.respect.shared.viewmodel.manageuser.howpasskeywork
+package org.openeel.shared.viewmodel.manageuser.howpasskeywork
 
 import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.flow.update
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.how_passkey_works
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.how_passkey_works
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 
 class HowPasskeyWorksViewModel(

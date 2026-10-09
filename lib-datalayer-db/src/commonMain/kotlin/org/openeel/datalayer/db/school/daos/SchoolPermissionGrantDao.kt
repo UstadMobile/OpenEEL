@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.daos
+package org.openeel.datalayer.db.school.daos
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
@@ -6,9 +6,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.daos.PersonEntityDao.Companion.AUTHENTICATED_PERMISSION_PERSON_UIDS_CTE_SQL
-import world.respect.datalayer.db.school.daos.PersonEntityDao.Companion.SELECT_AUTHENTICATED_PERMISSION_PERSON_UIDS_SQL
-import world.respect.datalayer.db.school.entities.SchoolPermissionGrantEntity
+import org.openeel.datalayer.db.school.daos.PersonEntityDao.Companion.AUTHENTICATED_PERMISSION_PERSON_UIDS_CTE_SQL
+import org.openeel.datalayer.db.school.daos.PersonEntityDao.Companion.SELECT_AUTHENTICATED_PERMISSION_PERSON_UIDS_SQL
+import org.openeel.datalayer.db.school.entities.SchoolPermissionGrantEntity
 
 @Dao
 interface SchoolPermissionGrantDao {

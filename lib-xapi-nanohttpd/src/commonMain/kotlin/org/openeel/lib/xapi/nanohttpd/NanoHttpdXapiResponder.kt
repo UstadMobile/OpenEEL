@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.nanohttpd
+package org.openeel.lib.xapi.nanohttpd
 
 import fi.iki.elonen.NanoHTTPD.IHTTPSession
 import fi.iki.elonen.NanoHTTPD.Response

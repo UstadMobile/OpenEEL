@@ -1,4 +1,4 @@
-package world.respect
+package org.openeel
 
 interface Platform {
     val name: String

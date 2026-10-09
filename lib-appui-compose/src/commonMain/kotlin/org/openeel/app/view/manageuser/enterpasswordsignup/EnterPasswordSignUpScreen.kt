@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.enterpasswordsignup
+package org.openeel.app.view.manageuser.enterpasswordsignup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,16 +13,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectPasswordField
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.password_label
-import world.respect.shared.generated.resources.required
-import world.respect.shared.generated.resources.sign_up
-import world.respect.shared.resources.StringResourceUiText
-import world.respect.shared.viewmodel.manageuser.enterpasswordsignup.EnterPasswordSignupUiState
-import world.respect.shared.viewmodel.manageuser.enterpasswordsignup.EnterPasswordSignupViewModel
+import org.openeel.app.components.RespectPasswordField
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.password_label
+import org.openeel.shared.generated.resources.required
+import org.openeel.shared.generated.resources.sign_up
+import org.openeel.shared.resources.StringResourceUiText
+import org.openeel.shared.viewmodel.manageuser.enterpasswordsignup.EnterPasswordSignupUiState
+import org.openeel.shared.viewmodel.manageuser.enterpasswordsignup.EnterPasswordSignupViewModel
 
 @Composable
 fun EnterPasswordSignupScreen(viewModel: EnterPasswordSignupViewModel) {

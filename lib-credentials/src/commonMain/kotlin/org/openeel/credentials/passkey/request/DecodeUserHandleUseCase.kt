@@ -1,6 +1,6 @@
-package world.respect.credentials.passkey.request
+package org.openeel.credentials.passkey.request
 
-import world.respect.credentials.passkey.RespectUserHandle
+import org.openeel.credentials.passkey.RespectUserHandle
 
 
 /**

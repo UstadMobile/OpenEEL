@@ -1,4 +1,4 @@
-package world.respect.lib.opds.model
+package org.openeel.lib.opds.model
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -7,9 +7,9 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import world.respect.lib.serializers.StringOrObjectSerializer
-import world.respect.lib.serializers.StringValue
-import world.respect.lib.serializers.StringValueSerializer
+import org.openeel.lib.serializers.StringOrObjectSerializer
+import org.openeel.lib.serializers.StringValue
+import org.openeel.lib.serializers.StringValueSerializer
 
 /**
  * Schema https://readium.org/webpub-manifest/schema/language-map.schema.json

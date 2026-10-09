@@ -1,10 +1,10 @@
-package world.respect.server.account.invite.username
+package org.openeel.server.account.invite.username
 
 import org.koin.core.component.KoinComponent
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.lib.dataloadstate.throwable.withHttpStatus
-import world.respect.shared.domain.account.username.UsernameSuggestionUseCase
-import world.respect.shared.domain.account.username.filterusername.FilterUsernameUseCase
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.lib.dataloadstate.throwable.withHttpStatus
+import org.openeel.shared.domain.account.username.UsernameSuggestionUseCase
+import org.openeel.shared.domain.account.username.filterusername.FilterUsernameUseCase
 
 class UsernameSuggestionUseCaseServer(
     private val filterUsernameUseCase: FilterUsernameUseCase,

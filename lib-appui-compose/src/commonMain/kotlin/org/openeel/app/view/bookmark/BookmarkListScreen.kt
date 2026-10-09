@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.bookmark
+package org.openeel.app.view.catalog.bookmark
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -25,21 +25,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectListSortHeader
-import world.respect.app.view.catalog.opdsfeeddetail.PublicationListItem
+import org.openeel.app.components.RespectListSortHeader
+import org.openeel.app.view.catalog.opdsfeeddetail.PublicationListItem
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.flowOf
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.ext.objectActivityOrNull
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.bookmark
-import world.respect.shared.generated.resources.msg_see_bookmark
-import world.respect.shared.generated.resources.no_bookmark
-import world.respect.shared.util.SortOrderOption
-import world.respect.shared.viewmodel.catalog.bookmark.BookmarkListUiState
-import world.respect.shared.viewmodel.catalog.bookmark.BookmarkListViewModel
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.ext.objectActivityOrNull
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.bookmark
+import org.openeel.shared.generated.resources.msg_see_bookmark
+import org.openeel.shared.generated.resources.no_bookmark
+import org.openeel.shared.util.SortOrderOption
+import org.openeel.shared.viewmodel.catalog.bookmark.BookmarkListUiState
+import org.openeel.shared.viewmodel.catalog.bookmark.BookmarkListViewModel
 
 @Composable
 fun BookmarkListScreen(

@@ -1,7 +1,7 @@
-package world.respect.lib.xapi.ext
+package org.openeel.lib.xapi.ext
 
 import com.eygraber.uri.Uri
-import world.respect.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.exceptions.XapiException
 
 fun xapiRequireValidIRIOrNull(iri: String?, errorMessage: String = "Invalid IRI:") : String? {
     if(iri != null) {

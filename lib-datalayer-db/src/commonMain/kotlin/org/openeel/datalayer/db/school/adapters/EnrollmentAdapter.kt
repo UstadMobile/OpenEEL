@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.school.adapters
+package org.openeel.datalayer.db.school.adapters
 
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.entities.EnrollmentEntity
-import world.respect.datalayer.school.model.Enrollment
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.entities.EnrollmentEntity
+import org.openeel.datalayer.school.model.Enrollment
 
 fun EnrollmentEntity.toModel(): Enrollment {
     return Enrollment(

@@ -1,10 +1,10 @@
-package world.respect.shared.domain.urltonavcommand
+package org.openeel.shared.domain.urltonavcommand
 
 import io.ktor.http.Url
-import world.respect.libutil.ext.schoolUrlOrNull
-import world.respect.shared.domain.createlink.CreateInviteLinkUseCase
-import world.respect.shared.navigation.AcceptInvite
-import world.respect.shared.navigation.NavCommand
+import org.openeel.libutil.ext.schoolUrlOrNull
+import org.openeel.shared.domain.createlink.CreateInviteLinkUseCase
+import org.openeel.shared.navigation.AcceptInvite
+import org.openeel.shared.navigation.NavCommand
 
 /**
  * Given a Url (that may have come from a deep link, scanned as a qr code, etc) that

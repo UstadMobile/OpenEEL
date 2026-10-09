@@ -1,10 +1,10 @@
-package world.respect.datalayer.db.networkvalidation.daos
+package org.openeel.datalayer.db.networkvalidation.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import world.respect.datalayer.db.networkvalidation.entities.NetworkValidationInfoEntity
+import org.openeel.datalayer.db.networkvalidation.entities.NetworkValidationInfoEntity
 
 @Dao
 interface NetworkValidationInfoEntityDao {

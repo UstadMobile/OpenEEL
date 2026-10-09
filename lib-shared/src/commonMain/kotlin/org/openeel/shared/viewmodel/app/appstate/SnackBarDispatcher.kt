@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.app.appstate
+package org.openeel.shared.viewmodel.app.appstate
 
 fun interface SnackBarDispatcher {
 

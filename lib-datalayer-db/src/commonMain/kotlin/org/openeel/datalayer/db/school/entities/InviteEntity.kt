@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.entities
+package org.openeel.datalayer.db.school.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import world.respect.datalayer.school.model.ClassInviteModeEnum
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.school.model.ClassInviteModeEnum
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.StatusEnum
 import kotlin.time.Clock
 import kotlin.time.Instant
 

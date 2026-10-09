@@ -1,4 +1,4 @@
-package world.respect.shared.domain.appversioninfo
+package org.openeel.shared.domain.appversioninfo
 
 fun interface GetAppVersionInfoUseCase {
 

@@ -1,4 +1,4 @@
-package world.respect.datalayer.shared.paging
+package org.openeel.datalayer.shared.paging
 
 /**
  * Alias for a function that is used to provide extra information that is prefixed in logs. This is

@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.opds.daos
+package org.openeel.datalayer.db.school.opds.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import world.respect.datalayer.db.school.opds.OpdsParentType
-import world.respect.datalayer.db.school.opds.daos.OpdsPublicationEntityDao.Companion.PUBLICATION_UIDS_FOR_FEED_UID_CTE
-import world.respect.datalayer.db.school.opds.entities.ReadiumSubjectEntity
+import org.openeel.datalayer.db.school.opds.OpdsParentType
+import org.openeel.datalayer.db.school.opds.daos.OpdsPublicationEntityDao.Companion.PUBLICATION_UIDS_FOR_FEED_UID_CTE
+import org.openeel.datalayer.db.school.opds.entities.ReadiumSubjectEntity
 
 @Dao
 abstract class ReadiumSubjectEntityDao {

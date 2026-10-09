@@ -1,22 +1,22 @@
-package world.respect.datalayer.repository.school.xapi
+package org.openeel.datalayer.repository.school.xapi
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.repository.ext.copyToValidateOnRemote
-import world.respect.datalayer.repository.flow.asRepoFlow
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.ext.copyLoadState
-import world.respect.lib.dataloadstate.ext.takeIfShouldUpdateLocal
-import world.respect.lib.xapi.ext.isJson
-import world.respect.lib.xapi.ext.jsonKeys
-import world.respect.lib.xapi.ext.toParametersFormUrlEncoded
-import world.respect.lib.xapi.model.XapiDocument
-import world.respect.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
-import world.respect.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
-import world.respect.lib.xapi.resources.local.XapiActivityProfileResourceLocal
+import org.openeel.datalayer.repository.ext.copyToValidateOnRemote
+import org.openeel.datalayer.repository.flow.asRepoFlow
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.ext.copyLoadState
+import org.openeel.lib.dataloadstate.ext.takeIfShouldUpdateLocal
+import org.openeel.lib.xapi.ext.isJson
+import org.openeel.lib.xapi.ext.jsonKeys
+import org.openeel.lib.xapi.ext.toParametersFormUrlEncoded
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
+import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.xapi.resources.local.XapiActivityProfileResourceLocal
 
 /**
  * An offline-first repository implementation for XapiActivityProfileResource.

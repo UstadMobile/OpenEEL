@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.xapi
+package org.openeel.datalayer.db.school.xapi
 
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer

@@ -1,6 +1,6 @@
-package world.respect.lib.xapi.auth
+package org.openeel.lib.xapi.auth
 
-import world.respect.lib.xapi.model.XapiAgent
+import org.openeel.lib.xapi.model.XapiAgent
 
 /**
  * An authenticated can be represented by more than one Agent as per the agents resource doc

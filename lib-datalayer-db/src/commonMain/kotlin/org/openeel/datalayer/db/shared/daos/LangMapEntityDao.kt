@@ -1,13 +1,13 @@
-package world.respect.datalayer.db.shared.daos
+package org.openeel.datalayer.db.shared.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.opds.daos.OpdsPublicationEntityDao.Companion.PUBLICATION_UIDS_FOR_FEED_UID_CTE
-import world.respect.datalayer.db.shared.entities.LangMapEntity
-import world.respect.datalayer.db.shared.entities.LangMapEntity.Companion.ODPS_PUBLICATION_PARENT_ID
-import world.respect.datalayer.db.shared.entities.LangMapEntity.Companion.OPDS_FEED_PARENT_ID
+import org.openeel.datalayer.db.school.opds.daos.OpdsPublicationEntityDao.Companion.PUBLICATION_UIDS_FOR_FEED_UID_CTE
+import org.openeel.datalayer.db.shared.entities.LangMapEntity
+import org.openeel.datalayer.db.shared.entities.LangMapEntity.Companion.ODPS_PUBLICATION_PARENT_ID
+import org.openeel.datalayer.db.shared.entities.LangMapEntity.Companion.OPDS_FEED_PARENT_ID
 
 @Dao
 abstract class LangMapEntityDao {

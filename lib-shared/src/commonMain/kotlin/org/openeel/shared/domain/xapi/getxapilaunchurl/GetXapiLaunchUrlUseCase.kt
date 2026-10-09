@@ -1,7 +1,7 @@
-package world.respect.shared.domain.xapi.getxapilaunchurl
+package org.openeel.shared.domain.xapi.getxapilaunchurl
 
 import io.ktor.http.Url
-import world.respect.lib.opds.model.Publication
+import org.openeel.lib.opds.model.Publication
 
 /**
  * Get the Url to launch a specific learning unit. This should include Xapi Launch parameters (

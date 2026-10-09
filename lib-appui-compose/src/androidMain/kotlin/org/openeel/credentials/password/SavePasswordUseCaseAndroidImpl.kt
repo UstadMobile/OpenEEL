@@ -1,12 +1,12 @@
-package world.respect.credentials.password
+package org.openeel.credentials.password
 
 import android.util.Log
 import androidx.credentials.CreatePasswordRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.exceptions.CreateCredentialException
 import androidx.credentials.exceptions.CreateCredentialNoCreateOptionException
-import world.respect.credentials.passkey.password.SavePasswordUseCase
-import world.respect.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
+import org.openeel.credentials.passkey.password.SavePasswordUseCase
+import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 
 class SavePasswordUseCaseAndroidImpl(
     private val enqueueActivityContextJobUseCase: EnqueueActivityContextJobUseCase,

@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.server
+package org.openeel.xapi.ipc.server
 
 import android.content.Intent
 import android.os.IBinder
@@ -9,11 +9,11 @@ import io.ktor.http.Url
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import org.openeel.lib.ipc.messagebridge.IpcMessageBridgeMessengerImpl
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.model.XapiAgent
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.xapi.ipc.client.XapiResourceIpcClient
-import world.respect.xapi.ipc.shared.messages.XapiIpcIntent
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.xapi.ipc.client.XapiResourceIpcClient
+import org.openeel.xapi.ipc.shared.messages.XapiIpcIntent
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.random.Random
 import kotlin.test.assertNotNull

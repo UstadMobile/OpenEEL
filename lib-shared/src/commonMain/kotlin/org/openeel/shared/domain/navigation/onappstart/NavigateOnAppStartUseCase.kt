@@ -1,20 +1,20 @@
-package world.respect.shared.domain.navigation.onappstart
+package org.openeel.shared.domain.navigation.onappstart
 
 import com.russhwolf.settings.Settings
 import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
-import world.respect.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCase
-import world.respect.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
-import world.respect.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
-import world.respect.shared.ext.withClearBackstack
-import world.respect.shared.navigation.AssignmentList
-import world.respect.shared.navigation.GetStartedScreen
-import world.respect.shared.navigation.Home
-import world.respect.shared.navigation.NavCommand
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
+import org.openeel.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCase
+import org.openeel.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
+import org.openeel.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
+import org.openeel.shared.ext.withClearBackstack
+import org.openeel.shared.navigation.AssignmentList
+import org.openeel.shared.navigation.GetStartedScreen
+import org.openeel.shared.navigation.Home
+import org.openeel.shared.navigation.NavCommand
 import kotlin.time.Duration.Companion.milliseconds
 
 /**

@@ -1,10 +1,10 @@
-package world.respect.shared.domain.account.invite
+package org.openeel.shared.domain.account.invite
 
 import org.koin.core.component.KoinComponent
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.adapters.toEntity
-import world.respect.datalayer.school.model.Invite2
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.adapters.toEntity
+import org.openeel.datalayer.school.model.Invite2
 
 /**
  * Used to create invites before datasource is available. This is invoked only on the server side

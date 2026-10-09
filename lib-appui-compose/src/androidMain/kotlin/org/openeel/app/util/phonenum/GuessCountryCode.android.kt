@@ -1,11 +1,11 @@
-package world.respect.app.util.phonenum
+package org.openeel.app.util.phonenum
 
 import android.content.Context
 import android.telephony.TelephonyManager
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import world.respect.shared.domain.phonenumber.IPhoneNumberUtil
+import org.openeel.shared.domain.phonenumber.IPhoneNumberUtil
 
 @Composable
 actual fun guessInitialPhoneCountryCode(

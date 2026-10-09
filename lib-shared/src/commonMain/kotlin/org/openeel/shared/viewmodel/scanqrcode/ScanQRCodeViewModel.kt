@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.scanqrcode
+package org.openeel.shared.viewmodel.scanqrcode
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
@@ -8,30 +8,30 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
-import world.respect.credentials.passkey.RespectQRBadgeCredential
-import world.respect.libutil.ext.schoolUrlOrNull
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
-import world.respect.shared.ext.NextAfterScan
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.more_options
-import world.respect.shared.generated.resources.paste_url
-import world.respect.shared.generated.resources.qr_code_invalid_format
-import world.respect.shared.generated.resources.scan_qr_code
-import world.respect.shared.navigation.AssignmentList
-import world.respect.shared.navigation.CreateAccountSetUsername
-import world.respect.shared.navigation.Home
-import world.respect.shared.navigation.ManageAccount
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.NavResultReturner
-import world.respect.shared.navigation.ScanQRCode
-import world.respect.shared.navigation.sendResultIfResultExpected
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.exception.getUiTextOrGeneric
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.AppActionButton
-import world.respect.shared.viewmodel.app.appstate.AppStateIcon
+import org.openeel.credentials.passkey.RespectQRBadgeCredential
+import org.openeel.libutil.ext.schoolUrlOrNull
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
+import org.openeel.shared.ext.NextAfterScan
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.more_options
+import org.openeel.shared.generated.resources.paste_url
+import org.openeel.shared.generated.resources.qr_code_invalid_format
+import org.openeel.shared.generated.resources.scan_qr_code
+import org.openeel.shared.navigation.AssignmentList
+import org.openeel.shared.navigation.CreateAccountSetUsername
+import org.openeel.shared.navigation.Home
+import org.openeel.shared.navigation.ManageAccount
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.NavResultReturner
+import org.openeel.shared.navigation.ScanQRCode
+import org.openeel.shared.navigation.sendResultIfResultExpected
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.exception.getUiTextOrGeneric
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.AppActionButton
+import org.openeel.shared.viewmodel.app.appstate.AppStateIcon
 
 data class ScanQRCodeUiState(
     val errorMessage: UiText? = null,

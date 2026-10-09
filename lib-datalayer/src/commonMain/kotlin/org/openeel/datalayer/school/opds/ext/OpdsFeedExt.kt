@@ -1,10 +1,10 @@
-package world.respect.datalayer.school.opds.ext
+package org.openeel.datalayer.school.opds.ext
 
 import io.ktor.http.Url
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.libutil.util.time.systemTimeInMillis
 
 fun OpdsFeed.selfUrl(): Url? {
     return links.firstOrNull { "self" in (it.rel ?: emptyList()) }?.let {

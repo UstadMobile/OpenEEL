@@ -1,6 +1,6 @@
-package world.respect.datalayer.school.writequeue
+package org.openeel.datalayer.school.writequeue
 
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.libutil.util.time.systemTimeInMillis
 
 /**
  * Represents an item in the write queue. The repository adds items into the the write queue

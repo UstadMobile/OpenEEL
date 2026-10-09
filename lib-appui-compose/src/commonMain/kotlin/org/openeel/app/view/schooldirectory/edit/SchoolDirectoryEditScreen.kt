@@ -1,4 +1,4 @@
-package world.respect.app.view.schooldirectory.edit
+package org.openeel.app.view.schooldirectory.edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,13 +18,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.add
-import world.respect.shared.generated.resources.example_url_placeholder
-import world.respect.shared.generated.resources.link_label
-import world.respect.shared.viewmodel.schooldirectory.edit.SchoolDirectoryEditUIState
-import world.respect.shared.viewmodel.schooldirectory.edit.SchoolDirectoryEditViewModel
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add
+import org.openeel.shared.generated.resources.example_url_placeholder
+import org.openeel.shared.generated.resources.link_label
+import org.openeel.shared.viewmodel.schooldirectory.edit.SchoolDirectoryEditUIState
+import org.openeel.shared.viewmodel.schooldirectory.edit.SchoolDirectoryEditViewModel
 
 
 @Composable

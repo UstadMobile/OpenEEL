@@ -1,9 +1,9 @@
-package world.respect.datalayer.shared.paging
+package org.openeel.datalayer.shared.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.CompletableDeferred
-import world.respect.datalayer.exceptions.ForbiddenException
+import org.openeel.datalayer.exceptions.ForbiddenException
 
 /**
  * A simple paging source wrapper that will run a permission check function before loading data.

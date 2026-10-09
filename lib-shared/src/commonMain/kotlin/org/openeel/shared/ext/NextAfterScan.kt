@@ -1,4 +1,4 @@
-package world.respect.shared.ext
+package org.openeel.shared.ext
 
 import kotlinx.serialization.Serializable
 

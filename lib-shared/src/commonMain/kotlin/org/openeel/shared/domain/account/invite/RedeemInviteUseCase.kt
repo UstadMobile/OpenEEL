@@ -1,6 +1,6 @@
-package world.respect.shared.domain.account.invite
+package org.openeel.shared.domain.account.invite
 
-import world.respect.shared.domain.account.AuthResponse
+import org.openeel.shared.domain.account.AuthResponse
 
 /**
  * UseCase to redeem an invitation using an invite code. This has two implementations:

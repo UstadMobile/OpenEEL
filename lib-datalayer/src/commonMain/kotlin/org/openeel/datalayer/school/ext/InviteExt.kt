@@ -1,12 +1,12 @@
-package world.respect.datalayer.school.ext
+package org.openeel.datalayer.school.ext
 
-import world.respect.datalayer.school.model.ClassInvite
-import world.respect.datalayer.school.model.ClassInviteModeEnum
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
-import world.respect.datalayer.school.model.FamilyMemberInvite
-import world.respect.datalayer.school.model.Invite2
-import world.respect.datalayer.school.model.NewUserInvite
-import world.respect.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.ClassInvite
+import org.openeel.datalayer.school.model.ClassInviteModeEnum
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.FamilyMemberInvite
+import org.openeel.datalayer.school.model.Invite2
+import org.openeel.datalayer.school.model.NewUserInvite
+import org.openeel.datalayer.school.model.PersonRoleEnum
 import kotlin.time.Clock
 import kotlin.time.Instant
 

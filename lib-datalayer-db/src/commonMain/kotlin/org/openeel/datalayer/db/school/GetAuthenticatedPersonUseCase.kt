@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school
+package org.openeel.datalayer.db.school
 
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.adapters.toModel
-import world.respect.datalayer.db.school.adapters.toPersonEntities
-import world.respect.datalayer.school.model.Person
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.adapters.toModel
+import org.openeel.datalayer.db.school.adapters.toPersonEntities
+import org.openeel.datalayer.school.model.Person
 
 class GetAuthenticatedPersonUseCase(
     private val authenticatedUserPrincipalId: AuthenticatedUserPrincipalId,

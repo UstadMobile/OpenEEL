@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.waitingforapproval
+package org.openeel.app.view.manageuser.waitingforapproval
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,12 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultScreenPadding
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.please_wait
-import world.respect.shared.generated.resources.refresh
-import world.respect.shared.generated.resources.waiting_for_approval_to_join
-import world.respect.shared.viewmodel.manageuser.waitingforapproval.WaitingForApprovalViewModel
+import org.openeel.app.components.defaultScreenPadding
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.please_wait
+import org.openeel.shared.generated.resources.refresh
+import org.openeel.shared.generated.resources.waiting_for_approval_to_join
+import org.openeel.shared.viewmodel.manageuser.waitingforapproval.WaitingForApprovalViewModel
 
 @Composable
 fun WaitingForApprovalScreen(viewModel: WaitingForApprovalViewModel) {

@@ -1,4 +1,4 @@
-package world.respect.app.view.assignment.detail
+package org.openeel.app.view.assignment.detail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import world.respect.app.components.RespectPersonAvatar
+import org.openeel.app.components.RespectPersonAvatar
 
 @Composable
 fun StudentNameCell(

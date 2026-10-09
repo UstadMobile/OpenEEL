@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.login
+package org.openeel.app.view.manageuser.login
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,25 +22,25 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectPasswordField
-import world.respect.app.components.RespectShortVersionInfoText
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.defaultScreenPadding
-import world.respect.app.components.rememberCountryFlagEmoji
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.domain.account.username.validateusername.ValidateUsernameUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.i_have_an_invite_code
-import world.respect.shared.generated.resources.select_another_school
-import world.respect.shared.generated.resources.login
-import world.respect.shared.generated.resources.password_label
-import world.respect.shared.generated.resources.school_server_url
-import world.respect.shared.generated.resources.server_location
-import world.respect.shared.generated.resources.username_label
-import world.respect.shared.util.ext.isLoading
-import world.respect.shared.viewmodel.app.appstate.AppUiState
-import world.respect.shared.viewmodel.manageuser.login.LoginUiState
-import world.respect.shared.viewmodel.manageuser.login.LoginViewModel
+import org.openeel.app.components.RespectPasswordField
+import org.openeel.app.components.RespectShortVersionInfoText
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.defaultScreenPadding
+import org.openeel.app.components.rememberCountryFlagEmoji
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.domain.account.username.validateusername.ValidateUsernameUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.i_have_an_invite_code
+import org.openeel.shared.generated.resources.select_another_school
+import org.openeel.shared.generated.resources.login
+import org.openeel.shared.generated.resources.password_label
+import org.openeel.shared.generated.resources.school_server_url
+import org.openeel.shared.generated.resources.server_location
+import org.openeel.shared.generated.resources.username_label
+import org.openeel.shared.util.ext.isLoading
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.shared.viewmodel.manageuser.login.LoginUiState
+import org.openeel.shared.viewmodel.manageuser.login.LoginViewModel
 
 @Composable
 fun LoginScreen(

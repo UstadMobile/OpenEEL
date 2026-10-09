@@ -1,10 +1,10 @@
-package world.respect.lib.primarykeygen
+package org.openeel.lib.primarykeygen
 
 import kotlinx.atomicfu.AtomicLong
 import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.updateAndGet
 import kotlinx.coroutines.delay
-import world.respect.lib.primarykeygen.ext.millisUntilNextSecond
+import org.openeel.lib.primarykeygen.ext.millisUntilNextSecond
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.pow
 import kotlin.time.Clock

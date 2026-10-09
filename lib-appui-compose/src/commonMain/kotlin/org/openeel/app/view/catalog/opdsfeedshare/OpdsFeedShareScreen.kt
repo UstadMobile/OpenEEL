@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeedshare
+package org.openeel.app.view.catalog.opdsfeedshare
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -38,19 +38,19 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import io.github.alexzhirkevich.qrose.rememberQrCodePainter
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.admins_in_my_school
-import world.respect.shared.generated.resources.anyone_in_my_school
-import world.respect.shared.generated.resources.anyone_with_the_link
-import world.respect.shared.generated.resources.copy_link
-import world.respect.shared.generated.resources.send_link_via_email
-import world.respect.shared.generated.resources.send_link_via_sms
-import world.respect.shared.generated.resources.share_link
-import world.respect.shared.generated.resources.teachers_and_admins_in_my_school
-import world.respect.shared.generated.resources.who_can_edit
-import world.respect.shared.generated.resources.who_can_view
-import world.respect.shared.viewmodel.catalog.opdsfeedshare.OpdsFeedShareUiState
-import world.respect.shared.viewmodel.catalog.opdsfeedshare.OpdsFeedShareViewModel
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.admins_in_my_school
+import org.openeel.shared.generated.resources.anyone_in_my_school
+import org.openeel.shared.generated.resources.anyone_with_the_link
+import org.openeel.shared.generated.resources.copy_link
+import org.openeel.shared.generated.resources.send_link_via_email
+import org.openeel.shared.generated.resources.send_link_via_sms
+import org.openeel.shared.generated.resources.share_link
+import org.openeel.shared.generated.resources.teachers_and_admins_in_my_school
+import org.openeel.shared.generated.resources.who_can_edit
+import org.openeel.shared.generated.resources.who_can_view
+import org.openeel.shared.viewmodel.catalog.opdsfeedshare.OpdsFeedShareUiState
+import org.openeel.shared.viewmodel.catalog.opdsfeedshare.OpdsFeedShareViewModel
 
 @Composable
 fun PlaylistShareScreen(

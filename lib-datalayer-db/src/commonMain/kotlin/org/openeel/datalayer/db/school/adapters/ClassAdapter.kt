@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.adapters
+package org.openeel.datalayer.db.school.adapters
 
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.entities.ClassEntity
-import world.respect.datalayer.db.school.entities.ClassEntityWithPermissions
-import world.respect.datalayer.db.school.entities.ClassPermissionEntity
-import world.respect.datalayer.school.model.ClassPermission
-import world.respect.datalayer.school.model.Clazz
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.entities.ClassEntity
+import org.openeel.datalayer.db.school.entities.ClassEntityWithPermissions
+import org.openeel.datalayer.db.school.entities.ClassPermissionEntity
+import org.openeel.datalayer.school.model.ClassPermission
+import org.openeel.datalayer.school.model.Clazz
 
 data class ClassEntities(
     val clazz: ClassEntity,

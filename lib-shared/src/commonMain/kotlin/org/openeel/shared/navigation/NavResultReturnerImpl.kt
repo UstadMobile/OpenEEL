@@ -1,4 +1,4 @@
-package world.respect.shared.navigation
+package org.openeel.shared.navigation
 
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow

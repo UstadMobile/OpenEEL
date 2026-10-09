@@ -1,8 +1,8 @@
-package world.respect.shared.domain.account.gettokenanduser
+package org.openeel.shared.domain.account.gettokenanduser
 
-import world.respect.credentials.passkey.RespectCredential
-import world.respect.datalayer.school.model.DeviceInfo
-import world.respect.shared.domain.account.AuthResponse
+import org.openeel.credentials.passkey.RespectCredential
+import org.openeel.datalayer.school.model.DeviceInfo
+import org.openeel.shared.domain.account.AuthResponse
 
 /**
  * Gets a token and user profile given a username and password.

@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.catalog.opdsfeedshare
+package org.openeel.shared.viewmodel.catalog.opdsfeedshare
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -11,23 +11,23 @@ import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.domain.clipboard.SetClipboardStringUseCase
-import world.respect.shared.domain.sharelink.CreatePlaylistShareLinkUseCase
-import world.respect.shared.domain.sharelink.LaunchSendEmailUseCase
-import world.respect.shared.domain.sharelink.LaunchSendSmsUseCase
-import world.respect.shared.domain.sharelink.LaunchShareLinkUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.share_collection
-import world.respect.shared.navigation.EnterLink
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.PlaylistShare
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.AppBarSearchUiState
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.clipboard.SetClipboardStringUseCase
+import org.openeel.shared.domain.sharelink.CreatePlaylistShareLinkUseCase
+import org.openeel.shared.domain.sharelink.LaunchSendEmailUseCase
+import org.openeel.shared.domain.sharelink.LaunchSendSmsUseCase
+import org.openeel.shared.domain.sharelink.LaunchShareLinkUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.share_collection
+import org.openeel.shared.navigation.EnterLink
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.PlaylistShare
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 
 data class OpdsFeedShareUiState(
     val playlistTitle: String = "",

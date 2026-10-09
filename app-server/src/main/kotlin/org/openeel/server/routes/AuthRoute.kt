@@ -1,4 +1,4 @@
-package world.respect.server.routes
+package org.openeel.server.routes
 
 import io.ktor.server.request.header
 import io.ktor.server.request.receive
@@ -6,12 +6,12 @@ import io.ktor.server.request.receiveText
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
-import world.respect.credentials.passkey.RespectCredential
-import world.respect.credentials.passkey.RespectPasswordCredential
-import world.respect.datalayer.school.model.DeviceInfo
-import world.respect.server.util.ext.getSchoolKoinScope
-import world.respect.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
-import world.respect.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase.Companion.PARAM_NAME_USERNAME
+import org.openeel.credentials.passkey.RespectCredential
+import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.datalayer.school.model.DeviceInfo
+import org.openeel.server.util.ext.getSchoolKoinScope
+import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
+import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase.Companion.PARAM_NAME_USERNAME
 
 /**
  * Routes that handle issuing tokens.

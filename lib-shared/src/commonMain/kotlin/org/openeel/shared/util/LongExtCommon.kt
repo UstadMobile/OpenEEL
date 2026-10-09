@@ -1,6 +1,6 @@
-package world.respect.shared.util
+package org.openeel.shared.util
 
-import world.respect.datalayer.ext.MS_PER_HOUR
+import org.openeel.datalayer.ext.MS_PER_HOUR
 
 /**
  * Unix timestamp for maximum date we will recognize as being a set date: 1/Jan/2200

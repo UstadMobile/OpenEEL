@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.school.xapi
+package org.openeel.datalayer.http.school.xapi
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
@@ -8,12 +8,12 @@ import kotlinx.serialization.json.Json
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.libxapi.test.AbstractXapiAgentProfileResourceTest
-import world.respect.datalayer.http.server.XapiAgentProfileResourceRoute
-import world.respect.datalayer.school.model.AuthToken
-import world.respect.lib.test.clientservertest.withEmbeddedDataSourceServer
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.resources.XapiAgentProfileResource
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.http.server.XapiAgentProfileResourceRoute
+import org.openeel.datalayer.school.model.AuthToken
+import org.openeel.lib.test.clientservertest.withEmbeddedDataSourceServer
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.resources.XapiAgentProfileResource
+import org.openeel.libutil.util.time.systemTimeInMillis
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ContentNegotiationClient
 
 class XapiAgentProfileResourceHttpClientTest : AbstractXapiAgentProfileResourceTest() {

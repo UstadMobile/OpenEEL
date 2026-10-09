@@ -1,4 +1,4 @@
-package world.respect.datalayer.school.writequeue
+package org.openeel.datalayer.school.writequeue
 
 /**
  * Enqueue a task to drain the remote write queue (which requires connectivity with the remote

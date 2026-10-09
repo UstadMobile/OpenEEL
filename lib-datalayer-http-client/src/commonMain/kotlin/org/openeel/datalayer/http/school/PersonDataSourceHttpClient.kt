@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.school
+package org.openeel.datalayer.http.school
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
@@ -10,28 +10,28 @@ import io.ktor.http.contentType
 import io.ktor.util.reflect.typeInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import world.respect.datalayer.AuthTokenProvider
-import world.respect.lib.dataloadstate.DataLayerParams
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.ext.firstOrNotLoaded
-import world.respect.datalayer.ext.getAsDataLoadState
-import world.respect.datalayer.ext.getDataLoadResultAsFlow
-import world.respect.datalayer.ext.useTokenProvider
-import world.respect.datalayer.ext.useValidationCacheControl
-import world.respect.datalayer.http.ext.appendIfNotNull
-import world.respect.datalayer.http.ext.appendCommonListParams
-import world.respect.datalayer.http.ext.respectEndpointUrl
-import world.respect.datalayer.http.shared.paging.OffsetLimitHttpPagingSource
-import world.respect.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
-import world.respect.datalayer.school.PersonDataSource
-import world.respect.datalayer.school.adapters.asListDetails
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.composites.PersonListDetails
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
-import world.respect.datalayer.shared.paging.IPagingSourceFactory
-import world.respect.datalayer.shared.paging.map
-import world.respect.datalayer.shared.params.GetListCommonParams
+import org.openeel.datalayer.AuthTokenProvider
+import org.openeel.lib.dataloadstate.DataLayerParams
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.ext.firstOrNotLoaded
+import org.openeel.datalayer.ext.getAsDataLoadState
+import org.openeel.datalayer.ext.getDataLoadResultAsFlow
+import org.openeel.datalayer.ext.useTokenProvider
+import org.openeel.datalayer.ext.useValidationCacheControl
+import org.openeel.datalayer.http.ext.appendIfNotNull
+import org.openeel.datalayer.http.ext.appendCommonListParams
+import org.openeel.datalayer.http.ext.respectEndpointUrl
+import org.openeel.datalayer.http.shared.paging.OffsetLimitHttpPagingSource
+import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
+import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.adapters.asListDetails
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.composites.PersonListDetails
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
+import org.openeel.datalayer.shared.paging.map
+import org.openeel.datalayer.shared.params.GetListCommonParams
 
 class PersonDataSourceHttpClient(
     override val schoolUrl: Url,

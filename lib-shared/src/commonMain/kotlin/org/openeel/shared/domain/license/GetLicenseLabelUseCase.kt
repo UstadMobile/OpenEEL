@@ -1,6 +1,6 @@
-package world.respect.shared.domain.license
+package org.openeel.shared.domain.license
 
-import world.respect.shared.resources.UiText
+import org.openeel.shared.resources.UiText
 
 interface GetLicenseLabelUseCase {
     data class LicenseLabelResult(

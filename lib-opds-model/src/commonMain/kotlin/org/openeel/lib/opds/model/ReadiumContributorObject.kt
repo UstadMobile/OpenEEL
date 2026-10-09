@@ -1,10 +1,10 @@
-package world.respect.lib.opds.model
+package org.openeel.lib.opds.model
 
 import kotlinx.serialization.Serializable
-import world.respect.lib.serializers.SingleItemToListTransformer
-import world.respect.lib.serializers.StringOrObjectSerializer
-import world.respect.lib.serializers.StringValue
-import world.respect.lib.serializers.StringValueSerializer
+import org.openeel.lib.serializers.SingleItemToListTransformer
+import org.openeel.lib.serializers.StringOrObjectSerializer
+import org.openeel.lib.serializers.StringValue
+import org.openeel.lib.serializers.StringValueSerializer
 
 /**
  * Represents a contributor (author, translator, etc.). As per the schema, this can be an object,

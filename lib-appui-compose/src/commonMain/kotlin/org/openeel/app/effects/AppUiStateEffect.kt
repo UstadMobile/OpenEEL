@@ -1,11 +1,11 @@
-package world.respect.app.effects
+package org.openeel.app.effects
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import world.respect.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
 
 @Composable
 fun AppUiStateEffect(

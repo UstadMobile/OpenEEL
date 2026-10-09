@@ -1,6 +1,6 @@
-package world.respect.datalayer
+package org.openeel.datalayer
 
-import world.respect.datalayer.school.model.AuthToken
+import org.openeel.datalayer.school.model.AuthToken
 
 /**
  * Interface that will provide an auth token for a specific account. This is handled in the

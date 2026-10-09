@@ -1,11 +1,11 @@
-package world.respect.lib.dataloadstate.ext
+package org.openeel.lib.dataloadstate.ext
 
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import io.ktor.http.headers
 import io.ktor.http.toHttpDate
-import world.respect.lib.dataloadstate.ETagAndLastModified
-import world.respect.lib.dataloadstate.datetime.toGMTDate
+import org.openeel.lib.dataloadstate.ETagAndLastModified
+import org.openeel.lib.dataloadstate.datetime.toGMTDate
 
 /**
  * Create response headers that contain the ETag and Last-Modified header if the receiver's

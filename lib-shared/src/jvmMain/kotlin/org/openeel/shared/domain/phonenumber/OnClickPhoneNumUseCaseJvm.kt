@@ -1,4 +1,4 @@
-package world.respect.shared.domain.phonenumber
+package org.openeel.shared.domain.phonenumber
 
 import java.awt.Desktop
 import java.net.URI

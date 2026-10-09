@@ -1,15 +1,15 @@
-package world.respect.shared.domain.license
+package org.openeel.shared.domain.license
 
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import world.respect.appcompose.R
-import world.respect.shared.resources.StringUiText
-import world.respect.shared.domain.license.GetLicenseLabelUseCase.LicenseLabelResult
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.open_source
-import world.respect.shared.generated.resources.proprietary
+import org.openeel.appcompose.R
+import org.openeel.shared.resources.StringUiText
+import org.openeel.shared.domain.license.GetLicenseLabelUseCase.LicenseLabelResult
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.open_source
+import org.openeel.shared.generated.resources.proprietary
 import org.jetbrains.compose.resources.getString
 
 class GetLicenseLabelUseCaseAndroid(

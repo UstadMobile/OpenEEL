@@ -1,19 +1,19 @@
-package world.respect.shared.domain.catalog.saveopdsfeed
+package org.openeel.shared.domain.catalog.saveopdsfeed
 
 import io.ktor.http.HttpHeaders
 import io.ktor.http.headersOf
 import io.ktor.http.toHttpDate
 import io.ktor.util.sha1
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.school.opds.OpdsFeedDataSourceLocal
-import world.respect.datalayer.school.opds.ext.requireSelfUrl
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.datetime.toGMTDate
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.lib.xapi.OpenEelXapiConstants
-import world.respect.lib.xapi.ext.encodeToXapiDocument
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
+import org.openeel.datalayer.school.opds.ext.requireSelfUrl
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.datetime.toGMTDate
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.xapi.OpenEelXapiConstants
+import org.openeel.lib.xapi.ext.encodeToXapiDocument
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import kotlin.time.Clock
 
 /**

@@ -1,12 +1,12 @@
-package world.respect.xapi.ipc.server
+package org.openeel.xapi.ipc.server
 
 import androidx.test.rule.ServiceTestRule
 import kotlinx.serialization.json.Json
 import org.junit.Rule
 import org.junit.Test
 import org.openeel.libxapi.test.AbstractXapiAgentProfileResourceTest
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.resources.XapiAgentProfileResource
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.resources.XapiAgentProfileResource
 
 class XapiAgentProfileResourceIpcTest : AbstractXapiAgentProfileResourceTest() {
 

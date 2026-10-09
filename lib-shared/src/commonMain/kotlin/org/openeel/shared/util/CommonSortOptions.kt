@@ -1,9 +1,9 @@
-import world.respect.shared.util.SortOrderOption
+import org.openeel.shared.util.SortOrderOption
 
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.sort_by
-import world.respect.shared.generated.resources.time
-import world.respect.shared.generated.resources.title
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.sort_by
+import org.openeel.shared.generated.resources.time
+import org.openeel.shared.generated.resources.title
 
 /**
  * Common reusable sort options for list screens that support sorting by time and/or title.

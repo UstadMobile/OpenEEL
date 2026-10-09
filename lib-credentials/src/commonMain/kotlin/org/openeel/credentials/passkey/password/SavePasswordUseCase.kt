@@ -1,4 +1,4 @@
-package world.respect.credentials.passkey.password
+package org.openeel.credentials.passkey.password
 
 /**
  * This use case will save the username and password to the any password manager

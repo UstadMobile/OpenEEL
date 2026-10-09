@@ -1,4 +1,4 @@
-package world.respect.shared.domain.e2eartifactupload
+package org.openeel.shared.domain.e2eartifactupload
 
 import com.ustadmobile.libcache.connectivitymonitor.ConnectivityMonitor
 import io.ktor.client.HttpClient

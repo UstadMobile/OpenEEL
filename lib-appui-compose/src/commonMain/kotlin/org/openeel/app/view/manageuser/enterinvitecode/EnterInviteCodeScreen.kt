@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.enterinvitecode
+package org.openeel.app.view.manageuser.enterinvitecode
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,13 +19,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.enter_invite_code_message
-import world.respect.shared.generated.resources.invite_code_label
-import world.respect.shared.generated.resources.next
-import world.respect.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeUiState
-import world.respect.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeViewModel
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.enter_invite_code_message
+import org.openeel.shared.generated.resources.invite_code_label
+import org.openeel.shared.generated.resources.next
+import org.openeel.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeUiState
+import org.openeel.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeViewModel
 
 @Composable
 fun EnterInviteCodeScreen(

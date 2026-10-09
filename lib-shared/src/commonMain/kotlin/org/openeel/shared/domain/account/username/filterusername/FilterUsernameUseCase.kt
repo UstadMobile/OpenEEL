@@ -1,6 +1,6 @@
-package world.respect.shared.domain.account.username.filterusername
+package org.openeel.shared.domain.account.username.filterusername
 
-import world.respect.shared.domain.account.username.validateusername.ValidateUsernameUseCase
+import org.openeel.shared.domain.account.username.validateusername.ValidateUsernameUseCase
 
 
 /**

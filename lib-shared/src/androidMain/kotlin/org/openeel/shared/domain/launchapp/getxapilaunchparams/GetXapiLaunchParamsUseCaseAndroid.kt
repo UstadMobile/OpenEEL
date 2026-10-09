@@ -1,18 +1,18 @@
-package world.respect.shared.domain.launchapp.getxapilaunchparams
+package org.openeel.shared.domain.launchapp.getxapilaunchparams
 
 import io.ktor.http.Url
 import io.ktor.util.encodeBase64
 import kotlinx.coroutines.flow.first
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.xapi.adapters.identifierHash
-import world.respect.datalayer.db.school.xapi.entities.XapiSessionEntity
-import world.respect.lib.xapi.nanohttpd.XapiNanoHttpdApp
-import world.respect.libutil.ext.appendAssignmentXapiSegment
-import world.respect.libutil.ext.randomString
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.domain.xapi.getxapilaunchurl.GetXapiLaunchUrlUseCase
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.xapi.adapters.identifierHash
+import org.openeel.datalayer.db.school.xapi.entities.XapiSessionEntity
+import org.openeel.lib.xapi.nanohttpd.XapiNanoHttpdApp
+import org.openeel.libutil.ext.appendAssignmentXapiSegment
+import org.openeel.libutil.ext.randomString
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.xapi.getxapilaunchurl.GetXapiLaunchUrlUseCase
 
 class GetXapiLaunchParamsUseCaseAndroid(
     private val nanoHttpdApp: XapiNanoHttpdApp,

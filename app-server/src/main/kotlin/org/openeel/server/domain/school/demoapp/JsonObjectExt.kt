@@ -1,4 +1,4 @@
-package world.respect.server.domain.school.demoapp
+package org.openeel.server.domain.school.demoapp
 
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive

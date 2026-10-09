@@ -1,4 +1,4 @@
-package world.respect.shared.util
+package org.openeel.shared.util
 
 import android.text.format.DateFormat
 import androidx.compose.runtime.Composable

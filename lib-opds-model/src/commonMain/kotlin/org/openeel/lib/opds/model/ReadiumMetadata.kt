@@ -1,10 +1,10 @@
-package world.respect.lib.opds.model
+package org.openeel.lib.opds.model
 
 import com.eygraber.uri.Uri
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
-import world.respect.lib.serializers.StringListSerializer
-import world.respect.lib.serializers.UriStringSerializer
+import org.openeel.lib.serializers.StringListSerializer
+import org.openeel.lib.serializers.UriStringSerializer
 
 /**
  * Represents metadata for a Publication.

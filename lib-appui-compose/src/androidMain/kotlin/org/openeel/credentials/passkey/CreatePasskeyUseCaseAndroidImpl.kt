@@ -1,4 +1,4 @@
-package world.respect.credentials.passkey
+package org.openeel.credentials.passkey
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -9,10 +9,10 @@ import androidx.credentials.exceptions.CreateCredentialException
 import io.ktor.http.Url
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.serialization.json.Json
-import world.respect.credentials.passkey.model.AuthenticationResponseJSON
-import world.respect.credentials.passkey.request.CreatePublicKeyCredentialCreationOptionsJsonUseCase
-import world.respect.datalayer.UidNumberMapper
-import world.respect.credentials.passkey.request.GetPasskeyProviderInfoUseCase
+import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
+import org.openeel.credentials.passkey.request.CreatePublicKeyCredentialCreationOptionsJsonUseCase
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.credentials.passkey.request.GetPasskeyProviderInfoUseCase
 
 /**
  * Create a passkey on Android. This will show a bottom sheet for the user to approve creating a new

@@ -1,7 +1,7 @@
-package world.respect.lib.xapi.resources
+package org.openeel.lib.xapi.resources
 
-import world.respect.lib.xapi.XapiRequestHeaders
-import world.respect.lib.xapi.model.XapiActor
+import org.openeel.lib.xapi.XapiRequestHeaders
+import org.openeel.lib.xapi.model.XapiActor
 
 
 /**

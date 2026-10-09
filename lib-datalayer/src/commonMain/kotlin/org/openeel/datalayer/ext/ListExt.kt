@@ -1,4 +1,4 @@
-package world.respect.datalayer.ext
+package org.openeel.datalayer.ext
 
 fun <T: Any> List<T>.appendIfNotNull(
     other: List<T>?

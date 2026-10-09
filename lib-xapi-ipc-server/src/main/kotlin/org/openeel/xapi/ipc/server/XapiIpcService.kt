@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.server
+package org.openeel.xapi.ipc.server
 
 import android.app.Service
 import android.content.Context
@@ -15,14 +15,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.xapi.XapiResourceProvider
-import world.respect.xapi.ipc.shared.messages.XapiIpcKeys
-import world.respect.xapi.ipc.shared.messages.XapiIpcTags
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.xapi.XapiResourceProvider
+import org.openeel.xapi.ipc.shared.messages.XapiIpcKeys
+import org.openeel.xapi.ipc.shared.messages.XapiIpcTags
 import org.openeel.lib.ipc.messagebridge.IpcMessageBridgeWhatFlags
-import world.respect.xapi.ipc.shared.messages.XapiIpcResourceAndMethod
-import world.respect.xapi.ipc.shared.messages.XapiIpcResourceEnum
-import world.respect.xapi.ipc.shared.messages.ext.toBundle
+import org.openeel.xapi.ipc.shared.messages.XapiIpcResourceAndMethod
+import org.openeel.xapi.ipc.shared.messages.XapiIpcResourceEnum
+import org.openeel.xapi.ipc.shared.messages.ext.toBundle
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.getValue

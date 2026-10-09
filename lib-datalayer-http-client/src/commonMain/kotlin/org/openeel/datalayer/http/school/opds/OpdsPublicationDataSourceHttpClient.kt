@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.school.opds
+package org.openeel.datalayer.http.school.opds
 
 import io.ktor.client.HttpClient
 import io.ktor.http.Url
@@ -7,17 +7,17 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.datalayer.compatibleapps.model.RespectAppManifest
-import world.respect.datalayer.ext.getAsDataLoadState
-import world.respect.datalayer.ext.getDataLoadResultAsFlow
-import world.respect.lib.dataloadstate.ext.map
-import world.respect.datalayer.networkvalidation.BaseDataSourceValidationHelper
-import world.respect.datalayer.school.opds.OpdsPublicationDataSource
-import world.respect.datalayer.school.opds.ext.asOpdsPublication
-import world.respect.datalayer.school.opds.ext.withAbsoluteSelfUrl
-import world.respect.lib.opds.model.Publication
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.datalayer.compatibleapps.model.RespectAppManifest
+import org.openeel.datalayer.ext.getAsDataLoadState
+import org.openeel.datalayer.ext.getDataLoadResultAsFlow
+import org.openeel.lib.dataloadstate.ext.map
+import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
+import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
+import org.openeel.datalayer.school.opds.ext.asOpdsPublication
+import org.openeel.datalayer.school.opds.ext.withAbsoluteSelfUrl
+import org.openeel.lib.opds.model.Publication
 
 class OpdsPublicationDataSourceHttpClient(
     private val httpClient: HttpClient,

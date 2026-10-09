@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.shared.daos
+package org.openeel.datalayer.db.shared.daos
 
 object SystemPermissionDaoCommon {
 

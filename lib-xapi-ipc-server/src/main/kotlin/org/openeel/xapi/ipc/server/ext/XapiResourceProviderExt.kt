@@ -1,10 +1,10 @@
-package world.respect.xapi.ipc.server.ext
+package org.openeel.xapi.ipc.server.ext
 
 import android.os.Bundle
 import io.ktor.http.Url
-import world.respect.lib.xapi.XapiResourceProvider
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.xapi.ipc.shared.messages.XapiIpcKeys
+import org.openeel.lib.xapi.XapiResourceProvider
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.xapi.ipc.shared.messages.XapiIpcKeys
 
 suspend fun XapiResourceProvider.provideResource(
     bundle: Bundle,

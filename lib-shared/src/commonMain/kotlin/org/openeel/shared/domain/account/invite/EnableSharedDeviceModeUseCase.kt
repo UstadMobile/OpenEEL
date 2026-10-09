@@ -1,10 +1,10 @@
-package world.respect.shared.domain.account.invite
+package org.openeel.shared.domain.account.invite
 
 import com.russhwolf.settings.Settings
 import io.ktor.http.Url
-import world.respect.datalayer.school.model.Person
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.util.ext.isSameAccount
+import org.openeel.datalayer.school.model.Person
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.util.ext.isSameAccount
 
 class EnableSharedDeviceModeUseCase(
     private val accountManager: RespectAccountManager,

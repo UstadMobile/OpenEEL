@@ -1,15 +1,15 @@
-package world.respect.lib.xapi.nanohttpd.ext
+package org.openeel.lib.xapi.nanohttpd.ext
 
 import fi.iki.elonen.NanoHTTPD.Response
 import fi.iki.elonen.NanoHTTPD.newFixedLengthResponse
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.lib.dataloadstate.throwable.unwrapHttpStatusCode
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.throwable.unwrapHttpStatusCode
 
 
 suspend fun <T: Any> DataLoadState<T>.toFixedLengthResponse(

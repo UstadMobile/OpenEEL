@@ -1,20 +1,20 @@
-package world.respect.shared.domain.respectappmanifest.validator
+package org.openeel.shared.domain.respectappmanifest.validator
 
 import io.ktor.client.HttpClient
 import io.ktor.http.Url
 import kotlinx.serialization.json.Json
-import world.respect.domain.getfavicons.GetFavIconUseCase
-import world.respect.domain.licenses.model.SpdxLicenseList
-import world.respect.lib.opds.model.toStringMap
-import world.respect.domain.opds.validator.verifyMimeTypeAndGetBodyAsText
-import world.respect.shared.domain.validator.Validator
-import world.respect.datalayer.compatibleapps.model.RespectAppManifest
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.shared.domain.validator.ValidateHttpResponseForUrlUseCase
-import world.respect.shared.domain.validator.ValidatorMessage
-import world.respect.shared.domain.validator.ValidatorReporter
-import world.respect.domain.validator.ValidateLinkUseCase
+import org.openeel.domain.getfavicons.GetFavIconUseCase
+import org.openeel.domain.licenses.model.SpdxLicenseList
+import org.openeel.lib.opds.model.toStringMap
+import org.openeel.domain.opds.validator.verifyMimeTypeAndGetBodyAsText
+import org.openeel.shared.domain.validator.Validator
+import org.openeel.datalayer.compatibleapps.model.RespectAppManifest
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.shared.domain.validator.ValidateHttpResponseForUrlUseCase
+import org.openeel.shared.domain.validator.ValidatorMessage
+import org.openeel.shared.domain.validator.ValidatorReporter
+import org.openeel.domain.validator.ValidateLinkUseCase
 import java.net.URI
 
 class RespectAppManifestValidator(

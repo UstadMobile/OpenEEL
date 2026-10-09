@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,12 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.getKoin
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.shared.domain.getlanguageendonym.GetLanguageEndonymUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.also_available_in
-import world.respect.shared.generated.resources.show_less
-import world.respect.shared.generated.resources.show_more
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.shared.domain.getlanguageendonym.GetLanguageEndonymUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.also_available_in
+import org.openeel.shared.generated.resources.show_less
+import org.openeel.shared.generated.resources.show_more
 
 const val ALT_LANGS_DEFAULT_MAX_ITEMS = 10
 

@@ -1,9 +1,9 @@
-package world.respect.datalayer.school
+package org.openeel.datalayer.school
 
 import kotlinx.coroutines.flow.Flow
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.datalayer.school.model.PersonPasskey
-import world.respect.datalayer.shared.WritableDataSource
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.datalayer.school.model.PersonPasskey
+import org.openeel.datalayer.shared.WritableDataSource
 
 interface PersonPasskeyDataSource: WritableDataSource<PersonPasskey> {
 

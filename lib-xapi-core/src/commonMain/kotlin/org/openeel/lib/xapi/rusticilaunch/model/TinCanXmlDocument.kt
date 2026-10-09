@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.rusticilaunch.model
+package org.openeel.lib.xapi.rusticilaunch.model
 
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlElement

@@ -1,17 +1,17 @@
-package world.respect.clitools.domain.testlaunchableapp
+package org.openeel.clitools.domain.testlaunchableapp
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.Url
 import kotlinx.serialization.json.Json
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.ext.allPublications
-import world.respect.lib.opds.model.findSelfLinks
-import world.respect.libutil.ext.resolve
-import world.respect.shared.ext.selectPreferredString
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ext.allPublications
+import org.openeel.lib.opds.model.findSelfLinks
+import org.openeel.libutil.ext.resolve
+import org.openeel.shared.ext.selectPreferredString
 import kotlin.random.Random
 
 /**

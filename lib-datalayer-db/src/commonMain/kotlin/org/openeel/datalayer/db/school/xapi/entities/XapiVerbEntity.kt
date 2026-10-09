@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.xapi.entities
+package org.openeel.datalayer.db.school.xapi.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.school.model.StatusEnum
 
 @Serializable
 @Entity

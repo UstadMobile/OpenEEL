@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,13 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.not_found
-import world.respect.shared.util.exception.getUiTextOrGeneric
-import world.respect.shared.util.ext.asUiText
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.not_found
+import org.openeel.shared.util.exception.getUiTextOrGeneric
+import org.openeel.shared.util.ext.asUiText
 
 /**
  * Simple component that will normally pass simply pass through the contents. If the data load

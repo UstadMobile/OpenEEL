@@ -1,16 +1,16 @@
-package world.respect.shared.domain.xapi.xapinanohttpd
+package org.openeel.shared.domain.xapi.xapinanohttpd
 
 import io.ktor.http.Url
 import io.ktor.util.decodeBase64String
 import org.koin.core.component.KoinComponent
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.lib.xapi.XapiResourceProvider
-import world.respect.lib.xapi.exceptions.XapiException
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.shared.util.di.RespectAccountScopeId
-import world.respect.shared.util.di.SchoolDirectoryEntryScopeId
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.lib.xapi.XapiResourceProvider
+import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.shared.util.di.RespectAccountScopeId
+import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 
 class XapiResourceProviderAndroid: XapiResourceProvider, KoinComponent {
 

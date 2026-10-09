@@ -1,4 +1,4 @@
-package world.respect.server.util
+package org.openeel.server.util
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withTimeoutOrNull
-import world.respect.libutil.ext.randomString
+import org.openeel.libutil.ext.randomString
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 

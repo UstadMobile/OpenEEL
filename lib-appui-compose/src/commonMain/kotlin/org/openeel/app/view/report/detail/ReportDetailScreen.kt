@@ -1,4 +1,4 @@
-package world.respect.app.view.report.detail
+package org.openeel.app.view.report.detail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,11 +13,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.view.report.graph.CombinedGraph
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.empty_data
-import world.respect.shared.viewmodel.report.detail.ReportDetailUiState
-import world.respect.shared.viewmodel.report.detail.ReportDetailViewModel
+import org.openeel.app.view.report.graph.CombinedGraph
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.empty_data
+import org.openeel.shared.viewmodel.report.detail.ReportDetailUiState
+import org.openeel.shared.viewmodel.report.detail.ReportDetailViewModel
 
 @Composable
 fun ReportDetailScreen(

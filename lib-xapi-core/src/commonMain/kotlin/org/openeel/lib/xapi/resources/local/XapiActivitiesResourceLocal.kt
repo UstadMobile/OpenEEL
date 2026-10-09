@@ -1,7 +1,7 @@
-package world.respect.lib.xapi.resources.local
+package org.openeel.lib.xapi.resources.local
 
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.resources.XapiActivitiesResource
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.resources.XapiActivitiesResource
 import kotlin.time.Instant
 
 /**

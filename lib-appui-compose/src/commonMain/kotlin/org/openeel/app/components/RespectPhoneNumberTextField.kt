@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,11 +25,11 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import world.respect.shared.domain.phonenumber.IPhoneNumberUtil
-import world.respect.app.util.phonenum.CountryCodeTransformation
-import world.respect.app.util.phonenum.CountryCodeTransformation.Companion.COUNTRY_CODE_MAX_LEN
-import world.respect.app.util.phonenum.PhoneNumberTransformation
-import world.respect.app.util.phonenum.guessInitialPhoneCountryCode
+import org.openeel.shared.domain.phonenumber.IPhoneNumberUtil
+import org.openeel.app.util.phonenum.CountryCodeTransformation
+import org.openeel.app.util.phonenum.CountryCodeTransformation.Companion.COUNTRY_CODE_MAX_LEN
+import org.openeel.app.util.phonenum.PhoneNumberTransformation
+import org.openeel.app.util.phonenum.guessInitialPhoneCountryCode
 import org.koin.compose.koinInject
 import kotlin.math.min
 

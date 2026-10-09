@@ -1,9 +1,9 @@
-package world.respect.datalayer.repository.shared.paging
+package org.openeel.datalayer.repository.shared.paging
 
 import androidx.paging.PagingSource
-import world.respect.datalayer.shared.paging.FilterPagingSource
+import org.openeel.datalayer.shared.paging.FilterPagingSource
 import io.github.aakira.napier.Napier
-import world.respect.datalayer.shared.paging.LogPrefixFunction
+import org.openeel.datalayer.shared.paging.LogPrefixFunction
 
 /**
  * PagingSource that uses a remote mediator

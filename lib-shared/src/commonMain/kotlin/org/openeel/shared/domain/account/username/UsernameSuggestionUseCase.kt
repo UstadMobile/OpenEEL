@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account.username
+package org.openeel.shared.domain.account.username
 
 
 

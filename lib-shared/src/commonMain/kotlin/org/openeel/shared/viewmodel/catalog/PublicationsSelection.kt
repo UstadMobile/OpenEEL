@@ -1,8 +1,8 @@
-package world.respect.shared.viewmodel.catalog
+package org.openeel.shared.viewmodel.catalog
 
 import io.ktor.http.Url
 import kotlinx.serialization.Serializable
-import world.respect.lib.opds.model.Publication
+import org.openeel.lib.opds.model.Publication
 
 /**
  * Represents learning unit(s) (OpdsPublication(s)) that have been selected on one screen to be

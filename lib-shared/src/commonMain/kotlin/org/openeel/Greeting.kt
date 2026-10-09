@@ -1,4 +1,4 @@
-package world.respect
+package org.openeel
 
 class Greeting {
     private val platform = getPlatform()

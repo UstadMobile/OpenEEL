@@ -1,6 +1,6 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
-import world.respect.credentials.passkey.model.AaguidProviderData
+import org.openeel.credentials.passkey.model.AaguidProviderData
 
 
 /**

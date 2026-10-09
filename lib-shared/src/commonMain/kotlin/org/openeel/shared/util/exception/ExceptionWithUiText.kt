@@ -1,12 +1,12 @@
-package world.respect.shared.util.exception
+package org.openeel.shared.util.exception
 
 import kotlinx.io.IOException
-import world.respect.libutil.ext.getCauseOfType
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.something_went_wrong
-import world.respect.shared.generated.resources.network_error_check_try_again
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.ext.asUiText
+import org.openeel.libutil.ext.getCauseOfType
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.something_went_wrong
+import org.openeel.shared.generated.resources.network_error_check_try_again
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.asUiText
 
 /**
  * An exception that has a (potentially localizable) UiText associated with it. This makes it easier

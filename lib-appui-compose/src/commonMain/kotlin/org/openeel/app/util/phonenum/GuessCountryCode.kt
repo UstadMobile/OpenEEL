@@ -1,7 +1,7 @@
-package world.respect.app.util.phonenum
+package org.openeel.app.util.phonenum
 
 import androidx.compose.runtime.Composable
-import world.respect.shared.domain.phonenumber.IPhoneNumberUtil
+import org.openeel.shared.domain.phonenumber.IPhoneNumberUtil
 
 @Composable
 expect fun guessInitialPhoneCountryCode(

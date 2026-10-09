@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.statement.detail
+package org.openeel.shared.viewmodel.statement.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -11,20 +11,20 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.ext.firstOrNotLoaded
-import world.respect.lib.dataloadstate.ext.map
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.resources.XapiStatementsResource
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.raw_statement
-import world.respect.shared.navigation.RawStatement
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.ext.firstOrNotLoaded
+import org.openeel.lib.dataloadstate.ext.map
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.resources.XapiStatementsResource
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.raw_statement
+import org.openeel.shared.navigation.RawStatement
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 data class RawStatementUiState(
     val statement: DataLoadState<XapiStatement> = DataLoadingState(),

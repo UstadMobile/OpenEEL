@@ -1,4 +1,4 @@
-package world.respect.shared.domain.launchers
+package org.openeel.shared.domain.launchers
 
 import android.content.ActivityNotFoundException
 import android.content.Context

@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.model
+package org.openeel.lib.xapi.model
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.KeepGeneratedSerializer
@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.JsonTransformingSerializer
 import kotlinx.serialization.json.buildJsonObject
-import world.respect.lib.xapi.ext.putAll
+import org.openeel.lib.xapi.ext.putAll
 
 
 /**

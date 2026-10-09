@@ -1,7 +1,7 @@
-package world.respect.lib.xapi
+package org.openeel.lib.xapi
 
 import io.ktor.http.Url
-import world.respect.lib.xapi.resources.XapiResource
+import org.openeel.lib.xapi.resources.XapiResource
 
 /**
  * Certain components (e.g. an HttpServer, IPC server service, etc) need to be able to lookup a

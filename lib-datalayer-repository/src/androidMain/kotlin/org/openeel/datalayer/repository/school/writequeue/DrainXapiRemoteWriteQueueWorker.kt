@@ -1,12 +1,12 @@
-package world.respect.datalayer.repository.school.writequeue
+package org.openeel.datalayer.repository.school.writequeue
 
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.github.aakira.napier.Napier
 import org.koin.core.component.KoinComponent
-import world.respect.datalayer.repository.school.worker.getWorkerKoinScope
-import world.respect.lib.xapi.remotewritequeue.DrainXapiRemoteWriteQueueUseCase
+import org.openeel.datalayer.repository.school.worker.getWorkerKoinScope
+import org.openeel.lib.xapi.remotewritequeue.DrainXapiRemoteWriteQueueUseCase
 
 class DrainXapiRemoteWriteQueueWorker(
     context: Context,

@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.shared.messages
+package org.openeel.xapi.ipc.shared.messages
 
 /**
  * When a request message is sent Message.arg2

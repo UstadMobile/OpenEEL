@@ -1,4 +1,4 @@
-package world.respect.shared.domain.launchapp.gotoappstore
+package org.openeel.shared.domain.launchapp.gotoappstore
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.core.net.toUri
 import io.ktor.http.URLBuilder
 import net.thauvin.erik.urlencoder.UrlEncoderUtil
-import world.respect.lib.opds.model.findAppStoreAndroidLinks
+import org.openeel.lib.opds.model.findAppStoreAndroidLinks
 
 /**
  *

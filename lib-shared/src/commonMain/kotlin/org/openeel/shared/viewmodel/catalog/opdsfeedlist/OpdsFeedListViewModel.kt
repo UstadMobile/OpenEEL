@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.catalog.opdsfeedlist
+package org.openeel.shared.viewmodel.catalog.opdsfeedlist
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -11,31 +11,31 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.getScopeId
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.db.school.ext.isAdmin
-import world.respect.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
-import world.respect.datalayer.school.opds.ext.requireSelfUrl
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.ext.resultExpected
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.add_from_a_link
-import world.respect.shared.generated.resources.add_new
-import world.respect.shared.generated.resources.home
-import world.respect.shared.generated.resources.collection
-import world.respect.shared.navigation.EnterLink
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.OpdsFeedDetail
-import world.respect.shared.navigation.OpdsFeedEdit
-import world.respect.shared.navigation.PlaylistList
-import world.respect.shared.util.di.RespectAccountScopeId
-import world.respect.shared.util.ext.appbarTitleString
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.ExpandableFabIcon
-import world.respect.shared.viewmodel.app.appstate.ExpandableFabItem
-import world.respect.shared.viewmodel.app.appstate.ExpandableFabUiState
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.db.school.ext.isAdmin
+import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
+import org.openeel.datalayer.school.opds.ext.requireSelfUrl
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.ext.resultExpected
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add_from_a_link
+import org.openeel.shared.generated.resources.add_new
+import org.openeel.shared.generated.resources.home
+import org.openeel.shared.generated.resources.collection
+import org.openeel.shared.navigation.EnterLink
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.OpdsFeedDetail
+import org.openeel.shared.navigation.OpdsFeedEdit
+import org.openeel.shared.navigation.PlaylistList
+import org.openeel.shared.util.di.RespectAccountScopeId
+import org.openeel.shared.util.ext.appbarTitleString
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.ExpandableFabIcon
+import org.openeel.shared.viewmodel.app.appstate.ExpandableFabItem
+import org.openeel.shared.viewmodel.app.appstate.ExpandableFabUiState
 
 enum class OpdsFeedListFilter {
     ALL,

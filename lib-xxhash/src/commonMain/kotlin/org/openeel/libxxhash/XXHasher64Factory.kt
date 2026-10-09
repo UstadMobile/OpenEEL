@@ -1,4 +1,4 @@
-package world.respect.libxxhash
+package org.openeel.libxxhash
 
 interface XXHasher64Factory {
 

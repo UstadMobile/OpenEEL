@@ -1,12 +1,12 @@
-package world.respect.server
+package org.openeel.server
 
 import io.ktor.http.Url
 import org.koin.core.component.KoinComponent
 import org.koin.core.qualifier.TypeQualifier
 import org.koin.core.scope.Scope
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.shared.domain.account.RespectAccount
-import world.respect.shared.util.di.RespectAccountScopeId
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.shared.util.di.RespectAccountScopeId
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 

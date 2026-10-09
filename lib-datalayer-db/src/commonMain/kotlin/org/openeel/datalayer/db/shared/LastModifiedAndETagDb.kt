@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.shared
+package org.openeel.datalayer.db.shared
 
 data class LastModifiedAndETagDb(
     val lastModified: Long,

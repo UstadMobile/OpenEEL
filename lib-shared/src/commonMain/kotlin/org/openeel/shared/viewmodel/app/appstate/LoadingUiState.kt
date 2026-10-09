@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.app.appstate
+package org.openeel.shared.viewmodel.app.appstate
 
 /**
  *Represents the loading state that is displayed in the action bar at the top of the app. Currently

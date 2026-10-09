@@ -1,4 +1,4 @@
-package world.respect.credentials.passkey
+package org.openeel.credentials.passkey
 
 import android.annotation.SuppressLint
 import android.content.Context

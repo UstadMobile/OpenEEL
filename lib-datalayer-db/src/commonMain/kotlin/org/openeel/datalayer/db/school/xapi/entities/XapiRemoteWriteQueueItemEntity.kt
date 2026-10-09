@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.school.xapi.entities
+package org.openeel.datalayer.db.school.xapi.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import world.respect.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
+import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
 
 /**
  * @param xrqAccountGuid as per AuthenticatedUserPrincipalId.guid

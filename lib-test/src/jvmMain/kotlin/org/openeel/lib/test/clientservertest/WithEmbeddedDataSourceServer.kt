@@ -1,4 +1,4 @@
-package world.respect.lib.test.clientservertest
+package org.openeel.lib.test.clientservertest
 
 import io.ktor.http.ContentType
 import io.ktor.http.Url
@@ -9,8 +9,8 @@ import io.ktor.server.netty.Netty
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.routing
 import kotlinx.serialization.json.Json
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.libutil.findFreePort
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.libutil.findFreePort
 import java.io.File
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation as ContentNegotiationServer
 

@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.school
+package org.openeel.datalayer.http.school
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
@@ -8,19 +8,19 @@ import io.ktor.http.URLBuilder
 import io.ktor.http.Url
 import io.ktor.http.contentType
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.AuthTokenProvider
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.datalayer.ext.getAsDataLoadState
-import world.respect.datalayer.ext.getDataLoadResultAsFlow
-import world.respect.datalayer.ext.useTokenProvider
-import world.respect.datalayer.ext.useValidationCacheControl
-import world.respect.datalayer.http.ext.appendCommonListParams
-import world.respect.datalayer.http.ext.respectEndpointUrl
-import world.respect.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
-import world.respect.datalayer.school.PersonPasswordDataSource
-import world.respect.datalayer.school.model.PersonPassword
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.AuthTokenProvider
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.datalayer.ext.getAsDataLoadState
+import org.openeel.datalayer.ext.getDataLoadResultAsFlow
+import org.openeel.datalayer.ext.useTokenProvider
+import org.openeel.datalayer.ext.useValidationCacheControl
+import org.openeel.datalayer.http.ext.appendCommonListParams
+import org.openeel.datalayer.http.ext.respectEndpointUrl
+import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
+import org.openeel.datalayer.school.PersonPasswordDataSource
+import org.openeel.datalayer.school.model.PersonPassword
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
 
 class PersonPasswordDataSourceHttpClient(
     override val schoolUrl: Url,

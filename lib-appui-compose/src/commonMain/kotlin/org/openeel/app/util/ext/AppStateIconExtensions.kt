@@ -1,4 +1,4 @@
-package world.respect.app.util.ext
+package org.openeel.app.util.ext
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.ui.graphics.vector.ImageVector
-import world.respect.shared.viewmodel.app.appstate.AppStateIcon
+import org.openeel.shared.viewmodel.app.appstate.AppStateIcon
 
 /**
  * Maps AppStateIcon enum values to actual ImageVector icons for Compose.

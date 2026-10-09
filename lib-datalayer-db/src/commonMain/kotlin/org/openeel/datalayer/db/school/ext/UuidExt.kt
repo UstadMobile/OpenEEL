@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.ext
+package org.openeel.datalayer.db.school.ext
 
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid

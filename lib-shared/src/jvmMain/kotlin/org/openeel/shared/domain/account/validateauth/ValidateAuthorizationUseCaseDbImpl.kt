@@ -1,8 +1,8 @@
-package world.respect.shared.domain.account.validateauth
+package org.openeel.shared.domain.account.validateauth
 
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.libutil.util.time.systemTimeInMillis
 
 class ValidateAuthorizationUseCaseDbImpl(
     private val schoolDb: RespectSchoolDatabase,

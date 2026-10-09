@@ -1,4 +1,4 @@
-package world.respect.app.view.report.indicator.detail
+package org.openeel.app.view.report.indicator.detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,10 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import world.respect.app.components.defaultItemPadding
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.shared.viewmodel.report.indictor.detail.IndicatorDetailUiState
-import world.respect.shared.viewmodel.report.indictor.detail.IndicatorDetailViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.shared.viewmodel.report.indictor.detail.IndicatorDetailUiState
+import org.openeel.shared.viewmodel.report.indictor.detail.IndicatorDetailViewModel
 
 @Composable
 fun IndicatorDetailScreen(

@@ -1,4 +1,4 @@
-package world.respect.shared.domain.openexternallink
+package org.openeel.shared.domain.openexternallink
 
 import io.ktor.http.Url
 

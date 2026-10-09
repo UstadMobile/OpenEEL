@@ -1,11 +1,11 @@
-package world.respect.shared.domain.account.invite
+package org.openeel.shared.domain.account.invite
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
-import world.respect.credentials.passkey.RespectCredential
-import world.respect.datalayer.school.model.DeviceInfo
-import world.respect.datalayer.school.model.Invite2
-import world.respect.datalayer.school.model.PersonGenderEnum
+import org.openeel.credentials.passkey.RespectCredential
+import org.openeel.datalayer.school.model.DeviceInfo
+import org.openeel.datalayer.school.model.Invite2
+import org.openeel.datalayer.school.model.PersonGenderEnum
 
 /**
  *

@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,13 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.how_passkey_works
-import world.respect.shared.generated.resources.sign_in_faster
-import world.respect.shared.generated.resources.sign_in_faster_description
-import world.respect.shared.generated.resources.sign_up_with_passkey
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.ext.asUiText
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.how_passkey_works
+import org.openeel.shared.generated.resources.sign_in_faster
+import org.openeel.shared.generated.resources.sign_in_faster_description
+import org.openeel.shared.generated.resources.sign_up_with_passkey
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.asUiText
 
 @Composable
 fun RespectPasskeySignInFasterCard(

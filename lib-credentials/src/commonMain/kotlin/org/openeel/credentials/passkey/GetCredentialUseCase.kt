@@ -1,6 +1,6 @@
-package world.respect.credentials.passkey
+package org.openeel.credentials.passkey
 
-import world.respect.credentials.passkey.model.AuthenticationResponseJSON
+import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
 
 /**
  * Use case to get a saved credential - passkey or username/password. This is a non-scoped

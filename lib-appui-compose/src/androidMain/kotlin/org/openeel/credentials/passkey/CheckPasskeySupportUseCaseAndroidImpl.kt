@@ -1,9 +1,9 @@
-package world.respect.credentials.passkey
+package org.openeel.credentials.passkey
 
 import android.os.Build
 import io.ktor.http.Url
-import world.respect.datalayer.RespectAppDataSource
-import world.respect.lib.dataloadstate.ext.dataOrNull
+import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 
 class CheckPasskeySupportUseCaseAndroidImpl(
     private val verifyDomainUseCase: VerifyDomainUseCase,

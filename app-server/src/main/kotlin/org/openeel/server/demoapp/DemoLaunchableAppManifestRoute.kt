@@ -6,8 +6,8 @@ import io.ktor.server.response.respondBytes
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import org.koin.ktor.ext.getKoin
-import world.respect.server.demoapp.ext.demoAppBaseUrl
-import world.respect.server.domain.school.demoapp.MakeDemoAppManifestUseCase
+import org.openeel.server.demoapp.ext.demoAppBaseUrl
+import org.openeel.server.domain.school.demoapp.MakeDemoAppManifestUseCase
 
 class DemoRouteClass()
 

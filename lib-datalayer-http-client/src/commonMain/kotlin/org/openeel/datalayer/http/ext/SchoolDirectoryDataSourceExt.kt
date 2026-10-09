@@ -1,10 +1,10 @@
-package world.respect.datalayer.http.ext
+package org.openeel.datalayer.http.ext
 
 import io.ktor.http.Url
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
-import world.respect.libutil.ext.appendEndpointSegments
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.libutil.ext.appendEndpointSegments
 
 suspend fun SchoolDirectoryEntryDataSource.schoolDirectoryEntryOrNull(
     schoolUrl: Url

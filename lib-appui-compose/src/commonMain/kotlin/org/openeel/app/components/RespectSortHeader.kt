@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -22,11 +22,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.ascending
-import world.respect.shared.generated.resources.descending
-import world.respect.shared.util.SortOrderOption
-import world.respect.shared.util.description
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.ascending
+import org.openeel.shared.generated.resources.descending
+import org.openeel.shared.util.SortOrderOption
+import org.openeel.shared.util.description
 
 enum class SortListMode {
 

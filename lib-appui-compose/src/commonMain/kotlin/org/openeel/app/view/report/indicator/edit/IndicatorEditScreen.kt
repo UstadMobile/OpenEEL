@@ -1,4 +1,4 @@
-package world.respect.app.view.report.indicator.edit
+package org.openeel.app.view.report.indicator.edit
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,15 +18,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.extensions.reportoptions.Indicator
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.description
-import world.respect.shared.generated.resources.field
-import world.respect.shared.generated.resources.sql
-import world.respect.shared.viewmodel.report.indictor.edit.IndicatorEditUiState
-import world.respect.shared.viewmodel.report.indictor.edit.IndicatorEditViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.extensions.reportoptions.Indicator
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.description
+import org.openeel.shared.generated.resources.field
+import org.openeel.shared.generated.resources.sql
+import org.openeel.shared.viewmodel.report.indictor.edit.IndicatorEditUiState
+import org.openeel.shared.viewmodel.report.indictor.edit.IndicatorEditViewModel
 
 @Composable
 fun IndictorEditScreen(

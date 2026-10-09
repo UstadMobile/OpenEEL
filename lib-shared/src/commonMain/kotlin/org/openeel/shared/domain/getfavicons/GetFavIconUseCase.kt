@@ -1,4 +1,4 @@
-package world.respect.domain.getfavicons
+package org.openeel.domain.getfavicons
 
 import io.ktor.http.Url
 

@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.remotewritequeue
+package org.openeel.lib.xapi.remotewritequeue
 
 import kotlinx.coroutines.flow.Flow
 

@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.apps.enterlink
+package org.openeel.shared.viewmodel.apps.enterlink
 
 import androidx.lifecycle.SavedStateHandle
 import io.ktor.http.Url
@@ -8,24 +8,24 @@ import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.school.opds.OpdsFeedDataSource
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.libutil.ext.appendEndpointSegments
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.domain.sharelink.CreatePlaylistShareLinkUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.enter_link
-import world.respect.shared.generated.resources.invalid_url
-import world.respect.shared.navigation.AppsDetail
-import world.respect.shared.navigation.OpdsFeedDetail
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.resources.StringResourceUiText
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.libutil.ext.appendEndpointSegments
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.sharelink.CreatePlaylistShareLinkUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.enter_link
+import org.openeel.shared.generated.resources.invalid_url
+import org.openeel.shared.navigation.AppsDetail
+import org.openeel.shared.navigation.OpdsFeedDetail
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.resources.StringResourceUiText
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 data class EnterLinkUiState(
     val linkUrl: String = "",

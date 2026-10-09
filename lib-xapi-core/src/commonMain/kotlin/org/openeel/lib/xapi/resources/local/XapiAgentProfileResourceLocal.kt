@@ -1,8 +1,8 @@
-package world.respect.lib.xapi.resources.local
+package org.openeel.lib.xapi.resources.local
 
-import world.respect.lib.xapi.model.XapiDocument
-import world.respect.lib.xapi.resources.XapiAgentProfileResource
-import world.respect.lib.xapi.resources.XapiAgentProfileResource.SingleDocumentParams
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.resources.XapiAgentProfileResource
+import org.openeel.lib.xapi.resources.XapiAgentProfileResource.SingleDocumentParams
 
 interface XapiAgentProfileResourceLocal : XapiAgentProfileResource {
 

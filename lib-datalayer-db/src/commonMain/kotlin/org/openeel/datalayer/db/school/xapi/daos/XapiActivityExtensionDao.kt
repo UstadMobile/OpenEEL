@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.xapi.daos
+package org.openeel.datalayer.db.school.xapi.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import world.respect.datalayer.db.school.xapi.entities.XapiActivityExtensionEntity
-import world.respect.datalayer.db.school.xapi.entities.XapiEntityObjectTypeFlags
+import org.openeel.datalayer.db.school.xapi.entities.XapiActivityExtensionEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiEntityObjectTypeFlags
 
 @Dao
 interface XapiActivityExtensionDao {

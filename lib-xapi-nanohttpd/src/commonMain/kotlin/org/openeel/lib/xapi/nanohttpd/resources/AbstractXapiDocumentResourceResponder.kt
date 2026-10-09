@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.nanohttpd.resources
+package org.openeel.lib.xapi.nanohttpd.resources
 
 import fi.iki.elonen.NanoHTTPD
 import fi.iki.elonen.NanoHTTPD.Response
@@ -6,19 +6,19 @@ import fi.iki.elonen.NanoHTTPD.newFixedLengthResponse
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.xapi.XapiResourceProvider
-import world.respect.lib.xapi.nanohttpd.NanoHttpdXapiResponder
-import world.respect.lib.xapi.nanohttpd.ext.addXapiCORSHeaders
-import world.respect.lib.xapi.nanohttpd.ext.bodyAsXapiDocument
-import world.respect.lib.xapi.nanohttpd.ext.headersAsKtorHeaders
-import world.respect.lib.xapi.nanohttpd.ext.provideXapiResourceForSession
-import world.respect.lib.xapi.nanohttpd.ext.toFixedLengthResponse
-import world.respect.lib.xapi.nanohttpd.logResponse
-import world.respect.lib.xapi.nanohttpd.newNoContentResponse
-import world.respect.lib.xapi.resources.ISingleDocumentParams
-import world.respect.lib.xapi.resources.XapiDocumentResource
-import world.respect.lib.xapi.resources.XapiResource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.xapi.XapiResourceProvider
+import org.openeel.lib.xapi.nanohttpd.NanoHttpdXapiResponder
+import org.openeel.lib.xapi.nanohttpd.ext.addXapiCORSHeaders
+import org.openeel.lib.xapi.nanohttpd.ext.bodyAsXapiDocument
+import org.openeel.lib.xapi.nanohttpd.ext.headersAsKtorHeaders
+import org.openeel.lib.xapi.nanohttpd.ext.provideXapiResourceForSession
+import org.openeel.lib.xapi.nanohttpd.ext.toFixedLengthResponse
+import org.openeel.lib.xapi.nanohttpd.logResponse
+import org.openeel.lib.xapi.nanohttpd.newNoContentResponse
+import org.openeel.lib.xapi.resources.ISingleDocumentParams
+import org.openeel.lib.xapi.resources.XapiDocumentResource
+import org.openeel.lib.xapi.resources.XapiResource
 
 abstract class AbstractXapiDocumentResourceResponder<
         MultiDocParams: Any,

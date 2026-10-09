@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.school.xapi
+package org.openeel.datalayer.http.school.xapi
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
@@ -10,21 +10,21 @@ import io.ktor.http.contentType
 import io.ktor.util.reflect.typeInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.AuthTokenProvider
-import world.respect.datalayer.ext.getAsDataLoadState
-import world.respect.datalayer.ext.getDataLoadResultAsFlow
-import world.respect.datalayer.ext.toDataLoadState
-import world.respect.datalayer.ext.useTokenProvider
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.xapi.composites.AssignmentAndProgress
-import world.respect.lib.xapi.model.AssignmentSummary
-import world.respect.lib.xapi.model.XapiAgent
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.model.XapiStatementResult
-import world.respect.lib.xapi.resources.XapiStatementsResource
-import world.respect.lib.xapi.resources.XapiStatementsResource.GetStatementParams
-import world.respect.libutil.ext.appendEndpointSegments
+import org.openeel.datalayer.AuthTokenProvider
+import org.openeel.datalayer.ext.getAsDataLoadState
+import org.openeel.datalayer.ext.getDataLoadResultAsFlow
+import org.openeel.datalayer.ext.toDataLoadState
+import org.openeel.datalayer.ext.useTokenProvider
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.xapi.composites.AssignmentAndProgress
+import org.openeel.lib.xapi.model.AssignmentSummary
+import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiStatementResult
+import org.openeel.lib.xapi.resources.XapiStatementsResource
+import org.openeel.lib.xapi.resources.XapiStatementsResource.GetStatementParams
+import org.openeel.libutil.ext.appendEndpointSegments
 import kotlin.uuid.Uuid
 
 class XapiStatementsResourceHttpClient(

@@ -1,16 +1,16 @@
-package world.respect.datalayer.repository.opds
+package org.openeel.datalayer.repository.opds
 
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.repository.ext.copyToValidateOnRemote
-import world.respect.datalayer.repository.flow.asRepoFlow
-import world.respect.datalayer.school.opds.OpdsFeedDataSource
-import world.respect.datalayer.school.opds.OpdsFeedDataSourceLocal
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.ext.combineWithRemote
-import world.respect.lib.dataloadstate.ext.takeIfShouldUpdateLocal
-import world.respect.lib.opds.model.OpdsFeed
+import org.openeel.datalayer.repository.ext.copyToValidateOnRemote
+import org.openeel.datalayer.repository.flow.asRepoFlow
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
+import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.ext.combineWithRemote
+import org.openeel.lib.dataloadstate.ext.takeIfShouldUpdateLocal
+import org.openeel.lib.opds.model.OpdsFeed
 
 class OpdsFeedDataSourceRepository(
     val local: OpdsFeedDataSourceLocal,

@@ -1,4 +1,4 @@
-package world.respect.shared.domain.phonenumber
+package org.openeel.shared.domain.phonenumber
 
 class PhoneNumValidatorAndroid(
     private val iPhoneNumberUtil: IPhoneNumberUtil

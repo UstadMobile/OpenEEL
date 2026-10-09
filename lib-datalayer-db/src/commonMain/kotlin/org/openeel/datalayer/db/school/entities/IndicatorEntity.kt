@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.realm.entities
+package org.openeel.datalayer.db.realm.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

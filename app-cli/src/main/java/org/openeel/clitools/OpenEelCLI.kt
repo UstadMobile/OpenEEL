@@ -1,4 +1,4 @@
-package world.respect.clitools
+package org.openeel.clitools
 
 import io.ktor.http.Url
 import kotlinx.coroutines.runBlocking
@@ -9,16 +9,16 @@ import net.sourceforge.argparse4j.inf.Namespace
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.startKoin
-import world.respect.datalayer.compatibleapps.model.RespectAppManifest
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.shared.di.jvmKoinAppModule
-import world.respect.shared.domain.validator.ListAndPrintlnValidatorReporter
-import world.respect.domain.validator.ValidateLinkUseCase
-import world.respect.shared.domain.validator.ValidatorMessage
-import world.respect.shared.domain.testlaunchableapp.TestLaunchableAppModeEnum
-import world.respect.shared.domain.testlaunchableapp.TestLaunchableAppUseCase
+import org.openeel.datalayer.compatibleapps.model.RespectAppManifest
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.shared.di.jvmKoinAppModule
+import org.openeel.shared.domain.validator.ListAndPrintlnValidatorReporter
+import org.openeel.domain.validator.ValidateLinkUseCase
+import org.openeel.shared.domain.validator.ValidatorMessage
+import org.openeel.shared.domain.testlaunchableapp.TestLaunchableAppModeEnum
+import org.openeel.shared.domain.testlaunchableapp.TestLaunchableAppUseCase
 import java.io.File
 import kotlin.system.exitProcess
 

@@ -1,10 +1,10 @@
-package world.respect.shared.domain.report.formatter
+package org.openeel.shared.domain.report.formatter
 
-import world.respect.lib.xapi.extensions.reportoptions.ReportXAxis
-import world.respect.lib.xapi.extensions.reportoptions.YAxisTypes
-import world.respect.shared.domain.report.query.RunReportUseCase
-import world.respect.shared.resources.StringUiText
-import world.respect.shared.resources.UiText
+import org.openeel.lib.xapi.extensions.reportoptions.ReportXAxis
+import org.openeel.lib.xapi.extensions.reportoptions.YAxisTypes
+import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.shared.resources.StringUiText
+import org.openeel.shared.resources.UiText
 import kotlin.reflect.KClass
 
 

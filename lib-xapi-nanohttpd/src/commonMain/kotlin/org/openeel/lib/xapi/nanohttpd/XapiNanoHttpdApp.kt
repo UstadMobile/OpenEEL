@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.nanohttpd
+package org.openeel.lib.xapi.nanohttpd
 
 import fi.iki.elonen.NanoHTTPD
 import io.github.aakira.napier.Napier
@@ -6,18 +6,18 @@ import io.ktor.http.Url
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import net.thauvin.erik.urlencoder.UrlEncoderUtil
-import world.respect.lib.xapi.OpenEelXapiConstants.ASSIGNMENT_XAPI_SEGMENT
-import world.respect.lib.xapi.XapiResourceProvider
-import world.respect.lib.xapi.exceptions.XapiException
-import world.respect.lib.xapi.nanohttpd.ext.addXapiCORSHeaders
-import world.respect.lib.xapi.nanohttpd.resources.StatementResourceResponder
-import world.respect.lib.xapi.nanohttpd.resources.XapiActivityProfileResourceResponder
-import world.respect.lib.xapi.nanohttpd.resources.XapiAgentProfileResourceResponder
-import world.respect.lib.xapi.nanohttpd.resources.XapiStateResourceResponder
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
-import world.respect.lib.xapi.resources.XapiAgentProfileResource
-import world.respect.lib.xapi.resources.XapiStateResource
-import world.respect.lib.xapi.resources.XapiStatementsResource
+import org.openeel.lib.xapi.OpenEelXapiConstants.ASSIGNMENT_XAPI_SEGMENT
+import org.openeel.lib.xapi.XapiResourceProvider
+import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.nanohttpd.ext.addXapiCORSHeaders
+import org.openeel.lib.xapi.nanohttpd.resources.StatementResourceResponder
+import org.openeel.lib.xapi.nanohttpd.resources.XapiActivityProfileResourceResponder
+import org.openeel.lib.xapi.nanohttpd.resources.XapiAgentProfileResourceResponder
+import org.openeel.lib.xapi.nanohttpd.resources.XapiStateResourceResponder
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.xapi.resources.XapiAgentProfileResource
+import org.openeel.lib.xapi.resources.XapiStateResource
+import org.openeel.lib.xapi.resources.XapiStatementsResource
 import java.io.ByteArrayInputStream
 
 class XapiNanoHttpdApp(

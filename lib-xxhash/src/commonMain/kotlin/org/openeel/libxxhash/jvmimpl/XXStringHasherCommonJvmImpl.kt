@@ -1,9 +1,9 @@
-package world.respect.libxxhash.jvmimpl
+package org.openeel.libxxhash.jvmimpl
 
 import kotlinx.atomicfu.locks.ReentrantLock
 import kotlinx.atomicfu.locks.withLock
 import net.jpountz.xxhash.XXHashFactory
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.libxxhash.XXStringHasher
 
 class XXStringHasherCommonJvm: XXStringHasher {
 

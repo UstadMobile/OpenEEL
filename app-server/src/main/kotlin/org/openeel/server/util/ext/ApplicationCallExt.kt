@@ -1,4 +1,4 @@
-package world.respect.server.util.ext
+package org.openeel.server.util.ext
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingSource.LoadResult.Page.Companion.COUNT_UNDEFINED
@@ -11,17 +11,17 @@ import io.ktor.server.response.header
 import io.ktor.server.response.respond
 import org.koin.core.scope.Scope
 import org.koin.ktor.ext.getKoin
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.lib.dataloadstate.DataLayerHeaders
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.datalayer.school.domain.GetPermissionLastModifiedUseCase
-import world.respect.datalayer.shared.ModelWithTimes
-import world.respect.datalayer.shared.maxLastStoredOrNull
-import world.respect.lib.dataloadstate.ktorserver.validateIfNotModifiedSince
-import world.respect.lib.dataloadstate.throwable.ForbiddenException
-import world.respect.shared.domain.account.RespectAccount
-import world.respect.shared.util.di.RespectAccountScopeId
-import world.respect.shared.util.di.SchoolDirectoryEntryScopeId
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.lib.dataloadstate.DataLayerHeaders
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.school.domain.GetPermissionLastModifiedUseCase
+import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.datalayer.shared.maxLastStoredOrNull
+import org.openeel.lib.dataloadstate.ktorserver.validateIfNotModifiedSince
+import org.openeel.lib.dataloadstate.throwable.ForbiddenException
+import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.shared.util.di.RespectAccountScopeId
+import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import kotlin.time.Clock
 
 /**

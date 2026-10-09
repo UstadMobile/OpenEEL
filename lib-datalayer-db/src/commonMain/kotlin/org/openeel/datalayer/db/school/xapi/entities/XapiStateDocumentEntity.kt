@@ -1,12 +1,12 @@
-package world.respect.datalayer.db.school.xapi.entities
+package org.openeel.datalayer.db.school.xapi.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.ktor.util.date.GMTDate
-import world.respect.datalayer.db.shared.InstantAsTimestampString
-import world.respect.lib.dataloadstate.datetime.toGMTDate
-import world.respect.lib.xapi.model.XapiDocument
+import org.openeel.datalayer.db.shared.InstantAsTimestampString
+import org.openeel.lib.dataloadstate.datetime.toGMTDate
+import org.openeel.lib.xapi.model.XapiDocument
 import kotlin.uuid.Uuid
 
 /**

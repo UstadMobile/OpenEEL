@@ -1,6 +1,6 @@
-package world.respect.datalayer.shared.pullsync
+package org.openeel.datalayer.shared.pullsync
 
-import world.respect.datalayer.school.model.PullSyncStatus
+import org.openeel.datalayer.school.model.PullSyncStatus
 
 /**
  * The PullSync runs periodically and/or on-demand to check for new data as required. A lot of user

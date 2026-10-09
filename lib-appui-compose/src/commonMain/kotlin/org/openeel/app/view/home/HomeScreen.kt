@@ -1,4 +1,4 @@
-package world.respect.app.view.home
+package org.openeel.app.view.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,16 +14,16 @@ import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.view.apps.launcher.AppLauncherScreen
-import world.respect.app.view.catalog.bookmark.BookmarkListScreen
-import world.respect.app.view.catalog.opdsfeedlist.OpdsFeedListScreen
-import world.respect.app.viewmodel.respectViewModel
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.apps
-import world.respect.shared.generated.resources.bookmarks
-import world.respect.shared.generated.resources.collections
-import world.respect.shared.navigation.RespectComposeNavController
-import world.respect.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.app.view.apps.launcher.AppLauncherScreen
+import org.openeel.app.view.catalog.bookmark.BookmarkListScreen
+import org.openeel.app.view.catalog.opdsfeedlist.OpdsFeedListScreen
+import org.openeel.app.viewmodel.respectViewModel
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.apps
+import org.openeel.shared.generated.resources.bookmarks
+import org.openeel.shared.generated.resources.collections
+import org.openeel.shared.navigation.RespectComposeNavController
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
 
 enum class HomeScreenTabs(val label: StringResource) {
     APPS(Res.string.apps),

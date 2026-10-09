@@ -1,11 +1,11 @@
-package world.respect.lib.xapi.ext
+package org.openeel.lib.xapi.ext
 
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.model.XapiAgent
-import world.respect.lib.xapi.model.XapiGroup
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.model.XapiStatementObject
-import world.respect.lib.xapi.model.XapiStatementRef
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.lib.xapi.model.XapiGroup
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiStatementObject
+import org.openeel.lib.xapi.model.XapiStatementRef
 
 fun XapiStatementObject.idAsStringOrNull() : String? {
     return when(this) {

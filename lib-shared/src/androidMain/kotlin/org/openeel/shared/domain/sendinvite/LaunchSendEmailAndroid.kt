@@ -1,4 +1,4 @@
-package world.respect.shared.domain.sendinvite
+package org.openeel.shared.domain.sendinvite
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -7,7 +7,7 @@ import android.net.Uri
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import world.respect.shared.domain.sharelink.LaunchSendEmailUseCase
+import org.openeel.shared.domain.sharelink.LaunchSendEmailUseCase
 
 class LaunchSendEmailAndroid(
     private val context: Context

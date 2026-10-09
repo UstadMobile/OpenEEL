@@ -1,11 +1,11 @@
-package world.respect.shared.domain.permissions
+package org.openeel.shared.domain.permissions
 
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.datalayer.school.SchoolPermissionGrantDataSource
-import world.respect.datalayer.school.domain.CheckPersonPermissionUseCase.PermissionsRequiredByRole
-import world.respect.datalayer.school.ext.filterPermissions
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
+import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase.PermissionsRequiredByRole
+import org.openeel.datalayer.school.ext.filterPermissions
 
 /**
  * Use case to check what school wide permissions are available to the authenticated user. This is

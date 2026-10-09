@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.model
+package org.openeel.lib.xapi.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

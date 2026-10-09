@@ -1,4 +1,4 @@
-package world.respect.shared.domain.validator
+package org.openeel.shared.domain.validator
 
 data class ValidatorMessage(
     val level: Level = Level.ERROR,

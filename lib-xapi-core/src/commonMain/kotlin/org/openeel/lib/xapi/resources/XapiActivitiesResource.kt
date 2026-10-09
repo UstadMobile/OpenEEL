@@ -1,7 +1,7 @@
-package world.respect.lib.xapi.resources
+package org.openeel.lib.xapi.resources
 
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.xapi.model.XapiActivity
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.xapi.model.XapiActivity
 
 
 /**

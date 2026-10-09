@@ -1,12 +1,12 @@
-package world.respect.clitools.domain.testlaunchableapp
+package org.openeel.clitools.domain.testlaunchableapp
 
 import io.ktor.http.quote
-import world.respect.clitools.ext.copyResourceToFile
-import world.respect.clitools.ext.mkDirsIfNotExists
-import world.respect.clitools.util.SysPathUtil
-import world.respect.lib.opds.model.Publication
-import world.respect.shared.domain.testlaunchableapp.TestLaunchableAppUseCase
-import world.respect.shared.domain.validator.ValidatorMessage
+import org.openeel.clitools.ext.copyResourceToFile
+import org.openeel.clitools.ext.mkDirsIfNotExists
+import org.openeel.clitools.util.SysPathUtil
+import org.openeel.lib.opds.model.Publication
+import org.openeel.shared.domain.testlaunchableapp.TestLaunchableAppUseCase
+import org.openeel.shared.domain.validator.ValidatorMessage
 import java.io.File
 import kotlin.random.Random
 

@@ -1,7 +1,7 @@
-package world.respect.shared.domain.account.authenticatepassword
+package org.openeel.shared.domain.account.authenticatepassword
 
-import world.respect.credentials.passkey.RespectQRBadgeCredential
-import world.respect.datalayer.school.model.Person
+import org.openeel.credentials.passkey.RespectQRBadgeCredential
+import org.openeel.datalayer.school.model.Person
 
 interface AuthenticateQrBadgeUseCase {
     data class Response(

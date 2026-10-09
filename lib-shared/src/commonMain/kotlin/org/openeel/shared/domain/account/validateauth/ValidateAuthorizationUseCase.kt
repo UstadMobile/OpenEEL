@@ -1,6 +1,6 @@
-package world.respect.shared.domain.account.validateauth
+package org.openeel.shared.domain.account.validateauth
 
-import world.respect.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
 
 /**
  * Used on the server validate an authorization header

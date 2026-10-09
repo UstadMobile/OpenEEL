@@ -1,4 +1,4 @@
-package world.respect.domain.validator
+package org.openeel.domain.validator
 
 /**
  * See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Link

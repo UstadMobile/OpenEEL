@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.schooldirectory.edit
+package org.openeel.shared.viewmodel.schooldirectory.edit
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -7,19 +7,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.datalayer.RespectAppDataSource
-import world.respect.lib.dataloadstate.ext.isReadyAndSettled
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.add_directory
-import world.respect.shared.generated.resources.error_link_message
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.SchoolDirectoryList
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add_directory
+import org.openeel.shared.generated.resources.error_link_message
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.SchoolDirectoryList
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 data class SchoolDirectoryEditUIState(
     val linkUrl: String = "",

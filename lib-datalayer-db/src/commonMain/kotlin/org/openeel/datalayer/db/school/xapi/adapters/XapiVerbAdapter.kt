@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.xapi.adapters
+package org.openeel.datalayer.db.school.xapi.adapters
 
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.xapi.entities.XapiVerbEntity
-import world.respect.datalayer.db.school.xapi.entities.XapiVerbLangMapEntry
-import world.respect.lib.xapi.model.XapiVerb
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.xapi.entities.XapiVerbEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiVerbLangMapEntry
+import org.openeel.lib.xapi.model.XapiVerb
 
 data class VerbEntities(
     val verbEntity: XapiVerbEntity,

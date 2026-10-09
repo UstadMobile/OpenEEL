@@ -1,4 +1,4 @@
-package world.respect.shared.resources
+package org.openeel.shared.resources
 
 import org.jetbrains.compose.resources.StringResource
 

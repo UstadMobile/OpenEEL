@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import world.respect.libutil.ext.lastDistinctBy
+import org.openeel.libutil.ext.lastDistinctBy
 
 /**
  * Update the status of DownloadJobItems in batches periodically.

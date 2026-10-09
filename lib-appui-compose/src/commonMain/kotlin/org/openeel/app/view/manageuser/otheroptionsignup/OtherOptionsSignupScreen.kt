@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.otheroptionsignup
+package org.openeel.app.view.manageuser.otheroptionsignup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,12 +13,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectPasskeySignInFasterCard
-import world.respect.app.components.defaultItemPadding
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.sign_up_with_password
-import world.respect.shared.viewmodel.manageuser.otheroptionsignup.OtherOptionsSignupUiState
-import world.respect.shared.viewmodel.manageuser.otheroptionsignup.OtherOptionsSignupViewModel
+import org.openeel.app.components.RespectPasskeySignInFasterCard
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.sign_up_with_password
+import org.openeel.shared.viewmodel.manageuser.otheroptionsignup.OtherOptionsSignupUiState
+import org.openeel.shared.viewmodel.manageuser.otheroptionsignup.OtherOptionsSignupViewModel
 
 @Composable
 fun OtherOptionsSignupScreen(viewModel: OtherOptionsSignupViewModel) {

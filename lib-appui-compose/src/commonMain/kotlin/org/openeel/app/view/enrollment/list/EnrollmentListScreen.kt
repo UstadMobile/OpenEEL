@@ -1,4 +1,4 @@
-package world.respect.app.view.enrollment.list
+package org.openeel.app.view.enrollment.list
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,22 +20,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.respectPagingItems
-import world.respect.app.components.respectRememberPager
-import world.respect.datalayer.db.school.ext.fullName
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.datalayer.school.EnrollmentDataSource
-import world.respect.datalayer.school.model.Enrollment
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.delete
-import world.respect.shared.generated.resources.edit
-import world.respect.shared.generated.resources.enrollment_for
-import world.respect.shared.generated.resources.more_options
-import world.respect.shared.util.ext.label
-import world.respect.shared.viewmodel.enrollment.list.EnrollmentListUiState
-import world.respect.shared.viewmodel.enrollment.list.EnrollmentListViewModel
-import world.respect.shared.util.rememberFormattedDate
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.respectPagingItems
+import org.openeel.app.components.respectRememberPager
+import org.openeel.datalayer.db.school.ext.fullName
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.datalayer.school.EnrollmentDataSource
+import org.openeel.datalayer.school.model.Enrollment
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.delete
+import org.openeel.shared.generated.resources.edit
+import org.openeel.shared.generated.resources.enrollment_for
+import org.openeel.shared.generated.resources.more_options
+import org.openeel.shared.util.ext.label
+import org.openeel.shared.viewmodel.enrollment.list.EnrollmentListUiState
+import org.openeel.shared.viewmodel.enrollment.list.EnrollmentListViewModel
+import org.openeel.shared.util.rememberFormattedDate
 
 
 @Composable

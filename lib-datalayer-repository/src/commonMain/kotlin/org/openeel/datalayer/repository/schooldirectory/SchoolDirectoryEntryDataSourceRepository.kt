@@ -1,16 +1,16 @@
-package world.respect.datalayer.repository.schooldirectory
+package org.openeel.datalayer.repository.schooldirectory
 
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.ext.combineWithRemote
-import world.respect.datalayer.ext.updateFromRemoteListIfNeeded
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSourceLocal
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.ext.combineWithRemote
+import org.openeel.datalayer.ext.updateFromRemoteListIfNeeded
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSourceLocal
 
 class SchoolDirectoryEntryDataSourceRepository(
     private val local: SchoolDirectoryEntryDataSourceLocal,

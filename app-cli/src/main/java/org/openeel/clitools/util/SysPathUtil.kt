@@ -1,6 +1,6 @@
-package world.respect.clitools.util
+package org.openeel.clitools.util
 
-import world.respect.clitools.ext.getCommandFile
+import org.openeel.clitools.ext.getCommandFile
 import java.io.File
 
 object SysPathUtil {

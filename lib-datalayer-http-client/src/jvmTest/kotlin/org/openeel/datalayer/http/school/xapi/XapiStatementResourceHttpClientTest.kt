@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.school.xapi
+package org.openeel.datalayer.http.school.xapi
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
@@ -7,12 +7,12 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.libxapi.test.AbstractXapiStatementResourceTest
 import org.openeel.libxapi.test.res.SampleXapiStatement
-import world.respect.datalayer.http.server.XapiStatementsResourceRoute
-import world.respect.datalayer.school.model.AuthToken
+import org.openeel.datalayer.http.server.XapiStatementsResourceRoute
+import org.openeel.datalayer.school.model.AuthToken
 import org.openeel.libxapi.test.res.xapiSampleStatements
-import world.respect.lib.test.clientservertest.withEmbeddedDataSourceServer
-import world.respect.lib.xapi.resources.XapiStatementsResource
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.lib.test.clientservertest.withEmbeddedDataSourceServer
+import org.openeel.lib.xapi.resources.XapiStatementsResource
+import org.openeel.libutil.util.time.systemTimeInMillis
 import kotlin.test.Test
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ContentNegotiationClient
 

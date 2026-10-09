@@ -1,4 +1,4 @@
-package world.respect.datalayer.school.domain
+package org.openeel.datalayer.school.domain
 
 import kotlin.time.Instant
 

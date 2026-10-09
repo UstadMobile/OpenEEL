@@ -1,4 +1,4 @@
-package world.respect.shared.domain.geolookup
+package org.openeel.shared.domain.geolookup
 
 import io.github.aakira.napier.Napier
 import io.github.reactivecircus.cache4k.Cache

@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeededit
+package org.openeel.app.view.catalog.opdsfeededit
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,13 +21,13 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import sh.calvin.reorderable.ReorderableColumn
 import sh.calvin.reorderable.ReorderableListItemScope
-import world.respect.lib.opds.model.OpdsGroup
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.add_item
-import world.respect.shared.generated.resources.add_link_to_collection_here
-import world.respect.shared.generated.resources.delete
-import world.respect.shared.generated.resources.move
-import world.respect.shared.generated.resources.section_title
+import org.openeel.lib.opds.model.OpdsGroup
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add_item
+import org.openeel.shared.generated.resources.add_link_to_collection_here
+import org.openeel.shared.generated.resources.delete
+import org.openeel.shared.generated.resources.move
+import org.openeel.shared.generated.resources.section_title
 
 
 @Composable

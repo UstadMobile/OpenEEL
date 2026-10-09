@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.networkvalidation.entities
+package org.openeel.datalayer.db.networkvalidation.entities
 
 import androidx.room.Entity
 import kotlin.time.Instant

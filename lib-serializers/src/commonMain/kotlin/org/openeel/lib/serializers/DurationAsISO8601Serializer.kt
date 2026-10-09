@@ -1,4 +1,4 @@
-package world.respect.lib.serializers
+package org.openeel.lib.serializers
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable

@@ -1,14 +1,14 @@
-package world.respect.shared.domain.account.invite
+package org.openeel.shared.domain.account.invite
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
-import world.respect.datalayer.http.ext.respectEndpointUrl
-import world.respect.datalayer.http.school.SchoolUrlBasedDataSource
-import world.respect.datalayer.respect.model.invite.RespectInviteInfo
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.http.ext.respectEndpointUrl
+import org.openeel.datalayer.http.school.SchoolUrlBasedDataSource
+import org.openeel.datalayer.respect.model.invite.RespectInviteInfo
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
 
 class GetInviteInfoUseCaseClient(
     override val schoolUrl: Url,

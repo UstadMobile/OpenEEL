@@ -1,4 +1,4 @@
-package world.respect
+package org.openeel
 
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle
@@ -10,18 +10,18 @@ import org.koin.android.ext.android.getKoin
 import org.koin.android.scope.AndroidScopeComponent
 import org.koin.androidx.scope.activityScope
 import org.koin.core.scope.Scope
-import world.respect.credentials.passkey.CreatePasskeyUseCaseAndroidChannelHost
-import world.respect.credentials.passkey.CreatePasskeyUseCaseProcessor
-import world.respect.credentials.passkey.GetCredentialUseCase
-import world.respect.credentials.passkey.GetCredentialUseCaseAndroidImpl
-import world.respect.credentials.passkey.GetCredentialUseCaseProcessor
-import world.respect.datalayer.RespectAppDataSource
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
-import world.respect.shared.domain.activitycontextjobprocessor.ActivityContextJobProcessor
-import world.respect.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
-import world.respect.shared.domain.biometric.BiometricAuthProcessor
-import world.respect.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
-import world.respect.view.app.AbstractAppActivity
+import org.openeel.credentials.passkey.CreatePasskeyUseCaseAndroidChannelHost
+import org.openeel.credentials.passkey.CreatePasskeyUseCaseProcessor
+import org.openeel.credentials.passkey.GetCredentialUseCase
+import org.openeel.credentials.passkey.GetCredentialUseCaseAndroidImpl
+import org.openeel.credentials.passkey.GetCredentialUseCaseProcessor
+import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.shared.domain.activitycontextjobprocessor.ActivityContextJobProcessor
+import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
+import org.openeel.shared.domain.biometric.BiometricAuthProcessor
+import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
+import org.openeel.view.app.AbstractAppActivity
 
 class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
 

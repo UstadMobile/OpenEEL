@@ -1,10 +1,10 @@
-package world.respect.datalayer.db.school.entities
+package org.openeel.datalayer.db.school.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.ktor.http.Url
-import world.respect.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.school.model.StatusEnum
 import kotlin.time.Instant
 
 @Entity

@@ -1,4 +1,4 @@
-package world.respect.app.view.statement.list
+package org.openeel.app.view.statement.list
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,14 +9,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectEmptyListComponent
-import world.respect.app.components.defaultItemPadding
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.no_matching_activity
-import world.respect.shared.viewmodel.statement.list.StatementListUiState
-import world.respect.shared.viewmodel.statement.list.StatementListViewModel
+import org.openeel.app.components.RespectEmptyListComponent
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.no_matching_activity
+import org.openeel.shared.viewmodel.statement.list.StatementListUiState
+import org.openeel.shared.viewmodel.statement.list.StatementListViewModel
 
 @Composable
 fun StatementListScreen(

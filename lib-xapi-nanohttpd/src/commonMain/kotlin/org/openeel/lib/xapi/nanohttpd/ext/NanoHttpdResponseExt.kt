@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.nanohttpd.ext
+package org.openeel.lib.xapi.nanohttpd.ext
 
 import fi.iki.elonen.NanoHTTPD
 import io.ktor.http.Url

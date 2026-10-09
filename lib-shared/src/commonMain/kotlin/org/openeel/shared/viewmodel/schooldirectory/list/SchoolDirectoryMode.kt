@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.schooldirectory.list
+package org.openeel.shared.viewmodel.schooldirectory.list
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable

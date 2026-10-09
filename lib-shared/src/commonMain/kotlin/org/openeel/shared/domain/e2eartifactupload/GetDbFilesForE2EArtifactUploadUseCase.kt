@@ -1,4 +1,4 @@
-package world.respect.shared.domain.e2eartifactupload
+package org.openeel.shared.domain.e2eartifactupload
 
 import io.ktor.http.Url
 

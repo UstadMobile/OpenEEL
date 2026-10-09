@@ -1,9 +1,9 @@
-package world.respect.datalayer.school
+package org.openeel.datalayer.school
 
 import kotlinx.coroutines.flow.Flow
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.xapi.extensions.reportoptions.Indicator
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.xapi.extensions.reportoptions.Indicator
 
 interface IndicatorDataSource {
 

@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.xapi.daos
+package org.openeel.datalayer.db.school.xapi.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import world.respect.datalayer.db.school.xapi.entities.XapiSessionEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiSessionEntity
 
 @Dao
 interface XapiSessionEntityDao {

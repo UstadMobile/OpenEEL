@@ -1,4 +1,4 @@
-package world.respect.datalayer.networkvalidation
+package org.openeel.datalayer.networkvalidation
 
 import kotlin.time.Instant
 

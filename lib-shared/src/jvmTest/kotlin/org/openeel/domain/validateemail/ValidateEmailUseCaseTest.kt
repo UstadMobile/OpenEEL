@@ -1,7 +1,7 @@
-package world.respect.domain.validateemail
+package org.openeel.domain.validateemail
 
 
-import world.respect.shared.domain.validateemail.ValidateEmailUseCase
+import org.openeel.shared.domain.validateemail.ValidateEmailUseCase
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

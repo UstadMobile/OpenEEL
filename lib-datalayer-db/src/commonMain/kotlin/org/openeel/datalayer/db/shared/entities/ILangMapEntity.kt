@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.shared.entities
+package org.openeel.datalayer.db.shared.entities
 
 /**
  * Common interface for LangMapEntity classes. Creating an additional LangMapEntity class per

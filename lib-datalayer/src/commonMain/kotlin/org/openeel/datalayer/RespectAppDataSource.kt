@@ -1,7 +1,7 @@
-package world.respect.datalayer
+package org.openeel.datalayer
 
-import world.respect.datalayer.schooldirectory.SchoolDirectoryDataSource
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
 
 /**
  * DataSource that provides app (eg. system) level data that is NOT specific to a given school

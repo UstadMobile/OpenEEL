@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.manageuser.enterinvitecode
+package org.openeel.shared.viewmodel.manageuser.enterinvitecode
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -10,21 +10,21 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.shared.domain.account.invite.GetInviteInfoUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.enter_code_label
-import world.respect.shared.generated.resources.invalid_invite_code
-import world.respect.shared.generated.resources.something_went_wrong
-import world.respect.shared.navigation.AcceptInvite
-import world.respect.shared.navigation.EnterInviteCode
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.resources.StringResourceUiText
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.di.SchoolDirectoryEntryScopeId
-import world.respect.shared.util.exception.getUiText
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.shared.domain.account.invite.GetInviteInfoUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.enter_code_label
+import org.openeel.shared.generated.resources.invalid_invite_code
+import org.openeel.shared.generated.resources.something_went_wrong
+import org.openeel.shared.navigation.AcceptInvite
+import org.openeel.shared.navigation.EnterInviteCode
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.resources.StringResourceUiText
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
+import org.openeel.shared.util.exception.getUiText
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 data class EnterInviteCodeUiState(
     val inviteCode: String = "",

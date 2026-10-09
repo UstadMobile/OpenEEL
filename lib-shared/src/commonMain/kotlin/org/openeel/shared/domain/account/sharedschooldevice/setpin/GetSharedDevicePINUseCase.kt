@@ -1,14 +1,14 @@
-package world.respect.shared.domain.account.sharedschooldevice.setpin
+package org.openeel.shared.domain.account.sharedschooldevice.setpin
 
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.ext.getJson
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
-import world.respect.lib.xapi.resources.XapiActivityProfileResource.Companion.KEY_SHARED_DEVICE_PIN
-import world.respect.libutil.ext.normalizeForEndpoint
-import world.respect.shared.domain.account.RespectAccountManager
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.ext.getJson
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource.Companion.KEY_SHARED_DEVICE_PIN
+import org.openeel.libutil.ext.normalizeForEndpoint
+import org.openeel.shared.domain.account.RespectAccountManager
 import kotlin.random.Random
 
 interface GetSharedDevicePINUseCase {

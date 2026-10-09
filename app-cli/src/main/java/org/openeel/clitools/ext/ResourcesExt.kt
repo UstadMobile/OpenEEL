@@ -1,4 +1,4 @@
-package world.respect.clitools.ext
+package org.openeel.clitools.ext
 
 import java.io.File
 import java.io.FileOutputStream

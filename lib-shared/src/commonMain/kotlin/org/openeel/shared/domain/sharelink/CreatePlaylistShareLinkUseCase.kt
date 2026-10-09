@@ -1,12 +1,12 @@
-package world.respect.shared.domain.sharelink
+package org.openeel.shared.domain.sharelink
 
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
-import world.respect.datalayer.school.opds.OpdsFeedDataSource
-import world.respect.libutil.ext.RESPECT_SCHOOL_LINK_DIVIDER
-import world.respect.libutil.ext.RESPECT_SCHOOL_LINK_SEGMENT
-import world.respect.libutil.ext.appendEndpointPathSegments
-import world.respect.libutil.ext.schoolUrlOrNull
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
+import org.openeel.libutil.ext.RESPECT_SCHOOL_LINK_DIVIDER
+import org.openeel.libutil.ext.RESPECT_SCHOOL_LINK_SEGMENT
+import org.openeel.libutil.ext.appendEndpointPathSegments
+import org.openeel.libutil.ext.schoolUrlOrNull
 
 /**
  * A playlist share link as per the school link convention documented on Url.schoolUrlOrNull.

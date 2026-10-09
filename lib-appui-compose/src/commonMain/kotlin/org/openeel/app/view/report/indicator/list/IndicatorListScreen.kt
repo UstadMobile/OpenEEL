@@ -1,4 +1,4 @@
-package world.respect.app.view.report.indicator.list
+package org.openeel.app.view.report.indicator.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,10 +15,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import world.respect.app.components.defaultItemPadding
-import world.respect.lib.xapi.extensions.reportoptions.Indicator
-import world.respect.shared.viewmodel.report.indictor.list.IndicatorListUiState
-import world.respect.shared.viewmodel.report.indictor.list.IndicatorListViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.lib.xapi.extensions.reportoptions.Indicator
+import org.openeel.shared.viewmodel.report.indictor.list.IndicatorListUiState
+import org.openeel.shared.viewmodel.report.indictor.list.IndicatorListViewModel
 
 @Composable
 fun IndicatorListScreen(

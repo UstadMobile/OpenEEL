@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.server.ext
+package org.openeel.xapi.ipc.server.ext
 
 import android.os.Bundle
 import android.os.Message
@@ -12,21 +12,21 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import org.openeel.lib.ipc.messagebridge.IpcMessageBridgeWhatFlags
-import world.respect.lib.dataloadstate.ext.toPrettyString
-import world.respect.lib.xapi.XapiResourceProvider
-import world.respect.lib.xapi.resources.ISingleDocumentParams
-import world.respect.lib.xapi.resources.XapiDocumentResource
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.xapi.ipc.server.XapiIpcResourceIncomingHandler
-import world.respect.xapi.ipc.shared.messages.XapiIpcKeys
-import world.respect.xapi.ipc.shared.messages.XapiIpcMethodEnum
-import world.respect.xapi.ipc.shared.messages.XapiIpcResourceAndMethod
-import world.respect.xapi.ipc.shared.messages.XapiIpcTags
-import world.respect.xapi.ipc.shared.messages.ext.getDataLoadParams
-import world.respect.xapi.ipc.shared.messages.ext.sendResponseErrorMessage
-import world.respect.xapi.ipc.shared.messages.ext.sendResponseMessage
-import world.respect.xapi.ipc.shared.messages.ext.toBundle
-import world.respect.xapi.ipc.shared.messages.ext.toXapiDocument
+import org.openeel.lib.dataloadstate.ext.toPrettyString
+import org.openeel.lib.xapi.XapiResourceProvider
+import org.openeel.lib.xapi.resources.ISingleDocumentParams
+import org.openeel.lib.xapi.resources.XapiDocumentResource
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.xapi.ipc.server.XapiIpcResourceIncomingHandler
+import org.openeel.xapi.ipc.shared.messages.XapiIpcKeys
+import org.openeel.xapi.ipc.shared.messages.XapiIpcMethodEnum
+import org.openeel.xapi.ipc.shared.messages.XapiIpcResourceAndMethod
+import org.openeel.xapi.ipc.shared.messages.XapiIpcTags
+import org.openeel.xapi.ipc.shared.messages.ext.getDataLoadParams
+import org.openeel.xapi.ipc.shared.messages.ext.sendResponseErrorMessage
+import org.openeel.xapi.ipc.shared.messages.ext.sendResponseMessage
+import org.openeel.xapi.ipc.shared.messages.ext.toBundle
+import org.openeel.xapi.ipc.shared.messages.ext.toXapiDocument
 import java.util.concurrent.ExecutorService
 
 abstract class AbstractDocumentResourceIncomingHandler<

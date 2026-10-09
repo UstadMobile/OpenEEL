@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.createaccount
+package org.openeel.app.view.manageuser.createaccount
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,21 +27,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.domain.account.username.validateusername.ValidateUsernameUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.how_passkey_works
-import world.respect.shared.generated.resources.next
-import world.respect.shared.generated.resources.other_way_to_sign_in
-import world.respect.shared.generated.resources.passkey_description
-import world.respect.shared.generated.resources.required
-import world.respect.shared.generated.resources.sign_up
-import world.respect.shared.generated.resources.signing_in
-import world.respect.shared.generated.resources.username_label
-import world.respect.shared.resources.StringResourceUiText
-import world.respect.shared.viewmodel.manageuser.signup.CreateAccountViewModel
-import world.respect.shared.viewmodel.manageuser.signup.CreateAccountViewModelUiState
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.domain.account.username.validateusername.ValidateUsernameUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.how_passkey_works
+import org.openeel.shared.generated.resources.next
+import org.openeel.shared.generated.resources.other_way_to_sign_in
+import org.openeel.shared.generated.resources.passkey_description
+import org.openeel.shared.generated.resources.required
+import org.openeel.shared.generated.resources.sign_up
+import org.openeel.shared.generated.resources.signing_in
+import org.openeel.shared.generated.resources.username_label
+import org.openeel.shared.resources.StringResourceUiText
+import org.openeel.shared.viewmodel.manageuser.signup.CreateAccountViewModel
+import org.openeel.shared.viewmodel.manageuser.signup.CreateAccountViewModelUiState
 
 @Composable
 fun CreateAccountScreen(viewModel: CreateAccountViewModel) {

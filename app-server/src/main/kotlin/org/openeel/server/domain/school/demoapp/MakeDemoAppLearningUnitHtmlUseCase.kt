@@ -1,4 +1,4 @@
-package world.respect.server.domain.school.demoapp
+package org.openeel.server.domain.school.demoapp
 
 import io.ktor.http.Url
 import kotlinx.html.HTML
@@ -20,9 +20,9 @@ import kotlinx.html.script
 import kotlinx.html.select
 import kotlinx.html.stream.createHTML
 import kotlinx.html.title
-import world.respect.lib.xapi.model.XapiVerb
-import world.respect.libutil.ext.resolve
-import world.respect.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.LEARNING_UNIT_JS_FILENAME
+import org.openeel.lib.xapi.model.XapiVerb
+import org.openeel.libutil.ext.resolve
+import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.LEARNING_UNIT_JS_FILENAME
 
 
 fun HTML.demoAppLearningUnitHtml(

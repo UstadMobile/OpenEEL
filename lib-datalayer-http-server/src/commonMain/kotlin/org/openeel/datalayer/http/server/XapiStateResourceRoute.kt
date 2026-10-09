@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.server
+package org.openeel.datalayer.http.server
 
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
@@ -11,12 +11,12 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.http.server.ext.receiveXapiDocument
-import world.respect.datalayer.http.server.ext.respondXapiDocument
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.ktorserver.respondDataLoadState
-import world.respect.lib.xapi.exceptions.XapiException
-import world.respect.lib.xapi.resources.XapiStateResource
+import org.openeel.datalayer.http.server.ext.receiveXapiDocument
+import org.openeel.datalayer.http.server.ext.respondXapiDocument
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
+import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.resources.XapiStateResource
 
 fun Route.XapiStateResourceRoute(
     stateResource: (ApplicationCall) -> XapiStateResource,

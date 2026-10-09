@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.xapi.entities
+package org.openeel.datalayer.db.school.xapi.entities
 
 /**
  * Represents the possible types of a StatementEntity's object as per XapiStatement.object : it can

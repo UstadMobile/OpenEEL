@@ -1,4 +1,4 @@
-package world.respect.app.view.assignment.list
+package org.openeel.app.view.assignment.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,19 +31,19 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.app.RespectAsyncImage
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.xapi.model.AssignmentSummary
-import world.respect.libutil.ext.resolve
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.completed_status
-import world.respect.shared.generated.resources.menu
-import world.respect.shared.generated.resources.task
-import world.respect.shared.util.rememberFormattedDateTime
+import org.openeel.app.app.RespectAsyncImage
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.xapi.model.AssignmentSummary
+import org.openeel.libutil.ext.resolve
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.completed_status
+import org.openeel.shared.generated.resources.menu
+import org.openeel.shared.generated.resources.task
+import org.openeel.shared.util.rememberFormattedDateTime
 import kotlin.math.roundToInt
 
 @Composable

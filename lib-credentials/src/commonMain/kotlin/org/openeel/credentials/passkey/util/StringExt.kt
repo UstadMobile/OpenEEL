@@ -1,4 +1,4 @@
-package world.respect.credentials.passkey.util
+package org.openeel.credentials.passkey.util
 
 
 fun String.requirePostfix(

@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.shared.entities
+package org.openeel.datalayer.db.shared.entities
 
 import androidx.room.Entity
 import androidx.room.Index

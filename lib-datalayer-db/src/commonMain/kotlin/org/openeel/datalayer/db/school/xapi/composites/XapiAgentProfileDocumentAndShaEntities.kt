@@ -1,7 +1,7 @@
-package world.respect.datalayer.db.school.xapi.composites
+package org.openeel.datalayer.db.school.xapi.composites
 
 import androidx.room.Embedded
-import world.respect.datalayer.db.school.xapi.entities.XapiAgentProfileDocumentEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiAgentProfileDocumentEntity
 
 /**
  * The XapiAgentProfileDocumentEntity and its corresponding sha1 digest

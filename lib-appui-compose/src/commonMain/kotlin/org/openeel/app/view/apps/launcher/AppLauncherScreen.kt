@@ -1,4 +1,4 @@
-package world.respect.app.view.apps.launcher
+package org.openeel.app.view.apps.launcher
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,22 +39,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.app.RespectAsyncImage
-import world.respect.app.components.langMapString
-import world.respect.app.components.uiTextStringResource
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.findIcons
-import world.respect.lib.xapi.ext.objectActivityOrNull
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.empty
-import world.respect.shared.generated.resources.empty_list
-import world.respect.shared.generated.resources.more_info
-import world.respect.shared.generated.resources.remove
-import world.respect.shared.viewmodel.apps.launcher.AppLauncherUiState
-import world.respect.shared.viewmodel.apps.launcher.AppLauncherViewModel
+import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.components.langMapString
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.findIcons
+import org.openeel.lib.xapi.ext.objectActivityOrNull
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.empty
+import org.openeel.shared.generated.resources.empty_list
+import org.openeel.shared.generated.resources.more_info
+import org.openeel.shared.generated.resources.remove
+import org.openeel.shared.viewmodel.apps.launcher.AppLauncherUiState
+import org.openeel.shared.viewmodel.apps.launcher.AppLauncherViewModel
 
 @Composable
 fun AppLauncherScreen(

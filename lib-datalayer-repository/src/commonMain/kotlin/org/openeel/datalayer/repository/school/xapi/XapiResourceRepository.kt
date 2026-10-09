@@ -1,16 +1,16 @@
-package world.respect.datalayer.repository.school.xapi
+package org.openeel.datalayer.repository.school.xapi
 
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.school.writequeue.RemoteWriteQueue
-import world.respect.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
-import world.respect.lib.xapi.resources.local.XapiResourceLocal
-import world.respect.lib.xapi.resources.XapiActivitiesResource
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
-import world.respect.lib.xapi.resources.XapiAgentProfileResource
-import world.respect.lib.xapi.resources.XapiAgentsResource
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.lib.xapi.resources.XapiStateResource
-import world.respect.lib.xapi.resources.XapiStatementsResource
+import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
+import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
+import org.openeel.lib.xapi.resources.local.XapiResourceLocal
+import org.openeel.lib.xapi.resources.XapiActivitiesResource
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.xapi.resources.XapiAgentProfileResource
+import org.openeel.lib.xapi.resources.XapiAgentsResource
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.lib.xapi.resources.XapiStateResource
+import org.openeel.lib.xapi.resources.XapiStatementsResource
 
 class XapiResourceRepository(
     private val local: XapiResourceLocal,

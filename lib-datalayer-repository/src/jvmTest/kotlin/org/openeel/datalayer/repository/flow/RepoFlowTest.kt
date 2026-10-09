@@ -1,4 +1,4 @@
-package world.respect.datalayer.repository.flow
+package org.openeel.datalayer.repository.flow
 
 import app.cash.turbine.test
 import io.ktor.http.HttpHeaders
@@ -6,11 +6,11 @@ import io.ktor.http.headers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

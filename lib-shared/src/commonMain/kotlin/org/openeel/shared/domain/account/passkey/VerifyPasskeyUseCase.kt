@@ -1,4 +1,4 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
@@ -10,9 +10,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.Url
 import io.ktor.http.contentType
 import kotlinx.serialization.json.Json
-import world.respect.credentials.passkey.model.AuthenticationResponseJSON
-import world.respect.credentials.passkey.model.PasskeyVerifyResult
-import world.respect.libutil.ext.appendEndpointSegments
+import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
+import org.openeel.credentials.passkey.model.PasskeyVerifyResult
+import org.openeel.libutil.ext.appendEndpointSegments
 
 class VerifyPasskeyUseCase(
     private val httpClient: HttpClient,

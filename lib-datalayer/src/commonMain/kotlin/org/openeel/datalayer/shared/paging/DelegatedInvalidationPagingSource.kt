@@ -1,4 +1,4 @@
-package world.respect.datalayer.shared.paging
+package org.openeel.datalayer.shared.paging
 
 import androidx.paging.PagingSource
 import io.github.aakira.napier.Napier

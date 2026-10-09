@@ -1,7 +1,7 @@
-package world.respect.shared.domain.launchapp.gotoappstore
+package org.openeel.shared.domain.launchapp.gotoappstore
 
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
 
 interface GoToAppStoreUseCase {
 

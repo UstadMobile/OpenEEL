@@ -1,11 +1,11 @@
-package world.respect.shared.domain.createclass
+package org.openeel.shared.domain.createclass
 
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.school.model.ClassInvite
-import world.respect.datalayer.school.model.ClassInviteModeEnum
-import world.respect.datalayer.school.model.Clazz
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
-import world.respect.datalayer.school.model.Invite2
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.model.ClassInvite
+import org.openeel.datalayer.school.model.ClassInviteModeEnum
+import org.openeel.datalayer.school.model.Clazz
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.Invite2
 
 /**
  * Use case to contain logic for creating a new class.

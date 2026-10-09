@@ -1,2 +1,2 @@
-package world.respect.app.components
+package org.openeel.app.components
 

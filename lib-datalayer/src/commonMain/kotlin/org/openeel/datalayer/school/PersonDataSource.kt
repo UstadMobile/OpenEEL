@@ -1,19 +1,19 @@
-package world.respect.datalayer.school
+package org.openeel.datalayer.school
 
 import io.ktor.util.StringValues
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
-import world.respect.lib.dataloadstate.DataLayerParams
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.school.model.PersonStatusEnum
-import world.respect.datalayer.school.model.composites.PersonListDetails
-import world.respect.datalayer.shared.WritableDataSource
-import world.respect.datalayer.shared.paging.IPagingSourceFactory
-import world.respect.datalayer.shared.params.GetListCommonParams
+import org.openeel.lib.dataloadstate.DataLayerParams
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.datalayer.school.model.composites.PersonListDetails
+import org.openeel.datalayer.shared.WritableDataSource
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
+import org.openeel.datalayer.shared.params.GetListCommonParams
 
 interface PersonDataSource: WritableDataSource<Person> {
 

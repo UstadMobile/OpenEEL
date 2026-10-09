@@ -1,6 +1,6 @@
 package com.ustadmobile.core.domain.storage
 
-import world.respect.shared.domain.storage.OfflineStorageOption
+import org.openeel.shared.domain.storage.OfflineStorageOption
 
 interface GetOfflineStorageOptionsUseCase {
 

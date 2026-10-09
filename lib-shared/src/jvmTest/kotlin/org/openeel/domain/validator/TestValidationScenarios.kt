@@ -1,4 +1,4 @@
-package world.respect.domain.validator
+package org.openeel.domain.validator
 
 import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
@@ -13,14 +13,14 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.get
-import world.respect.datalayer.compatibleapps.model.RespectAppManifest
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.shared.di.jvmKoinAppModule
-import world.respect.testutil.copyResourcesToTempDir
-import world.respect.libutil.findFreePort
-import world.respect.shared.domain.validator.ListAndPrintlnValidatorReporter
-import world.respect.shared.domain.validator.ValidatorMessage
-import world.respect.testutil.recursiveFindAndReplace
+import org.openeel.datalayer.compatibleapps.model.RespectAppManifest
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.shared.di.jvmKoinAppModule
+import org.openeel.testutil.copyResourcesToTempDir
+import org.openeel.libutil.findFreePort
+import org.openeel.shared.domain.validator.ListAndPrintlnValidatorReporter
+import org.openeel.shared.domain.validator.ValidatorMessage
+import org.openeel.testutil.recursiveFindAndReplace
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

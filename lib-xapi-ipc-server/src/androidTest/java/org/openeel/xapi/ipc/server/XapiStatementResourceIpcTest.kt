@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.server
+package org.openeel.xapi.ipc.server
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ServiceTestRule
@@ -7,7 +7,7 @@ import org.junit.Test
 import org.openeel.libxapi.test.AbstractXapiStatementResourceTest
 import org.openeel.libxapi.test.res.SampleXapiStatement
 import org.openeel.libxapi.test.res.xapiSampleStatements
-import world.respect.lib.xapi.resources.XapiStatementsResource
+import org.openeel.lib.xapi.resources.XapiStatementsResource
 
 class XapiStatementResourceIpcTest : AbstractXapiStatementResourceTest() {
 

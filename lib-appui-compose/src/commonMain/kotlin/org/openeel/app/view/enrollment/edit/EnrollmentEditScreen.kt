@@ -1,4 +1,4 @@
-package world.respect.app.view.enrollment.edit
+package org.openeel.app.view.enrollment.edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,16 +10,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectLocalDateField
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.datalayer.school.model.Enrollment
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.end_date_label
-import world.respect.shared.generated.resources.start_date_label
-import world.respect.shared.viewmodel.enrollment.edit.EnrollmentEditUiState
-import world.respect.shared.viewmodel.enrollment.edit.EnrollmentEditViewModel
+import org.openeel.app.components.RespectLocalDateField
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.datalayer.school.model.Enrollment
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.end_date_label
+import org.openeel.shared.generated.resources.start_date_label
+import org.openeel.shared.viewmodel.enrollment.edit.EnrollmentEditUiState
+import org.openeel.shared.viewmodel.enrollment.edit.EnrollmentEditViewModel
 
 @Composable
 fun EnrollmentEditScreen(

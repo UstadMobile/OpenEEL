@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.composite
+package org.openeel.datalayer.db.school.composite
 
 data class StateIdAndLastModified(
     var seStateId: String = "",

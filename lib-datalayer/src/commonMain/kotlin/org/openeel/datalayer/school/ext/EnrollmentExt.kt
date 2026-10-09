@@ -1,7 +1,7 @@
-package world.respect.datalayer.school.ext
+package org.openeel.datalayer.school.ext
 
-import world.respect.datalayer.school.model.Enrollment
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.Enrollment
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
 
 fun Enrollment.copyAsApproved(): Enrollment {
     val currentRole = role

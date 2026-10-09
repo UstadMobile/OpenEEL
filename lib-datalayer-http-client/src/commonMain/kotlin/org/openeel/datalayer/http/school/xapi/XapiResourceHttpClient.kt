@@ -1,16 +1,16 @@
-package world.respect.datalayer.http.school.xapi
+package org.openeel.datalayer.http.school.xapi
 
 import io.ktor.client.HttpClient
 import io.ktor.http.Url
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.AuthTokenProvider
-import world.respect.lib.xapi.resources.XapiActivitiesResource
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
-import world.respect.lib.xapi.resources.XapiAgentProfileResource
-import world.respect.lib.xapi.resources.XapiAgentsResource
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.lib.xapi.resources.XapiStateResource
-import world.respect.lib.xapi.resources.XapiStatementsResource
+import org.openeel.datalayer.AuthTokenProvider
+import org.openeel.lib.xapi.resources.XapiActivitiesResource
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.xapi.resources.XapiAgentProfileResource
+import org.openeel.lib.xapi.resources.XapiAgentsResource
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.lib.xapi.resources.XapiStateResource
+import org.openeel.lib.xapi.resources.XapiStatementsResource
 
 class XapiResourceHttpClient(
     private val xapiUrl: suspend () -> Url,

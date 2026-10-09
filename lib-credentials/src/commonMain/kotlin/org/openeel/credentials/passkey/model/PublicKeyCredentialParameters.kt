@@ -1,4 +1,4 @@
-package world.respect.credentials.passkey.model
+package org.openeel.credentials.passkey.model
 
 import kotlinx.serialization.Serializable
 

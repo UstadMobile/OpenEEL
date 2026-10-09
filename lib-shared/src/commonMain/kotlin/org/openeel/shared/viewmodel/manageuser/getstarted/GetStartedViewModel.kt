@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.manageuser.getstarted
+package org.openeel.shared.viewmodel.manageuser.getstarted
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -8,31 +8,31 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.datalayer.RespectAppDataSource
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.dataloadstate.ext.isReadyAndSettled
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
-import world.respect.shared.domain.getwarnings.GetWarningsUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.lets_get_started
-import world.respect.shared.generated.resources.school_not_found
-import world.respect.shared.navigation.GetStartedScreen
-import world.respect.shared.navigation.LoginScreen
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.OtherOption
-import world.respect.shared.navigation.ScanQRCode
-import world.respect.shared.navigation.SchoolDirectoryList
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.LaunchDebouncer
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.LoadingUiState
-import world.respect.shared.viewmodel.schooldirectory.list.SchoolDirectoryMode
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.shared.domain.getwarnings.GetWarningsUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.lets_get_started
+import org.openeel.shared.generated.resources.school_not_found
+import org.openeel.shared.navigation.GetStartedScreen
+import org.openeel.shared.navigation.LoginScreen
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.OtherOption
+import org.openeel.shared.navigation.ScanQRCode
+import org.openeel.shared.navigation.SchoolDirectoryList
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.LaunchDebouncer
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
+import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryMode
 
 
 data class GetStartedUiState(

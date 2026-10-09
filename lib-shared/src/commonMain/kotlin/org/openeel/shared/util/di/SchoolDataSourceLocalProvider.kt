@@ -1,8 +1,8 @@
-package world.respect.shared.util.di
+package org.openeel.shared.util.di
 
 import io.ktor.http.Url
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.SchoolDataSourceLocal
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.SchoolDataSourceLocal
 
 fun interface SchoolDataSourceLocalProvider {
 

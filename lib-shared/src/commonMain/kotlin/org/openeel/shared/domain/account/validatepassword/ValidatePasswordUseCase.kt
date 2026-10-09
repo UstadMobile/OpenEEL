@@ -1,9 +1,9 @@
-package world.respect.shared.domain.account.validatepassword
+package org.openeel.shared.domain.account.validatepassword
 
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.password_must_be_at_least
-import world.respect.shared.util.exception.withUiText
-import world.respect.shared.util.ext.asUiText
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.password_must_be_at_least
+import org.openeel.shared.util.exception.withUiText
+import org.openeel.shared.util.ext.asUiText
 
 class ValidatePasswordUseCase {
 

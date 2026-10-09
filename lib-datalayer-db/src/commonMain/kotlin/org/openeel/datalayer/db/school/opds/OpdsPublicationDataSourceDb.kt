@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.opds
+package org.openeel.datalayer.db.school.opds
 
 import androidx.room.Transactor
 import androidx.room.useReaderConnection
@@ -8,23 +8,23 @@ import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.opds.adapters.OpdsPublicationEntities
-import world.respect.datalayer.db.school.opds.adapters.asEntities
-import world.respect.datalayer.db.school.opds.adapters.asModel
-import world.respect.datalayer.db.school.opds.entities.OpdsPublicationEntity
-import world.respect.datalayer.db.shared.adapters.asNetworkValidationInfo
-import world.respect.datalayer.db.shared.entities.LangMapEntity
-import world.respect.datalayer.networkvalidation.BaseDataSourceValidationHelper
-import world.respect.datalayer.networkvalidation.NetworkValidationInfo
-import world.respect.datalayer.school.opds.OpdsPublicationDataSourceLocal
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.primarykeygen.PrimaryKeyGenerator
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.opds.adapters.OpdsPublicationEntities
+import org.openeel.datalayer.db.school.opds.adapters.asEntities
+import org.openeel.datalayer.db.school.opds.adapters.asModel
+import org.openeel.datalayer.db.school.opds.entities.OpdsPublicationEntity
+import org.openeel.datalayer.db.shared.adapters.asNetworkValidationInfo
+import org.openeel.datalayer.db.shared.entities.LangMapEntity
+import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
+import org.openeel.datalayer.networkvalidation.NetworkValidationInfo
+import org.openeel.datalayer.school.opds.OpdsPublicationDataSourceLocal
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 
 class OpdsPublicationDataSourceDb(
     private val respectSchoolDatabase: RespectSchoolDatabase,

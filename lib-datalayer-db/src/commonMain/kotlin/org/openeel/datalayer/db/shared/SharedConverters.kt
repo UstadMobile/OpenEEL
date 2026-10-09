@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.shared
+package org.openeel.datalayer.db.shared
 
 import androidx.room.TypeConverter
 import com.eygraber.uri.Uri
 import io.ktor.http.Url
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.db.shared.entities.LangMapEntity
+import org.openeel.datalayer.db.shared.entities.LangMapEntity
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
 

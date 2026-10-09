@@ -1,4 +1,4 @@
-package world.respect.shared.domain.report.query
+package org.openeel.shared.domain.report.query
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
@@ -7,12 +7,12 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.db.shared.entities.ReportQueryResult
-import world.respect.datalayer.http.headers.directives.directivesToMap
-import world.respect.shared.domain.report.ext.asStatementReportRow
-import world.respect.lib.xapi.extensions.reportoptions.ReportOptions
-import world.respect.lib.xapi.extensions.reportoptions.ReportSeries
-import world.respect.lib.xapi.extensions.reportoptions.StatementReportRow
+import org.openeel.datalayer.db.shared.entities.ReportQueryResult
+import org.openeel.datalayer.http.headers.directives.directivesToMap
+import org.openeel.shared.domain.report.ext.asStatementReportRow
+import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
+import org.openeel.lib.xapi.extensions.reportoptions.ReportSeries
+import org.openeel.lib.xapi.extensions.reportoptions.StatementReportRow
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 

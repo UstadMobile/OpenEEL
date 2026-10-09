@@ -1,4 +1,4 @@
-package world.respect.app.view.scanqrcode
+package org.openeel.app.view.scanqrcode
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -46,21 +46,21 @@ import org.jetbrains.compose.resources.stringResource
 import org.ncgroup.kscan.BarcodeFormat
 import org.ncgroup.kscan.BarcodeResult
 import org.ncgroup.kscan.ScannerView
-import world.respect.app.util.scanqrcode.PermissionStatus
-import world.respect.app.util.scanqrcode.rememberCameraPermissionState
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.camera_access_required
-import world.respect.shared.generated.resources.camera_permission
-import world.respect.shared.generated.resources.cancel
-import world.respect.shared.generated.resources.close
-import world.respect.shared.generated.resources.ok
-import world.respect.shared.generated.resources.paste_url
-import world.respect.shared.generated.resources.qr_code_invalid_format
-import world.respect.shared.generated.resources.request_permission
-import world.respect.shared.generated.resources.try_again
-import world.respect.shared.generated.resources.url
-import world.respect.shared.viewmodel.scanqrcode.ScanQRCodeUiState
-import world.respect.shared.viewmodel.scanqrcode.ScanQRCodeViewModel
+import org.openeel.app.util.scanqrcode.PermissionStatus
+import org.openeel.app.util.scanqrcode.rememberCameraPermissionState
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.camera_access_required
+import org.openeel.shared.generated.resources.camera_permission
+import org.openeel.shared.generated.resources.cancel
+import org.openeel.shared.generated.resources.close
+import org.openeel.shared.generated.resources.ok
+import org.openeel.shared.generated.resources.paste_url
+import org.openeel.shared.generated.resources.qr_code_invalid_format
+import org.openeel.shared.generated.resources.request_permission
+import org.openeel.shared.generated.resources.try_again
+import org.openeel.shared.generated.resources.url
+import org.openeel.shared.viewmodel.scanqrcode.ScanQRCodeUiState
+import org.openeel.shared.viewmodel.scanqrcode.ScanQRCodeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

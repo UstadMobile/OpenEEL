@@ -1,14 +1,14 @@
-package world.respect.credentials.passkey.request
+package org.openeel.credentials.passkey.request
 
 import io.ktor.http.Url
 import io.ktor.util.encodeBase64
-import world.respect.credentials.passkey.RespectUserHandle
-import world.respect.credentials.passkey.model.AuthenticatorSelectionCriteria
-import world.respect.credentials.passkey.model.PublicKeyCredentialCreationOptionsJSON
-import world.respect.credentials.passkey.model.PublicKeyCredentialParameters
-import world.respect.credentials.passkey.model.PublicKeyCredentialRpEntity
-import world.respect.credentials.passkey.model.PublicKeyCredentialUserEntityJSON
-import world.respect.libutil.ext.randomString
+import org.openeel.credentials.passkey.RespectUserHandle
+import org.openeel.credentials.passkey.model.AuthenticatorSelectionCriteria
+import org.openeel.credentials.passkey.model.PublicKeyCredentialCreationOptionsJSON
+import org.openeel.credentials.passkey.model.PublicKeyCredentialParameters
+import org.openeel.credentials.passkey.model.PublicKeyCredentialRpEntity
+import org.openeel.credentials.passkey.model.PublicKeyCredentialUserEntityJSON
+import org.openeel.libutil.ext.randomString
 
 /**
  * Create the Json that is used to request creation of a new passkey. This should work on all

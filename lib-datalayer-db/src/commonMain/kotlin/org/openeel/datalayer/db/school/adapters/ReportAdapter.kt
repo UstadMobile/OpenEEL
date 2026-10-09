@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.adapters
+package org.openeel.datalayer.db.school.adapters
 
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.db.realm.entities.IndicatorEntity
-import world.respect.datalayer.db.school.entities.ReportEntity
-import world.respect.lib.xapi.extensions.reportoptions.ReportOptions
-import world.respect.lib.xapi.extensions.reportoptions.Indicator
-import world.respect.datalayer.school.model.Report
+import org.openeel.datalayer.db.realm.entities.IndicatorEntity
+import org.openeel.datalayer.db.school.entities.ReportEntity
+import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
+import org.openeel.lib.xapi.extensions.reportoptions.Indicator
+import org.openeel.datalayer.school.model.Report
 import kotlin.time.Instant
 
 // Extension functions for conversion

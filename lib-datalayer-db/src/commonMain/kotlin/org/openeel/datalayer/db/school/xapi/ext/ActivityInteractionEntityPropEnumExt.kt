@@ -1,7 +1,7 @@
-package world.respect.datalayer.db.school.xapi.ext
+package org.openeel.datalayer.db.school.xapi.ext
 
-import world.respect.datalayer.db.school.xapi.entities.XapiActivityInteractionEntityPropEnum
-import world.respect.datalayer.db.school.xapi.entities.XapiActivityLangMapEntryPropEnum
+import org.openeel.datalayer.db.school.xapi.entities.XapiActivityInteractionEntityPropEnum
+import org.openeel.datalayer.db.school.xapi.entities.XapiActivityLangMapEntryPropEnum
 
 val XapiActivityInteractionEntityPropEnum.langMapPropEnum: XapiActivityLangMapEntryPropEnum
     get() = when(this) {

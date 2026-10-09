@@ -1,12 +1,12 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.app_version
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.app_version
 
 @Composable
 fun RespectLongVersionInfoItem(

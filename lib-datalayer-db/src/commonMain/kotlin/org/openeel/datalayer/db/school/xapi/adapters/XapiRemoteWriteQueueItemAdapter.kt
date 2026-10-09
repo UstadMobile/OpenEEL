@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.school.xapi.adapters
+package org.openeel.datalayer.db.school.xapi.adapters
 
-import world.respect.datalayer.db.school.xapi.entities.XapiRemoteWriteQueueItemEntity
-import world.respect.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.db.school.xapi.entities.XapiRemoteWriteQueueItemEntity
+import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
+import org.openeel.libutil.util.time.systemTimeInMillis
 
 fun XapiRemoteWriteQueueItemEntity.asModel(): XapiRemoteWriteQueueItem {
     return XapiRemoteWriteQueueItem(

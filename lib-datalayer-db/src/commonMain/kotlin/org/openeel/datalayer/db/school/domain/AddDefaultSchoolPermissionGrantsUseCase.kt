@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.domain
+package org.openeel.datalayer.db.school.domain
 
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.adapters.toEntity
-import world.respect.datalayer.school.model.PermissionFlags
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.school.model.SchoolPermissionGrant
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.adapters.toEntity
+import org.openeel.datalayer.school.model.PermissionFlags
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.SchoolPermissionGrant
 
 /**
  * Add Default School Permission Grants for each person role.

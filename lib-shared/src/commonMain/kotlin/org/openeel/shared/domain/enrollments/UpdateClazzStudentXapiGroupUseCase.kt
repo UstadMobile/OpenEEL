@@ -1,17 +1,17 @@
-package world.respect.shared.domain.enrollments
+package org.openeel.shared.domain.enrollments
 
 import io.github.aakira.napier.Napier
 import io.ktor.http.Url
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.school.PersonDataSource
-import world.respect.datalayer.school.ext.asXapiAgent
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.model.XapiVerb
-import world.respect.shared.ext.studentsXapiGroup
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.ext.asXapiAgent
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiVerb
+import org.openeel.shared.ext.studentsXapiGroup
 import kotlin.uuid.ExperimentalUuidApi
 
 class UpdateClazzStudentXapiGroupUseCase(

@@ -1,6 +1,6 @@
-package world.respect.callback
+package org.openeel.callback
 
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.libxxhash.XXStringHasher
 import java.util.Properties
 
 class AddDirectoriesFromPropertiesUseCase(

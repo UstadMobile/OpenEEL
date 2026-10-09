@@ -1,14 +1,14 @@
-package world.respect.datalayer.db.school.xapi.writequeue
+package org.openeel.datalayer.db.school.xapi.writequeue
 
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.xapi.adapters.asEntity
-import world.respect.datalayer.db.school.xapi.adapters.asModel
-import world.respect.lib.xapi.remotewritequeue.EnqueueDrainXapiRemoteWriteQueueUseCase
-import world.respect.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
-import world.respect.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.xapi.adapters.asEntity
+import org.openeel.datalayer.db.school.xapi.adapters.asModel
+import org.openeel.lib.xapi.remotewritequeue.EnqueueDrainXapiRemoteWriteQueueUseCase
+import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
+import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
+import org.openeel.libutil.util.time.systemTimeInMillis
 
 class XapiRemoteWriteQueueDbImpl(
     private val schoolDb: RespectSchoolDatabase,

@@ -1,6 +1,6 @@
-package world.respect.shared.domain.account.passkey
+package org.openeel.shared.domain.account.passkey
 
-import world.respect.datalayer.db.school.entities.PersonPasskeyEntity
+import org.openeel.datalayer.db.school.entities.PersonPasskeyEntity
 
 interface GetActivePersonPasskeysUseCase {
     suspend fun getActivePeronPasskeys(personGuid: String): List<PersonPasskeyEntity>

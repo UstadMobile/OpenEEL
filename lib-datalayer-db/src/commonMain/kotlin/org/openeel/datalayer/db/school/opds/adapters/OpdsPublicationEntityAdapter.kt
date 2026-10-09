@@ -1,22 +1,22 @@
-package world.respect.datalayer.db.school.opds.adapters
+package org.openeel.datalayer.db.school.opds.adapters
 
 import kotlinx.serialization.json.Json
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.school.opds.OpdsParentType
-import world.respect.datalayer.db.school.opds.entities.OpdsPublicationEntity
-import world.respect.datalayer.db.school.opds.entities.ReadiumLinkEntity
-import world.respect.datalayer.db.school.opds.entities.ReadiumSubjectEntity
-import world.respect.datalayer.db.shared.adapters.asEntities
-import world.respect.datalayer.db.shared.adapters.toModel
-import world.respect.datalayer.db.shared.entities.LangMapEntity
-import world.respect.datalayer.db.shared.ext.takeIfNotEmpty
-import world.respect.lib.opds.model.LangMap
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.ReadiumMetadata
-import world.respect.lib.primarykeygen.PrimaryKeyGenerator
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.school.opds.OpdsParentType
+import org.openeel.datalayer.db.school.opds.entities.OpdsPublicationEntity
+import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity
+import org.openeel.datalayer.db.school.opds.entities.ReadiumSubjectEntity
+import org.openeel.datalayer.db.shared.adapters.asEntities
+import org.openeel.datalayer.db.shared.adapters.toModel
+import org.openeel.datalayer.db.shared.entities.LangMapEntity
+import org.openeel.datalayer.db.shared.ext.takeIfNotEmpty
+import org.openeel.lib.opds.model.LangMap
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ReadiumMetadata
+import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 
 data class OpdsPublicationEntities(
     val opdsPublicationEntity: OpdsPublicationEntity,

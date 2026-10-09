@@ -1,9 +1,9 @@
-package world.respect.shared.util.ext
+package org.openeel.shared.util.ext
 
 import io.ktor.http.Url
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.libutil.ext.resolve
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.libutil.ext.resolve
 
 fun Publication.resolve(baseUrl: Url) : Publication {
     return copy(

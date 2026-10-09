@@ -1,6 +1,6 @@
-package world.respect.shared.domain.account.signup
+package org.openeel.shared.domain.account.signup
 
-import world.respect.credentials.passkey.model.AuthenticationResponseJSON
+import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
 
 sealed class SignupCredential {
     data class Password(

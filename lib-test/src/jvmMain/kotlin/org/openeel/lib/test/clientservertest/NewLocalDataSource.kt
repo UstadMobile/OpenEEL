@@ -1,24 +1,24 @@
-package world.respect.lib.test.clientservertest
+package org.openeel.lib.test.clientservertest
 
 import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import io.ktor.http.Url
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.SchoolDataSourceLocal
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.SchoolDataSourceDb
-import world.respect.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
-import world.respect.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.PersonGenderEnum
-import world.respect.datalayer.school.model.PersonRole
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.shared.XXHashUidNumberMapper
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.libxxhash.XXStringHasher
-import world.respect.libxxhash.jvmimpl.XXStringHasherCommonJvm
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.SchoolDataSourceLocal
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDataSourceDb
+import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
+import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.datalayer.school.model.PersonRole
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.shared.XXHashUidNumberMapper
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.libxxhash.XXStringHasher
+import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import java.io.File
 
 data class SchoolDbDataSourceContext(

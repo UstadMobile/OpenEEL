@@ -1,4 +1,4 @@
-package world.respect.shared.domain.biometric
+package org.openeel.shared.domain.biometric
 
 import kotlinx.coroutines.channels.Channel
 

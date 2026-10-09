@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.school.xapi.ext
+package org.openeel.datalayer.db.school.xapi.ext
 
-import world.respect.datalayer.db.school.xapi.entities.XapiStatementContextActivityJoin
-import world.respect.datalayer.db.school.xapi.entities.XapiStatementEntityObjectTypeEnum
-import world.respect.datalayer.db.school.xapi.entities.XapiStatementEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiStatementContextActivityJoin
+import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntityObjectTypeEnum
+import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntity
 
 internal val XapiStatementEntity.hasResult: Boolean
     get() = resultCompletion != null ||

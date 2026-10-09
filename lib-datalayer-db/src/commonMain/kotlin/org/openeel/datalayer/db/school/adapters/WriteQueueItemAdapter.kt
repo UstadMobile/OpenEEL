@@ -1,7 +1,7 @@
-package world.respect.datalayer.db.school.adapters
+package org.openeel.datalayer.db.school.adapters
 
-import world.respect.datalayer.db.school.entities.WriteQueueItemEntity
-import world.respect.datalayer.school.writequeue.WriteQueueItem
+import org.openeel.datalayer.db.school.entities.WriteQueueItemEntity
+import org.openeel.datalayer.school.writequeue.WriteQueueItem
 
 fun WriteQueueItemEntity.asModel() : WriteQueueItem{
     return WriteQueueItem(

@@ -1,4 +1,4 @@
-package world.respect.shared.domain.usagereporting
+package org.openeel.shared.domain.usagereporting
 
 interface SetUsageReportingEnabledUseCase {
 

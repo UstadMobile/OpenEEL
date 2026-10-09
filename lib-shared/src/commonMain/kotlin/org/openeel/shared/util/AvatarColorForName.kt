@@ -1,4 +1,4 @@
-package world.respect.shared.util
+package org.openeel.shared.util
 
 
 //As per https://mui.com/material-ui/react-avatar/#letter-avatars

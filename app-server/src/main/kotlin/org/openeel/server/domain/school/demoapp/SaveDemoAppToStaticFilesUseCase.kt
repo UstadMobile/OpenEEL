@@ -1,18 +1,18 @@
-package world.respect.server.domain.school.demoapp
+package org.openeel.server.domain.school.demoapp
 
 import io.ktor.http.Url
 import kotlinx.serialization.json.Json
 import nl.adaptivity.xmlutil.serialization.XML
 import org.openeel.demo.demolaunchableappserver.DemoConstants
-import world.respect.lib.xapi.rusticilaunch.model.TinCanXmlDocument
-import world.respect.server.domain.school.demoapp.MakeDemoAppCollectionUseCase.Companion.GRADE_ICON_NAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.GRADES_DIR_NAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.LEARNING_UNITS_DIR_NAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.LEARNING_UNIT_ICON_NAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.LEARNING_UNIT_HTML_FILENAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.LEARNING_UNIT_JS_FILENAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.XAPI_MODULE_FILENAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppManifestUseCase.Companion.APP_MANIFEST_FILENAME
+import org.openeel.lib.xapi.rusticilaunch.model.TinCanXmlDocument
+import org.openeel.server.domain.school.demoapp.MakeDemoAppCollectionUseCase.Companion.GRADE_ICON_NAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.GRADES_DIR_NAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.LEARNING_UNITS_DIR_NAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.LEARNING_UNIT_ICON_NAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.LEARNING_UNIT_HTML_FILENAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.LEARNING_UNIT_JS_FILENAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.XAPI_MODULE_FILENAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppManifestUseCase.Companion.APP_MANIFEST_FILENAME
 import java.io.File
 
 /**

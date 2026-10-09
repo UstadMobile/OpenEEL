@@ -1,4 +1,4 @@
-package world.respect.server.routes
+package org.openeel.server.routes
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.auth.authenticate
@@ -9,15 +9,15 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.util.reflect.typeInfo
 import org.koin.ktor.ext.inject
-import world.respect.datalayer.RespectAppDataSource
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.server.domain.school.add.AddSchoolUseCase
-import world.respect.server.domain.school.add.InvalidSchoolRegistrationRequestException
-import world.respect.server.domain.school.add.SchoolRegistrationDisabledException
-import world.respect.lib.dataloadstate.ktorserver.respondDataLoadState
-import world.respect.server.util.ext.virtualHost
+import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.server.domain.school.add.AddSchoolUseCase
+import org.openeel.server.domain.school.add.InvalidSchoolRegistrationRequestException
+import org.openeel.server.domain.school.add.SchoolRegistrationDisabledException
+import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
+import org.openeel.server.util.ext.virtualHost
 
 const val AUTH_CONFIG_DIRECTORY_ADMIN_BASIC = "auth-directory-admin-basic"
 

@@ -1,20 +1,20 @@
-package world.respect.datalayer.db.school.xapi
+package org.openeel.datalayer.db.school.xapi
 
 
 import io.ktor.http.Url
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.GetAuthenticatedPersonUseCase
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.resources.local.XapiActivitiesResourceLocal
-import world.respect.lib.xapi.resources.local.XapiActivityProfileResourceLocal
-import world.respect.lib.xapi.resources.local.XapiAgentProfileResourceLocal
-import world.respect.lib.xapi.resources.local.XapiAgentsResourceLocal
-import world.respect.lib.xapi.resources.local.XapiResourceLocal
-import world.respect.lib.xapi.resources.local.XapiStateResourceLocal
-import world.respect.lib.xapi.resources.local.XapiStatementsResourceLocal
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.resources.local.XapiActivitiesResourceLocal
+import org.openeel.lib.xapi.resources.local.XapiActivityProfileResourceLocal
+import org.openeel.lib.xapi.resources.local.XapiAgentProfileResourceLocal
+import org.openeel.lib.xapi.resources.local.XapiAgentsResourceLocal
+import org.openeel.lib.xapi.resources.local.XapiResourceLocal
+import org.openeel.lib.xapi.resources.local.XapiStateResourceLocal
+import org.openeel.lib.xapi.resources.local.XapiStatementsResourceLocal
 
 class XapiResourceDb(
     private val schoolDb: RespectSchoolDatabase,

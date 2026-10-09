@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.composite.xapi
+package org.openeel.datalayer.db.school.composite.xapi
 
 import kotlinx.serialization.Serializable
 

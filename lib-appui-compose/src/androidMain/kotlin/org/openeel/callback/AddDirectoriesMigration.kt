@@ -1,4 +1,4 @@
-package world.respect.callback
+package org.openeel.callback
 
 import androidx.room.migration.Migration
 import androidx.sqlite.SQLiteConnection

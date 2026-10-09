@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.getstarted
+package org.openeel.app.view.manageuser.getstarted
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,22 +35,22 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectExposedDropDownMenuField
-import world.respect.app.components.RespectShortVersionInfoText
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.langMapString
-import world.respect.app.components.uiTextStringResource
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.add_my_school
-import world.respect.shared.generated.resources.school_name
-import world.respect.shared.generated.resources.other_options
-import world.respect.shared.generated.resources.scan_qr_code_badge
-import world.respect.shared.generated.resources.school_directory
-import world.respect.shared.generated.resources.school_name_placeholder
-import world.respect.shared.viewmodel.manageuser.getstarted.GetStartedUiState
-import world.respect.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
+import org.openeel.app.components.RespectExposedDropDownMenuField
+import org.openeel.app.components.RespectShortVersionInfoText
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.langMapString
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add_my_school
+import org.openeel.shared.generated.resources.school_name
+import org.openeel.shared.generated.resources.other_options
+import org.openeel.shared.generated.resources.scan_qr_code_badge
+import org.openeel.shared.generated.resources.school_directory
+import org.openeel.shared.generated.resources.school_name_placeholder
+import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedUiState
+import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
 
 @Composable
 fun GetStartedScreen(

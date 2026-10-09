@@ -1,4 +1,4 @@
-package world.respect.datalayer.shared
+package org.openeel.datalayer.shared
 
 object DataLayerTags {
 

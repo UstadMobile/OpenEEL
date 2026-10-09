@@ -1,4 +1,4 @@
-package world.respect.app.view.report.list
+package org.openeel.app.view.report.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,17 +25,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.view.report.graph.CombinedGraph
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.extensions.reportoptions.ReportOptions
-import world.respect.datalayer.school.model.Report
-import world.respect.shared.domain.report.model.RunReportResultAndFormatters
-import world.respect.shared.domain.report.query.RunReportUseCase
-import world.respect.shared.generated.resources.No_data_available
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.blank_template
-import world.respect.shared.viewmodel.report.list.ReportTemplateListUiState
-import world.respect.shared.viewmodel.report.list.ReportTemplateListViewModel
+import org.openeel.app.view.report.graph.CombinedGraph
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
+import org.openeel.datalayer.school.model.Report
+import org.openeel.shared.domain.report.model.RunReportResultAndFormatters
+import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.shared.generated.resources.No_data_available
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.blank_template
+import org.openeel.shared.viewmodel.report.list.ReportTemplateListUiState
+import org.openeel.shared.viewmodel.report.list.ReportTemplateListViewModel
 
 @Composable
 fun ReportTemplateListScreen(

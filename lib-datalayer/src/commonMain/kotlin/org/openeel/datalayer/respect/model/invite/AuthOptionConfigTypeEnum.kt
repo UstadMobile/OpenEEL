@@ -1,4 +1,4 @@
-package world.respect.datalayer.respect.model.invite
+package org.openeel.datalayer.respect.model.invite
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

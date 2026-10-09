@@ -1,5 +1,5 @@
-package world.respect.shared.util.ext
+package org.openeel.shared.util.ext
 
-import world.respect.datalayer.school.model.composites.PersonListDetails
+import org.openeel.datalayer.school.model.composites.PersonListDetails
 
 fun PersonListDetails.fullName() = "$givenName $familyName"

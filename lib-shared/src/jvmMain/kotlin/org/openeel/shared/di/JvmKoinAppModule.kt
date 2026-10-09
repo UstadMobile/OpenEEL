@@ -1,4 +1,4 @@
-package world.respect.shared.di
+package org.openeel.shared.di
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
@@ -8,15 +8,15 @@ import kotlinx.serialization.json.Json
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
-import world.respect.domain.getfavicons.GetFavIconUseCase
-import world.respect.shared.domain.getfavicons.GetFavIconsUseCaseImpl
-import world.respect.shared.domain.opds.validator.OpdsFeedValidator
-import world.respect.shared.domain.opds.validator.OpdsPublicationValidator
-import world.respect.shared.domain.opds.validator.ValidateLinkUseCaseImpl
-import world.respect.shared.domain.opds.validator.ValidateOpdsPublicationUseCase
-import world.respect.shared.domain.respectappmanifest.validator.RespectAppManifestValidator
-import world.respect.shared.domain.validator.ValidateHttpResponseForUrlUseCase
-import world.respect.domain.validator.ValidateLinkUseCase
+import org.openeel.domain.getfavicons.GetFavIconUseCase
+import org.openeel.shared.domain.getfavicons.GetFavIconsUseCaseImpl
+import org.openeel.shared.domain.opds.validator.OpdsFeedValidator
+import org.openeel.shared.domain.opds.validator.OpdsPublicationValidator
+import org.openeel.shared.domain.opds.validator.ValidateLinkUseCaseImpl
+import org.openeel.shared.domain.opds.validator.ValidateOpdsPublicationUseCase
+import org.openeel.shared.domain.respectappmanifest.validator.RespectAppManifestValidator
+import org.openeel.shared.domain.validator.ValidateHttpResponseForUrlUseCase
+import org.openeel.domain.validator.ValidateLinkUseCase
 
 val jvmKoinAppModule = module {
     single<Json> {

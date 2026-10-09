@@ -1,4 +1,4 @@
-package world.respect.datalayer.school.ext
+package org.openeel.datalayer.school.ext
 
 import io.ktor.http.Url
 import kotlinx.serialization.json.JsonPrimitive
@@ -6,13 +6,13 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import world.respect.datalayer.exceptions.ForbiddenException
-import world.respect.datalayer.school.model.DeviceInfo
-import world.respect.datalayer.school.model.Invite2
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.lib.xapi.model.XapiAccount
-import world.respect.lib.xapi.model.XapiAgent
+import org.openeel.datalayer.exceptions.ForbiddenException
+import org.openeel.datalayer.school.model.DeviceInfo
+import org.openeel.datalayer.school.model.Invite2
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.xapi.model.XapiAccount
+import org.openeel.lib.xapi.model.XapiAgent
 
 fun Person?.assertPersonHasRole(
     role: PersonRoleEnum

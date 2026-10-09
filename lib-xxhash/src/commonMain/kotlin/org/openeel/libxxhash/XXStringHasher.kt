@@ -1,4 +1,4 @@
-package world.respect.libxxhash
+package org.openeel.libxxhash
 
 /**
  * XXHash is used to generate a 64bit unique ID for situations where:

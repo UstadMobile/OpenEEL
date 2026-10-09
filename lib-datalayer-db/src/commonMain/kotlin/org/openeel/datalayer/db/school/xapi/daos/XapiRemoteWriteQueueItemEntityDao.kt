@@ -1,11 +1,11 @@
-package world.respect.datalayer.db.school.xapi.daos
+package org.openeel.datalayer.db.school.xapi.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.xapi.entities.XapiRemoteWriteQueueItemEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiRemoteWriteQueueItemEntity
 
 @Dao
 interface XapiRemoteWriteQueueItemEntityDao {

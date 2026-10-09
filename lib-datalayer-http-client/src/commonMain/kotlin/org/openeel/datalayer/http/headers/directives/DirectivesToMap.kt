@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.headers.directives
+package org.openeel.datalayer.http.headers.directives
 
 /**
  * Parse a header into a map of directives to value. If the directive has an '=',

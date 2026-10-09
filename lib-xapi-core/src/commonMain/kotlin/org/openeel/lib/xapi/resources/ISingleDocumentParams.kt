@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.resources
+package org.openeel.lib.xapi.resources
 
 import kotlin.time.Instant
 

@@ -1,6 +1,6 @@
-package world.respect.lib.xapi.composites
+package org.openeel.lib.xapi.composites
 
-import world.respect.lib.xapi.model.XapiActor
+import org.openeel.lib.xapi.model.XapiActor
 
 /**
  * Represents the progress of a given actor (eg. a student) on an assignment that follows the

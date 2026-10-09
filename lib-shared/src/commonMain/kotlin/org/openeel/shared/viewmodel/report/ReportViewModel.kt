@@ -1,11 +1,11 @@
-package world.respect.shared.viewmodel.report
+package org.openeel.shared.viewmodel.report
 
 import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.flow.update
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.report
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.report
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 class ReportViewModel(
     savedStateHandle: SavedStateHandle

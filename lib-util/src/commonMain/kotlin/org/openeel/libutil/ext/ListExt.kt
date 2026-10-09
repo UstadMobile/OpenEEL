@@ -1,4 +1,4 @@
-package world.respect.libutil.ext
+package org.openeel.libutil.ext
 
 /**
  * "Upsert" for a list, commonly required for edit scenarios where an element has been returned

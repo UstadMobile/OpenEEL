@@ -1,4 +1,4 @@
-package world.respect.app.view.assignment.detail
+package org.openeel.app.view.assignment.detail
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -8,16 +8,16 @@ import androidx.compose.ui.unit.Dp
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import world.respect.app.components.langMapString
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.opds.model.LangMap
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.findIcons
-import world.respect.lib.xapi.ext.webPubManifestAsUrlOrNull
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.libutil.ext.resolve
+import org.openeel.app.components.langMapString
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.LangMap
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.findIcons
+import org.openeel.lib.xapi.ext.webPubManifestAsUrlOrNull
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.libutil.ext.resolve
 
 @Composable
 fun AssignmentDetailTaskHeader(

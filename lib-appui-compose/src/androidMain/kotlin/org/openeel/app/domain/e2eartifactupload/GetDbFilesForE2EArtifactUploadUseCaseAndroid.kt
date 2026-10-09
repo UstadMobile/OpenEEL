@@ -1,12 +1,12 @@
-package world.respect.app.domain.e2eartifactupload
+package org.openeel.app.domain.e2eartifactupload
 
 import android.content.Context
 import io.ktor.http.Url
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import world.respect.shared.domain.school.SchoolDbPath
-import world.respect.shared.domain.e2eartifactupload.DbFileForUpload
-import world.respect.shared.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCase
+import org.openeel.shared.domain.school.SchoolDbPath
+import org.openeel.shared.domain.e2eartifactupload.DbFileForUpload
+import org.openeel.shared.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCase
 
 class GetDbFilesForE2EArtifactUploadUseCaseAndroid(
     private val context: Context,

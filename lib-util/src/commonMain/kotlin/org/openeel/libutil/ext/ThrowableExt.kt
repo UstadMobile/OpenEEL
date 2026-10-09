@@ -1,4 +1,4 @@
-package world.respect.libutil.ext
+package org.openeel.libutil.ext
 
 const val EXCEPTION_CAUSE_MAX_DEPTH = 20
 

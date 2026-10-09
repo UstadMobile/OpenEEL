@@ -1,17 +1,17 @@
-package world.respect.shared.domain.navigation.onaccountcreated
+package org.openeel.shared.domain.navigation.onaccountcreated
 
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableSharedFlow
-import world.respect.datalayer.school.model.ClassInvite
-import world.respect.datalayer.school.model.ClassInviteModeEnum
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.PersonStatusEnum
-import world.respect.shared.domain.account.invite.RespectRedeemInviteRequest
-import world.respect.shared.navigation.Home
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.SignupScreen
-import world.respect.shared.navigation.WaitingForApproval
-import world.respect.shared.viewmodel.manageuser.signup.SignupScreenModeEnum
+import org.openeel.datalayer.school.model.ClassInvite
+import org.openeel.datalayer.school.model.ClassInviteModeEnum
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.shared.navigation.Home
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.SignupScreen
+import org.openeel.shared.navigation.WaitingForApproval
+import org.openeel.shared.viewmodel.manageuser.signup.SignupScreenModeEnum
 
 /**
  * Decide where to navigate after a user account has been created.

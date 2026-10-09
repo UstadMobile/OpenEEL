@@ -1,13 +1,13 @@
-package world.respect.datalayer.school.xapi.ext
+package org.openeel.datalayer.school.xapi.ext
 
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
-import world.respect.lib.xapi.ext.objectActivityOrNull
-import world.respect.lib.xapi.model.XAPI_PROGRESSED_EXTENSIONS
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.model.XapiActor
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.model.XapiVerb
+import org.openeel.lib.xapi.ext.objectActivityOrNull
+import org.openeel.lib.xapi.model.XAPI_PROGRESSED_EXTENSIONS
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.model.XapiActor
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiVerb
 import kotlin.uuid.Uuid
 
 val XapiStatement.resultProgressExtension: Int?

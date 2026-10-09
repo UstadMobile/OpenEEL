@@ -1,6 +1,6 @@
-package world.respect.lib.opds.model.ext
+package org.openeel.lib.opds.model.ext
 
-import world.respect.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ReadiumLink
 
 
 fun ReadiumLink.hasRel(relationship: String): Boolean {

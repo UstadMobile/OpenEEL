@@ -1,17 +1,17 @@
-package world.respect.datalayer.db.school.opds.adapters
+package org.openeel.datalayer.db.school.opds.adapters
 
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.db.school.opds.OpdsParentType
-import world.respect.datalayer.db.school.opds.entities.ReadiumLinkEntity
-import world.respect.datalayer.db.school.opds.entities.ReadiumSubjectEntity
-import world.respect.datalayer.db.shared.adapters.asEntities
-import world.respect.datalayer.db.shared.adapters.toModel
-import world.respect.datalayer.db.shared.entities.LangMapEntity
-import world.respect.datalayer.db.shared.ext.takeIfNotEmpty
-import world.respect.lib.opds.model.ReadiumSubject
-import world.respect.lib.opds.model.ReadiumSubjectObject
-import world.respect.lib.opds.model.ReadiumSubjectStringValue
-import world.respect.lib.primarykeygen.PrimaryKeyGenerator
+import org.openeel.datalayer.db.school.opds.OpdsParentType
+import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity
+import org.openeel.datalayer.db.school.opds.entities.ReadiumSubjectEntity
+import org.openeel.datalayer.db.shared.adapters.asEntities
+import org.openeel.datalayer.db.shared.adapters.toModel
+import org.openeel.datalayer.db.shared.entities.LangMapEntity
+import org.openeel.datalayer.db.shared.ext.takeIfNotEmpty
+import org.openeel.lib.opds.model.ReadiumSubject
+import org.openeel.lib.opds.model.ReadiumSubjectObject
+import org.openeel.lib.opds.model.ReadiumSubjectStringValue
+import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 
 class ReadiumSubjectEntities(
     val readiumSubject: ReadiumSubjectEntity,

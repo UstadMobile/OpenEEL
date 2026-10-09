@@ -1,15 +1,15 @@
-package world.respect.server.domain.school.demoapp
+package org.openeel.server.domain.school.demoapp
 
 import io.ktor.http.Url
 import org.openeel.demo.demolaunchableappserver.DemoConstants
-import world.respect.lib.xapi.rusticilaunch.model.TinCanXmlActivities
-import world.respect.lib.xapi.rusticilaunch.model.TinCanXmlActivity
-import world.respect.lib.xapi.rusticilaunch.model.TinCanXmlDocument
-import world.respect.lib.xapi.rusticilaunch.model.TinCanXmlLaunch
-import world.respect.libutil.ext.resolve
-import world.respect.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.GRADES_DIR_NAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.LEARNING_UNITS_DIR_NAME
-import world.respect.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.LEARNING_UNIT_HTML_FILENAME
+import org.openeel.lib.xapi.rusticilaunch.model.TinCanXmlActivities
+import org.openeel.lib.xapi.rusticilaunch.model.TinCanXmlActivity
+import org.openeel.lib.xapi.rusticilaunch.model.TinCanXmlDocument
+import org.openeel.lib.xapi.rusticilaunch.model.TinCanXmlLaunch
+import org.openeel.libutil.ext.resolve
+import org.openeel.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.GRADES_DIR_NAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase.Companion.LEARNING_UNITS_DIR_NAME
+import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitHtmlUseCase.Companion.LEARNING_UNIT_HTML_FILENAME
 
 class MakeDemoAppLearningUnitTinCanXmlUseCase(
     private val demoStrings: DemoStringMaps,

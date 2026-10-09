@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.daos
+package org.openeel.datalayer.db.school.daos
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
@@ -7,16 +7,16 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.entities.LastModifiedAndPermission
-import world.respect.datalayer.db.school.entities.PersonEntity
-import world.respect.datalayer.db.school.entities.PersonEntityWithRoles
-import world.respect.datalayer.school.model.PermissionFlags
-import world.respect.datalayer.school.model.PersonRoleEnum
-import world.respect.datalayer.school.model.PersonStatusEnum
-import world.respect.datalayer.school.model.StatusEnum
-import world.respect.datalayer.school.model.composites.PersonListDetails
-import world.respect.libutil.util.time.TimeConstants
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.db.school.entities.LastModifiedAndPermission
+import org.openeel.datalayer.db.school.entities.PersonEntity
+import org.openeel.datalayer.db.school.entities.PersonEntityWithRoles
+import org.openeel.datalayer.school.model.PermissionFlags
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.school.model.composites.PersonListDetails
+import org.openeel.libutil.util.time.TimeConstants
+import org.openeel.libutil.util.time.systemTimeInMillis
 
 @Dao
 interface PersonEntityDao {

@@ -1,4 +1,4 @@
-package world.respect.datalayer.repository.school
+package org.openeel.datalayer.repository.school
 
 object RepoWorkerConstants {
 

@@ -1,12 +1,12 @@
-package world.respect.shared.util.ext
+package org.openeel.shared.util.ext
 
 import org.jetbrains.compose.resources.StringResource
-import world.respect.datalayer.school.model.PersonGenderEnum
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.female
-import world.respect.shared.generated.resources.male
-import world.respect.shared.generated.resources.other
-import world.respect.shared.generated.resources.unspecified
+import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.female
+import org.openeel.shared.generated.resources.male
+import org.openeel.shared.generated.resources.other
+import org.openeel.shared.generated.resources.unspecified
 
 val PersonGenderEnum.label: StringResource
     get() = when(this) {

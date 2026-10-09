@@ -1,4 +1,4 @@
-package world.respect.app.view.report.filteredit
+package org.openeel.app.view.report.filteredit
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -17,16 +17,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.view.report.edit.ExposedDropdownMenu
-import world.respect.lib.xapi.extensions.reportoptions.FilterType
-import world.respect.lib.xapi.extensions.reportoptions.GenderType
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.condition
-import world.respect.shared.generated.resources.field
-import world.respect.shared.generated.resources.value
-import world.respect.shared.viewmodel.report.filteredit.ReportFilterEditUiState
-import world.respect.shared.viewmodel.report.filteredit.ReportFilterEditViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.view.report.edit.ExposedDropdownMenu
+import org.openeel.lib.xapi.extensions.reportoptions.FilterType
+import org.openeel.lib.xapi.extensions.reportoptions.GenderType
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.condition
+import org.openeel.shared.generated.resources.field
+import org.openeel.shared.generated.resources.value
+import org.openeel.shared.viewmodel.report.filteredit.ReportFilterEditUiState
+import org.openeel.shared.viewmodel.report.filteredit.ReportFilterEditViewModel
 
 @Composable
 fun ReportFilterEditScreen(

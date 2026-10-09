@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 
 import androidx.compose.foundation.layout.padding
@@ -35,11 +35,11 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
-import world.respect.libutil.ext.pad0
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.cancel
-import world.respect.shared.generated.resources.select_date
-import world.respect.shared.generated.resources.ok
+import org.openeel.libutil.ext.pad0
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.cancel
+import org.openeel.shared.generated.resources.select_date
+import org.openeel.shared.generated.resources.ok
 import kotlin.math.min
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant

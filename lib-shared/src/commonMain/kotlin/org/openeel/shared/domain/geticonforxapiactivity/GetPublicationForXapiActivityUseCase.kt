@@ -1,18 +1,18 @@
-package world.respect.shared.domain.geticonforxapiactivity
+package org.openeel.shared.domain.geticonforxapiactivity
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import world.respect.datalayer.school.opds.OpdsPublicationDataSource
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.lib.dataloadstate.ext.map
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.xapi.ext.webPubManifestAsUrlOrNull
-import world.respect.lib.xapi.model.XapiActivity
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.shared.util.ext.resolve
+import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.ext.map
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.xapi.ext.webPubManifestAsUrlOrNull
+import org.openeel.lib.xapi.model.XapiActivity
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.shared.util.ext.resolve
 
 class GetPublicationForXapiActivityUseCase(
     private val opdsPublicationDataSource: OpdsPublicationDataSource,

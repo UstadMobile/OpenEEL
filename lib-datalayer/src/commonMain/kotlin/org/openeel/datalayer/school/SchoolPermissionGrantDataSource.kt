@@ -1,13 +1,13 @@
-package world.respect.datalayer.school
+package org.openeel.datalayer.school
 
 import io.ktor.util.StringValues
 import kotlinx.coroutines.flow.Flow
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.datalayer.school.model.SchoolPermissionGrant
-import world.respect.datalayer.shared.WritableDataSource
-import world.respect.datalayer.shared.paging.IPagingSourceFactory
-import world.respect.datalayer.shared.params.GetListCommonParams
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.datalayer.school.model.SchoolPermissionGrant
+import org.openeel.datalayer.shared.WritableDataSource
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
+import org.openeel.datalayer.shared.params.GetListCommonParams
 
 interface SchoolPermissionGrantDataSource: WritableDataSource<SchoolPermissionGrant> {
 

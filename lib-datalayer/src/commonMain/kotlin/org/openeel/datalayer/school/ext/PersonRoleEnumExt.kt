@@ -1,8 +1,8 @@
-package world.respect.datalayer.school.ext
+package org.openeel.datalayer.school.ext
 
-import world.respect.datalayer.school.model.Invite2.Companion.TYPE_NEW_USER
-import world.respect.datalayer.school.model.PermissionFlags
-import world.respect.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.Invite2.Companion.TYPE_NEW_USER
+import org.openeel.datalayer.school.model.PermissionFlags
+import org.openeel.datalayer.school.model.PersonRoleEnum
 
 /**
  * The permission flag required to change a person with this role

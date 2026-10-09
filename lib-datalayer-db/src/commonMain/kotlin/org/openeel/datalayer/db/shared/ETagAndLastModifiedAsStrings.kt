@@ -1,6 +1,6 @@
-package world.respect.datalayer.db.shared
+package org.openeel.datalayer.db.shared
 
-import world.respect.lib.dataloadstate.ETagAndLastModified
+import org.openeel.lib.dataloadstate.ETagAndLastModified
 
 /**
  * Sometimes database resources will run a quick validation check query to see if the response has

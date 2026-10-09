@@ -1,12 +1,12 @@
-package world.respect.datalayer.repository.school.xapi
+package org.openeel.datalayer.repository.school.xapi
 
 import io.ktor.server.routing.route
 import org.openeel.libxapi.test.XapiActivityProfileTestParams
 import org.openeel.libxapi.test.XapiStateTestParams
-import world.respect.datalayer.http.server.XapiActivityProfileResourceRoute
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
-import world.respect.lib.xapi.resources.XapiResource
+import org.openeel.datalayer.http.server.XapiActivityProfileResourceRoute
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.xapi.resources.XapiResource
 import kotlin.test.Test
 
 class XapiActivityProfileResourceRepositoryIntegrationTest: AbstractXapiDocumentResourceRepositoryIntegrationTest<

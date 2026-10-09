@@ -1,7 +1,7 @@
-package world.respect.shared.domain.testlaunchableapp
+package org.openeel.shared.domain.testlaunchableapp
 
 import io.ktor.http.Url
-import world.respect.shared.domain.validator.ValidatorMessage
+import org.openeel.shared.domain.validator.ValidatorMessage
 import java.io.File
 
 /**

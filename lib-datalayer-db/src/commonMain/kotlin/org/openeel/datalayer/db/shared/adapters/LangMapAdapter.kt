@@ -1,12 +1,12 @@
-package world.respect.datalayer.db.shared.adapters
+package org.openeel.datalayer.db.shared.adapters
 
-import world.respect.datalayer.db.shared.entities.ILangMapEntity
-import world.respect.datalayer.db.shared.entities.LangMapEntity
-import world.respect.datalayer.db.shared.entities.LangMapEntity.Companion.LANG_NONE
-import world.respect.datalayer.db.shared.ext.langMapKey
-import world.respect.lib.opds.model.LangMap
-import world.respect.lib.opds.model.LangMapObjectValue
-import world.respect.lib.opds.model.LangMapStringValue
+import org.openeel.datalayer.db.shared.entities.ILangMapEntity
+import org.openeel.datalayer.db.shared.entities.LangMapEntity
+import org.openeel.datalayer.db.shared.entities.LangMapEntity.Companion.LANG_NONE
+import org.openeel.datalayer.db.shared.ext.langMapKey
+import org.openeel.lib.opds.model.LangMap
+import org.openeel.lib.opds.model.LangMapObjectValue
+import org.openeel.lib.opds.model.LangMapStringValue
 
 
 fun <T: ILangMapEntity> LangMap.asEntities(

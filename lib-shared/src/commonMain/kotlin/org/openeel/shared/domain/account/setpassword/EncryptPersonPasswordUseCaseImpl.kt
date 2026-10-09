@@ -1,7 +1,7 @@
-package world.respect.shared.domain.account.setpassword
+package org.openeel.shared.domain.account.setpassword
 
 import io.ktor.util.encodeBase64
-import world.respect.datalayer.school.model.PersonPassword
+import org.openeel.datalayer.school.model.PersonPassword
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
 import kotlin.time.Clock

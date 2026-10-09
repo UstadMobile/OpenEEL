@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.manageuser.signup
+package org.openeel.shared.viewmodel.manageuser.signup
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable

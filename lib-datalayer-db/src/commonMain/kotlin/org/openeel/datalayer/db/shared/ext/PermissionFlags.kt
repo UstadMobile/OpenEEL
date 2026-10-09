@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.shared.ext
+package org.openeel.datalayer.db.shared.ext
 
 object PermissionFlags {
 

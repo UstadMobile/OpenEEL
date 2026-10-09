@@ -1,10 +1,10 @@
-package world.respect.domain.account.passkey
+package org.openeel.domain.account.passkey
 
 import io.ktor.http.Url
 import junit.framework.TestCase
-import world.respect.credentials.passkey.RespectUserHandle
-import world.respect.shared.domain.account.passkey.DecodeUserHandleUseCaseImpl
-import world.respect.shared.domain.account.passkey.EncodeUserHandleUseCaseImpl
+import org.openeel.credentials.passkey.RespectUserHandle
+import org.openeel.shared.domain.account.passkey.DecodeUserHandleUseCaseImpl
+import org.openeel.shared.domain.account.passkey.EncodeUserHandleUseCaseImpl
 import kotlin.random.Random
 import kotlin.test.Test
 

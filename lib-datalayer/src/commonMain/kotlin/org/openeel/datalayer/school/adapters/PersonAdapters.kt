@@ -1,7 +1,7 @@
-package world.respect.datalayer.school.adapters
+package org.openeel.datalayer.school.adapters
 
-import world.respect.datalayer.school.model.Person
-import world.respect.datalayer.school.model.composites.PersonListDetails
+import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.composites.PersonListDetails
 
 fun Person.asListDetails(): PersonListDetails {
     return PersonListDetails(

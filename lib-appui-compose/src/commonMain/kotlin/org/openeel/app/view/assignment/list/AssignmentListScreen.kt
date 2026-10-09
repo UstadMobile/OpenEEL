@@ -1,4 +1,4 @@
-package world.respect.app.view.assignment.list
+package org.openeel.app.view.assignment.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,13 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import world.respect.app.components.RespectEmptyListComponent
-import world.respect.app.components.defaultItemPadding
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.model.AssignmentSummary
-import world.respect.shared.viewmodel.assignment.list.AssignmentListUiState
-import world.respect.shared.viewmodel.assignment.list.AssignmentListViewModel
+import org.openeel.app.components.RespectEmptyListComponent
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.model.AssignmentSummary
+import org.openeel.shared.viewmodel.assignment.list.AssignmentListUiState
+import org.openeel.shared.viewmodel.assignment.list.AssignmentListViewModel
 
 
 @Composable

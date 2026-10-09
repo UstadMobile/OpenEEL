@@ -1,4 +1,4 @@
-package world.respect.app.view.person.copycode
+package org.openeel.app.view.person.copycode
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -27,15 +27,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.code
-import world.respect.shared.generated.resources.code_private_info
-import world.respect.shared.generated.resources.copy
-import world.respect.shared.generated.resources.copycode
-import world.respect.shared.generated.resources.empty_list
-import world.respect.shared.viewmodel.person.copycode.CopyInviteCodeUiState
-import world.respect.shared.viewmodel.person.copycode.CopyInviteCodeViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.code
+import org.openeel.shared.generated.resources.code_private_info
+import org.openeel.shared.generated.resources.copy
+import org.openeel.shared.generated.resources.copycode
+import org.openeel.shared.generated.resources.empty_list
+import org.openeel.shared.viewmodel.person.copycode.CopyInviteCodeUiState
+import org.openeel.shared.viewmodel.person.copycode.CopyInviteCodeViewModel
 
 @Composable
 fun CopyInviteCodeScreen(viewModel: CopyInviteCodeViewModel) {

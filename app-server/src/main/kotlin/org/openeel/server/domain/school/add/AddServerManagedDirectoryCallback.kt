@@ -1,10 +1,10 @@
-package world.respect.server.domain.school.add
+package org.openeel.server.domain.school.add
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.libxxhash.XXStringHasher
 import kotlin.random.Random
 
 /**

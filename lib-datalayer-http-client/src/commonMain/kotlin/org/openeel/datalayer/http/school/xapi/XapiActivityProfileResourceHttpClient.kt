@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.school.xapi
+package org.openeel.datalayer.http.school.xapi
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
@@ -7,18 +7,18 @@ import io.ktor.client.request.put
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.AuthTokenProvider
-import world.respect.datalayer.ext.bodyAsXapiDocument
-import world.respect.datalayer.ext.getAsDataLoadState
-import world.respect.datalayer.ext.getDataLoadResultAsFlow
-import world.respect.datalayer.ext.useTokenProvider
-import world.respect.datalayer.http.school.xapi.ext.setXapiDocumentBody
-import world.respect.datalayer.http.school.xapi.ext.throwXapiExceptionIfNotSuccessful
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.xapi.model.XapiDocument
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
-import world.respect.libutil.ext.appendEndpointSegments
+import org.openeel.datalayer.AuthTokenProvider
+import org.openeel.datalayer.ext.bodyAsXapiDocument
+import org.openeel.datalayer.ext.getAsDataLoadState
+import org.openeel.datalayer.ext.getDataLoadResultAsFlow
+import org.openeel.datalayer.ext.useTokenProvider
+import org.openeel.datalayer.http.school.xapi.ext.setXapiDocumentBody
+import org.openeel.datalayer.http.school.xapi.ext.throwXapiExceptionIfNotSuccessful
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.libutil.ext.appendEndpointSegments
 
 class XapiActivityProfileResourceHttpClient(
     private val xapiUrl: suspend () -> Url,

@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.otheroption
+package org.openeel.app.view.manageuser.otheroption
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,15 +19,15 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.enter_school_link
-import world.respect.shared.generated.resources.manage_school_directories
-import world.respect.shared.generated.resources.next
-import world.respect.shared.generated.resources.paste_link_here
-import world.respect.shared.viewmodel.manageuser.otheroption.OtherOptionsUiState
-import world.respect.shared.viewmodel.manageuser.otheroption.OtherOptionsViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.enter_school_link
+import org.openeel.shared.generated.resources.manage_school_directories
+import org.openeel.shared.generated.resources.next
+import org.openeel.shared.generated.resources.paste_link_here
+import org.openeel.shared.viewmodel.manageuser.otheroption.OtherOptionsUiState
+import org.openeel.shared.viewmodel.manageuser.otheroption.OtherOptionsViewModel
 
 @Composable
 fun OtherOptionsScreen(

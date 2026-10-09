@@ -1,8 +1,8 @@
-package world.respect.shared.viewmodel.catalog
+package org.openeel.shared.viewmodel.catalog
 
 import io.ktor.http.Url
 import kotlinx.serialization.Serializable
-import world.respect.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ReadiumLink
 
 @Serializable
 data class OpdsFeedSelection(

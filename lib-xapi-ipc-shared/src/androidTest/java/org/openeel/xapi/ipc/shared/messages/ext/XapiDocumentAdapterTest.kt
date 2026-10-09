@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.shared.messages.ext
+package org.openeel.xapi.ipc.shared.messages.ext
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.ktor.util.date.GMTDate
@@ -8,7 +8,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import world.respect.lib.xapi.model.XapiDocumentByteArrayImpl
+import org.openeel.lib.xapi.model.XapiDocumentByteArrayImpl
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 

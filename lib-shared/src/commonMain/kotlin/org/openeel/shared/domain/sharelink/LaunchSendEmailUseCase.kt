@@ -1,4 +1,4 @@
-package world.respect.shared.domain.sharelink
+package org.openeel.shared.domain.sharelink
 
 interface LaunchSendEmailUseCase {
 

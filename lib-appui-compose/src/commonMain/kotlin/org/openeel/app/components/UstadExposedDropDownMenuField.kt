@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenuItem
@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import io.github.aakira.napier.Napier
-import world.respect.shared.util.LogTags
+import org.openeel.shared.util.LogTags
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

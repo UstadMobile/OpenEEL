@@ -1,7 +1,7 @@
-package world.respect.shared.ext
+package org.openeel.shared.ext
 
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.ext.hasRel
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ext.hasRel
 
 fun List<ReadiumLink>.alternateLanguageLinks(): List<ReadiumLink> {
     return this.filter {

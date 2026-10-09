@@ -1,4 +1,4 @@
-package world.respect.app.view.statement.list
+package org.openeel.app.view.statement.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,15 +15,15 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.app.RespectAsyncImage
-import world.respect.app.components.langMapString
-import world.respect.app.util.rememberDayOrDate
-import world.respect.lib.xapi.ext.objectActivityNameOrNull
-import world.respect.lib.xapi.ext.objectActivityOrNull
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.score
-import world.respect.shared.util.ext.dayStringResource
+import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.components.langMapString
+import org.openeel.app.util.rememberDayOrDate
+import org.openeel.lib.xapi.ext.objectActivityNameOrNull
+import org.openeel.lib.xapi.ext.objectActivityOrNull
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.score
+import org.openeel.shared.util.ext.dayStringResource
 import java.text.DateFormat
 import java.util.Locale
 import kotlin.math.roundToInt

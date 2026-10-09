@@ -1,7 +1,7 @@
-package world.respect.lib.xapi.ext
+package org.openeel.lib.xapi.ext
 
-import world.respect.lib.xapi.model.XapiActor
-import world.respect.lib.xapi.model.XapiGroup
+import org.openeel.lib.xapi.model.XapiActor
+import org.openeel.lib.xapi.model.XapiGroup
 
 val XapiActor.idStr: String?
     get() = when {

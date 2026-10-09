@@ -1,4 +1,4 @@
-package world.respect.app.view.testing
+package org.openeel.app.view.testing
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.send_db_upload_complete
-import world.respect.shared.generated.resources.uploading
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.send_db_upload_complete
+import org.openeel.shared.generated.resources.uploading
 
 data class SendDbToServerUiState(
     val isLoading: Boolean = true,

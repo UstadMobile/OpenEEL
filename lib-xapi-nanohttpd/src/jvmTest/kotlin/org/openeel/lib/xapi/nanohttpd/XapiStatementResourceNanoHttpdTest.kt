@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.nanohttpd
+package org.openeel.lib.xapi.nanohttpd
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
@@ -8,7 +8,7 @@ import org.junit.rules.TemporaryFolder
 import org.openeel.libxapi.test.AbstractXapiStatementResourceTest
 import org.openeel.libxapi.test.res.SampleXapiStatement
 import org.openeel.libxapi.test.res.xapiSampleStatements
-import world.respect.lib.xapi.resources.XapiStatementsResource
+import org.openeel.lib.xapi.resources.XapiStatementsResource
 import kotlin.test.Test
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ContentNegotiationClient
 

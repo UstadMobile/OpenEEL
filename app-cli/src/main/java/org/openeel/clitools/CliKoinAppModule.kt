@@ -1,16 +1,16 @@
-package world.respect.clitools
+package org.openeel.clitools
 
 import nl.adaptivity.xmlutil.serialization.XML
 import org.koin.dsl.module
-import world.respect.clitools.domain.testlaunchableapp.GetXapiStatementsFromLearningUnitTestUseCase
-import world.respect.clitools.domain.testlaunchableapp.RunLearningUnitTestUseCase
-import world.respect.clitools.domain.testlaunchableapp.SelectRandomPublicationUseCase
-import world.respect.clitools.domain.testlaunchableapp.TestLaunchableAppUseCaseImpl
-import world.respect.datalayer.http.school.opds.OpdsPublicationDataSourceHttpClient
-import world.respect.datalayer.school.opds.OpdsPublicationDataSource
-import world.respect.shared.domain.launchapp.GetAndroidPackageIdForLaunchableAppUseCase
-import world.respect.shared.domain.launchapp.getlaunchoptionsforpublication.GetLaunchOptionsForPublicationUseCase
-import world.respect.shared.domain.testlaunchableapp.TestLaunchableAppUseCase
+import org.openeel.clitools.domain.testlaunchableapp.GetXapiStatementsFromLearningUnitTestUseCase
+import org.openeel.clitools.domain.testlaunchableapp.RunLearningUnitTestUseCase
+import org.openeel.clitools.domain.testlaunchableapp.SelectRandomPublicationUseCase
+import org.openeel.clitools.domain.testlaunchableapp.TestLaunchableAppUseCaseImpl
+import org.openeel.datalayer.http.school.opds.OpdsPublicationDataSourceHttpClient
+import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
+import org.openeel.shared.domain.launchapp.GetAndroidPackageIdForLaunchableAppUseCase
+import org.openeel.shared.domain.launchapp.getlaunchoptionsforpublication.GetLaunchOptionsForPublicationUseCase
+import org.openeel.shared.domain.testlaunchableapp.TestLaunchableAppUseCase
 
 val cliKoinAppModule = module {
     single<SelectRandomPublicationUseCase> {

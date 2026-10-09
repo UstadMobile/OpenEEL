@@ -1,7 +1,7 @@
-package world.respect.lib.opds.model
+package org.openeel.lib.opds.model
 
 import kotlinx.serialization.Serializable
-import world.respect.lib.serializers.StringListSerializer
+import org.openeel.lib.serializers.StringListSerializer
 
 /**
  * Represents a Link Object in OPDS 2.0.

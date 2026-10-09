@@ -1,11 +1,11 @@
-package world.respect.shared.domain.report.formatter
+package org.openeel.shared.domain.report.formatter
 
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.female
-import world.respect.shared.generated.resources.male
-import world.respect.shared.generated.resources.other
-import world.respect.shared.resources.StringResourceUiText
-import world.respect.shared.resources.UiText
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.female
+import org.openeel.shared.generated.resources.male
+import org.openeel.shared.generated.resources.other
+import org.openeel.shared.resources.StringResourceUiText
+import org.openeel.shared.resources.UiText
 
 const val GENDER_FEMALE = 1
 const val GENDER_MALE = 2

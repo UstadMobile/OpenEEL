@@ -1,6 +1,6 @@
-package world.respect.shared.ext
+package org.openeel.shared.ext
 
-import world.respect.shared.navigation.NavCommand
+import org.openeel.shared.navigation.NavCommand
 import kotlin.Boolean
 
 fun NavCommand.withClearBackstack(

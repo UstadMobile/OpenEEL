@@ -1,21 +1,21 @@
-package world.respect.datalayer.repository.school
+package org.openeel.datalayer.repository.school
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.ext.combineWithRemote
-import world.respect.datalayer.ext.updateFromRemoteIfNeeded
-import world.respect.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
-import world.respect.datalayer.repository.shared.paging.RepositoryPagingSourceFactory
-import world.respect.datalayer.repository.shared.paging.loadAndUpdateLocal2
-import world.respect.datalayer.school.InviteDataSource
-import world.respect.datalayer.school.InviteDataSourceLocal
-import world.respect.datalayer.school.model.Invite2
-import world.respect.datalayer.school.writequeue.RemoteWriteQueue
-import world.respect.datalayer.school.writequeue.WriteQueueItem
-import world.respect.datalayer.shared.RepositoryModelDataSource
-import world.respect.datalayer.shared.paging.IPagingSourceFactory
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.ext.combineWithRemote
+import org.openeel.datalayer.ext.updateFromRemoteIfNeeded
+import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
+import org.openeel.datalayer.repository.shared.paging.RepositoryPagingSourceFactory
+import org.openeel.datalayer.repository.shared.paging.loadAndUpdateLocal2
+import org.openeel.datalayer.school.InviteDataSource
+import org.openeel.datalayer.school.InviteDataSourceLocal
+import org.openeel.datalayer.school.model.Invite2
+import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
+import org.openeel.datalayer.school.writequeue.WriteQueueItem
+import org.openeel.datalayer.shared.RepositoryModelDataSource
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 
 class InviteDataSourceRepository(
     override val local: InviteDataSourceLocal,

@@ -1,4 +1,4 @@
-package world.respect.shared.domain.externallink
+package org.openeel.shared.domain.externallink
 
 /**
  * UseCase to extract metadata from a webpage URL.

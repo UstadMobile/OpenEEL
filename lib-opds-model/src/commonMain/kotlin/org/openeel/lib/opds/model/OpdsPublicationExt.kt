@@ -1,7 +1,7 @@
-package world.respect.lib.opds.model
+package org.openeel.lib.opds.model
 
-import world.respect.lib.opds.model.ext.filterByHasRel
-import world.respect.lib.opds.model.ext.hasRel
+import org.openeel.lib.opds.model.ext.filterByHasRel
+import org.openeel.lib.opds.model.ext.hasRel
 
 val LEARNING_UNIT_MIME_TYPES = listOf("text/html", "application/xml", "application/html+xml")
 

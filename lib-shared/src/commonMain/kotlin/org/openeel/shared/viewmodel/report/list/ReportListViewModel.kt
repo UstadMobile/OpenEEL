@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.report.list
+package org.openeel.shared.viewmodel.report.list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -12,23 +12,23 @@ import kotlinx.datetime.TimeZone
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.school.model.Report
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.domain.report.formatter.CreateGraphFormatterUseCase
-import world.respect.shared.domain.report.formatter.GraphFormatter
-import world.respect.shared.domain.report.model.RunReportResultAndFormatters
-import world.respect.shared.domain.report.query.RunReportUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.report
-import world.respect.shared.generated.resources.reports
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.ReportDetail
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
-import world.respect.shared.viewmodel.app.appstate.FabUiState
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.model.Report
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.report.formatter.CreateGraphFormatterUseCase
+import org.openeel.shared.domain.report.formatter.GraphFormatter
+import org.openeel.shared.domain.report.model.RunReportResultAndFormatters
+import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.report
+import org.openeel.shared.generated.resources.reports
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.ReportDetail
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import kotlin.time.ExperimentalTime
 
 data class ReportListUiState(

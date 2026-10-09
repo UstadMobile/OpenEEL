@@ -1,4 +1,4 @@
-package world.respect.datalayer.ext
+package org.openeel.datalayer.ext
 
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
@@ -11,16 +11,16 @@ import io.ktor.http.fromHttpToGmtDate
 import io.ktor.http.isSuccess
 import io.ktor.http.lastModified
 import io.ktor.util.reflect.TypeInfo
-import world.respect.lib.dataloadstate.DataErrorResult
-import world.respect.lib.dataloadstate.DataLoadMetaInfo
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.lib.dataloadstate.throwable.HttpErrorResponseException
-import world.respect.lib.dataloadstate.throwable.withHttpStatus
-import world.respect.lib.xapi.exceptions.XapiException
-import world.respect.lib.xapi.model.XapiDocument
-import world.respect.lib.xapi.model.XapiDocumentByteArrayImpl
+import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLoadMetaInfo
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.throwable.HttpErrorResponseException
+import org.openeel.lib.dataloadstate.throwable.withHttpStatus
+import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.model.XapiDocumentByteArrayImpl
 import kotlin.time.Instant
 
 fun HttpResponse.dataLoadMetaInfo(

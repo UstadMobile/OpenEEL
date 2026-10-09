@@ -1,4 +1,4 @@
-package world.respect.app.view.person.passkeyList
+package org.openeel.app.view.person.passkeyList
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,18 +20,18 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectBasicAlertDialog
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.datalayer.school.model.PersonPasskey
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.at
-import world.respect.shared.generated.resources.delete
-import world.respect.shared.generated.resources.delete_this_passkey
-import world.respect.shared.generated.resources.key_created_on
-import world.respect.shared.generated.resources.loss_access_passkey_dialog
-import world.respect.shared.util.rememberFormattedDateTime
-import world.respect.shared.viewmodel.person.passkeylist.PasskeyListUiState
-import world.respect.shared.viewmodel.person.passkeylist.PasskeyListViewModel
+import org.openeel.app.components.RespectBasicAlertDialog
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.datalayer.school.model.PersonPasskey
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.at
+import org.openeel.shared.generated.resources.delete
+import org.openeel.shared.generated.resources.delete_this_passkey
+import org.openeel.shared.generated.resources.key_created_on
+import org.openeel.shared.generated.resources.loss_access_passkey_dialog
+import org.openeel.shared.util.rememberFormattedDateTime
+import org.openeel.shared.viewmodel.person.passkeylist.PasskeyListUiState
+import org.openeel.shared.viewmodel.person.passkeylist.PasskeyListViewModel
 
 @Composable
 fun PasskeyListScreen(

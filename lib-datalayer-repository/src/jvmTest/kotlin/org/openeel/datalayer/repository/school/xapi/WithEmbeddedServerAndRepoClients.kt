@@ -1,4 +1,4 @@
-package world.respect.datalayer.repository.school.xapi
+package org.openeel.datalayer.repository.school.xapi
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
@@ -11,22 +11,22 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.xapi.writequeue.XapiRemoteWriteQueueDbImpl
-import world.respect.datalayer.http.school.xapi.XapiResourceHttpClient
-import world.respect.datalayer.repository.util.mkdirsIfNotExists
-import world.respect.datalayer.school.model.AuthToken
-import world.respect.lib.test.clientservertest.EmbeddedDataSourceServerContext
-import world.respect.lib.test.clientservertest.insertAdminAndDefaultGrants
-import world.respect.lib.test.clientservertest.newLocalSchoolDatabase
-import world.respect.lib.test.clientservertest.withEmbeddedDataSourceServer
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.remotewritequeue.DrainXapiRemoteWriteQueueUseCase
-import world.respect.lib.xapi.remotewritequeue.EnqueueDrainXapiRemoteWriteQueueUseCase
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.lib.xapi.resources.local.XapiResourceLocal
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.xapi.writequeue.XapiRemoteWriteQueueDbImpl
+import org.openeel.datalayer.http.school.xapi.XapiResourceHttpClient
+import org.openeel.datalayer.repository.util.mkdirsIfNotExists
+import org.openeel.datalayer.school.model.AuthToken
+import org.openeel.lib.test.clientservertest.EmbeddedDataSourceServerContext
+import org.openeel.lib.test.clientservertest.insertAdminAndDefaultGrants
+import org.openeel.lib.test.clientservertest.newLocalSchoolDatabase
+import org.openeel.lib.test.clientservertest.withEmbeddedDataSourceServer
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.remotewritequeue.DrainXapiRemoteWriteQueueUseCase
+import org.openeel.lib.xapi.remotewritequeue.EnqueueDrainXapiRemoteWriteQueueUseCase
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.lib.xapi.resources.local.XapiResourceLocal
+import org.openeel.libutil.util.time.systemTimeInMillis
 import java.io.File
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ContentNegotiationClient
 

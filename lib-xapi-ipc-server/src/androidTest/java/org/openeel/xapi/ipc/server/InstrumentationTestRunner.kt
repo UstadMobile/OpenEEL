@@ -1,4 +1,4 @@
-package world.respect.xapi.ipc.server
+package org.openeel.xapi.ipc.server
 
 import android.app.Application
 import android.content.Context

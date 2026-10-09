@@ -1,4 +1,4 @@
-package world.respect.lib.xapi.remotewritequeue
+package org.openeel.lib.xapi.remotewritequeue
 
 /**
  * Enqueue a task to drain the remote write queue (which requires connectivity with the remote

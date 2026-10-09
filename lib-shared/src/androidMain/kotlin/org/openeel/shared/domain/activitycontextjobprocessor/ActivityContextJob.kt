@@ -1,4 +1,4 @@
-package world.respect.shared.domain.activitycontextjobprocessor
+package org.openeel.shared.domain.activitycontextjobprocessor
 
 import android.app.Activity
 

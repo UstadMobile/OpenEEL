@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
@@ -8,10 +8,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import org.koin.compose.getKoin
-import world.respect.shared.domain.devmode.SetDevModeEnabledUseCase
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.app.appstate.Snack
-import world.respect.shared.viewmodel.app.appstate.SnackBarDispatcher
+import org.openeel.shared.domain.devmode.SetDevModeEnabledUseCase
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.app.appstate.Snack
+import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import kotlin.compareTo
 import kotlin.inc
 

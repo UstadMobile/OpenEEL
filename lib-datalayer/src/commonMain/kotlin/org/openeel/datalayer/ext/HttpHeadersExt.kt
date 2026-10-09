@@ -1,8 +1,8 @@
-package world.respect.datalayer.ext
+package org.openeel.datalayer.ext
 
 import io.ktor.http.HttpMessage
 import io.ktor.http.lastModified
-import world.respect.lib.dataloadstate.DataLayerHeaders
+import org.openeel.lib.dataloadstate.DataLayerHeaders
 import kotlin.time.Instant
 
 fun HttpMessage.lastModifiedAsLong(): Long {

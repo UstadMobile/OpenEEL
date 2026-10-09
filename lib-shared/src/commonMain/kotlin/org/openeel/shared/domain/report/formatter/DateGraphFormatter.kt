@@ -1,10 +1,10 @@
-package world.respect.shared.domain.report.formatter
+package org.openeel.shared.domain.report.formatter
 
 import io.ktor.util.toLowerCasePreservingASCIIRules
 import kotlinx.datetime.LocalDate
-import world.respect.lib.xapi.extensions.reportoptions.ReportXAxis
-import world.respect.shared.resources.StringUiText
-import world.respect.shared.resources.UiText
+import org.openeel.lib.xapi.extensions.reportoptions.ReportXAxis
+import org.openeel.shared.resources.StringUiText
+import org.openeel.shared.resources.UiText
 
 /**
  * Formatter for date values (handles different date groupings)

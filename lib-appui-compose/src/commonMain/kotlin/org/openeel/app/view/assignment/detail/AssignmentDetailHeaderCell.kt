@@ -1,4 +1,4 @@
-package world.respect.app.view.assignment.detail
+package org.openeel.app.view.assignment.detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,8 +21,8 @@ import coil3.compose.AsyncImage
 import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.task_image
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.task_image
 
 @Composable
 fun AssignmentDetailHeaderCell(

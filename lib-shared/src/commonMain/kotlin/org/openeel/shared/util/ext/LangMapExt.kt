@@ -1,10 +1,10 @@
-package world.respect.shared.util.ext
+package org.openeel.shared.util.ext
 
-import world.respect.lib.opds.model.LangMap
-import world.respect.lib.opds.model.LangMapObjectValue
-import world.respect.lib.opds.model.LangMapStringValue
-import world.respect.shared.resources.LangMapUiText
-import world.respect.shared.resources.UiText
+import org.openeel.lib.opds.model.LangMap
+import org.openeel.lib.opds.model.LangMapObjectValue
+import org.openeel.lib.opds.model.LangMapStringValue
+import org.openeel.shared.resources.LangMapUiText
+import org.openeel.shared.resources.UiText
 
 fun Map<String, String>.asLangMapUiText(): UiText = LangMapUiText(this)
 

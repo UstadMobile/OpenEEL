@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeededitaddlink
+package org.openeel.app.view.catalog.opdsfeededitaddlink
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,19 +25,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.app.RespectAsyncImage
-import world.respect.app.components.defaultItemPadding
-import world.respect.app.components.uiTextStringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.add_thumbnail
-import world.respect.shared.generated.resources.description
-import world.respect.shared.generated.resources.example_url_placeholder
-import world.respect.shared.generated.resources.next
-import world.respect.shared.generated.resources.required
-import world.respect.shared.generated.resources.title
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkUiState
-import world.respect.shared.viewmodel.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkViewModel
+import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add_thumbnail
+import org.openeel.shared.generated.resources.description
+import org.openeel.shared.generated.resources.example_url_placeholder
+import org.openeel.shared.generated.resources.next
+import org.openeel.shared.generated.resources.required
+import org.openeel.shared.generated.resources.title
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkUiState
+import org.openeel.shared.viewmodel.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkViewModel
 @Composable
 fun OpdsFeedEditAddLinkScreen(
     viewModel: OpdsFeedEditAddLinkViewModel,

@@ -5,7 +5,7 @@ plugins {
 }
 
 application {
-    mainClass = "world.respect.clitools.OpenEelCLI"
+    mainClass = "org.openeel.clitools.OpenEelCLI"
 }
 
 java {

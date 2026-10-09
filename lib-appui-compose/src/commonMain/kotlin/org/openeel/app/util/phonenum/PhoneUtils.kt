@@ -1,4 +1,4 @@
-package world.respect.app.util.phonenum
+package org.openeel.app.util.phonenum
 
 expect fun isNonSeparator(char: Char): Boolean
 

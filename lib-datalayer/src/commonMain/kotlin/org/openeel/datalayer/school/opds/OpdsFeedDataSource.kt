@@ -1,10 +1,10 @@
-package world.respect.datalayer.school.opds
+package org.openeel.datalayer.school.opds
 
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.opds.model.OpdsFeed
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.opds.model.OpdsFeed
 
 /**
  * OpdsFeedDataSource: OpdsFeeds can be either:

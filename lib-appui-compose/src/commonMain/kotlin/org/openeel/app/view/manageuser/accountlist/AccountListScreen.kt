@@ -1,4 +1,4 @@
-package world.respect.app.view.manageuser.accountlist
+package org.openeel.app.view.manageuser.accountlist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -22,24 +22,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.RespectLongVersionInfoItem
-import world.respect.app.components.RespectPersonAvatar
-import world.respect.app.components.defaultItemPadding
-import world.respect.datalayer.db.school.ext.fullName
-import world.respect.datalayer.school.model.Person
-import world.respect.shared.domain.account.RespectAccount
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.add_account
-import world.respect.shared.generated.resources.developed_by
-import world.respect.shared.generated.resources.family_members
-import world.respect.shared.generated.resources.license_text
-import world.respect.shared.generated.resources.logout
-import world.respect.shared.generated.resources.profile
-import world.respect.shared.generated.resources.respect_is_open_source
-import world.respect.shared.generated.resources.supported_by_spix_foundation
-import world.respect.shared.generated.resources.send_feedback
-import world.respect.shared.viewmodel.manageuser.accountlist.AccountListUiState
-import world.respect.shared.viewmodel.manageuser.accountlist.AccountListViewModel
+import org.openeel.app.components.RespectLongVersionInfoItem
+import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.datalayer.db.school.ext.fullName
+import org.openeel.datalayer.school.model.Person
+import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add_account
+import org.openeel.shared.generated.resources.developed_by
+import org.openeel.shared.generated.resources.family_members
+import org.openeel.shared.generated.resources.license_text
+import org.openeel.shared.generated.resources.logout
+import org.openeel.shared.generated.resources.profile
+import org.openeel.shared.generated.resources.respect_is_open_source
+import org.openeel.shared.generated.resources.supported_by_spix_foundation
+import org.openeel.shared.generated.resources.send_feedback
+import org.openeel.shared.viewmodel.manageuser.accountlist.AccountListUiState
+import org.openeel.shared.viewmodel.manageuser.accountlist.AccountListViewModel
 
 @Composable
 fun AccountListScreen(

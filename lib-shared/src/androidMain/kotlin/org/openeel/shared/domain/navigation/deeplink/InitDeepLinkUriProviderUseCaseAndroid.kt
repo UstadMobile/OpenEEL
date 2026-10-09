@@ -1,4 +1,4 @@
-package world.respect.shared.domain.navigation.deeplink
+package org.openeel.shared.domain.navigation.deeplink
 
 import android.content.Intent
 import android.net.Uri

@@ -1,6 +1,6 @@
-package world.respect.shared.domain.account.invite
+package org.openeel.shared.domain.account.invite
 
-import world.respect.datalayer.respect.model.invite.RespectInviteInfo
+import org.openeel.datalayer.respect.model.invite.RespectInviteInfo
 
 /**
  * Retrieves information about an invite.

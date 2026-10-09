@@ -1,11 +1,11 @@
-package world.respect.shared.ext
+package org.openeel.shared.ext
 
 import io.ktor.http.Url
-import world.respect.datalayer.school.model.Clazz
-import world.respect.lib.xapi.model.XapiAccount
-import world.respect.lib.xapi.model.XapiGroup
-import world.respect.lib.xapi.model.XapiObjectType
-import world.respect.libutil.ext.appendEndpointSegments
+import org.openeel.datalayer.school.model.Clazz
+import org.openeel.lib.xapi.model.XapiAccount
+import org.openeel.lib.xapi.model.XapiGroup
+import org.openeel.lib.xapi.model.XapiObjectType
+import org.openeel.libutil.ext.appendEndpointSegments
 
 fun Clazz.activityId(
     schoolUrl: Url

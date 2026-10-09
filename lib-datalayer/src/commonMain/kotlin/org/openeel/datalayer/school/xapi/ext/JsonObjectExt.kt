@@ -1,9 +1,9 @@
-package world.respect.datalayer.school.xapi.ext
+package org.openeel.datalayer.school.xapi.ext
 
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
-import world.respect.datalayer.school.ext.putAll
+import org.openeel.datalayer.school.ext.putAll
 import kotlin.uuid.Uuid
 
 

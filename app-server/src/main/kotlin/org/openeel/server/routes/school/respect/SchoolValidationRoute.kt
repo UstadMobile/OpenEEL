@@ -1,11 +1,11 @@
-package world.respect.server.routes.school.respect
+package org.openeel.server.routes.school.respect
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import org.koin.ktor.ext.inject
-import world.respect.server.util.SchoolUrlVerificationManager
+import org.openeel.server.util.SchoolUrlVerificationManager
 
 /**
  * Well-known routes for server verification

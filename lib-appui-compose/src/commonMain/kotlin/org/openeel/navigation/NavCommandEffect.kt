@@ -1,10 +1,10 @@
-package world.respect.navigation
+package org.openeel.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import kotlinx.coroutines.flow.Flow
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.RespectComposeNavController
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.RespectComposeNavController
 
 /**
  * The RespectViewModel provides a Flow of NavCommand(s) that can be collected by the navigation

@@ -1,4 +1,4 @@
-package world.respect
+package org.openeel
 
 import android.app.Application
 import android.content.Context
@@ -19,9 +19,9 @@ import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import world.respect.app.BuildConfig
-import world.respect.lib.xapi.XapiResourceProvider
-import world.respect.lib.xapi.resources.XapiResource
+import org.openeel.app.BuildConfig
+import org.openeel.lib.xapi.XapiResourceProvider
+import org.openeel.lib.xapi.resources.XapiResource
 import org.openeel.libcache.ipc.server.OkHttpClientProvider
 
 class RespectApp : Application(), SingletonImageLoader.Factory, XapiResourceProvider, OkHttpClientProvider {

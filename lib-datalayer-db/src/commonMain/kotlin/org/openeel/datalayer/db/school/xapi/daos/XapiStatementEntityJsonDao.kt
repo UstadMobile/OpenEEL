@@ -1,16 +1,16 @@
-package world.respect.datalayer.db.school.xapi.daos
+package org.openeel.datalayer.db.school.xapi.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.school.xapi.composites.XapiStatementAndJsonEntities
-import world.respect.datalayer.db.school.xapi.daos.XapiStatementEntityDao.Companion.SINCE_UNSET
-import world.respect.datalayer.db.school.xapi.daos.XapiStatementEntityDao.Companion.UNTIL_UNSET
-import world.respect.datalayer.db.school.xapi.daos.XapiStatementEntityDao.Companion.XAPI_STATEMENT_PERMISSION_CLAUSE
-import world.respect.datalayer.db.school.xapi.entities.XapiEntityObjectTypeFlags
-import world.respect.datalayer.db.school.xapi.entities.XapiStatementEntityJson
+import org.openeel.datalayer.db.school.xapi.composites.XapiStatementAndJsonEntities
+import org.openeel.datalayer.db.school.xapi.daos.XapiStatementEntityDao.Companion.SINCE_UNSET
+import org.openeel.datalayer.db.school.xapi.daos.XapiStatementEntityDao.Companion.UNTIL_UNSET
+import org.openeel.datalayer.db.school.xapi.daos.XapiStatementEntityDao.Companion.XAPI_STATEMENT_PERMISSION_CLAUSE
+import org.openeel.datalayer.db.school.xapi.entities.XapiEntityObjectTypeFlags
+import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntityJson
 
 @Dao
 interface XapiStatementEntityJsonDao {

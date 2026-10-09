@@ -1,4 +1,4 @@
-package world.respect.server.util.ext
+package org.openeel.server.util.ext
 
 import io.ktor.http.HttpStatusCode
 

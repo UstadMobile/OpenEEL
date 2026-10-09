@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.school.xapi.ext
+package org.openeel.datalayer.http.school.xapi.ext
 
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.header
@@ -7,7 +7,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.http.toHttpDate
-import world.respect.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.model.XapiDocument
 
 /**
  * Set the given XapiDocument as the body. This will:

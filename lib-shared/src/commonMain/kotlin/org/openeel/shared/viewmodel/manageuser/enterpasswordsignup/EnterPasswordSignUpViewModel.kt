@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.manageuser.enterpasswordsignup
+package org.openeel.shared.viewmodel.manageuser.enterpasswordsignup
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
@@ -8,19 +8,19 @@ import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.credentials.passkey.RespectPasswordCredential
-import world.respect.datalayer.respect.model.SchoolDirectoryEntry
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.domain.navigation.onaccountcreated.NavigateOnAccountCreatedUseCase
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.create_account
-import world.respect.shared.generated.resources.required_field
-import world.respect.shared.navigation.EnterPasswordSignup
-import world.respect.shared.resources.StringResourceUiText
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.di.SchoolDirectoryEntryScopeId
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.navigation.onaccountcreated.NavigateOnAccountCreatedUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.create_account
+import org.openeel.shared.generated.resources.required_field
+import org.openeel.shared.navigation.EnterPasswordSignup
+import org.openeel.shared.resources.StringResourceUiText
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 data class EnterPasswordSignupUiState(
     val password: String = "",

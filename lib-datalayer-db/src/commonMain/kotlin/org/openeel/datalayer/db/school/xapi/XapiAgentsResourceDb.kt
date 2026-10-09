@@ -1,14 +1,14 @@
-package world.respect.datalayer.db.school.xapi
+package org.openeel.datalayer.db.school.xapi
 
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.xapi.adapters.toEntities
-import world.respect.datalayer.ext.EPOCH
-import world.respect.lib.xapi.resources.local.XapiAgentsResourceLocal
-import world.respect.lib.xapi.XapiRequestHeaders
-import world.respect.lib.xapi.model.XapiActor
-import world.respect.lib.xapi.model.XapiGroup
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.xapi.adapters.toEntities
+import org.openeel.datalayer.ext.EPOCH
+import org.openeel.lib.xapi.resources.local.XapiAgentsResourceLocal
+import org.openeel.lib.xapi.XapiRequestHeaders
+import org.openeel.lib.xapi.model.XapiActor
+import org.openeel.lib.xapi.model.XapiGroup
 import kotlin.time.Instant
 
 class XapiAgentsResourceDb(

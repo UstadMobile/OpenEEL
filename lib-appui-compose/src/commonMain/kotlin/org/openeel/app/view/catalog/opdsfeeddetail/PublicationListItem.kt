@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeeddetail
+package org.openeel.app.view.catalog.opdsfeeddetail
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,12 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.app.RespectAsyncImage
-import world.respect.app.components.langMapString
-import world.respect.lib.opds.model.Publication
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.classes
-import world.respect.shared.generated.resources.duration
+import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.components.langMapString
+import org.openeel.lib.opds.model.Publication
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.classes
+import org.openeel.shared.generated.resources.duration
 
 
 @Composable

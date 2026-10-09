@@ -1,8 +1,8 @@
-package world.respect.datalayer.db.schooldirectory.entities
+package org.openeel.datalayer.db.schooldirectory.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import world.respect.datalayer.db.shared.entities.ILangMapEntity
+import org.openeel.datalayer.db.shared.entities.ILangMapEntity
 
 @Entity
 data class SchoolDirectoryEntryLangMapEntity(

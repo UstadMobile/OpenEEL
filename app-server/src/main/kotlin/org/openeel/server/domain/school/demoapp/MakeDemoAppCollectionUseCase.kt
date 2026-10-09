@@ -1,12 +1,12 @@
-package world.respect.server.domain.school.demoapp
+package org.openeel.server.domain.school.demoapp
 
 import io.ktor.http.Url
 import org.openeel.demo.demolaunchableappserver.DemoConstants
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.lib.opds.model.OpdsFeedMetadata
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.libutil.ext.resolve
-import world.respect.server.domain.school.demoapp.MakeDemoAppManifestUseCase.Companion.APP_MANIFEST_ICON_NAME
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.OpdsFeedMetadata
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.libutil.ext.resolve
+import org.openeel.server.domain.school.demoapp.MakeDemoAppManifestUseCase.Companion.APP_MANIFEST_ICON_NAME
 
 class MakeDemoAppCollectionUseCase(
     private val demoStringMaps: DemoStringMaps,

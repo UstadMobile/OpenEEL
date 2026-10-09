@@ -1,7 +1,7 @@
-package world.respect.datalayer.school.ext
+package org.openeel.datalayer.school.ext
 
-import world.respect.datalayer.school.model.EnrollmentRoleEnum
-import world.respect.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.PersonRoleEnum
 
 
 val EnrollmentRoleEnum.relatedPersonRoleEnum: PersonRoleEnum

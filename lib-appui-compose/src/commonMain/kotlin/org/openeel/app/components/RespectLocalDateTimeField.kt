@@ -1,4 +1,4 @@
-package world.respect.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.date
-import world.respect.shared.generated.resources.time
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.date
+import org.openeel.shared.generated.resources.time
 
 @Composable
 fun RespectLocalDateTimeField(

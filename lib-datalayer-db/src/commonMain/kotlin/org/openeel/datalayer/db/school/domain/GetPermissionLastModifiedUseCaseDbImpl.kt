@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.domain
+package org.openeel.datalayer.db.school.domain
 
-import world.respect.datalayer.AuthenticatedUserPrincipalId
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.school.domain.GetPermissionLastModifiedUseCase
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.school.domain.GetPermissionLastModifiedUseCase
 import kotlin.time.Instant
 
 class GetPermissionLastModifiedUseCaseDbImpl(

@@ -1,4 +1,4 @@
-package world.respect.app.util.ext
+package org.openeel.app.util.ext
 
 
 import androidx.compose.ui.graphics.Color

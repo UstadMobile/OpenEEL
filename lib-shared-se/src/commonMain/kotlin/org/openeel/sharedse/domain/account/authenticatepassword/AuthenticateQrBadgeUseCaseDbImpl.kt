@@ -1,12 +1,12 @@
-package world.respect.sharedse.domain.account.authenticatepassword
+package org.openeel.sharedse.domain.account.authenticatepassword
 
-import world.respect.credentials.passkey.RespectQRBadgeCredential
-import world.respect.datalayer.UidNumberMapper
-import world.respect.datalayer.db.RespectSchoolDatabase
-import world.respect.datalayer.db.school.adapters.toModel
-import world.respect.datalayer.db.school.adapters.toPersonEntities
-import world.respect.lib.dataloadstate.throwable.ForbiddenException
-import world.respect.shared.domain.account.authenticatepassword.AuthenticateQrBadgeUseCase
+import org.openeel.credentials.passkey.RespectQRBadgeCredential
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.adapters.toModel
+import org.openeel.datalayer.db.school.adapters.toPersonEntities
+import org.openeel.lib.dataloadstate.throwable.ForbiddenException
+import org.openeel.shared.domain.account.authenticatepassword.AuthenticateQrBadgeUseCase
 
 class AuthenticateQrBadgeUseCaseDbImpl(
     private val schoolDb: RespectSchoolDatabase,

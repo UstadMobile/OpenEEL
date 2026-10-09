@@ -1,6 +1,6 @@
-package world.respect.lib.xapi.composites
+package org.openeel.lib.xapi.composites
 
-import world.respect.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiStatement
 
 /**
  * @param assignmentStatement the Statement that set the assignment as per the assignment recipe

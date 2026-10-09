@@ -1,4 +1,4 @@
-package world.respect.app.view.person.qrcode
+package org.openeel.app.view.person.qrcode
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import io.github.alexzhirkevich.qrose.rememberQrCodePainter
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import world.respect.app.components.defaultItemPadding
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.qr_code_private_screen
-import world.respect.shared.viewmodel.person.qrcode.InviteQrUiState
-import world.respect.shared.viewmodel.person.qrcode.InviteQrViewModel
+import org.openeel.app.components.defaultItemPadding
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.qr_code_private_screen
+import org.openeel.shared.viewmodel.person.qrcode.InviteQrUiState
+import org.openeel.shared.viewmodel.person.qrcode.InviteQrViewModel
 
 @Composable
 fun InviteQrScreen(viewModel: InviteQrViewModel) {

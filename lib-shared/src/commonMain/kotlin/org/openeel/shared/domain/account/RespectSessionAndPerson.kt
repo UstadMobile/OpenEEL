@@ -1,9 +1,9 @@
-package world.respect.shared.domain.account
+package org.openeel.shared.domain.account
 
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.school.ext.asXapiAgent
-import world.respect.datalayer.school.model.Person
-import world.respect.lib.xapi.model.XapiAgent
+import org.openeel.datalayer.school.ext.asXapiAgent
+import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.xapi.model.XapiAgent
 
 /**
  *

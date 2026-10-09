@@ -1,4 +1,4 @@
-package world.respect.shared.navigation
+package org.openeel.shared.navigation
 
 import kotlinx.coroutines.flow.Flow
 

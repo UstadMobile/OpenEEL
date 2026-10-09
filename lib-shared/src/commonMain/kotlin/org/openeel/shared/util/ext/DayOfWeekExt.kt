@@ -1,15 +1,15 @@
-package world.respect.shared.util.ext
+package org.openeel.shared.util.ext
 
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.StringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.monday
-import world.respect.shared.generated.resources.tuesday
-import world.respect.shared.generated.resources.wednesday
-import world.respect.shared.generated.resources.thursday
-import world.respect.shared.generated.resources.friday
-import world.respect.shared.generated.resources.saturday
-import world.respect.shared.generated.resources.sunday
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.monday
+import org.openeel.shared.generated.resources.tuesday
+import org.openeel.shared.generated.resources.wednesday
+import org.openeel.shared.generated.resources.thursday
+import org.openeel.shared.generated.resources.friday
+import org.openeel.shared.generated.resources.saturday
+import org.openeel.shared.generated.resources.sunday
 
 val DayOfWeek.dayStringResource: StringResource
     get() = when(this) {

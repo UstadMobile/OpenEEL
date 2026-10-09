@@ -1,8 +1,8 @@
-package world.respect.datalayer.school.opds.ext
+package org.openeel.datalayer.school.opds.ext
 
 import io.ktor.http.Url
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.ext.hasRel
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ext.hasRel
 import kotlin.collections.plus
 
 /**

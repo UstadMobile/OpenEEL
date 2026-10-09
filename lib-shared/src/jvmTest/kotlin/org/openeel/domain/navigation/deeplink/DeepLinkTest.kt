@@ -1,8 +1,8 @@
-package world.respect.domain.navigation.deeplink
+package org.openeel.domain.navigation.deeplink
 
 import io.ktor.http.Url
-import world.respect.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
-import world.respect.shared.domain.navigation.deeplink.UrlToCustomDeepLinkUseCase
+import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
+import org.openeel.shared.domain.navigation.deeplink.UrlToCustomDeepLinkUseCase
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

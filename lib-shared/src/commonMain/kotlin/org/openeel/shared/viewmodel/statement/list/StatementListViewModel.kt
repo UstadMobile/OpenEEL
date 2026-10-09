@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel.statement.list
+package org.openeel.shared.viewmodel.statement.list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -12,24 +12,24 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import world.respect.datalayer.SchoolDataSource
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataLoadingState
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.dataloadstate.ext.map
-import world.respect.lib.xapi.ext.objectActivityNameOrNull
-import world.respect.lib.xapi.ext.objectActivityOrNull
-import world.respect.lib.xapi.ext.sortedByTimestampDescending
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.resources.XapiStatementsResource
-import world.respect.shared.domain.account.RespectAccountManager
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.StatementDetail
-import world.respect.shared.navigation.StatementList
-import world.respect.shared.util.ext.asLangMapUiText
-import world.respect.shared.util.ext.asUiText
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.dataloadstate.ext.map
+import org.openeel.lib.xapi.ext.objectActivityNameOrNull
+import org.openeel.lib.xapi.ext.objectActivityOrNull
+import org.openeel.lib.xapi.ext.sortedByTimestampDescending
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.resources.XapiStatementsResource
+import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.StatementDetail
+import org.openeel.shared.navigation.StatementList
+import org.openeel.shared.util.ext.asLangMapUiText
+import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.viewmodel.RespectViewModel
 
 
 data class StatementListUiState(

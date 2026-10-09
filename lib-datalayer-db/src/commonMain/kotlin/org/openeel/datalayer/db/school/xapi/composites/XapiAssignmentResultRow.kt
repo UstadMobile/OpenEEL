@@ -1,4 +1,4 @@
-package world.respect.datalayer.db.school.xapi.composites
+package org.openeel.datalayer.db.school.xapi.composites
 
 class XapiAssignmentResultRow(
     val actorUid: Long,

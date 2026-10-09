@@ -1,4 +1,4 @@
-package world.respect.shared.viewmodel
+package org.openeel.shared.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -18,19 +18,19 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import org.koin.mp.KoinPlatform.getKoin
-import world.respect.lib.dataloadstate.DataLoadParams
-import world.respect.lib.dataloadstate.DataLoadState
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.shared.navigation.NavCommand
-import world.respect.shared.navigation.NavResult
-import world.respect.shared.navigation.NavResultReturner
-import world.respect.libutil.util.time.systemTimeInMillis
-import world.respect.shared.resources.UiText
-import world.respect.shared.util.exception.getUiTextOrGeneric
-import world.respect.shared.viewmodel.app.appstate.AppUiState
-import world.respect.shared.viewmodel.app.appstate.LoadingUiState
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.NavResult
+import org.openeel.shared.navigation.NavResultReturner
+import org.openeel.libutil.util.time.systemTimeInMillis
+import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.exception.getUiTextOrGeneric
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
+import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
 
 abstract class RespectViewModel(
     protected val savedStateHandle: SavedStateHandle,

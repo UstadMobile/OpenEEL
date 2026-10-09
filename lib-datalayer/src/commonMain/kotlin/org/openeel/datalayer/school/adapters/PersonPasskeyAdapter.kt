@@ -1,10 +1,10 @@
-package world.respect.datalayer.school.adapters
+package org.openeel.datalayer.school.adapters
 
 import io.ktor.util.decodeBase64Bytes
 import kotlinx.serialization.json.Json
-import world.respect.credentials.passkey.CreatePasskeyUseCase
-import world.respect.credentials.passkey.model.ClientDataJSON
-import world.respect.datalayer.school.model.PersonPasskey
+import org.openeel.credentials.passkey.CreatePasskeyUseCase
+import org.openeel.credentials.passkey.model.ClientDataJSON
+import org.openeel.datalayer.school.model.PersonPasskey
 import kotlin.time.Clock
 
 fun CreatePasskeyUseCase.PasskeyCreatedResult.toPersonPasskey(

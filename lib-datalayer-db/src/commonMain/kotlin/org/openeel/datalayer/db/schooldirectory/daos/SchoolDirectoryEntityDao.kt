@@ -1,12 +1,12 @@
-package world.respect.datalayer.db.schooldirectory.daos
+package org.openeel.datalayer.db.schooldirectory.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import world.respect.datalayer.db.schooldirectory.entities.SchoolDirectoryEntity
-import world.respect.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.db.schooldirectory.entities.SchoolDirectoryEntity
+import org.openeel.datalayer.respect.model.RespectSchoolDirectory
 
 @Dao
 interface SchoolDirectoryEntityDao {

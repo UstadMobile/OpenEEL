@@ -1,16 +1,16 @@
-package world.respect.xapi.ipc.client
+package org.openeel.xapi.ipc.client
 
 import io.ktor.http.Url
 import kotlinx.serialization.json.Json
 import org.openeel.lib.ipc.messagebridge.IpcMessageBridge
-import world.respect.lib.xapi.resources.XapiActivitiesResource
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
-import world.respect.lib.xapi.resources.XapiAgentProfileResource
-import world.respect.lib.xapi.resources.XapiAgentsResource
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.lib.xapi.resources.XapiStateResource
-import world.respect.lib.xapi.resources.XapiStatementsResource
-import world.respect.xapi.ipc.shared.messages.XapiIpcKeys
+import org.openeel.lib.xapi.resources.XapiActivitiesResource
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.xapi.resources.XapiAgentProfileResource
+import org.openeel.lib.xapi.resources.XapiAgentsResource
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.lib.xapi.resources.XapiStateResource
+import org.openeel.lib.xapi.resources.XapiStatementsResource
+import org.openeel.xapi.ipc.shared.messages.XapiIpcKeys
 import java.util.concurrent.Executors
 
 /**

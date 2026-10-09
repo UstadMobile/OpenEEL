@@ -1,7 +1,7 @@
-package world.respect.credentials.passkey
+package org.openeel.credentials.passkey
 
 import kotlinx.coroutines.channels.Channel
-import world.respect.credentials.passkey.CreatePasskeyUseCaseAndroidImpl.CreatePublicKeyCredentialRequestJob
+import org.openeel.credentials.passkey.CreatePasskeyUseCaseAndroidImpl.CreatePublicKeyCredentialRequestJob
 
 class CreatePasskeyUseCaseAndroidChannelHost() {
 

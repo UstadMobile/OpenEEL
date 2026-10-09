@@ -1,4 +1,4 @@
-package world.respect.app.app
+package org.openeel.app.app
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import world.respect.appcompose.R
+import org.openeel.appcompose.R
 
 @Composable
 actual fun AppIcon() {

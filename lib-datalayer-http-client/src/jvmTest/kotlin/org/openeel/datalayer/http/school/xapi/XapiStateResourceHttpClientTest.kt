@@ -1,4 +1,4 @@
-package world.respect.datalayer.http.school.xapi
+package org.openeel.datalayer.http.school.xapi
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
@@ -9,12 +9,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.openeel.libxapi.test.AbstractXapiStateResourceTest
-import world.respect.datalayer.http.server.XapiStateResourceRoute
-import world.respect.datalayer.school.model.AuthToken
-import world.respect.lib.test.clientservertest.withEmbeddedDataSourceServer
-import world.respect.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import world.respect.lib.xapi.resources.XapiStateResource
-import world.respect.libutil.util.time.systemTimeInMillis
+import org.openeel.datalayer.http.server.XapiStateResourceRoute
+import org.openeel.datalayer.school.model.AuthToken
+import org.openeel.lib.test.clientservertest.withEmbeddedDataSourceServer
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.resources.XapiStateResource
+import org.openeel.libutil.util.time.systemTimeInMillis
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ContentNegotiationClient
 
 class XapiStateResourceHttpClientTest : AbstractXapiStateResourceTest() {

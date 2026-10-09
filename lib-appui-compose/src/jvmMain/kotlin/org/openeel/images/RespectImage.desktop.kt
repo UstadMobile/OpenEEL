@@ -1,4 +1,4 @@
-package world.respect.images
+package org.openeel.images
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter

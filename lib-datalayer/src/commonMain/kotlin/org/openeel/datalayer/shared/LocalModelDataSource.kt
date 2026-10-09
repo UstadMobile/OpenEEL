@@ -1,4 +1,4 @@
-package world.respect.datalayer.shared
+package org.openeel.datalayer.shared
 
 /**
  * Represents a local datasource for a specific model e.g. Person, Class, etc.

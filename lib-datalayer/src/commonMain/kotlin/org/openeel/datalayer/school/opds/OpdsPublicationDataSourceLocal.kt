@@ -1,8 +1,8 @@
-package world.respect.datalayer.school.opds
+package org.openeel.datalayer.school.opds
 
-import world.respect.lib.dataloadstate.DataReadyState
-import world.respect.datalayer.networkvalidation.BaseDataSourceValidationHelper
-import world.respect.lib.opds.model.Publication
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
+import org.openeel.lib.opds.model.Publication
 
 interface OpdsPublicationDataSourceLocal: OpdsPublicationDataSource {
 

@@ -1,7 +1,7 @@
-package world.respect.datalayer.shared
+package org.openeel.datalayer.shared
 
-import world.respect.datalayer.UidNumberMapper
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.libxxhash.XXStringHasher
 
 class XXHashUidNumberMapper(
     val xxStringHasher: XXStringHasher

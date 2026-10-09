@@ -1,9 +1,9 @@
-package world.respect.datalayer.db.school.xapi.entities
+package org.openeel.datalayer.db.school.xapi.entities
 
 import androidx.room.Entity
 import androidx.room.Index
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.UidNumberMapper
+import org.openeel.datalayer.UidNumberMapper
 import kotlin.time.Clock
 import kotlin.time.Instant
 

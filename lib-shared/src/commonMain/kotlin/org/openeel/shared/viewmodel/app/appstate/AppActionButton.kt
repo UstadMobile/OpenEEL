@@ -1,6 +1,6 @@
-package world.respect.shared.viewmodel.app.appstate
+package org.openeel.shared.viewmodel.app.appstate
 
-import world.respect.shared.resources.UiText
+import org.openeel.shared.resources.UiText
 
 /**
  * @param id Used to set the DOM id for the action button on React. Sets the testTag on Compose.

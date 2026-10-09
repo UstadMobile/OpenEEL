@@ -1,4 +1,4 @@
-package world.respect.server.routes.school.respect
+package org.openeel.server.routes.school.respect
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
@@ -7,10 +7,10 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import world.respect.datalayer.SchoolDataSource
-import world.respect.datalayer.school.PersonPasswordDataSource
-import world.respect.server.util.ext.requireAccountScope
-import world.respect.lib.dataloadstate.ktorserver.respondDataLoadState
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.PersonPasswordDataSource
+import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
 
 fun Route.PersonPasswordRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->

@@ -1,8 +1,8 @@
-package world.respect.shared.domain.launchapp.getxapilaunchparams
+package org.openeel.shared.domain.launchapp.getxapilaunchparams
 
 import io.ktor.http.Url
 import kotlinx.serialization.Serializable
-import world.respect.lib.xapi.model.XapiActor
+import org.openeel.lib.xapi.model.XapiActor
 import kotlin.uuid.Uuid
 
 /**

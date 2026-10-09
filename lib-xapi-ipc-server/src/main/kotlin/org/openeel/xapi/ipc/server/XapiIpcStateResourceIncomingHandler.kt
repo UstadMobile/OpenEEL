@@ -1,14 +1,14 @@
-package world.respect.xapi.ipc.server
+package org.openeel.xapi.ipc.server
 
 import android.os.Bundle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
-import world.respect.lib.xapi.XapiResourceProvider
-import world.respect.lib.xapi.resources.XapiResource
-import world.respect.lib.xapi.resources.XapiStateResource
-import world.respect.xapi.ipc.server.ext.AbstractDocumentResourceIncomingHandler
-import world.respect.xapi.ipc.shared.messages.ext.getXapiIpcQueryParameters
-import world.respect.xapi.ipc.shared.messages.ext.orEmpty
+import org.openeel.lib.xapi.XapiResourceProvider
+import org.openeel.lib.xapi.resources.XapiResource
+import org.openeel.lib.xapi.resources.XapiStateResource
+import org.openeel.xapi.ipc.server.ext.AbstractDocumentResourceIncomingHandler
+import org.openeel.xapi.ipc.shared.messages.ext.getXapiIpcQueryParameters
+import org.openeel.xapi.ipc.shared.messages.ext.orEmpty
 import java.util.concurrent.ExecutorService
 
 class XapiIpcStateResourceIncomingHandler(

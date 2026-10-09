@@ -1,10 +1,10 @@
-package world.respect.datalayer.respect.model
+package org.openeel.datalayer.respect.model
 
 import io.ktor.http.Url
 import kotlinx.serialization.Serializable
-import world.respect.datalayer.shared.ModelWithTimes
-import world.respect.lib.opds.model.LangMap
-import world.respect.lib.serializers.InstantAsISO8601
+import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.opds.model.LangMap
+import org.openeel.lib.serializers.InstantAsISO8601
 
 /**
  * A RESPECT school endpoint (a logical grouping of networked resources), each with its own users,

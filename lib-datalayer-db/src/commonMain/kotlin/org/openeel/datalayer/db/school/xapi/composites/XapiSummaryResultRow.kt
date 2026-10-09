@@ -1,7 +1,7 @@
-package world.respect.datalayer.db.school.xapi.composites
+package org.openeel.datalayer.db.school.xapi.composites
 
 import androidx.room.Embedded
-import world.respect.datalayer.db.school.xapi.entities.XapiActorEntity
+import org.openeel.datalayer.db.school.xapi.entities.XapiActorEntity
 
 
 data class XapiSummaryResultRow(

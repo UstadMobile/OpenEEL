@@ -1,10 +1,10 @@
-package world.respect.app.view.manageuser.sharefeedback
+package org.openeel.app.view.manageuser.sharefeedback
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import world.respect.shared.viewmodel.manageuser.sharefeedback.ShareFeedbackViewModel
+import org.openeel.shared.viewmodel.manageuser.sharefeedback.ShareFeedbackViewModel
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -16,10 +16,10 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.email_respect
-import world.respect.shared.generated.resources.public_forum
-import world.respect.shared.generated.resources.whatsapp_respect
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.email_respect
+import org.openeel.shared.generated.resources.public_forum
+import org.openeel.shared.generated.resources.whatsapp_respect
 
 @Composable
 fun ShareFeedbackScreen(

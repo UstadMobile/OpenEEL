@@ -1,4 +1,4 @@
-package world.respect.app.view.catalog.opdsfeededit
+package org.openeel.app.view.catalog.opdsfeededit
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import world.respect.shared.generated.resources.Res
-import world.respect.shared.generated.resources.browse
-import world.respect.shared.generated.resources.browse_description
-import world.respect.shared.generated.resources.use_link
-import world.respect.shared.generated.resources.use_link_description
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.browse
+import org.openeel.shared.generated.resources.browse_description
+import org.openeel.shared.generated.resources.use_link
+import org.openeel.shared.generated.resources.use_link_description
 
 
 @OptIn(ExperimentalMaterial3Api::class)
