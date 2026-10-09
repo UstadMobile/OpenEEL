@@ -17,9 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.shared.generated.resources.Res
-import org.openeel.shared.generated.resources.email_respect
+import org.openeel.shared.generated.resources.email_the_developers
 import org.openeel.shared.generated.resources.public_forum
-import org.openeel.shared.generated.resources.whatsapp_respect
+import org.openeel.shared.generated.resources.message_on_whatsapp
 
 @Composable
 fun ShareFeedbackScreen(
@@ -46,7 +46,7 @@ fun ShareFeedbackScreen(
             modifier = Modifier.clickable {
                 onClickWhatsApp()
             },
-            headlineContent = { Text(stringResource(Res.string.whatsapp_respect)) },
+            headlineContent = { Text(stringResource(Res.string.message_on_whatsapp)) },
             leadingContent = {
                 Icon(imageVector = Icons.Outlined.Whatsapp, contentDescription = null)
             }
@@ -56,7 +56,7 @@ fun ShareFeedbackScreen(
             modifier = Modifier.clickable {
                 onClickEmail()
             },
-            headlineContent = { Text(stringResource(Res.string.email_respect)) },
+            headlineContent = { Text(stringResource(Res.string.email_the_developers)) },
             leadingContent = {
                 Icon(imageVector = Icons.Outlined.Email, contentDescription = null)
             }

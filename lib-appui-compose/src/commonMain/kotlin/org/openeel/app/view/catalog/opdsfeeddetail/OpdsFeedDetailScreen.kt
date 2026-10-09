@@ -127,7 +127,6 @@ fun OpdsFeedDetailScreen(
             },
         ) {
 
-            /* Disabled for respect-update 1/Oct/26
             item(key = "feed_header") {
                 OpdsFeedDetailHeader(
                     uiState = uiState,
@@ -137,7 +136,6 @@ fun OpdsFeedDetailScreen(
                     onClickAssign = onClickAssignQuickActionButton,
                 )
             }
-            */
 
             catalog?.navigation?.also { navigation ->
                 itemsIndexed(

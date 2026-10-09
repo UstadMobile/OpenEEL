@@ -154,7 +154,7 @@ class OpdsFeedDetailViewModel(
                 _appUiState.update {
                     it.copy(
                         fabState = FabUiState(
-                            visible = false,//temporarily disabled 3/Oct - isTeacherOrAdmin && route.resultDest == null,
+                            visible = isTeacherOrAdmin && route.resultDest == null,
                             icon = FabUiState.FabIcon.EDIT,
                             text = Res.string.edit.asUiText(),
                             onClick = ::onClickEdit,
