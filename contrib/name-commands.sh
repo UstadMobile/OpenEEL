@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#find . -name build.gradle.kts | xargs sed -i 's/world.respect/org.openeel/g'
+find . -name build.gradle.kts | xargs sed -i 's/world.respect/org.openeel/g'
 
-#find . -name \*.kt | xargs sed -i 's/package world.respect/package org.openeel/g'
-#find . -name \*.kt | xargs sed -i 's/import world.respect/import org.openeel/g'
+find . -name \*.kt | xargs sed -i 's/package world.respect/package org.openeel/g'
+find . -name \*.kt | xargs sed -i 's/import world.respect/import org.openeel/g'
 
 DIRS=$(ls -l)
 ROOT_DIR=$(pwd)
