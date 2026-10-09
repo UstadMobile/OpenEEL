@@ -38,7 +38,7 @@ import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.lib.xapi.model.XapiStatementRef
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.xapi.createPinCollectionStatement
 import org.openeel.shared.ext.resultExpected
 import org.openeel.shared.generated.resources.Res
@@ -56,7 +56,7 @@ import org.openeel.shared.navigation.OpdsFeedEdit
 import org.openeel.shared.navigation.PlaylistList
 import org.openeel.shared.util.ext.appbarTitleString
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ExpandableFabIcon
 import org.openeel.shared.viewmodel.app.appstate.ExpandableFabItem
 import org.openeel.shared.viewmodel.app.appstate.ExpandableFabUiState

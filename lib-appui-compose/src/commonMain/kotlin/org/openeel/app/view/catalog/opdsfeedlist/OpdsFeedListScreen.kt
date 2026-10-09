@@ -29,18 +29,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.view.catalog.opdsfeeddetail.NavigationListItem
 import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.xapi.ext.objectActivityOrNull
+import org.openeel.lib.xapi.ext.opdsCollectionLinkOrNull
+import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.shared.generated.resources.Res
-import org.openeel.shared.generated.resources.all
 import org.openeel.shared.generated.resources.created_by
 import org.openeel.shared.generated.resources.empty
-import org.openeel.shared.generated.resources.my_collections
+import org.openeel.shared.generated.resources.more_options
 import org.openeel.shared.generated.resources.no_collections_yet
 import org.openeel.shared.generated.resources.no_collections_yet_description
 import org.openeel.shared.generated.resources.sections_and_items
-import org.openeel.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListFilter
+import org.openeel.shared.generated.resources.unpin
 import org.openeel.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListUiState
 import org.openeel.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListViewModel
 

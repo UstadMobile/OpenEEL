@@ -16,9 +16,7 @@ import org.openeel.lib.xapi.ext.encodeToXapiDocument
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.lib.opds.model.toStringMap
-import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.lib.xapi.model.XapiActor
-import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.shared.domain.xapi.createPinCollectionStatement
 import kotlin.time.Clock
