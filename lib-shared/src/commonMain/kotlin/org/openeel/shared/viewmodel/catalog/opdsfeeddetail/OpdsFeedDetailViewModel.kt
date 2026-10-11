@@ -385,7 +385,14 @@ class OpdsFeedDetailViewModel(
     }
 
     fun onClickRemix() {
-
+        _navCommandFlow.tryEmit(
+            NavCommand.Navigate(
+                OpdsFeedEdit.create(
+                    playlistUrl = route.opdsFeedUrl,
+                    isCopy = true,
+                )
+            )
+        )
     }
 
     fun onCopyDialogDismiss() {

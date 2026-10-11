@@ -64,6 +64,8 @@ fun OpdsGroup.asEntities(
             ogeUid = groupUid,
             ogeOfeUid = ofeUid,
             ogeIndex = index,
+            ogePublicationsNull = publications == null,
+            ogeNavigationsNull = navigation == null,
         ),
         metadata = metadata.asEntity(
             ofmeOfeUid = ofeUid,
@@ -100,7 +102,9 @@ fun OpdsGroupEntities.asModel(
     return OpdsGroup(
         metadata = metadata.asModel(),
         links = links.asModelsSub(ReadiumLinkEntity.PropertyType.OPDS_GROUP_LINKS),
-        navigation = links.asModelsSub(ReadiumLinkEntity.PropertyType.OPDS_GROUP_NAVIGATION),
+        navigation = links.asModelsSub(
+            ReadiumLinkEntity.PropertyType.OPDS_GROUP_NAVIGATION
+        ).takeIf { !group.ogeNavigationsNull },
         publications = publications.map { publication ->
             OpdsPublicationEntities(
                 opdsPublicationEntity = publication,
@@ -108,7 +112,7 @@ fun OpdsGroupEntities.asModel(
                 linkEntities = links.filter { it.rlePropFk == publication.opeUid },
                 subjectEntities = subjectEntities.filter { it.rseTopParentUid == publication.opeUid },
             ).asModel(json).data
-        }
+        }.takeIf { !group.ogePublicationsNull },
     )
 }
 

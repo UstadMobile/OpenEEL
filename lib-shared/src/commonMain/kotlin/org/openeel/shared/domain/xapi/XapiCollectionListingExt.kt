@@ -28,7 +28,6 @@ import kotlin.uuid.Uuid
  * @param opdsCollectionLink the url that can be used to GET/PUT the OPDS collection via the xAPI
  *        Activity Profile Resource
  */
-@OptIn(ExperimentalUuidApi::class)
 fun createPinCollectionStatement(
     collectionActivityId: String,
     collectionName: Map<String, String>,
