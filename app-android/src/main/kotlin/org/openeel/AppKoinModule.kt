@@ -287,6 +287,7 @@ import org.openeel.shared.viewmodel.person.setusernameandpassword.CreateAccountS
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListViewModel
+import org.openeel.shared.viewmodel.catalog.opdsfeedlistpinusinglink.OpdsFeedListPinUsingLinkViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeedshare.OpdsFeedShareViewModel
 import org.openeel.shared.viewmodel.schooldirectory.edit.SchoolDirectoryEditViewModel
 import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryListViewModel
@@ -462,6 +463,7 @@ val appKoinModule = module {
     viewModelOf(::OpdsFeedListViewModel)
     viewModelOf(::OpdsFeedEditViewModel)
     viewModelOf(::OpdsFeedEditAddLinkViewModel)
+    viewModelOf(::OpdsFeedListPinUsingLinkViewModel)
     viewModelOf(::OpdsFeedShareViewModel)
 
     viewModelOf(::StatementListViewModel)

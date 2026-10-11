@@ -46,10 +46,10 @@ import org.openeel.shared.generated.resources.collection
 import org.openeel.shared.generated.resources.something_went_wrong
 import org.openeel.shared.generated.resources.undo
 import org.openeel.shared.generated.resources.unpinned_1_collection
-import org.openeel.shared.navigation.EnterLink
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.OpdsFeedEdit
+import org.openeel.shared.navigation.OpdsFeedListPinUsingLink
 import org.openeel.shared.navigation.PlaylistList
 import org.openeel.shared.util.ext.appbarTitleString
 import org.openeel.shared.util.ext.asUiText
@@ -298,6 +298,6 @@ class OpdsFeedListViewModel(
     }
 
     fun onClickAddFromLink() {
-        _navCommandFlow.tryEmit(NavCommand.Navigate(EnterLink))
+        _navCommandFlow.tryEmit(NavCommand.Navigate(OpdsFeedListPinUsingLink))
     }
 }

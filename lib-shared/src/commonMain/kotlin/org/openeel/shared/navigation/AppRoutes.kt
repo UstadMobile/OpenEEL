@@ -798,6 +798,10 @@ class PlaylistList private constructor(
         )
     }
 }
+
+@Serializable
+object OpdsFeedListPinUsingLink: OpenEelAppRoute
+
 @Serializable
 class OpdsFeedEdit private constructor(
     private val urlStr: String? = null,
