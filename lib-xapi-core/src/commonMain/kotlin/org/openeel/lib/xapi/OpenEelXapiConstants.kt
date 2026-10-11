@@ -33,12 +33,6 @@ object OpenEelXapiConstants {
 
     const val ACTIVITY_EXTENSION_DEADLINE = "https://id.ustadmobile.com/xapi/extension/deadline"
 
-    /**
-     * As per README_COLLECTIONS_LISTING_RECIPE.md : links to the OPDS collection via the xAPI
-     * Activity Profile Resource (see README_OPDS_COLLECTIONS_ACTIVITY_PROFILE.md).
-     */
-    const val ACTIVITY_EXTENSION_OPDS_COLLECTION_LINK = "https://id.openeel.org/extensions/activity/opds-collection-link"
-
     const val CATEGORY_ASSIGNMENT_RECIPE = "https://id.ustadmobile.com/xapi/activities/assignment-recipe"
 
     const val CATEGORY_APP_LISTING_RECIPE = "https://id.openeel.org/recipes/applisting"

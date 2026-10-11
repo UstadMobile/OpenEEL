@@ -10,6 +10,10 @@ import org.openeel.lib.xapi.model.XapiAgent
  *
  * This use case is used to retrieve a list of [world.respect.lib.xapi.model.XapiAgent] representing
  * the currently authenticated user.
+ *
+ * This can be used for permission management purposes e.g. to restrict xAPI queries that may be
+ * run, e.g. agents profile/state resources can use this to prevent users accessing/writing to
+ * another users documents.
  */
 fun interface GetAuthenticatedXapiAgentsUseCase {
 

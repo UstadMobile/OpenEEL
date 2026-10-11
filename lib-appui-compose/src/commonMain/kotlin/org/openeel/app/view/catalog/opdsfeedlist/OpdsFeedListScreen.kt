@@ -36,7 +36,7 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.xapi.ext.objectActivityOrNull
-import org.openeel.lib.xapi.ext.opdsCollectionLinkOrNull
+import org.openeel.lib.xapi.ext.webPubManifestOrNull
 import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.created_by
@@ -99,7 +99,7 @@ fun OpdsFeedListScreen(
 
                     NavigationListItem(
                         navigation = ReadiumLink(
-                            href = activityDefinition?.opdsCollectionLinkOrNull().orEmpty(),
+                            href = activityDefinition?.webPubManifestOrNull().orEmpty(),
                             type = OpdsFeed.MEDIA_TYPE,
                             title = activityDefinition?.name?.entries?.firstOrNull()?.value,
                         ),

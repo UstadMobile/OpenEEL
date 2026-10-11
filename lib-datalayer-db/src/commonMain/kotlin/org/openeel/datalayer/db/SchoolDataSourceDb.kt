@@ -7,8 +7,8 @@ import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.school.ClassDatasourceDb
 import org.openeel.datalayer.db.school.EnrollmentDataSourceDb
-import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
-import org.openeel.datalayer.db.school.GetAuthenticatedXapiAgentsUseCaseDbImpl
+import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
+import org.openeel.datalayer.db.school.auth.GetAuthenticatedXapiAgentsUseCaseDbImpl
 import org.openeel.datalayer.db.school.IndicatorDataSourceDb
 import org.openeel.datalayer.db.school.InviteDataSourceDb
 import org.openeel.datalayer.db.school.PersonDataSourceDb

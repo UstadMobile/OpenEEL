@@ -1,4 +1,4 @@
-package org.openeel.datalayer.db.school
+package org.openeel.datalayer.db.school.auth
 
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper

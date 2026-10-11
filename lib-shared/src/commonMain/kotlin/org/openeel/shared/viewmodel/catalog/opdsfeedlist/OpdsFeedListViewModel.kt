@@ -18,7 +18,6 @@ import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.db.school.ext.isAdmin
-import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
@@ -29,8 +28,7 @@ import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.lib.xapi.ext.distinctByMostRecentTimestampForActivityId
 import org.openeel.lib.xapi.ext.idAsStringOrNull
 import org.openeel.lib.xapi.ext.objectActivityOrNull
-import org.openeel.lib.xapi.ext.opdsCollectionLinkAsUrlOrNull
-import org.openeel.lib.xapi.ext.opdsCollectionLinkOrNull
+import org.openeel.lib.xapi.ext.webPubManifestAsUrlOrNull
 import org.openeel.lib.xapi.model.XapiActivity
 import org.openeel.lib.xapi.model.XapiContext
 import org.openeel.lib.xapi.model.XapiContextActivities
@@ -39,7 +37,6 @@ import org.openeel.lib.xapi.model.XapiStatementRef
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.xapi.createPinCollectionStatement
 import org.openeel.shared.ext.resultExpected
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_from_a_link
@@ -117,7 +114,7 @@ class OpdsFeedListViewModel(
         _uiState.update {
             it.copy(
                 feedFlowForStatement = { statement ->
-                    statement.objectActivityOrNull()?.definition?.opdsCollectionLinkAsUrlOrNull()
+                    statement.objectActivityOrNull()?.definition?.webPubManifestAsUrlOrNull()
                         ?.let { opdsCollectionLink ->
                             schoolDataSource.opdsFeedDataSource.getByUrlAsFlow(
                                 url = opdsCollectionLink,
@@ -133,17 +130,10 @@ class OpdsFeedListViewModel(
                 val isTeacherOrAdmin = sessionAndPerson?.person?.isAdmin() == true
 
                 val username = sessionAndPerson?.person?.username.orEmpty()
-                val activeUserOwnerHref = sessionAndPerson?.let {
-                    MakePlaylistOpdsFeedUseCase.getUserProfileUrl(
-                        schoolUrl = it.session.account.school.self,
-                        username = username,
-                    )
-                }.orEmpty()
 
                 _uiState.update {
                     it.copy(
                         isTeacherOrAdmin = isTeacherOrAdmin,
-                        activeUserOwnerHref = activeUserOwnerHref,
                         activeUsername = username,
                     )
                 }
@@ -173,18 +163,17 @@ class OpdsFeedListViewModel(
         }
 
         viewModelScope.launch {
-
-        /** Pinned collections are retrieved using pin-collection statements for the
-        * collection-listing recipe category, including related activities.
-        *
-        * Since statements are immutable, saving or editing a collection creates a new
-        * statement. We keep only the latest statement per collection activity so edits
-        * update the existing collection instead of creating duplicates.
-        */
+            /** Pinned collections are retrieved using pin-collection statements for the
+            * collection-listing recipe category, including related activities.
+            *
+            * Since statements are immutable, saving or editing a collection creates a new
+            * statement. We keep only the latest statement per collection activity so edits
+            * update the existing collection instead of creating duplicates.
+            */
 
             schoolDataSource.xapiResource.statements.getAsFlow(
                 listParams = XapiStatementsResource.GetStatementParams(
-                    verb = XapiVerb.ID_PIN_COLLECTION,
+                    verb = XapiVerb.ID_PINNED,
                     activity = OpenEelXapiConstants.CATEGORY_COLLECTION_LISTING_RECIPE,
                     relatedActivities = true,
                 ),
@@ -204,7 +193,7 @@ class OpdsFeedListViewModel(
                 }.filter { statement ->
                     val activity = statement.objectActivityOrNull()
                     val isValid = activity?.id != null &&
-                            activity.definition?.opdsCollectionLinkAsUrlOrNull() != null
+                            activity.definition?.webPubManifestAsUrlOrNull() != null
 
                     if (!isValid) {
                         Napier.w("OpdsFeedListViewModel: skipping pin-collection statement " +
@@ -267,7 +256,6 @@ class OpdsFeedListViewModel(
                     Snack(
                         message = Res.string.unpinned_1_collection.asUiText(),
                         action = Res.string.undo.asUiText(),
-                        onAction = { restoreCollectionPin(statement, collectionActivityId) },
                     )
                 )
             } catch (e: Exception) {
@@ -282,47 +270,9 @@ class OpdsFeedListViewModel(
         }
     }
 
-    private fun restoreCollectionPin(
-        statement: XapiStatement,
-        collectionActivityId: String,
-    ) {
-        val definition = statement.objectActivityOrNull()?.definition
-
-        viewModelScope.launch {
-            try {
-                val actor = accountManager.selectedAccountAndPersonFlow.first()?.xapiAgent
-                    ?: throw IllegalStateException("Cannot restore collection pin: no active account")
-                val opdsCollectionLink = definition?.opdsCollectionLinkOrNull()
-                    ?: throw IllegalStateException("Cannot restore collection pin: no opds-collection-link")
-
-                schoolDataSource.xapiResource.statements.post(
-                    listOf(
-                        createPinCollectionStatement(
-                            collectionActivityId = collectionActivityId,
-                            collectionName = definition.name.orEmpty(),
-                            collectionDescription = definition.description,
-                            opdsCollectionLink = opdsCollectionLink,
-                            actor = actor,
-                        )
-                    )
-                )
-
-                unpinnedCollections.update { it - collectionActivityId }
-
-            } catch (e: Exception) {
-
-                Napier.e("Could not restore pin for collection $collectionActivityId", e)
-
-                snackBarDispatcher.showSnackBar(
-                    Snack(message = Res.string.something_went_wrong.asUiText())
-                )
-            }
-        }
-    }
-
     fun onClickCollection(statement: XapiStatement) {
         val opdsCollectionLink = statement.objectActivityOrNull()?.definition
-            ?.opdsCollectionLinkAsUrlOrNull()
+            ?.webPubManifestAsUrlOrNull()
 
         if (opdsCollectionLink == null) {
             Napier.w("OpdsFeedListViewModel: cannot open statement ${statement.id}: no opds-collection-link")

@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
-import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
+import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
 import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
 import org.openeel.lib.xapi.resources.local.XapiActivitiesResourceLocal
 import org.openeel.lib.xapi.resources.local.XapiActivityProfileResourceLocal

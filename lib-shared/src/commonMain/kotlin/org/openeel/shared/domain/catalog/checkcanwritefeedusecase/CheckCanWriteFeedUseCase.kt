@@ -1,7 +1,7 @@
 package org.openeel.shared.domain.catalog.checkcanwritefeedusecase
 
 import io.ktor.http.Url
-import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
+import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
 import org.openeel.datalayer.db.school.ext.isAdminOrTeacher
 import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.libutil.ext.appendEndpointSegments

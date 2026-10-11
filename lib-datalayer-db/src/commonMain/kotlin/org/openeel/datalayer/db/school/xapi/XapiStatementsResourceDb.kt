@@ -17,7 +17,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
-import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
+import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
 import org.openeel.datalayer.db.school.ext.isAdminOrTeacher
 import org.openeel.datalayer.db.school.ext.toLongPair
 import org.openeel.datalayer.db.school.xapi.adapters.ActorEntities

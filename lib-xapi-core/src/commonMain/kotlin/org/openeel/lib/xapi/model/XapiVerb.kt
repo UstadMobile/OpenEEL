@@ -46,7 +46,7 @@ data class XapiVerb(
          * As per https://id.openeel.org/verb/pin-collection , see also
          * README_COLLECTIONS_LISTING_RECIPE.md
          */
-        const val ID_PIN_COLLECTION = "https://id.openeel.org/verb/pin-collection"
+        const val ID_PINNED = "https://id.openeel.org/verb/pinned"
 
     }
 

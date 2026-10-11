@@ -14,11 +14,8 @@ import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.lib.xapi.ext.encodeToXapiDocument
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
-import org.openeel.lib.opds.model.LangMapStringValue
-import org.openeel.lib.opds.model.toStringMap
 import org.openeel.lib.xapi.model.XapiActor
-import org.openeel.lib.xapi.resources.XapiStatementsResource
-import org.openeel.shared.domain.xapi.createPinCollectionStatement
+import org.openeel.shared.domain.catalog.PinOpdsUseCase
 import kotlin.time.Clock
 
 /**
@@ -33,8 +30,8 @@ import kotlin.time.Clock
  */
 class SaveOpdsFeedUseCase(
     private val xapiActivityProfileResource: XapiActivityProfileResource,
-    private val xapiStatementsResource: XapiStatementsResource,
     private val opdsFeedDataSourceLocal: OpdsFeedDataSourceLocal,
+    private val pinOpdsUseCase: PinOpdsUseCase,
     private val json: Json,
 ) {
 
@@ -75,18 +72,9 @@ class SaveOpdsFeedUseCase(
             )
         )
 
-        xapiStatementsResource.post(
-            listOf(
-                createPinCollectionStatement(
-                    collectionActivityId = activityId,
-                    collectionName = LangMapStringValue(feedToSave.metadata.title).toStringMap(),
-                    collectionDescription = feedToSave.metadata.description?.let {
-                        LangMapStringValue(it).toStringMap()
-                    },
-                    opdsCollectionLink = feedUrl.toString(),
-                    actor = actor,
-                )
-            )
+        pinOpdsUseCase(
+            opdsFeed = feed,
+            contextCategoryId = OpenEelXapiConstants.CATEGORY_COLLECTION_LISTING_RECIPE,
         )
     }
 }
