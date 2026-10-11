@@ -160,6 +160,7 @@ import org.openeel.shared.domain.devmode.SetDevModeEnabledUseCase
 import org.openeel.shared.domain.school.LaunchCustomTabUseCaseAndroid
 import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCaseAndroid
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_CLIENT
+import org.openeel.datalayer.http.ext.schoolDirectoryEntryOrNull
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCaseAndroid
@@ -244,6 +245,7 @@ import org.openeel.shared.viewmodel.person.copycode.CopyInviteCodeViewModel
 import org.openeel.shared.viewmodel.person.detail.PersonDetailViewModel
 import org.openeel.shared.domain.biometric.BiometricAuthUseCase
 import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
+import org.openeel.shared.domain.catalog.checkcanwritefeedusecase.CheckCanWriteFeedUseCase
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
 import org.openeel.shared.domain.createclass.CreateClassUseCase
 import org.openeel.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
@@ -1282,6 +1284,20 @@ val appKoinModule = module {
                 xapiStatementsResource = get<SchoolDataSource>().xapiResource.statements,
                 opdsFeedDataSourceLocal = get<SchoolDataSourceLocal>().opdsFeedDataSource,
                 json = get(),
+            )
+        }
+
+        scoped<CheckCanWriteFeedUseCase> {
+            val schoolUrl = UserAccountScopeId.parse(id).schoolUrl
+            val schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>()
+                .schoolDirectoryEntryResource
+
+            CheckCanWriteFeedUseCase(
+                getAuthenticatedPersonUseCase = get(),
+                xapiUrl = {
+                    schoolDirectoryEntryResource.schoolDirectoryEntryOrNull(schoolUrl)?.xapi
+                        ?: throw IllegalStateException("SchoolUrl $schoolUrl has no XAPI URL")
+                }
             )
         }
     }

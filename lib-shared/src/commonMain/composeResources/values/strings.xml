@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">OpenEEL</string>
     <string name="empty_list">Empty List</string>
     <string name="empty_list_description">"Add an app from the app list and it will show up here"</string>
     <string name="add_link">Add Link</string>
@@ -39,7 +40,6 @@
     <string name="apps_detail">App detail</string>
     <string name="lesson_list">Lesson List</string>
     <string name="search">Search</string>
-    <string name="app_name">App name</string>
     <string name="score_or_progress">Score or Progress</string>
     <string name="play">Play</string>
     <string name="install">Install</string>

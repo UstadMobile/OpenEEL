@@ -110,6 +110,7 @@ class OpdsFeedListViewModel(
             it.copy(
                 title = route.opdsPickType?.appbarTitleString?.asUiText() ?: Res.string.home.asUiText(),
                 hideBottomNavigation = route.resultExpected,
+                showBackButton = route.resultDest != null,
             )
         }
 

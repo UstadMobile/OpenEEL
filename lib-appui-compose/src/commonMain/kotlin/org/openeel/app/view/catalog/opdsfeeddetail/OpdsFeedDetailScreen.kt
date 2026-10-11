@@ -76,8 +76,8 @@ fun OpdsFeedDetailScreen(
         onClickConfirmSelection = viewModel::onClickSelectBottomButton,
         onClickSelectPlaylist = viewModel::onClickSelectThisFeed,
         onClickToggleGroup = viewModel::onClickToggleGroup,
-        onClickShare = viewModel::onClickShare,
-        onClickCopy = viewModel::onClickCopy,
+        onClickCopyLink = viewModel::onClickCopyLink,
+        onClickRemix = viewModel::onClickRemix,
         onClickDelete = viewModel::onClickDelete,
         onClickAssignSection = { /* TODO */ },
         onClickAssignQuickActionButton = viewModel::onClickAssignQuickActionButton,
@@ -101,8 +101,8 @@ fun OpdsFeedDetailScreen(
     onClickConfirmSelection: () -> Unit = {},
     onClickSelectPlaylist: () -> Unit = {},
     onClickToggleGroup: (Int) -> Unit = {},
-    onClickShare: () -> Unit = {},
-    onClickCopy: () -> Unit = {},
+    onClickCopyLink: () -> Unit = {},
+    onClickRemix: () -> Unit = {},
     onClickDelete: () -> Unit = {},
     onClickAssignSection: (Int) -> Unit = {},
     onClickAssignQuickActionButton: () -> Unit = {},
@@ -130,8 +130,8 @@ fun OpdsFeedDetailScreen(
             item(key = "feed_header") {
                 OpdsFeedDetailHeader(
                     uiState = uiState,
-                    onClickShare = onClickShare,
-                    onClickCopy = onClickCopy,
+                    onClickShare = onClickCopyLink,
+                    onClickRemix = onClickRemix,
                     onClickDelete = onClickDelete,
                     onClickAssign = onClickAssignQuickActionButton,
                 )
@@ -245,8 +245,6 @@ fun OpdsFeedDetailScreen(
             }
         }
     }
-
-
 
     if (uiState.showCopyDialog) {
         CopyFeedDialog(

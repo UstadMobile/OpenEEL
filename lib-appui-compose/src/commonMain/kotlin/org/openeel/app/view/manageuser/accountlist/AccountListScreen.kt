@@ -194,7 +194,10 @@ fun AccountListScreen(
                 supportingContent = {
                     Column {
                         Text(stringResource(Res.string.supported_by_spix_foundation))
-                        Text(stringResource(Res.string.app_is_open_source, Res.string.app_name))
+                        Text(stringResource(
+                            resource = Res.string.app_is_open_source,
+                            stringResource(Res.string.app_name))
+                        )
                         Text(
                             stringResource(Res.string.license_text, stringResource(Res.string.app_name))
                         )
