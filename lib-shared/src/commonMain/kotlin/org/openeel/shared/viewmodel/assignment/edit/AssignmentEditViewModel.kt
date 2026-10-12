@@ -65,7 +65,6 @@ import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.catalog.PublicationsSelection
 import kotlin.time.Clock
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 data class AssignmentEditUiState(
@@ -83,7 +82,6 @@ data class AssignmentEditUiState(
         get() = nameError != null || classError != null
 }
 
-@OptIn(ExperimentalUuidApi::class)
 class AssignmentEditViewModel(
     savedStateHandle: SavedStateHandle,
     private val accountManager: AppAccountManager,
