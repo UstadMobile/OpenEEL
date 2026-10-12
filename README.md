@@ -1,14 +1,14 @@
-# RESPECT
+# Open Educational Experience Launcher (OpenEEL)
 
-![RESPECT app screenshots](https://github.com/user-attachments/assets/32a25b61-cb8c-4fcf-8099-9f15ade408f0)
+The Open Educational Experience Launcher uses open source and open standards 
+([xAPI](https://www.xapi.com/), [OPDS](https://opds.io/), and 
+[WebPub Manifest](https://readium.org/webpub-manifest/)) to make it easy for teachers and students
+to access apps, online or offline, with a single account and keep their personal data secure on a 
+server of their choice.
 
-RESPECT is an open source digital library for EdTech apps. It makes it easier for educators to 
-discover and use high-quality apps with a single account in all settings, while giving developers 
-the platform they need to grow their impact globally.
-
-[<img src="https://devserver3.ustadmobile.com/jenkins/job/RESPECT-Primary/badge/icon?subject=Build">](https://devserver3.ustadmobile.com/jenkins/job/RESPECT-Primary)
-
-[<img src="https://devserver3.ustadmobile.com/jenkins/job/RESPECT-end-to-end//badge/icon?subject=End-To-End-Tests">](https://devserver3.ustadmobile.com/jenkins/job/RESPECT-end-to-end)
+Developers can connect native Android apps and HTML/Javascript-based apps: see 
+[README_ADD_YOUR_APP.md](README_ADD_YOUR_APP.md) for info for developers who want to connect their
+own app.
 
 ## Development environment setup:
 
@@ -20,11 +20,11 @@ backend server source code in its modules. Android Studio is the development env
 entire project. 
 
 *  __Step 1: Download and install Android Studio__: If you don't already have the latest version, download
-   from [https://developer.android.com/studio](https://developer.android.com/studio). The latest [stable
-   channel version](https://developer.android.com/studio/releases) is recommended.
+   from [https://developer.android.com/studio](https://developer.android.com/studio). The latest 
+* [stable channel version](https://developer.android.com/studio/releases) is recommended.
 
 * __Step 2: Install dependencies__
-    * JDK17 or JDK21
+    * JDK21
 
 Ubuntu/Debian Linux:
 ```
@@ -36,7 +36,7 @@ Download and install the Microsoft OpenJDK build from
 [https://learn.microsoft.com/en-us/java/openjdk/install#install-on-windows](https://learn.microsoft.com/en-us/java/openjdk/install#install-on-windows).
 
 * __Step 3: Import the project in Android Studio__: Select File, New, Project from Version Control. Enter
-  https://github.com/UstadMobile/Respect.git and wait for the project to import.
+  https://github.com/UstadMobile/OpenEel.git and wait for the project to import.
 
 * __Step 4: Run the server__: Run the server using Gradle:
 
@@ -49,7 +49,7 @@ _Note: On the windows command line the ./ should be omitted_
 * __Step 5: Add a [school](ARCHITECTURE.md#schools)__ - each school has its own users, classes, etc.
   Each school instance has its own database (e.g. database for school1, school2, etc).
 
-  RESPECT supports virtual hosting enabling multiple schools to run within a single JVM instance, eg
+  OpenEel supports virtual hosting enabling multiple schools to run within a single JVM instance, eg
   as school1.example.org, school2.example.org etc.
 
 e.g.
@@ -87,7 +87,7 @@ Join our [Community Slack Space](https://join.slack.com/t/respectdevelopers/shar
 The following environment variables can be set:
 
 ```
-RESPECT_DEFAULT_APPLIST - the default list of RESPECT Compatible app manifest URLs e.g. https://respect.world/respect-ds/manifestlist.json
+DEFAULT_APPLIST - the default list of launchable app manifest URLs e.g. https://respect.world/respect-ds/manifestlist.json
 ```
 
 ## Publishing

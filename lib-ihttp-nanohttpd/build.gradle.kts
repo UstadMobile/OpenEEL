@@ -7,7 +7,7 @@ kotlin {
 
     android {
         compileSdk = libs.versions.android.compileSdk.get().toInt()
-        namespace = "world.respect.lib.cache"
+        namespace = "org.openeel.lib.cache"
 
         compilerOptions {
 

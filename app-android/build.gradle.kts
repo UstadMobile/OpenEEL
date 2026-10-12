@@ -34,7 +34,7 @@ acraProperties.takeIf { acraPropertiesFile.exists() }
 val ACRA_PROP_NAMES = listOf("uri", "basicAuthLogin", "basicAuthPassword")
 
 // The applist list - see main README
-val defaultAppList = System.getenv("RESPECT_DEFAULT_APPLIST") ?: "https://respect.directory/respect-ds/base.json"
+val defaultAppList = System.getenv("DEFAULT_APPLIST") ?: "https://respect.directory/respect-ds/base.json"
 
 // The IP address country lookup server endpoint
 val geolocationApiEndpoint = System.getenv("GEOLOCATION_API_ENDPOINT") ?: "https://geoip.ustadmobile.com/"
@@ -116,11 +116,11 @@ android {
         }
     }
 
-    namespace = "world.respect.app"
+    namespace = "org.openeel.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "world.respect.app"
+        applicationId = "org.openeel.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 133
@@ -136,7 +136,7 @@ android {
 
         buildConfigField(
             type = "String",
-            name = "RESPECT_DEFAULT_APP_LIST",
+            name = "DEFAULT_APP_LIST",
             value = "\"$defaultAppList\""
         )
         buildConfigField(

@@ -1,0 +1,269 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 11,
+    "identityHash": "b951bd6074c9d4ecd9ac8766e2aa3718",
+    "entities": [
+      {
+        "tableName": "SchoolDirectoryEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rdUid` INTEGER NOT NULL, `rdUrl` TEXT NOT NULL, `rdInvitePrefix` TEXT NOT NULL, `rdName` TEXT, PRIMARY KEY(`rdUid`))",
+        "fields": [
+          {
+            "fieldPath": "rdUid",
+            "columnName": "rdUid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rdUrl",
+            "columnName": "rdUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rdInvitePrefix",
+            "columnName": "rdInvitePrefix",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rdName",
+            "columnName": "rdName",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "rdUid"
+          ]
+        }
+      },
+      {
+        "tableName": "SchoolDirectoryEntryEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reUid` INTEGER NOT NULL, `reSelf` TEXT NOT NULL, `reXapi` TEXT NOT NULL, `reRespectExt` TEXT, `reRpId` TEXT, `reLastModified` INTEGER NOT NULL, `reStored` INTEGER NOT NULL, `reInDirectoryUrl` TEXT, PRIMARY KEY(`reUid`))",
+        "fields": [
+          {
+            "fieldPath": "reUid",
+            "columnName": "reUid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reSelf",
+            "columnName": "reSelf",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reXapi",
+            "columnName": "reXapi",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reRespectExt",
+            "columnName": "reRespectExt",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "reRpId",
+            "columnName": "reRpId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "reLastModified",
+            "columnName": "reLastModified",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reStored",
+            "columnName": "reStored",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reInDirectoryUrl",
+            "columnName": "reInDirectoryUrl",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "reUid"
+          ]
+        }
+      },
+      {
+        "tableName": "SchoolDirectoryEntryLangMapEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sdelUid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sdelReUid` INTEGER NOT NULL, `sdelLang` TEXT NOT NULL, `sdelRegion` TEXT, `sdelValue` TEXT NOT NULL, `sdelPropId` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "sdelUid",
+            "columnName": "sdelUid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sdelReUid",
+            "columnName": "sdelReUid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sdelLang",
+            "columnName": "sdelLang",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sdelRegion",
+            "columnName": "sdelRegion",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sdelValue",
+            "columnName": "sdelValue",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sdelPropId",
+            "columnName": "sdelPropId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "sdelUid"
+          ]
+        }
+      },
+      {
+        "tableName": "SchoolConfigEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rcUid` INTEGER NOT NULL, `dbUrl` TEXT NOT NULL, PRIMARY KEY(`rcUid`))",
+        "fields": [
+          {
+            "fieldPath": "rcUid",
+            "columnName": "rcUid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dbUrl",
+            "columnName": "dbUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "rcUid"
+          ]
+        }
+      },
+      {
+        "tableName": "SchoolDirectoryEntryAuthOptionEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sdeAoUid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sdeAoRdUid` INTEGER NOT NULL, `sdeAoName` TEXT NOT NULL, `sdeAoConfigType` TEXT NOT NULL, `sdeAoOpenIdIssuerUrl` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "sdeAoUid",
+            "columnName": "sdeAoUid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sdeAoRdUid",
+            "columnName": "sdeAoRdUid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sdeAoName",
+            "columnName": "sdeAoName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sdeAoConfigType",
+            "columnName": "sdeAoConfigType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sdeAoOpenIdIssuerUrl",
+            "columnName": "sdeAoOpenIdIssuerUrl",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "sdeAoUid"
+          ]
+        }
+      },
+      {
+        "tableName": "NetworkValidationInfoEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nviUrlHash` INTEGER NOT NULL, `nviKey` INTEGER NOT NULL, `nviVaryHeader` TEXT, `nviLastModified` INTEGER NOT NULL, `nviEtag` TEXT, `nviConsistentThrough` INTEGER, `nviLastChecked` INTEGER NOT NULL, PRIMARY KEY(`nviUrlHash`, `nviKey`))",
+        "fields": [
+          {
+            "fieldPath": "nviUrlHash",
+            "columnName": "nviUrlHash",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nviKey",
+            "columnName": "nviKey",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nviVaryHeader",
+            "columnName": "nviVaryHeader",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "nviLastModified",
+            "columnName": "nviLastModified",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nviEtag",
+            "columnName": "nviEtag",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "nviConsistentThrough",
+            "columnName": "nviConsistentThrough",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "nviLastChecked",
+            "columnName": "nviLastChecked",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "nviUrlHash",
+            "nviKey"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b951bd6074c9d4ecd9ac8766e2aa3718')"
+    ]
+  }
+}

@@ -70,8 +70,8 @@ import kotlinx.io.buffered
 import kotlinx.io.files.FileSystem
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
-import world.respect.libutil.util.time.systemTimeInMillis
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.libutil.util.time.systemTimeInMillis
+import org.openeel.libxxhash.XXStringHasher
 import kotlin.also
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds

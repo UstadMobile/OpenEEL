@@ -1,8 +1,8 @@
-appId: world.respect.app
+appId: org.openeel.app
 tags:
   - basic
 onFlowStart:
-  - clearState: world.respect.app
+  - clearState: org.openeel.app
   - runScript:
       file: "scripts/school_init.js"
       env:

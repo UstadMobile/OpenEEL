@@ -1,9 +1,9 @@
-appId: world.respect.app
+appId: org.openeel.app
 onFlowStart:
-  - clearState: world.respect.app
+  - clearState: org.openeel.app
 ---
 - launchApp:
-    appId: "world.respect.app"
+    appId: "org.openeel.app"
     arguments:
       launchUrl: ${URL}
 

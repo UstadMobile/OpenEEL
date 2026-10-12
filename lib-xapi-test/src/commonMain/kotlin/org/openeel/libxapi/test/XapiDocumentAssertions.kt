@@ -1,6 +1,6 @@
 package org.openeel.libxapi.test
 
-import world.respect.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.model.XapiDocument
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 

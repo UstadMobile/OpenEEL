@@ -1,9 +1,9 @@
 package org.openeel.libxapi.test
 
-import world.respect.lib.dataloadstate.ext.dataOrNull
-import world.respect.lib.xapi.model.XapiStatement
-import world.respect.lib.xapi.resources.XapiStatementsResource
-import world.respect.lib.xapi.resources.XapiStatementsResource.GetStatementFormatEnum
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.resources.XapiStatementsResource
+import org.openeel.lib.xapi.resources.XapiStatementsResource.GetStatementFormatEnum
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 

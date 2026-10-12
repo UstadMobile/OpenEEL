@@ -1,0 +1,19 @@
+package org.openeel.shared.domain.phonenumber
+
+interface IPhoneNumberUtil {
+
+    fun getAsYouTypeFormatter(regionCode: String?): IAsYouTypeFormatter
+
+    fun getSupportedRegions(): Set<String>
+
+    fun getCountryCodeForRegion(region: String): Int
+
+    fun getRegionForCountryCode(countryCode: Int) :String
+
+    fun parse(numberToParse: String, defaultRegion: String?): IPhoneNumber
+
+    fun isValidNumber(number: IPhoneNumber): Boolean
+
+    fun formatInternational(number: IPhoneNumber): String
+
+}

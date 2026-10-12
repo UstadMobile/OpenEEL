@@ -15,7 +15,7 @@ kotlin {
 }
 
 android {
-    namespace = "world.respect.xapi.ipc.client"
+    namespace = "org.openeel.xapi.ipc.client"
     compileSdk {
         version = release(libs.versions.android.compileSdk.get().toInt())
     }

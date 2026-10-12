@@ -20,7 +20,7 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.spy
-import world.respect.libxxhash.jvmimpl.XXStringHasherCommonJvm
+import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import java.io.File
 import java.time.Duration
 import kotlin.test.BeforeTest
