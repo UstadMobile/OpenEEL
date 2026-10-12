@@ -284,7 +284,8 @@ onFlowComplete:
 - tapOn: "Next"
 - tapOn: "Title"
 - inputText: "Assignment Result Statement Demo"
-- tapOn: "Done"
+- tapOn:
+    id: "action_bar_button" #Done Button
 - scrollUntilVisible:
     element: "Assignment Result Statement Demo"
 - tapOn: "Save"
