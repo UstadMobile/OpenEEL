@@ -77,6 +77,8 @@ import org.openeel.shared.domain.account.passkey.LoadAaguidJsonUseCase
 import org.openeel.shared.domain.account.passkey.LoadAaguidJsonUseCaseJvm
 import org.openeel.shared.domain.account.passkey.RevokePasskeyUseCase
 import org.openeel.shared.domain.account.passkey.RevokePersonPasskeyUseCaseDbImpl
+import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.SharedDeviceSettingsStore
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCaseImpl
 import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
@@ -485,18 +487,22 @@ fun serverKoinModule(
 
         factory<SetSharedDevicePINUseCase> {
             SetSharedDevicePINUseCaseImpl(
-                schoolDataSource = get(),
-                respectAccountManager = get(),
-                json = get(),
+                settingsStore = get(),
             )
         }
         factory<GetSharedDevicePINUseCase> {
             GetSharedDevicePINUseCaseImpl(
-                schoolDataSource = get(),
-                respectAccountManager = get(),
-                json = get(),
-                setSharedDevicePINUseCase = get()
+                getSharedDeviceSettingsUseCase = get(),
             )
+        }
+        factory<SharedDeviceSettingsStore> {
+            SharedDeviceSettingsStore(
+                schoolDataSource = get(),
+                json = get(),
+            )
+        }
+        factory<GetSharedDeviceSettingsUseCase> {
+            GetSharedDeviceSettingsUseCase(settingsStore = get())
         }
     }
 }

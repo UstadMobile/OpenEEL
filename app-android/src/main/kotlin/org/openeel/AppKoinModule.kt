@@ -119,6 +119,8 @@ import org.openeel.shared.domain.account.RespectAccount
 import org.openeel.shared.domain.account.RespectAccountManager
 import org.openeel.shared.domain.account.RespectAccountSchoolScopeLink
 import org.openeel.shared.domain.account.RespectTokenManager
+import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.SharedDeviceSettingsStore
 import org.openeel.shared.domain.account.child.AddChildAccountUseCase
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
 import org.openeel.shared.domain.account.child.AddChildAccountUseCaseClient
@@ -1152,31 +1154,31 @@ val appKoinModule = module {
 
         scoped<SetSharedDevicePINUseCase> {
             SetSharedDevicePINUseCaseImpl(
-                schoolDataSource = get(),
-                respectAccountManager = get(),
-                json = get(),
+                settingsStore = get(),
             )
         }
         scoped<GetSharedDevicePINUseCase> {
             GetSharedDevicePINUseCaseImpl(
-                schoolDataSource = get(),
-                respectAccountManager = get(),
-                json = get(),
-                setSharedDevicePINUseCase = get()
+                getSharedDeviceSettingsUseCase = get(),
             )
+        }
+        scoped<SharedDeviceSettingsStore> {
+            SharedDeviceSettingsStore(
+                schoolDataSource = get(),
+                json = get(),
+            )
+        }
+        scoped<GetSharedDeviceSettingsUseCase> {
+            GetSharedDeviceSettingsUseCase(settingsStore = get())
         }
         scoped<GetSharedDeviceSelfSelectUseCase> {
             GetSharedDeviceSelfSelectUseCase(
-                schoolDataSource = get(),
-                respectAccountManager = get(),
-                json = get(),
+                settingsStore = get(),
             )
         }
         scoped<SetSharedDeviceSelfSelectUseCase> {
             SetSharedDeviceSelfSelectUseCase(
-                schoolDataSource = get(),
-                respectAccountManager = get(),
-                json = get(),
+                settingsStore = get(),
             )
         }
         scoped<ApproveOrDeclineInviteRequestUseCase> {

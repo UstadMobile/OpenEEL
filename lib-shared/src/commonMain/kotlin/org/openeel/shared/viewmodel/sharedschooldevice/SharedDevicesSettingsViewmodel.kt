@@ -25,10 +25,9 @@ import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.shared.domain.account.RespectAccountManager
-import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSelfSelectUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
 import org.openeel.shared.domain.account.sharedschooldevice.SetSharedDeviceSelfSelectUseCase
 import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
 import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCase
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
 import org.openeel.shared.generated.resources.Res
@@ -79,9 +78,8 @@ class SharedDevicesSettingsViewmodel(
     private val schoolDataSource: SchoolDataSource by inject()
     private val approveOrDeclineInviteRequestUseCase: ApproveOrDeclineInviteRequestUseCase by inject()
 
-    private val getSharedDevicePINUseCase: GetSharedDevicePINUseCase by inject()
+    private val getSharedDeviceSettingsUseCase: GetSharedDeviceSettingsUseCase by inject()
     private val setSharedDevicePINUseCase: SetSharedDevicePINUseCase by inject()
-    private val getSharedDeviceSelfSelectUseCase: GetSharedDeviceSelfSelectUseCase by inject()
     private val setSharedDeviceSelfSelectUseCase: SetSharedDeviceSelfSelectUseCase by inject()
 
     private val _uiState = MutableStateFlow(SharedDevicesSettingsUiState(isLoadingPin = true))
@@ -115,8 +113,7 @@ class SharedDevicesSettingsViewmodel(
     }
 
     init {
-        loadSchoolPin()
-        loadSelfSelectSetting()
+        loadSharedDeviceSettings()
         _appUiState.update {
             it.copy(
                 title = Res.string.shared_school_devices.asUiText(),
@@ -173,13 +170,14 @@ class SharedDevicesSettingsViewmodel(
         )
     }
 
-    private fun loadSchoolPin() {
+    private fun loadSharedDeviceSettings() {
         viewModelScope.launch {
             try {
-                val pin = getSharedDevicePINUseCase()
+                val settings = getSharedDeviceSettingsUseCase()
                 _uiState.update {
                     it.copy(
-                        pin = pin,
+                        pin = settings.pin,
+                        isSelfSelectClassAndName = settings.canSelectName,
                         isLoadingPin = false
                     )
                 }
@@ -190,15 +188,6 @@ class SharedDevicesSettingsViewmodel(
                         isLoadingPin = false
                     )
                 }
-            }
-        }
-    }
-
-    private fun loadSelfSelectSetting() {
-        viewModelScope.launch {
-            val selfEnableValue = getSharedDeviceSelfSelectUseCase()
-            _uiState.update {
-                it.copy(isSelfSelectClassAndName = selfEnableValue)
             }
         }
     }
