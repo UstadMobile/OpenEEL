@@ -292,7 +292,9 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Collections for Grade 1"
-- assertVisible: "Collections for Grade 1"
+- tapOn:      #Taking time to save the changes in the collection.
+    id: "nav_home"
+- tapOn: "Collections"
 - assertVisible: "2 sections, 3 items"
 - tapOn: "Collections for Grade 1"
 - assertVisible: "Day 1-Collections section"
