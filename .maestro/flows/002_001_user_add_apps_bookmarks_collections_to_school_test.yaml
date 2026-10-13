@@ -1,4 +1,6 @@
 appId: org.openeel.app
+tags:
+  - EndToEnd
 onFlowStart:
   - clearState: org.openeel.app
   - runScript:
