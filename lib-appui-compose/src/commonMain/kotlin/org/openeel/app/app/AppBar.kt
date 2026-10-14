@@ -116,26 +116,6 @@ fun OpenEelAppBar(
      */
     val searchActive = appUiState.searchState.expanded
 
-    /*
-     * Wide header: search is always shown, so mark it expanded. Compact header: collapse unused
-     * search (e.g. after rotating to portrait) so it only shows when the search icon is clicked.
-     */
-    LaunchedEffect(
-        compactHeader,
-        appUiState.searchState.visible,
-        appUiState.searchState.onSearchExpandedChanged,
-    ) {
-        val searchState = appUiState.searchState
-        if(!searchState.visible)
-            return@LaunchedEffect
-
-        if(!compactHeader) {
-            searchState.onSearchExpandedChanged(true)
-        }else if(searchState.expanded && searchState.searchText.isEmpty()) {
-            searchState.onSearchExpandedChanged(false)
-        }
-    }
-
     var searchHasFocus by remember {
         mutableStateOf(false)
     }
@@ -144,7 +124,7 @@ fun OpenEelAppBar(
 
     //Focus the search box when it appears after the user clicks the search icon
     LaunchedEffect(searchActive) {
-        if(compactHeader && searchActive)
+        if(searchActive)
             focusRequester.requestFocus()
     }
 
@@ -188,7 +168,7 @@ fun OpenEelAppBar(
             },
             actions = {
                 if(appUiState.searchState.visible) {
-                    if(!compactHeader || searchActive) {
+                    if(searchActive) {
                         OutlinedTextField(
                             modifier = Modifier.testTag("search_box")
                                 .focusRequester(focusRequester)
@@ -207,21 +187,15 @@ fun OpenEelAppBar(
                                 Icon(imageVector = Icons.Filled.Search, contentDescription = null)
                             },
                             trailingIcon = {
-                                /*
-                                 * Only a compact header can collapse search: on a wide header the
-                                 * search box is always shown, so there would be no way to reopen it.
-                                 */
-                                if(compactHeader) {
-                                    IconButton(
-                                        modifier = Modifier.testTag("close_search_button"),
-                                        onClick = {
-                                            //Cancel search: clear the query and close the box
-                                            appUiState.searchState.onSearchTextChanged("")
-                                            appUiState.searchState.onSearchExpandedChanged(false)
-                                        }
-                                    ) {
-                                        Icon(Icons.Default.Close, contentDescription = "")
+                                IconButton(
+                                    modifier = Modifier.testTag("close_search_button"),
+                                    onClick = {
+                                        //Cancel search: clear the query and close the box
+                                        appUiState.searchState.onSearchTextChanged("")
+                                        appUiState.searchState.onSearchExpandedChanged(false)
                                     }
+                                ) {
+                                    Icon(Icons.Default.Close, contentDescription = "")
                                 }
                             },
                             value = appUiState.searchState.searchText,
@@ -231,7 +205,7 @@ fun OpenEelAppBar(
                             onValueChange = appUiState.searchState.onSearchTextChanged,
                         )
                     }else {
-                        //Compact header and search closed: show the icon used to open search
+                        //Search closed: show the icon used to open search
                         IconButton(
                             modifier = Modifier.testTag("expand_search_icon_button"),
                             onClick = {
