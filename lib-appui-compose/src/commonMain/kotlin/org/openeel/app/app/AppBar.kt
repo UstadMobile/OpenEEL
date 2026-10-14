@@ -117,17 +117,23 @@ fun OpenEelAppBar(
     val searchActive = appUiState.searchState.expanded
 
     /*
-     * On a wide header the search box is always shown (there is no search icon to click), so the
-     * screen is told that search is expanded. The handler is used as a key so this runs again when
-     * the user moves to another screen that has search.
+     * Wide header: search is always shown, so mark it expanded. Compact header: collapse unused
+     * search (e.g. after rotating to portrait) so it only shows when the search icon is clicked.
      */
     LaunchedEffect(
         compactHeader,
         appUiState.searchState.visible,
         appUiState.searchState.onSearchExpandedChanged,
     ) {
-        if(!compactHeader && appUiState.searchState.visible)
-            appUiState.searchState.onSearchExpandedChanged(true)
+        val searchState = appUiState.searchState
+        if(!searchState.visible)
+            return@LaunchedEffect
+
+        if(!compactHeader) {
+            searchState.onSearchExpandedChanged(true)
+        }else if(searchState.expanded && searchState.searchText.isEmpty()) {
+            searchState.onSearchExpandedChanged(false)
+        }
     }
 
     var searchHasFocus by remember {
