@@ -20,7 +20,7 @@ import org.openeel.shared.generated.resources.type
  * Language: options from publication metadata.language, displayed as endonyms using
  * GetLanguageEndonymUseCase (as per AppDetail and PublicationDetail).
  * Subject: options from publication metadata.subject.
- * Type: hardcoded options (see [ContentFilterType]); always shown when [includeType] is true.
+ * Type: hardcoded options (see [ContentFilterType]); always shown.
  *
  * Language and subject are omitted when there are no options available. Language and subject
  * bottom sheets include a search field (their option lists can be long); type does not.
@@ -28,7 +28,6 @@ import org.openeel.shared.generated.resources.type
 @Composable
 fun contentFilterDefinitions(
     options: ContentFilterOptions,
-    includeType: Boolean,
 ): List<OpenEelFilterDefinition<ContentFilterOption>> {
     val koin = getKoin()
     val getLanguageEndonymUseCase: GetLanguageEndonymUseCase = remember { koin.get() }
@@ -47,15 +46,11 @@ fun contentFilterDefinitions(
         )
     }.sortedBy { it.label }
 
-    val typeOptions = if (includeType) {
-        ContentFilterType.entries.map { type ->
-            OpenEelFilterOption<ContentFilterOption>(
-                value = ContentFilterOption.Type(type),
-                label = stringResource(type.label),
-            )
-        }
-    } else {
-        emptyList()
+    val typeOptions = ContentFilterType.entries.map { type ->
+        OpenEelFilterOption<ContentFilterOption>(
+            value = ContentFilterOption.Type(type),
+            label = stringResource(type.label),
+        )
     }
 
     return listOfNotNull(
@@ -75,7 +70,7 @@ fun contentFilterDefinitions(
             id = FILTER_ID_TYPE,
             label = stringResource(Res.string.type),
             options = typeOptions,
-        ).takeIf { includeType },
+        ),
     )
 }
 

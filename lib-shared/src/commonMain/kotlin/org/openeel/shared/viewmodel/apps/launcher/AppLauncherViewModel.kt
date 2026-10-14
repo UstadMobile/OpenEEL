@@ -10,13 +10,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
@@ -46,9 +42,6 @@ import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.libutil.ext.resolve
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.contentfilter.ContentFilterOption
-import org.openeel.shared.domain.contentfilter.ContentFilterOptions
-import org.openeel.shared.domain.contentfilter.ContentFilterSelection
 import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
 import org.openeel.shared.domain.geticonforxapiactivity.GetPublicationForXapiActivityUseCase
 import org.openeel.shared.domain.search.ObserveSearchResultsUseCase
@@ -79,8 +72,6 @@ data class AppLauncherUiState(
     val emptyListDescription: UiText? = null,
     val appMustLoadToBeClickable: Boolean = false,
     val searchActive: Boolean = false,
-    val contentFilterOptions: ContentFilterOptions = ContentFilterOptions(),
-    val contentFilter: ContentFilterSelection = ContentFilterSelection(),
 ) {
 
     fun isAppClickable(appState: DataLoadState<Publication>): Boolean {
@@ -163,37 +154,19 @@ class AppLauncherViewModel(
                         it.copy(
                             apps = state.map { emptyList() },
                             respectPublicationForXapiStatement = publicationFlows::getValue,
-                            contentFilterOptions = ContentFilterOptions(),
                         )
                     }
 
-                    // Loaded publications are used to build the filter options and to match filters.
-                    val loadedPublicationsFlow = if (publicationFlows.isNotEmpty()) {
-                        combine(
-                            publicationFlows.map { (statement, publicationFlow) ->
-                                publicationFlow.map { statement to it.dataOrNull() }
-                            }
-                        ) { it.toMap() }
-                    } else {
-                        flowOf(emptyMap())
-                    }
-
-                    val searchResultsFlow = observeSearchResultsUseCase(
+                    observeSearchResultsUseCase(
                         appUiStateFlow = appUiState,
                         searchFn = { searchQuery ->
                             schoolDataSourceLocal.opdsPublicationDataSource.searchByTitleAsFlow(
                                 OpdsPublicationDataSourceLocal.GetListParams(title = searchQuery),
                             ).map { it.toSet() }
                         },
-                    )
-
-                    combine(
-                        searchResultsFlow,
-                        loadedPublicationsFlow,
-                        _uiState.map { it.contentFilter }.distinctUntilChanged(),
-                    ) { matchingUrls, loadedPublications, contentFilter ->
-                        updateVisibleApps(state, matchingUrls, loadedPublications, contentFilter)
-                    }.collect()
+                    ).collect { matchingUrls ->
+                        updateVisibleApps(state, matchingUrls)
+                    }
                 }
             }
         }
@@ -224,50 +197,25 @@ class AppLauncherViewModel(
     }
 
     /**
-     * Show only the apps that match both the search and the selected content filters, and update
-     * the filter options using the publications loaded so far.
+     * Show only the apps that match the search.
      *
      * @param matchingUrls manifest urls matching the search, or null if there is no active search
-     * @param loadedPublications the publication for each statement (null if not loaded yet)
      */
     private fun updateVisibleApps(
         statementsState: DataLoadState<XapiStatementResult>,
         matchingUrls: Set<Url>?,
-        loadedPublications: Map<XapiStatement, Publication?>,
-        contentFilter: ContentFilterSelection,
     ) {
-        fun XapiStatement.matchesSearch(): Boolean = matchingUrls == null ||
-            objectActivityOrNull()?.definition?.webPubManifestAsUrlOrNull() in matchingUrls
-
-        fun XapiStatement.matchesContentFilter(): Boolean = contentFilter.isEmpty ||
-            loadedPublications[this]?.let { contentFilter.matchesPublication(it) } == true
-
         _uiState.update {
             it.copy(
                 apps = statementsState.map { result ->
                     result.statements.filter { statement ->
-                        statement.matchesSearch() && statement.matchesContentFilter()
+                        matchingUrls == null ||
+                            statement.objectActivityOrNull()?.definition
+                                ?.webPubManifestAsUrlOrNull() in matchingUrls
                     }
                 },
-                contentFilterOptions = ContentFilterOptions.fromPublications(
-                    loadedPublications.values.filterNotNull()
-                ),
             )
         }
-    }
-
-    fun onToggleContentFilterOption(option: ContentFilterOption) {
-        _uiState.update {
-            it.copy(contentFilter = it.contentFilter.toggle(option))
-        }
-    }
-
-    override fun onSearchCollapsed() {
-        onClearContentFilters()
-    }
-
-    fun onClearContentFilters() {
-        _uiState.update { it.copy(contentFilter = ContentFilterSelection()) }
     }
 
     fun onSearchTextChanged(searchQuery: String) {

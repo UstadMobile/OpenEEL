@@ -133,7 +133,6 @@ fun OpdsFeedDetailScreen(
             searchState = searchState,
             filters = contentFilterDefinitions(
                 options = uiState.contentFilterOptions,
-                includeType = true,
             ),
             isOptionSelected = uiState.contentFilter::isSelected,
             onToggleOption = onToggleContentFilterOption,

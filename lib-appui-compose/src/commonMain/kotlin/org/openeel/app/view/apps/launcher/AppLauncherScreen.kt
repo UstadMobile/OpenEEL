@@ -40,8 +40,6 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.app.OpenEelAsyncImage
-import org.openeel.app.components.OpenEelContentFilterRow
-import org.openeel.app.components.contentFilterDefinitions
 import org.openeel.app.components.langMapString
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.lib.dataloadstate.DataLoadState
@@ -50,14 +48,12 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.findIcons
 import org.openeel.lib.xapi.ext.objectActivityOrNull
-import org.openeel.shared.domain.contentfilter.ContentFilterOption
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.empty
 import org.openeel.shared.generated.resources.empty_list
 import org.openeel.shared.generated.resources.more_info
 import org.openeel.shared.generated.resources.no_matching_data_available_yet
 import org.openeel.shared.generated.resources.remove
-import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 import org.openeel.shared.viewmodel.apps.launcher.AppLauncherUiState
 import org.openeel.shared.viewmodel.apps.launcher.AppLauncherViewModel
 
@@ -66,25 +62,18 @@ fun AppLauncherScreen(
     viewModel: AppLauncherViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val appUiState by viewModel.appUiState.collectAsState()
     AppLauncherScreen(
         uiState = uiState,
-        searchState = appUiState.searchState,
         onClickApp = { viewModel.onClickApp(it) },
         onClickRemove = { viewModel.onClickRemove(it) },
-        onToggleContentFilterOption = viewModel::onToggleContentFilterOption,
-        onClearContentFilters = viewModel::onClearContentFilters,
     )
 }
 
 @Composable
 fun AppLauncherScreen(
     uiState: AppLauncherUiState,
-    searchState: AppBarSearchUiState,
     onClickApp: (DataLoadState<Publication>) -> Unit,
     onClickRemove: (DataLoadState<Publication>) -> Unit,
-    onToggleContentFilterOption: (ContentFilterOption) -> Unit = {},
-    onClearContentFilters: () -> Unit = {},
 ) {
     val apps = uiState.apps.dataOrNull() ?: emptyList()
 
@@ -101,17 +90,6 @@ fun AppLauncherScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        OpenEelContentFilterRow(
-            searchState = searchState,
-            filters = contentFilterDefinitions(
-                options = uiState.contentFilterOptions,
-                includeType = false,
-            ),
-            isOptionSelected = uiState.contentFilter::isSelected,
-            onToggleOption = onToggleContentFilterOption,
-            clearAllEnabled = !uiState.contentFilter.isEmpty,
-            onClickClearAll = onClearContentFilters,
-        )
         Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
             if (apps.isEmpty()) {
                 Column(
@@ -131,7 +109,7 @@ fun AppLauncherScreen(
                         modifier = Modifier.height(16.dp)
                     )
                     Text(
-                        text = if (uiState.searchActive || !uiState.contentFilter.isEmpty) {
+                        text = if (uiState.searchActive) {
                             stringResource(Res.string.no_matching_data_available_yet)
                         } else {
                             uiState.emptyListDescription?.let {
