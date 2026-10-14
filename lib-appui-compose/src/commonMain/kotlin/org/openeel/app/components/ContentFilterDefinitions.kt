@@ -22,7 +22,8 @@ import org.openeel.shared.generated.resources.type
  * Subject: options from publication metadata.subject.
  * Type: hardcoded options (see [ContentFilterType]); always shown when [includeType] is true.
  *
- * Language and subject are omitted when there are no options available.
+ * Language and subject are omitted when there are no options available. Language and subject
+ * bottom sheets include a search field (their option lists can be long); type does not.
  */
 @Composable
 fun contentFilterDefinitions(
@@ -62,11 +63,13 @@ fun contentFilterDefinitions(
             id = FILTER_ID_LANGUAGE,
             label = stringResource(Res.string.language),
             options = languageOptions,
+            searchable = true,
         ).takeIf { languageOptions.isNotEmpty() },
         OpenEelFilterDefinition(
             id = FILTER_ID_SUBJECT,
             label = stringResource(Res.string.subject),
             options = subjectOptions,
+            searchable = true,
         ).takeIf { subjectOptions.isNotEmpty() },
         OpenEelFilterDefinition(
             id = FILTER_ID_TYPE,
