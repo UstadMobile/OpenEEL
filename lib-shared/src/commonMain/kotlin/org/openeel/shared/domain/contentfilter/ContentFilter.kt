@@ -24,9 +24,9 @@ enum class ContentFilterType(
     val schemaOrgId: String?,
 ) {
     COLLECTION(Res.string.collection, null),
-    GAME(Res.string.game, "https://schema.org/Game"),
-    BOOK(Res.string.book, "https://schema.org/Book"),
-    VIDEO(Res.string.video, "https://schema.org/VideoObject");
+    GAME(Res.string.game, "http://schema.org/Game"),
+    BOOK(Res.string.book, "http://schema.org/Book"),
+    VIDEO(Res.string.video, "http://schema.org/VideoObject");
 }
 
 /**
