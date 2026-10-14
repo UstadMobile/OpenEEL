@@ -1,6 +1,8 @@
-appId: world.respect.app
+appId: org.openeel.app
+tags:
+  - EndToEnd
 onFlowStart:
-  - clearState: world.respect.app
+  - clearState: org.openeel.app
   - runScript:
       file: "scripts/school_init.js"
       env:
@@ -212,9 +214,6 @@ onFlowComplete:
 - tapOn:
     id: "nav_home"
 - tapOn: "Collections"
-- tapOn: "More Options"
-- tapOn: "Unpin"
-- tapOn: "Undo"
 - tapOn: "Collections for Grade 1"
 - tapOn:
     id: "floating_action_button"    # Edit button
@@ -228,7 +227,7 @@ onFlowComplete:
 - assertVisible: "Learning item section"
 - tapOn: "Learning item here"
 - assertVisible: "Browse"
-- assertVisible: "Add from RESPECT apps, lessons, collections"
+- assertVisible: "Add from apps, bookmarks, and collections"
 - assertVisible: "Use link"
 - assertVisible: "Add from an external link"
 - tapOn: "Browse"
@@ -246,7 +245,12 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Collections for Grade 1"
-- assertVisible: "Day 1-Collections section"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Collections"
+- assertVisible: "Collections for Grade 1"
+- assertVisible: "2 sections, 2 items"
+- tapOn: "Collections for Grade 1"
 - tapOn: "Examples"
 - assertVisible: "Statement Maker"
 - back
@@ -275,11 +279,14 @@ onFlowComplete:
     text: "External link"
 - tapOn:
     id: "external_link_url_field"
-- inputText: ${output.SCHOOL_URL}static-resources/respect-ds/case_valid/examples/assignable-unit-1/index.html
+- inputText: ${output.SCHOOL_URL}static-resources/respect-ds/case_valid/examples/assignable-unit-1-only.json
 - tapOn: "Next"
-- assertVisible: "Assignment Result Statement Demo"
-- tapOn: "Done"
-- assertVisible: "Assignment Result Statement Demo"
+- tapOn: "Title"
+- inputText: "Assignment Result Statement Demo"
+- tapOn:
+    id: "action_bar_button" #Done Button
+- scrollUntilVisible:
+    element: "Assignment Result Statement Demo"
 - tapOn: "Save"
 - assertVisible:
     id: "app_title"
@@ -289,29 +296,9 @@ onFlowComplete:
 - assertVisible: "Day 2-Learning item section"
 - assertVisible: "Statement Maker"
 - assertVisible: "Assignment Result Statement Demo"
-- assertVisible:
-    text: "Remix Collection"
-    index: 1
-- assertVisible: "Assign"
-- tapOn: "Assignment Result Statement Demo"
-- assertVisible: "Assignment Result Statement Demo"
-- assertVisible: "Demo Launchable App"
-- tapOn: "Open"
-- extendedWaitUntil:
-    visible: "Lesson 001"
-    timeout: 6000
-- assertVisible: "Hello World Lesson"
-- tapOn: "Close"
-- tapOn:
-    id: "nav_home"
-- tapOn: "Collections"
-- assertVisible: "Collections for Grade 1"
-- assertVisible: "2 sections, 3 items"
-- assertVisible: "Created by: Admin"
 
-# Assigning lessons in a Collection to an assignment
-- tapOn:
-    id: "header_assign_btn"
+# Add assignment from a collection
+- tapOn: "Assign"
 - assertVisible:
     id: "app_title"
     text: "Add assignment"
@@ -327,46 +314,106 @@ onFlowComplete:
 - runScript:
     file: "scripts/setDate.js"
 - inputText: ${output.currentTime}
-- runFlow:
-    when:
-      notVisible: "Task"
-    commands:
-      - hideKeyboard
-- assertVisible: "Task"
-- assertVisible: "Lesson 001"
+- hideKeyboard
+- assertVisible: "Tasks"
+- assertVisible: "Statement Maker"
 - assertVisible: "Assignment Result Statement Demo"
 - tapOn: "Save"
 - assertVisible:
     id: "app_title"
     text: "Homework 1"
-- assertVisible: "Lesson 001"
+- assertVisible: "Statement Maker"
 - assertVisible: "Assignment Result Statement Demo"
+
+# Test Copy link, Remix & Unpin a Collection - Add an app as a collection using link
+- tapOn:
+    id: "nav_home"
+- tapOn: "Apps"
+- tapOn: "Example Web App"
+- tapOn: "Examples"
+- tapOn: "Copy link"
 - tapOn:
     id: "nav_home"
 - tapOn: "Collections"
-- tapOn: "Collections for Grade 1"
 - tapOn:
-    id: "Remix_btn"
+    id: "ExpandableFab"
+- tapOn: "Add from a link"
 - assertVisible:
     id: "app_title"
-    text: "Edit collection"
-- tapOn: "Remix the Collection - Grade 1"
+    text: "Add from a link"
+- tapOn: "Link*"
+- pasteText
+- tapOn: "Next"
+- assertVisible:
+      id: "app_title"
+      text: "Collections"
+- assertVisible: "Examples"
+- assertVisible: "0 sections, 4 items"
+- tapOn: "Examples"
+- tapOn: "Remix collection"
+- assertVisible:
+    id: "app_title"
+    text: "Remix collection"
+- assertVisible: "Remix of Examples"
+- assertVisible: "Lesson 001"
+- assertVisible: "Statement Maker"
+- assertVisible: "Assignment Result Statement Demo"
+- assertVisible: "JS Tetris"
+- tapOn: "Save"
+- assertVisible:
+    id: "app_title"
+    text: "Remix of Examples"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Collections"
+- assertVisible: "Collections for Grade 1"
+- assertVisible: "2 sections, 3 items"
+- assertVisible: "Remix of Examples"
+- assertVisible: "0 sections, 4 items"
+- tapOn:
+    text: "More Options"
+    index: 0
+- tapOn: "Unpin"
+- assertVisible: "Unpinned 1 Collection"
+- assertVisible: "Undo"
+- assertNotVisible: "Remix of Examples"
+
+#Test Remix & Delete a Collection
+- tapOn: "Collections for Grade 1"
+- tapOn: "Remix collection"
+- assertVisible:
+    id: "app_title"
+    text: "Remix collection"
+- assertVisible: "Remix of Collections for Grade 1"
+- assertVisible: "Day 1-Collections section"
+- assertVisible: "Day 2-Learning item section"
+- tapOn: "Remix of Collections for Grade 1"
 - runFlow:
     file: "subflows/erase_text.yaml"
     env:
-      TEXT: "Remix the Collection - Grade 1"
+      TEXT: "Remix of Collections for Grade 1"
 - inputText: "Collections for Term 1"
-- hideKeyboard
-- assertVisible: "Collection section day 1"
-- assertVisible: "Learning item section day 2"
 - tapOn: "Save"
 - assertVisible:
     id: "app_title"
     text: "Collections for Term 1"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Collections"
+- assertVisible: "Collections for Term 1"
+- assertVisible: "2 sections, 3 items"
+- tapOn: "Collections for Term 1"
+# Delete Collection Permanently
+- tapOn: "Delete"
+- assertVisible: "Permanently delete?"
+- assertVisible: "Permanently delete this collection"
+- assertVisible: "Cancel"
+- tapOn: "Delete"
 
 
 # Adding Collection to an assignment
 - tapOn: "Assignments"
+- assertVisible: "Homework 1"
 - tapOn:
     id: "floating_action_button"   #  +Assignment button
 - assertVisible:
@@ -404,3 +451,5 @@ onFlowComplete:
 - tapOn: "Assignments"
 - assertVisible: "Homework 1"
 - assertVisible: "Homework 2"
+
+
