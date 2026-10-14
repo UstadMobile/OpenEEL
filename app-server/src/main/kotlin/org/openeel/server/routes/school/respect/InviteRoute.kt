@@ -14,13 +14,13 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.InviteDataSource
 import org.openeel.datalayer.school.model.Invite2
 import org.openeel.server.util.ext.offsetLimitPagingLoadParams
-import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.server.util.ext.respondOffsetLimitPaging
 
 @Suppress("FunctionName")
 fun Route.InviteRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->
-        call.requireAccountScope().get()
+        call.getUserAccountScope().get()
     },
 ) {
     get(InviteDataSource.ENDPOINT_NAME) {

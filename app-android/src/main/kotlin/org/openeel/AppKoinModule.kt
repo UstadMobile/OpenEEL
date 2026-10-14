@@ -1031,7 +1031,7 @@ val appKoinModule = module {
 
             RemoteWriteQueueDbImpl(
                 schoolDb = get(),
-                account = AuthenticatedUserPrincipalId(accountScopeId.accountPrincipalId.guid),
+                account = AuthenticatedUserPrincipalId(requireNotNull(accountScopeId.accountPrincipalId).guid),
                 enqueueDrainRemoteWriteQueueUseCase = get(),
             )
         }
@@ -1042,7 +1042,7 @@ val appKoinModule = module {
 
             XapiRemoteWriteQueueDbImpl(
                 schoolDb = get(),
-                account = AuthenticatedUserPrincipalId(accountScopeId.accountPrincipalId.guid),
+                account = AuthenticatedUserPrincipalId(requireNotNull(accountScopeId.accountPrincipalId).guid),
                 enqueueDrainRemoteWriteQueueUseCase = get(),
             )
         }
@@ -1098,7 +1098,7 @@ val appKoinModule = module {
                 schoolDb = get(),
                 uidNumberMapper = get(),
                 authenticatedUser = AuthenticatedUserPrincipalId(
-                    accountScopeId.accountPrincipalId.guid
+                    requireNotNull(accountScopeId.accountPrincipalId).guid
                 ),
                 checkPersonPermissionUseCase = get(),
                 json = get(),
@@ -1153,7 +1153,7 @@ val appKoinModule = module {
             val accountScopeId = UserAccountScopeId.parse(id)
             GetAuthenticatedPersonUseCase(
                 authenticatedUserPrincipalId = AuthenticatedUserPrincipalId(
-                    accountScopeId.accountPrincipalId.guid
+                    requireNotNull(accountScopeId.accountPrincipalId).guid
                 ),
                 schoolDb = get(),
                 uidNumberMapper = get(),
@@ -1166,7 +1166,7 @@ val appKoinModule = module {
             CheckPersonPermissionUseCaseDbImpl(
                 schoolDb = get(),
                 authenticatedUser = AuthenticatedUserPrincipalId(
-                    accountScopeId.accountPrincipalId.guid
+                    requireNotNull(accountScopeId.accountPrincipalId).guid
                 ),
                 uidNumberMapper = get(),
             )
@@ -1184,7 +1184,7 @@ val appKoinModule = module {
             PullSyncTrackerDbImpl(
                 schoolDb = get(),
                 authenticatedUser = AuthenticatedUserPrincipalId(
-                    accountScopeId.accountPrincipalId.guid
+                    requireNotNull(accountScopeId.accountPrincipalId).guid
                 ),
                 uidNumberMapper = get(),
             )
@@ -1202,7 +1202,9 @@ val appKoinModule = module {
             RunPullSyncUseCase(
                 pullSyncTracker = get(),
                 schoolDataSource = get(),
-                authenticatedUser = UserAccountScopeId.parse(id).accountPrincipalId,
+                authenticatedUser = requireNotNull(
+                    UserAccountScopeId.parse(id).accountPrincipalId
+                ),
             )
         }
 
@@ -1240,7 +1242,7 @@ val appKoinModule = module {
             GetXapiLaunchParamsUseCaseAndroid(
                 nanoHttpdApp = get(),
                 schoolUrl = accountScopeId.schoolUrl,
-                authenticatedUser = accountScopeId.accountPrincipalId,
+                authenticatedUser = requireNotNull(requireNotNull(accountScopeId.accountPrincipalId)),
                 accountManager = get(),
                 uidNumberMapper = get(),
                 schoolDb = get(),
@@ -1252,7 +1254,7 @@ val appKoinModule = module {
 
             UpdateClazzStudentXapiGroupUseCase(
                 schoolDataSource = get(),
-                authenticatedUserPrincipalId = accountScopeId.accountPrincipalId,
+                authenticatedUserPrincipalId = requireNotNull(accountScopeId.accountPrincipalId),
                 schoolUrl = accountScopeId.schoolUrl,
             )
         }

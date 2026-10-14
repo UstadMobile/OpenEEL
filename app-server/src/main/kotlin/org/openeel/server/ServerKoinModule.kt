@@ -426,7 +426,7 @@ fun serverKoinModule(
             val accountScopeId = UserAccountScopeId.parse(id)
 
             CheckPersonPermissionUseCaseDbImpl(
-                authenticatedUser = accountScopeId.accountPrincipalId,
+                authenticatedUser = requireNotNull(accountScopeId.accountPrincipalId),
                 schoolDb = get(),
                 uidNumberMapper = get(),
             )
@@ -457,7 +457,7 @@ fun serverKoinModule(
             GetPermissionLastModifiedUseCaseDbImpl(
                 schoolDb = get(),
                 numberMapper = get(),
-                authenticatedUser = accountScopeId.accountPrincipalId,
+                authenticatedUser = requireNotNull(accountScopeId.accountPrincipalId),
             )
         }
 
@@ -466,7 +466,7 @@ fun serverKoinModule(
 
             AddChildAccountUseCaseDb(
                 schoolPrimaryKeyGenerator = get(),
-                authenticatedUser = accountScopeId.accountPrincipalId,
+                authenticatedUser = requireNotNull(accountScopeId.accountPrincipalId),
                 schoolDataSource = get(),
             )
         }
@@ -476,7 +476,7 @@ fun serverKoinModule(
 
             UpdateClazzStudentXapiGroupUseCase(
                 schoolDataSource = get(),
-                authenticatedUserPrincipalId = accountScopeId.accountPrincipalId,
+                authenticatedUserPrincipalId = requireNotNull(accountScopeId.accountPrincipalId),
                 schoolUrl = accountScopeId.schoolUrl,
             )
         }

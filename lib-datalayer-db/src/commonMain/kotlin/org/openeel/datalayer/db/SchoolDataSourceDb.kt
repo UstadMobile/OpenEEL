@@ -7,8 +7,6 @@ import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.school.ClassDatasourceDb
 import org.openeel.datalayer.db.school.EnrollmentDataSourceDb
-import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
-import org.openeel.datalayer.db.school.auth.GetAuthenticatedXapiAgentsUseCaseDbImpl
 import org.openeel.datalayer.db.school.IndicatorDataSourceDb
 import org.openeel.datalayer.db.school.InviteDataSourceDb
 import org.openeel.datalayer.db.school.PersonDataSourceDb
@@ -17,6 +15,8 @@ import org.openeel.datalayer.db.school.PersonPasswordDataSourceDb
 import org.openeel.datalayer.db.school.PersonQrBadgeDataSourceDb
 import org.openeel.datalayer.db.school.ReportDataSourceDb
 import org.openeel.datalayer.db.school.SchoolPermissionGrantDataSourceDb
+import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
+import org.openeel.datalayer.db.school.auth.GetAuthenticatedXapiAgentsUseCaseDbImpl
 import org.openeel.datalayer.db.school.opds.OpdsFeedDataSourceDb
 import org.openeel.datalayer.db.school.opds.OpdsPublicationDataSourceDb
 import org.openeel.datalayer.db.school.xapi.XapiResourceDb
@@ -35,9 +35,9 @@ import org.openeel.datalayer.school.SchoolPermissionGrantDataSourceLocal
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
 import org.openeel.datalayer.school.opds.OpdsPublicationDataSourceLocal
-import org.openeel.lib.xapi.resources.local.XapiResourceLocal
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.resources.local.XapiResourceLocal
 
 /**
  * SchoolDataSource implementation based on a local (Room) database
@@ -55,7 +55,7 @@ import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
 class SchoolDataSourceDb(
     private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
-    private val authenticatedUser: AuthenticatedUserPrincipalId,
+    private val authenticatedUser: AuthenticatedUserPrincipalId?,
     private val checkPersonPermissionUseCase: CheckPersonPermissionUseCase,
     private val json: Json,
     private val defaultAppCatalogUrl: String?,
@@ -75,26 +75,45 @@ class SchoolDataSourceDb(
         SchoolPermissionGrantDataSourceDb(
             schoolPermissionGrantDao = schoolDb.getSchoolPermissionGrantDao(),
             uidNumberMapper = uidNumberMapper,
-            authenticatedUser = authenticatedUser,
-            getAuthenticatedPersonUseCase = getAuthenticatedPersonUseCase
+            authenticatedUser = requireNotNull(authenticatedUser),
+            getAuthenticatedPersonUseCase = getAuthenticatedPersonUseCase,
         )
     }
 
     override val personDataSource: PersonDataSourceLocal by lazy {
-        PersonDataSourceDb(schoolDb, uidNumberMapper, authenticatedUser, checkPersonPermissionUseCase)
+        PersonDataSourceDb(
+            schoolDb = schoolDb,
+            uidNumberMapper = uidNumberMapper,
+            authenticatedUser = requireNotNull(authenticatedUser),
+            checkPersonPermissionUseCase = checkPersonPermissionUseCase,
+        )
     }
 
     override val personPasskeyDataSource: PersonPasskeyDataSourceLocal by lazy {
-        PersonPasskeyDataSourceDb(schoolDb, uidNumberMapper, authenticatedUser)
+        PersonPasskeyDataSourceDb(
+            schoolDb = schoolDb,
+            uidNumberMapper = uidNumberMapper,
+            authenticatedUser = requireNotNull(authenticatedUser),
+        )
     }
 
     override val personPasswordDataSource: PersonPasswordDataSourceLocal by lazy {
-        PersonPasswordDataSourceDb(schoolDb, uidNumberMapper, checkPersonPermissionUseCase, authenticatedUser)
+        PersonPasswordDataSourceDb(
+            schoolDb = schoolDb,
+            uidNumberMapper = uidNumberMapper,
+            checkPersonPermissionUseCase = checkPersonPermissionUseCase,
+            authenticatedUser = requireNotNull(authenticatedUser)
+        )
     }
 
 
     override val personQrBadgeDataSource: PersonQrCodeBadgeDataSourceLocal by lazy {
-        PersonQrBadgeDataSourceDb(schoolDb, uidNumberMapper, authenticatedUser, checkPersonPermissionUseCase)
+        PersonQrBadgeDataSourceDb(
+            schoolDb = schoolDb,
+            uidNumberMapper = uidNumberMapper,
+            authenticatedUser = requireNotNull(authenticatedUser),
+            checkPersonPermissionUseCase = checkPersonPermissionUseCase
+        )
     }
 
     override val reportDataSource: ReportDataSourceLocal by lazy {
@@ -106,15 +125,28 @@ class SchoolDataSourceDb(
     }
 
     override val classDataSource: ClassDataSourceLocal by lazy {
-        ClassDatasourceDb(schoolDb, uidNumberMapper, authenticatedUser)
+        ClassDatasourceDb(
+            schoolDb = schoolDb,
+            uidNumberMapper = uidNumberMapper,
+            authenticatedUser = requireNotNull(authenticatedUser)
+        )
     }
 
     override val inviteDataSource: InviteDataSourceLocal by lazy {
-        InviteDataSourceDb(schoolDb, uidNumberMapper, checkPersonPermissionUseCase, authenticatedUser)
+        InviteDataSourceDb(
+            schoolDb = schoolDb,
+            uidNumberMapper = uidNumberMapper,
+            checkPersonPermissionUseCase = checkPersonPermissionUseCase,
+            authenticatedUser = requireNotNull(authenticatedUser)
+        )
     }
 
     override val enrollmentDataSource: EnrollmentDataSourceLocal by lazy {
-        EnrollmentDataSourceDb(schoolDb, uidNumberMapper, authenticatedUser)
+        EnrollmentDataSourceDb(
+            schoolDb = schoolDb,
+            uidNumberMapper = uidNumberMapper,
+            authenticatedUser = requireNotNull(authenticatedUser),
+        )
     }
 
     override val opdsPublicationDataSource: OpdsPublicationDataSourceLocal by lazy {
@@ -130,7 +162,7 @@ class SchoolDataSourceDb(
         OpdsFeedDataSourceDb(
             schoolDb = schoolDb,
             uidNumberMapper = uidNumberMapper,
-            authenticatedUser = authenticatedUser,
+            authenticatedUser = requireNotNull(authenticatedUser),
             json = json,
             primaryKeyGenerator = primaryKeyGenerator,
         )

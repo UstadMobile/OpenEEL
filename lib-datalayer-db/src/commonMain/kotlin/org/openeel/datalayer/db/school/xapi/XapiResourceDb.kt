@@ -19,7 +19,7 @@ import org.openeel.lib.xapi.resources.local.XapiStatementsResourceLocal
 class XapiResourceDb(
     private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
-    private val authenticatedUser: AuthenticatedUserPrincipalId,
+    private val authenticatedUser: AuthenticatedUserPrincipalId?,
     private val json: Json,
     private val schoolUrl: Url,
     private val getAuthenticatedXapiAgentsUseCase: GetAuthenticatedXapiAgentsUseCase,
@@ -47,7 +47,6 @@ class XapiResourceDb(
     override val agents: XapiAgentsResourceLocal by lazy {
         XapiAgentsResourceDb(
             schoolDb = schoolDb,
-            authenticatedUser = authenticatedUser,
             uidNumberMapper = uidNumberMapper,
         )
     }
@@ -55,7 +54,6 @@ class XapiResourceDb(
     override val activities: XapiActivitiesResourceLocal by lazy{
         XapiActivitiesResourceDb(
             schoolDb = schoolDb,
-            authenticatedUser = authenticatedUser,
             uidNumberMapper = uidNumberMapper,
             json = json,
         )

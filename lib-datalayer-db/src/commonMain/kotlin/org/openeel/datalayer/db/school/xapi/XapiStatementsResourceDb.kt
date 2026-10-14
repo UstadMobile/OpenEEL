@@ -41,6 +41,7 @@ import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntityObjectTy
 import org.openeel.datalayer.db.school.xapi.ext.allActivityUids
 import org.openeel.datalayer.db.school.xapi.ext.allActorUids
 import org.openeel.datalayer.ext.appendIfNotNull
+import org.openeel.datalayer.ext.uidOrZero
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.resources.local.XapiAgentsResourceLocal
 import org.openeel.datalayer.school.xapi.ext.allActivities
@@ -60,6 +61,7 @@ import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.lib.xapi.OpenEelXapiConstants.ACTIVITY_EXTENSION_WEBPUB_MANIFEST_LINK
 import org.openeel.lib.xapi.OpenEelXapiConstants.HEADER_XAPI_CONSISTENT_THROUGH
 import org.openeel.lib.xapi.OpenEelXapiConstants.HEADER_XAPI_VERSION
+import org.openeel.lib.xapi.auth.requireNotNullOrThrowXapiException
 import org.openeel.lib.xapi.composites.AssignmentAndProgress
 import org.openeel.lib.xapi.composites.XapiActorAndAssignmentProgress
 import org.openeel.lib.xapi.composites.XapiAssignmentTaskProgress
@@ -83,7 +85,7 @@ import kotlin.time.Instant
 
 class XapiStatementsResourceDb(
     private val schoolDb: SchoolDatabase,
-    private val authenticatedUser: AuthenticatedUserPrincipalId,
+    private val authenticatedUser: AuthenticatedUserPrincipalId?,
     private val getAuthenticatedPersonUseCase: GetAuthenticatedPersonUseCase,
     private val schoolUrl: Url,
     private val uidNumberMapper: UidNumberMapper,
@@ -93,12 +95,14 @@ class XapiStatementsResourceDb(
     private val xapiVersion: String = XAPI_VERSION,
 ) : XapiStatementsResourceLocal {
 
-    private val authenticatedAgent = XapiAgent(
-        account = XapiAccount(
-            homePage = schoolUrl.toString(),
-            name = authenticatedUser.guid,
+    private val authenticatedAgent = authenticatedUser?.let {
+        XapiAgent(
+            account = XapiAccount(
+                homePage = schoolUrl.toString(),
+                name = authenticatedUser.guid,
+            )
         )
-    )
+    }
 
 
     suspend fun doUpsertStatement(
@@ -267,6 +271,8 @@ class XapiStatementsResourceDb(
     }
 
     override suspend fun post(list: List<XapiStatement>): DataLoadState<List<Uuid>> {
+        val loggedInActor = requireNotNullOrThrowXapiException(authenticatedAgent)
+
         return try {
             val statementsWithIdsSet = list.map {
                 it.copyWithIdIfNotSet()
@@ -311,7 +317,7 @@ class XapiStatementsResourceDb(
                 statementsWithIdsSet.forEach {
                     //Check all statements are for the authenticated user's actor only
                     if(it.actor.account?.homePage != schoolUrl.toString()
-                        || it.actor.account?.name != authenticatedUser.guid
+                        || it.actor.account?.name != loggedInActor.account?.name
                     ) {
                         throw XapiException(403, "User does not have permission to post statement as any other actor")
                     }
@@ -421,8 +427,8 @@ class XapiStatementsResourceDb(
                         until = listParams.until?.toEpochMilliseconds() ?: XapiStatementEntityDao.UNTIL_UNSET,
                         ascending = ascendingOrder,
                         limit = listParams.limit ?: DEFAULT_MAX_STATEMENTS,
-                        authenticatedPersonUidNum = uidNumberMapper(authenticatedUser.guid),
-                        authenticatedActorUid = authenticatedAgent.identifierHash(uidNumberMapper),
+                        authenticatedPersonUidNum = uidNumberMapper.uidOrZero(authenticatedUser?.guid),
+                        authenticatedActorUid = authenticatedAgent?.identifierHash(uidNumberMapper) ?: 0,
                         appListingVerbUid = uidNumberMapper(XapiVerb.ID_LISTED_APP),
                     ).map { entity ->
                         json.decodeFromString(
@@ -444,8 +450,8 @@ class XapiStatementsResourceDb(
                         until = listParams.until?.toEpochMilliseconds() ?: XapiStatementEntityDao.UNTIL_UNSET,
                         ascending = ascendingOrder,
                         limit = listParams.limit ?: DEFAULT_MAX_STATEMENTS,
-                        authenticatedPersonUidNum = uidNumberMapper(authenticatedUser.guid),
-                        authenticatedActorUid = authenticatedAgent.identifierHash(uidNumberMapper),
+                        authenticatedPersonUidNum = uidNumberMapper.uidOrZero(authenticatedUser?.guid),
+                        authenticatedActorUid = authenticatedAgent?.identifierHash(uidNumberMapper) ?: 0,
                         appListingVerbUid = uidNumberMapper(XapiVerb.ID_LISTED_APP),
                     ).mapToCanonicalStatements(
                         idOnly = format == XapiStatementsResource.GetStatementFormatEnum.IDS
@@ -490,8 +496,8 @@ class XapiStatementsResourceDb(
                 until = listParams.until?.toEpochMilliseconds() ?: XapiStatementEntityDao.UNTIL_UNSET,
                 ascending = listParams.ascending,
                 limit = listParams.limit ?: DEFAULT_MAX_STATEMENTS,
-                authenticatedPersonUidNum = uidNumberMapper(authenticatedUser.guid),
-                authenticatedActorUid = authenticatedAgent.identifierHash(uidNumberMapper),
+                authenticatedPersonUidNum = uidNumberMapper.uidOrZero(authenticatedUser?.guid),
+                authenticatedActorUid = authenticatedAgent?.identifierHash(uidNumberMapper) ?: 0,
                 appListingVerbUid = uidNumberMapper(XapiVerb.ID_LISTED_APP),
             ).map { list ->
                 DataReadyState(
@@ -520,8 +526,8 @@ class XapiStatementsResourceDb(
                 until = listParams.until?.toEpochMilliseconds() ?: XapiStatementEntityDao.UNTIL_UNSET,
                 ascending = listParams.ascending,
                 limit = listParams.limit ?: DEFAULT_MAX_STATEMENTS,
-                authenticatedPersonUidNum = uidNumberMapper(authenticatedUser.guid),
-                authenticatedActorUid = authenticatedAgent.identifierHash(uidNumberMapper),
+                authenticatedPersonUidNum = uidNumberMapper.uidOrZero(authenticatedUser?.guid),
+                authenticatedActorUid = authenticatedAgent?.identifierHash(uidNumberMapper) ?: 0,
                 appListingVerbUid = uidNumberMapper(XapiVerb.ID_LISTED_APP),
             ).map { list ->
                 val consistentThrough = Clock.System.now()
@@ -676,9 +682,9 @@ class XapiStatementsResourceDb(
                         ?.mapNotNull {
                             it.definition?.extensions?.get(ACTIVITY_EXTENSION_WEBPUB_MANIFEST_LINK)
                                 ?.jsonPrimitive?.contentOrNull
-                                ?.let {
+                                ?.let { urlStr ->
                                     try {
-                                        Url(it)
+                                        Url(urlStr)
                                     }catch(e: Throwable) {
                                         Napier.w("Exception getting manifest url", e)
                                         null
