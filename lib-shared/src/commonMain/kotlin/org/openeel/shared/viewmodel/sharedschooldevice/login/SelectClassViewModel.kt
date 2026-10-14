@@ -19,7 +19,7 @@ import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSelfSelectUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.login
 import org.openeel.shared.generated.resources.select_class
@@ -62,11 +62,11 @@ class SelectClassViewModel(
         )
     }
 
-    private val getSharedDeviceSelfSelectUseCase: GetSharedDeviceSelfSelectUseCase by inject()
+    private val getSharedDeviceSettingsUseCase: GetSharedDeviceSettingsUseCase by inject()
 
     init {
         viewModelScope.launch {
-            val selfEnableValue = getSharedDeviceSelfSelectUseCase()
+            val selfEnableValue = getSharedDeviceSettingsUseCase().canSelectName
             _uiState.update {
                 it.copy(isSelfSelectClassAndName = selfEnableValue)
             }

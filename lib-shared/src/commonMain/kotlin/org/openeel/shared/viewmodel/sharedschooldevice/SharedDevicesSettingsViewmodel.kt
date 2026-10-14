@@ -26,9 +26,8 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.SetSharedDeviceSelfSelectUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.UpdateSharedDeviceSettingsUseCase
 import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCase
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.device
@@ -79,8 +78,7 @@ class SharedDevicesSettingsViewmodel(
     private val approveOrDeclineInviteRequestUseCase: ApproveOrDeclineInviteRequestUseCase by inject()
 
     private val getSharedDeviceSettingsUseCase: GetSharedDeviceSettingsUseCase by inject()
-    private val setSharedDevicePINUseCase: SetSharedDevicePINUseCase by inject()
-    private val setSharedDeviceSelfSelectUseCase: SetSharedDeviceSelfSelectUseCase by inject()
+    private val updateSharedDeviceSettingsUseCase: UpdateSharedDeviceSettingsUseCase by inject()
 
     private val _uiState = MutableStateFlow(SharedDevicesSettingsUiState(isLoadingPin = true))
     val uiState = _uiState.asStateFlow()
@@ -143,7 +141,7 @@ class SharedDevicesSettingsViewmodel(
         }
         viewModelScope.launch {
             try {
-                setSharedDeviceSelfSelectUseCase(enabled)
+                updateSharedDeviceSettingsUseCase { it.copy(canSelectName = enabled) }
             } catch (e: Exception) {
                 _uiState.update { currentState ->
                     currentState.copy(error = e.message?.asUiText())
@@ -257,7 +255,7 @@ class SharedDevicesSettingsViewmodel(
             }
             viewModelScope.launch {
                 try {
-                    setSharedDevicePINUseCase(pin)
+                    updateSharedDeviceSettingsUseCase { it.copy(pin = pin) }
                 } catch (e: Exception) {
                     _uiState.update {
                         it.copy(

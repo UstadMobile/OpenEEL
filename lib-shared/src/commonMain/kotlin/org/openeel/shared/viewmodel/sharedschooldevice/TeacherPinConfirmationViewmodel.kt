@@ -10,7 +10,7 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.invalid
 import org.openeel.shared.generated.resources.teacher_admin_login
@@ -32,7 +32,7 @@ class TeacherPinConfirmationViewmodel(
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
-    private val getSharedDevicePINUseCase: GetSharedDevicePINUseCase by inject()
+    private val getSharedDeviceSettingsUseCase: GetSharedDeviceSettingsUseCase by inject()
 
 
     private val _uiState = MutableStateFlow(TeacherPinConfirmationUiState())
@@ -70,7 +70,7 @@ class TeacherPinConfirmationViewmodel(
     }
 
     private suspend fun verifyTeacherPin(enteredPin: String): Boolean {
-        val correctPin = getSharedDevicePINUseCase()
+        val correctPin = getSharedDeviceSettingsUseCase().pin
         return enteredPin == correctPin
     }
 }

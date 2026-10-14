@@ -172,12 +172,7 @@ import org.openeel.shared.domain.getwarnings.GetWarningsUseCase
 import org.openeel.shared.domain.getwarnings.GetWarningsUseCaseAndroid
 import org.openeel.shared.domain.license.GetLicenseLabelUseCaseAndroid
 import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSelfSelectUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.SetSharedDeviceSelfSelectUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCaseImpl
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCaseImpl
+import org.openeel.shared.domain.account.sharedschooldevice.UpdateSharedDeviceSettingsUseCase
 import org.openeel.shared.domain.bookmark.AddBookmarkUseCase
 import org.openeel.shared.domain.bookmark.RemoveBookmarkUseCase
 import org.openeel.shared.domain.launchapp.LaunchAppUseCase
@@ -1151,16 +1146,6 @@ val appKoinModule = module {
             )
         }
 
-        scoped<SetSharedDevicePINUseCase> {
-            SetSharedDevicePINUseCaseImpl(
-                settingsStore = get(),
-            )
-        }
-        scoped<GetSharedDevicePINUseCase> {
-            GetSharedDevicePINUseCaseImpl(
-                getSharedDeviceSettingsUseCase = get(),
-            )
-        }
         scoped<SharedDeviceSettingsStore> {
             SharedDeviceSettingsStore(
                 schoolDataSource = get(),
@@ -1170,15 +1155,8 @@ val appKoinModule = module {
         scoped<GetSharedDeviceSettingsUseCase> {
             GetSharedDeviceSettingsUseCase(settingsStore = get())
         }
-        scoped<GetSharedDeviceSelfSelectUseCase> {
-            GetSharedDeviceSelfSelectUseCase(
-                settingsStore = get(),
-            )
-        }
-        scoped<SetSharedDeviceSelfSelectUseCase> {
-            SetSharedDeviceSelfSelectUseCase(
-                settingsStore = get(),
-            )
+        scoped<UpdateSharedDeviceSettingsUseCase> {
+            UpdateSharedDeviceSettingsUseCase(settingsStore = get())
         }
         scoped<ApproveOrDeclineInviteRequestUseCase> {
             ApproveOrDeclineInviteRequestUseCase(
