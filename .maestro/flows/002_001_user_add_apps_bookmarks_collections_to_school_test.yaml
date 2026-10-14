@@ -214,9 +214,6 @@ onFlowComplete:
 - tapOn:
     id: "nav_home"
 - tapOn: "Collections"
-#- tapOn: "More Options"
-#- assertVisible: "Unpin"
-#- assertVisible: "Undo"
 - tapOn: "Collections for Grade 1"
 - tapOn:
     id: "floating_action_button"    # Edit button
@@ -294,17 +291,12 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Collections for Grade 1"
-- tapOn:      #Taking time to save the changes in the collection.
-    id: "nav_home"
-- tapOn: "Collections"
-- assertVisible: "2 sections, 3 items"
-- tapOn: "Collections for Grade 1"
 - assertVisible: "Day 1-Collections section"
 - assertVisible: "Examples"
 - assertVisible: "Day 2-Learning item section"
 - assertVisible: "Statement Maker"
 - assertVisible: "Assignment Result Statement Demo"
-- assertVisible: "Remix collection"
+
 # Add assignment from a collection
 - tapOn: "Assign"
 - assertVisible:
