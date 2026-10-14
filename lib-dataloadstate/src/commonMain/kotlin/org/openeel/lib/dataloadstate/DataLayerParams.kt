@@ -12,8 +12,6 @@ object DataLayerParams {
 
     const val GUID = "guid"
 
-    const val KEYS = "keys"
-
     const val INCLUDE_RELATED = "includeRelated"
 
     const val  EXCLUDE_SHARED_SCHOOL_DEVICE = "excludeSharedSchoolDevice"

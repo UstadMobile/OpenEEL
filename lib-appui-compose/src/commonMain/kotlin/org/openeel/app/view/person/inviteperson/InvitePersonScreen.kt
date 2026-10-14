@@ -40,7 +40,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import io.github.alexzhirkevich.qrose.rememberQrCodePainter
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectExposedDropDownMenuField
+import org.openeel.app.components.OpenEelExposedDropDownMenuField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
@@ -118,7 +118,7 @@ fun InvitePersonScreen(
                 val selectedRole = uiState.selectedRole ?: uiState.roleOptions.firstOrNull()
                 ?: PersonRoleEnum.STUDENT
 
-                RespectExposedDropDownMenuField(
+                OpenEelExposedDropDownMenuField(
                     value = selectedRole,
                     modifier = Modifier
                         .defaultItemPadding()

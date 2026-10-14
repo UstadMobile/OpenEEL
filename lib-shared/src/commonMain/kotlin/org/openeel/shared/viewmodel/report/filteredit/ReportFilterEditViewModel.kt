@@ -15,7 +15,7 @@ import org.openeel.shared.generated.resources.done
 import org.openeel.shared.generated.resources.edit_filters
 import org.openeel.shared.navigation.ReportEditFilter
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.AppUiState
 import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
@@ -28,7 +28,7 @@ data class ReportFilterEditUiState(
 
 class ReportFilterEditViewModel(
     savedStateHandle: SavedStateHandle,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     private val _uiState = MutableStateFlow(ReportFilterEditUiState())
     val uiState: StateFlow<ReportFilterEditUiState> = _uiState

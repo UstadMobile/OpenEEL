@@ -29,7 +29,7 @@ import org.openeel.lib.opds.model.ext.getPublicationsByIndexes
 import org.openeel.lib.opds.model.findSelfLinks
 import org.openeel.libutil.ext.resolve
 import org.openeel.libutil.ext.toggle
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.ext.resultExpected
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.edit
@@ -49,7 +49,7 @@ import org.openeel.shared.util.ext.appbarTitleString
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.firstSelfLinkOrNull
 import org.openeel.shared.util.ext.resolve
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
@@ -117,10 +117,10 @@ data class OpdsFeedDetailUiState(
  */
 class OpdsFeedDetailViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val resultReturner: NavResultReturner,
     private val snackBarDispatcher: SnackBarDispatcher,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

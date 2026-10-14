@@ -33,9 +33,9 @@ import org.openeel.datalayer.school.SchoolPermissionGrantDataSourceLocal
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
 import org.openeel.datalayer.school.opds.OpdsPublicationDataSourceLocal
+import org.openeel.lib.xapi.resources.local.XapiResourceLocal
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import org.openeel.lib.xapi.resources.local.XapiResourceLocal
 
 /**
  * SchoolDataSource implementation based on a local (Room) database
@@ -51,13 +51,13 @@ import org.openeel.lib.xapi.resources.local.XapiResourceLocal
  *           testing.
  */
 class SchoolDataSourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
     private val authenticatedUser: AuthenticatedUserPrincipalId,
     private val checkPersonPermissionUseCase: CheckPersonPermissionUseCase,
     private val json: Json,
     private val defaultAppCatalogUrl: String?,
-    private val primaryKeyGenerator: PrimaryKeyGenerator = PrimaryKeyGenerator(RespectSchoolDatabase.TABLE_IDS),
+    private val primaryKeyGenerator: PrimaryKeyGenerator = PrimaryKeyGenerator(SchoolDatabase.TABLE_IDS),
     private val schoolUrl: Url,
     authenticatedXapiAgentsUseCase: GetAuthenticatedXapiAgentsUseCase? = null,
 ) : SchoolDataSourceLocal {
@@ -117,7 +117,7 @@ class SchoolDataSourceDb(
 
     override val opdsPublicationDataSource: OpdsPublicationDataSourceLocal by lazy {
         OpdsPublicationDataSourceDb(
-            respectSchoolDatabase = schoolDb,
+            schoolDatabase = schoolDb,
             json = json,
             uidNumberMapper = uidNumberMapper,
             primaryKeyGenerator = primaryKeyGenerator,

@@ -18,7 +18,7 @@ import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.datalayer.shared.paging.EmptyPagingSource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.ext.resultExpected
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_new_person
@@ -34,7 +34,7 @@ import org.openeel.shared.navigation.PersonList
 import org.openeel.shared.navigation.sendResultIfResultExpected
 import org.openeel.shared.util.LaunchDebouncer
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCase
 import org.openeel.datalayer.school.model.Person
@@ -70,10 +70,10 @@ data class PersonListUiState(
 
 class PersonListViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val resultReturner: NavResultReturner,
     private val snackBarDispatcher: SnackBarDispatcher,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

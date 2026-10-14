@@ -15,14 +15,14 @@ import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.school
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.SharedDevicesSettings
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class SchoolSettingsUiState(
     val schoolName: UiText? = null,
@@ -32,8 +32,8 @@ data class SchoolSettingsUiState(
 
 class SchoolSettingsViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
     private val schoolDataSource: SchoolDataSource by inject()
@@ -46,7 +46,6 @@ class SchoolSettingsViewModel(
         _appUiState.update {
             it.copy(
                 title = Res.string.school.asUiText(),
-                hideBottomNavigation = true,
             )
         }
         viewModelScope.launch {

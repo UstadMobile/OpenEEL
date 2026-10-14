@@ -22,7 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.duration
 
@@ -54,7 +54,7 @@ fun FeedListItem(
                     .width(48.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                RespectAsyncImage(
+                OpenEelAsyncImage(
                     uri = iconUrl,
                     contentDescription = "",
                     contentScale = ContentScale.Crop,

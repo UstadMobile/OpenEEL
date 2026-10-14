@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.openeel.app.components.RespectDataLoadHost
+import org.openeel.app.components.OpenEelDataLoadHost
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.langMapString
 import org.openeel.lib.xapi.ext.idStr
@@ -115,7 +115,7 @@ fun AssignmentDetailScreen(
         timeZoneId = TimeZone.currentSystemDefault().id,
     )
 
-    RespectDataLoadHost(uiState.assignmentProgress) {
+    OpenEelDataLoadHost(uiState.assignmentProgress) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.fillMaxSize()) {
                 if (!uiState.isFullscreen) {

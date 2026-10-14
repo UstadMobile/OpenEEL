@@ -7,12 +7,12 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.openeel.datalayer.exceptions.ForbiddenException
-import org.openeel.datalayer.school.model.DeviceInfo
 import org.openeel.datalayer.school.model.Invite2
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.lib.xapi.model.XapiAccount
 import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.datalayer.school.model.DeviceInfo
 
 fun Person?.assertPersonHasRole(
     role: PersonRoleEnum

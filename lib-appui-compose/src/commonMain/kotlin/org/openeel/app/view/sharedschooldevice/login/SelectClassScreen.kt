@@ -23,10 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.defaultItemPadding
-import org.openeel.app.components.respectPagingItems
-import org.openeel.app.components.respectRememberPager
+import org.openeel.app.components.openEelPagingItems
+import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.school.ClassDataSource
 import org.openeel.datalayer.school.model.Clazz
 import org.openeel.shared.generated.resources.Res
@@ -57,7 +57,7 @@ fun SelectClassScreen(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         if (uiState.isSelfSelectClassAndName) {
-            val pager = respectRememberPager(uiState.classes)
+            val pager = openEelRememberPager(uiState.classes)
             val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
             val listState = rememberLazyListState()
 
@@ -65,7 +65,7 @@ fun SelectClassScreen(
                 modifier = Modifier.fillMaxSize(),
                 state = listState
             ) {
-                respectPagingItems(
+                openEelPagingItems(
                     items = lazyPagingItems,
                     key = { item, index -> item?.guid ?: index.toString() },
                     contentType = { ClassDataSource.ENDPOINT_NAME },
@@ -77,7 +77,7 @@ fun SelectClassScreen(
                                 clazz?.also(onClickClazz)
                             },
                         leadingContent = {
-                            RespectPersonAvatar(name = clazz?.title ?: "")
+                            OpenEelPersonAvatar(name = clazz?.title ?: "")
                         },
                         headlineContent = {
                             Text(text = clazz?.title ?: "")

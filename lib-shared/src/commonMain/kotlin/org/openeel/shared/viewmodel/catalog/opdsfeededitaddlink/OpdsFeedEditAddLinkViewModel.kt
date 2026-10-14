@@ -26,7 +26,7 @@ import org.openeel.shared.navigation.NavResultReturner
 import org.openeel.shared.navigation.RouteResultDest
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.catalog.PublicationsSelection
 
@@ -50,7 +50,7 @@ class OpdsFeedEditAddLinkViewModel(
     savedStateHandle: SavedStateHandle,
     private val resultReturner: NavResultReturner,
     private val extractWebPageMetadataUseCase: ExtractWebPageMetadataUseCase,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     private val route: ExternalLinkEdit = savedStateHandle.toRoute()
 

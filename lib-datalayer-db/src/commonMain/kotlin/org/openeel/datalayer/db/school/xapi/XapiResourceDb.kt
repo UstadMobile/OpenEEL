@@ -5,7 +5,7 @@ import io.ktor.http.Url
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
 import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
 import org.openeel.lib.xapi.resources.local.XapiActivitiesResourceLocal
@@ -17,7 +17,7 @@ import org.openeel.lib.xapi.resources.local.XapiStateResourceLocal
 import org.openeel.lib.xapi.resources.local.XapiStatementsResourceLocal
 
 class XapiResourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
     private val authenticatedUser: AuthenticatedUserPrincipalId,
     private val json: Json,

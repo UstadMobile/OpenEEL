@@ -62,8 +62,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.defaultItemPadding
-import org.openeel.app.components.respectPagingItems
-import org.openeel.app.components.respectRememberPager
+import org.openeel.app.components.openEelPagingItems
+import org.openeel.app.components.openEelRememberPager
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.ext.getDeviceInfo
@@ -139,10 +139,10 @@ private fun SharedDevicesSettingsContent(
 ) {
     val focusManager = LocalFocusManager.current
 
-    val pager = respectRememberPager(uiState.devices)
+    val pager = openEelRememberPager(uiState.devices)
     val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
 
-    val pendingPager = respectRememberPager(uiState.pendingDevices)
+    val pendingPager = openEelRememberPager(uiState.pendingDevices)
     val pendingItems = pendingPager.flow.collectAsLazyPagingItems()
     // Create sorted items list using remember with keys to trigger recomposition
     val sortedItems = remember(
@@ -237,7 +237,7 @@ private fun SharedDevicesSettingsContent(
             }
 
             if (uiState.isPendingExpanded) {
-                respectPagingItems(
+                openEelPagingItems(
                     items = pendingItems,
                     key = { item, index -> (item?.guid ?: "") + index.toString() }
                 ) { device ->

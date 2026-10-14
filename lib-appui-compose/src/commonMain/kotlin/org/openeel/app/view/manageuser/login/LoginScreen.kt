@@ -22,8 +22,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPasswordField
-import org.openeel.app.components.RespectShortVersionInfoText
+import org.openeel.app.components.OpenEelPasswordField
+import org.openeel.app.components.OpenEelShortVersionInfoText
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.defaultScreenPadding
 import org.openeel.app.components.rememberCountryFlagEmoji
@@ -31,8 +31,8 @@ import org.openeel.app.components.uiTextStringResource
 import org.openeel.shared.domain.account.username.validateusername.ValidateUsernameUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.i_have_an_invite_code
-import org.openeel.shared.generated.resources.select_another_school
 import org.openeel.shared.generated.resources.login
+import org.openeel.shared.generated.resources.select_another_school
 import org.openeel.shared.generated.resources.password_label
 import org.openeel.shared.generated.resources.school_server_url
 import org.openeel.shared.generated.resources.server_location
@@ -98,7 +98,7 @@ fun LoginScreen(
                 }
         )
 
-        RespectPasswordField(
+        OpenEelPasswordField(
             value = uiState.password,
             onValueChange = onPasswordChanged,
             label = { Text(stringResource(Res.string.password_label)) },
@@ -159,6 +159,6 @@ fun LoginScreen(
             )
         }
 
-        RespectShortVersionInfoText(Modifier.defaultItemPadding().fillMaxWidth())
+        OpenEelShortVersionInfoText(Modifier.defaultItemPadding().fillMaxWidth())
     }
 }

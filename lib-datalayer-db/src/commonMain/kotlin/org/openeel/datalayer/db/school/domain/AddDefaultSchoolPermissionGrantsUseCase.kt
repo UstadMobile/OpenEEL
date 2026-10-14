@@ -1,7 +1,7 @@
 package org.openeel.datalayer.db.school.domain
 
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toEntity
 import org.openeel.datalayer.school.model.PermissionFlags
 import org.openeel.datalayer.school.model.PersonRoleEnum
@@ -14,7 +14,7 @@ import org.openeel.datalayer.school.model.SchoolPermissionGrant
  * created.
  */
 class AddDefaultSchoolPermissionGrantsUseCase(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
 ) {
 

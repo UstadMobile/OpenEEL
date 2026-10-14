@@ -77,7 +77,7 @@ class CreatePasskeyUseCaseAndroidImpl(
             )
             CreatePasskeyUseCase.PasskeyCreatedResult(
                 passkeyResponse,
-                RespectUserHandle(
+                OpenEelUserHandle(
                     personUidNum = personUidNumVal,
                     schoolUrl = schoolUrl,
                 ),

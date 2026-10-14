@@ -17,12 +17,12 @@ import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.view.apps.launcher.AppLauncherScreen
 import org.openeel.app.view.catalog.bookmark.BookmarkListScreen
 import org.openeel.app.view.catalog.opdsfeedlist.OpdsFeedListScreen
-import org.openeel.app.viewmodel.respectViewModel
+import org.openeel.app.viewmodel.openEelViewModel
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.apps
 import org.openeel.shared.generated.resources.bookmarks
 import org.openeel.shared.generated.resources.collections
-import org.openeel.shared.navigation.RespectComposeNavController
+import org.openeel.shared.navigation.OpenEelComposeNavController
 import org.openeel.shared.viewmodel.app.appstate.AppUiState
 
 enum class HomeScreenTabs(val label: StringResource) {
@@ -33,7 +33,7 @@ enum class HomeScreenTabs(val label: StringResource) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    respectNavController: RespectComposeNavController,
+    respectNavController: OpenEelComposeNavController,
     onSetAppUiState: (AppUiState) -> Unit,
 ) {
     val pagerState = rememberPagerState { HomeScreenTabs.entries.size }
@@ -69,7 +69,7 @@ fun HomeScreen(
             when(selectedTab) {
                 HomeScreenTabs.APPS -> {
                     AppLauncherScreen(
-                        viewModel = respectViewModel(
+                        viewModel = openEelViewModel(
                             onSetAppUiState = onSetAppUiState,
                             navController = respectNavController,
                         )
@@ -78,7 +78,7 @@ fun HomeScreen(
 
                 HomeScreenTabs.BOOKMARK -> {
                     BookmarkListScreen(
-                        viewModel = respectViewModel(
+                        viewModel = openEelViewModel(
                             onSetAppUiState = onSetAppUiState,
                             navController = respectNavController,
                         )
@@ -87,7 +87,7 @@ fun HomeScreen(
 
                 HomeScreenTabs.COLLECTIONS -> {
                     OpdsFeedListScreen(
-                        viewModel = respectViewModel(
+                        viewModel = openEelViewModel(
                             onSetAppUiState = onSetAppUiState,
                             navController = respectNavController
                         )

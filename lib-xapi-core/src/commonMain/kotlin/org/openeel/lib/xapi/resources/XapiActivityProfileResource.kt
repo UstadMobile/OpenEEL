@@ -75,10 +75,6 @@ interface XapiActivityProfileResource : XapiDocumentResource<XapiActivityProfile
 
         const val ENDPOINT_NAME = "profile"
 
-        const val KEY_SHARED_DEVICE_SELF_SELECT = "shared-device-self-select"
-
-        const val KEY_SHARED_DEVICE_PIN = "shared-device-pin"
-
     }
 
 }

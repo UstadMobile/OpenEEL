@@ -2,7 +2,7 @@ package org.openeel.datalayer.db.school.xapi
 
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.xapi.adapters.toEntities
 import org.openeel.datalayer.ext.EPOCH
 import org.openeel.lib.xapi.resources.local.XapiAgentsResourceLocal
@@ -12,7 +12,7 @@ import org.openeel.lib.xapi.model.XapiGroup
 import kotlin.time.Instant
 
 class XapiAgentsResourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val authenticatedUser: AuthenticatedUserPrincipalId,
     private val uidNumberMapper: UidNumberMapper,
 ) : XapiAgentsResourceLocal{

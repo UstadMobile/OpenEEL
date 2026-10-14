@@ -67,13 +67,13 @@ import org.openeel.credentials.passkey.request.GetPasskeyProviderInfoUseCase
 import org.openeel.credentials.password.SavePasswordUseCaseAndroidImpl
 import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectAppDataSourceDb
-import org.openeel.datalayer.db.RespectAppDatabase
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
+import org.openeel.datalayer.db.SchoolDirectoryDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.addCommonMigrations
 import org.openeel.datalayer.db.networkvalidation.ExtendedDataSourceValidationHelperImpl
@@ -81,12 +81,11 @@ import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
 import org.openeel.datalayer.db.school.writequeue.RemoteWriteQueueDbImpl
 import org.openeel.datalayer.db.school.xapi.writequeue.XapiRemoteWriteQueueDbImpl
-import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryDataSourceDb
 import org.openeel.datalayer.db.shared.PullSyncTrackerDbImpl
-import org.openeel.datalayer.http.RespectAppDataSourceHttp
+import org.openeel.datalayer.http.SchoolDirectoryDataSourceHttp
 import org.openeel.datalayer.http.SchoolDataSourceHttpClient
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
-import org.openeel.datalayer.repository.RespectAppDataSourceRepository
+import org.openeel.datalayer.repository.SchoolDirectoryResourceRepository
 import org.openeel.datalayer.repository.SchoolDataSourceRepository
 import org.openeel.datalayer.repository.school.pullsync.EnqueueRunPullSyncUseCaseAndroidImpl
 import org.openeel.datalayer.repository.school.pullsync.RunPullSyncUseCase
@@ -104,7 +103,7 @@ import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
 import org.openeel.lib.xapi.remotewritequeue.DrainXapiRemoteWriteQueueUseCase
 import org.openeel.lib.xapi.remotewritequeue.EnqueueDrainXapiRemoteWriteQueueUseCase
 import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryResourceLocal
 import org.openeel.datalayer.shared.pullsync.PullSyncTracker
 import org.openeel.datalayer.shared.XXHashUidNumberMapper
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
@@ -115,13 +114,13 @@ import org.openeel.libxxhash.XXHasher64Factory
 import org.openeel.libxxhash.XXStringHasher
 import org.openeel.libxxhash.jvmimpl.XXHasher64FactoryCommonJvm
 import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
-import org.openeel.shared.domain.account.RespectAccount
-import org.openeel.shared.domain.account.RespectAccountManager
-import org.openeel.shared.domain.account.RespectAccountSchoolScopeLink
-import org.openeel.shared.domain.account.RespectTokenManager
+import org.openeel.shared.domain.account.UserAccount
+import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.account.UserAccountSchoolScopeLink
+import org.openeel.shared.domain.account.TokenManager
+import org.openeel.shared.domain.account.child.AddChildAccountUseCase
 import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
 import org.openeel.shared.domain.account.sharedschooldevice.SharedDeviceSettingsStore
-import org.openeel.shared.domain.account.child.AddChildAccountUseCase
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
 import org.openeel.shared.domain.account.child.AddChildAccountUseCaseClient
 import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
@@ -163,13 +162,6 @@ import org.openeel.shared.domain.devmode.SetDevModeEnabledUseCase
 import org.openeel.shared.domain.school.LaunchCustomTabUseCaseAndroid
 import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCaseAndroid
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_CLIENT
-import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSelfSelectUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.SetSharedDeviceSelfSelectUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCaseImpl
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCaseImpl
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCaseAndroid
@@ -179,6 +171,13 @@ import org.openeel.shared.domain.e2eartifactupload.E2EArtifactUploadUseCaseClien
 import org.openeel.shared.domain.getwarnings.GetWarningsUseCase
 import org.openeel.shared.domain.getwarnings.GetWarningsUseCaseAndroid
 import org.openeel.shared.domain.license.GetLicenseLabelUseCaseAndroid
+import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSelfSelectUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.SetSharedDeviceSelfSelectUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCaseImpl
+import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCaseImpl
 import org.openeel.shared.domain.bookmark.AddBookmarkUseCase
 import org.openeel.shared.domain.bookmark.RemoveBookmarkUseCase
 import org.openeel.shared.domain.launchapp.LaunchAppUseCase
@@ -201,7 +200,7 @@ import org.openeel.shared.domain.report.formatter.CreateGraphFormatterUseCase
 import org.openeel.shared.domain.report.query.MockRunReportUseCaseClientImpl
 import org.openeel.shared.domain.report.query.RunReportUseCase
 import org.openeel.shared.domain.school.LaunchCustomTabUseCase
-import org.openeel.shared.domain.school.RespectSchoolPath
+import org.openeel.shared.domain.school.SchoolPath
 import org.openeel.shared.domain.school.SchoolDbPath
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.domain.storage.CachePathsProviderAndroid
@@ -215,7 +214,7 @@ import org.openeel.shared.domain.usagereporting.SetUsageReportingEnabledUseCaseA
 import org.openeel.shared.domain.validateemail.ValidateEmailUseCase
 import org.openeel.shared.navigation.NavResultReturner
 import org.openeel.shared.navigation.NavResultReturnerImpl
-import org.openeel.shared.util.di.RespectAccountScopeId
+import org.openeel.shared.util.di.UserAccountScopeId
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.viewmodel.acknowledgement.AcknowledgementViewModel
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
@@ -558,8 +557,8 @@ val appKoinModule = module {
         File(androidContext().applicationContext.cacheDir, "tmp").apply { mkdirs() }
     }
 
-    single<RespectAccountManager> {
-        RespectAccountManager(
+    single<AppAccountManager> {
+        AppAccountManager(
             settings = get(),
             json = get(),
             tokenManager = get(),
@@ -567,8 +566,8 @@ val appKoinModule = module {
         )
     }
 
-    single<RespectTokenManager> {
-        RespectTokenManager(
+    single<TokenManager> {
+        TokenManager(
             settings = get(),
             json = get(),
         )
@@ -606,8 +605,8 @@ val appKoinModule = module {
         )
     }
 
-    single<SchoolDirectoryDataSourceLocal> {
-        SchoolDirectoryDataSourceDb(
+    single<SchoolDirectoryResourceLocal> {
+        org.openeel.datalayer.db.schooldirectory.SchoolDirectoryResourceDb(
             respectAppDb = get(),
             xxStringHasher = get()
         )
@@ -619,9 +618,9 @@ val appKoinModule = module {
         )
     }
 
-    single<RespectAppDatabase> {
+    single<SchoolDirectoryDatabase> {
         val appContext = androidContext().applicationContext
-        Room.databaseBuilder<RespectAppDatabase>(
+        Room.databaseBuilder<SchoolDirectoryDatabase>(
             appContext, appContext.getDatabasePath("respect_3_app.db").absolutePath
         ).setDriver(BundledSQLiteDriver())
             .addCallback(AddSchoolDirectoryCallback(addDirectoriesFromPropertiesUseCase = get()))
@@ -631,16 +630,16 @@ val appKoinModule = module {
             .build()
     }
 
-    single<RespectAppDataSource> {
-        RespectAppDataSourceRepository(
-            local = RespectAppDataSourceDb(
-                respectAppDatabase = get(),
+    single<SchoolDirectoryDataSource> {
+        SchoolDirectoryResourceRepository(
+            local = SchoolDirectoryDataSourceDb(
+                schoolDirectoryDatabase = get(),
                 json = get(),
                 xxStringHasher = get(),
             ),
-            remote = RespectAppDataSourceHttp(
-                local = RespectAppDataSourceDb(
-                    respectAppDatabase = get(),
+            remote = SchoolDirectoryDataSourceHttp(
+                local = SchoolDirectoryDataSourceDb(
+                    schoolDirectoryDatabase = get(),
                     json = get(),
                     xxStringHasher = get(),
                 ),
@@ -907,8 +906,8 @@ val appKoinModule = module {
             )
         }
 
-        scoped<RespectSchoolPath> {
-            RespectSchoolPath(
+        scoped<SchoolPath> {
+            SchoolPath(
                 path = Path(
                     File(
                         androidContext().filesDir,
@@ -922,8 +921,8 @@ val appKoinModule = module {
             SchoolDbPath.forSchoolUrl(SchoolDirectoryEntryScopeId.parse(id).schoolUrl)
         }
 
-        scoped<RespectSchoolDatabase> {
-            Room.databaseBuilder<RespectSchoolDatabase>(
+        scoped<SchoolDatabase> {
+            Room.databaseBuilder<SchoolDatabase>(
                 androidContext(),
                 get<SchoolDbPath>().filename
             )
@@ -947,7 +946,7 @@ val appKoinModule = module {
         scoped<GetInviteInfoUseCase> {
             GetInviteInfoUseCaseClient(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
-                schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryResource,
                 httpClient = get(),
             )
         }
@@ -959,7 +958,7 @@ val appKoinModule = module {
         scoped<UsernameSuggestionUseCase> {
             UsernameSuggestionUseCaseClient(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
-                schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryResource,
                 httpClient = get(),
             )
         }
@@ -967,7 +966,7 @@ val appKoinModule = module {
         scoped<CheckUsernameUniqueUseCase> {
             CheckUsernameUniqueUseCaseClient(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
-                schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryResource,
                 httpClient = get(),
             )
         }
@@ -997,7 +996,7 @@ val appKoinModule = module {
             CheckPasskeySupportUseCaseAndroidImpl(
                 verifyDomainUseCase = get(),
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
-                respectAppDataSource = get(),
+                schoolDirectoryDataSource = get(),
             )
         }
 
@@ -1021,13 +1020,13 @@ val appKoinModule = module {
         }
     }
     /**
-     * ScopeId is set as per RespectAccountScopeId
+     * ScopeId is set as per [UserAccountScopeId]
      *
-     * The RespectAccount scope will be linked to SchoolDirectoryEntry (the parent) scope.
+     * The UserAccount scope will be linked to SchoolDirectoryEntry (the parent) scope.
      */
-    scope<RespectAccount> {
-        scoped<RespectAccountSchoolScopeLink> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+    scope<UserAccount> {
+        scoped<UserAccountSchoolScopeLink> {
+            val accountScopeId = UserAccountScopeId.parse(id)
             val schoolDirectoryScope = SchoolDirectoryEntryScopeId(
                 schoolUrl = accountScopeId.schoolUrl,
                 accountPrincipalId = null,
@@ -1039,15 +1038,15 @@ val appKoinModule = module {
                 )
             )
 
-            RespectAccountSchoolScopeLink(accountScopeId.schoolUrl)
+            UserAccountSchoolScopeLink(accountScopeId.schoolUrl)
         }
         scoped<AuthTokenProvider> {
-            get<RespectTokenManager>().providerFor(id)
+            get<TokenManager>().providerFor(id)
         }
 
         scoped<RemoteWriteQueue> {
-            get<RespectAccountSchoolScopeLink>()
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            get<UserAccountSchoolScopeLink>()
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             RemoteWriteQueueDbImpl(
                 schoolDb = get(),
@@ -1057,8 +1056,8 @@ val appKoinModule = module {
         }
 
         scoped<XapiRemoteWriteQueue> {
-            get<RespectAccountSchoolScopeLink>()
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            get<UserAccountSchoolScopeLink>()
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             XapiRemoteWriteQueueDbImpl(
                 schoolDb = get(),
@@ -1083,7 +1082,7 @@ val appKoinModule = module {
             EnqueueDrainRemoteWriteQueueUseCaseAndroidImpl(
                 context = androidContext().applicationContext,
                 scopeId = id,
-                scopeClass = RespectAccount::class,
+                scopeClass = UserAccount::class,
             )
         }
 
@@ -1091,7 +1090,7 @@ val appKoinModule = module {
             EnqueueDrainXapiRemoteWriteQueueUseCaseAndroidImpl(
                 context = androidContext().applicationContext,
                 scopeId = id,
-                scopeClass = RespectAccount::class,
+                scopeClass = UserAccount::class,
             )
         }
 
@@ -1112,7 +1111,7 @@ val appKoinModule = module {
         }
 
         scoped<SchoolDataSourceLocal> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             SchoolDataSourceDb(
                 schoolDb = get(),
@@ -1122,25 +1121,25 @@ val appKoinModule = module {
                 ),
                 checkPersonPermissionUseCase = get(),
                 json = get(),
-                defaultAppCatalogUrl = BuildConfig.RESPECT_DEFAULT_APP_LIST,
+                defaultAppCatalogUrl = BuildConfig.DEFAULT_APP_LIST,
                 schoolUrl = accountScopeId.schoolUrl,
             )
         }
 
         scoped<SchoolDataSource> {
-            val schoolUrl = get<RespectAccountSchoolScopeLink>()
+            val schoolUrl = get<UserAccountSchoolScopeLink>()
             val localDs = get<SchoolDataSourceLocal>()
 
             SchoolDataSourceRepository(
                 local = localDs,
                 remote = SchoolDataSourceHttpClient(
                     schoolUrl = schoolUrl.url,
-                    schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                    schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryResource,
                     httpClient = get(),
                     tokenProvider = get(),
                     validationHelper = get(),
                     json = get(),
-                    defaultAppCatalogUrl = BuildConfig.RESPECT_DEFAULT_APP_LIST,
+                    defaultAppCatalogUrl = BuildConfig.DEFAULT_APP_LIST,
                     opdsFeedValidationHelper = localDs.opdsFeedDataSource,
                     opdsPublicationValidationHelper = localDs.opdsPublicationDataSource
                         .publicationNetworkValidationHelper
@@ -1190,16 +1189,16 @@ val appKoinModule = module {
 
         scoped<AddChildAccountUseCase> {
             AddChildAccountUseCaseClient(
-                schoolUrl = RespectAccountScopeId.parse(id).schoolUrl,
+                schoolUrl = UserAccountScopeId.parse(id).schoolUrl,
                 authTokenProvider = get(),
                 httpClient = get(),
-                schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryResource,
                 schoolDataSourceLocal = get(),
             )
         }
 
         scoped<GetAuthenticatedPersonUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
             GetAuthenticatedPersonUseCase(
                 authenticatedUserPrincipalId = AuthenticatedUserPrincipalId(
                     accountScopeId.accountPrincipalId.guid
@@ -1210,7 +1209,7 @@ val appKoinModule = module {
         }
 
         scoped<CheckPersonPermissionUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             CheckPersonPermissionUseCaseDbImpl(
                 schoolDb = get(),
@@ -1228,7 +1227,7 @@ val appKoinModule = module {
         }
 
         scoped<PullSyncTracker> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             PullSyncTrackerDbImpl(
                 schoolDb = get(),
@@ -1243,7 +1242,7 @@ val appKoinModule = module {
             EnqueueRunPullSyncUseCaseAndroidImpl(
                 context = androidApplication(),
                 scopeId = id,
-                scopeClass = RespectAccount::class,
+                scopeClass = UserAccount::class,
             )
         }
 
@@ -1251,7 +1250,7 @@ val appKoinModule = module {
             RunPullSyncUseCase(
                 pullSyncTracker = get(),
                 schoolDataSource = get(),
-                authenticatedUser = RespectAccountScopeId.parse(id).accountPrincipalId,
+                authenticatedUser = UserAccountScopeId.parse(id).accountPrincipalId,
             )
         }
 
@@ -1284,7 +1283,7 @@ val appKoinModule = module {
         }
 
         scoped<GetXapiLaunchParamsUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             GetXapiLaunchParamsUseCaseAndroid(
                 nanoHttpdApp = get(),
@@ -1297,7 +1296,7 @@ val appKoinModule = module {
         }
 
         scoped<UpdateClazzStudentXapiGroupUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             UpdateClazzStudentXapiGroupUseCase(
                 schoolDataSource = get(),
@@ -1325,10 +1324,10 @@ val appKoinModule = module {
          }
 
          scoped<MakePlaylistOpdsFeedUseCase> {
-             val accountScopeId = RespectAccountScopeId.parse(id)
+             val accountScopeId = UserAccountScopeId.parse(id)
              MakePlaylistOpdsFeedUseCase(
                  schoolUrl = accountScopeId.schoolUrl,
-                 schoolDirectoryEntryDataSource = get<RespectAppDataSource>().schoolDirectoryEntryDataSource,
+                 schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryResource,
              )
          }
 

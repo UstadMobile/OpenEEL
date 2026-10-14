@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "0190a9531f4d1c1472440e0beb8e788a",
+    "identityHash": "3e2b0e45dd344a1df558b12a2a56488f",
     "entities": [
       {
         "tableName": "PersonEntity",
@@ -2755,71 +2755,11 @@
             "xrqItemId"
           ]
         }
-      },
-      {
-        "tableName": "SchoolConfigSettingEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`scsKey` TEXT NOT NULL, `scsValue` TEXT NOT NULL, `scsStatus` INTEGER NOT NULL, `scsLastModified` INTEGER NOT NULL, `scsStored` INTEGER NOT NULL, `scsCanReadFlags` INTEGER NOT NULL, `scsAnonCanRead` INTEGER NOT NULL, `scsCanWriteFlags` INTEGER NOT NULL, PRIMARY KEY(`scsKey`))",
-        "fields": [
-          {
-            "fieldPath": "scsKey",
-            "columnName": "scsKey",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "scsValue",
-            "columnName": "scsValue",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "scsStatus",
-            "columnName": "scsStatus",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "scsLastModified",
-            "columnName": "scsLastModified",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "scsStored",
-            "columnName": "scsStored",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "scsCanReadFlags",
-            "columnName": "scsCanReadFlags",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "scsAnonCanRead",
-            "columnName": "scsAnonCanRead",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "scsCanWriteFlags",
-            "columnName": "scsCanWriteFlags",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "scsKey"
-          ]
-        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0190a9531f4d1c1472440e0beb8e788a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3e2b0e45dd344a1df558b12a2a56488f')"
     ]
   }
 }

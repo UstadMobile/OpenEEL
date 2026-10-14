@@ -1,6 +1,6 @@
 package org.openeel.shared.domain.school
 
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 
 /**
@@ -11,7 +11,7 @@ data class SchoolPrimaryKeyGenerator(
 ) {
     companion object {
 
-        val TABLE_IDS = RespectSchoolDatabase.TABLE_IDS
+        val TABLE_IDS = SchoolDatabase.TABLE_IDS
 
     }
 }

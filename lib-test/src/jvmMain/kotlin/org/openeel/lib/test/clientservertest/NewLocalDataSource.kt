@@ -7,7 +7,7 @@ import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
@@ -22,7 +22,7 @@ import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import java.io.File
 
 data class SchoolDbDataSourceContext(
-    val db: RespectSchoolDatabase,
+    val db: SchoolDatabase,
     val datasource: SchoolDataSourceLocal
 )
 
@@ -36,7 +36,7 @@ suspend fun withSchoolDbDataSource(
     getAuthenticatedXapiAgentsUseCase: GetAuthenticatedXapiAgentsUseCase? = null,
     block: suspend SchoolDbDataSourceContext.() -> Unit,
 ) {
-    val schoolDb = Room.databaseBuilder<RespectSchoolDatabase>(
+    val schoolDb = Room.databaseBuilder<SchoolDatabase>(
         name = File(dbDir, dbFilename).absolutePath
     ).setDriver(BundledSQLiteDriver())
         .build()
@@ -69,8 +69,8 @@ fun newLocalSchoolDatabase(
     localAuthenticatedUser: AuthenticatedUserPrincipalId,
     uidMapper: UidNumberMapper = XXHashUidNumberMapper(stringHasher),
     getAuthenticatedXapiAgentsUseCase: GetAuthenticatedXapiAgentsUseCase? = null,
-): Pair<RespectSchoolDatabase, SchoolDataSourceLocal> {
-    val schoolDb = Room.databaseBuilder<RespectSchoolDatabase>(
+): Pair<SchoolDatabase, SchoolDataSourceLocal> {
+    val schoolDb = Room.databaseBuilder<SchoolDatabase>(
         name = File(dir, "school.db").absolutePath
     ).setDriver(BundledSQLiteDriver())
         .build()
@@ -94,7 +94,7 @@ fun newLocalSchoolDatabase(
 }
 
 suspend fun SchoolDataSourceLocal.insertAdminAndDefaultGrants(
-    schoolDb: RespectSchoolDatabase,
+    schoolDb: SchoolDatabase,
     adminPerson: Person = Person(
         guid = "1",
         givenName = "Admin",

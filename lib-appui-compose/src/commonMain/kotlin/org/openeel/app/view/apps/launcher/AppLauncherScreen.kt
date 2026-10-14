@@ -39,7 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.app.components.langMapString
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.lib.dataloadstate.DataLoadState
@@ -178,7 +178,7 @@ fun AppGridItem(
                 .aspectRatio(1f)
         ) {
             appData?.findIcons()?.firstOrNull()?.also { icon ->
-                RespectAsyncImage(
+                OpenEelAsyncImage(
                     uri = icon.href,
                     contentDescription = "",
                     contentScale = ContentScale.Fit,

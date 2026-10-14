@@ -9,7 +9,7 @@ interface CreatePasskeyUseCase {
 
     data class PasskeyCreatedResult(
         val authenticationResponseJSON : AuthenticationResponseJSON,
-        val respectUserHandle: RespectUserHandle,
+        val openEelUserHandle: OpenEelUserHandle,
         val passkeyProviderInfo: GetPasskeyProviderInfoUseCase.PasskeyProviderInfo
     ) : CreatePasskeyResult()
 

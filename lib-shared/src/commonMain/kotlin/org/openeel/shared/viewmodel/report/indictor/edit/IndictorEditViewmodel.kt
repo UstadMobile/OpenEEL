@@ -18,7 +18,7 @@ import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.extensions.reportoptions.Indicator
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.done
@@ -29,7 +29,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.LaunchDebouncer
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 
 data class IndicatorEditUiState(
@@ -42,9 +42,9 @@ data class IndicatorEditUiState(
 
 class IndicatorEditViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val json: Json
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
     private val schoolDataSource: SchoolDataSource by inject()

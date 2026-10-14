@@ -1,14 +1,14 @@
 package org.openeel.server.account.invite.username
 
 import org.koin.core.component.KoinComponent
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.lib.dataloadstate.throwable.withHttpStatus
 import org.openeel.shared.domain.account.username.UsernameSuggestionUseCase
 import org.openeel.shared.domain.account.username.filterusername.FilterUsernameUseCase
 
 class UsernameSuggestionUseCaseServer(
     private val filterUsernameUseCase: FilterUsernameUseCase,
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
 ): UsernameSuggestionUseCase, KoinComponent  {
 
     companion object {

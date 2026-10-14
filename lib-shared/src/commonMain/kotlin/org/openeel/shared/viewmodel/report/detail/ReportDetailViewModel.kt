@@ -16,7 +16,7 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
 import org.openeel.datalayer.school.model.Report
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.report.formatter.CreateGraphFormatterUseCase
 import org.openeel.shared.domain.report.formatter.GraphFormatter
 import org.openeel.shared.domain.report.query.RunReportUseCase
@@ -26,7 +26,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.ReportDetail
 import org.openeel.shared.navigation.ReportEdit
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 
 data class ReportDetailUiState(
@@ -44,8 +44,8 @@ class ReportDetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val runReportUseCase: RunReportUseCase,
     private val createGraphFormatterUseCase: CreateGraphFormatterUseCase,
-    accountManager: RespectAccountManager
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    accountManager: AppAccountManager
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
     private val route: ReportDetail = savedStateHandle.toRoute()

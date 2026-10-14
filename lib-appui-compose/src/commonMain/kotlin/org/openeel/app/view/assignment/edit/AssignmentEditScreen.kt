@@ -41,7 +41,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.LangMapTextField
-import org.openeel.app.components.RespectLocalDateTimeField
+import org.openeel.app.components.OpenEelLocalDateTimeField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.datalayer.school.model.Clazz
@@ -58,14 +58,11 @@ import org.openeel.shared.generated.resources.assign_to
 import org.openeel.shared.generated.resources.assignment_title
 import org.openeel.shared.generated.resources.description
 import org.openeel.shared.generated.resources.task
-import org.openeel.shared.generated.resources.assignment_name
-import org.openeel.shared.generated.resources.lesson_assessment
 import org.openeel.shared.generated.resources.due_date
 import org.openeel.shared.generated.resources.fingerprint
 import org.openeel.shared.generated.resources.no_tasks_selected_yet
 import org.openeel.shared.generated.resources.please_click_plus_button_to_add_one
 import org.openeel.shared.generated.resources.required
-import org.openeel.shared.generated.resources.task
 import org.openeel.shared.generated.resources.tasks
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.assignment.edit.AssignmentEditUiState
@@ -183,7 +180,7 @@ fun AssignmentEditScreen(
             enabled = uiState.fieldsEnabled,
         )
 
-        RespectLocalDateTimeField(
+        OpenEelLocalDateTimeField(
             modifier = Modifier.defaultItemPadding().fillMaxWidth(),
             value = assignment?.objectActivityOrNull()?.definition?.extensionDeadlineAsInstantOrNull()
                 ?.toLocalDateTime(TimeZone.currentSystemDefault()),

@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.serialization.json.Json
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.settings
-import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.SchoolSettings
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
+import org.openeel.shared.navigation.SchoolSettings
+import org.openeel.shared.navigation.NavCommand
 
 data class SettingsUiState(
     val loading: Boolean = false,
@@ -20,7 +20,7 @@ data class SettingsUiState(
 class SettingsViewModel(
     savedStateHandle: SavedStateHandle,
     private val json: Json,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: Flow<SettingsUiState> = _uiState.asStateFlow()

@@ -8,19 +8,19 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.school.ext.primaryRole
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonGenderEnum
 import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
-import org.openeel.lib.dataloadstate.DataLoadParams
-import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.libutil.ext.replaceOrAppend
-import org.openeel.shared.domain.account.RespectAccount
-import org.openeel.shared.domain.account.RespectAccountManager
-import org.openeel.shared.domain.account.RespectSession
-import org.openeel.shared.domain.account.RespectSessionAndPerson
+import org.openeel.shared.domain.account.UserAccount
+import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.account.UserSession
+import org.openeel.shared.domain.account.UserSessionAndPerson
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.accounts
 import org.openeel.shared.navigation.AssignmentList
@@ -28,12 +28,13 @@ import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.PersonDetail
-import org.openeel.shared.navigation.SelectClass
 import org.openeel.shared.navigation.ShareFeedback
 import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.isSameAccount
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
+import org.openeel.shared.navigation.SelectClass
+
 
 /**
  * @property selectedAccount if not null, the currently selected account
@@ -41,10 +42,10 @@ import org.openeel.shared.viewmodel.RespectViewModel
  *           (not including the selectedAccount)
  */
 data class AccountListUiState(
-    val selectedAccount: RespectSessionAndPerson? = null,
-    val accounts: List<RespectSessionAndPerson> = emptyList(),
+    val selectedAccount: UserSessionAndPerson? = null,
+    val accounts: List<UserSessionAndPerson> = emptyList(),
     val accountOwnerRole: PersonRoleEnum? = null,
-) {
+    ) {
     val showSelectedAccountProfileButton: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
                 && accountOwnerRole != PersonRoleEnum.SHARED_SCHOOL_DEVICE // Hide for shared device
@@ -55,9 +56,9 @@ data class AccountListUiState(
 }
 
 class AccountListViewModel(
-    private val respectAccountManager: RespectAccountManager,
+    private val appAccountManager: AppAccountManager,
     savedStateHandle: SavedStateHandle
-) : RespectViewModel(savedStateHandle){
+) : OpenEelViewModel(savedStateHandle){
 
     private val _uiState = MutableStateFlow(AccountListUiState())
 
@@ -74,9 +75,9 @@ class AccountListViewModel(
         }
 
         viewModelScope.launch {
-            respectAccountManager.selectedAccountAndPersonFlow.collect { accountAndPerson ->
-                val accountOwnerRole = respectAccountManager.activeAccount?.let { account ->
-                    val accountScope = respectAccountManager.getOrCreateAccountScope(account)
+            appAccountManager.selectedAccountAndPersonFlow.collect { accountAndPerson ->
+                val accountOwnerRole = appAccountManager.activeAccount?.let { account ->
+                    val accountScope = appAccountManager.getOrCreateAccountScope(account)
                     val dataSource: SchoolDataSource = accountScope.get()
                     dataSource.personDataSource.findByGuid(
                         DataLoadParams(),
@@ -94,8 +95,8 @@ class AccountListViewModel(
         }
 
         viewModelScope.launch {
-            respectAccountManager.accounts.combine(
-                respectAccountManager.selectedAccountFlow
+            appAccountManager.accounts.combine(
+                appAccountManager.selectedAccountFlow
             ) { storedAccounts, activeAccount ->
                 Pair(storedAccounts, activeAccount)
             }.collectLatest { (storedAccounts, activeAccount) ->
@@ -124,8 +125,8 @@ class AccountListViewModel(
                 _uiState.update { prev ->
                     prev.copy(
                         accounts = storedAccountList.map {
-                            RespectSessionAndPerson(
-                                session = RespectSession(it, null),
+                            UserSessionAndPerson(
+                                session = UserSession(it, null),
                                 person = Person(
                                     guid = it.userGuid,
                                     givenName = "",
@@ -140,7 +141,7 @@ class AccountListViewModel(
 
                 storedAccountList.forEach { account ->
                     launch {
-                        val accountScope = respectAccountManager.getOrCreateAccountScope(account)
+                        val accountScope = appAccountManager.getOrCreateAccountScope(account)
                         val dataSource: SchoolDataSource = accountScope.get()
                         dataSource.personDataSource.findByGuidAsFlow(
                             account.userGuid
@@ -148,8 +149,8 @@ class AccountListViewModel(
                             _uiState.update { prev ->
                                 prev.copy(
                                     accounts = prev.accounts.replaceOrAppend(
-                                        RespectSessionAndPerson(
-                                            session = RespectSession(account, null),
+                                        UserSessionAndPerson(
+                                            session = UserSession(account, null),
                                             person = person.dataOrNull() ?: Person(
                                                 guid = account.userGuid,
                                                 givenName = "",
@@ -170,11 +171,11 @@ class AccountListViewModel(
         }
     }
 
-    fun onClickAccount(account: RespectAccount) {
-        respectAccountManager.switchAccount(account)
+    fun onClickAccount(account: UserAccount) {
+        appAccountManager.switchAccount(account)
 
         viewModelScope.launch {
-            val accountScope = respectAccountManager.getOrCreateAccountScope(account)
+            val accountScope = appAccountManager.getOrCreateAccountScope(account)
             val person = accountScope.get<SchoolDataSource>().personDataSource.findByGuid(
                 loadParams = DataLoadParams(onlyIfCached = true),
                 guid = account.userGuid
@@ -197,7 +198,7 @@ class AccountListViewModel(
 
     fun onClickFamilyPerson(person: Person) {
         viewModelScope.launch {
-            respectAccountManager.switchProfile(person.guid)
+            appAccountManager.switchProfile(person.guid)
             _navCommandFlow.tryEmit(
                 NavCommand.Navigate(
                     destination = if(person.roles.firstOrNull()?.roleEnum == PersonRoleEnum.PARENT) {
@@ -257,7 +258,7 @@ class AccountListViewModel(
             // This is a teacher/admin on a shared device - switch to shared device account first
             viewModelScope.launch {
                 // First switch to the shared device account
-                respectAccountManager.switchAccount(sharedDeviceAccount.session.account)
+                appAccountManager.switchAccount(sharedDeviceAccount.session.account)
                 _navCommandFlow.tryEmit(
                     NavCommand.Navigate(
                         destination = SelectClass.create(deviceGuid = sharedDeviceAccount.person.guid),
@@ -269,7 +270,7 @@ class AccountListViewModel(
             // Regular logout - no shared device present
             uiState.value.selectedAccount?.also {
                 viewModelScope.launch {
-                    respectAccountManager.removeAccount(it.session.account)
+                    appAccountManager.removeAccount(it.session.account)
                     _navCommandFlow.tryEmit(
                         NavCommand.Navigate(
                             destination = GetStartedScreen(),

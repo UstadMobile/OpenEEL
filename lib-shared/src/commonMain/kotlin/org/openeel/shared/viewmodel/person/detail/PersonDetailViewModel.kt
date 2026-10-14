@@ -19,7 +19,7 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.shared.params.GetListCommonParams
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.phonenumber.OnClickPhoneNumUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.edit
@@ -33,7 +33,7 @@ import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.db.school.ext.isAdmin
 import org.openeel.datalayer.db.school.ext.isAdminOrTeacher
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import kotlin.getValue
 
@@ -54,9 +54,9 @@ data class PersonDetailUiState(
 
 class PersonDetailViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val onClickPhoneNumUseCase: OnClickPhoneNumUseCase? = null,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent{
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent{
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

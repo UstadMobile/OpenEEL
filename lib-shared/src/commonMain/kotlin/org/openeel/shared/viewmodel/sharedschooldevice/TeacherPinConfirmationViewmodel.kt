@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.invalid
@@ -18,7 +18,7 @@ import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class TeacherPinConfirmationUiState(
     val errorMessage: UiText? = null,
@@ -27,8 +27,8 @@ data class TeacherPinConfirmationUiState(
 
 class TeacherPinConfirmationViewmodel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    private val accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

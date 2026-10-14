@@ -1,6 +1,6 @@
 package org.openeel.shared.domain.account.invite
 
-import org.openeel.datalayer.respect.model.invite.RespectInviteInfo
+import org.openeel.datalayer.respect.model.invite.InviteInfo
 
 /**
  * Retrieves information about an invite.
@@ -17,6 +17,6 @@ import org.openeel.datalayer.respect.model.invite.RespectInviteInfo
  */
 interface GetInviteInfoUseCase {
 
-    suspend operator fun invoke(code: String): RespectInviteInfo
+    suspend operator fun invoke(code: String): InviteInfo
 
 }

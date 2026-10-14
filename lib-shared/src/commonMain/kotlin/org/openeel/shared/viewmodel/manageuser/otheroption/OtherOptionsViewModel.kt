@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.libutil.ext.normalizeForEndpoint
 import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
@@ -21,7 +21,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 
 data class OtherOptionsUiState(
@@ -32,10 +32,10 @@ data class OtherOptionsUiState(
 
 class OtherOptionsViewModel(
     savedStateHandle: SavedStateHandle,
-    private val respectAppDataSource: RespectAppDataSource,
+    private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val getDevModeEnabledUseCase: GetDevModeEnabledUseCase,
     private val resolveUrlToNavCommandUseCase: ResolveUrlToNavCommandUseCase,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     private val _uiState = MutableStateFlow(OtherOptionsUiState())
     val uiState = _uiState.asStateFlow()
@@ -84,7 +84,7 @@ class OtherOptionsViewModel(
                  }
 
                  val schoolUrl = url.normalizeForEndpoint()
-                 val schoolEntry = respectAppDataSource.schoolDirectoryEntryDataSource
+                 val schoolEntry = this@OtherOptionsViewModel.schoolDirectoryDataSource.schoolDirectoryEntryResource
                      .getSchoolDirectoryEntryByUrl(schoolUrl).dataOrNull()
 
                  if(schoolEntry == null)

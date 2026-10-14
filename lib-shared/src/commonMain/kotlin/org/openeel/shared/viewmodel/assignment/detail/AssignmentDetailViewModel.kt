@@ -41,7 +41,7 @@ import org.openeel.lib.xapi.model.XapiActivity
 import org.openeel.lib.xapi.model.XapiActor
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.edit
 import org.openeel.shared.generated.resources.invalid_link
@@ -53,7 +53,7 @@ import org.openeel.shared.navigation.StatementList
 import org.openeel.shared.util.AssignmentStatusFilter
 import org.openeel.shared.util.ext.asLangMapUiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
@@ -172,9 +172,9 @@ data class AssignmentDetailUiState(
 }
 class AssignmentDetailViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val snackBarDispatcher: SnackBarDispatcher,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

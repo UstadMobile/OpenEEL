@@ -5,7 +5,7 @@ import io.ktor.http.URLBuilder
 import io.ktor.http.Url
 import net.thauvin.erik.urlencoder.UrlEncoderUtil
 import org.openeel.datalayer.school.opds.ext.withAbsoluteSelfUrl
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.ReadiumLink
@@ -25,7 +25,7 @@ import kotlin.uuid.Uuid
  */
 class MakePlaylistOpdsFeedUseCase(
     private val schoolUrl: Url,
-    private val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSource,
+    private val schoolDirectoryEntryResource: SchoolDirectoryEntryResource,
 ) {
 
     @OptIn(ExperimentalUuidApi::class)
@@ -34,7 +34,7 @@ class MakePlaylistOpdsFeedUseCase(
         username: String,
         uuid: Uuid = Uuid.random(),
     ): OpdsFeed {
-        val xapiUrl = schoolDirectoryEntryDataSource.getSchoolDirectoryEntryByUrl(
+        val xapiUrl = schoolDirectoryEntryResource.getSchoolDirectoryEntryByUrl(
             schoolUrl
         ).dataOrNull()?.xapi ?: throw IllegalStateException("No Xapi URL for $schoolUrl")
 

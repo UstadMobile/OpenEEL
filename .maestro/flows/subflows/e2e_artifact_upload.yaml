@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 ---
 - setAirplaneMode: disabled
 # Wait for all pending remote writes to complete. See AppBar.kt for note on this.
@@ -6,7 +6,7 @@ appId: world.respect.app
     id: "pending_write_count"
     text: "0"
 - stopApp
-- openLink: "world.respect.app.e2eartifactupload:///?schoolUrl=${output.SCHOOL_URL_ENCODED}&name=${NAME}"
+- openLink: "org.openeel.app.e2eartifactupload:///?schoolUrl=${output.SCHOOL_URL_ENCODED}&name=${NAME}"
 
 - extendedWaitUntil:
     visible:

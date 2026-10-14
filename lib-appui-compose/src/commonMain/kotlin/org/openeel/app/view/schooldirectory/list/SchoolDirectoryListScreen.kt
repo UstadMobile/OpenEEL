@@ -17,7 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.SchoolDirectory
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.delete
 import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryListUiState
@@ -39,8 +39,8 @@ fun SchoolDirectoryListScreen(
 @Composable
 fun SchoolDirectoryListScreen(
     uiState: SchoolDirectoryListUiState,
-    onDeleteClick: (RespectSchoolDirectory) -> Unit,
-    onSelectClick: (RespectSchoolDirectory) -> Unit
+    onDeleteClick: (SchoolDirectory) -> Unit,
+    onSelectClick: (SchoolDirectory) -> Unit
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(uiState.schoolDirectory) { directory ->
@@ -56,7 +56,7 @@ fun SchoolDirectoryListScreen(
 
 @Composable
 fun SchoolDirectoryListItem(
-    directory: RespectSchoolDirectory,
+    directory: SchoolDirectory,
     mode: SchoolDirectoryMode,
     onDeleteClick: () -> Unit,
     onSelectClick: () -> Unit

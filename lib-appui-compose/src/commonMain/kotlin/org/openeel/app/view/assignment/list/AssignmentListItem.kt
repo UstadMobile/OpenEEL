@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
@@ -140,7 +140,7 @@ fun AssignmentListItem(
                 contentAlignment = Alignment.Center
             ) {
                 manifestIconUrl?.also { icon ->
-                    RespectAsyncImage(
+                    OpenEelAsyncImage(
                         uri = icon.toString(),
                         contentDescription = "",
                         contentScale = ContentScale.Crop,

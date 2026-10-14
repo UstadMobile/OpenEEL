@@ -24,12 +24,12 @@ import okhttp3.OkHttpClient
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.spy
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.RespectAppDataSourceLocal
+import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
-import org.openeel.datalayer.db.RespectAppDataSourceDb
-import org.openeel.datalayer.db.RespectAppDatabase
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
+import org.openeel.datalayer.db.SchoolDirectoryDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.networkvalidation.ExtendedDataSourceValidationHelperImpl
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
 import org.openeel.datalayer.db.school.writequeue.RemoteWriteQueueDbImpl
@@ -80,7 +80,7 @@ class ClientServerDataSourceTestBuilder internal constructor(
         serverDir, stringHasher, adminUserId
     )
 
-    val serverDb: RespectSchoolDatabase
+    val serverDb: SchoolDatabase
         get() = serverSchoolSourceAndDb.first
 
     val serverAdminPerson = Person(
@@ -94,7 +94,7 @@ class ClientServerDataSourceTestBuilder internal constructor(
     )
 
     inner class DataSourceTestClient(
-        val schoolDb: RespectSchoolDatabase,
+        val schoolDb: SchoolDatabase,
         val schoolDataSource: SchoolDataSource,
         val schoolDataSourceLocal: SchoolDataSourceLocal,
         val schoolDataSourceRemote: SchoolDataSource,
@@ -179,13 +179,13 @@ class ClientServerDataSourceTestBuilder internal constructor(
 
     val clients = (0 until numClients).map {
         val clientDir = File(baseDir, "client-$it").also { file -> file.mkdirs() }
-        val clientAppDb = Room.databaseBuilder<RespectAppDatabase>(
+        val clientAppDb = Room.databaseBuilder<SchoolDirectoryDatabase>(
             File(clientDir, "respect-app.db").absolutePath
         ).setDriver(BundledSQLiteDriver())
             .build()
 
-        val clientAppDataSource: RespectAppDataSourceLocal = RespectAppDataSourceDb(
-            respectAppDatabase = clientAppDb,
+        val clientAppDataSource: SchoolDirectoryDataSourceLocal = SchoolDirectoryDataSourceDb(
+            schoolDirectoryDatabase = clientAppDb,
             json = json,
             xxStringHasher = stringHasher
         )
@@ -197,7 +197,7 @@ class ClientServerDataSourceTestBuilder internal constructor(
 
 
         runBlocking {
-            clientAppDataSource.schoolDirectoryEntryDataSource.updateLocal(
+            clientAppDataSource.schoolDirectoryEntryResource.updateLocal(
                 listOf(schoolDirectoryEntry)
             )
         }
@@ -213,7 +213,7 @@ class ClientServerDataSourceTestBuilder internal constructor(
         val token = "secret"
         val schoolDataSourceRemote = SchoolDataSourceHttpClient(
             schoolUrl = schoolUrl,
-            schoolDirectoryEntryDataSource = clientAppDataSource.schoolDirectoryEntryDataSource,
+            schoolDirectoryEntryResource = clientAppDataSource.schoolDirectoryEntryResource,
             httpClient = httpClient,
             tokenProvider =  { AuthToken(token, systemTimeInMillis(), 3600) },
             validationHelper = clientValidationHelper,

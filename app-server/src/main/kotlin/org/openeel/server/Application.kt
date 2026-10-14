@@ -26,7 +26,7 @@ import org.koin.logger.slf4jLogger
 import org.openeel.libutil.ext.randomString
 import org.openeel.server.routes.AUTH_CONFIG_DIRECTORY_ADMIN_BASIC
 import org.openeel.server.routes.AuthRoute
-import org.openeel.server.routes.RespectSchoolDirectoryRoute
+import org.openeel.server.routes.SchoolDirectoryRoute
 import org.openeel.server.routes.getRespectSchoolJson
 import java.io.File
 import java.util.Properties
@@ -35,7 +35,7 @@ import org.openeel.demo.demolaunchableappserver.DemoLaunchableAppManifestRoute
 import org.openeel.demo.demolaunchableappserver.DemoLaunchableAppCollectionsRoute
 import org.openeel.Greeting
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.RespectAppDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.http.server.XapiStatementsResourceRoute
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
@@ -88,7 +88,7 @@ fun Application.module() {
     val absoluteDataDir = environment.config.absoluteDataDir()
     absoluteDataDir.takeIf { !it.exists() }?.mkdirs()
 
-    Napier.d("Respect-server: init : Data dir=$absoluteDataDir")
+    Napier.d("app-server: init : Data dir=$absoluteDataDir")
 
     environment.config.filePropertyOrNull(SERVER_CONFIG_PID_FILE)?.also { pidFile ->
         pidFile.parentFile?.takeIf { !it.exists() }?.mkdirs()
@@ -265,9 +265,9 @@ fun Application.module() {
                 )
             }
             route("directory") {
-                val respectAppDataSource: RespectAppDataSource by inject()
-                RespectSchoolDirectoryRoute(
-                    respectAppDataSource = respectAppDataSource,
+                val schoolDirectoryDataSource: SchoolDirectoryDataSource by inject()
+                SchoolDirectoryRoute(
+                    schoolDirectoryDataSource = schoolDirectoryDataSource,
                     filterByHost = environment.config.schoolDirsUseVirtualHost()
                 )
             }

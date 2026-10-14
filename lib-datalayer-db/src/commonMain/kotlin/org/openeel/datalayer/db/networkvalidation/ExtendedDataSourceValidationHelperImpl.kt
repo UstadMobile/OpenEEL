@@ -3,7 +3,7 @@ package org.openeel.datalayer.db.networkvalidation
 import com.ustadmobile.ihttp.headers.IHttpHeaders
 import io.ktor.http.Url
 import org.openeel.lib.dataloadstate.DataLoadMetaInfo
-import org.openeel.datalayer.db.RespectAppDatabase
+import org.openeel.datalayer.db.SchoolDirectoryDatabase
 import org.openeel.datalayer.db.networkvalidation.entities.NetworkValidationInfoEntity
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
 import org.openeel.datalayer.networkvalidation.NetworkValidationInfo
@@ -12,7 +12,7 @@ import org.openeel.libxxhash.XXHasher64Factory
 import org.openeel.libxxhash.XXStringHasher
 
 class ExtendedDataSourceValidationHelperImpl(
-    private val respectAppDb: RespectAppDatabase,
+    private val respectAppDb: SchoolDirectoryDatabase,
     private val xxStringHasher: XXStringHasher,
     private val xxHasher64Factory: XXHasher64Factory,
 ) : ExtendedDataSourceValidationHelper {

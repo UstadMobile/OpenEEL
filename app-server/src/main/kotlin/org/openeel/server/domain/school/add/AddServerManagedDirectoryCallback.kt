@@ -3,7 +3,7 @@ package org.openeel.server.domain.school.add
 import androidx.room.RoomDatabase
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
-import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.SchoolDirectory
 import org.openeel.libxxhash.XXStringHasher
 import kotlin.random.Random
 
@@ -24,8 +24,8 @@ class AddServerManagedDirectoryCallback(
         connection.execSQL("""
             INSERT INTO SchoolDirectoryEntity(rdUid, rdUrl, rdInvitePrefix) 
             VALUES(
-                ${xxStringHasher.hash(RespectSchoolDirectory.SERVER_MANAGED_DIRECTORY_URL)},
-                '${RespectSchoolDirectory.SERVER_MANAGED_DIRECTORY_URL}',
+                ${xxStringHasher.hash(SchoolDirectory.SERVER_MANAGED_DIRECTORY_URL)},
+                '${SchoolDirectory.SERVER_MANAGED_DIRECTORY_URL}',
                 '$invitePrefixStr'
             )    
         """.trimIndent())

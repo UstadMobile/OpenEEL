@@ -16,7 +16,7 @@ import org.openeel.credentials.passkey.model.AuthenticationResponseJSON
 import org.openeel.credentials.passkey.model.ClientDataJSON
 import org.openeel.credentials.passkey.model.PasskeyVerifyResult
 import org.openeel.credentials.passkey.request.DecodeUserHandleUseCase
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.entities.PersonPasskeyEntity
 import org.openeel.lib.dataloadstate.throwable.withHttpStatus
 import java.util.Base64
@@ -26,7 +26,7 @@ import java.util.Base64
  * signin using a passkey: determines which user
  */
 class VerifySignInWithPasskeyUseCase(
-    private val schoolDb : RespectSchoolDatabase,
+    private val schoolDb : SchoolDatabase,
     private val json: Json,
     private val decodeUserHandleUseCase: DecodeUserHandleUseCase,
 ) {

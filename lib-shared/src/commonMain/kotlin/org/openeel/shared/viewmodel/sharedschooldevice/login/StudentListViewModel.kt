@@ -21,14 +21,14 @@ import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.libutil.util.time.localDateInCurrentTimeZone
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.StudentList
 import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class StudentListUiState(
     val error: UiText? = null,
@@ -37,8 +37,8 @@ data class StudentListUiState(
 
 class StudentListViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    private val accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

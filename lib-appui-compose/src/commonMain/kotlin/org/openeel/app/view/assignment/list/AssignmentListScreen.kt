@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import org.openeel.app.components.RespectEmptyListComponent
+import org.openeel.app.components.OpenEelEmptyListComponent
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
@@ -55,7 +55,7 @@ fun AssignmentListScreen(
 
                 assignments.isEmpty() -> {
                     item("emptyitem") {
-                        RespectEmptyListComponent(
+                        OpenEelEmptyListComponent(
                             modifier = Modifier.fillMaxWidth().defaultItemPadding()
                         )
                     }

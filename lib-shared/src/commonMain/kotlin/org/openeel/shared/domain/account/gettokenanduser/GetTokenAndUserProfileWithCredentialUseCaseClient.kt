@@ -13,7 +13,7 @@ import io.ktor.http.appendPathSegments
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import io.ktor.http.takeFrom
-import org.openeel.credentials.passkey.RespectCredential
+import org.openeel.credentials.passkey.OpenEelCredential
 import org.openeel.shared.domain.account.AuthResponse
 import org.openeel.datalayer.school.model.DeviceInfo
 import org.openeel.lib.dataloadstate.throwable.ForbiddenException
@@ -26,7 +26,7 @@ class GetTokenAndUserProfileWithCredentialUseCaseClient(
 ): GetTokenAndUserProfileWithCredentialUseCase {
 
     override suspend fun invoke(
-        credential: RespectCredential,
+        credential: OpenEelCredential,
         deviceInfo: DeviceInfo?,
     ): AuthResponse {
         val response = httpClient.post {

@@ -7,12 +7,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.scope.Scope
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.qr_code
 import org.openeel.shared.navigation.QrCode
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 
 data class InviteQrUiState(
@@ -22,8 +22,8 @@ data class InviteQrUiState(
 
 class InviteQrViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    accountManager: AppAccountManager
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

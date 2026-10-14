@@ -14,18 +14,18 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.PersonDataSource
-import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.datalayer.shared.params.GetListCommonParams
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.waiting_title
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.RespectAppLauncher
-import org.openeel.shared.navigation.SelectClass
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.shared.navigation.SelectClass
+
 
 
 data class WaitingForApprovalUiState(
@@ -35,8 +35,8 @@ data class WaitingForApprovalUiState(
 
 class WaitingForApprovalViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    private val accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

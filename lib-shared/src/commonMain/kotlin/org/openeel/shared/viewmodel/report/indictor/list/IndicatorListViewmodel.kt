@@ -12,7 +12,7 @@ import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.extensions.reportoptions.Indicator
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.indicator
 import org.openeel.shared.generated.resources.indicators
@@ -20,7 +20,7 @@ import org.openeel.shared.navigation.IndicatorDetail
 import org.openeel.shared.navigation.IndictorEdit
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 
 data class IndicatorListUiState(
@@ -30,8 +30,8 @@ data class IndicatorListUiState(
 
 class IndicatorListViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    accountManager: AppAccountManager
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val _uiState = MutableStateFlow(IndicatorListUiState())
     val uiState = _uiState.asStateFlow()

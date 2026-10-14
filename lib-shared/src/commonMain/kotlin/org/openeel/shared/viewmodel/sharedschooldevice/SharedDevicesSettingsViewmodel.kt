@@ -24,7 +24,7 @@ import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
 import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
 import org.openeel.shared.domain.account.sharedschooldevice.SetSharedDeviceSelfSelectUseCase
 import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUseCase
@@ -39,7 +39,7 @@ import org.openeel.shared.navigation.InvitePerson
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsUiState.Companion.CURRENT_DEVICE_GUID
@@ -69,10 +69,10 @@ data class SharedDevicesSettingsUiState(
 
 class SharedDevicesSettingsViewmodel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val snackBarDispatcher: SnackBarDispatcher,
     private val settings: Settings
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
     private val schoolDataSource: SchoolDataSource by inject()

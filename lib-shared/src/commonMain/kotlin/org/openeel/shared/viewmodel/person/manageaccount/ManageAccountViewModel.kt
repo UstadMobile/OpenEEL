@@ -26,8 +26,8 @@ import org.openeel.datalayer.school.findByPersonGuidAsFlow
 import org.openeel.datalayer.school.model.PersonPassword
 import org.openeel.datalayer.school.model.PersonQrBadge
 import org.openeel.datalayer.school.model.StatusEnum
-import org.openeel.shared.domain.account.RespectAccountManager
-import org.openeel.shared.domain.account.RespectSessionAndPerson
+import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.account.UserSessionAndPerson
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.toUserFriendlyString
 import org.openeel.shared.generated.resources.Res
@@ -47,7 +47,7 @@ import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.UrlParser
 import org.openeel.shared.util.exception.getUiTextOrGeneric
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import kotlin.time.Clock
 
 data class ManageAccountUiState(
@@ -57,7 +57,7 @@ data class ManageAccountUiState(
     val personUsername: String = "",
     val personPassword: DataLoadState<PersonPassword> = DataLoadingState(),
     val errorText: UiText? = null,
-    val selectedAccount: RespectSessionAndPerson? = null,
+    val selectedAccount: UserSessionAndPerson? = null,
     val isStudent: Boolean = false,
     val qrBadge: DataLoadState<PersonQrBadge> = DataLoadingState(),
     val showBottomSheet: Boolean = false,
@@ -79,11 +79,11 @@ data class ManageAccountUiState(
 
 class ManageAccountViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val getDeviceInfoUseCase: GetDeviceInfoUseCase,
     private val json: Json,
     private val navResultReturner: NavResultReturner
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

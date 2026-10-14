@@ -1,4 +1,5 @@
 package org.openeel.server
+
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.SQLiteConnection
@@ -18,25 +19,25 @@ import org.koin.core.scope.Scope
 import org.koin.dsl.module
 import org.openeel.credentials.passkey.request.DecodeUserHandleUseCase
 import org.openeel.credentials.passkey.request.GetPasskeyProviderInfoUseCase
-import org.openeel.datalayer.RespectAppDataSource
-import org.openeel.datalayer.RespectAppDataSourceLocal
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
+import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_SERVER
-import org.openeel.datalayer.db.RespectAppDataSourceDb
-import org.openeel.datalayer.db.RespectAppDatabase
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
+import org.openeel.datalayer.db.SchoolDirectoryDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.addCommonMigrations
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
 import org.openeel.datalayer.db.school.domain.GetPermissionLastModifiedUseCaseDbImpl
-import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryDataSourceDb
+import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryResourceDb
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.domain.GetPermissionLastModifiedUseCase
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryResourceLocal
 import org.openeel.datalayer.shared.XXHashUidNumberMapper
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 import org.openeel.libutil.ext.sanitizedForFilename
@@ -57,7 +58,7 @@ import org.openeel.server.domain.school.demoapp.MakeDemoAppManifestUseCase
 import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitTinCanXmlUseCase
 import org.openeel.server.domain.school.verify.VerifySchoolUrlPointsToThisServerUseCase
 import org.openeel.server.util.SchoolUrlVerificationManager
-import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticateQrBadgeUseCase
 import org.openeel.shared.domain.account.authwithpassword.GetTokenAndUserProfileWithCredentialDbImpl
@@ -77,14 +78,8 @@ import org.openeel.shared.domain.account.passkey.LoadAaguidJsonUseCase
 import org.openeel.shared.domain.account.passkey.LoadAaguidJsonUseCaseJvm
 import org.openeel.shared.domain.account.passkey.RevokePasskeyUseCase
 import org.openeel.shared.domain.account.passkey.RevokePersonPasskeyUseCaseDbImpl
-import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.SharedDeviceSettingsStore
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCaseImpl
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCaseImpl
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCaseImpl
 import org.openeel.shared.domain.account.username.UsernameSuggestionUseCase
 import org.openeel.shared.domain.account.username.checkusernameunique.CheckUsernameUniqueUseCase
 import org.openeel.shared.domain.account.username.filterusername.FilterUsernameUseCase
@@ -93,10 +88,16 @@ import org.openeel.shared.domain.account.validateauth.ValidateAuthorizationUseCa
 import org.openeel.shared.domain.createlink.CreateInviteLinkUseCase
 import org.openeel.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
 import org.openeel.shared.domain.navigation.deeplink.UrlToCustomDeepLinkUseCase
-import org.openeel.shared.domain.school.RespectSchoolPath
+import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.SharedDeviceSettingsStore
+import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.setpin.GetSharedDevicePINUseCaseImpl
+import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCase
+import org.openeel.shared.domain.account.sharedschooldevice.setpin.SetSharedDevicePINUseCaseImpl
+import org.openeel.shared.domain.school.SchoolPath
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.domain.school.add.RegisterSchoolUseCase
-import org.openeel.shared.util.di.RespectAccountScopeId
+import org.openeel.shared.util.di.UserAccountScopeId
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.sharedse.domain.account.authenticatepassword.AuthenticatePasswordUseCaseDbImpl
 import org.openeel.sharedse.domain.account.authenticatepassword.AuthenticateQrBadgeUseCaseDbImpl
@@ -110,9 +111,9 @@ fun serverKoinModule(
     dataDir: File = config.absoluteDataDir()
 ) = module {
 
-    single<RespectAppDatabase> {
+    single<SchoolDirectoryDatabase> {
         val dbFile = File(dataDir, APP_DB_FILENAME)
-        Room.databaseBuilder<RespectAppDatabase>(dbFile.absolutePath)
+        Room.databaseBuilder<SchoolDirectoryDatabase>(dbFile.absolutePath)
             .setDriver(BundledSQLiteDriver())
             .addCallback(AddServerManagedDirectoryCallback(xxStringHasher = get()))
             .addCommonMigrations()
@@ -153,23 +154,23 @@ fun serverKoinModule(
         XXHashUidNumberMapper(xxStringHasher = get())
     }
 
-    single<SchoolDirectoryDataSourceLocal> {
-        SchoolDirectoryDataSourceDb(
+    single<SchoolDirectoryResourceLocal> {
+        SchoolDirectoryResourceDb(
             respectAppDb = get(),
             xxStringHasher = get()
         )
     }
 
-    single<RespectAppDataSourceLocal> {
-        RespectAppDataSourceDb(
-            respectAppDatabase = get(),
+    single<SchoolDirectoryDataSourceLocal> {
+        SchoolDirectoryDataSourceDb(
+            schoolDirectoryDatabase = get(),
             json = get(),
             xxStringHasher = get(),
         )
     }
 
-    single<RespectAppDataSource> {
-        get<RespectAppDataSourceLocal>()
+    single<SchoolDirectoryDataSource> {
+        get<SchoolDirectoryDataSourceLocal>()
     }
 
     single<FilterUsernameUseCase> {
@@ -178,8 +179,8 @@ fun serverKoinModule(
 
     single<AddSchoolUseCase> {
         AddSchoolUseCase(
-            directoryDataSource = get<RespectAppDataSourceLocal>().schoolDirectoryDataSource,
-            schoolDirectoryEntryDataSource = get<RespectAppDataSourceLocal>().schoolDirectoryEntryDataSource,
+            directoryDataSource = get< SchoolDirectoryDataSourceLocal>().schoolDirectoryResource,
+            schoolDirectoryEntryDataSource = get<SchoolDirectoryDataSourceLocal>().schoolDirectoryEntryResource,
             encryptPasswordUseCase = get(),
         )
     }
@@ -280,21 +281,21 @@ fun serverKoinModule(
                 decodeUserHandleUseCase = get(),
             )
         }
-        scoped<RespectSchoolPath> {
+        scoped<SchoolPath> {
             val schoolDirName = schoolUrl().sanitizedForFilename()
             val schoolDirFile = File(dataDir, schoolDirName).also {
                 if(!it.exists())
                     it.mkdirs()
             }
 
-            RespectSchoolPath(
+            SchoolPath(
                 path = Path(schoolDirFile.absolutePath)
             )
         }
 
-        scoped<RespectSchoolDatabase> {
-            val schoolPath: RespectSchoolPath = get()
-            val appDb: RespectAppDatabase = get()
+        scoped<SchoolDatabase> {
+            val schoolPath: SchoolPath = get()
+            val appDb: SchoolDirectoryDatabase = get()
             val xxHasher: XXStringHasher = get()
 
             val schoolConfig = runBlocking {
@@ -304,7 +305,7 @@ fun serverKoinModule(
             val schoolConfigFile = File(schoolPath.path.toString())
             val dbFile = schoolConfigFile.resolve(schoolConfig.dbUrl)
 
-            Room.databaseBuilder<RespectSchoolDatabase>(dbFile.absolutePath)
+            Room.databaseBuilder<SchoolDatabase>(dbFile.absolutePath)
                 .setDriver(BundledSQLiteDriver())
                 .addCommonMigrations()
                 .build()
@@ -320,7 +321,7 @@ fun serverKoinModule(
                 schoolDb = get(),
                 xxHash = get(),
                 verifyPasskeyUseCase = get(),
-                respectAppDataSource = get(),
+                schoolDirectoryDataSource = get(),
                 authenticatePasswordUseCase = get(),
                 authenticateQrBadgeUseCase  = get()
             )
@@ -416,8 +417,9 @@ fun serverKoinModule(
      * AccountScope: as per the client, the Account Scope is linked to a parent School scope.
      *
      * All server-side dependencies in the account scope are "cheap" wrappers e.g. the
-     * SchoolDataSource wrapper (which is tied to a specific account guid) is kept in the AccountScope,
-     * but the RespectSchoolDatabase which has the actual DB connection is kept in the school scope.
+     * SchoolDataSource wrapper (which is tied to a specific account guid) is kept in the
+     * [UserAccount] scope, but the SchoolDatabase which has the actual DB connection is kept
+     * in the school scope.
      *
      * Dependencies in the account scope use factory so they are not retained in memory
      *
@@ -425,9 +427,9 @@ fun serverKoinModule(
      * authentication plugin in Application.kt. Scope creation and linking using factories must
      * be done in a way that is thread safe.
      */
-    scope<RespectAccount> {
+    scope<UserAccount> {
         factory<CheckPersonPermissionUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             CheckPersonPermissionUseCaseDbImpl(
                 authenticatedUser = accountScopeId.accountPrincipalId,
@@ -437,7 +439,7 @@ fun serverKoinModule(
         }
 
         factory<SchoolDataSourceLocal> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             SchoolDataSourceDb(
                 schoolDb = get(),
@@ -446,7 +448,7 @@ fun serverKoinModule(
                 checkPersonPermissionUseCase = get(),
                 json = get(),
                 primaryKeyGenerator = get<SchoolPrimaryKeyGenerator>().primaryKeyGenerator,
-                defaultAppCatalogUrl = RespectServerBuildConfig.RESPECT_DEFAULT_APPLIST,
+                defaultAppCatalogUrl = OpenEelServerBuildConfig.DEFAULT_APPLIST,
                 schoolUrl = accountScopeId.schoolUrl,
             )
         }
@@ -456,7 +458,7 @@ fun serverKoinModule(
         }
 
         factory<GetPermissionLastModifiedUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             GetPermissionLastModifiedUseCaseDbImpl(
                 schoolDb = get(),
@@ -466,7 +468,7 @@ fun serverKoinModule(
         }
 
         factory<AddChildAccountUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             AddChildAccountUseCaseDb(
                 schoolPrimaryKeyGenerator = get(),
@@ -476,7 +478,7 @@ fun serverKoinModule(
         }
 
         factory<UpdateClazzStudentXapiGroupUseCase> {
-            val accountScopeId = RespectAccountScopeId.parse(id)
+            val accountScopeId = UserAccountScopeId.parse(id)
 
             UpdateClazzStudentXapiGroupUseCase(
                 schoolDataSource = get(),

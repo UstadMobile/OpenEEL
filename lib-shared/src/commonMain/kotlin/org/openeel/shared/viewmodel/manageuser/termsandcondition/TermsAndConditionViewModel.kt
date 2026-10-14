@@ -15,7 +15,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.SignupScreen
 import org.openeel.shared.navigation.TermsAndCondition
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class TermsAndConditionUiState(
     val termsAndConditionsUrl: Url,
@@ -24,7 +24,7 @@ data class TermsAndConditionUiState(
 
 class TermsAndConditionViewModel(
     savedStateHandle: SavedStateHandle,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
     private val route: TermsAndCondition = savedStateHandle.toRoute()
 
     private val _uiState = MutableStateFlow(
@@ -52,7 +52,7 @@ class TermsAndConditionViewModel(
             NavCommand.Navigate(
                 SignupScreen.create(
                     schoolUrl = route.schoolUrl,
-                    inviteRequest = route.respectRedeemInviteRequest
+                    inviteRequest = route.redeemInviteRequest
                 )
             )
         )

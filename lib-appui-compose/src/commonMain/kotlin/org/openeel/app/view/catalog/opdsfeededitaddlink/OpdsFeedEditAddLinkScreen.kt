@@ -25,7 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.shared.generated.resources.Res
@@ -111,7 +111,7 @@ fun OpdsFeedEditAddLinkScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     if (uiState.imageUrl != null) {
-                        RespectAsyncImage(
+                        OpenEelAsyncImage(
                             uri = uiState.imageUrl,
                             contentDescription = "",
                             contentScale = ContentScale.Crop,

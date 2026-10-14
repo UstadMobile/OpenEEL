@@ -15,7 +15,7 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.app.components.langMapString
 import org.openeel.app.util.rememberDayOrDate
 import org.openeel.lib.xapi.ext.objectActivityNameOrNull
@@ -77,7 +77,7 @@ fun StatementListItem(
             onClickListItem(statement)
         },
         leadingContent = {
-            RespectAsyncImage(
+            OpenEelAsyncImage(
                 uri = iconUrl,
                 contentDescription = "",
                 contentScale = ContentScale.Fit,

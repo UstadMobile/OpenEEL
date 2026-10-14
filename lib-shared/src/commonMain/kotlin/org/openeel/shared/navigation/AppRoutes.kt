@@ -10,7 +10,7 @@ import kotlinx.serialization.Transient
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.school.model.EnrollmentRoleEnum
 import org.openeel.datalayer.school.model.Person
-import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
 import org.openeel.lib.xapi.model.XapiActor
@@ -23,13 +23,13 @@ import org.openeel.shared.viewmodel.catalog.OpdsPickType
 import kotlin.uuid.Uuid
 
 @Serializable
-sealed interface RespectAppRoute
+sealed interface OpenEelAppRoute
 
 @Serializable
 data class Acknowledgement(
     val schoolUrlStr: String? = null,
     val inviteCode: String? = null
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val schoolUrl = schoolUrlStr?.let { Url(it) }
@@ -43,7 +43,7 @@ data class Acknowledgement(
 @Serializable
 data class EnterInviteCode(
     val schoolUrlStr: String
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val schoolUrl = Url(schoolUrlStr)
@@ -54,12 +54,12 @@ data class EnterInviteCode(
 }
 
 @Serializable
-object Onboarding : RespectAppRoute
+object Onboarding : OpenEelAppRoute
 
 @Serializable
 data class SchoolDirectoryList(
     val modeStr: String = SchoolDirectoryMode.MANAGE.value
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val mode: SchoolDirectoryMode = SchoolDirectoryMode.fromValue(modeStr)
@@ -72,13 +72,13 @@ data class SchoolDirectoryList(
 }
 
 @Serializable
-object SchoolDirectoryEdit : RespectAppRoute
+object SchoolDirectoryEdit : OpenEelAppRoute
 
 @Serializable
 data class LoginScreen(
     val schoolUrlStr: String,
     val isSharedDevice: Boolean? = null,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val schoolUrl = Url(schoolUrlStr)
@@ -90,13 +90,13 @@ data class LoginScreen(
 }
 
 @Serializable
-object Home : RespectAppRoute
+object Home : OpenEelAppRoute
 
 @Serializable
-data class RespectAppLauncher(
+data class OpenEelAppLauncher(
     val resultDestStr: String? = null,
     private val opdsPickTypeStr: String? = null,
-) : RespectAppRoute, RouteWithResultDest {
+) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     override val resultDest: ResultDest? = ResultDest.fromStringOrNull(resultDestStr)
@@ -110,7 +110,7 @@ data class RespectAppLauncher(
         fun create(
             resultDest: ResultDest? = null,
             opdsPickType: OpdsPickType? = null,
-        ) = RespectAppLauncher(
+        ) = OpenEelAppLauncher(
             resultDestStr = resultDest.encodeToJsonStringOrNull(),
             opdsPickTypeStr = opdsPickType?.let {
                 Json.encodeToString(OpdsPickType.serializer(), it)
@@ -120,18 +120,18 @@ data class RespectAppLauncher(
 }
 
 @Serializable
-object AssignmentList : RespectAppRoute
+object AssignmentList : OpenEelAppRoute
 
 @Serializable
 data class AssignmentDetail(
     val assignmentActivityId: String,
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
 data class AssignmentEdit(
     val assignmentActivityId: String?,
     private val learningUnitStr: String? = null,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val learningUnitSelected: PublicationsSelection? = learningUnitStr?.let {
@@ -155,7 +155,7 @@ data class AssignmentEdit(
 data class BookmarkList(
     val resultDestStr: String? = null,
     val opdsPickTypeStr: String? = null,
-) : RespectAppRoute, RouteWithResultDest {
+) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     override val resultDest: ResultDest? = ResultDest.fromStringOrNull(resultDestStr)
@@ -172,7 +172,7 @@ data class BookmarkList(
 data class StatementList(
     val activityId: String,
     private val xapiActorStr: String,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val xapiActor: XapiActor = Json.decodeFromString(XapiActor.serializer(), xapiActorStr)
@@ -188,12 +188,12 @@ data class StatementList(
 @Serializable
 data class StatementDetail(
     val statementId: String,
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
 data class RawStatement(
     val statementIdStr: String,
-): RespectAppRoute {
+): OpenEelAppRoute {
 
     @Transient
     val statementId = Uuid.parse(statementIdStr)
@@ -204,19 +204,19 @@ data class RawStatement(
 }
 
 @Serializable
-object ClazzList : RespectAppRoute
+object ClazzList : OpenEelAppRoute
 
 @Serializable
 class ClazzDetail(
     val guid: String,
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
 data class EnrollmentList(
     val filterByPersonUid: String,
     val roleStr: String,
     val filterByClassUid: String
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val role = EnrollmentRoleEnum.fromValue(roleStr)
@@ -242,13 +242,13 @@ data class EnrollmentEdit(
     val role: String,
     val personGuid: String,
     val clazzGuid: String,
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
 class AddPersonToClazz(
     val roleTypeStr: String,
     val inviteCode: String? = null,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val roleType = EnrollmentRoleEnum.fromValue(roleTypeStr)
@@ -267,21 +267,21 @@ class AddPersonToClazz(
 @Serializable
 data class ClazzEdit(
     val guid: String?
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
-object Report : RespectAppRoute
+object Report : OpenEelAppRoute
 
 @Serializable
-class ReportEdit(val reportUid: String?) : RespectAppRoute
+class ReportEdit(val reportUid: String?) : OpenEelAppRoute
 
 @Serializable
-class ReportDetail(val reportUid: String) : RespectAppRoute
+class ReportDetail(val reportUid: String) : OpenEelAppRoute
 
 @Serializable
 class ReportEditFilter(
     private val reportFilterJson: String
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val reportFilter: ReportFilter =
@@ -296,39 +296,39 @@ class ReportEditFilter(
 }
 
 @Serializable
-object ReportTemplateList : RespectAppRoute
+object ReportTemplateList : OpenEelAppRoute
 
 @Serializable
-object IndicatorList : RespectAppRoute
+object IndicatorList : OpenEelAppRoute
 
 @Serializable
-class IndicatorDetail(val indicatorUid: String) : RespectAppRoute
+class IndicatorDetail(val indicatorUid: String) : OpenEelAppRoute
 
 @Serializable
-class IndictorEdit(val indicatorId: String?) : RespectAppRoute
+class IndictorEdit(val indicatorId: String?) : OpenEelAppRoute
 
 @Serializable
-object RespectAppList : RespectAppRoute
+object OpenEelAppList : OpenEelAppRoute
 
 @Serializable
-object EnterLink : RespectAppRoute
+object EnterLink : OpenEelAppRoute
 
 @Serializable
 data class GetStartedScreen(
     val canGoBack: Boolean = false,
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
-object OtherOption : RespectAppRoute
+object OtherOption : OpenEelAppRoute
 
 @Serializable
-object HowPasskeyWorks : RespectAppRoute
+object HowPasskeyWorks : OpenEelAppRoute
 
 @Serializable
 class AppsDetail private constructor(
     private val manifestUrlStr: String,
     private val resultDestStr: String? = null,
-) : RespectAppRoute, RouteWithResultDest {
+) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     val manifestUrl = Url(manifestUrlStr)
@@ -354,7 +354,7 @@ class OpdsFeedDetail(
     private val opdsFeedUrlStr: String,
     private val resultDestStr: String? = null,
     private val opdsPickTypeStr: String? = null,
-) : RespectAppRoute, RouteWithResultDest {
+) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     val opdsFeedUrl = Url(opdsFeedUrlStr)
@@ -388,10 +388,10 @@ class OpdsFeedDetail(
 class EnterPasswordSignup private constructor(
     private val schoolUrlStr: String,
     private val inviteRedeemRequestStr: String,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
-    val respectRedeemInviteRequest: RespectRedeemInviteRequest =
+    val redeemInviteRequest: RedeemInviteRequest =
         Json.decodeFromString(inviteRedeemRequestStr)
 
     @Transient
@@ -400,7 +400,7 @@ class EnterPasswordSignup private constructor(
     companion object {
         fun create(
             schoolUrl: Url,
-            inviteRequest: RespectRedeemInviteRequest,
+            inviteRequest: RedeemInviteRequest,
         ): EnterPasswordSignup {
             return EnterPasswordSignup(
                 schoolUrl.toString(),
@@ -414,10 +414,10 @@ class EnterPasswordSignup private constructor(
 class OtherOptionsSignup private constructor(
     private val inviteRedeemRequestStr: String,
     private val schoolUrlStr: String,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
-    val respectRedeemInviteRequest: RespectRedeemInviteRequest =
+    val redeemInviteRequest: RedeemInviteRequest =
         Json.decodeFromString(inviteRedeemRequestStr)
 
     @Transient
@@ -426,7 +426,7 @@ class OtherOptionsSignup private constructor(
     companion object {
         fun create(
             schoolUrl: Url,
-            inviteRequest: RespectRedeemInviteRequest,
+            inviteRequest: RedeemInviteRequest,
         ): OtherOptionsSignup {
             val respectRedeemInviteRequest = Json.encodeToString(inviteRequest)
             return OtherOptionsSignup(
@@ -442,7 +442,7 @@ class AcceptInvite(
     val code: String,
     val canGoBack: Boolean = true,
     val useActiveUserAuth: Boolean? = null,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val schoolUrl = Url(schoolUrlStr)
@@ -463,7 +463,7 @@ class AcceptInvite(
 }
 
 @Serializable
-class WaitingForApproval : RespectAppRoute
+class WaitingForApproval : OpenEelAppRoute
 
 @Serializable
 class SignupScreen(
@@ -471,10 +471,10 @@ class SignupScreen(
     private val inviteRedeemRequestStr: String,
     private val signupModeStr: String,
     private val parentPersonStr: String?,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
-    val respectRedeemInviteRequest: RespectRedeemInviteRequest =
+    val redeemInviteRequest: RedeemInviteRequest =
         Json.decodeFromString(inviteRedeemRequestStr)
 
     @Transient
@@ -489,7 +489,7 @@ class SignupScreen(
     companion object {
         fun create(
             schoolUrl: Url,
-            inviteRequest: RespectRedeemInviteRequest,
+            inviteRequest: RedeemInviteRequest,
             signupMode: SignupScreenModeEnum = SignupScreenModeEnum.STANDARD,
             parentPerson: Person? = null,
         ): SignupScreen {
@@ -507,10 +507,10 @@ class SignupScreen(
 class TermsAndCondition(
     private val schoolUrlStr: String,
     private val inviteRedeemRequestStr: String,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
-    val respectRedeemInviteRequest: RespectRedeemInviteRequest =
+    val redeemInviteRequest: RedeemInviteRequest =
         Json.decodeFromString(inviteRedeemRequestStr)
 
     @Transient
@@ -519,7 +519,7 @@ class TermsAndCondition(
     companion object {
         fun create(
             schoolUrl: Url,
-            inviteRequest: RespectRedeemInviteRequest
+            inviteRequest: RedeemInviteRequest
         ): TermsAndCondition {
             return TermsAndCondition(
                 schoolUrlStr = schoolUrl.toString(),
@@ -533,16 +533,16 @@ class TermsAndCondition(
 data class SchoolRegistrationComplete(
     val schoolUrl: String = "",
     val authToken: String? = null
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
 class CreateAccount(
     private val schoolUrlStr: String,
     private val inviteRedeemRequestStr: String,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
-    val respectRedeemInviteRequest: RespectRedeemInviteRequest = Json.decodeFromString(
+    val redeemInviteRequest: RedeemInviteRequest = Json.decodeFromString(
         inviteRedeemRequestStr
     )
 
@@ -552,7 +552,7 @@ class CreateAccount(
     companion object {
         fun create(
             schoolUrl: Url,
-            inviteRequest: RespectRedeemInviteRequest
+            inviteRequest: RedeemInviteRequest
         ): CreateAccount {
             return CreateAccount(
                 schoolUrlStr = schoolUrl.toString(),
@@ -569,7 +569,7 @@ class PublicationDetail(
     val expectedIdentifier: String? = null,
     val assignmentActivityId: String? = null,
     private val titleStr: String? = null,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val learningUnitManifestUrl = Url(learningUnitManifestUrlStr)
@@ -600,7 +600,7 @@ class PublicationDetail(
 @Serializable
 class LearningUnitViewer(
     private val learningUnitIdStr: String,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val learningUnitId = Url(learningUnitIdStr)
@@ -615,10 +615,10 @@ class LearningUnitViewer(
 }
 
 @Serializable
-object AccountList : RespectAppRoute
+object AccountList : OpenEelAppRoute
 
 @Serializable
-object ShareFeedback : RespectAppRoute
+object ShareFeedback : OpenEelAppRoute
 
 /**
  * @property addToClassUid if the PersonList screen has been navigated when the user clicks
@@ -637,7 +637,7 @@ data class PersonList(
     val addToClassRoleStr: String? = null,
     val personGuidStr: String? = null,
     val hideInvite: Boolean = false,
-) : RespectAppRoute, RouteWithResultDest {
+) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     val filterByRole: PersonRoleEnum? = filterByRoleStr?.let {
@@ -680,19 +680,19 @@ data class PersonList(
 @Serializable
 data class PersonDetail(
     val guid: String,
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
 data class PasskeyList(
     val guid: String,
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
 data class ManageAccount(
     val guid: String,
     val setPersonQrBadgeUsername: String? = null,
     private val setPersonQrBadgeUrlStr: String? = null,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val setPersonQrBadgeUrl: Url? = setPersonQrBadgeUrlStr?.let { Url(it) }
@@ -715,7 +715,7 @@ data class PersonEdit(
     val guid: String?,
     private val resultDestStr: String? = null,
     private val presetRoleStr: String? = null,
-) : RespectAppRoute, RouteWithResultDest {
+) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     override val resultDest: ResultDest? = ResultDest.fromStringOrNull(resultDestStr)
@@ -739,7 +739,7 @@ data class PersonEdit(
 }
 
 @Serializable
-data object Settings : RespectAppRoute
+data object Settings : OpenEelAppRoute
 
 @Serializable
 data class ScanQRCode(
@@ -749,7 +749,7 @@ data class ScanQRCode(
     val username: String? = null,
     private val nextAfterScanStr: String? = null,
     val isSharedDevice: Boolean = false
-) : RespectAppRoute, RouteWithResultDest {
+) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     override val resultDest: ResultDest? = ResultDest.fromStringOrNull(resultDestStr)
@@ -784,7 +784,7 @@ data class ScanQRCode(
 class PlaylistList private constructor(
     private val resultDestStr: String? = null,
     val opdsPickTypeStr: String? = null,
-) : RespectAppRoute, RouteWithResultDest {
+) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     override val resultDest: ResultDest? = ResultDest.fromStringOrNull(resultDestStr)
@@ -807,15 +807,15 @@ class PlaylistList private constructor(
     }
 }
 @Serializable
-data object SchoolSettings : RespectAppRoute
+data object SchoolSettings : OpenEelAppRoute
 
 @Serializable
-data object SharedDevicesSettings : RespectAppRoute
+data object SharedDevicesSettings : OpenEelAppRoute
 
 @Serializable
 data class SelectClass(
     val deviceGuid: String
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     companion object {
         fun create(
@@ -827,13 +827,13 @@ data class SelectClass(
 }
 
 @Serializable
-data object TeacherPinConfirmation : RespectAppRoute
+data object TeacherPinConfirmation : OpenEelAppRoute
 
 @Serializable
 data class StudentList(
     val className: String,
     val guid: String,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     companion object {
         fun create(
@@ -850,7 +850,7 @@ data class StudentList(
 class OpdsFeedEdit private constructor(
     private val urlStr: String? = null,
     val isCopy: Boolean = false,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val url: Url? = urlStr?.let { Url(it) }
@@ -868,7 +868,7 @@ class OpdsFeedEdit private constructor(
 @Serializable
 class PlaylistShare private constructor(
     private val playlistUrlStr: String,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val playlistUrl = Url(playlistUrlStr)
@@ -883,7 +883,7 @@ class PlaylistShare private constructor(
 @Serializable
 class ExternalLinkEdit private constructor(
     private val resultDestStr: String? = null,
-) : RespectAppRoute, RouteWithResultDest {
+) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     override val resultDest: ResultDest? = ResultDest.fromStringOrNull(resultDestStr)
@@ -900,23 +900,23 @@ class ExternalLinkEdit private constructor(
 @Serializable
 data class CreateAccountSetUsername(
     val guid: String
-): RespectAppRoute
+): OpenEelAppRoute
 
 @Serializable
 data class CreateAccountSetPassword(
     val guid: String,
     val username: String? = null,
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
 data class ChangePassword(
     val guid: String,
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
 data class InvitePerson(
     val invitePersonOptionsStr: String,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Serializable
     sealed interface InvitePersonOptions
@@ -951,18 +951,18 @@ data class InvitePerson(
 data class QrCode(
     val inviteLink: String? = null,
     val schoolOrClass: String? = null
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
 data class CopyCode(
     val inviteCode:String?=null
-): RespectAppRoute
+): OpenEelAppRoute
 
 @Serializable
 data class SendDbToServer(
     val schoolUrlStr: String,
     val name: String,
-) : RespectAppRoute {
+) : OpenEelAppRoute {
 
     @Transient
     val schoolUrl = Url(schoolUrlStr)

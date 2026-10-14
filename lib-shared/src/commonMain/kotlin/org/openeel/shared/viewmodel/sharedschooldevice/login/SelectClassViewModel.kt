@@ -18,7 +18,7 @@ import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSelfSelectUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.login
@@ -30,7 +30,7 @@ import org.openeel.shared.navigation.StudentList
 import org.openeel.shared.navigation.TeacherPinConfirmation
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class SelectClassUiState(
     val error: UiText? = null,
@@ -41,8 +41,8 @@ data class SelectClassUiState(
 
 class SelectClassViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

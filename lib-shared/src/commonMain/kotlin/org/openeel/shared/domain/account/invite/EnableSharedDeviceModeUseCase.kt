@@ -3,15 +3,15 @@ package org.openeel.shared.domain.account.invite
 import com.russhwolf.settings.Settings
 import io.ktor.http.Url
 import org.openeel.datalayer.school.model.Person
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.util.ext.isSameAccount
 
 class EnableSharedDeviceModeUseCase(
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val settings: Settings,
 ) {
     suspend operator fun invoke(
-        redeemInviteRequest: RespectRedeemInviteRequest,
+        redeemInviteRequest: RedeemInviteRequest,
         schoolUrl: Url,
         useActiveUserAuth: Boolean = false
     ): Person {

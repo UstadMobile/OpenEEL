@@ -15,7 +15,7 @@ interface RedeemInviteUseCase {
      *
      */
     suspend operator fun invoke(
-        redeemRequest: RespectRedeemInviteRequest,
+        redeemRequest: RedeemInviteRequest,
         useActiveUserAuth: Boolean = false
     ): AuthResponse
 

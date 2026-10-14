@@ -15,34 +15,28 @@ import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.xapi.extensions.reportoptions.DefaultIndicators
 import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
 import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeries
-import org.openeel.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
 import org.openeel.lib.xapi.extensions.reportoptions.Indicator
 import org.openeel.datalayer.school.model.Report
-import org.openeel.libutil.ext.replaceOrAppend
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
-import org.openeel.shared.ext.replace
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_a_new_report
 import org.openeel.shared.generated.resources.done
 import org.openeel.shared.generated.resources.edit_report
 import org.openeel.shared.generated.resources.field_required_prompt
-import org.openeel.shared.generated.resources.series
 import org.openeel.shared.navigation.IndicatorList
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.NavResultReturner
 import org.openeel.shared.navigation.ReportDetail
 import org.openeel.shared.navigation.ReportEdit
-import org.openeel.shared.navigation.ReportEditFilter
 import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.LaunchDebouncer
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.AppUiState
 import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
@@ -61,10 +55,10 @@ data class ReportEditUiState(
 
 class ReportEditViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val json: Json,
     private val navResultReturner: NavResultReturner
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
     private val schoolDataSource: SchoolDataSource by inject()

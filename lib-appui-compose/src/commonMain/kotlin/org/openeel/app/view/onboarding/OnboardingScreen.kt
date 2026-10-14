@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.openeel.images.RespectImage
+import org.openeel.images.OpenEelImage
 import org.openeel.images.respectImagePainter
 import org.openeel.shared.viewmodel.onboarding.OnboardingUiState
 import org.openeel.shared.viewmodel.onboarding.OnboardingViewModel
@@ -48,7 +48,7 @@ import org.openeel.shared.generated.resources.send_usage_stats_and_crash_reports
 
 
 data class OnboardingItem(
-    val onboardingImage: RespectImage,
+    val onboardingImage: OpenEelImage,
     val onboardingTitle: String,
     val onboardingDescription: String
 )
@@ -74,22 +74,22 @@ fun OnboardingScreen(
 
     val onboardingItem = listOf(
         OnboardingItem(
-            onboardingImage = RespectImage.DIGITAL_LIBRARY,
+            onboardingImage = OpenEelImage.DIGITAL_LIBRARY,
             onboardingTitle = stringResource(Res.string.onboardingTitle1),
             onboardingDescription = stringResource(Res.string.onboardingDescription1)
         ),
         OnboardingItem(
-            onboardingImage = RespectImage.WORKS_OFFLINE,
+            onboardingImage = OpenEelImage.WORKS_OFFLINE,
             onboardingTitle = stringResource(Res.string.onboardingTitle2),
             onboardingDescription = stringResource(Res.string.onboardingDescription2)
         ),
         OnboardingItem(
-            onboardingImage = RespectImage.ASSIGNMENTS,
+            onboardingImage = OpenEelImage.ASSIGNMENTS,
             onboardingTitle = stringResource(Res.string.onboardingTitle3),
             onboardingDescription = stringResource(Res.string.onboardingDescription3)
         ),
         OnboardingItem(
-            onboardingImage = RespectImage.DATA_REPORTING,
+            onboardingImage = OpenEelImage.DATA_REPORTING,
             onboardingTitle = stringResource(Res.string.onboardingTitle4),
             onboardingDescription = stringResource(Res.string.onboardingDescription4)
         ),

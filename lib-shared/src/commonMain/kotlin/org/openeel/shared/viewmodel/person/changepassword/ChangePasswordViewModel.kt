@@ -11,11 +11,11 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
 import org.openeel.shared.domain.account.validatepassword.ValidatePasswordUseCase
@@ -30,7 +30,7 @@ import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.exception.getUiTextOrGeneric
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.datalayer.db.school.ext.canAdminAccountFor
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
@@ -46,11 +46,11 @@ data class ChangePasswordUiState(
 
 class ChangePasswordViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
+    accountManager: AppAccountManager,
     private val encryptPersonPasswordUseCase: EncryptPersonPasswordUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
     private val snackBarDispatcher: SnackBarDispatcher,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
@@ -122,7 +122,7 @@ class ChangePasswordViewModel(
                     try {
                         val usernameVal = person.username ?: throw IllegalStateException()
                         authenticatePasswordUseCase(
-                            RespectPasswordCredential(usernameVal, _uiState.value.oldPassword)
+                            OpenEelPasswordCredential(usernameVal, _uiState.value.oldPassword)
                         )
                     }catch(_: Throwable) {
                         _uiState.update {

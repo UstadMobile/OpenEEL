@@ -15,8 +15,8 @@ import org.openeel.credentials.passkey.CreatePasskeyUseCaseProcessor
 import org.openeel.credentials.passkey.GetCredentialUseCase
 import org.openeel.credentials.passkey.GetCredentialUseCaseAndroidImpl
 import org.openeel.credentials.passkey.GetCredentialUseCaseProcessor
-import org.openeel.datalayer.RespectAppDataSource
-import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.SchoolDirectoryDataSource
+import org.openeel.datalayer.respect.model.SchoolDirectory
 import org.openeel.shared.domain.activitycontextjobprocessor.ActivityContextJobProcessor
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.biometric.BiometricAuthProcessor
@@ -91,9 +91,9 @@ class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
          */
         intent.extras?.getString(EXTRA_RESPECT_DIRECTORY)?.also { directoryUrl ->
             lifecycleScope.launch {
-                val respectAppDataSource = getKoin().get<RespectAppDataSource>()
-                respectAppDataSource.schoolDirectoryDataSource.insertOrIgnore(
-                    schoolDirectory = RespectSchoolDirectory(
+                val schoolDirectoryDataSource = getKoin().get<SchoolDirectoryDataSource>()
+                schoolDirectoryDataSource.schoolDirectoryResource.insertOrIgnore(
+                    schoolDirectory = SchoolDirectory(
                         invitePrefix = "",
                         baseUrl = Url(directoryUrl)
                     ),

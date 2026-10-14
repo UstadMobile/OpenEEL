@@ -17,7 +17,7 @@ import io.ktor.http.Url
  * "Base": When there is a 1:1 relationship between the URL loaded and the entity in the database,
  * it is generally most efficient to simply store the validation info as part of the db entity itself.
  * Only standard cache validation headers (etag, last-modified, cache-control) are used. This is
- * generally the case for Respect Compatible app manifests, OPDS catalogs, etc.
+ * generally the case for app manifests, OPDS catalogs, etc.
  *
  * "Extended": Sometimes there isn't a 1:1 relationship between HTTP requests and entities stored in
  * the database e.g. when http requests use a REST API that returns a list of entities (e.g.

@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectDetailField
+import org.openeel.app.components.OpenEelDetailField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.langMapString
 import org.openeel.lib.dataloadstate.ext.dataOrNull
@@ -72,13 +72,13 @@ fun StatementDetailScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Timestamp
-        RespectDetailField(
+        OpenEelDetailField(
             label = { Text("${stringResource(Res.string.timestamp)}:") },
             value = { Text(timestampStr) }
         )
 
         // Verb
-        RespectDetailField(
+        OpenEelDetailField(
             label = { Text("${stringResource(Res.string.verb)}:") },
             value = {
                 Text(
@@ -89,7 +89,7 @@ fun StatementDetailScreen(
         )
 
         // Object
-        RespectDetailField(
+        OpenEelDetailField(
             label = { Text("${stringResource(Res.string._object)}:") },
             value = {
                 Column {
@@ -106,7 +106,7 @@ fun StatementDetailScreen(
         )
 
         // Actor
-        RespectDetailField(
+        OpenEelDetailField(
             label = { Text("${stringResource(Res.string.actor)}:") },
             value = {
                 Column {
@@ -121,7 +121,7 @@ fun StatementDetailScreen(
 
         // Result
         statement.result?.also { result ->
-            RespectDetailField(
+            OpenEelDetailField(
                 label = { Text("${stringResource(Res.string.result)}:") },
                 value = {
                     Column {

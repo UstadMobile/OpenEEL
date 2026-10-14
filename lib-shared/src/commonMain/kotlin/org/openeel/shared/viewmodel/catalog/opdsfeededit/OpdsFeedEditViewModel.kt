@@ -20,7 +20,7 @@ import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.OpdsFeedMetadata
 import org.openeel.lib.opds.model.OpdsGroup
 import org.openeel.libutil.ext.moveItem
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_collection
@@ -35,12 +35,12 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.NavResultReturner
 import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.OpdsFeedEdit
-import org.openeel.shared.navigation.RespectAppLauncher
+import org.openeel.shared.navigation.OpenEelAppLauncher
 import org.openeel.shared.navigation.RouteResultDest
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.groupType
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
@@ -101,11 +101,11 @@ data class OpdsFeedEditUiState(
 
 class OpdsFeedEditViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val resultReturner: NavResultReturner,
     private val snackBarDispatcher: SnackBarDispatcher,
     private val json: Json,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
@@ -447,7 +447,7 @@ class OpdsFeedEditViewModel(
 
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                destination = RespectAppLauncher.create(
+                destination = OpenEelAppLauncher.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
                         resultKey = KEY_LEARNING_UNIT,
@@ -478,7 +478,7 @@ class OpdsFeedEditViewModel(
         pendingAddItemGroupIndex = sectionIndex
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                destination = RespectAppLauncher.create(
+                destination = OpenEelAppLauncher.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
                         resultKey = KEY_PLAYLIST,

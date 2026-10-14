@@ -6,7 +6,7 @@ import io.ktor.client.request.get
 import io.ktor.http.Url
 import kotlinx.serialization.json.Json
 import org.openeel.clitools.util.SysPathUtil
-import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.datalayer.http.school.xapi.XapiStatementsResourceHttpClient
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.findCollection
@@ -82,7 +82,7 @@ class TestLaunchableAppUseCaseImpl(
             httpClient = httpClient,
             getDeviceInfoUseCase = null,
         ).invoke(
-            credential = RespectPasswordCredential(request.username, request.password)
+            credential = OpenEelPasswordCredential(request.username, request.password)
         )
 
         val statementResource = XapiStatementsResourceHttpClient(

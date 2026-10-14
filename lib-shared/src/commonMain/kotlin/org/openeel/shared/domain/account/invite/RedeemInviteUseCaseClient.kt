@@ -11,19 +11,20 @@ import io.ktor.http.contentType
 import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.libutil.ext.appendEndpointSegments
 import org.openeel.shared.domain.account.AuthResponse
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 
 /**
- * RedeemInviteUseCase should be used by the RespectAccountManager, not directly by any ViewModel
+ * RedeemInviteUseCase should be used by the [AppAccountManager],
+ * not directly by any ViewModel
  */
 class RedeemInviteUseCaseClient(
     private val schoolUrl: Url,
     private val httpClient: HttpClient,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
 ) : RedeemInviteUseCase {
 
     override suspend fun invoke(
-        redeemRequest: RespectRedeemInviteRequest,
+        redeemRequest: RedeemInviteRequest,
         useActiveUserAuth: Boolean
     ): AuthResponse {
         return httpClient.post(
@@ -45,4 +46,5 @@ class RedeemInviteUseCaseClient(
             setBody(redeemRequest)
         }.body()
     }
+
 }

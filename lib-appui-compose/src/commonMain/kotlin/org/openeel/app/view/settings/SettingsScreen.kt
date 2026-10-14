@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.loading
-import org.openeel.shared.generated.resources.mappings
 import org.openeel.shared.generated.resources.policies_shared_devices
+import org.openeel.shared.generated.resources.mappings
 import org.openeel.shared.generated.resources.school
 import org.openeel.shared.viewmodel.settings.SettingsViewModel
 

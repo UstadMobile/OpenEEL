@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectLocalDateField
+import org.openeel.app.components.OpenEelLocalDateField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
@@ -43,7 +43,7 @@ fun EnrollmentEditScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        RespectLocalDateField(
+        OpenEelLocalDateField(
             modifier = Modifier.testTag("begin_date").fillMaxWidth().defaultItemPadding(),
             value = enrollment?.beginDate,
             label = { Text(stringResource(Res.string.start_date_label)) },
@@ -59,7 +59,7 @@ fun EnrollmentEditScreen(
             }
         )
 
-        RespectLocalDateField(
+        OpenEelLocalDateField(
             modifier = Modifier
                 .testTag("end_date")
                 .fillMaxWidth()

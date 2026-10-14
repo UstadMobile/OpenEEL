@@ -1,7 +1,7 @@
 package org.openeel.datalayer.db.opds.adapters
 
 import kotlinx.serialization.json.Json
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.opds.adapters.asEntities
 import org.openeel.datalayer.db.school.opds.adapters.asModel
 import org.openeel.datalayer.shared.XXHashUidNumberMapper
@@ -26,7 +26,7 @@ class TestPublicationEntityAdapter {
                 "/world/respect/datalayer/db/opds/adapters/lesson001.json"
             )!!.bufferedReader().use { it.readText() }
         )
-        val pkGenerator = PrimaryKeyGenerator(RespectSchoolDatabase.TABLE_IDS)
+        val pkGenerator = PrimaryKeyGenerator(SchoolDatabase.TABLE_IDS)
 
         val entities = publication.asEntities(
             dataLoadResult = null,

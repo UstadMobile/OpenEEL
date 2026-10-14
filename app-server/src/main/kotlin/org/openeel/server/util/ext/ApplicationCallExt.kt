@@ -19,8 +19,8 @@ import org.openeel.datalayer.shared.ModelWithTimes
 import org.openeel.datalayer.shared.maxLastStoredOrNull
 import org.openeel.lib.dataloadstate.ktorserver.validateIfNotModifiedSince
 import org.openeel.lib.dataloadstate.throwable.ForbiddenException
-import org.openeel.shared.domain.account.RespectAccount
-import org.openeel.shared.util.di.RespectAccountScopeId
+import org.openeel.shared.domain.account.UserAccount
+import org.openeel.shared.util.di.UserAccountScopeId
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import kotlin.time.Clock
 
@@ -46,12 +46,12 @@ fun ApplicationCall.requireAccountScope(): Scope {
     val authPrincipalId: UserIdPrincipal = principal() ?:
         throw ForbiddenException("Not authenticated")
 
-    val scopeId = RespectAccountScopeId(
+    val scopeId = UserAccountScopeId(
         request.virtualHost,
         AuthenticatedUserPrincipalId(authPrincipalId.name)
     ).scopeId
 
-    return getKoin().getScopeOrNull(scopeId) ?: getKoin().createScope<RespectAccount>(scopeId).also {
+    return getKoin().getScopeOrNull(scopeId) ?: getKoin().createScope<UserAccount>(scopeId).also {
         it.linkTo(getSchoolKoinScope())
     }
 }

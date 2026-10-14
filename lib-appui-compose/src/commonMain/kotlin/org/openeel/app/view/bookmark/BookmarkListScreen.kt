@@ -25,7 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectListSortHeader
+import org.openeel.app.components.OpenEelListSortHeader
 import org.openeel.app.view.catalog.opdsfeeddetail.PublicationListItem
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.flowOf
@@ -98,7 +98,7 @@ fun BookmarkListScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 item("sort_header") {
-                    RespectListSortHeader(
+                    OpenEelListSortHeader(
                         activeSortOrderOption = uiState.activeSortOrderOption,
                         sortOptions = uiState.sortOptions,
                         onClickSortOption = onClickSortOption,

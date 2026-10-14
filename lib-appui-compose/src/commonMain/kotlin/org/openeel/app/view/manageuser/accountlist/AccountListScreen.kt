@@ -22,12 +22,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectLongVersionInfoItem
-import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.OpenEelLongVersionInfoItem
+import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.model.Person
-import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_account
 import org.openeel.shared.generated.resources.developed_by
@@ -61,7 +61,7 @@ fun AccountListScreen(
 @Composable
 fun AccountListScreen(
     uiState: AccountListUiState,
-    onClickAccount: (RespectAccount) -> Unit,
+    onClickAccount: (UserAccount) -> Unit,
     onClickFamilyPerson: (Person) -> Unit,
     onClickAddAccount: () -> Unit,
     onClickLogout: () -> Unit,
@@ -116,7 +116,7 @@ fun AccountListScreen(
                         onClickFamilyPerson(account)
                     },
                     leadingContent = {
-                        RespectPersonAvatar(name = account.fullName())
+                        OpenEelPersonAvatar(name = account.fullName())
                     },
                     headlineContent = {
                         Text(account.fullName())
@@ -183,7 +183,7 @@ fun AccountListScreen(
         }
 
         item("version_info") {
-            RespectLongVersionInfoItem()
+            OpenEelLongVersionInfoItem()
         }
 
         item("copyright_info") {

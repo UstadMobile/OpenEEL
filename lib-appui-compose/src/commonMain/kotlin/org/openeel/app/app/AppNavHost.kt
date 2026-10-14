@@ -64,15 +64,15 @@ import org.openeel.app.view.scanqrcode.ScanQRCodeScreen
 import org.openeel.app.view.schooldirectory.edit.SchoolDirectoryEditScreen
 import org.openeel.app.view.schooldirectory.list.SchoolDirectoryListScreen
 import org.openeel.app.view.settings.SettingsScreen
+import org.openeel.app.view.statement.detail.RawStatementScreen
+import org.openeel.app.view.statement.detail.StatementDetailScreen
+import org.openeel.app.view.statement.list.StatementListScreen
+import org.openeel.app.viewmodel.openEelViewModel
 import org.openeel.app.view.sharedschooldevice.SchoolSettingsScreen
 import org.openeel.app.view.sharedschooldevice.SharedDevicesSettingsScreen
 import org.openeel.app.view.sharedschooldevice.TeacherPinConfirmationScreen
 import org.openeel.app.view.sharedschooldevice.login.SelectClassScreen
 import org.openeel.app.view.sharedschooldevice.login.StudentListScreen
-import org.openeel.app.view.statement.detail.RawStatementScreen
-import org.openeel.app.view.statement.detail.StatementDetailScreen
-import org.openeel.app.view.statement.list.StatementListScreen
-import org.openeel.app.viewmodel.respectViewModel
 import org.openeel.shared.navigation.AccountList
 import org.openeel.shared.navigation.Acknowledgement
 import org.openeel.shared.navigation.AppsDetail
@@ -123,18 +123,18 @@ import org.openeel.shared.navigation.ReportDetail
 import org.openeel.shared.navigation.ReportEdit
 import org.openeel.shared.navigation.ReportEditFilter
 import org.openeel.shared.navigation.ReportTemplateList
-import org.openeel.shared.navigation.RespectAppLauncher
-import org.openeel.shared.navigation.RespectAppList
-import org.openeel.shared.navigation.RespectComposeNavController
+import org.openeel.shared.navigation.OpenEelAppLauncher
+import org.openeel.shared.navigation.OpenEelAppList
+import org.openeel.shared.navigation.OpenEelComposeNavController
 import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.navigation.SchoolDirectoryEdit
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.navigation.SchoolSettings
-import org.openeel.shared.navigation.SelectClass
 import org.openeel.shared.navigation.Settings
 import org.openeel.shared.navigation.ShareFeedback
-import org.openeel.shared.navigation.SharedDevicesSettings
 import org.openeel.shared.navigation.SignupScreen
+import org.openeel.shared.navigation.SelectClass
+import org.openeel.shared.navigation.SharedDevicesSettings
 import org.openeel.shared.navigation.StatementDetail
 import org.openeel.shared.navigation.StatementList
 import org.openeel.shared.navigation.StudentList
@@ -180,8 +180,8 @@ import org.openeel.shared.viewmodel.settings.SettingsViewModel
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    respectNavController: RespectComposeNavController = remember(Unit) {
-        RespectComposeNavController(navController)
+    respectNavController: OpenEelComposeNavController = remember(Unit) {
+        OpenEelComposeNavController(navController)
     },
     onSetAppUiState: (AppUiState) -> Unit,
     modifier: Modifier,
@@ -192,7 +192,7 @@ fun AppNavHost(
         modifier = modifier,
     ) {
         composable<Acknowledgement> {
-            val viewModel: AcknowledgementViewModel = respectViewModel(
+            val viewModel: AcknowledgementViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -200,7 +200,7 @@ fun AppNavHost(
         }
 
         composable<Onboarding> {
-            val viewModel: OnboardingViewModel = respectViewModel(
+            val viewModel: OnboardingViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -208,7 +208,7 @@ fun AppNavHost(
         }
 
         composable<LoginScreen> {
-            val viewModel: LoginViewModel = respectViewModel(
+            val viewModel: LoginViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -216,14 +216,14 @@ fun AppNavHost(
         }
 
         composable<EnterInviteCode> {
-            val viewModel: EnterInviteCodeViewModel = respectViewModel(
+            val viewModel: EnterInviteCodeViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
             EnterInviteCodeScreen(viewModel)
         }
 
-        composable<RespectAppLauncher> {
+        composable<OpenEelAppLauncher> {
             HomeScreen(
                 respectNavController = respectNavController,
                 onSetAppUiState = onSetAppUiState,
@@ -238,7 +238,7 @@ fun AppNavHost(
         }
 
         composable<AppsDetail> {
-            val viewModel: AppsDetailViewModel = respectViewModel(
+            val viewModel: AppsDetailViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -247,7 +247,7 @@ fun AppNavHost(
 
         composable<AssignmentList> {
             AssignmentListScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -256,7 +256,7 @@ fun AppNavHost(
 
         composable<AssignmentEdit> {
             AssignmentEditScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -265,7 +265,7 @@ fun AppNavHost(
 
         composable<AssignmentDetail> {
             AssignmentDetailScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -274,7 +274,7 @@ fun AppNavHost(
 
         composable<StatementList>{
             StatementListScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -283,7 +283,7 @@ fun AppNavHost(
 
         composable<StatementDetail> {
             StatementDetailScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -291,7 +291,7 @@ fun AppNavHost(
         }
         composable<RawStatement> {
             RawStatementScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -300,7 +300,7 @@ fun AppNavHost(
 
         composable<BookmarkList> {
             BookmarkListScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -308,7 +308,7 @@ fun AppNavHost(
         }
 
         composable<ClazzList> {
-            val viewModel: ClazzListViewModel = respectViewModel(
+            val viewModel: ClazzListViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -316,7 +316,7 @@ fun AppNavHost(
         }
 
         composable<ClazzEdit> {
-            val viewModel: ClazzEditViewModel = respectViewModel(
+            val viewModel: ClazzEditViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -324,7 +324,7 @@ fun AppNavHost(
         }
 
         composable<ClazzDetail> {
-            val viewModel: ClazzDetailViewModel = respectViewModel(
+            val viewModel: ClazzDetailViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -332,7 +332,7 @@ fun AppNavHost(
         }
 
         composable<EnrollmentList> {
-            val viewModel: EnrollmentListViewModel = respectViewModel(
+            val viewModel: EnrollmentListViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -340,7 +340,7 @@ fun AppNavHost(
         }
 
         composable<EnrollmentEdit> {
-            val viewModel: EnrollmentEditViewModel = respectViewModel(
+            val viewModel: EnrollmentEditViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -348,7 +348,7 @@ fun AppNavHost(
         }
 
         composable<ReportDetail> {
-            val viewModel: ReportDetailViewModel = respectViewModel(
+            val viewModel: ReportDetailViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -356,7 +356,7 @@ fun AppNavHost(
         }
 
         composable<ReportEdit> {
-            val viewModel: ReportEditViewModel = respectViewModel(
+            val viewModel: ReportEditViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -364,7 +364,7 @@ fun AppNavHost(
         }
 
         composable<Report> {
-            val viewModel: ReportListViewModel = respectViewModel(
+            val viewModel: ReportListViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -372,7 +372,7 @@ fun AppNavHost(
         }
 
         composable<ReportTemplateList> {
-            val viewModel: ReportTemplateListViewModel = respectViewModel(
+            val viewModel: ReportTemplateListViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -380,7 +380,7 @@ fun AppNavHost(
         }
 
         composable<IndictorEdit> {
-            val viewModel: IndicatorEditViewModel = respectViewModel(
+            val viewModel: IndicatorEditViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -388,7 +388,7 @@ fun AppNavHost(
         }
 
         composable<ReportEditFilter> {
-            val viewModel: ReportFilterEditViewModel = respectViewModel(
+            val viewModel: ReportFilterEditViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -396,7 +396,7 @@ fun AppNavHost(
         }
 
         composable<IndicatorList> {
-            val viewModel: IndicatorListViewModel = respectViewModel(
+            val viewModel: IndicatorListViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -404,7 +404,7 @@ fun AppNavHost(
         }
 
         composable<IndicatorDetail> {
-            val viewModel: IndicatorDetailViewModel = respectViewModel(
+            val viewModel: IndicatorDetailViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -412,15 +412,15 @@ fun AppNavHost(
         }
 
         composable<HowPasskeyWorks> {
-            val viewModel: HowPasskeyWorksViewModel = respectViewModel(
+            val viewModel: HowPasskeyWorksViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
             HowPasskeyWorksScreen(viewModel = viewModel)
         }
 
-        composable<RespectAppList> {
-            val viewModel: AppListViewModel = respectViewModel(
+        composable<OpenEelAppList> {
+            val viewModel: AppListViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -428,7 +428,7 @@ fun AppNavHost(
         }
 
         composable<EnterLink> {
-            val viewModel: EnterLinkViewModel = respectViewModel(
+            val viewModel: EnterLinkViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -436,7 +436,7 @@ fun AppNavHost(
         }
 
         composable<GetStartedScreen> {
-            val viewModel: GetStartedViewModel = respectViewModel(
+            val viewModel: GetStartedViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -444,7 +444,7 @@ fun AppNavHost(
         }
 
         composable<OtherOption> {
-            val viewModel: OtherOptionsViewModel = respectViewModel(
+            val viewModel: OtherOptionsViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -453,7 +453,7 @@ fun AppNavHost(
 
         composable<OpdsFeedDetail> {
             OpdsFeedDetailScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
                 )
@@ -461,7 +461,7 @@ fun AppNavHost(
         }
 
         composable<OtherOptionsSignup> {
-            val viewModel: OtherOptionsSignupViewModel = respectViewModel(
+            val viewModel: OtherOptionsSignupViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -469,7 +469,7 @@ fun AppNavHost(
         }
 
         composable<EnterPasswordSignup> {
-            val viewModel: EnterPasswordSignupViewModel = respectViewModel(
+            val viewModel: EnterPasswordSignupViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -477,7 +477,7 @@ fun AppNavHost(
         }
 
         composable<PublicationDetail> {
-            val viewModel: PublicationDetailViewModel = respectViewModel(
+            val viewModel: PublicationDetailViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -485,7 +485,7 @@ fun AppNavHost(
         }
 
         composable<SignupScreen> {
-            val viewModel: SignupViewModel = respectViewModel(
+            val viewModel: SignupViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -493,7 +493,7 @@ fun AppNavHost(
         }
 
         composable<AcceptInvite> {
-            val viewModel: AcceptInviteViewModel = respectViewModel(
+            val viewModel: AcceptInviteViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -501,7 +501,7 @@ fun AppNavHost(
         }
 
         composable<TermsAndCondition> {
-            val viewModel: TermsAndConditionViewModel = respectViewModel(
+            val viewModel: TermsAndConditionViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -509,7 +509,7 @@ fun AppNavHost(
         }
 
         composable<CreateAccount> {
-            val viewModel: CreateAccountViewModel = respectViewModel(
+            val viewModel: CreateAccountViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -517,7 +517,7 @@ fun AppNavHost(
         }
 
         composable<WaitingForApproval> {
-            val viewModel: WaitingForApprovalViewModel = respectViewModel(
+            val viewModel: WaitingForApprovalViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -526,7 +526,7 @@ fun AppNavHost(
 
         composable<AccountList> {
             AccountListScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
                 )
@@ -535,7 +535,7 @@ fun AppNavHost(
 
         composable<ShareFeedback> {
             ShareFeedbackScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
                 )
@@ -544,7 +544,7 @@ fun AppNavHost(
 
         composable<PersonList> {
             PersonListScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
                 )
@@ -553,7 +553,7 @@ fun AppNavHost(
 
         composable<PersonDetail> {
             PersonDetailScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
                 )
@@ -562,7 +562,7 @@ fun AppNavHost(
 
         composable<ManageAccount> {
             ManageAccountScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
                 )
@@ -571,7 +571,7 @@ fun AppNavHost(
 
         composable<PasskeyList> {
             PasskeyListScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
                 )
@@ -580,7 +580,7 @@ fun AppNavHost(
 
         composable<PersonEdit> {
             PersonEditScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
                 )
@@ -588,7 +588,7 @@ fun AppNavHost(
         }
 
         composable<Settings> {
-            val viewModel: SettingsViewModel = respectViewModel(
+            val viewModel: SettingsViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -597,7 +597,7 @@ fun AppNavHost(
 
         composable<ScanQRCode> {
             ScanQRCodeScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
                 )
@@ -606,7 +606,7 @@ fun AppNavHost(
 
         composable<PlaylistList> {
             OpdsFeedListScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -614,7 +614,7 @@ fun AppNavHost(
         }
         composable<OpdsFeedEdit> {
             OpdsFeedEditScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -622,7 +622,7 @@ fun AppNavHost(
         }
         composable<PlaylistShare> {
             PlaylistShareScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -630,7 +630,7 @@ fun AppNavHost(
         }
         composable<ExternalLinkEdit> {
             OpdsFeedEditAddLinkScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -638,7 +638,7 @@ fun AppNavHost(
         }
         composable<SchoolSettings> {
             SchoolSettingsScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -647,7 +647,7 @@ fun AppNavHost(
 
         composable<SharedDevicesSettings> {
             SharedDevicesSettingsScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -656,7 +656,7 @@ fun AppNavHost(
 
         composable<SelectClass> {
             SelectClassScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -664,7 +664,7 @@ fun AppNavHost(
         }
         composable<TeacherPinConfirmation> {
             TeacherPinConfirmationScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -673,7 +673,7 @@ fun AppNavHost(
 
 
         composable<SchoolDirectoryList> {
-            val viewModel: SchoolDirectoryListViewModel = respectViewModel(
+            val viewModel: SchoolDirectoryListViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -681,7 +681,7 @@ fun AppNavHost(
         }
 
         composable<SchoolDirectoryEdit> {
-            val viewModel: SchoolDirectoryEditViewModel = respectViewModel(
+            val viewModel: SchoolDirectoryEditViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -690,7 +690,7 @@ fun AppNavHost(
 
         composable<CreateAccountSetUsername> {
             CreateAccountSetUsernameScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -699,7 +699,7 @@ fun AppNavHost(
 
         composable<CreateAccountSetPassword> {
             CreateAccountSetPasswordScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -708,7 +708,7 @@ fun AppNavHost(
 
         composable<ChangePassword> {
             ChangePasswordScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -717,7 +717,7 @@ fun AppNavHost(
 
         composable<InvitePerson> {
             InvitePersonScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -726,7 +726,7 @@ fun AppNavHost(
 
         composable<CopyCode> {
             CopyInviteCodeScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -735,7 +735,7 @@ fun AppNavHost(
 
         composable<QrCode> {
             InviteQrScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
@@ -745,7 +745,7 @@ fun AppNavHost(
 
         composable<StudentList> {
             StudentListScreen(
-                viewModel = respectViewModel(
+                viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
                 )
