@@ -82,6 +82,7 @@ kotlin {
         implementation(libs.androidx.room.runtime)
         implementation(libs.androidx.sqlite.bundled)
         implementation(libs.androidx.webkit)
+        implementation(libs.appauth)
         implementation(libs.material)
         implementation(libs.androidx.appcompat)
         implementation(libs.coil3.coil.svg)
@@ -121,6 +122,8 @@ android {
 
     defaultConfig {
         applicationId = "org.openeel.app"
+        // AppAuth uses this scheme to receive the authorization redirect.
+        manifestPlaceholders["appAuthRedirectScheme"] = "org.openeel.oauth"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 133

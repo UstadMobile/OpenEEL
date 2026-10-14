@@ -45,6 +45,7 @@ import org.openeel.libxxhash.XXStringHasher
 import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import org.openeel.server.account.invite.GetInviteInfoUseCaseServer
 import org.openeel.server.account.invite.username.UsernameSuggestionUseCaseServer
+import org.openeel.server.account.openid.GetOpenIdLoginResponseUseCaseServer
 import org.openeel.server.account.invite.username.checkusernameunique.CheckUsernameUniqueUseCaseServer
 import org.openeel.shared.domain.account.passkey.VerifySignInWithPasskeyUseCase
 import org.openeel.server.domain.school.add.AddSchoolUseCase
@@ -307,6 +308,14 @@ fun serverKoinModule(
 
         scoped<ValidateAuthorizationUseCase> {
             ValidateAuthorizationUseCaseDbImpl(schoolDb = get())
+        }
+
+        scoped<GetOpenIdLoginResponseUseCaseServer> {
+            GetOpenIdLoginResponseUseCaseServer(
+                schoolDb = get(),
+                uidNumberMapper = get(),
+                serverAccountScopeManager = get(),
+            )
         }
 
         scoped<GetTokenAndUserProfileWithCredentialUseCase> {

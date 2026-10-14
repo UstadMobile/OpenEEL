@@ -55,6 +55,10 @@ abstract class AbstractAppActivity : AppCompatActivity() {
     )
     private val navCommandFlow: SharedFlow<NavCommand> = _navCommandFlow.asSharedFlow()
 
+    protected fun sendNavigationCommand(command: NavCommand) {
+        _navCommandFlow.tryEmit(command)
+    }
+
     @OptIn(
         ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
         ExperimentalMaterial3WindowSizeClassApi::class
