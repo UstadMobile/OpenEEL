@@ -16,10 +16,13 @@ fun OpdsFeed.allPublications(): List<Publication> {
 
 fun OpdsFeed.getPublicationByIndex(opdsFeedItemIndex: OpdsFeedItemIndex): Publication {
     return if(opdsFeedItemIndex.groupIndex >= 0) {
-        this.groups?.get(opdsFeedItemIndex.index)?.publications?.get(opdsFeedItemIndex.index)
-            ?: throw IllegalArgumentException("No publication at index:${opdsFeedItemIndex.groupIndex}/index:${opdsFeedItemIndex.index}")
+        this.groups?.get(opdsFeedItemIndex.groupIndex)?.publications?.get(opdsFeedItemIndex.index)
+            ?: throw IllegalArgumentException(
+                "No publication at groupIndex=:${opdsFeedItemIndex.groupIndex}/${opdsFeedItemIndex.index}"
+            )
     }else {
-        this.publications?.get(opdsFeedItemIndex.index) ?: throw IllegalArgumentException("No publications")
+        this.publications?.get(opdsFeedItemIndex.index)
+            ?: throw IllegalArgumentException("No publication at index ${opdsFeedItemIndex.index}")
     }
 }
 
