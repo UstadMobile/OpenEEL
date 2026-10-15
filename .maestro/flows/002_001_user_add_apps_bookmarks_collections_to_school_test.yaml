@@ -261,6 +261,10 @@ onFlowComplete:
 - assertVisible: "Learning item section"
 - assertVisible: "Statement Maker"
 - tapOn:
+    id: "expand_collapse_icon"    #Expand - Collection section day 1
+    index: 0
+- assertVisible: "Examples"
+- tapOn:
     id: "floating_action_button"    # Edit button
 - assertVisible:
     id: "app_title"
