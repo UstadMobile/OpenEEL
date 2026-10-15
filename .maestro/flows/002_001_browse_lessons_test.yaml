@@ -167,7 +167,8 @@ onFlowComplete:
 - tapOn: "Language"
 - tapOn: "English"
 - assertVisible: "Language"
-- tapOn: "Close"
+- tapOn:
+    id: "close_filter_bottom_sheet_button"
 - assertVisible: "Language (1)"
 - assertVisible: "Lesson 001"
 - tapOn: "Type"
@@ -175,7 +176,8 @@ onFlowComplete:
 - assertVisible: "Game"
 - assertVisible: "Book"
 - tapOn: "Video"
-- tapOn: "Close"
+- tapOn:
+    id: "close_filter_bottom_sheet_button"
 - assertNotVisible: "Lesson 001"
 - tapOn: "Clear all"
 - assertNotVisible: "Language (1)"
