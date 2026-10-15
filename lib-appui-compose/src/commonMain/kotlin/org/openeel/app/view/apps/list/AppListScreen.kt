@@ -73,7 +73,7 @@ fun AppListScreen(
         itemsIndexed(
             items = appPublications,
             key = { index, app ->
-                "${index}_${app.metadata.identifier}"
+                app.metadata.identifier?.toString() ?: index
             }
         ) { index, app ->
             ListItem(
