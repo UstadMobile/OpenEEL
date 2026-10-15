@@ -283,12 +283,8 @@ onFlowComplete:
     text: "External link"
 - tapOn:
     id: "external_link_url_field"
-- inputText: ${output.SCHOOL_URL}static-resources/respect-ds/case_valid/examples/assignable-unit-1-only.json
-- tapOn: "Next"
-- tapOn: "Title"
-- inputText: "Assignment Result Statement Demo"
-- tapOn:
-    id: "action_bar_button" #Done Button
+- inputText: ${output.SCHOOL_URL}static-resources/respect-ds/case_valid/examples/assignable-unit-1/unit.json
+- tapOn: "Add"
 - scrollUntilVisible:
     element: "Assignment Result Statement Demo"
 - tapOn: "Save"

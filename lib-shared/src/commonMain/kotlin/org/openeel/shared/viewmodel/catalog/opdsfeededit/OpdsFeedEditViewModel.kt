@@ -32,7 +32,7 @@ import org.openeel.shared.generated.resources.learning_item_section
 import org.openeel.shared.generated.resources.remix_collection
 import org.openeel.shared.generated.resources.required_field
 import org.openeel.shared.generated.resources.save
-import org.openeel.shared.navigation.ExternalLinkEdit
+import org.openeel.shared.navigation.OpdsFeedEditAddLink
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.NavResultReturner
 import org.openeel.shared.navigation.OpdsFeedDetail
@@ -43,6 +43,7 @@ import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.groupType
 import org.openeel.shared.util.ext.isNewFeedOrNewRemix
+import org.openeel.shared.util.ext.resolve
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
@@ -207,7 +208,16 @@ class OpdsFeedEditViewModel(
                                     groupList[sectionIndex] = groupToAddTo.copy(
                                         publications = buildList {
                                             addAll(groupToAddTo.publications.orEmpty())
-                                            addAll(publicationSelection.selectedPublications)
+                                            /*
+                                             * Added publications need to be resolved because they
+                                             * may contain relative links, which probably have a
+                                             * different base url.
+                                             */
+                                            addAll(
+                                                publicationSelection.selectedPublications.map {
+                                                    it.resolve(publicationSelection.url)
+                                                }
+                                            )
                                         }
                                     )
                                 }
@@ -218,7 +228,7 @@ class OpdsFeedEditViewModel(
             }
 
             launch {
-                resultReturner.filteredResultFlowForKey(KEY_PLAYLIST).collect { result ->
+                resultReturner.filteredResultFlowForKey(KEY_COLLECTION).collect { result ->
                     val groupIndex = pendingAddItemGroupIndex ?: return@collect
                     val feedSelection = result.result as? OpdsFeedSelection ?: return@collect
                     pendingAddItemGroupIndex = null
@@ -481,12 +491,12 @@ class OpdsFeedEditViewModel(
         
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                destination = ExternalLinkEdit.create(
+                destination = OpdsFeedEditAddLink.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
                         resultKey = KEY_LEARNING_UNIT,
                     ),
-
+                    opdsPickType = OpdsPickType.PUBLICATION,
                 ),
             )
         )
@@ -499,7 +509,7 @@ class OpdsFeedEditViewModel(
                 destination = OpenEelAppLauncher.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
-                        resultKey = KEY_PLAYLIST,
+                        resultKey = KEY_COLLECTION,
                     ),
                     opdsPickType = OpdsPickType.CATALOG_FEED,
                 ),
@@ -543,9 +553,7 @@ class OpdsFeedEditViewModel(
 
     companion object {
         const val KEY_LEARNING_UNIT = "result_learning_unit"
-        const val KEY_PLAYLIST = "result_playlist"
+        const val KEY_COLLECTION = "result_collection"
         private const val KEY_PENDING_ADD_ITEM_GROUP_INDEX = "pending_add_item_section_index"
-        private const val KEY_PENDING_ADD_PLAYLIST_SECTION_INDEX =
-            "pending_add_playlist_section_index"
     }
 }

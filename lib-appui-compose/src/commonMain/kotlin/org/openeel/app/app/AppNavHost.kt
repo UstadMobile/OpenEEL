@@ -96,7 +96,7 @@ import org.openeel.shared.navigation.IndicatorList
 import org.openeel.shared.navigation.IndictorEdit
 import org.openeel.shared.navigation.InvitePerson
 import org.openeel.shared.navigation.EnterInviteCode
-import org.openeel.shared.navigation.ExternalLinkEdit
+import org.openeel.shared.navigation.OpdsFeedEditAddLink
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.PublicationDetail
 import org.openeel.shared.navigation.OpdsFeedDetail
@@ -631,7 +631,7 @@ fun AppNavHost(
                 )
             )
         }
-        composable<ExternalLinkEdit> {
+        composable<OpdsFeedEditAddLink> {
             OpdsFeedEditAddLinkScreen(
                 viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
