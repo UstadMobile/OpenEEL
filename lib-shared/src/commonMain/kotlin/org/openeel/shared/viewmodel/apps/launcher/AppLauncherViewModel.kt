@@ -130,12 +130,13 @@ class AppLauncherViewModel(
             accountManager.selectedAccountAndPersonFlow.collect { selected ->
                 val isAdmin = selected?.person?.isAdmin() == true
                 val devModeEnabled = getDevModeEnabledUseCase()
+                // TODO: For now, make the settingsIcon always visible for testing.
                 _appUiState.update {
                     it.copy(
                         fabState = it.fabState.copy(
                             visible = isAdmin && route.resultDest == null
                         ),
-                        settingsIconVisible = isAdmin && devModeEnabled,
+                        settingsIconVisible = true
                     )
                 }
                 _uiState.update {

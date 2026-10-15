@@ -31,6 +31,7 @@ import org.openeel.shared.generated.resources.something_went_wrong
 import org.openeel.shared.generated.resources.invalid_username_password
 import org.openeel.shared.navigation.EnterInviteCode
 import org.openeel.shared.navigation.Home
+import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.WaitingForApproval
@@ -50,6 +51,7 @@ data class LoginUiState(
     val usernameError: StringResourceUiText? = null,
     val passwordError: StringResourceUiText? = null,
     val schoolUrl: Url,
+    val isSharedDevice: Boolean = false
 )
 
 class LoginViewModel(
@@ -89,6 +91,11 @@ class LoginViewModel(
             }
         }
         viewModelScope.launch {
+            _uiState.update { prev ->
+                prev.copy(
+                    isSharedDevice = route.isSharedDevice == true
+                )
+            }
             try {
                 val school = schoolDirectoryDataSource.schoolDirectoryEntryResource
                     .getSchoolDirectoryEntryByUrl(route.schoolUrl)
@@ -248,5 +255,9 @@ class LoginViewModel(
             NavCommand.Navigate(EnterInviteCode.create(route.schoolUrl))
         )
     }
-
+    fun onClickSelectAnotherSchool(){
+        _navCommandFlow.tryEmit(
+            NavCommand.Navigate(GetStartedScreen())
+        )
+    }
 }

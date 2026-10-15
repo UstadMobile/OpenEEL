@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.school.ext.primaryRole
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.Person
@@ -32,6 +33,8 @@ import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.isSameAccount
 import org.openeel.shared.viewmodel.OpenEelViewModel
+import org.openeel.shared.navigation.SelectClass
+
 
 /**
  * @property selectedAccount if not null, the currently selected account
@@ -41,9 +44,11 @@ import org.openeel.shared.viewmodel.OpenEelViewModel
 data class AccountListUiState(
     val selectedAccount: UserSessionAndPerson? = null,
     val accounts: List<UserSessionAndPerson> = emptyList(),
-) {
+    val accountOwnerRole: PersonRoleEnum? = null,
+    ) {
     val showSelectedAccountProfileButton: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
+                && accountOwnerRole != PersonRoleEnum.SHARED_SCHOOL_DEVICE // Hide for shared device
 
     val familyMembersClickEnabled: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
@@ -71,8 +76,20 @@ class AccountListViewModel(
 
         viewModelScope.launch {
             appAccountManager.selectedAccountAndPersonFlow.collect { accountAndPerson ->
+                val accountOwnerRole = appAccountManager.activeAccount?.let { account ->
+                    val accountScope = appAccountManager.getOrCreateAccountScope(account)
+                    val dataSource: SchoolDataSource = accountScope.get()
+                    dataSource.personDataSource.findByGuid(
+                        DataLoadParams(),
+                        account.userGuid
+                    ).dataOrNull()?.primaryRole()
+                }
+
                 _uiState.update { prev ->
-                    prev.copy(selectedAccount = accountAndPerson)
+                    prev.copy(
+                        selectedAccount = accountAndPerson,
+                        accountOwnerRole = accountOwnerRole
+                    )
                 }
             }
         }
@@ -215,9 +232,52 @@ class AccountListViewModel(
 
 
     fun onClickLogout() {
-        uiState.value.selectedAccount?.also {
+        val isSelectedAccountSharedDevice =
+            uiState.value.accountOwnerRole == PersonRoleEnum.SHARED_SCHOOL_DEVICE
+
+        // Find the shared device account in the accounts list
+        val sharedDeviceAccount = uiState.value.accounts.find { andPerson ->
+            andPerson.person.roles.any { role ->
+                role.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE
+            }
+        }
+
+        if (isSelectedAccountSharedDevice) {
+            // Currently on shared device account - just go to Select Class
+            uiState.value.selectedAccount?.also { selectedAccount ->
+                viewModelScope.launch {
+                    _navCommandFlow.tryEmit(
+                        NavCommand.Navigate(
+                            destination = SelectClass.create(deviceGuid = selectedAccount.person.guid),
+                            clearBackStack = true
+                        )
+                    )
+                }
+            }
+        } else if (sharedDeviceAccount?.person?.status == PersonStatusEnum.ACTIVE) {
+            // This is a teacher/admin on a shared device - switch to shared device account first
             viewModelScope.launch {
-                appAccountManager.removeAccount(it.session.account)
+                // First switch to the shared device account
+                appAccountManager.switchAccount(sharedDeviceAccount.session.account)
+                _navCommandFlow.tryEmit(
+                    NavCommand.Navigate(
+                        destination = SelectClass.create(deviceGuid = sharedDeviceAccount.person.guid),
+                        clearBackStack = true
+                    )
+                )
+            }
+        } else {
+            // Regular logout - no shared device present
+            uiState.value.selectedAccount?.also {
+                viewModelScope.launch {
+                    appAccountManager.removeAccount(it.session.account)
+                    _navCommandFlow.tryEmit(
+                        NavCommand.Navigate(
+                            destination = GetStartedScreen(),
+                            clearBackStack = true
+                        )
+                    )
+                }
             }
         }
     }

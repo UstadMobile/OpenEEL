@@ -32,6 +32,7 @@ import org.openeel.shared.domain.account.username.validateusername.ValidateUsern
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.i_have_an_invite_code
 import org.openeel.shared.generated.resources.login
+import org.openeel.shared.generated.resources.select_another_school
 import org.openeel.shared.generated.resources.password_label
 import org.openeel.shared.generated.resources.school_server_url
 import org.openeel.shared.generated.resources.server_location
@@ -55,6 +56,7 @@ fun LoginScreen(
         onPasswordChanged = viewModel::onPasswordChanged,
         onClickLogin = viewModel::onClickLogin,
         onClickInviteCode = viewModel::onClickInviteCode,
+        onClickSelectAnotherSchool = viewModel::onClickSelectAnotherSchool
     )
 }
 
@@ -65,7 +67,8 @@ fun LoginScreen(
     onUsernameChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     onClickLogin: () -> Unit,
-    onClickInviteCode: () -> Unit = {}
+    onClickInviteCode: () -> Unit = {},
+    onClickSelectAnotherSchool:() -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -114,6 +117,14 @@ fun LoginScreen(
             enabled = !appUiState.isLoading,
         ) {
             Text(text = stringResource(Res.string.login))
+        }
+        if (uiState.isSharedDevice) {
+            OutlinedButton(
+                onClick = onClickSelectAnotherSchool,
+                modifier = Modifier.fillMaxWidth().defaultItemPadding()
+            ) {
+                Text(text = stringResource(Res.string.select_another_school))
+            }
         }
 
         OutlinedButton(

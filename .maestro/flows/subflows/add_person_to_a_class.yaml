@@ -1,0 +1,47 @@
+appId: world.respect.app
+
+---
+# Add a person to a class and create account
+- tapOn: ${ADD_USER}
+- tapOn: "Add person"
+- assertVisible:
+      id: "app_title"
+      text: "Add person"
+- tapOn: "First names*"
+- inputText: ${FIRSTNAME}
+- tapOn: "Last name*"
+- inputText: ${LASTNAME}
+- tapOn: "Gender*"
+- tapOn: ${GENDER}
+- tapOn: "Save"
+- assertVisible:
+      id: "app_title"
+      text: ${CLASS_NAME}
+- tapOn:  ${FIRSTNAME} ${LASTNAME}
+- tapOn: "Create account"
+- assertVisible:
+      id: "Username"
+      text: ${USERNAME}
+- runFlow:
+    when:
+      notVisible: 'Set password'
+    commands:
+      - tapOn: "Password"
+      - inputText: ${PASSWORD}
+      - tapOn: "Save"
+- runFlow:
+        when:
+              visible: 'Set password'
+        commands:
+              - tapOn: "Set password"
+              - tapOn: "Password*"
+              - inputText: ${PASSWORD}
+              - tapOn: "Save"
+- runFlow:
+    when:
+      visible: 'Assign QR code badge'
+    file: "assign_qr_badge_flow.yaml"
+    env:
+      QR_BADGE_LINK: ${QR_BADGE_LINK}
+
+

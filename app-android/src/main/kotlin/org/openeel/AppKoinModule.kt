@@ -169,6 +169,7 @@ import org.openeel.shared.domain.e2eartifactupload.E2EArtifactUploadUseCaseClien
 import org.openeel.shared.domain.getwarnings.GetWarningsUseCase
 import org.openeel.shared.domain.getwarnings.GetWarningsUseCaseAndroid
 import org.openeel.shared.domain.license.GetLicenseLabelUseCaseAndroid
+import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
 import org.openeel.shared.domain.bookmark.AddBookmarkUseCase
 import org.openeel.shared.domain.bookmark.RemoveBookmarkUseCase
 import org.openeel.shared.domain.launchapp.LaunchAppUseCase
@@ -301,6 +302,11 @@ import org.openeel.shared.viewmodel.statement.detail.StatementDetailViewModel
 import org.openeel.shared.viewmodel.statement.list.StatementListViewModel
 import org.openeel.shared.domain.xapi.xapinanohttpd.XapiResourceProviderAndroid
 import org.openeel.shared.viewmodel.catalog.bookmark.BookmarkListViewModel
+import org.openeel.shared.viewmodel.sharedschooldevice.SchoolSettingsViewModel
+import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsViewmodel
+import org.openeel.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationViewmodel
+import org.openeel.shared.viewmodel.sharedschooldevice.login.SelectClassViewModel
+import org.openeel.shared.viewmodel.sharedschooldevice.login.StudentListViewModel
 
 
 const val SHARED_PREF_SETTINGS_NAME = "respect_settings3_"
@@ -463,6 +469,11 @@ val appKoinModule = module {
     viewModelOf(::StatementDetailViewModel)
     viewModelOf(::RawStatementViewModel)
     viewModelOf(::BookmarkListViewModel)
+    viewModelOf(::SchoolSettingsViewModel)
+    viewModelOf(::SharedDevicesSettingsViewmodel)
+    viewModelOf(::TeacherPinConfirmationViewmodel)
+    viewModelOf(::SelectClassViewModel)
+    viewModelOf(::StudentListViewModel)
 
     single<LaunchSendWhatsAppUseCase> {
         LaunchSendWhatsAppUseCaseAndroid(androidContext())
@@ -814,6 +825,12 @@ val appKoinModule = module {
             settings = get(),
         )
     }
+    single<EnableSharedDeviceModeUseCase> {
+        EnableSharedDeviceModeUseCase(
+            accountManager = get(),
+            settings = get(),
+        )
+    }
 
     single<XapiNanoHttpdApp>(createdAtStart = true) {
         XapiNanoHttpdApp(
@@ -915,6 +932,7 @@ val appKoinModule = module {
             RedeemInviteUseCaseClient(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
                 httpClient = get(),
+                accountManager = get()
             )
         }
         scoped<GetInviteInfoUseCase> {
