@@ -52,7 +52,6 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.empty
 import org.openeel.shared.generated.resources.empty_list
 import org.openeel.shared.generated.resources.more_info
-import org.openeel.shared.generated.resources.no_matching_data_available_yet
 import org.openeel.shared.generated.resources.remove
 import org.openeel.shared.viewmodel.apps.launcher.AppLauncherUiState
 import org.openeel.shared.viewmodel.apps.launcher.AppLauncherViewModel
@@ -87,72 +86,65 @@ fun AppLauncherScreen(
         keyboardController?.hide()
     }
 
-    Column(
+    Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
-            if (apps.isEmpty()) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(bottom = 64.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.empty),
-                        contentDescription = stringResource(resource = Res.string.empty_list),
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.size(200.dp)
-                    )
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
-                    )
-                    Text(
-                        text = if (uiState.searchActive) {
-                            stringResource(Res.string.no_matching_data_available_yet)
-                        } else {
-                            uiState.emptyListDescription?.let {
-                                uiTextStringResource(it)
-                            } ?: ""
-                        },
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                }
-            } else {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(
-                        count = apps.size,
-                        key = { index ->
-                            "${index}_${apps[index].id ?: apps[index].objectActivityOrNull()?.id}"
-                        }
-                    ) { index ->
-                        val statement = apps[index]
-                        val respectAppFlow = remember(statement, uiState.respectPublicationForXapiStatement) {
-                            uiState.respectPublicationForXapiStatement(statement)
-                        }
-                        val respectApp by respectAppFlow.collectAsState(NoDataLoadedState.notFound())
+        if (apps.isEmpty()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 64.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(Res.drawable.empty),
+                    contentDescription = stringResource(resource = Res.string.empty_list),
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.size(200.dp)
+                )
+                Spacer(
+                    modifier = Modifier.height(16.dp)
+                )
+                Text(
+                    text = uiState.emptyListDescription?.let {
+                        uiTextStringResource(it)
+                    } ?: "",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+        } else {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
 
-                        AppGridItem(
-                            app = respectApp,
-                            clickEnabled = uiState.isAppClickable(respectApp),
-                            onClickApp = {
-                                onClickApp(respectApp)
-                            },
-                            onClickRemove = {
-                                onClickRemove(respectApp)
-                            },
-                            showRemove = uiState.canRemove,
-                        )
+                items(
+                    count = apps.size,
+                    key = { index -> apps[index].objectActivityOrNull()?.id ?: index.toString() }
+                ) { index ->
+                    val statement = apps[index]
+                    val respectAppFlow = remember(statement, uiState.respectPublicationForXapiStatement) {
+                        uiState.respectPublicationForXapiStatement(statement)
                     }
+                    val respectApp by respectAppFlow.collectAsState(NoDataLoadedState.notFound())
+
+                    AppGridItem(
+                        app = respectApp,
+                        clickEnabled = uiState.isAppClickable(respectApp),
+                        onClickApp = {
+                            onClickApp(respectApp)
+                        },
+                        onClickRemove = {
+                            onClickRemove(respectApp)
+                        },
+                        showRemove = uiState.canRemove,
+                    )
                 }
             }
         }
