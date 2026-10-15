@@ -20,17 +20,3 @@ val PersonRoleEnum.writePermissionFlag: Long
  */
 val PersonRoleEnum.newUserInviteUid: String
     get() = "$TYPE_NEW_USER:${this.value}"
-
-
-/**
- * Fold the list of PersonRoleEnum into a single flag
- */
-fun List<PersonRoleEnum?>.foldToFlag(): Int {
-    return this.fold(0) { acc, enum ->
-        if(enum != null) {
-            acc.or(enum.flag)
-        }else {
-            acc
-        }
-    }
-}

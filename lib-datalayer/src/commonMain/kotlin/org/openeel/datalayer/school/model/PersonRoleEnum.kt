@@ -39,12 +39,6 @@ enum class PersonRoleEnum(val value: String, val flag: Int) {
             return entries.first { it.flag == flag }
         }
 
-        fun unfoldFromFlag(flag: Int): List<PersonRoleEnum> {
-            return entries.filter { enum ->
-                (flag and enum.flag) == enum.flag
-            }
-        }
-
     }
 }
 

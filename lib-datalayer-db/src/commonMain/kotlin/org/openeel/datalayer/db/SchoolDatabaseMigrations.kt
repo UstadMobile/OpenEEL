@@ -97,7 +97,6 @@ val MIGRATION_19_20 = object: Migration(19, 20) {
         connection.execSQL("UPDATE PersonRoleEntity SET prRoleEnum = CASE WHEN prRoleEnum = 3 THEN 4 WHEN prRoleEnum = 4 THEN 8 WHEN prRoleEnum = 5 THEN 16 ELSE prRoleEnum END WHERE prRoleEnum IN (3, 4, 5)")
         connection.execSQL("UPDATE SchoolPermissionGrantEntity SET spgToRole = CASE WHEN spgToRole = 3 THEN 4 WHEN spgToRole = 4 THEN 8 WHEN spgToRole = 5 THEN 16 ELSE spgToRole END WHERE spgToRole IN (3, 4, 5)")
         connection.execSQL("UPDATE InviteEntity SET iNewUserRole = CASE WHEN iNewUserRole = 3 THEN 4 WHEN iNewUserRole = 4 THEN 8 WHEN iNewUserRole = 5 THEN 16 ELSE iNewUserRole END WHERE iNewUserRole IN (3, 4, 5)")
-        connection.execSQL("CREATE TABLE IF NOT EXISTS `SchoolConfigSettingEntity` (`scsKey` TEXT NOT NULL, `scsValue` TEXT NOT NULL, `scsStatus` INTEGER NOT NULL, `scsLastModified` INTEGER NOT NULL, `scsStored` INTEGER NOT NULL, `scsCanReadFlags` INTEGER NOT NULL, `scsAnonCanRead` INTEGER NOT NULL, `scsCanWriteFlags` INTEGER NOT NULL, PRIMARY KEY(`scsKey`))")
     }
 }
 

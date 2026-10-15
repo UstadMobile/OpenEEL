@@ -27,6 +27,7 @@ class WriteQueueItem(
         SCHOOL_PERMISSION_GRANT(7),
         PERSON_QRBADGE(8),
         INVITE(9),
+
         XAPI_STATEMENT(11),
 
         ;

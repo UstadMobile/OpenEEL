@@ -11,7 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.Button
@@ -187,40 +188,35 @@ fun SharedSchoolDeviceEnableScreenContent(
     onDeviceNameChange: (String) -> Unit = {},
     onEnableSharedDeviceMode: () -> Unit = {},
 ) {
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .defaultItemPadding(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item {
-            Text(
-                text = stringResource(Res.string.device_name),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-        item {
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("device_name_input"),
-                value = uiState.deviceName,
-                label = { Text("${stringResource(Res.string.device_name)} *") },
-                onValueChange = onDeviceNameChange,
-                singleLine = true,
-                isError = uiState.errorText != null,
-                supportingText = {
-                    if (uiState.errorText != null) {
-                        Text(text = "${stringResource(Res.string.required_field)}*")
-                    }
+        Text(
+            text = stringResource(Res.string.device_name),
+            style = MaterialTheme.typography.bodyLarge
+        )
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("device_name_input"),
+            value = uiState.deviceName,
+            label = { Text("${stringResource(Res.string.device_name)} *") },
+            onValueChange = onDeviceNameChange,
+            singleLine = true,
+            isError = uiState.errorText != null,
+            supportingText = {
+                if (uiState.errorText != null) {
+                    Text(text = "${stringResource(Res.string.required_field)}*")
                 }
-            )
-        }
-        item {
-            SharedSchoolDeviceInfoBox(
-                onClickEnableSharedSchoolDeviceMode = onEnableSharedDeviceMode
-            )
-        }
+            }
+        )
+        SharedSchoolDeviceInfoBox(
+            onClickEnableSharedSchoolDeviceMode = onEnableSharedDeviceMode
+        )
     }
 }
 
