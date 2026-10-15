@@ -76,8 +76,8 @@ fun OpdsFeedDetailScreen(
         onClickConfirmSelection = viewModel::onClickSelectBottomButton,
         onClickSelectPlaylist = viewModel::onClickSelectThisFeed,
         onClickToggleGroup = viewModel::onClickToggleGroup,
-        onClickShare = viewModel::onClickShare,
-        onClickCopy = viewModel::onClickCopy,
+        onClickCopyLink = viewModel::onClickCopyLink,
+        onClickRemix = viewModel::onClickRemix,
         onClickDelete = viewModel::onClickDelete,
         onClickAssignSection = { /* TODO */ },
         onClickAssignQuickActionButton = viewModel::onClickAssignQuickActionButton,
@@ -101,8 +101,8 @@ fun OpdsFeedDetailScreen(
     onClickConfirmSelection: () -> Unit = {},
     onClickSelectPlaylist: () -> Unit = {},
     onClickToggleGroup: (Int) -> Unit = {},
-    onClickShare: () -> Unit = {},
-    onClickCopy: () -> Unit = {},
+    onClickCopyLink: () -> Unit = {},
+    onClickRemix: () -> Unit = {},
     onClickDelete: () -> Unit = {},
     onClickAssignSection: (Int) -> Unit = {},
     onClickAssignQuickActionButton: () -> Unit = {},
@@ -127,17 +127,15 @@ fun OpdsFeedDetailScreen(
             },
         ) {
 
-            /* Disabled for respect-update 1/Oct/26
             item(key = "feed_header") {
                 OpdsFeedDetailHeader(
                     uiState = uiState,
-                    onClickShare = onClickShare,
-                    onClickCopy = onClickCopy,
+                    onClickShare = onClickCopyLink,
+                    onClickRemix = onClickRemix,
                     onClickDelete = onClickDelete,
                     onClickAssign = onClickAssignQuickActionButton,
                 )
             }
-            */
 
             catalog?.navigation?.also { navigation ->
                 itemsIndexed(
@@ -247,8 +245,6 @@ fun OpdsFeedDetailScreen(
             }
         }
     }
-
-
 
     if (uiState.showCopyDialog) {
         CopyFeedDialog(
@@ -389,6 +385,8 @@ fun NavigationListItem(
     isSelected: Boolean = false,
     onClickNavigation: (ReadiumLink) -> Unit,
     onLongPress: () -> Unit,
+    description: String? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
 ) {
     FeedListItem(
         title = navigation.title
@@ -397,13 +395,14 @@ fun NavigationListItem(
         iconUrl = navigation.alternate?.find {
             it.rel?.contains(ICON) == true
         }?.href,
-        description = null,
+        description = description,
         language = navigation.language,
         duration = navigation.duration,
         showCheckbox = showCheckbox,
         isSelected = isSelected,
         onClick = { onClickNavigation(navigation) },
         onLongPress = onLongPress,
+        trailingContent = trailingContent,
     )
 }
 

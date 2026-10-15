@@ -36,7 +36,6 @@ import org.openeel.demo.demolaunchableappserver.DemoLaunchableAppCollectionsRout
 import org.openeel.Greeting
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDirectoryDataSource
-import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.http.server.XapiStatementsResourceRoute
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.libutil.ext.RESPECT_SCHOOL_LINK_SEGMENT
@@ -65,10 +64,11 @@ import org.openeel.server.routes.e2etestartifactsroute.ReceiveE2EArtifactUploadR
 import org.openeel.datalayer.http.server.XapiActivityProfileResourceRoute
 import org.openeel.datalayer.http.server.XapiAgentProfileResourceRoute
 import org.openeel.datalayer.http.server.XapiStateResourceRoute
+import org.openeel.lib.xapi.resources.XapiResource
 import org.openeel.server.routes.username.UsernameSuggestionRoute
 import org.openeel.server.routes.username.checkusernameunique.CheckUsernameUniqueRoute
 import org.openeel.server.util.ext.getSchoolKoinScope
-import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.server.util.ext.virtualHost
 import org.openeel.shared.domain.account.validateauth.ValidateAuthorizationUseCase
 import org.openeel.shared.domain.e2eartifactupload.E2EArtifactUploadUseCase
@@ -274,31 +274,33 @@ fun Application.module() {
 
             route("school") {
                 route("xapi") {
-                    authenticate(AUTH_CONFIG_SCHOOL) {
+                    authenticate(AUTH_CONFIG_SCHOOL, optional = true) {
                         XapiStatementsResourceRoute(
                             json = json,
                             statementResource = { call ->
-                                call.requireAccountScope().get<SchoolDataSource>().xapiResource.statements
+                                call.getUserAccountScope(authOptional = true).get<XapiResource>().statements
                             }
                         )
+
                         route("activities") {
                             XapiActivityProfileResourceRoute(
                                 activityProfileResource = { call ->
-                                    call.requireAccountScope().get<SchoolDataSource>().xapiResource.activityProfile
+                                    call.getUserAccountScope(authOptional = true).get<XapiResource>().activityProfile
                                 }
                             )
 
                             XapiStateResourceRoute(
                                 stateResource = { call ->
-                                    call.requireAccountScope().get<SchoolDataSource>().xapiResource.state
+                                    call.getUserAccountScope(authOptional = true).get<XapiResource>().state
                                 },
                                 json = json,
                             )
                         }
+
                         route("agents") {
                             XapiAgentProfileResourceRoute(
                                 agentProfileResource = { call ->
-                                    call.requireAccountScope().get<SchoolDataSource>().xapiResource.agentProfile
+                                    call.getUserAccountScope(authOptional = true).get<XapiResource>().agentProfile
                                 },
                                 json = json,
                             )
@@ -341,7 +343,7 @@ fun Application.module() {
                         EnrollmentRoute()
                         PersonQrBadgeRoute()
                         AddChildAccountRoute(
-                            addChildAccountUseCase = { it.requireAccountScope().get() }
+                            addChildAccountUseCase = { it.getUserAccountScope().get() }
                         )
                     }
 

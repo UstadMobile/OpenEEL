@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -16,6 +17,7 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
 import org.openeel.datalayer.school.opds.ext.requireSelfUrl
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.dataloadstate.ext.mapAsync
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.OpdsFeedMetadata
 import org.openeel.lib.opds.model.OpdsGroup
@@ -40,6 +42,7 @@ import org.openeel.shared.navigation.RouteResultDest
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.groupType
+import org.openeel.shared.util.ext.isNewFeedOrNewRemix
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
@@ -154,7 +157,22 @@ class OpdsFeedEditViewModel(
                         schoolDataSource.opdsFeedDataSource.getByUrl(
                             url = route.url,
                             params = params,
-                        )
+                        ).let { dataLoadState ->
+                            if(route.isCopy) {
+                                dataLoadState.mapAsync {
+                                    makePlaylistOpdsFeedUseCase(
+                                        base = it,
+                                        username = accountManager.activeAccount?.userGuid ?: ""
+                                    ).copy(
+                                        metadata = it.metadata.copy(
+                                            title = "Remix of ${it.metadata.title}",
+                                        )
+                                    )
+                                }
+                            }else {
+                                dataLoadState
+                            }
+                        }
                     },
                     uiUpdateFn = { state ->
                         _uiState.update { it.copy(feed = state.dataOrNull()) }
@@ -503,15 +521,23 @@ class OpdsFeedEditViewModel(
         }
 
         viewModelScope.launch {
-            saveOpdsFeedUseCase(feed)
+            val actor = accountManager.selectedAccountAndPersonFlow.first()?.xapiAgent
+                ?: throw IllegalStateException("onClickSave: no active account, cannot save")
 
-            _navCommandFlow.tryEmit(
-                NavCommand.Navigate(
-                    destination = OpdsFeedDetail.create(opdsFeedUrl = feed.requireSelfUrl()),
-                    popUpTo = OpdsFeedEdit.create(),
-                    popUpToInclusive = true,
+            saveOpdsFeedUseCase(feed, actor)
+            if(route.isNewFeedOrNewRemix) {
+                _navCommandFlow.tryEmit(
+                    NavCommand.Navigate(
+                        destination = OpdsFeedDetail.create(
+                            opdsFeedUrl = feed.requireSelfUrl(),
+                        ),
+                        popUpTo = route,
+                        popUpToInclusive = true,
+                    )
                 )
-            )
+            }else {
+                _navCommandFlow.tryEmit(NavCommand.PopUp())
+            }
         }
     }
 

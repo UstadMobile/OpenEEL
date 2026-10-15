@@ -20,6 +20,9 @@ BEFORE running tests, modifying, or investigating code - identify the module and
 AGENTS.md file for that module.
 
 ## Repository wide patterns to follow
+* Always use idiomatic Kotlin, not Java-style code written in Kotlin.
+* Favor the use of Kotlin collections functions such `.map`, `.filter` etc instead of manual use of 
+  loops.
 * Use Koin for dependency injection. Dependencies can be:
   * Singletons: one instance for the whole application
   * School scope: one instance that is tied to a particular school/http API enpdoint (e.g. the SQLite 
@@ -48,6 +51,24 @@ ALWAYS: data class Foo(val x: Int)
 ## 4. Sealed Classes
 
 ALWAYS: use when{} as expression, NEVER as statement.
+
+## 5. Idiomatic Kotlin
+
+NEVER: 
+```
+val callParams = call.request.params
+val resourceParams = ResourceClass.Params.fromParameters(call.request.params)
+val queryResult = dataSource.resource.query(params = resourceParams)
+call.respond(queryResult)
+```
+ALWAYS: Use idiomatic Kotlin e.g.
+```
+call.respond(
+    dataSource.resource.query(
+        params = ResourceClass.Params.fromParameters(call.request.params)
+    )
+)
+```
 
 ## Repository Anti-Patterns: - Never Generate these:
 

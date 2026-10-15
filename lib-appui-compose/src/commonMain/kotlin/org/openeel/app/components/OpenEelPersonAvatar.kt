@@ -1,16 +1,10 @@
 package org.openeel.app.components
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.SolidColor
-import org.openeel.app.util.ext.rgbaColor
-import org.openeel.shared.util.avatarColorForName
+import com.ustadmobile.libuicompose.org.openeel.app.components.OpenEelAvatarBox
 import org.openeel.shared.util.initial
 
 @Composable
@@ -19,15 +13,10 @@ fun OpenEelPersonAvatar(
     modifier: Modifier = Modifier.defaultAvatarSize(),
     fontScale: Float = 1.0f,
 ) {
-    Box(
+    OpenEelAvatarBox(
         modifier = modifier,
-        contentAlignment = Alignment.Center
+        name = name,
     ) {
-        val bgColor = avatarColorForName(name).rgbaColor()
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            drawCircle(SolidColor(bgColor))
-        }
-
         Text(
             style = MaterialTheme.typography.titleMedium.copy(
                 color = androidx.compose.ui.graphics.Color.White,
