@@ -181,7 +181,7 @@ private fun SharedDevicesSettingsContent(
                 ) {
                     SettingsOptionRow(
                         title = stringResource(Res.string.student_can_self_select_their_class_name),
-                        checked = uiState.isSelfSelectClassAndName,
+                        checked = uiState.sharedDeviceSettings.canSelectName,
                         onCheckedChange = onToggleSelfSelect
                     )
                 }
@@ -204,7 +204,7 @@ private fun SharedDevicesSettingsContent(
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Text(
-                            text = uiState.pin,
+                            text = uiState.sharedDeviceSettings.pin,
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.testTag("set_pin")
                         )

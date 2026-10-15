@@ -119,8 +119,6 @@ import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.UserAccountSchoolScopeLink
 import org.openeel.shared.domain.account.TokenManager
 import org.openeel.shared.domain.account.child.AddChildAccountUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.SharedDeviceSettingsStore
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
 import org.openeel.shared.domain.account.child.AddChildAccountUseCaseClient
 import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
@@ -172,7 +170,6 @@ import org.openeel.shared.domain.getwarnings.GetWarningsUseCase
 import org.openeel.shared.domain.getwarnings.GetWarningsUseCaseAndroid
 import org.openeel.shared.domain.license.GetLicenseLabelUseCaseAndroid
 import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.UpdateSharedDeviceSettingsUseCase
 import org.openeel.shared.domain.bookmark.AddBookmarkUseCase
 import org.openeel.shared.domain.bookmark.RemoveBookmarkUseCase
 import org.openeel.shared.domain.launchapp.LaunchAppUseCase
@@ -1146,18 +1143,6 @@ val appKoinModule = module {
             )
         }
 
-        scoped<SharedDeviceSettingsStore> {
-            SharedDeviceSettingsStore(
-                schoolDataSource = get(),
-                json = get(),
-            )
-        }
-        scoped<GetSharedDeviceSettingsUseCase> {
-            GetSharedDeviceSettingsUseCase(settingsStore = get())
-        }
-        scoped<UpdateSharedDeviceSettingsUseCase> {
-            UpdateSharedDeviceSettingsUseCase(settingsStore = get())
-        }
         scoped<ApproveOrDeclineInviteRequestUseCase> {
             ApproveOrDeclineInviteRequestUseCase(
                 schoolDataSource = get(),

@@ -3,6 +3,7 @@ package org.openeel.shared.viewmodel.sharedschooldevice
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.russhwolf.settings.Settings
+import kotlinx.serialization.json.Json
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -18,16 +19,24 @@ import org.openeel.datalayer.school.ext.newUserInviteUid
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.datalayer.school.model.SHARED_DEVICE_SETTINGS_ACTIVITY_ID
+import org.openeel.datalayer.school.model.SHARED_DEVICE_SETTINGS_PROFILE_ID
+import org.openeel.datalayer.school.model.SharedDeviceSettings
 import org.openeel.datalayer.shared.paging.EmptyPagingSource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
 import org.openeel.datalayer.shared.params.GetListCommonParams
+import org.openeel.lib.dataloadstate.DataErrorResult
 import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.UpdateSharedDeviceSettingsUseCase
 import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUseCase
+import org.openeel.lib.xapi.ext.getJson
+import org.openeel.lib.xapi.ext.putJson
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.device
@@ -42,6 +51,7 @@ import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsUiState.Companion.CURRENT_DEVICE_GUID
+import kotlin.random.Random
 import kotlin.time.Clock
 
 data class SharedDevicesSettingsUiState(
@@ -52,12 +62,9 @@ data class SharedDevicesSettingsUiState(
         IPagingSourceFactory { EmptyPagingSource() },
     val error: UiText? = null,
     val isPendingExpanded: Boolean = true,
-    val isSelfSelectClassAndName: Boolean = true,
-    val showEnableDialog: Boolean = false,
+    val sharedDeviceSettings: SharedDeviceSettings = SharedDeviceSettings(),
     val showPinDialog: Boolean = false,
-    val pin: String = "",
     val showBottomSheetOptions: Boolean = false,
-    val isLoadingPin: Boolean = true,
     val currentDeviceGuid: String? = null
 ) {
     companion object {
@@ -70,17 +77,14 @@ class SharedDevicesSettingsViewmodel(
     savedStateHandle: SavedStateHandle,
     private val accountManager: AppAccountManager,
     private val snackBarDispatcher: SnackBarDispatcher,
-    private val settings: Settings
+    private val settings: Settings,
+    private val json: Json
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
     private val schoolDataSource: SchoolDataSource by inject()
     private val approveOrDeclineInviteRequestUseCase: ApproveOrDeclineInviteRequestUseCase by inject()
-
-    private val getSharedDeviceSettingsUseCase: GetSharedDeviceSettingsUseCase by inject()
-    private val updateSharedDeviceSettingsUseCase: UpdateSharedDeviceSettingsUseCase by inject()
-
-    private val _uiState = MutableStateFlow(SharedDevicesSettingsUiState(isLoadingPin = true))
+    private val _uiState = MutableStateFlow(SharedDevicesSettingsUiState())
     val uiState = _uiState.asStateFlow()
 
     private val currentDeviceGuid = settings.getStringOrNull(CURRENT_DEVICE_GUID)
@@ -136,12 +140,15 @@ class SharedDevicesSettingsViewmodel(
     }
 
     fun toggleSelfSelect(enabled: Boolean) {
+        val updatedSettings = _uiState.value.sharedDeviceSettings.copy(
+            canSelectName = enabled,
+        )
         _uiState.update { currentState ->
-            currentState.copy(isSelfSelectClassAndName = enabled)
+            currentState.copy(sharedDeviceSettings = updatedSettings)
         }
         viewModelScope.launch {
             try {
-                updateSharedDeviceSettingsUseCase { it.copy(canSelectName = enabled) }
+                putSharedDeviceSettings(updatedSettings)
             } catch (e: Exception) {
                 _uiState.update { currentState ->
                     currentState.copy(error = e.message?.asUiText())
@@ -171,19 +178,40 @@ class SharedDevicesSettingsViewmodel(
     private fun loadSharedDeviceSettings() {
         viewModelScope.launch {
             try {
-                val settings = getSharedDeviceSettingsUseCase()
+                val settings = when (val result = schoolDataSource.xapiResource.activityProfile.getJson(
+                    docParams = XapiActivityProfileResource.SingleDocumentParams(
+                        activityId = SHARED_DEVICE_SETTINGS_ACTIVITY_ID,
+                        profileId = SHARED_DEVICE_SETTINGS_PROFILE_ID,
+                    ),
+                    json = json,
+                    deserializer = SharedDeviceSettings.serializer(),
+                )) {
+                    is DataReadyState -> result.data
+                    is NoDataLoadedState -> when (result.reason) {
+                        NoDataLoadedState.Reason.NOT_FOUND -> SharedDeviceSettings()
+                        NoDataLoadedState.Reason.NOT_MODIFIED ->
+                            throw IllegalStateException("Shared device settings are not available")
+                    }
+                    is DataErrorResult -> throw result.error
+                    is DataLoadingState -> result.partialData
+                        ?: throw IllegalStateException("Shared device settings are still loading")
+                }
+                val settingsWithPin = if (settings.pin.isNotBlank()) {
+                    settings
+                } else {
+                    settings.copy(
+                        pin = Random.nextInt(1000, 10000).toString().padStart(4, '0'),
+                    ).also { putSharedDeviceSettings(it) }
+                }
                 _uiState.update {
                     it.copy(
-                        pin = settings.pin,
-                        isSelfSelectClassAndName = settings.canSelectName,
-                        isLoadingPin = false
+                        sharedDeviceSettings = settingsWithPin
                     )
                 }
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(
-                        error = e.message?.asUiText(),
-                        isLoadingPin = false
+                        error = e.message?.asUiText()
                     )
                 }
             }
@@ -250,12 +278,13 @@ class SharedDevicesSettingsViewmodel(
 
     fun onSavePin(pin: String) {
         if (pin.length == SharedDevicesSettingsUiState.PIN_LENGTH && pin.all { it.isDigit() }) {
+            val updatedSettings = _uiState.value.sharedDeviceSettings.copy(pin = pin)
             _uiState.update {
-                it.copy(pin = pin)
+                it.copy(sharedDeviceSettings = updatedSettings)
             }
             viewModelScope.launch {
                 try {
-                    updateSharedDeviceSettingsUseCase { it.copy(pin = pin) }
+                    putSharedDeviceSettings(updatedSettings)
                 } catch (e: Exception) {
                     _uiState.update {
                         it.copy(
@@ -310,5 +339,17 @@ class SharedDevicesSettingsViewmodel(
                 )
             )
         }
+    }
+
+    private suspend fun putSharedDeviceSettings(settings: SharedDeviceSettings) {
+        schoolDataSource.xapiResource.activityProfile.putJson(
+            docParams = XapiActivityProfileResource.SingleDocumentParams(
+                activityId = SHARED_DEVICE_SETTINGS_ACTIVITY_ID,
+                profileId = SHARED_DEVICE_SETTINGS_PROFILE_ID,
+            ),
+            document = settings,
+            json = json,
+            serializer = SharedDeviceSettings.serializer(),
+        )
     }
 }

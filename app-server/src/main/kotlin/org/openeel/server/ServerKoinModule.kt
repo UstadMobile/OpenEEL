@@ -19,16 +19,16 @@ import org.koin.core.scope.Scope
 import org.koin.dsl.module
 import org.openeel.credentials.passkey.request.DecodeUserHandleUseCase
 import org.openeel.credentials.passkey.request.GetPasskeyProviderInfoUseCase
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
-import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.SchoolDirectoryDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_SERVER
-import org.openeel.datalayer.db.SchoolDataSourceDb
-import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDirectoryDataSourceDb
 import org.openeel.datalayer.db.SchoolDirectoryDatabase
+import org.openeel.datalayer.db.SchoolDatabase
+import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.addCommonMigrations
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
@@ -46,6 +46,7 @@ import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import org.openeel.server.account.invite.GetInviteInfoUseCaseServer
 import org.openeel.server.account.invite.username.UsernameSuggestionUseCaseServer
 import org.openeel.server.account.invite.username.checkusernameunique.CheckUsernameUniqueUseCaseServer
+import org.openeel.shared.domain.account.passkey.VerifySignInWithPasskeyUseCase
 import org.openeel.server.domain.school.add.AddSchoolUseCase
 import org.openeel.server.domain.school.add.AddServerManagedDirectoryCallback
 import org.openeel.server.domain.school.add.RegisterSchoolUseCaseImpl
@@ -53,8 +54,8 @@ import org.openeel.server.domain.school.demoapp.DemoStringMaps
 import org.openeel.server.domain.school.demoapp.MakeDemoAppCollectionUseCase
 import org.openeel.server.domain.school.demoapp.MakeDemoAppGradeCollectionsUseCase
 import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitManifestUseCase
-import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitTinCanXmlUseCase
 import org.openeel.server.domain.school.demoapp.MakeDemoAppManifestUseCase
+import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitTinCanXmlUseCase
 import org.openeel.server.domain.school.verify.VerifySchoolUrlPointsToThisServerUseCase
 import org.openeel.server.util.SchoolUrlVerificationManager
 import org.openeel.shared.domain.account.UserAccount
@@ -70,18 +71,15 @@ import org.openeel.shared.domain.account.invite.GetInviteInfoUseCase
 import org.openeel.shared.domain.account.invite.RedeemInviteUseCase
 import org.openeel.shared.domain.account.invite.RedeemInviteUseCaseDb
 import org.openeel.shared.domain.account.passkey.DecodeUserHandleUseCaseImpl
+import org.openeel.shared.domain.account.passkey.GetPasskeyProviderInfoUseCaseImpl
 import org.openeel.shared.domain.account.passkey.GetActivePersonPasskeysDbImpl
 import org.openeel.shared.domain.account.passkey.GetActivePersonPasskeysUseCase
-import org.openeel.shared.domain.account.passkey.GetPasskeyProviderInfoUseCaseImpl
 import org.openeel.shared.domain.account.passkey.LoadAaguidJsonUseCase
 import org.openeel.shared.domain.account.passkey.LoadAaguidJsonUseCaseJvm
 import org.openeel.shared.domain.account.passkey.RevokePasskeyUseCase
 import org.openeel.shared.domain.account.passkey.RevokePersonPasskeyUseCaseDbImpl
-import org.openeel.shared.domain.account.passkey.VerifySignInWithPasskeyUseCase
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCaseImpl
-import org.openeel.shared.domain.account.sharedschooldevice.GetSharedDeviceSettingsUseCase
-import org.openeel.shared.domain.account.sharedschooldevice.SharedDeviceSettingsStore
 import org.openeel.shared.domain.account.username.UsernameSuggestionUseCase
 import org.openeel.shared.domain.account.username.checkusernameunique.CheckUsernameUniqueUseCase
 import org.openeel.shared.domain.account.username.filterusername.FilterUsernameUseCase
@@ -93,8 +91,8 @@ import org.openeel.shared.domain.navigation.deeplink.UrlToCustomDeepLinkUseCase
 import org.openeel.shared.domain.school.SchoolPath
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.domain.school.add.RegisterSchoolUseCase
-import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.di.UserAccountScopeId
+import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.sharedse.domain.account.authenticatepassword.AuthenticatePasswordUseCaseDbImpl
 import org.openeel.sharedse.domain.account.authenticatepassword.AuthenticateQrBadgeUseCaseDbImpl
 import java.io.File
@@ -483,14 +481,7 @@ fun serverKoinModule(
             )
         }
 
-        factory<SharedDeviceSettingsStore> {
-            SharedDeviceSettingsStore(
-                schoolDataSource = get(),
-                json = get(),
-            )
-        }
-        factory<GetSharedDeviceSettingsUseCase> {
-            GetSharedDeviceSettingsUseCase(settingsStore = get())
-        }
     }
+
+
 }
