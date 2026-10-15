@@ -29,7 +29,7 @@ class XapiStatementResourcePermissionManager(
         listParams: XapiStatementsResource.GetStatementParams,
         dataLoadParams: DataLoadParams
     ): DataLoadState<XapiStatementResult> {
-        return get(
+        return resource.get(
             listParams = policy.transformReadParams(listParams),
             dataLoadParams = dataLoadParams,
         )

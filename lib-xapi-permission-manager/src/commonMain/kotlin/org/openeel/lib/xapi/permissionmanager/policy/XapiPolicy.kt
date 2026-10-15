@@ -18,9 +18,8 @@ typealias XapiAgentProfileResourcePolicy = XapiDocumentResourcePolicy<
 >
 
 /**
- * The XapiPolicy has properties for the [XapiStatementsResourcePolicy] and policies for the
- * document resources.
- *
+ * An XapiPolicy has properties for the [XapiStatementsResourcePolicy] and an
+ * [XapiDocumentResourcePolicy] for each of the document profile resources.
  */
 interface XapiPolicy {
 
