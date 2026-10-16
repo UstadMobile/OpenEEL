@@ -331,17 +331,16 @@ onFlowComplete:
 - tapOn: "Apps"
 - tapOn: "Example Web App"
 - tapOn: "Examples"
-#- tapOn: "Copy link"
-- copyTextFrom:
-    id: "share_btn"
+- tapOn: "Copy link"
+
 
 #copy link opens a clipboard pop-up, to remove that we use stop the app and launch it again
-#- stopApp
-#- launchApp
+- stopApp
+- launchApp
 
-#- assertVisible:
-#    id: "app_title"
- #   text: "Home"
+- assertVisible:
+    id: "app_title"
+    text: "Home"
 - tapOn:
     id: "nav_home"
 - tapOn: "Collections"
