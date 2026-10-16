@@ -161,6 +161,9 @@ import org.openeel.shared.domain.school.LaunchCustomTabUseCaseAndroid
 import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCaseAndroid
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_CLIENT
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
+import org.openeel.shared.domain.account.authwithopenid.GetTokenAndUserProfileWithOpenIdUseCase
+import org.openeel.shared.domain.account.authwithopenid.OpenIdAuthorizationUseCase
+import org.openeel.OpenIdAuthorizationUseCaseAndroid
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCaseAndroid
 import org.openeel.shared.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCase
@@ -847,6 +850,29 @@ val appKoinModule = module {
 
     single<EnqueueActivityContextJobUseCase> {
         EnqueueActivityContextJobUseCase()
+    }
+
+    single {
+        OpenIdAuthorizationUseCaseAndroid(
+            enqueueActivityContextJobUseCase = get(),
+        )
+    }
+
+    single<OpenIdAuthorizationUseCase> {
+        get<OpenIdAuthorizationUseCaseAndroid>()
+    }
+
+    single {
+        GetTokenAndUserProfileWithOpenIdUseCase(
+            httpClient = get(),
+        )
+    }
+
+    single {
+        HandleOpenIdAuthorizationResultUseCaseAndroid(
+            context = androidContext().applicationContext,
+            getTokenAndUserProfileWithOpenIdUseCase = get(),
+        )
     }
 
     single<GoToAppStoreUseCase> {

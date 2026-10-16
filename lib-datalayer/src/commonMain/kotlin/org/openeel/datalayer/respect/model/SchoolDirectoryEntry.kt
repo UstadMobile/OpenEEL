@@ -27,12 +27,8 @@ data class SchoolDirectoryEntry(
     val respectExt: Url?,
     val rpId : String?,
     val inDirectoryUrl: Url? = null,
-    val authenticationOptions: List<AuthenticationOption> = listOf(
-        AuthenticationOption(
-            name = "Builtin-Default",
-            provider = BuiltinAuthOptionConfig(),
-        )
-    ),
+    val authenticationOptions: List<AuthenticationOption> =
+        AuthenticationOption.BUILTIN_DEFAULT_OPTIONS,
     override val lastModified: InstantAsISO8601,
     override val stored: InstantAsISO8601,
 ): ModelWithTimes

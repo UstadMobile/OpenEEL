@@ -19,6 +19,36 @@
 # VERSION is set in ci-run-e2e-tests.sh
 echo "ci-run-test-server.sh: Workspace = $TESTSERVER_WORKSPACE Port=$TESTSERVER_PORT"
 
+# start keycloak server and adding realm
+if [ -n "${KEYCLOAK_ADMIN_PASSWORD:-}" ]; then
+    kc_name=${KEYCLOAK_CONTAINER_NAME:-openeel-keycloak}
+    kc_port=${KEYCLOAK_PORT:-8080}
+    kc_host=${KEYCLOAK_HOST:-$(hostname -I | awk '{print $1}')}
+    kc_url=${KEYCLOAK_URL:-http://${kc_host:-127.0.0.1}:$kc_port}
+    export KEYCLOAK_URL="$kc_url"
+    kc_admin=${KEYCLOAK_ADMIN_USERNAME:-admin}
+
+    if docker inspect "$kc_name" >/dev/null 2>&1; then
+        [ "$(docker inspect -f '{{.State.Running}}' "$kc_name")" = "true" ] || docker start "$kc_name" >/dev/null || exit 1
+    else
+        export KC_BOOTSTRAP_ADMIN_PASSWORD="$KEYCLOAK_ADMIN_PASSWORD"
+        docker run -d --name "$kc_name" -p "0.0.0.0:$kc_port:8080" \
+            -e "KC_BOOTSTRAP_ADMIN_USERNAME=$kc_admin" -e KC_BOOTSTRAP_ADMIN_PASSWORD \
+            -v openeel-keycloak-data:/opt/keycloak/data \
+            quay.io/keycloak/keycloak:26.8.0 start-dev --hostname="$kc_url" >/dev/null || exit 1
+        unset KC_BOOTSTRAP_ADMIN_PASSWORD
+    fi
+
+    for _ in {1..60}; do curl -fsS "$kc_url/realms/master" >/dev/null && break; sleep 2; done
+    curl -fsS "$kc_url/realms/master" >/dev/null || { echo "Keycloak did not start at $kc_url" >&2; exit 1; }
+    docker exec "$kc_name" /opt/keycloak/bin/kcadm.sh config credentials \
+        --server http://localhost:8080 --realm master --user "$kc_admin" \
+        --password "$KEYCLOAK_ADMIN_PASSWORD" || exit 1
+    docker exec "$kc_name" /opt/keycloak/bin/kcadm.sh get realms/openeel >/dev/null 2>&1 || \
+        docker exec "$kc_name" /opt/keycloak/bin/kcadm.sh create realms \
+            -s realm=openeel -s 'displayName=Open Eel' -s enabled=true || exit 1
+fi
+
 ROOTDIR=$(realpath $(dirname $BASH_SOURCE))
 
 echo $ROOTDIR

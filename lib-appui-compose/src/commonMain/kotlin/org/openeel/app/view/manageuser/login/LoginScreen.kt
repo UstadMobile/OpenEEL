@@ -28,8 +28,11 @@ import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.defaultScreenPadding
 import org.openeel.app.components.rememberCountryFlagEmoji
 import org.openeel.app.components.uiTextStringResource
+import org.openeel.datalayer.respect.model.AuthenticationOption
+import org.openeel.datalayer.respect.model.OpenIdAuthOptionConfig
 import org.openeel.shared.domain.account.username.validateusername.ValidateUsernameUseCase
 import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.continue_with_openid
 import org.openeel.shared.generated.resources.i_have_an_invite_code
 import org.openeel.shared.generated.resources.login
 import org.openeel.shared.generated.resources.password_label
@@ -55,6 +58,7 @@ fun LoginScreen(
         onPasswordChanged = viewModel::onPasswordChanged,
         onClickLogin = viewModel::onClickLogin,
         onClickInviteCode = viewModel::onClickInviteCode,
+        onClickOpenId = viewModel::onClickOpenId,
     )
 }
 
@@ -65,7 +69,8 @@ fun LoginScreen(
     onUsernameChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     onClickLogin: () -> Unit,
-    onClickInviteCode: () -> Unit = {}
+    onClickInviteCode: () -> Unit = {},
+    onClickOpenId: (AuthenticationOption) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -122,6 +127,23 @@ fun LoginScreen(
         ) {
             Text(text = stringResource(Res.string.i_have_an_invite_code))
         }
+
+        uiState.authenticationOptions
+            .filter { it.provider is OpenIdAuthOptionConfig }
+            .forEach { option ->
+                OutlinedButton(
+                    onClick = { onClickOpenId(option) },
+                    modifier = Modifier.fillMaxWidth().defaultItemPadding(),
+                    enabled = !appUiState.isLoading,
+                ) {
+                    Text(
+                        text = stringResource(
+                            Res.string.continue_with_openid,
+                            option.name,
+                        )
+                    )
+                }
+            }
 
         uiState.errorText?.also {
             Text(

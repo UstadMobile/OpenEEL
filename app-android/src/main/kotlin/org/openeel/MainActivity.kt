@@ -1,10 +1,13 @@
 package org.openeel
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import io.github.aakira.napier.Napier
 import io.ktor.http.Url
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import org.koin.android.scope.AndroidScopeComponent
@@ -17,10 +20,15 @@ import org.openeel.credentials.passkey.GetCredentialUseCaseAndroidImpl
 import org.openeel.credentials.passkey.GetCredentialUseCaseProcessor
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.respect.model.SchoolDirectory
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.activitycontextjobprocessor.ActivityContextJobProcessor
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.biometric.BiometricAuthProcessor
 import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
+import org.openeel.shared.navigation.Home
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.view.app.AbstractAppActivity
 
 class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
@@ -98,6 +106,50 @@ class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
                         baseUrl = Url(directoryUrl)
                     ),
                     clearOthers = true,
+                )
+            }
+        }
+
+        handleOpenIdAuthorizationResult(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleOpenIdAuthorizationResult(intent)
+    }
+
+    private fun handleOpenIdAuthorizationResult(intent: Intent) {
+        lifecycleScope.launch {
+            try {
+                val callbackResult = getKoin()
+                    .get<HandleOpenIdAuthorizationResultUseCaseAndroid>()(intent = intent)
+                if (callbackResult is HandleOpenIdAuthorizationResultUseCaseAndroid.Result.Authenticated) {
+                    val accountManager = getKoin().get<AppAccountManager>()
+                    accountManager.startSession(
+                        authResponse = callbackResult.authResponse,
+                        schoolUrl = callbackResult.schoolUrl,
+                    )
+
+                    sendNavigationCommand(
+                        NavCommand.Navigate(
+                            destination = if (
+                                callbackResult.authResponse.person.status ==
+                                PersonStatusEnum.PENDING_APPROVAL
+                            ) {
+                                WaitingForApproval()
+                            } else {
+                                Home
+                            },
+                            clearBackStack = true,
+                        )
+                    )
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (exception: Exception) {
+                Napier.e(
+                    message = "Unable to complete OpenID sign-in",
+                    throwable = exception,
                 )
             }
         }
