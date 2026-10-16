@@ -19,6 +19,7 @@
 # VERSION is set in ci-run-e2e-tests.sh
 echo "ci-run-test-server.sh: Workspace = $TESTSERVER_WORKSPACE Port=$TESTSERVER_PORT"
 
+# start keycloak server and adding realm
 if [ -n "${KEYCLOAK_ADMIN_PASSWORD:-}" ]; then
     kc_name=${KEYCLOAK_CONTAINER_NAME:-openeel-keycloak}
     kc_port=${KEYCLOAK_PORT:-8080}
