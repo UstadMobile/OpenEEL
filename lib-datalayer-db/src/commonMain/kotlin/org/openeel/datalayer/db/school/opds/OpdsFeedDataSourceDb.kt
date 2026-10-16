@@ -25,10 +25,11 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
-import org.openeel.lib.dataloadstate.ext.requestEtagAndLastModified
 import org.openeel.lib.dataloadstate.ext.isStillValid
+import org.openeel.lib.dataloadstate.ext.requestEtagAndLastModified
 import org.openeel.lib.dataloadstate.ext.toResponseHeaders
 import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.ext.OpdsFeedSearchMatch
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 import kotlin.time.Clock
 
@@ -40,6 +41,16 @@ class OpdsFeedDataSourceDb(
     private val json: Json,
     private val primaryKeyGenerator: PrimaryKeyGenerator,
 ) : OpdsFeedDataSourceLocal{
+
+    override fun searchByTitleAsFlow(
+        url: Url,
+        listParams: OpdsFeedDataSourceLocal.GetListParams,
+    ): Flow<List<OpdsFeedSearchMatch>> {
+        return schoolDb.getOpdsFeedEntityDao().searchByTitleAsFlow(
+            feedUid = uidNumberMapper(url.toString()),
+            titlePattern = "${listParams.title}%",
+        )
+    }
 
     private suspend fun OpdsFeedEntity?.toDataLoadState(
         url: Url,

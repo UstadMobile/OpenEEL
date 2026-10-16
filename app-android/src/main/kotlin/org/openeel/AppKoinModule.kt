@@ -156,6 +156,7 @@ import org.openeel.shared.domain.geolookup.GetCountryForUrlUseCase
 import org.openeel.shared.domain.geolookup.GetCountryForUrlUseCaseImpl
 import org.openeel.shared.domain.createlink.CreateInviteLinkUseCase
 import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
+import org.openeel.shared.domain.search.ObserveSearchResultsUseCase
 import org.openeel.shared.domain.devmode.SetDevModeEnabledUseCase
 import org.openeel.shared.domain.school.LaunchCustomTabUseCaseAndroid
 import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCaseAndroid
@@ -737,6 +738,10 @@ val appKoinModule = module {
 
     single<SnackBarDispatcher> {
         get<SnackBarFlowDispatcher>()
+    }
+
+    single<ObserveSearchResultsUseCase> {
+        ObserveSearchResultsUseCase(snackBarDispatcher = get())
     }
 
     single<ResolveUrlToNavCommandUseCase> {

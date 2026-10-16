@@ -72,6 +72,46 @@ abstract class OpenEelViewModel(
 
 
     /**
+     * Show/hide the appbar search input.
+     */
+    protected fun setSearchExpanded(expanded: Boolean) {
+        _appUiState.update {
+            it.copy(searchState = it.searchState.copy(expanded = expanded))
+        }
+
+        if (!expanded)
+            onSearchCollapsed()
+    }
+
+    /**
+     * Called when the appbar search is closed. Override to clear anything that is only visible
+     * with search (e.g. content filters), as the search text itself is cleared.
+     */
+    protected open fun onSearchCollapsed() {
+
+    }
+
+    /**
+     * Update the appbar search text when it has actually changed.
+     *
+     * @param searchQuery the query entered by the user.
+     * @param onClearPreviousResults called before the new query is applied so the screen can clear
+     *        results of the previous query.
+     */
+    protected fun updateSearchText(
+        searchQuery: String,
+        onClearPreviousResults: (String) -> Unit,
+    ) {
+        if(searchQuery == _appUiState.value.searchState.searchText)
+            return
+
+        onClearPreviousResults(searchQuery)
+        _appUiState.update {
+            it.copy(searchState = it.searchState.copy(searchText = searchQuery))
+        }
+    }
+
+    /**
      * Used to 'return' a result to a previous screen in the stack.
      *
      * E.g. the user is on EditScreen, then navigates to EditOptionScreen to change options, and

@@ -3,12 +3,34 @@ package org.openeel.datalayer.db.school.opds.daos
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.db.school.opds.entities.OpdsPublicationEntity
 import org.openeel.datalayer.db.shared.LastModifiedAndETagDb
+import org.openeel.datalayer.db.shared.entities.LangMapEntity
 
 @Dao
 abstract class OpdsPublicationEntityDao {
+
+    @Query("""
+        SELECT DISTINCT p.opeUrl
+          FROM OpdsPublicationEntity AS p
+         WHERE p.opeOfeUid = 0
+           AND p.opeUrl IS NOT NULL
+           AND EXISTS (
+               SELECT 1
+                 FROM LangMapEntity AS t
+                WHERE t.lmeTopParentUid1 = p.opeUid
+                  AND t.lmeTopParentType = :titleParentType
+                  AND t.lmePropType = :titlePropType
+                  AND INSTR(LOWER(t.lmeValue), LOWER(:title)) > 0
+           )
+    """)
+    abstract fun searchByTitleAsFlow(
+        title: String,
+        titleParentType: LangMapEntity.TopParentType = LangMapEntity.TopParentType.OPDS_PUBLICATION,
+        titlePropType: LangMapEntity.PropType = LangMapEntity.PropType.OPDS_PUB_TITLE,
+    ): Flow<List<Url>>
 
     @Query("""
         SELECT OpdsPublicationEntity.*

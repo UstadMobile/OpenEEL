@@ -4,51 +4,63 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import io.github.aakira.napier.Napier
+import io.ktor.http.Url
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
+import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.SchoolDataSourceLocal
+import org.openeel.datalayer.db.school.ext.isAdmin
+import org.openeel.datalayer.school.opds.OpdsPublicationDataSourceLocal
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
-import org.openeel.datalayer.SchoolDataSource
-import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
-import org.openeel.shared.generated.resources.Res
-import org.openeel.shared.generated.resources.app
-import org.openeel.shared.generated.resources.home
-import org.openeel.shared.generated.resources.empty_list_description_admin
-import org.openeel.shared.generated.resources.empty_list_description_non_admin
-import org.openeel.shared.navigation.AppsDetail
-import org.openeel.shared.navigation.OpdsFeedDetail
-import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.Settings
-import org.openeel.shared.navigation.OpenEelAppLauncher
-import org.openeel.shared.navigation.OpenEelAppList
-import org.openeel.shared.resources.UiText
-import org.openeel.shared.util.ext.asUiText
-import org.openeel.datalayer.db.school.ext.isAdmin
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.findCollection
 import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.lib.xapi.ext.mostRecentByTimestampOrNull
+import org.openeel.lib.xapi.ext.objectActivityOrNull
+import org.openeel.lib.xapi.ext.webPubManifestAsUrlOrNull
 import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.lib.xapi.model.XapiStatementRef
+import org.openeel.lib.xapi.model.XapiStatementResult
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.libutil.ext.resolve
+import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
 import org.openeel.shared.domain.geticonforxapiactivity.GetPublicationForXapiActivityUseCase
+import org.openeel.shared.domain.search.ObserveSearchResultsUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.app
+import org.openeel.shared.generated.resources.empty_list_description_admin
+import org.openeel.shared.generated.resources.empty_list_description_non_admin
+import org.openeel.shared.generated.resources.home
+import org.openeel.shared.navigation.AppsDetail
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.OpdsFeedDetail
+import org.openeel.shared.navigation.OpenEelAppLauncher
+import org.openeel.shared.navigation.OpenEelAppList
+import org.openeel.shared.navigation.Settings
+import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.appbarTitleString
+import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
+import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 
 data class AppLauncherUiState(
@@ -59,6 +71,7 @@ data class AppLauncherUiState(
     val canRemove: Boolean = false,
     val emptyListDescription: UiText? = null,
     val appMustLoadToBeClickable: Boolean = false,
+    val searchActive: Boolean = false,
 ) {
 
     fun isAppClickable(appState: DataLoadState<Publication>): Boolean {
@@ -71,6 +84,7 @@ class AppLauncherViewModel(
     savedStateHandle: SavedStateHandle,
     private val accountManager: AppAccountManager,
     private val getDevModeEnabledUseCase: GetDevModeEnabledUseCase,
+    private val observeSearchResultsUseCase: ObserveSearchResultsUseCase,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
@@ -82,6 +96,7 @@ class AppLauncherViewModel(
     private val route: OpenEelAppLauncher = savedStateHandle.toRoute()
 
     private val schoolDataSource: SchoolDataSource by inject()
+    private val schoolDataSourceLocal: SchoolDataSourceLocal by inject()
 
     private val getPublicationForXapiActivityUseCase: GetPublicationForXapiActivityUseCase by inject()
 
@@ -90,6 +105,11 @@ class AppLauncherViewModel(
             it.copy(
                 title = route.opdsPickType?.appbarTitleString?.asUiText() ?: Res.string.home.asUiText(),
                 onClickSettings = ::onClickSettings,
+                searchState = AppBarSearchUiState(
+                    visible = true,
+                    onSearchTextChanged = ::onSearchTextChanged,
+                    onSearchExpandedChanged = ::setSearchExpanded,
+                ),
                 fabState = FabUiState(
                     icon = FabUiState.FabIcon.ADD,
                     text = Res.string.app.asUiText(),
@@ -108,7 +128,6 @@ class AppLauncherViewModel(
 
         _uiState.update { prev ->
             prev.copy(
-                respectPublicationForXapiStatement = getPublicationForXapiActivityUseCase::invoke,
                 appMustLoadToBeClickable = route.resultDest != null,
             )
         }
@@ -122,7 +141,33 @@ class AppLauncherViewModel(
                 ),
                 dataLoadParams = DataLoadParams(),
             ).collectLatest { state ->
-                _uiState.update { it.copy(apps = state.map { result -> result.statements }) }
+                coroutineScope {
+                    // Load every listed app so search also finds titles outside the visible grid.
+                    val publicationFlows = state.dataOrNull()?.statements.orEmpty().associateWith {
+                        getPublicationForXapiActivityUseCase(it).shareIn(
+                            scope = this,
+                            started = SharingStarted.Eagerly,
+                            replay = 1,
+                        )
+                    }
+                    _uiState.update {
+                        it.copy(
+                            apps = state.map { emptyList() },
+                            respectPublicationForXapiStatement = publicationFlows::getValue,
+                        )
+                    }
+
+                    observeSearchResultsUseCase(
+                        appUiStateFlow = appUiState,
+                        searchFn = { searchQuery ->
+                            schoolDataSourceLocal.opdsPublicationDataSource.searchByTitleAsFlow(
+                                OpdsPublicationDataSourceLocal.GetListParams(title = searchQuery),
+                            ).map { it.toSet() }
+                        },
+                    ).collect { matchingUrls ->
+                        updateVisibleApps(state, matchingUrls)
+                    }
+                }
             }
         }
 
@@ -151,6 +196,38 @@ class AppLauncherViewModel(
         }
     }
 
+    /**
+     * Show only the apps that match the search.
+     *
+     * @param matchingUrls manifest urls matching the search, or null if there is no active search
+     */
+    private fun updateVisibleApps(
+        statementsState: DataLoadState<XapiStatementResult>,
+        matchingUrls: Set<Url>?,
+    ) {
+        _uiState.update {
+            it.copy(
+                apps = statementsState.map { result ->
+                    result.statements.filter { statement ->
+                        matchingUrls == null ||
+                            statement.objectActivityOrNull()?.definition
+                                ?.webPubManifestAsUrlOrNull() in matchingUrls
+                    }
+                },
+            )
+        }
+    }
+
+    fun onSearchTextChanged(searchQuery: String) {
+        updateSearchText(searchQuery) { query ->
+            _uiState.update {
+                it.copy(
+                    apps = it.apps.map { emptyList() },
+                    searchActive = query.isNotEmpty(),
+                )
+            }
+        }
+    }
 
     fun onClickApp(app: DataLoadState<Publication>) {
         val url = app.metaInfo.url ?: return
