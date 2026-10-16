@@ -332,6 +332,10 @@ onFlowComplete:
 - tapOn: "Example Web App"
 - tapOn: "Examples"
 - tapOn: "Copy link"
+- extendedWaitUntil:
+    visible:
+      id: "nav_home"
+    timeout: 10000
 - tapOn:
     id: "nav_home"
 - tapOn: "Collections"
