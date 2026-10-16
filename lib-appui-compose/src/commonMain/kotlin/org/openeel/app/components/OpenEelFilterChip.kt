@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import org.openeel.app.util.ext.testTagsAsResourceId
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.clear
 import org.openeel.shared.generated.resources.close
@@ -113,6 +114,9 @@ fun <T> OpenEelFilterChip(
 
         ModalBottomSheet(
             onDismissRequest = dismissSheet,
+            // The sheet is shown in its own window, so it does not inherit testTagsAsResourceId
+            // from the activity root; set it here so Maestro can find elements by id.
+            modifier = Modifier.testTagsAsResourceId(),
         ) {
             Row(
                 modifier = Modifier
