@@ -39,14 +39,6 @@ if [ -n "${KEYCLOAK_ADMIN_PASSWORD:-}" ]; then
         unset KC_BOOTSTRAP_ADMIN_PASSWORD
     fi
 
-    for _ in {1..60}; do curl -fsS "$kc_url/realms/master" >/dev/null && break; sleep 2; done
-    curl -fsS "$kc_url/realms/master" >/dev/null || { echo "Keycloak did not start at $kc_url" >&2; exit 1; }
-    docker exec "$kc_name" /opt/keycloak/bin/kcadm.sh config credentials \
-        --server http://localhost:8080 --realm master --user "$kc_admin" \
-        --password "$KEYCLOAK_ADMIN_PASSWORD" || exit 1
-    docker exec "$kc_name" /opt/keycloak/bin/kcadm.sh get realms/openeel >/dev/null 2>&1 || \
-        docker exec "$kc_name" /opt/keycloak/bin/kcadm.sh create realms \
-            -s realm=openeel -s 'displayName=Open Eel' -s enabled=true || exit 1
 fi
 
 ROOTDIR=$(realpath $(dirname $BASH_SOURCE))
