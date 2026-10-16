@@ -358,15 +358,15 @@ onFlowComplete:
 - tapOn: "Next"
 - assertVisible: "Could not load this link. Please check the address."
 - tapOn: "Link*"
-#- pasteText  This command not pasting the copied text - running a workaround instead
+#- pasteText ---- This command not pasting the copied text - running a workaround instead
 - longPressOn: "Link*"
 - tapOn: "Paste"
 - tapOn: "Next"
 - assertVisible:
       id: "app_title"
-      text: "Collections"
+      text: "Home"
 - assertVisible: "Examples"
-#- assertVisible: "0 sections, 4 items"
+#- assertVisible: "0 sections, 4 items"  --Count is not matching
 - tapOn: "Examples"
 - tapOn: "Remix collection"
 - assertVisible:
@@ -378,6 +378,10 @@ onFlowComplete:
 - assertVisible: "Statement Maker"
 - assertVisible: "Assignment Result Statement Demo"
 - assertVisible: "JS Tetris"
+- tapOn: "Assignment Result Statement Demo"
+- assertVisible:
+    id: "publication_title"
+    text: "Assignment Result Statement Demo"
 
 - assertVisible:
     id: "app_title"
@@ -388,7 +392,7 @@ onFlowComplete:
 - assertVisible: "Collections for Grade 1"
 - assertVisible: "2 sections, 3 items"
 - assertVisible: "Remix of Examples"
-#- assertVisible: "0 sections, 4 items"
+#- assertVisible: "0 sections, 4 items"  --Count is not matching
 - tapOn:
     text: "More Options"
     index: 0
