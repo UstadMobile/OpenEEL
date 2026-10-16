@@ -126,7 +126,11 @@ fun AppLauncherScreen(
 
                 items(
                     count = apps.size,
-                    key = { index -> apps[index].objectActivityOrNull()?.id ?: index.toString() }
+                    // Use the statement id: the same app (activity id) can be added more than once.
+                    key = { index ->
+                        apps[index].id?.toString()
+                            ?: "${index}_${apps[index].objectActivityOrNull()?.id}"
+                    }
                 ) { index ->
                     val statement = apps[index]
                     val respectAppFlow = remember(statement, uiState.respectPublicationForXapiStatement) {

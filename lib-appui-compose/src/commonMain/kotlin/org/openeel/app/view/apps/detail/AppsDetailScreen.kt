@@ -262,8 +262,8 @@ fun AppsDetailScreen(
         ) {
             itemsIndexed(
                 items = uiState.navigation,
-                key = { _, navigation ->
-                    navigation.href
+                key = { index, navigation ->
+                    "nav_${index}_${navigation.href}"
                 }
             ) { _, navigation ->
                 NavigationList(
@@ -276,8 +276,8 @@ fun AppsDetailScreen(
 
             itemsIndexed(
                 items = uiState.publications,
-                key = { _, publication ->
-                    publication.metadata.identifier.toString()
+                key = { index, publication ->
+                    "pub_${index}_${publication.metadata.identifier}"
                 }
             ) { _, publication ->
                 PublicationList(
@@ -288,11 +288,11 @@ fun AppsDetailScreen(
                 )
             }
 
-            uiState.group.forEach { _ ->
+            uiState.group.forEachIndexed { groupIndex, group ->
                 itemsIndexed(
-                    items = uiState.navigation,
-                    key = { _, navigation ->
-                        navigation.href
+                    items = group.navigation ?: emptyList(),
+                    key = { index, navigation ->
+                        "group_${groupIndex}_nav_${index}_${navigation.href}"
                     }
                 ) { _, navigation ->
                     NavigationList(
@@ -304,9 +304,9 @@ fun AppsDetailScreen(
                 }
 
                 itemsIndexed(
-                    items = uiState.publications,
-                    key = { _, publication ->
-                        publication.metadata.identifier.toString()
+                    items = group.publications ?: emptyList(),
+                    key = { index, publication ->
+                        "group_${groupIndex}_pub_${index}_${publication.metadata.identifier}"
                     }
                 ) { _, publication ->
                     PublicationList(

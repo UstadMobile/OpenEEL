@@ -72,8 +72,9 @@ fun AppListScreen(
         }
         itemsIndexed(
             items = appPublications,
+            // The catalog may list the same app (identifier) more than once, so include the index.
             key = { index, app ->
-                app.metadata.identifier?.toString() ?: index
+                "${index}_${app.metadata.identifier}"
             }
         ) { index, app ->
             ListItem(
