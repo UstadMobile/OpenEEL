@@ -114,14 +114,12 @@ fun <T> OpenEelFilterChip(
 
         ModalBottomSheet(
             onDismissRequest = dismissSheet,
-            // The sheet is shown in its own window, so it does not inherit testTagsAsResourceId
-            // from the activity root; set it here so Maestro can find elements by id.
             modifier = Modifier.testTagsAsResourceId(),
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
+                    .defaultItemPadding(end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
@@ -149,7 +147,7 @@ fun <T> OpenEelFilterChip(
                     onValueChange = { searchQuery = it },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .defaultItemPadding()
                         .testTag("filter_search_field"),
                     singleLine = true,
                     placeholder = {

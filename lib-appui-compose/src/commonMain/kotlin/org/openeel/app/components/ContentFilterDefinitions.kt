@@ -20,10 +20,7 @@ import org.openeel.shared.generated.resources.type
  * GetLanguageEndonymUseCase (as per AppDetail and PublicationDetail).
  * Subject: options from publication metadata.subject.
  * Type: hardcoded options (see [ContentFilterType]); always shown.
- *
- * Language and subject are omitted when there are no options available. Language and subject
- * bottom sheets include a search field (their option lists can be long); type does not.
- */
+ **/
 @Composable
 fun contentFilterDefinitions(
     options: OpdsSearchFilterOptions,
