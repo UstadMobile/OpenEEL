@@ -5,17 +5,12 @@ import androidx.lifecycle.viewModelScope
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
-import org.openeel.datalayer.school.SchoolConfigSettingDataSource
-import org.openeel.lib.dataloadstate.DataLoadParams
-import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.composites.OpdsSearchFilterOptions
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
@@ -67,13 +62,6 @@ class OpdsSearchViewModel(
 
     private val schoolDataSourceLocal: SchoolDataSourceLocal by inject()
 
-    private val schoolDataSource: SchoolDataSource by inject()
-
-    /**
-     * App catalog feeds: apps are not lessons, so these are excluded from search.
-     */
-    private val appCatalogUrls = MutableStateFlow<List<Url>>(emptyList())
-
     private val _uiState = MutableStateFlow(OpdsSearchUiState())
 
     val uiState = _uiState.asStateFlow()
@@ -110,29 +98,10 @@ class OpdsSearchViewModel(
         _uiState.update { it.copy(results = pagingSourceFactoryHolder) }
 
         viewModelScope.launch {
-            schoolDataSource.schoolConfigSettingDataSource.listAsFlow(
-                loadParams = DataLoadParams(),
-                params = SchoolConfigSettingDataSource.GetListParams(
-                    key = SchoolConfigSettingDataSource.KEY_APP_CATALOGS
-                )
-            ).collect { configs ->
-                val urls = configs.dataOrNull()?.mapNotNull { setting ->
-                    runCatching { Url(setting.value) }.getOrNull()
-                } ?: return@collect
-                if (urls != appCatalogUrls.value) {
-                    appCatalogUrls.value = urls
-                    pagingSourceFactoryHolder.invalidate()
+            schoolDataSourceLocal.opdsFeedDataSource.getSearchFilterOptionsAsFlow()
+                .collect { filterOptions ->
+                    _uiState.update { it.copy(filterOptions = filterOptions) }
                 }
-            }
-        }
-
-        viewModelScope.launch {
-            appCatalogUrls.collectLatest { urls ->
-                schoolDataSourceLocal.opdsFeedDataSource.getSearchFilterOptionsAsFlow(urls)
-                    .collect { filterOptions ->
-                        _uiState.update { it.copy(filterOptions = filterOptions) }
-                    }
-            }
         }
     }
 
@@ -153,7 +122,6 @@ class OpdsSearchViewModel(
                 selectedTypes.any { it != ContentFilterType.COLLECTION },
             includeNavigation = selectedTypes.isEmpty() ||
                 ContentFilterType.COLLECTION in selectedTypes,
-            appCatalogUrls = appCatalogUrls.value,
         )
     }
 
