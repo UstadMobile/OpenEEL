@@ -148,25 +148,13 @@ onFlowComplete:
 - tapOn:
     id: "nav_home"
 - tapOn: "Apps"
-- tapOn: "Search"
-- tapOn: "Search"
-- inputText: "Web"
-- assertVisible: "Example Web App"
+# Search all available lessons/collections
 - tapOn:
-    id: "close_search_button"
-- tapOn: "Search"
-- tapOn: "Search"
-- inputText: "Test"
-- assertNotVisible: "Example Web App"
-- tapOn:
-    id: "close_search_button"
-- tapOn: "Example Web App"
-- tapOn: "Lessons"
-- tapOn: "Examples"
-- tapOn: "Search"
+    id: "action_search"
+- inputText: "Lesson"
+- assertVisible: "Lesson 001"
 - tapOn: "Language"
 - tapOn: "English"
-- assertVisible: "Language"
 - tapOn:
     id: "close_filter_bottom_sheet_button"
 - assertVisible: "Language (1)"
@@ -183,16 +171,11 @@ onFlowComplete:
 - assertNotVisible: "Language (1)"
 - assertNotVisible: "Type (1)"
 - assertVisible: "Lesson 001"
-- tapOn: "Search"
+- tapOn:
+    id: "search_box"
+- eraseText
 - inputText: "JS"
 - assertVisible: "JS Tetris"
 - assertNotVisible: "Lesson 001"
-- tapOn:
-    id: "close_search_button"
-
-
-
-
-
-
-
+- tapOn: "JS Tetris"
+- assertVisible: "JS Tetris"

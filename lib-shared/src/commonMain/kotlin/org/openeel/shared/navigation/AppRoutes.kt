@@ -308,6 +308,12 @@ class IndictorEdit(val indicatorId: String?) : OpenEelAppRoute
 @Serializable
 object OpenEelAppList : OpenEelAppRoute
 
+/**
+ * Search all available (cached) OPDS publications and feeds.
+ */
+@Serializable
+object OpdsSearch : OpenEelAppRoute
+
 @Serializable
 object EnterLink : OpenEelAppRoute
 

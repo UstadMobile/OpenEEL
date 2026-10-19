@@ -17,13 +17,11 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.clear_all
-import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 
 /**
- * Filter chips shown with the appbar search. They are shown only while search is expanded. The
- * selection is held by the ViewModel, which clears it when search is closed.
+ * A horizontally scrollable row of filter chips with a clear all button. The selection is held by
+ * the ViewModel.
  *
- * @param searchState the appbar search state of the screen showing the filters.
  * @param filters the filters to show (e.g. as built using [contentFilterDefinitions]).
  * @param isOptionSelected whether the given option value is selected.
  * @param onToggleOption called when the user checks or unchecks an option.
@@ -32,7 +30,6 @@ import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
  */
 @Composable
 fun <T> OpenEelContentFilterRow(
-    searchState: AppBarSearchUiState,
     filters: List<OpenEelFilterDefinition<T>>,
     isOptionSelected: (T) -> Boolean,
     onToggleOption: (T) -> Unit,
@@ -40,7 +37,7 @@ fun <T> OpenEelContentFilterRow(
     onClickClearAll: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    if (!searchState.expanded || filters.isEmpty())
+    if (filters.isEmpty())
         return
 
     Row(

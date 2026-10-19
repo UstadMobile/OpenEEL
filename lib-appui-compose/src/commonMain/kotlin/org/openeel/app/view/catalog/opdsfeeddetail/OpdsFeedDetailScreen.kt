@@ -1,14 +1,12 @@
 package org.openeel.app.view.catalog.opdsfeeddetail
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ExpandLess
@@ -32,15 +30,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.OpenEelContentFilterRow
-import org.openeel.app.components.contentFilterDefinitions
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.langMapString
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.opds.model.ext.OpdsFeedItemIndex
-import org.openeel.shared.domain.contentfilter.ContentFilterOption
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.assign
 import org.openeel.shared.generated.resources.cancel
@@ -54,7 +49,6 @@ import org.openeel.shared.generated.resources.permanently_delete_description
 import org.openeel.shared.generated.resources.select_count_items
 import org.openeel.shared.generated.resources.select_this_collection
 import org.openeel.shared.util.SortOrderOption
-import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailUiState
 import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailViewModel.Companion.ICON
@@ -64,7 +58,6 @@ fun OpdsFeedDetailScreen(
     viewModel: OpdsFeedDetailViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val appUiState by viewModel.appUiState.collectAsState()
     val copyOfTemplate = stringResource(Res.string.copy_of)
 
     LaunchedEffect(uiState.showCopyDialog) {
@@ -75,7 +68,6 @@ fun OpdsFeedDetailScreen(
 
     OpdsFeedDetailScreen(
         uiState = uiState,
-        searchState = appUiState.searchState,
         onSortOrderChanged = viewModel::onSortOrderChanged,
         onClickPublication = viewModel::onClickPublication,
         onLongPressPublication = viewModel::onLongPressPublication,
@@ -94,15 +86,12 @@ fun OpdsFeedDetailScreen(
         onCopyDialogConfirm = viewModel::onCopyDialogConfirm,
         onDeleteDialogDismiss = viewModel::onDeleteDialogDismiss,
         onDeleteDialogConfirm = viewModel::onDeleteDialogConfirm,
-        onToggleContentFilterOption = viewModel::onToggleContentFilterOption,
-        onClearContentFilters = viewModel::onClearContentFilters,
     )
 }
 
 @Composable
 fun OpdsFeedDetailScreen(
     uiState: OpdsFeedDetailUiState = OpdsFeedDetailUiState(),
-    searchState: AppBarSearchUiState = AppBarSearchUiState(),
     @Suppress("unused")
     onSortOrderChanged: (SortOrderOption) -> Unit = { },
     onClickPublication: (OpdsFeedItemIndex) -> Unit = {},
@@ -122,36 +111,21 @@ fun OpdsFeedDetailScreen(
     onCopyDialogConfirm: () -> Unit = {},
     onDeleteDialogDismiss: () -> Unit = {},
     onDeleteDialogConfirm: () -> Unit = {},
-    onToggleContentFilterOption: (ContentFilterOption) -> Unit = {},
-    onClearContentFilters: () -> Unit = {},
 ) {
     val catalog = uiState.feed.dataOrNull()
 
-    Column(modifier = Modifier.fillMaxSize()) {
-
-        OpenEelContentFilterRow(
-            searchState = searchState,
-            filters = contentFilterDefinitions(
-                options = uiState.contentFilterOptions,
-            ),
-            isOptionSelected = { it in uiState.contentFilter.selected },
-            onToggleOption = onToggleContentFilterOption,
-            clearAllEnabled = !uiState.contentFilter.isEmpty,
-            onClickClearAll = onClearContentFilters,
-        )
-
-        Box(modifier = Modifier.fillMaxSize()) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = if (
-                    uiState.showSelectPlaylistButton ||
-                    (uiState.isMultiSelectMode && uiState.selectedCount > 0)
-                ) {
-                    PaddingValues(bottom = 72.dp)
-                } else {
-                    PaddingValues()
-                },
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = if (
+                uiState.showSelectPlaylistButton ||
+                (uiState.isMultiSelectMode && uiState.selectedCount > 0)
             ) {
+                PaddingValues(bottom = 72.dp)
+            } else {
+                PaddingValues()
+            },
+        ) {
 
             /* Disabled for respect-update 1/Oct/26
             item(key = "feed_header") {
@@ -166,12 +140,10 @@ fun OpdsFeedDetailScreen(
             */
 
             catalog?.navigation?.also { navigation ->
-                items(
-                    items = navigation.withIndex().filter {
-                        uiState.matchesSearchFilter(OpdsFeedItemIndex(-1, it.index), false)
-                    },
-                    key = { "top_nav_${it.index}" }
-                ) { (index, navigationItem) ->
+                itemsIndexed(
+                    items = navigation,
+                    key = { index, _ -> "top_nav_$index" }
+                ) { index, navigationItem ->
                     val feedIndex = OpdsFeedItemIndex(groupIndex = -1, index)
                     NavigationListItem(
                         navigation = navigationItem,
@@ -186,12 +158,10 @@ fun OpdsFeedDetailScreen(
             }
 
             catalog?.publications?.also { publications ->
-                items(
-                    items = publications.withIndex().filter {
-                        uiState.matchesSearchFilter(OpdsFeedItemIndex(-1, it.index), true)
-                    },
-                    key = { "top_pub_${it.index}" }
-                ) { (index, publication) ->
+                itemsIndexed(
+                    items = publications,
+                    key = { index, _ -> "top_pub_$index" }
+                ) { index, publication ->
                     val feedItemIndex = OpdsFeedItemIndex(groupIndex = -1, index)
                     PublicationListItem(
                         publication = publication,
@@ -204,9 +174,6 @@ fun OpdsFeedDetailScreen(
             }
 
             catalog?.groups?.forEachIndexed { groupIndex, group ->
-                // Keep a group visible only when at least one item in it matched the search/filters
-                if (uiState.visibleItems?.none { it.groupIndex == groupIndex } == true)
-                    return@forEachIndexed
                 item(key = "section_$groupIndex") {
                     FeedSectionHeader(
                         title = group.metadata.title,
@@ -218,12 +185,10 @@ fun OpdsFeedDetailScreen(
                 }
 
                 if (!uiState.isGroupCollapsed(groupIndex)) {
-                    items(
-                        items = group.navigation.orEmpty().withIndex().filter {
-                            uiState.matchesSearchFilter(OpdsFeedItemIndex(groupIndex, it.index), false)
-                        },
-                        key = { "nav_${groupIndex}_${it.index}" }
-                    ) { (itemIndex, navigation) ->
+                    itemsIndexed(
+                        items = group.navigation ?: emptyList(),
+                        key = { itemIndex, _ -> "nav_${groupIndex}_$itemIndex" }
+                    ) { itemIndex, navigation ->
                         val feedIndex = OpdsFeedItemIndex(groupIndex = groupIndex, index = itemIndex)
                         NavigationListItem(
                             navigation = navigation,
@@ -234,12 +199,10 @@ fun OpdsFeedDetailScreen(
                         )
                     }
 
-                    items(
-                        items = group.publications.orEmpty().withIndex().filter {
-                            uiState.matchesSearchFilter(OpdsFeedItemIndex(groupIndex, it.index), true)
-                        },
-                        key = { "pub_${groupIndex}_${it.index}" }
-                    ) { (itemIndex, publication) ->
+                    itemsIndexed(
+                        items = group.publications ?: emptyList(),
+                        key = { itemIndex, _ -> "pub_${groupIndex}_$itemIndex" }
+                    ) { itemIndex, publication ->
                         val feedItemIndex = OpdsFeedItemIndex(groupIndex = groupIndex, index = itemIndex)
                         PublicationListItem(
                             publication = publication,
@@ -285,7 +248,7 @@ fun OpdsFeedDetailScreen(
         }
     }
 
-    }
+
 
     if (uiState.showCopyDialog) {
         CopyFeedDialog(

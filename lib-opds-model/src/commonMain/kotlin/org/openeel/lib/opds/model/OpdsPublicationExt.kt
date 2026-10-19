@@ -16,6 +16,16 @@ const val REL_RESPECT_DEFAULT_CATALOG = "https://respect.ustadmobile.com/ns/defa
 const val REL_LAUNCHABLE_APP = "https://id.openeel.org/rel/launchable-app"
 
 /**
+ * Relationship for an app link to the URI used to launch the app
+ */
+const val REL_APP_LAUNCH_URI = "https://id.openeel.org/rel/app-launch-uri"
+
+/**
+ * Relationship for an app catalog link to the app's Respect manifest
+ */
+const val REL_RESPECT_APP_MANIFEST = "https://respect.ustadmobile.com/respect-app-manifest"
+
+/**
  * Relationship for a link to a tincan.xml file
  */
 const val REL_TINCAN_XML = "https://id.openeel.org/rel/tincanxml"

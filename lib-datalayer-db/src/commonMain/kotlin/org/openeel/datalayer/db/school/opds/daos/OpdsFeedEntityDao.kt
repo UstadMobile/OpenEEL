@@ -1,5 +1,6 @@
 package org.openeel.datalayer.db.school.opds.daos
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -9,45 +10,10 @@ import org.openeel.datalayer.db.school.opds.entities.OpdsFeedEntity
 import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity
 import org.openeel.datalayer.db.shared.LastModifiedAndETagDb
 import org.openeel.datalayer.db.shared.entities.LangMapEntity
-import org.openeel.lib.opds.model.ext.OpdsFeedSearchMatch
+import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 
 @Dao
 abstract class OpdsFeedEntityDao {
-
-    @Query("""
-        -- Search publication titles and return their original feed/group positions.
-        SELECT COALESCE(g.ogeIndex, -1) AS groupIndex,
-               p.opeIndex AS `index`, 1 AS isPublication
-          FROM OpdsPublicationEntity AS p
-          LEFT JOIN OpdsGroupEntity AS g ON g.ogeUid = p.opeOgeUid
-          JOIN LangMapEntity AS t ON t.lmeTopParentUid1 = p.opeUid
-         WHERE p.opeOfeUid = :feedUid
-           AND t.lmeTopParentType = :titleParentType
-           AND t.lmePropType = :titlePropType
-           AND t.lmeValue LIKE :titlePattern
-        UNION
-        -- Search navigation titles; isPublication distinguishes these from publications.
-        SELECT COALESCE(g.ogeIndex, -1) AS groupIndex,
-               l.rleIndex AS `index`, 0 AS isPublication
-          FROM ReadiumLinkEntity AS l
-          LEFT JOIN OpdsGroupEntity AS g
-            ON g.ogeUid = l.rlePropFk AND l.rlePropType = :groupNavigationType
-         WHERE l.rleOpdsParentType = :linkParentType
-           AND l.rleOpdsParentUid = :feedUid
-           AND l.rlePropType IN (:feedNavigationType, :groupNavigationType)
-           AND l.rleTitle LIKE :titlePattern
-    """)
-    abstract fun searchByTitleAsFlow(
-        feedUid: Long,
-        titlePattern: String,
-        titleParentType: LangMapEntity.TopParentType = LangMapEntity.TopParentType.OPDS_PUBLICATION,
-        titlePropType: LangMapEntity.PropType = LangMapEntity.PropType.OPDS_PUB_TITLE,
-        linkParentType: OpdsParentType = OpdsParentType.OPDS_FEED,
-        feedNavigationType: ReadiumLinkEntity.PropertyType =
-            ReadiumLinkEntity.PropertyType.OPDS_FEED_NAVIGATION,
-        groupNavigationType: ReadiumLinkEntity.PropertyType =
-            ReadiumLinkEntity.PropertyType.OPDS_GROUP_NAVIGATION,
-    ): Flow<List<OpdsFeedSearchMatch>>
 
     @Query("""
         SELECT * 
@@ -102,5 +68,244 @@ abstract class OpdsFeedEntityDao {
     abstract suspend fun findByUrlHashList(
         urlHashes: List<Long>
     ): List<OpdsFeedEntity>
+
+    /**
+     * Search all cached publications and navigation links (from all feeds stored locally).
+     *
+     * Publications are matched on any title (LangMap) and the selected filters. The same
+     * publication can be stored more than once (e.g. when it is in more than one feed), so matches
+     * are de-duplicated by identifier (or URL). Navigation links are matched on title and
+     * de-duplicated by feed and href.
+     *
+     * @param searchText text to search for in titles. When empty, all titles match.
+     * @param filterByLanguage when true, only publications with a language in [languages] match.
+     * @param filterBySubject when true, only publications with a subject name in [subjects] match.
+     * @param filterByType when true, only publications with a schema.org type in [types] match.
+     * @param includePublications when false, publications are excluded from the results.
+     * @param includeNavigation when false, navigation links are excluded from the results.
+     * @param appCatalogUrlHashes URL hashes of app catalog feeds. Apps are not lessons, so
+     *        publications and navigation links from these feeds are excluded.
+     * @param appLinkRels link relations that identify a publication as an app (e.g. an app manifest
+     *        stored when the user viewed app details). Publications with these links are excluded.
+     */
+    @Query("""
+        WITH MatchingPublication(opeUid) AS (
+             SELECT MIN(OpdsPublicationEntity.opeUid)
+               FROM OpdsPublicationEntity
+              WHERE :includePublications
+                AND (:searchText = ''
+                     OR EXISTS(
+                        SELECT 1
+                          FROM LangMapEntity AS PublicationTitle
+                         WHERE PublicationTitle.lmeTopParentType = :publicationLangMapParentType
+                           AND PublicationTitle.lmeTopParentUid1 = OpdsPublicationEntity.opeUid
+                           AND PublicationTitle.lmePropType = :publicationTitlePropType
+                           AND PublicationTitle.lmeValue LIKE ('%' || :searchText || '%')))
+                AND (NOT :filterByLanguage
+                     OR EXISTS(
+                        SELECT 1
+                          FROM json_each(OpdsPublicationEntity.opeMdLanguage) AS PublicationLanguage
+                         WHERE PublicationLanguage.value IN (:languages)))
+                AND (NOT :filterBySubject
+                     OR EXISTS(
+                        SELECT 1
+                          FROM ReadiumSubjectEntity
+                         WHERE ReadiumSubjectEntity.rseTopParentType = :publicationParentType
+                           AND ReadiumSubjectEntity.rseTopParentUid = OpdsPublicationEntity.opeUid
+                           AND $SUBJECT_NAME_SQL IN (:subjects)))
+                AND (NOT :filterByType
+                     OR OpdsPublicationEntity.opeMdType IN (:types))
+                AND $NOT_APP_PUBLICATION_SQL
+           GROUP BY COALESCE(OpdsPublicationEntity.opeMdIdentifier,
+                             OpdsPublicationEntity.opeUrl,
+                             OpdsPublicationEntity.opeUid)
+        ),
+        MatchingNavigationLink(rleId) AS (
+             SELECT MIN(ReadiumLinkEntity.rleId)
+               FROM ReadiumLinkEntity
+              WHERE :includeNavigation
+                AND ReadiumLinkEntity.rleOpdsParentType = :feedParentType
+                AND ReadiumLinkEntity.rlePropType IN (:feedNavigationPropType, :groupNavigationPropType)
+                AND ReadiumLinkEntity.rleTitle LIKE ('%' || :searchText || '%')
+                AND NOT EXISTS(
+                    SELECT 1
+                      FROM OpdsFeedEntity AS AppCatalogFeed
+                     WHERE AppCatalogFeed.ofeUid = ReadiumLinkEntity.rleOpdsParentUid
+                       AND AppCatalogFeed.ofeUrlHash IN (:appCatalogUrlHashes))
+           GROUP BY ReadiumLinkEntity.rleOpdsParentUid, ReadiumLinkEntity.rleHref
+        )
+        
+        SELECT COALESCE(
+                   (SELECT PublicationTitle.lmeValue
+                      FROM LangMapEntity AS PublicationTitle
+                     WHERE PublicationTitle.lmeTopParentType = :publicationLangMapParentType
+                       AND PublicationTitle.lmeTopParentUid1 = OpdsPublicationEntity.opeUid
+                       AND PublicationTitle.lmePropType = :publicationTitlePropType
+                  ORDER BY PublicationTitle.lmeId
+                     LIMIT 1), '') AS title,
+               1 AS isPublication,
+               OpdsPublicationEntity.opeUrl AS url,
+               (SELECT PublicationSelfLink.rleHref
+                  FROM ReadiumLinkEntity AS PublicationSelfLink
+                 WHERE PublicationSelfLink.rleOpdsParentType = :publicationParentType
+                   AND PublicationSelfLink.rleOpdsParentUid = OpdsPublicationEntity.opeUid
+                   AND PublicationSelfLink.rlePropType = :publicationLinkPropType
+                   AND EXISTS(
+                       SELECT 1
+                         FROM json_each(PublicationSelfLink.rleRel) AS PublicationSelfLinkRel
+                        WHERE PublicationSelfLinkRel.value = 'self')
+              ORDER BY PublicationSelfLink.rleIndex
+                 LIMIT 1) AS href,
+               PublicationFeed.ofeUrl AS feedUrl,
+               OpdsPublicationEntity.opeMdIdentifier AS identifier,
+               (SELECT PublicationImage.rleHref
+                  FROM ReadiumLinkEntity AS PublicationImage
+                 WHERE PublicationImage.rleOpdsParentType = :publicationParentType
+                   AND PublicationImage.rleOpdsParentUid = OpdsPublicationEntity.opeUid
+                   AND PublicationImage.rlePropType = :publicationImagePropType
+              ORDER BY PublicationImage.rleIndex
+                 LIMIT 1) AS iconHref
+          FROM MatchingPublication
+               JOIN OpdsPublicationEntity
+                    ON OpdsPublicationEntity.opeUid = MatchingPublication.opeUid
+               LEFT JOIN OpdsFeedEntity AS PublicationFeed
+                    ON PublicationFeed.ofeUid = OpdsPublicationEntity.opeOfeUid
+                    
+        UNION ALL
+        
+        SELECT ReadiumLinkEntity.rleTitle AS title,
+               0 AS isPublication,
+               NULL AS url,
+               ReadiumLinkEntity.rleHref AS href,
+               NavigationLinkFeed.ofeUrl AS feedUrl,
+               NULL AS identifier,
+               (SELECT NavigationIcon.rleHref
+                  FROM ReadiumLinkEntity AS NavigationIcon
+                 WHERE NavigationIcon.rlePropType = :linkAlternatePropType
+                   AND NavigationIcon.rlePropFk = ReadiumLinkEntity.rleId
+                   AND EXISTS(
+                       SELECT 1
+                         FROM json_each(NavigationIcon.rleRel) AS NavigationIconRel
+                        WHERE NavigationIconRel.value = 'icon')
+              ORDER BY NavigationIcon.rleIndex
+                 LIMIT 1) AS iconHref
+          FROM MatchingNavigationLink
+               JOIN ReadiumLinkEntity
+                    ON ReadiumLinkEntity.rleId = MatchingNavigationLink.rleId
+               JOIN OpdsFeedEntity AS NavigationLinkFeed
+                    ON NavigationLinkFeed.ofeUid = ReadiumLinkEntity.rleOpdsParentUid
+                    
+      ORDER BY title
+    """)
+    abstract fun searchAsPagingSource(
+        searchText: String,
+        filterByLanguage: Boolean,
+        languages: List<String>,
+        filterBySubject: Boolean,
+        subjects: List<String>,
+        filterByType: Boolean,
+        types: List<String>,
+        includePublications: Boolean,
+        includeNavigation: Boolean,
+        appCatalogUrlHashes: List<Long>,
+        appLinkRels: List<String>,
+        publicationParentType: OpdsParentType = OpdsParentType.OPDS_PUBLICATION,
+        publicationLangMapParentType: LangMapEntity.TopParentType =
+            LangMapEntity.TopParentType.OPDS_PUBLICATION,
+        publicationTitlePropType: LangMapEntity.PropType = LangMapEntity.PropType.OPDS_PUB_TITLE,
+        subjectNamePropType: LangMapEntity.PropType = LangMapEntity.PropType.READIUM_SUBJECT_NAME,
+        publicationLinkPropType: ReadiumLinkEntity.PropertyType =
+            ReadiumLinkEntity.PropertyType.OPDS_PUB_LINKS,
+        publicationImagePropType: ReadiumLinkEntity.PropertyType =
+            ReadiumLinkEntity.PropertyType.OPDS_PUB_IMAGES,
+        linkAlternatePropType: ReadiumLinkEntity.PropertyType =
+            ReadiumLinkEntity.PropertyType.LINK_ALTERNATE,
+        feedParentType: OpdsParentType = OpdsParentType.OPDS_FEED,
+        feedNavigationPropType: ReadiumLinkEntity.PropertyType =
+            ReadiumLinkEntity.PropertyType.OPDS_FEED_NAVIGATION,
+        groupNavigationPropType: ReadiumLinkEntity.PropertyType =
+            ReadiumLinkEntity.PropertyType.OPDS_GROUP_NAVIGATION,
+    ): PagingSource<Int, OpdsSearchResult>
+
+    /**
+     * Get the distinct languages used by cached publications (for search filter options).
+     */
+    @Query("""
+        SELECT DISTINCT PublicationLanguage.value
+          FROM OpdsPublicationEntity
+               JOIN json_each(OpdsPublicationEntity.opeMdLanguage) AS PublicationLanguage
+         WHERE $NOT_APP_PUBLICATION_SQL
+      ORDER BY PublicationLanguage.value
+    """)
+    abstract fun findPublicationLanguagesAsFlow(
+        appCatalogUrlHashes: List<Long>,
+        appLinkRels: List<String>,
+        publicationParentType: OpdsParentType = OpdsParentType.OPDS_PUBLICATION,
+        publicationLinkPropType: ReadiumLinkEntity.PropertyType =
+            ReadiumLinkEntity.PropertyType.OPDS_PUB_LINKS,
+    ): Flow<List<String>>
+
+    /**
+     * Get the distinct subject names used by cached publications (for search filter options).
+     */
+    @Query("""
+        SELECT DISTINCT $SUBJECT_NAME_SQL AS subjectName
+          FROM ReadiumSubjectEntity
+               JOIN OpdsPublicationEntity
+                    ON OpdsPublicationEntity.opeUid = ReadiumSubjectEntity.rseTopParentUid
+         WHERE ReadiumSubjectEntity.rseTopParentType = :publicationParentType
+           AND subjectName IS NOT NULL
+           AND $NOT_APP_PUBLICATION_SQL
+      ORDER BY subjectName
+    """)
+    abstract fun findPublicationSubjectsAsFlow(
+        appCatalogUrlHashes: List<Long>,
+        appLinkRels: List<String>,
+        publicationParentType: OpdsParentType = OpdsParentType.OPDS_PUBLICATION,
+        subjectNamePropType: LangMapEntity.PropType = LangMapEntity.PropType.READIUM_SUBJECT_NAME,
+        publicationLinkPropType: ReadiumLinkEntity.PropertyType =
+            ReadiumLinkEntity.PropertyType.OPDS_PUB_LINKS,
+    ): Flow<List<String>>
+
+    companion object {
+
+        /**
+         * Condition that excludes apps (which are also stored as OPDS publications) so that only
+         * lessons/content are searched: publications that are in an app catalog feed, or that
+         * have a link relation only used by apps. Requires the :appCatalogUrlHashes,
+         * :appLinkRels, :publicationParentType and :publicationLinkPropType parameters.
+         */
+        private const val NOT_APP_PUBLICATION_SQL = """
+            NOT EXISTS(
+                SELECT 1
+                  FROM OpdsFeedEntity AS AppCatalogFeed
+                 WHERE AppCatalogFeed.ofeUid = OpdsPublicationEntity.opeOfeUid
+                   AND AppCatalogFeed.ofeUrlHash IN (:appCatalogUrlHashes))
+            AND NOT EXISTS(
+                SELECT 1
+                  FROM ReadiumLinkEntity AS AppLink
+                       JOIN json_each(AppLink.rleRel) AS AppLinkRel
+                 WHERE AppLink.rleOpdsParentType = :publicationParentType
+                   AND AppLink.rleOpdsParentUid = OpdsPublicationEntity.opeUid
+                   AND AppLink.rlePropType = :publicationLinkPropType
+                   AND AppLinkRel.value IN (:appLinkRels))
+        """
+
+        /**
+         * The name of a ReadiumSubjectEntity: a subject is either a simple string value or an
+         * object with a name LangMap (in which case the first name is used). Requires the
+         * :subjectNamePropType parameter.
+         */
+        private const val SUBJECT_NAME_SQL = """
+            COALESCE(ReadiumSubjectEntity.rseStringValue,
+                     (SELECT SubjectName.lmeValue
+                        FROM LangMapEntity AS SubjectName
+                       WHERE SubjectName.lmePropType = :subjectNamePropType
+                         AND SubjectName.lmePropFk = ReadiumSubjectEntity.rseUid
+                    ORDER BY SubjectName.lmeId
+                       LIMIT 1))
+        """
+
+    }
 
 }

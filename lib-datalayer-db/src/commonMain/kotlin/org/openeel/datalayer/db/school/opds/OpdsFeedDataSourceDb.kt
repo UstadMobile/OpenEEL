@@ -5,11 +5,15 @@ import androidx.room.useWriterConnection
 import com.ustadmobile.ihttp.headers.IHttpHeaders
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
+import org.openeel.datalayer.school.model.composites.OpdsSearchFilterOptions
+import org.openeel.datalayer.school.model.composites.OpdsSearchResult
+import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.db.school.opds.adapters.OpdsFeedEntities
 import org.openeel.datalayer.db.school.opds.adapters.asEntities
 import org.openeel.datalayer.db.school.opds.adapters.asModel
@@ -25,11 +29,13 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
-import org.openeel.lib.dataloadstate.ext.isStillValid
 import org.openeel.lib.dataloadstate.ext.requestEtagAndLastModified
+import org.openeel.lib.dataloadstate.ext.isStillValid
 import org.openeel.lib.dataloadstate.ext.toResponseHeaders
 import org.openeel.lib.opds.model.OpdsFeed
-import org.openeel.lib.opds.model.ext.OpdsFeedSearchMatch
+import org.openeel.lib.opds.model.REL_APP_LAUNCH_URI
+import org.openeel.lib.opds.model.REL_RESPECT_APP_MANIFEST
+import org.openeel.lib.opds.model.REL_RESPECT_DEFAULT_CATALOG
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 import kotlin.time.Clock
 
@@ -42,15 +48,46 @@ class OpdsFeedDataSourceDb(
     private val primaryKeyGenerator: PrimaryKeyGenerator,
 ) : OpdsFeedDataSourceLocal{
 
-    override fun searchByTitleAsFlow(
-        url: Url,
-        listParams: OpdsFeedDataSourceLocal.GetListParams,
-    ): Flow<List<OpdsFeedSearchMatch>> {
-        return schoolDb.getOpdsFeedEntityDao().searchByTitleAsFlow(
-            feedUid = uidNumberMapper(url.toString()),
-            titlePattern = "${listParams.title}%",
-        )
+    override fun searchAsPagingSource(
+        params: OpdsFeedDataSourceLocal.SearchParams,
+    ): IPagingSourceFactory<Int, OpdsSearchResult> {
+        return IPagingSourceFactory {
+            schoolDb.getOpdsFeedEntityDao().searchAsPagingSource(
+                searchText = params.searchText.trim(),
+                filterByLanguage = params.languages.isNotEmpty(),
+                languages = params.languages,
+                filterBySubject = params.subjects.isNotEmpty(),
+                subjects = params.subjects,
+                filterByType = params.types.isNotEmpty(),
+                types = params.types,
+                includePublications = params.includePublications,
+                includeNavigation = params.includeNavigation &&
+                    params.languages.isEmpty() && params.subjects.isEmpty(),
+                appCatalogUrlHashes = params.appCatalogUrls.toUrlHashes(),
+                appLinkRels = APP_LINK_RELS,
+            )
+        }
     }
+
+    override fun getSearchFilterOptionsAsFlow(
+        appCatalogUrls: List<Url>,
+    ): Flow<OpdsSearchFilterOptions> {
+        val feedDao = schoolDb.getOpdsFeedEntityDao()
+        val appCatalogUrlHashes = appCatalogUrls.toUrlHashes()
+        return feedDao.findPublicationLanguagesAsFlow(
+            appCatalogUrlHashes = appCatalogUrlHashes,
+            appLinkRels = APP_LINK_RELS,
+        ).combine(
+            feedDao.findPublicationSubjectsAsFlow(
+                appCatalogUrlHashes = appCatalogUrlHashes,
+                appLinkRels = APP_LINK_RELS,
+            )
+        ) { languages, subjects ->
+            OpdsSearchFilterOptions(languages = languages, subjects = subjects)
+        }
+    }
+
+    private fun List<Url>.toUrlHashes(): List<Long> = map { uidNumberMapper(it.toString()) }
 
     private suspend fun OpdsFeedEntity?.toDataLoadState(
         url: Url,
@@ -147,6 +184,8 @@ class OpdsFeedDataSourceDb(
         schoolDb.getOpdsFeedMetadataEntityDao().deleteByFeedUid(feedUid)
         schoolDb.getLangMapEntityDao().deleteAllByFeedUid(feedUid)
         schoolDb.getReadiumLinkEntityDao().deleteAllByFeedUid(feedUid)
+        //Must run before the publications are deleted: uses the feed publication uids
+        schoolDb.getReadiumSubjectEntityDao().deleteAllByFeedUid(feedUid)
         schoolDb.getOpdsPublicationEntityDao().deleteAllByFeedUid(feedUid)
         schoolDb.getOpdsGroupEntityDao().deleteByFeedUid(feedUid)
 
@@ -157,6 +196,7 @@ class OpdsFeedDataSourceDb(
         schoolDb.getLangMapEntityDao().insertAsync(feedEntities.langMapEntities)
         schoolDb.getReadiumLinkEntityDao().insertList(feedEntities.linkEntities)
         schoolDb.getOpdsPublicationEntityDao().insertList(feedEntities.publications)
+        schoolDb.getReadiumSubjectEntityDao().insertList(feedEntities.subjects)
         schoolDb.getOpdsGroupEntityDao().insertList(feedEntities.groups)
     }
 
@@ -183,6 +223,20 @@ class OpdsFeedDataSourceDb(
                 }
             }
         }
+    }
+
+    companion object {
+
+        /**
+         * Link relations that are only used by apps (not lessons): used to exclude apps from
+         * search.
+         */
+        val APP_LINK_RELS = listOf(
+            REL_APP_LAUNCH_URI,
+            REL_RESPECT_APP_MANIFEST,
+            REL_RESPECT_DEFAULT_CATALOG,
+        )
+
     }
 
 }

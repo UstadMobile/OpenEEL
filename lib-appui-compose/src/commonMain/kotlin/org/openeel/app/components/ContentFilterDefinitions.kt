@@ -4,9 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.getKoin
-import org.openeel.lib.opds.model.name
+import org.openeel.datalayer.school.model.composites.OpdsSearchFilterOptions
 import org.openeel.shared.domain.contentfilter.ContentFilterOption
-import org.openeel.shared.domain.contentfilter.ContentFilterOptions
 import org.openeel.shared.domain.contentfilter.ContentFilterType
 import org.openeel.shared.domain.getlanguageendonym.GetLanguageEndonymUseCase
 import org.openeel.shared.generated.resources.Res
@@ -27,7 +26,7 @@ import org.openeel.shared.generated.resources.type
  */
 @Composable
 fun contentFilterDefinitions(
-    options: ContentFilterOptions,
+    options: OpdsSearchFilterOptions,
 ): List<OpenEelFilterDefinition<ContentFilterOption>> {
     val koin = getKoin()
     val getLanguageEndonymUseCase: GetLanguageEndonymUseCase = remember { koin.get() }
@@ -42,9 +41,9 @@ fun contentFilterDefinitions(
     val subjectOptions = options.subjects.map { subject ->
         OpenEelFilterOption<ContentFilterOption>(
             value = ContentFilterOption.Subject(subject),
-            label = langMapString(subject.name),
+            label = subject,
         )
-    }.sortedBy { it.label }
+    }
 
     val typeOptions = ContentFilterType.entries.map { type ->
         OpenEelFilterOption<ContentFilterOption>(

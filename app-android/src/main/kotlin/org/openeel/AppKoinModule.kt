@@ -156,7 +156,6 @@ import org.openeel.shared.domain.geolookup.GetCountryForUrlUseCase
 import org.openeel.shared.domain.geolookup.GetCountryForUrlUseCaseImpl
 import org.openeel.shared.domain.createlink.CreateInviteLinkUseCase
 import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
-import org.openeel.shared.domain.search.ObserveSearchResultsUseCase
 import org.openeel.shared.domain.devmode.SetDevModeEnabledUseCase
 import org.openeel.shared.domain.school.LaunchCustomTabUseCaseAndroid
 import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCaseAndroid
@@ -225,6 +224,7 @@ import org.openeel.shared.viewmodel.clazz.edit.ClazzEditViewModel
 import org.openeel.shared.viewmodel.clazz.list.ClazzListViewModel
 import org.openeel.shared.viewmodel.catalog.publicationdetail.PublicationDetailViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailViewModel
+import org.openeel.shared.viewmodel.catalog.opdssearch.OpdsSearchViewModel
 import org.openeel.shared.viewmodel.manageuser.accountlist.AccountListViewModel
 import org.openeel.shared.viewmodel.manageuser.sharefeedback.ShareFeedbackViewModel
 import org.openeel.shared.viewmodel.manageuser.acceptinvite.AcceptInviteViewModel
@@ -410,6 +410,7 @@ val appKoinModule = module {
     viewModelOf(::ClazzEditViewModel)
     viewModelOf(::ClazzDetailViewModel)
     viewModelOf(::OpdsFeedDetailViewModel)
+    viewModelOf(::OpdsSearchViewModel)
     viewModelOf(::PublicationDetailViewModel)
     viewModelOf(::ReportViewModel)
     viewModelOf(::AcknowledgementViewModel)
@@ -738,10 +739,6 @@ val appKoinModule = module {
 
     single<SnackBarDispatcher> {
         get<SnackBarFlowDispatcher>()
-    }
-
-    single<ObserveSearchResultsUseCase> {
-        ObserveSearchResultsUseCase(snackBarDispatcher = get())
     }
 
     single<ResolveUrlToNavCommandUseCase> {

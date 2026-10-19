@@ -33,13 +33,6 @@ class OpdsPublicationDataSourceDb(
     private val primaryKeyGenerator: PrimaryKeyGenerator,
 ): OpdsPublicationDataSourceLocal {
 
-    override fun searchByTitleAsFlow(
-        listParams: OpdsPublicationDataSourceLocal.GetListParams,
-    ): Flow<List<Url>> =
-        schoolDatabase.getOpdsPublicationEntityDao().searchByTitleAsFlow(
-            title = listParams.title,
-        )
-
     override val publicationNetworkValidationHelper = object: BaseDataSourceValidationHelper {
         override suspend fun getValidationInfo(
             url: Url,

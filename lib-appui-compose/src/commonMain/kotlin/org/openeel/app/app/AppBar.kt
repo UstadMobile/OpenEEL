@@ -110,11 +110,9 @@ fun OpenEelAppBar(
 
     val pendingWriteCount by writeQueueSizeFlow.collectAsState(1)
 
-    /*
-     * Whether the search box is open. This is held by the ViewModel (not local state) because
-     * screens also use it e.g. to show filter options alongside search.
-     */
-    val searchActive = appUiState.searchState.expanded
+    var searchActive by remember(appUiState.searchState.expandedByDefault) {
+        mutableStateOf(appUiState.searchState.expandedByDefault)
+    }
 
     var searchHasFocus by remember {
         mutableStateOf(false)
@@ -124,7 +122,7 @@ fun OpenEelAppBar(
 
     //Focus the search box when it appears after the user clicks the search icon
     LaunchedEffect(searchActive) {
-        if(searchActive)
+        if(compactHeader && searchActive)
             focusRequester.requestFocus()
     }
 
@@ -168,7 +166,7 @@ fun OpenEelAppBar(
             },
             actions = {
                 if(appUiState.searchState.visible) {
-                    if(searchActive) {
+                    if(!compactHeader || searchActive) {
                         OutlinedTextField(
                             modifier = Modifier.testTag("search_box")
                                 .focusRequester(focusRequester)
@@ -187,15 +185,16 @@ fun OpenEelAppBar(
                                 Icon(imageVector = Icons.Filled.Search, contentDescription = null)
                             },
                             trailingIcon = {
-                                IconButton(
-                                    modifier = Modifier.testTag("close_search_button"),
-                                    onClick = {
-                                        //Cancel search: clear the query and close the box
-                                        appUiState.searchState.onSearchTextChanged("")
-                                        appUiState.searchState.onSearchExpandedChanged(false)
+                                if(searchActive) {
+                                    IconButton(
+                                        modifier = Modifier.testTag("close_search_button"),
+                                        onClick = {
+                                            appUiState.searchState.onSearchTextChanged("")
+                                            searchActive = false
+                                        }
+                                    ) {
+                                        Icon(Icons.Default.Close, contentDescription = "")
                                     }
-                                ) {
-                                    Icon(Icons.Default.Close, contentDescription = "")
                                 }
                             },
                             value = appUiState.searchState.searchText,
@@ -205,11 +204,10 @@ fun OpenEelAppBar(
                             onValueChange = appUiState.searchState.onSearchTextChanged,
                         )
                     }else {
-                        //Search closed: show the icon used to open search
                         IconButton(
                             modifier = Modifier.testTag("expand_search_icon_button"),
                             onClick = {
-                                appUiState.searchState.onSearchExpandedChanged(true)
+                                searchActive = true
                             }
                         ) {
                             Icon(Icons.Default.Search, contentDescription =

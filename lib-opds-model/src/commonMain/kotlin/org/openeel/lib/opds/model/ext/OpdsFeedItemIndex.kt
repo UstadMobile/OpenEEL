@@ -13,12 +13,4 @@ package org.openeel.lib.opds.model.ext
 data class OpdsFeedItemIndex(
     val groupIndex: Int,
     val index: Int,
-) {
-
-    companion object {
-
-        /** Group index used for items that are at the top level of the feed (not in a group). */
-        const val TOP_LEVEL_GROUP_INDEX = -1
-
-    }
-}
+)

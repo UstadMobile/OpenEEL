@@ -3,13 +3,13 @@ package org.openeel.shared.viewmodel.app.appstate
 /**
  * Represents the state of appbar search.
  *
- * @property expanded true when the search input is shown (e.g. after the user clicks the search
- *           icon). Screens use this to show search related options such as filters.
+ * @property expandedByDefault when true, the search box is shown open when the screen is opened
+ *           (instead of only showing the search icon on compact screens) e.g. on a dedicated
+ *           search screen.
  */
 data class AppBarSearchUiState (
     val visible: Boolean = false,
-    val expanded: Boolean = false,
+    val expandedByDefault: Boolean = false,
     val searchText: String = "",
     val onSearchTextChanged: (String) -> Unit = { },
-    val onSearchExpandedChanged: (Boolean) -> Unit = { },
 )
