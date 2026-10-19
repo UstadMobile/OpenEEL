@@ -93,8 +93,6 @@ data class OpdsFeedDetailUiState(
     val contentFilter: ContentFilterSelection = ContentFilterSelection(),
     val visibleItems: Set<OpdsFeedSearchMatch>? = null,
 ) {
-    private val visibleGroupIndexes by lazy { visibleItems?.map { it.groupIndex }?.toSet() }
-
     fun isGroupCollapsed(groupIndex: Int) = groupIndex in collapsedGroupIndexes
 
     fun isPublicationSelected(index: OpdsFeedItemIndex): Boolean = index in selectedPublications
@@ -109,10 +107,6 @@ data class OpdsFeedDetailUiState(
         visibleItems?.contains(
             OpdsFeedSearchMatch(index.groupIndex, index.index, isPublication)
         ) ?: true
-
-    /** Keep a group visible only when at least one item in it matched the search and filters.*/
-    fun groupMatchesSearchFilter(groupIndex: Int): Boolean =
-        visibleGroupIndexes?.contains(groupIndex) ?: true
 
     val isMultiSelectMode: Boolean
         get() = selectedPublications.isNotEmpty() || selectedNavigationLinks.isNotEmpty()
@@ -183,7 +177,12 @@ class OpdsFeedDetailViewModel(
                 searchState = AppBarSearchUiState(
                     visible = true,
                     onSearchTextChanged = ::onSearchTextChanged,
-                    onSearchExpandedChanged = ::setSearchExpanded,
+                    onSearchExpandedChanged = { expanded ->
+                        setSearchExpanded(expanded)
+                        // Filters are only shown with search, so clear them when search closes
+                        if (!expanded)
+                            onClearContentFilters()
+                    },
                 ),
             )
         }
@@ -227,8 +226,11 @@ class OpdsFeedDetailViewModel(
                 updateVisibleItemsInputs { prev ->
                     prev.copy(
                         feed = result.map { it.resolve(route.opdsFeedUrl) },
-                        contentFilterOptions = result.dataOrNull()?.let {
-                            ContentFilterOptions.fromPublications(it.allPublications())
+                        contentFilterOptions = result.dataOrNull()?.allPublications()?.let { publications ->
+                            ContentFilterOptions(
+                                languages = publications.flatMap { it.metadata.language.orEmpty() }.distinct(),
+                                subjects = publications.flatMap { it.metadata.subject.orEmpty() }.distinct(),
+                            )
                         } ?: prev.contentFilterOptions,
                     )
                 }
@@ -242,45 +244,38 @@ class OpdsFeedDetailViewModel(
 
     /**
      * Update the ui state where the change affects which items are visible (the feed,
-     * searchMatches, or contentFilter) and recalculate visibleItems. Other changes (e.g. selection,
-     * dialogs) should use _uiState.update directly to avoid unnecessary recalculation.
+     * searchMatches, or contentFilter) and recalculate visibleItems: the items matching both the
+     * search and the selected content filters, or null when neither is active (e.g. everything is
+     * visible). Other changes (e.g. selection, dialogs) should use _uiState.update directly to
+     * avoid unnecessary recalculation.
      */
-    private inline fun updateVisibleItemsInputs(
+    private fun updateVisibleItemsInputs(
         transform: (OpdsFeedDetailUiState) -> OpdsFeedDetailUiState
     ) {
-        _uiState.update { transform(it).withVisibleItems() }
-    }
+        _uiState.update { prev ->
+            val newState = transform(prev)
+            val searchMatchSet = newState.searchMatches?.toSet()
 
-    /**
-     * Calculate the items matching both the search and the selected content filters. The result is
-     * null when neither search nor filters are active (e.g. everything is visible).
-     */
-    private fun OpdsFeedDetailUiState.withVisibleItems(): OpdsFeedDetailUiState {
-        val searchMatchSet = searchMatches?.toSet()
-
-        val filterMatches = if (contentFilter.isEmpty) {
-            null
-        } else {
-            feed.dataOrNull()?.itemsMatching(contentFilter).orEmpty()
-        }
-
-        return copy(
-            visibleItems = when {
-                filterMatches == null -> searchMatchSet
-                searchMatchSet == null -> filterMatches
-                else -> filterMatches intersect searchMatchSet
+            val filterMatches = if (newState.contentFilter.isEmpty) {
+                null
+            } else {
+                newState.feed.dataOrNull()?.itemsMatching(newState.contentFilter).orEmpty()
             }
-        )
+
+            newState.copy(
+                visibleItems = when {
+                    filterMatches == null -> searchMatchSet
+                    searchMatchSet == null -> filterMatches
+                    else -> filterMatches intersect searchMatchSet
+                }
+            )
+        }
     }
 
     fun onToggleContentFilterOption(option: ContentFilterOption) {
         updateVisibleItemsInputs {
-            it.copy(contentFilter = it.contentFilter.toggle(option))
+            it.copy(contentFilter = ContentFilterSelection(it.contentFilter.selected.toggle(option)))
         }
-    }
-
-    override fun onSearchCollapsed() {
-        onClearContentFilters()
     }
 
     fun onClearContentFilters() {

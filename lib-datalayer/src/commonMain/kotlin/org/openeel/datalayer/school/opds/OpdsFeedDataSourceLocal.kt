@@ -1,7 +1,6 @@
 package org.openeel.datalayer.school.opds
 
 import io.ktor.http.Url
-import io.ktor.util.StringValues
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
 import org.openeel.lib.dataloadstate.DataReadyState
@@ -12,13 +11,7 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
 
     data class GetListParams(
         val title: String = "",
-    ) {
-
-        companion object {
-            fun fromParams(params: StringValues): GetListParams =
-                GetListParams(title = params["title"].orEmpty())
-        }
-    }
+    )
 
     /**
      * Search cached feed items by title, returning their original feed/group indexes.
