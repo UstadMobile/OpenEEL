@@ -27,9 +27,12 @@ import org.jetbrains.compose.resources.stringResource
 import sh.calvin.reorderable.ReorderableColumn
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
+import org.openeel.lib.opds.model.ext.OpdsFeedItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_section
+import org.openeel.shared.generated.resources.collection_section_description
 import org.openeel.shared.generated.resources.description
+import org.openeel.shared.generated.resources.links_to_learning_items
 import org.openeel.shared.generated.resources.required
 import org.openeel.shared.generated.resources.sections
 import org.openeel.shared.generated.resources.title
@@ -128,6 +131,55 @@ fun OpdsFeedEditScreen(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = stringResource(Res.string.collection_section_description),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.defaultItemPadding(),
+        )
+
+        NavigationItemsReorderableColumn(
+            modifier = Modifier.fillMaxWidth(),
+            navItems = uiState.feed?.navigation.orEmpty(),
+            groupIndex = OpdsFeedItemIndex.NO_GROUP,
+            showMoveItemOption = uiState.canMoveNavigationItemToOtherGroup,
+            onClickAdd = {
+
+            },
+            onItemsReordered = { fromIndex, toIndex ->
+
+            },
+            onClickDeleteItem = {
+
+            },
+            onClickMoveItem = {
+
+            },
+        )
+
+        Text(
+            text = stringResource(Res.string.links_to_learning_items),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.defaultItemPadding(),
+        )
+
+        OpdsFeedEditPublicationsReorderableColumn(
+            pubItems = uiState.feed?.publications.orEmpty(),
+            groupIndex = OpdsFeedItemIndex.NO_GROUP,
+            onClickAddItem = {
+
+            },
+            onItemsReordered = { fromIndex, toIndex ->
+
+            },
+            showMoveItemOption = uiState.canMovePublicationItemToOtherGroup,
+            onClickDeleteItem= {
+
+            },
+            onClickMoveItem = {
+
+            },
+        )
 
         Text(
             text = stringResource(Res.string.sections),

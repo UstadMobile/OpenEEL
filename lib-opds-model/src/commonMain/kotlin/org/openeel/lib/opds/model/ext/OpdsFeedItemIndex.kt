@@ -13,4 +13,12 @@ package org.openeel.lib.opds.model.ext
 data class OpdsFeedItemIndex(
     val groupIndex: Int,
     val index: Int,
-)
+) {
+
+    companion object {
+
+        const val NO_GROUP = -1
+
+    }
+
+}

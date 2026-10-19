@@ -88,88 +88,27 @@ fun ReorderableListItemScope.OpdsFeedGroupEditItem(
         )
 
         if (isNavigationSection) {
-            val navItems = group.navigation.orEmpty()
-
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickAddPlaylist()
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        modifier = Modifier.padding(
-                            start = (ICON_BUTTON_DEFAULT_WIDTH+8).dp,
-                            end = 8.dp,
-                        )
-                    )
-                },
-                headlineContent = {
-                    Text(text = stringResource(Res.string.add_link_to_collection_here))
-                }
-            )
-
-            ReorderableColumn(
-                list = navItems,
-                onSettle = onGroupItemsReordered,
+            NavigationItemsReorderableColumn(
+                navItems = group.navigation.orEmpty(),
+                groupIndex = groupIndex,
+                showMoveItemOption = showMoveItemOption,
+                onClickAdd = onClickAddPlaylist,
+                onItemsReordered = onGroupItemsReordered,
+                onClickDeleteItem = onClickDeleteItem,
+                onClickMoveItem = onClickMoveItem,
                 modifier = Modifier.fillMaxWidth(),
-            ) { itemIndex, navLink, _ ->
-                //Would probably be nicer to use actual identifiers where possible.
-                key(itemIndex) {
-                    ReorderableItem {
-                        OpdsFeedEditNavigationItemRow(
-                            itemIndex = itemIndex,
-                            navItem = navLink,
-                            groupIndex = groupIndex,
-                            hasMoveOption = showMoveItemOption,
-                            onClickDelete = { onClickDeleteItem(itemIndex) },
-                            onClickMove = { onClickMoveItem(itemIndex) },
-                        )
-                    }
-                }
-            }
-
-
+            )
         } else {
-            val pubItems = group.publications ?: emptyList()
-
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickAddItem()
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        modifier = Modifier.padding(
-                            start = (ICON_BUTTON_DEFAULT_WIDTH+8).dp,
-                            end = 8.dp,
-                        )
-                    )
-                },
-                headlineContent = {
-                    Text(text = stringResource(Res.string.add_item))
-                }
+            OpdsFeedEditPublicationsReorderableColumn(
+                pubItems = group.publications.orEmpty(),
+                groupIndex = groupIndex,
+                onClickAddItem = onClickAddItem,
+                onItemsReordered = onGroupItemsReordered,
+                showMoveItemOption = showMoveItemOption,
+                onClickDeleteItem = onClickDeleteItem,
+                onClickMoveItem = onClickMoveItem,
+                modifier = Modifier.fillMaxWidth()
             )
-
-            ReorderableColumn(
-                list = pubItems,
-                onSettle = onGroupItemsReordered,
-                modifier = Modifier.fillMaxWidth(),
-            ) { itemIndex, publication, _ ->
-                key(itemIndex) {
-                    ReorderableItem {
-                        PlaylistPublicationItemRow(
-                            itemIndex = itemIndex,
-                            publication = publication,
-                            groupIndex = groupIndex,
-                            hasMovableSections = showMoveItemOption,
-                            onClickDelete = { onClickDeleteItem(itemIndex) },
-                            onClickMove = { onClickMoveItem(itemIndex) },
-                        )
-                    }
-                }
-            }
         }
     }
 }
