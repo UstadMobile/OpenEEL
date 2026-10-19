@@ -15,12 +15,17 @@ import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.school.SchoolConfigSettingDataSource
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.OpenEelXapiConstants
+import org.openeel.lib.xapi.ext.objectActivityOrNull
+import org.openeel.lib.xapi.model.XapiVerb
+import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.datalayer.school.model.composites.OpdsSearchFilterOptions
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
 import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
+import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.libutil.ext.resolve
 import org.openeel.libutil.ext.toggle
 import org.openeel.shared.domain.account.AppAccountManager
@@ -75,6 +80,12 @@ class OpdsSearchViewModel(
      */
     private val appCatalogUrls = MutableStateFlow<List<Url>>(emptyList())
 
+    /**
+     * Manifest URLs of the apps listed on the home screen (the xAPI listed-app statement activity
+     * ids). Search results with these URLs are apps.
+     */
+    private val listedAppUrls = MutableStateFlow<Set<String>>(emptySet())
+
     private val _uiState = MutableStateFlow(OpdsSearchUiState())
 
     val uiState = _uiState.asStateFlow()
@@ -109,6 +120,23 @@ class OpdsSearchViewModel(
         }
 
         _uiState.update { it.copy(results = pagingSourceFactoryHolder) }
+
+        viewModelScope.launch {
+            schoolDataSource.xapiResource.statements.getAsFlow(
+                listParams = XapiStatementsResource.GetStatementParams(
+                    verb = XapiVerb.ID_LISTED_APP,
+                    activity = OpenEelXapiConstants.CATEGORY_APP_LISTING_RECIPE,
+                    relatedActivities = true,
+                ),
+                dataLoadParams = DataLoadParams(),
+            ).collect { state ->
+                state.dataOrNull()?.also { result ->
+                    listedAppUrls.value = result.statements.mapNotNull { statement ->
+                        statement.objectActivityOrNull()?.id
+                    }.toSet()
+                }
+            }
+        }
 
         viewModelScope.launch {
             schoolDataSource.schoolConfigSettingDataSource.listAsFlow(
@@ -182,7 +210,10 @@ class OpdsSearchViewModel(
             return
         }
 
-        val isApp = result.isPublication && feedUrl != null && feedUrl in appCatalogUrls.value
+        val isApp = result.isPublication && (
+            resultUrl.toString() in listedAppUrls.value ||
+                (feedUrl != null && feedUrl in appCatalogUrls.value)
+        )
 
         val destination = if (isApp) {
             AppsDetail.create(manifestUrl = resultUrl)
@@ -191,6 +222,7 @@ class OpdsSearchViewModel(
                 learningUnitManifestUrl = resultUrl,
                 refererUrl = feedUrl,
                 expectedIdentifier = result.identifier,
+                title = LangMapStringValue(result.feedTitle ?: result.title),
             )
         } else {
             OpdsFeedDetail.create(opdsFeedUrl = resultUrl)

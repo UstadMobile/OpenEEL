@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
  * @property href the publication self link href or navigation link href. May be relative to
  *           [feedUrl].
  * @property feedUrl the URL of the feed in which the item was found, if any.
+ * @property feedTitle the title of the feed in which the item was found, if any.
  * @property identifier the publication metadata identifier, if any.
  * @property iconHref the publication's first image or the navigation link's icon (alternate link
  *           with rel icon), if any. May be relative to [url] or [feedUrl].
@@ -23,6 +24,7 @@ data class OpdsSearchResult(
     val url: String? = null,
     val href: String? = null,
     val feedUrl: String? = null,
+    val feedTitle: String? = null,
     val identifier: String? = null,
     val iconHref: String? = null,
 )

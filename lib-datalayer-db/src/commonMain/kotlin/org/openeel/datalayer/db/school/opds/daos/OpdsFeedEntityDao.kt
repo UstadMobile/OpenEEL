@@ -7,6 +7,7 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.db.school.opds.OpdsParentType
 import org.openeel.datalayer.db.school.opds.entities.OpdsFeedEntity
+import org.openeel.datalayer.db.school.opds.entities.OpdsFeedMetadataEntity
 import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity
 import org.openeel.datalayer.db.shared.LastModifiedAndETagDb
 import org.openeel.datalayer.db.shared.entities.LangMapEntity
@@ -146,6 +147,11 @@ abstract class OpdsFeedEntityDao {
               ORDER BY PublicationSelfLink.rleIndex
                  LIMIT 1) AS href,
                PublicationFeed.ofeUrl AS feedUrl,
+               (SELECT PublicationFeedMetadata.ofmeTitle
+                  FROM OpdsFeedMetadataEntity AS PublicationFeedMetadata
+                 WHERE PublicationFeedMetadata.ofmeOfeUid = PublicationFeed.ofeUid
+                   AND PublicationFeedMetadata.ofmePropType = :feedMetadataPropType
+                 LIMIT 1) AS feedTitle,
                OpdsPublicationEntity.opeMdIdentifier AS identifier,
                (SELECT PublicationImage.rleHref
                   FROM ReadiumLinkEntity AS PublicationImage
@@ -167,6 +173,11 @@ abstract class OpdsFeedEntityDao {
                NULL AS url,
                ReadiumLinkEntity.rleHref AS href,
                NavigationLinkFeed.ofeUrl AS feedUrl,
+               (SELECT NavigationLinkFeedMetadata.ofmeTitle
+                  FROM OpdsFeedMetadataEntity AS NavigationLinkFeedMetadata
+                 WHERE NavigationLinkFeedMetadata.ofmeOfeUid = NavigationLinkFeed.ofeUid
+                   AND NavigationLinkFeedMetadata.ofmePropType = :feedMetadataPropType
+                 LIMIT 1) AS feedTitle,
                NULL AS identifier,
                (SELECT NavigationIcon.rleHref
                   FROM ReadiumLinkEntity AS NavigationIcon
@@ -205,6 +216,8 @@ abstract class OpdsFeedEntityDao {
         linkAlternatePropType: ReadiumLinkEntity.PropertyType =
             ReadiumLinkEntity.PropertyType.LINK_ALTERNATE,
         feedParentType: OpdsParentType = OpdsParentType.OPDS_FEED,
+        feedMetadataPropType: OpdsFeedMetadataEntity.PropType =
+            OpdsFeedMetadataEntity.PropType.FEED_METADATA,
         feedNavigationPropType: ReadiumLinkEntity.PropertyType =
             ReadiumLinkEntity.PropertyType.OPDS_FEED_NAVIGATION,
         groupNavigationPropType: ReadiumLinkEntity.PropertyType =
