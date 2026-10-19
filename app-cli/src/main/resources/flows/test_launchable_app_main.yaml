@@ -11,10 +11,11 @@ env:
 onFlowStart:
   - startRecording:
       path: "recordings/test_launchable_app"
-  - clearState: world.respect.app
+  - clearState: org.openeel.app
 
 onFlowComplete:
   - stopRecording
+  - setAirplaneMode: disabled
 ---
 - runFlow:
     when:
