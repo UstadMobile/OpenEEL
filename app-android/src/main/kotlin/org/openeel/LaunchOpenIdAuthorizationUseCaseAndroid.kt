@@ -14,19 +14,20 @@ import net.openid.appauth.AuthorizationService
 import net.openid.appauth.AuthorizationServiceConfiguration
 import net.openid.appauth.ResponseTypeValues
 import net.openid.appauth.connectivity.ConnectionBuilder
-import org.openeel.shared.domain.account.authwithopenid.OpenIdAuthorizationUseCase
+import org.openeel.datalayer.respect.model.OpenIdAuthOptionConfig
+import org.openeel.shared.domain.account.authwithopenid.LaunchOpenIdAuthorizationUseCase
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class OpenIdAuthorizationUseCaseAndroid(
+class LaunchOpenIdAuthorizationUseCaseAndroid(
     private val enqueueActivityContextJobUseCase: EnqueueActivityContextJobUseCase,
-) : OpenIdAuthorizationUseCase {
+) : LaunchOpenIdAuthorizationUseCase {
 
-    override suspend fun invoke(issuer: Url, schoolUrl: Url) {
-        val issuerUri = issuer.toString().toUri()
+    override suspend fun invoke(config: OpenIdAuthOptionConfig) {
+        val issuerUri = config.issuer.toString().toUri()
         val serviceConfiguration = suspendCancellableCoroutine { continuation ->
             // This callback provides the configuration used to build the authorization request.
             // https://github.com/openid/AppAuth-Android#authorization-service-configuration
@@ -44,17 +45,15 @@ class OpenIdAuthorizationUseCaseAndroid(
                     }
                 }
 
-            val connectionBuilder = ConnectionBuilder { uri ->
-                URL(uri.toString()).openConnection() as HttpURLConnection
-            }
 
             // This is a Java API, so Kotlin named arguments are unavailable. The local names
             // above show what each positional argument represents.
             AuthorizationServiceConfiguration.fetchFromIssuer(
                 issuerUri,
                 configurationCallback,
-                connectionBuilder,
-            )
+            ) { uri ->
+                URL(uri.toString()).openConnection() as HttpURLConnection
+            }
         }
 
         val authorizationRequest = AuthorizationRequest.Builder(
@@ -72,6 +71,8 @@ class OpenIdAuthorizationUseCaseAndroid(
                 activity,
                 openIdAppAuthConfiguration(issuer = issuer),
             )
+
+            //You can use Class.forName to lookup MainActivity if needed same as is done in LaunchAppUseCaseAndroid
             val completedIntent = Intent(activity, MainActivity::class.java).apply {
                 action = ACTION_OPENID_AUTHORIZATION_RESULT
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -134,7 +135,7 @@ class OpenIdAuthorizationUseCaseAndroid(
         const val EXTRA_ISSUER = "openid_issuer"
         const val EXTRA_SCHOOL_URL = "openid_school_url"
         const val CLIENT_ID = "respect-android"
-        const val SCOPE = "openid profile email"
+        const val SCOPE = "openid profile email lrs:read lrs:write"
         const val PROMPT = "login"
         // Register this redirect URI in the OpenID provider's client settings.
         // https://github.com/openid/AppAuth-Android#capturing-the-authorization-redirect

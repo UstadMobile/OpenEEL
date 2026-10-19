@@ -25,7 +25,7 @@ import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.lib.dataloadstate.throwable.unwrapHttpStatusCode
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.account.authwithopenid.OpenIdAuthorizationUseCase
+import org.openeel.shared.domain.account.authwithopenid.LaunchOpenIdAuthorizationUseCase
 import org.openeel.shared.domain.account.username.filterusername.FilterUsernameUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.login
@@ -64,7 +64,7 @@ class LoginViewModel(
     schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val filterUsernameUseCase: FilterUsernameUseCase,
     private val savePasswordUseCase: SavePasswordUseCase,
-    private val openIdAuthorizationUseCase: OpenIdAuthorizationUseCase,
+    private val launchOpenIdAuthorizationUseCase: LaunchOpenIdAuthorizationUseCase,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: LoginScreen = savedStateHandle.toRoute()
@@ -280,7 +280,7 @@ class LoginViewModel(
             },
         ) {
             _uiState.update { it.copy(errorText = null) }
-            openIdAuthorizationUseCase(
+            launchOpenIdAuthorizationUseCase(
                 issuer = issuer,
                 schoolUrl = route.schoolUrl,
             )

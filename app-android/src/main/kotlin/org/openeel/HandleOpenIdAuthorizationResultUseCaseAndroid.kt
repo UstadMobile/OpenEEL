@@ -7,7 +7,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
 import net.openid.appauth.AuthorizationService
-import org.openeel.OpenIdAuthorizationUseCaseAndroid.Companion.openIdAppAuthConfiguration
+import org.openeel.LaunchOpenIdAuthorizationUseCaseAndroid.Companion.openIdAppAuthConfiguration
 import org.openeel.shared.domain.account.AuthResponse
 import org.openeel.shared.domain.account.authwithopenid.GetTokenAndUserProfileWithOpenIdUseCase
 import kotlin.coroutines.resume
@@ -30,15 +30,15 @@ class HandleOpenIdAuthorizationResultUseCaseAndroid(
     }
 
     suspend operator fun invoke(intent: Intent): Result {
-        if (intent.action == OpenIdAuthorizationUseCaseAndroid.ACTION_OPENID_AUTHORIZATION_CANCELED) {
+        if (intent.action == LaunchOpenIdAuthorizationUseCaseAndroid.ACTION_OPENID_AUTHORIZATION_CANCELED) {
             return Result.Canceled
         }
-        if (intent.action != OpenIdAuthorizationUseCaseAndroid.ACTION_OPENID_AUTHORIZATION_RESULT) {
+        if (intent.action != LaunchOpenIdAuthorizationUseCaseAndroid.ACTION_OPENID_AUTHORIZATION_RESULT) {
             return Result.NotAuthorizationCallback
         }
 
-        val issuerText = intent.getStringExtra(OpenIdAuthorizationUseCaseAndroid.EXTRA_ISSUER)
-        val schoolText = intent.getStringExtra(OpenIdAuthorizationUseCaseAndroid.EXTRA_SCHOOL_URL)
+        val issuerText = intent.getStringExtra(LaunchOpenIdAuthorizationUseCaseAndroid.EXTRA_ISSUER)
+        val schoolText = intent.getStringExtra(LaunchOpenIdAuthorizationUseCaseAndroid.EXTRA_SCHOOL_URL)
         if (issuerText == null || schoolText == null) {
             throw IllegalArgumentException("OpenID callback is missing its issuer or school URL")
         }
