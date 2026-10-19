@@ -162,7 +162,7 @@ class OpdsFeedEditViewModel(
                             if(route.isCopy) {
                                 dataLoadState.mapAsync {
                                     makePlaylistOpdsFeedUseCase(
-                                        base = it,
+                                        base = it.resolve(route.url),
                                         username = accountManager.activeAccount?.userGuid ?: ""
                                     ).copy(
                                         metadata = it.metadata.copy(
