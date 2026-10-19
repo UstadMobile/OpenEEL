@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 env:
   SCHOOL_URL: ${SCHOOL_URL}
   SCHOOL_ADMIN_USER: ${SCHOOL_ADMIN_USER}
