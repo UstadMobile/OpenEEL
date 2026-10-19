@@ -10,7 +10,11 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
+import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
+import org.openeel.datalayer.school.SchoolConfigSettingDataSource
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.composites.OpdsSearchFilterOptions
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
@@ -24,6 +28,7 @@ import org.openeel.shared.domain.contentfilter.ContentFilterOption
 import org.openeel.shared.domain.contentfilter.ContentFilterType
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.not_found
+import org.openeel.shared.navigation.AppsDetail
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.PublicationDetail
@@ -62,6 +67,14 @@ class OpdsSearchViewModel(
 
     private val schoolDataSourceLocal: SchoolDataSourceLocal by inject()
 
+    private val schoolDataSource: SchoolDataSource by inject()
+
+    /**
+     * App catalog feeds (as used by the app list). Publications found in these feeds are apps,
+     * so clicking them opens the app details instead of publication details.
+     */
+    private val appCatalogUrls = MutableStateFlow<List<Url>>(emptyList())
+
     private val _uiState = MutableStateFlow(OpdsSearchUiState())
 
     val uiState = _uiState.asStateFlow()
@@ -96,6 +109,21 @@ class OpdsSearchViewModel(
         }
 
         _uiState.update { it.copy(results = pagingSourceFactoryHolder) }
+
+        viewModelScope.launch {
+            schoolDataSource.schoolConfigSettingDataSource.listAsFlow(
+                loadParams = DataLoadParams(),
+                params = SchoolConfigSettingDataSource.GetListParams(
+                    key = SchoolConfigSettingDataSource.KEY_APP_CATALOGS
+                )
+            ).collect { configs ->
+                configs.dataOrNull()?.also { settings ->
+                    appCatalogUrls.value = settings.mapNotNull { setting ->
+                        runCatching { Url(setting.value) }.getOrNull()
+                    }
+                }
+            }
+        }
 
         viewModelScope.launch {
             schoolDataSourceLocal.opdsFeedDataSource.getSearchFilterOptionsAsFlow()
@@ -154,7 +182,11 @@ class OpdsSearchViewModel(
             return
         }
 
-        val destination = if (result.isPublication) {
+        val isApp = result.isPublication && feedUrl != null && feedUrl in appCatalogUrls.value
+
+        val destination = if (isApp) {
+            AppsDetail.create(manifestUrl = resultUrl)
+        } else if (result.isPublication) {
             PublicationDetail.create(
                 learningUnitManifestUrl = resultUrl,
                 refererUrl = feedUrl,
