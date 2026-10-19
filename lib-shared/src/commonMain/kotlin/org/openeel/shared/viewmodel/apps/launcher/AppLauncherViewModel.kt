@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import io.github.aakira.napier.Napier
-import io.ktor.http.Url
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +36,6 @@ import org.openeel.lib.xapi.ext.objectActivityOrNull
 import org.openeel.lib.xapi.ext.webPubManifestAsUrlOrNull
 import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.lib.xapi.model.XapiStatementRef
-import org.openeel.lib.xapi.model.XapiStatementResult
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.libutil.ext.resolve
@@ -165,7 +163,18 @@ class AppLauncherViewModel(
                             ).map { it.toSet() }
                         },
                     ).collect { matchingUrls ->
-                        updateVisibleApps(state, matchingUrls)
+                        // Show only the apps that match the search (null = no active search)
+                        _uiState.update {
+                            it.copy(
+                                apps = state.map { result ->
+                                    result.statements.filter { statement ->
+                                        matchingUrls == null ||
+                                            statement.objectActivityOrNull()?.definition
+                                                ?.webPubManifestAsUrlOrNull() in matchingUrls
+                                    }
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -193,28 +202,6 @@ class AppLauncherViewModel(
                     )
                 }
             }
-        }
-    }
-
-    /**
-     * Show only the apps that match the search.
-     *
-     * @param matchingUrls manifest urls matching the search, or null if there is no active search
-     */
-    private fun updateVisibleApps(
-        statementsState: DataLoadState<XapiStatementResult>,
-        matchingUrls: Set<Url>?,
-    ) {
-        _uiState.update {
-            it.copy(
-                apps = statementsState.map { result ->
-                    result.statements.filter { statement ->
-                        matchingUrls == null ||
-                            statement.objectActivityOrNull()?.definition
-                                ?.webPubManifestAsUrlOrNull() in matchingUrls
-                    }
-                },
-            )
         }
     }
 

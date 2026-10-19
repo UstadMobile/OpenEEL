@@ -134,7 +134,7 @@ fun OpdsFeedDetailScreen(
             filters = contentFilterDefinitions(
                 options = uiState.contentFilterOptions,
             ),
-            isOptionSelected = uiState.contentFilter::isSelected,
+            isOptionSelected = { it in uiState.contentFilter.selected },
             onToggleOption = onToggleContentFilterOption,
             clearAllEnabled = !uiState.contentFilter.isEmpty,
             onClickClearAll = onClearContentFilters,
@@ -204,7 +204,8 @@ fun OpdsFeedDetailScreen(
             }
 
             catalog?.groups?.forEachIndexed { groupIndex, group ->
-                if (!uiState.groupMatchesSearchFilter(groupIndex))
+                // Keep a group visible only when at least one item in it matched the search/filters
+                if (uiState.visibleItems?.none { it.groupIndex == groupIndex } == true)
                     return@forEachIndexed
                 item(key = "section_$groupIndex") {
                     FeedSectionHeader(

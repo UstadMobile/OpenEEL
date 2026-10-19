@@ -78,17 +78,6 @@ abstract class OpenEelViewModel(
         _appUiState.update {
             it.copy(searchState = it.searchState.copy(expanded = expanded))
         }
-
-        if (!expanded)
-            onSearchCollapsed()
-    }
-
-    /**
-     * Called when the appbar search is closed. Override to clear anything that is only visible
-     * with search (e.g. content filters), as the search text itself is cleared.
-     */
-    protected open fun onSearchCollapsed() {
-
     }
 
     /**

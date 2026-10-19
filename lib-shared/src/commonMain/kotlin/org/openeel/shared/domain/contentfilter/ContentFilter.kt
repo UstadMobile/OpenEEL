@@ -54,19 +54,7 @@ sealed class ContentFilterOption {
 data class ContentFilterOptions(
     val languages: List<String> = emptyList(),
     val subjects: List<ReadiumSubject> = emptyList(),
-) {
-
-    companion object {
-
-        fun fromPublications(publications: List<Publication>): ContentFilterOptions {
-            return ContentFilterOptions(
-                languages = publications.flatMap { it.metadata.language.orEmpty() }.distinct(),
-                subjects = publications.flatMap { it.metadata.subject.orEmpty() }.distinct(),
-            )
-        }
-
-    }
-}
+)
 
 /**
  * The filter options selected by the user. Options within the same filter are combined using OR,
@@ -78,23 +66,17 @@ data class ContentFilterSelection(
     val selected: Set<ContentFilterOption> = emptySet(),
 ) {
 
-    private val languages = selected.filterIsInstance<ContentFilterOption.Language>()
+    val languages = selected.filterIsInstance<ContentFilterOption.Language>()
         .map { it.langCode }.toSet()
 
-    private val subjects = selected.filterIsInstance<ContentFilterOption.Subject>()
+    val subjects = selected.filterIsInstance<ContentFilterOption.Subject>()
         .map { it.subject }.toSet()
 
-    private val types = selected.filterIsInstance<ContentFilterOption.Type>()
+    val types = selected.filterIsInstance<ContentFilterOption.Type>()
         .map { it.type }.toSet()
 
     val isEmpty: Boolean
         get() = selected.isEmpty()
-
-    fun isSelected(option: ContentFilterOption): Boolean = option in selected
-
-    fun toggle(option: ContentFilterOption): ContentFilterSelection = copy(
-        selected = if (option in selected) selected - option else selected + option
-    )
 
     fun matchesPublication(publication: Publication): Boolean {
         val metadata = publication.metadata
@@ -113,23 +95,19 @@ data class ContentFilterSelection(
         return languageMatches && subjectMatches && typeMatches
     }
 
-    /**
-     * Navigation links are collections (OpdsFeeds). Language and subject filtering is not
-     * supported for collections, so a navigation link matches only when no language or subject is
-     * selected and the type filter is empty or includes COLLECTION.
-     */
-    fun matchesNavigation(): Boolean {
-        return languages.isEmpty() && subjects.isEmpty() &&
-                (types.isEmpty() || ContentFilterType.COLLECTION in types)
-    }
-
 }
 
 /**
  * Get all items in the feed (top level and in groups) that match the given filter.
  */
 fun OpdsFeed.itemsMatching(filter: ContentFilterSelection): Set<OpdsFeedSearchMatch> {
-    val navigationMatches = filter.matchesNavigation()
+    /*
+     * Navigation links are collections (OpdsFeeds). Language and subject filtering is not
+     * supported for collections, so a navigation link matches only when no language or subject is
+     * selected and the type filter is empty or includes COLLECTION.
+     */
+    val navigationMatches = filter.languages.isEmpty() && filter.subjects.isEmpty() &&
+            (filter.types.isEmpty() || ContentFilterType.COLLECTION in filter.types)
 
     fun matchesIn(
         groupIndex: Int,
