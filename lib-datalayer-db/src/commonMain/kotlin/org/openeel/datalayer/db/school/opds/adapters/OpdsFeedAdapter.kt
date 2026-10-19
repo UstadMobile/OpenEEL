@@ -117,8 +117,7 @@ fun OpdsFeed.asEntities(
             addAll(groupEntities.flatMap { it.publications })
         },
         groups = groupEntities.map { it.group },
-        subjects = publicationEntities.flatMap { it.subjectEntities } +
-            groupEntities.flatMap { it.subjectEntities },
+        subjects = publicationEntities.flatMap { it.subjectEntities },
     )
 }
 
