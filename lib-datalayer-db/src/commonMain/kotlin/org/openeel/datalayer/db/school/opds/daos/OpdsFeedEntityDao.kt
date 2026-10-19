@@ -83,11 +83,9 @@ abstract class OpdsFeedEntityDao {
      * @param filterByType when true, only publications with a schema.org type in [types] match.
      * @param includePublications when false, publications are excluded from the results.
      * @param includeNavigation when false, navigation links are excluded from the results.
-     * @param appCatalogUrlHashes URL hashes of app catalog feeds. Apps are not lessons, so
-     *        publications and navigation links from these feeds are excluded.
-     * @param appLinkRels link relations that identify a publication as an app (e.g. an app manifest
-     *        stored when the user viewed app details). Publications with these links are excluded.
      */
+    //json_each is a built-in SQLite function, but the IDE Room SQL checker does not recognise it
+    //noinspection AndroidUnresolvedRoomSqlReference
     @Query("""
         WITH MatchingPublication(opeUid) AS (
              SELECT MIN(OpdsPublicationEntity.opeUid)
@@ -115,7 +113,6 @@ abstract class OpdsFeedEntityDao {
                            AND $SUBJECT_NAME_SQL IN (:subjects)))
                 AND (NOT :filterByType
                      OR OpdsPublicationEntity.opeMdType IN (:types))
-                AND $NOT_APP_PUBLICATION_SQL
            GROUP BY COALESCE(OpdsPublicationEntity.opeMdIdentifier,
                              OpdsPublicationEntity.opeUrl,
                              OpdsPublicationEntity.opeUid)
@@ -127,11 +124,6 @@ abstract class OpdsFeedEntityDao {
                 AND ReadiumLinkEntity.rleOpdsParentType = :feedParentType
                 AND ReadiumLinkEntity.rlePropType IN (:feedNavigationPropType, :groupNavigationPropType)
                 AND ReadiumLinkEntity.rleTitle LIKE ('%' || :searchText || '%')
-                AND NOT EXISTS(
-                    SELECT 1
-                      FROM OpdsFeedEntity AS AppCatalogFeed
-                     WHERE AppCatalogFeed.ofeUid = ReadiumLinkEntity.rleOpdsParentUid
-                       AND AppCatalogFeed.ofeUrlHash IN (:appCatalogUrlHashes))
            GROUP BY ReadiumLinkEntity.rleOpdsParentUid, ReadiumLinkEntity.rleHref
         )
         
@@ -150,10 +142,7 @@ abstract class OpdsFeedEntityDao {
                  WHERE PublicationSelfLink.rleOpdsParentType = :publicationParentType
                    AND PublicationSelfLink.rleOpdsParentUid = OpdsPublicationEntity.opeUid
                    AND PublicationSelfLink.rlePropType = :publicationLinkPropType
-                   AND EXISTS(
-                       SELECT 1
-                         FROM json_each(PublicationSelfLink.rleRel) AS PublicationSelfLinkRel
-                        WHERE PublicationSelfLinkRel.value = 'self')
+                   AND PublicationSelfLink.rleRel LIKE '%"self"%'
               ORDER BY PublicationSelfLink.rleIndex
                  LIMIT 1) AS href,
                PublicationFeed.ofeUrl AS feedUrl,
@@ -183,10 +172,7 @@ abstract class OpdsFeedEntityDao {
                   FROM ReadiumLinkEntity AS NavigationIcon
                  WHERE NavigationIcon.rlePropType = :linkAlternatePropType
                    AND NavigationIcon.rlePropFk = ReadiumLinkEntity.rleId
-                   AND EXISTS(
-                       SELECT 1
-                         FROM json_each(NavigationIcon.rleRel) AS NavigationIconRel
-                        WHERE NavigationIconRel.value = 'icon')
+                   AND NavigationIcon.rleRel LIKE '%"icon"%'
               ORDER BY NavigationIcon.rleIndex
                  LIMIT 1) AS iconHref
           FROM MatchingNavigationLink
@@ -207,8 +193,6 @@ abstract class OpdsFeedEntityDao {
         types: List<String>,
         includePublications: Boolean,
         includeNavigation: Boolean,
-        appCatalogUrlHashes: List<Long>,
-        appLinkRels: List<String>,
         publicationParentType: OpdsParentType = OpdsParentType.OPDS_PUBLICATION,
         publicationLangMapParentType: LangMapEntity.TopParentType =
             LangMapEntity.TopParentType.OPDS_PUBLICATION,
@@ -230,20 +214,14 @@ abstract class OpdsFeedEntityDao {
     /**
      * Get the distinct languages used by cached publications (for search filter options).
      */
+    //noinspection AndroidUnresolvedRoomSqlReference
     @Query("""
         SELECT DISTINCT PublicationLanguage.value
           FROM OpdsPublicationEntity
                JOIN json_each(OpdsPublicationEntity.opeMdLanguage) AS PublicationLanguage
-         WHERE $NOT_APP_PUBLICATION_SQL
       ORDER BY PublicationLanguage.value
     """)
-    abstract fun findPublicationLanguagesAsFlow(
-        appCatalogUrlHashes: List<Long>,
-        appLinkRels: List<String>,
-        publicationParentType: OpdsParentType = OpdsParentType.OPDS_PUBLICATION,
-        publicationLinkPropType: ReadiumLinkEntity.PropertyType =
-            ReadiumLinkEntity.PropertyType.OPDS_PUB_LINKS,
-    ): Flow<List<String>>
+    abstract fun findPublicationLanguagesAsFlow(): Flow<List<String>>
 
     /**
      * Get the distinct subject names used by cached publications (for search filter options).
@@ -251,45 +229,16 @@ abstract class OpdsFeedEntityDao {
     @Query("""
         SELECT DISTINCT $SUBJECT_NAME_SQL AS subjectName
           FROM ReadiumSubjectEntity
-               JOIN OpdsPublicationEntity
-                    ON OpdsPublicationEntity.opeUid = ReadiumSubjectEntity.rseTopParentUid
          WHERE ReadiumSubjectEntity.rseTopParentType = :publicationParentType
            AND subjectName IS NOT NULL
-           AND $NOT_APP_PUBLICATION_SQL
       ORDER BY subjectName
     """)
     abstract fun findPublicationSubjectsAsFlow(
-        appCatalogUrlHashes: List<Long>,
-        appLinkRels: List<String>,
         publicationParentType: OpdsParentType = OpdsParentType.OPDS_PUBLICATION,
         subjectNamePropType: LangMapEntity.PropType = LangMapEntity.PropType.READIUM_SUBJECT_NAME,
-        publicationLinkPropType: ReadiumLinkEntity.PropertyType =
-            ReadiumLinkEntity.PropertyType.OPDS_PUB_LINKS,
     ): Flow<List<String>>
 
     companion object {
-
-        /**
-         * Condition that excludes apps (which are also stored as OPDS publications) so that only
-         * lessons/content are searched: publications that are in an app catalog feed, or that
-         * have a link relation only used by apps. Requires the :appCatalogUrlHashes,
-         * :appLinkRels, :publicationParentType and :publicationLinkPropType parameters.
-         */
-        private const val NOT_APP_PUBLICATION_SQL = """
-            NOT EXISTS(
-                SELECT 1
-                  FROM OpdsFeedEntity AS AppCatalogFeed
-                 WHERE AppCatalogFeed.ofeUid = OpdsPublicationEntity.opeOfeUid
-                   AND AppCatalogFeed.ofeUrlHash IN (:appCatalogUrlHashes))
-            AND NOT EXISTS(
-                SELECT 1
-                  FROM ReadiumLinkEntity AS AppLink
-                       JOIN json_each(AppLink.rleRel) AS AppLinkRel
-                 WHERE AppLink.rleOpdsParentType = :publicationParentType
-                   AND AppLink.rleOpdsParentUid = OpdsPublicationEntity.opeUid
-                   AND AppLink.rlePropType = :publicationLinkPropType
-                   AND AppLinkRel.value IN (:appLinkRels))
-        """
 
         /**
          * The name of a ReadiumSubjectEntity: a subject is either a simple string value or an

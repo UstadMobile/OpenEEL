@@ -24,9 +24,6 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
      * @property includeNavigation whether navigation links (collections) should be included.
      *           Navigation links do not have a language or subject so they are only included
      *           when no language or subject filter is applied.
-     * @property appCatalogUrls URLs of app catalog feeds (see
-     *           SchoolConfigSettingDataSource.KEY_APP_CATALOGS). Apps are not searched, so
-     *           everything from these feeds is excluded.
      */
     data class SearchParams(
         val searchText: String = "",
@@ -35,7 +32,6 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
         val types: List<String> = emptyList(),
         val includePublications: Boolean = true,
         val includeNavigation: Boolean = true,
-        val appCatalogUrls: List<Url> = emptyList(),
     )
 
     /**
@@ -47,12 +43,8 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
 
     /**
      * Get the languages and subjects available to filter search results.
-     *
-     * @param appCatalogUrls as per [SearchParams.appCatalogUrls]
      */
-    fun getSearchFilterOptionsAsFlow(
-        appCatalogUrls: List<Url> = emptyList(),
-    ): Flow<OpdsSearchFilterOptions>
+    fun getSearchFilterOptionsAsFlow(): Flow<OpdsSearchFilterOptions>
 
     /**
      * The update local is a little different for OpdsFeed because the data can come from different
