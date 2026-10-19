@@ -57,16 +57,11 @@ fun OpdsSearchScreen(
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             openEelPagingItems(
                 items = lazyPagingItems,
-                key = { item, index -> "${item?.isPublication}_${item?.href}_${item?.url}_$index" },
+                key = { _, index -> index },
             ) { result ->
                 val iconUrl = remember(result) {
-                    val iconHref = result?.iconHref
-                    val baseUrl = (result?.url ?: result?.feedUrl)?.let { Url(it) }
-
-                    if(baseUrl != null && iconHref != null) {
-                        baseUrl.resolve(iconHref).toString()
-                    } else {
-                        iconHref
+                    result?.iconHref?.let { iconHref ->
+                        (result.url ?: result.feedUrl)?.let { Url(it).resolve(iconHref).toString() }
                     }
                 }
 
