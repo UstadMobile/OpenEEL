@@ -8,7 +8,14 @@ package org.openeel.lib.opds.model.util
  *
  * This is used when handling reordering, selection, clicks, etc.
  */
-sealed class OpdsFeedItemIndex(val index: Int)
+sealed class OpdsFeedItemIndex(val index: Int) {
+
+    companion object {
+
+        const val NO_GROUP = -1
+
+    }
+}
 
 /**
  * Index for a [org.openeel.lib.opds.model.ReadiumLink] that is contained within the top level
@@ -33,12 +40,4 @@ class PublicationItemItemIndex(index: Int): OpdsFeedItemIndex(index)
 class OpdsFeedGroupItemItemIndex(
     val groupIndex: Int,
     index: Int,
-) : OpdsFeedItemIndex(index) {
-
-    companion object {
-
-        const val NO_GROUP = -1
-
-    }
-
-}
+) : OpdsFeedItemIndex(index)

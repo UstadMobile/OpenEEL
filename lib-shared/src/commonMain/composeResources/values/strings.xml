@@ -743,4 +743,7 @@
     <string name="show_less">Show less</string>
 
     <string name="links_to_learning_items">Links to learning items</string>
+
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>
 </resources>

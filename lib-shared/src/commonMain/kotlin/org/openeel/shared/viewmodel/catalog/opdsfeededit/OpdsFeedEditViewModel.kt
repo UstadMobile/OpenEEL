@@ -28,6 +28,7 @@ import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.libutil.ext.moveItem
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
+import org.openeel.shared.ext.addSelection
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_collection
 import org.openeel.shared.generated.resources.collections_section
@@ -48,6 +49,7 @@ import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.groupType
 import org.openeel.shared.util.ext.isNewFeedOrNewRemix
 import org.openeel.shared.util.ext.resolve
+import org.openeel.shared.util.ext.resolveAndAddSelection
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
@@ -196,36 +198,34 @@ class OpdsFeedEditViewModel(
                 _uiState.update { it.copy(feed = newFeed) }
             }
 
-            //Note: these SHOULD resolve to absolute URLs on selection
             launch {
-                resultReturner.filteredResultFlowForKey(KEY_LEARNING_UNIT).collect { result ->
-                    val sectionIndex = pendingAddItemGroupIndex ?: return@collect
+                resultReturner.filteredResultFlowForKey(KEY_PUBLICATION).collect { result ->
+                    val groupIndex = pendingAddItemGroupIndex ?: return@collect
                     val publicationSelection = result.result as? PublicationsSelection ?: return@collect
 
                     pendingAddItemGroupIndex = null
 
                     _uiState.update { prev ->
                         prev.copy(
-                            feed = prev.feed?.copy(
-                                groups = prev.feed.groups.orEmpty().toMutableList().also { groupList ->
-                                    val groupToAddTo = groupList[sectionIndex]
-                                    groupList[sectionIndex] = groupToAddTo.copy(
-                                        publications = buildList {
-                                            addAll(groupToAddTo.publications.orEmpty())
-                                            /*
-                                             * Added publications need to be resolved because they
-                                             * may contain relative links, which probably have a
-                                             * different base url.
-                                             */
-                                            addAll(
-                                                publicationSelection.selectedPublications.map {
-                                                    it.resolve(publicationSelection.url)
-                                                }
+                            feed = if(groupIndex == OpdsFeedItemIndex.NO_GROUP) {
+                                prev.feed?.copy(
+                                    publications = prev.feed.publications.orEmpty()
+                                        .resolveAndAddSelection(publicationSelection)
+                                )
+                            }else {
+                                prev.feed?.copy(
+                                    groups = if(groupIndex >= 0) {
+                                        prev.feed.groups.orEmpty().toMutableList().also { groupList ->
+                                            groupList[groupIndex] = groupList[groupIndex].copy(
+                                                publications = groupList[groupIndex].publications
+                                                    .orEmpty().resolveAndAddSelection(publicationSelection),
                                             )
                                         }
-                                    )
-                                }
-                            )
+                                    }else {
+                                        prev.feed.groups
+                                    }
+                                )
+                            }
                         )
                     }
                 }
@@ -239,17 +239,22 @@ class OpdsFeedEditViewModel(
 
                     _uiState.update { prev ->
                         prev.copy(
-                            feed = prev.feed?.copy(
-                                groups = prev.feed.groups.orEmpty().toMutableList().also { groupList ->
-                                    val groupToAddTo = groupList[groupIndex]
-                                    groupList[groupIndex] = groupToAddTo.copy(
-                                        navigation = buildList {
-                                            addAll(groupToAddTo.navigation.orEmpty())
-                                            addAll(feedSelection.selectedFeeds)
-                                        }
-                                    )
-                                }
-                            )
+                            feed = if(groupIndex == OpdsFeedItemIndex.NO_GROUP) {
+                                prev.feed?.copy(
+                                    navigation = prev.feed.navigation.orEmpty()
+                                        .addSelection(feedSelection)
+                                )
+                            }else {
+                                prev.feed?.copy(
+                                    groups = prev.feed.groups.orEmpty().toMutableList().also { groupList ->
+                                        val groupToAddTo = groupList[groupIndex]
+                                        groupList[groupIndex] = groupToAddTo.copy(
+                                            navigation = groupToAddTo.navigation.orEmpty()
+                                                .addSelection(feedSelection)
+                                        )
+                                    }.toList()
+                                )
+                            }
                         )
                     }
                 }
@@ -280,7 +285,7 @@ class OpdsFeedEditViewModel(
 
     fun onGroupTitleChanged(groupIndex: Int, title: String) {
         _uiState.update { prev ->
-            val sections = (prev.feed?.groups ?: emptyList()).toMutableList()
+            val sections = prev.feed?.groups.orEmpty().toMutableList()
             val section = sections.getOrNull(groupIndex)
                 ?: throw IllegalStateException("No group at index $groupIndex")
             sections[groupIndex] = section.copy(
@@ -497,7 +502,7 @@ class OpdsFeedEditViewModel(
                 destination = OpenEelAppLauncher.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
-                        resultKey = KEY_LEARNING_UNIT,
+                        resultKey = KEY_PUBLICATION,
                     ),
                     opdsPickType = OpdsPickType.PUBLICATION,
                 ),
@@ -513,7 +518,7 @@ class OpdsFeedEditViewModel(
                 destination = OpdsFeedEditAddLink.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
-                        resultKey = KEY_LEARNING_UNIT,
+                        resultKey = KEY_PUBLICATION,
                     ),
                     opdsPickType = OpdsPickType.PUBLICATION,
                 ),
@@ -571,7 +576,7 @@ class OpdsFeedEditViewModel(
     }
 
     companion object {
-        const val KEY_LEARNING_UNIT = "result_learning_unit"
+        const val KEY_PUBLICATION = "result_learning_unit"
         const val KEY_COLLECTION = "result_collection"
         private const val KEY_PENDING_ADD_ITEM_GROUP_INDEX = "pending_add_item_section_index"
     }

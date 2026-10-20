@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import sh.calvin.reorderable.ReorderableListItemScope
@@ -28,6 +29,7 @@ fun ReorderableListItemScope.PlaylistPublicationItemRow(
     hasMovableSections: Boolean,
     onClickDelete: () -> Unit,
     onClickMove: () -> Unit,
+    indentPadding: Dp = ICON_BUTTON_DEFAULT_WIDTH.dp,
 ) {
     ListItem(
         modifier = Modifier.fillMaxWidth().testTag("pub_item_${groupIndex}_$itemIndex"),
@@ -35,7 +37,7 @@ fun ReorderableListItemScope.PlaylistPublicationItemRow(
             IconButton(
                 onClick = { },
                 modifier = Modifier
-                    .padding(start = ICON_BUTTON_DEFAULT_WIDTH.dp)
+                    .padding(start = indentPadding)
                     .draggableHandle()
                     .testTag("pub_drag_handle_${groupIndex}_$itemIndex")
             ) {

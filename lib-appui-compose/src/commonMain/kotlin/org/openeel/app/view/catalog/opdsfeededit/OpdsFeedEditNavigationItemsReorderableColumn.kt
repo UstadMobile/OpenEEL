@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.lib.opds.model.ReadiumLink
@@ -32,6 +33,7 @@ fun NavigationItemsReorderableColumn(
     onClickDeleteItem: (Int) -> Unit,
     onClickMoveItem: (Int) -> Unit,
     modifier: Modifier = Modifier,
+    indentPadding: Dp = ICON_BUTTON_DEFAULT_WIDTH.dp,
 ) {
     Column(modifier = modifier) {
         ListItem(
@@ -43,7 +45,7 @@ fun NavigationItemsReorderableColumn(
                     imageVector = Icons.Default.Add,
                     contentDescription = null,
                     modifier = Modifier.padding(
-                        start = (ICON_BUTTON_DEFAULT_WIDTH+8).dp,
+                        start = indentPadding + 8.dp,
                         end = 8.dp,
                     )
                 )
@@ -71,6 +73,7 @@ fun NavigationItemsReorderableColumn(
             key(itemIndex) {
                 ReorderableItem {
                     OpdsFeedEditNavigationItemRow(
+                        indentPadding = indentPadding,
                         itemIndex = itemIndex,
                         navItem = navLink,
                         groupIndex = groupIndex,

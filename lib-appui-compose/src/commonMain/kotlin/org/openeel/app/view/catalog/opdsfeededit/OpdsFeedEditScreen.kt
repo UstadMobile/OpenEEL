@@ -24,10 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import sh.calvin.reorderable.ReorderableColumn
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
-import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
 import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_section
@@ -42,6 +40,7 @@ import org.openeel.shared.util.ext.groupType
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditUiState
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsGroupType
+import sh.calvin.reorderable.ReorderableColumn
 
 /**
  * The width of one IconButton as per
@@ -141,11 +140,12 @@ fun OpdsFeedEditScreen(
 
         NavigationItemsReorderableColumn(
             modifier = Modifier.fillMaxWidth(),
+            indentPadding = 0.dp,
             navItems = uiState.feed?.navigation.orEmpty(),
-            groupIndex = OpdsFeedGroupItemItemIndex.NO_GROUP,
+            groupIndex = OpdsFeedItemIndex.NO_GROUP,
             showMoveItemOption = uiState.canMoveNavigationItemToOtherGroup,
             onClickAdd = {
-
+                onClickAddCollection(OpdsFeedItemIndex.NO_GROUP)
             },
             onItemReorderSettle = onItemReorderSettle,
             onClickDeleteItem = {
@@ -163,10 +163,11 @@ fun OpdsFeedEditScreen(
         )
 
         OpdsFeedEditPublicationsReorderableColumn(
+            indentPadding = 0.dp,
             pubItems = uiState.feed?.publications.orEmpty(),
-            groupIndex = OpdsFeedGroupItemItemIndex.NO_GROUP,
+            groupIndex = OpdsFeedItemIndex.NO_GROUP,
             onClickAddItem = {
-                onClickAddItem(OpdsFeedGroupItemItemIndex.NO_GROUP)
+                onClickAddItem(OpdsFeedItemIndex.NO_GROUP)
             },
             onItemReorderSettle = onItemReorderSettle,
             showMoveItemOption = uiState.canMovePublicationItemToOtherGroup,
