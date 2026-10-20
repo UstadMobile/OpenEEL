@@ -3,6 +3,7 @@ package org.openeel.shared.viewmodel.catalog.opdsfeededit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -90,6 +91,7 @@ data class MoveItemDestination(
 
 data class OpdsFeedEditUiState(
     val feed: OpdsFeed? = null,
+    val baseUrl: Url = Url("http://localhost:8080/"),
     val addGroupTypeDialogVisible: Boolean = false,
     val titleError: UiText? = null,
     val movingItem: OpdsFeedItemIndex? = null,
@@ -172,7 +174,9 @@ class OpdsFeedEditViewModel(
 
     private val route: OpdsFeedEdit = savedStateHandle.toRoute()
 
-    private val _uiState = MutableStateFlow(OpdsFeedEditUiState())
+    private val _uiState = MutableStateFlow(
+        OpdsFeedEditUiState(baseUrl = accountManager.requireActiveSchoolUrl())
+    )
 
     val uiState = _uiState.asStateFlow()
 
@@ -230,7 +234,12 @@ class OpdsFeedEditViewModel(
                         }
                     },
                     uiUpdateFn = { state ->
-                        _uiState.update { it.copy(feed = state.dataOrNull()) }
+                        _uiState.update {
+                            it.copy(
+                                feed = state.dataOrNull(),
+                                baseUrl = state.dataOrNull()?.requireSelfUrl() ?: it.baseUrl,
+                            )
+                        }
                     }
                 )
             }else {

@@ -14,6 +14,7 @@ import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.opds.model.util.NavigationItemItemIndex
@@ -26,6 +27,7 @@ import sh.calvin.reorderable.ReorderableColumn
 @Composable
 fun NavigationItemsReorderableColumn(
     navItems: List<ReadiumLink>,
+    baseUrl: Url,
     groupIndex: Int,
     showMoveItemOption: Boolean,
     onClickAdd: () -> Unit,
@@ -76,6 +78,7 @@ fun NavigationItemsReorderableColumn(
                         indentPadding = indentPadding,
                         itemIndex = itemIndex,
                         navItem = navLink,
+                        baseUrl = baseUrl,
                         groupIndex = groupIndex,
                         hasMoveOption = showMoveItemOption,
                         onClickDelete = { onClickDeleteItem(itemIndex) },

@@ -15,3 +15,6 @@ fun List<ReadiumLink>.addSelection(selection: OpdsFeedSelection) : List<ReadiumL
     return selection.selectedFeeds.resolveAll(selection.url) + this
 }
 
+fun ReadiumLink.findIcons(): List<ReadiumLink> {
+    return this.alternate.orEmpty().filter { it.hasRel("icon") }
+}

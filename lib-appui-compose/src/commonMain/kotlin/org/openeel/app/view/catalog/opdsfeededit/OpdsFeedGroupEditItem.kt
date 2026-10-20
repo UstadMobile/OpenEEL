@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
 import sh.calvin.reorderable.ReorderableListItemScope
 import org.openeel.lib.opds.model.OpdsGroup
@@ -28,6 +29,7 @@ import org.openeel.shared.generated.resources.section_title
 @Composable
 fun ReorderableListItemScope.OpdsFeedGroupEditItem(
     group: OpdsGroup,
+    baseUrl: Url,
     groupIndex: Int,
     showMoveItemOption: Boolean,
     onGroupTitleChanged: (String) -> Unit,
@@ -85,6 +87,7 @@ fun ReorderableListItemScope.OpdsFeedGroupEditItem(
         if (isNavigationSection) {
             NavigationItemsReorderableColumn(
                 navItems = group.navigation.orEmpty(),
+                baseUrl = baseUrl,
                 groupIndex = groupIndex,
                 showMoveItemOption = showMoveItemOption,
                 onClickAdd = onClickAddPlaylist,
@@ -96,6 +99,7 @@ fun ReorderableListItemScope.OpdsFeedGroupEditItem(
         } else {
             OpdsFeedEditPublicationsReorderableColumn(
                 pubItems = group.publications.orEmpty(),
+                baseUrl = baseUrl,
                 groupIndex = groupIndex,
                 onClickAddItem = onClickAddItem,
                 onItemReorderSettle = onItemReorderSettle,

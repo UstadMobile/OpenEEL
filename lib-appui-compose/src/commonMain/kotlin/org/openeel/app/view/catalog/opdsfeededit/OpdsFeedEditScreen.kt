@@ -157,6 +157,7 @@ fun OpdsFeedEditScreen(
                 modifier = Modifier.fillMaxWidth(),
                 indentPadding = 0.dp,
                 navItems = uiState.feed?.navigation.orEmpty(),
+                baseUrl = uiState.baseUrl,
                 groupIndex = OpdsFeedItemIndex.NO_GROUP,
                 showMoveItemOption = uiState.canMoveNavigationItemToOtherGroup,
                 onClickAdd = {
@@ -184,6 +185,7 @@ fun OpdsFeedEditScreen(
             OpdsFeedEditPublicationsReorderableColumn(
                 indentPadding = 0.dp,
                 pubItems = uiState.feed?.publications.orEmpty(),
+                baseUrl = uiState.baseUrl,
                 groupIndex = OpdsFeedItemIndex.NO_GROUP,
                 onClickAddItem = {
                     onClickAddItem(OpdsFeedItemIndex.NO_GROUP)
@@ -231,6 +233,7 @@ fun OpdsFeedEditScreen(
                     OpdsFeedGroupEditItem(
                         groupIndex = groupIndex,
                         group = group,
+                        baseUrl = uiState.baseUrl,
                         showMoveItemOption = if(group.groupType == OpdsGroupType.NAVIGATION) {
                             uiState.canMoveNavigationItemToOtherGroup
                         }else {

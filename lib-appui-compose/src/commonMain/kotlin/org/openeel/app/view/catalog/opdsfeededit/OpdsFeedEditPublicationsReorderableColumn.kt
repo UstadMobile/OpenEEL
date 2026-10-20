@@ -14,6 +14,7 @@ import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
@@ -26,6 +27,7 @@ import sh.calvin.reorderable.ReorderableColumn
 @Composable
 fun OpdsFeedEditPublicationsReorderableColumn(
     pubItems: List<Publication>,
+    baseUrl: Url,
     groupIndex: Int,
     onClickAddItem: () -> Unit,
     onItemReorderSettle: (from: OpdsFeedItemIndex, toIndex: Int) -> Unit,
@@ -71,9 +73,10 @@ fun OpdsFeedEditPublicationsReorderableColumn(
         ) { itemIndex, publication, _ ->
             key(itemIndex) {
                 ReorderableItem {
-                    PlaylistPublicationItemRow(
+                    OpdsFeedEditPublicationItemRow(
                         itemIndex = itemIndex,
                         publication = publication,
+                        baseUrl = baseUrl,
                         groupIndex = groupIndex,
                         hasMovableSections = showMoveItemOption,
                         onClickDelete = { onClickDeleteItem(itemIndex) },
