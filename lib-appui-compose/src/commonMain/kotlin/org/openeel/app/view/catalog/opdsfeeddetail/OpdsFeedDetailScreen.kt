@@ -35,7 +35,7 @@ import org.openeel.app.components.langMapString
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
-import org.openeel.lib.opds.model.ext.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.assign
 import org.openeel.shared.generated.resources.cancel
@@ -94,10 +94,10 @@ fun OpdsFeedDetailScreen(
     uiState: OpdsFeedDetailUiState = OpdsFeedDetailUiState(),
     @Suppress("unused")
     onSortOrderChanged: (SortOrderOption) -> Unit = { },
-    onClickPublication: (OpdsFeedItemIndex) -> Unit = {},
-    onLongPressPublication: (OpdsFeedItemIndex) -> Unit = {},
-    onClickNavigation: (OpdsFeedItemIndex) -> Unit = {},
-    onLongPressNavigation: (OpdsFeedItemIndex) -> Unit = {},
+    onClickPublication: (OpdsFeedGroupItemItemIndex) -> Unit = {},
+    onLongPressPublication: (OpdsFeedGroupItemItemIndex) -> Unit = {},
+    onClickNavigation: (OpdsFeedGroupItemItemIndex) -> Unit = {},
+    onLongPressNavigation: (OpdsFeedGroupItemItemIndex) -> Unit = {},
     onClickConfirmSelection: () -> Unit = {},
     onClickSelectPlaylist: () -> Unit = {},
     onClickToggleGroup: (Int) -> Unit = {},
@@ -142,7 +142,7 @@ fun OpdsFeedDetailScreen(
                     items = navigation,
                     key = { index, _ -> "top_nav_$index" }
                 ) { index, navigationItem ->
-                    val feedIndex = OpdsFeedItemIndex(groupIndex = -1, index)
+                    val feedIndex = OpdsFeedGroupItemItemIndex(groupIndex = -1, index)
                     NavigationListItem(
                         navigation = navigationItem,
                         showCheckbox = uiState.showNavigationCheckboxes,
@@ -160,7 +160,7 @@ fun OpdsFeedDetailScreen(
                     items = publications,
                     key = { index, _ -> "top_pub_$index" }
                 ) { index, publication ->
-                    val feedItemIndex = OpdsFeedItemIndex(groupIndex = -1, index)
+                    val feedItemIndex = OpdsFeedGroupItemItemIndex(groupIndex = -1, index)
                     PublicationListItem(
                         publication = publication,
                         showCheckbox = uiState.showPublicationCheckboxes,
@@ -187,7 +187,7 @@ fun OpdsFeedDetailScreen(
                         items = group.navigation ?: emptyList(),
                         key = { itemIndex, _ -> "nav_${groupIndex}_$itemIndex" }
                     ) { itemIndex, navigation ->
-                        val feedIndex = OpdsFeedItemIndex(groupIndex = groupIndex, index = itemIndex)
+                        val feedIndex = OpdsFeedGroupItemItemIndex(groupIndex = groupIndex, index = itemIndex)
                         NavigationListItem(
                             navigation = navigation,
                             showCheckbox = uiState.showNavigationCheckboxes,
@@ -201,7 +201,7 @@ fun OpdsFeedDetailScreen(
                         items = group.publications ?: emptyList(),
                         key = { itemIndex, _ -> "pub_${groupIndex}_$itemIndex" }
                     ) { itemIndex, publication ->
-                        val feedItemIndex = OpdsFeedItemIndex(groupIndex = groupIndex, index = itemIndex)
+                        val feedItemIndex = OpdsFeedGroupItemItemIndex(groupIndex = groupIndex, index = itemIndex)
                         PublicationListItem(
                             publication = publication,
                             showCheckbox = uiState.showPublicationCheckboxes,

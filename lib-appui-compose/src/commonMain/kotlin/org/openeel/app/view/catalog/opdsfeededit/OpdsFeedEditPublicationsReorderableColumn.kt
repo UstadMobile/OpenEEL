@@ -15,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_item
 import sh.calvin.reorderable.ReorderableColumn
@@ -24,7 +27,7 @@ fun OpdsFeedEditPublicationsReorderableColumn(
     pubItems: List<Publication>,
     groupIndex: Int,
     onClickAddItem: () -> Unit,
-    onItemsReordered: (fromIndex: Int, toIndex: Int) -> Unit,
+    onItemReorderSettle: (from: OpdsFeedItemIndex, toIndex: Int) -> Unit,
     showMoveItemOption: Boolean,
     onClickDeleteItem: (Int) -> Unit,
     onClickMoveItem: (Int) -> Unit,
@@ -52,7 +55,16 @@ fun OpdsFeedEditPublicationsReorderableColumn(
 
         ReorderableColumn(
             list = pubItems,
-            onSettle = onItemsReordered,
+            onSettle = { from, toIndex ->
+                onItemReorderSettle(
+                    if(groupIndex >= 0) {
+                        OpdsFeedGroupItemItemIndex(groupIndex, from)
+                    } else{
+                        PublicationItemItemIndex(from)
+                    },
+                    toIndex
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
         ) { itemIndex, publication, _ ->
             key(itemIndex) {

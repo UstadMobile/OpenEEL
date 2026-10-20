@@ -21,6 +21,10 @@ import org.openeel.lib.dataloadstate.ext.mapAsync
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.OpdsFeedMetadata
 import org.openeel.lib.opds.model.OpdsGroup
+import org.openeel.lib.opds.model.util.NavigationItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.libutil.ext.moveItem
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
@@ -274,12 +278,12 @@ class OpdsFeedEditViewModel(
         }
     }
 
-    fun onSectionTitleChanged(sectionIndex: Int, title: String) {
+    fun onGroupTitleChanged(groupIndex: Int, title: String) {
         _uiState.update { prev ->
             val sections = (prev.feed?.groups ?: emptyList()).toMutableList()
-            val section = sections.getOrNull(sectionIndex)
-                ?: throw IllegalStateException("No section at index $sectionIndex")
-            sections[sectionIndex] = section.copy(
+            val section = sections.getOrNull(groupIndex)
+                ?: throw IllegalStateException("No group at index $groupIndex")
+            sections[groupIndex] = section.copy(
                 metadata = section.metadata.copy(title = title)
             )
             prev.copy(feed = prev.feed?.copy(groups = sections))
@@ -341,31 +345,46 @@ class OpdsFeedEditViewModel(
         }
     }
 
-    fun onGroupItemsReordered(
-        groupIndex: Int,
-        fromIndex: Int,
+    fun onItemReorderSettle(
+        fromItemIndex: OpdsFeedItemIndex,
         toIndex: Int,
     ) {
         _uiState.update { prev ->
             prev.copy(
-                feed = prev.feed?.copy(
-                    groups = prev.feed.groups?.toMutableList()?.also { groupList ->
-                        val group = groupList[groupIndex]
+                feed = when(fromItemIndex) {
+                    is OpdsFeedGroupItemItemIndex -> {
+                        prev.feed?.copy(
+                            groups = prev.feed.groups?.toMutableList()?.also { groupList ->
+                                val group = groupList[fromItemIndex.groupIndex]
 
-                        groupList[groupIndex] = group.copy(
-                            navigation = if(group.groupType == OpdsGroupType.NAVIGATION) {
-                                group.navigation?.moveItem(fromIndex, toIndex)
-                            }else {
-                                group.navigation
-                            },
-                            publications = if(group.groupType == OpdsGroupType.PUBLICATION) {
-                                group.publications?.moveItem(fromIndex, toIndex)
-                            }else {
-                                group.publications
+                                groupList[fromItemIndex.groupIndex] = group.copy(
+                                    navigation = if(group.groupType == OpdsGroupType.NAVIGATION) {
+                                        group.navigation?.moveItem(fromItemIndex.index, toIndex)
+                                    }else {
+                                        group.navigation
+                                    },
+                                    publications = if(group.groupType == OpdsGroupType.PUBLICATION) {
+                                        group.publications?.moveItem(fromItemIndex.index, toIndex)
+                                    }else {
+                                        group.publications
+                                    }
+                                )
                             }
                         )
                     }
-                )
+
+                    is NavigationItemItemIndex -> {
+                        prev.feed?.copy(
+                            navigation = prev.feed.navigation?.moveItem(fromItemIndex.index, toIndex)
+                        )
+                    }
+
+                    is PublicationItemItemIndex -> {
+                        prev.feed?.copy(
+                            publications = prev.feed.publications?.moveItem(fromItemIndex.index, toIndex)
+                        )
+                    }
+                }
             )
         }
     }

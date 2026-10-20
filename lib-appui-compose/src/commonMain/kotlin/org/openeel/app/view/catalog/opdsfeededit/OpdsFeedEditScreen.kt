@@ -27,7 +27,8 @@ import org.jetbrains.compose.resources.stringResource
 import sh.calvin.reorderable.ReorderableColumn
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
-import org.openeel.lib.opds.model.ext.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_section
 import org.openeel.shared.generated.resources.collection_section_description
@@ -58,19 +59,19 @@ fun OpdsFeedEditScreen(
         uiState = uiState,
         onTitleChanged = viewModel::onTitleChanged,
         onDescriptionChanged = viewModel::onDescriptionChanged,
-        onGroupTitleChanged = viewModel::onSectionTitleChanged,
+        onGroupTitleChanged = viewModel::onGroupTitleChanged,
         onClickAddGroup = viewModel::onClickAddGroup,
         onDismissAddGroupTypeDialog = viewModel::onDismissAddGroupTypeDialog,
         onClickAddGroupType = viewModel::onClickAddGroupType,
         onClickDeleteGroup = viewModel::onClickDeleteSection,
         onGroupMoved = viewModel::onGroupMoved,
         onClickAddItem = viewModel::onClickAddItem,
-        onClickAddPlaylist = viewModel::onClickAddPlaylist,
+        onClickAddCollection = viewModel::onClickAddPlaylist,
         onClickDeleteItem = viewModel::onClickDeleteItem,
         onClickMoveItem = viewModel::onClickMoveItem,
         onClickMoveItemToGroup = viewModel::onClickMoveItemToSection,
         onDismissMoveDialog = viewModel::onDismissMoveDialog,
-        onGroupItemsReordered = viewModel::onGroupItemsReordered,
+        onItemReorderSettle = viewModel::onItemReorderSettle,
         onDismissAddItemTypeBottomSheet = viewModel::onDismissAddItemTypeBottomSheet,
         onClickAddItemBrowse = viewModel::onClickAddItemBrowse,
         onClickAddItemUseLink = viewModel::onClickAddItemUseLink,
@@ -89,12 +90,12 @@ fun OpdsFeedEditScreen(
     onClickDeleteGroup: (Int) -> Unit = {},
     onGroupMoved: (fromIndex: Int, toIndex: Int) -> Unit = { _, _ -> },
     onClickAddItem: (Int) -> Unit = {},
-    onClickAddPlaylist: (Int) -> Unit = {},
+    onClickAddCollection: (Int) -> Unit = {},
     onClickDeleteItem: (Int, Int) -> Unit = { _, _ -> },
     onClickMoveItem: (Int, Int) -> Unit = { _, _ -> },
     onClickMoveItemToGroup: (Int) -> Unit = {},
     onDismissMoveDialog: () -> Unit = {},
-    onGroupItemsReordered: (groupIndex: Int, fromIndex: Int, toIndex: Int) -> Unit = { _, _, _ -> },
+    onItemReorderSettle: (from: OpdsFeedItemIndex, toIndex: Int) -> Unit = { _, _ -> },
     onDismissAddItemTypeBottomSheet: () -> Unit = {},
     onClickAddItemBrowse: () -> Unit = {},
     onClickAddItemUseLink: () -> Unit = {},
@@ -141,14 +142,12 @@ fun OpdsFeedEditScreen(
         NavigationItemsReorderableColumn(
             modifier = Modifier.fillMaxWidth(),
             navItems = uiState.feed?.navigation.orEmpty(),
-            groupIndex = OpdsFeedItemIndex.NO_GROUP,
+            groupIndex = OpdsFeedGroupItemItemIndex.NO_GROUP,
             showMoveItemOption = uiState.canMoveNavigationItemToOtherGroup,
             onClickAdd = {
 
             },
-            onItemsReordered = { fromIndex, toIndex ->
-
-            },
+            onItemReorderSettle = onItemReorderSettle,
             onClickDeleteItem = {
 
             },
@@ -165,13 +164,11 @@ fun OpdsFeedEditScreen(
 
         OpdsFeedEditPublicationsReorderableColumn(
             pubItems = uiState.feed?.publications.orEmpty(),
-            groupIndex = OpdsFeedItemIndex.NO_GROUP,
+            groupIndex = OpdsFeedGroupItemItemIndex.NO_GROUP,
             onClickAddItem = {
-
+                onClickAddItem(OpdsFeedGroupItemItemIndex.NO_GROUP)
             },
-            onItemsReordered = { fromIndex, toIndex ->
-
-            },
+            onItemReorderSettle = onItemReorderSettle,
             showMoveItemOption = uiState.canMovePublicationItemToOtherGroup,
             onClickDeleteItem= {
 
@@ -221,16 +218,12 @@ fun OpdsFeedEditScreen(
                         onGroupTitleChanged = { t -> onGroupTitleChanged(groupIndex, t) },
                         onClickDeleteGroup = { onClickDeleteGroup(groupIndex) },
                         onClickAddItem = { onClickAddItem(groupIndex) },
-                        onClickAddPlaylist = { onClickAddPlaylist(groupIndex) },
+                        onClickAddPlaylist = { onClickAddCollection(groupIndex) },
                         onClickDeleteItem = { itemIndex ->
                             onClickDeleteItem(groupIndex, itemIndex)
                         },
                         onClickMoveItem = { itemIndex -> onClickMoveItem(groupIndex, itemIndex) },
-                        onGroupItemsReordered = { fromIndex, toIndex ->
-                            onGroupItemsReordered(
-                                groupIndex, fromIndex, toIndex
-                            )
-                        },
+                        onItemReorderSettle = onItemReorderSettle,
                     )
                 }
             }

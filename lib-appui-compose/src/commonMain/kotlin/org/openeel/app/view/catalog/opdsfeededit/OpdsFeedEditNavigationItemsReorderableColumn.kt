@@ -15,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.util.NavigationItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_link_to_collection_here
 import sh.calvin.reorderable.ReorderableColumn
@@ -25,7 +28,7 @@ fun NavigationItemsReorderableColumn(
     groupIndex: Int,
     showMoveItemOption: Boolean,
     onClickAdd: () -> Unit,
-    onItemsReordered: (fromIndex: Int, toIndex: Int) -> Unit,
+    onItemReorderSettle: (from: OpdsFeedItemIndex, toIndex: Int) -> Unit,
     onClickDeleteItem: (Int) -> Unit,
     onClickMoveItem: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -52,7 +55,16 @@ fun NavigationItemsReorderableColumn(
 
         ReorderableColumn(
             list = navItems,
-            onSettle = onItemsReordered,
+            onSettle = { from, toIndex ->
+                onItemReorderSettle(
+                    if(groupIndex >= 0) {
+                        OpdsFeedGroupItemItemIndex(groupIndex, from)
+                    }else {
+                        NavigationItemItemIndex(from)
+                    },
+                    toIndex,
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
         ) { itemIndex, navLink, _ ->
             //Would probably be nicer to use actual identifiers where possible.
