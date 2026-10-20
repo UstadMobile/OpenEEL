@@ -1,6 +1,6 @@
-appId: world.respect.app
+appId: org.openeel.app
 onFlowStart:
-  - clearState: world.respect.app
+  - clearState: org.openeel.app
   - runScript:
       file: "scripts/school_init.js"
       env:
@@ -215,7 +215,7 @@ onFlowComplete:
       NAME: "db-shared-device"
 
 # Enable Test Device 2
-- clearState: world.respect.app
+- clearState: org.openeel.app
 - runFlow:
     file: "subflows/openlink_flow.yaml"
     env:
