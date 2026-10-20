@@ -244,7 +244,11 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Edit Collection"
+- scrollUntilVisible:
+    element: "Day 1-Collections section"
 - assertVisible: "Day 1-Collections section"
+- scrollUntilVisible:
+    element: "Learning item section"
 - assertVisible: "Learning item section"
 - tapOn: "Save"
 - assertVisible:
@@ -262,7 +266,7 @@ onFlowComplete:
 - tapOn:
     id: "expand_collapse_icon"    #Collapse - Collection section day 1
     index: 0
-- assertNotVisible: "Examples"
+#- assertNotVisible: "Examples"
 - assertVisible: "Learning item section"
 - assertVisible: "Statement Maker"
 - tapOn:

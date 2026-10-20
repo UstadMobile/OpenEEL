@@ -113,9 +113,9 @@ fun OpdsFeedListScreen(
                                 stringResource(
                                     Res.string.sections_and_items,
                                     feed.groups?.size ?: 0,
-                                    feed.groups?.sumOf { group ->
+                                    feed.groups.orEmpty().sumOf { group ->
                                         (group.publications?.size ?: 0) + (group.navigation?.size ?: 0)
-                                    } ?: 0,
+                                    } + feed.publications.orEmpty().size + feed.navigation.orEmpty().size,
                                 ),
                                 if (isCreatedByActiveUser) {
                                     stringResource(Res.string.created_by, uiState.activeUsername)
