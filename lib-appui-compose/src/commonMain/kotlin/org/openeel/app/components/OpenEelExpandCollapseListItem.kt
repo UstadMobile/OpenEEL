@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemColors
@@ -31,18 +32,16 @@ fun OpenEelExpandCollapseListItem(
     leadingContent: (@Composable () -> Unit)? = null,
     supportingContent: (@Composable () -> Unit)? = null,
     overlineContent: (@Composable () -> Unit)? = null,
-    expandContentDescription: String? = null,
-    collapseContentDescription: String? = null,
     colors: ListItemColors = ListItemDefaults.colors(),
     tonalElevation: Dp = ListItemDefaults.Elevation,
     shadowElevation: Dp = ListItemDefaults.Elevation,
     trailingContent: (@Composable () -> Unit)? = {
         Icon(
-            imageVector = Icons.Outlined.KeyboardArrowDown,
+            imageVector = Icons.Outlined.KeyboardArrowUp,
             contentDescription = stringResource(if(expanded) Res.string.collapse else Res.string.expand),
             modifier = Modifier
                 .size(24.dp)
-                .rotate(if (expanded) 0f else -90f),
+                .rotate(if (expanded) 0f else -180f),
         )
     },
 ) {

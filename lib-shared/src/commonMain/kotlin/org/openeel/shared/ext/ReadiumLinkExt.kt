@@ -12,6 +12,6 @@ fun List<ReadiumLink>.alternateLanguageLinks(): List<ReadiumLink> {
 }
 
 fun List<ReadiumLink>.addSelection(selection: OpdsFeedSelection) : List<ReadiumLink>{
-    return this + selection.selectedFeeds.resolveAll(selection.url)
+    return selection.selectedFeeds.resolveAll(selection.url) + this
 }
 

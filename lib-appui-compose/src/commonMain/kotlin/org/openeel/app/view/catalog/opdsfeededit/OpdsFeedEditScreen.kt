@@ -20,10 +20,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import org.openeel.app.components.OpenEelExpandCollapseListItem
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
@@ -99,6 +103,9 @@ fun OpdsFeedEditScreen(
     onClickAddItemBrowse: () -> Unit = {},
     onClickAddItemUseLink: () -> Unit = {},
 ) {
+    var collectionsExpanded by remember { mutableStateOf(true) }
+    var learningItemsExpanded by remember { mutableStateOf(true) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -132,52 +139,60 @@ fun OpdsFeedEditScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Text(
-            text = stringResource(Res.string.collection_section_description),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.defaultItemPadding(),
-        )
-
-        NavigationItemsReorderableColumn(
-            modifier = Modifier.fillMaxWidth(),
-            indentPadding = 0.dp,
-            navItems = uiState.feed?.navigation.orEmpty(),
-            groupIndex = OpdsFeedItemIndex.NO_GROUP,
-            showMoveItemOption = uiState.canMoveNavigationItemToOtherGroup,
-            onClickAdd = {
-                onClickAddCollection(OpdsFeedItemIndex.NO_GROUP)
-            },
-            onItemReorderSettle = onItemReorderSettle,
-            onClickDeleteItem = {
-
-            },
-            onClickMoveItem = {
-
+        OpenEelExpandCollapseListItem(
+            expanded = collectionsExpanded,
+            onExpandedChanged = { collectionsExpanded = it },
+            headlineContent = {
+                Text(stringResource(Res.string.collection_section_description))
             },
         )
 
-        Text(
-            text = stringResource(Res.string.links_to_learning_items),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.defaultItemPadding(),
+        if (collectionsExpanded) {
+            NavigationItemsReorderableColumn(
+                modifier = Modifier.fillMaxWidth(),
+                indentPadding = 0.dp,
+                navItems = uiState.feed?.navigation.orEmpty(),
+                groupIndex = OpdsFeedItemIndex.NO_GROUP,
+                showMoveItemOption = uiState.canMoveNavigationItemToOtherGroup,
+                onClickAdd = {
+                    onClickAddCollection(OpdsFeedItemIndex.NO_GROUP)
+                },
+                onItemReorderSettle = onItemReorderSettle,
+                onClickDeleteItem = {
+
+                },
+                onClickMoveItem = {
+
+                },
+            )
+        }
+
+        OpenEelExpandCollapseListItem(
+            expanded = learningItemsExpanded,
+            onExpandedChanged = { learningItemsExpanded = it },
+            headlineContent = {
+                Text(stringResource(Res.string.links_to_learning_items))
+            },
         )
 
-        OpdsFeedEditPublicationsReorderableColumn(
-            indentPadding = 0.dp,
-            pubItems = uiState.feed?.publications.orEmpty(),
-            groupIndex = OpdsFeedItemIndex.NO_GROUP,
-            onClickAddItem = {
-                onClickAddItem(OpdsFeedItemIndex.NO_GROUP)
-            },
-            onItemReorderSettle = onItemReorderSettle,
-            showMoveItemOption = uiState.canMovePublicationItemToOtherGroup,
-            onClickDeleteItem= {
+        if (learningItemsExpanded) {
+            OpdsFeedEditPublicationsReorderableColumn(
+                indentPadding = 0.dp,
+                pubItems = uiState.feed?.publications.orEmpty(),
+                groupIndex = OpdsFeedItemIndex.NO_GROUP,
+                onClickAddItem = {
+                    onClickAddItem(OpdsFeedItemIndex.NO_GROUP)
+                },
+                onItemReorderSettle = onItemReorderSettle,
+                showMoveItemOption = uiState.canMovePublicationItemToOtherGroup,
+                onClickDeleteItem= {
 
-            },
-            onClickMoveItem = {
+                },
+                onClickMoveItem = {
 
-            },
-        )
+                },
+            )
+        }
 
         Text(
             text = stringResource(Res.string.sections),

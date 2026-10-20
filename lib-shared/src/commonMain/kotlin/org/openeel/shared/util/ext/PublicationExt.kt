@@ -46,9 +46,9 @@ fun Publication.legacyActivityIdForLink(
  */
 fun List<Publication>.resolveAndAddSelection(selection: PublicationsSelection) : List<Publication>{
     return buildList {
-        addAll(this@resolveAndAddSelection)
         addAll(selection.selectedPublications.map {
             it.resolve(selection.url) }
         )
+        addAll(this@resolveAndAddSelection)
     }
 }
