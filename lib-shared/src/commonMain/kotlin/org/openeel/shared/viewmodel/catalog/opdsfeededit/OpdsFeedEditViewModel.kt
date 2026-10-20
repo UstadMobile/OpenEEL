@@ -394,21 +394,46 @@ class OpdsFeedEditViewModel(
         }
     }
 
-    fun onClickDeleteItem(sectionIndex: Int, itemIndex: Int) {
+    fun onClickDeleteItem(itemIndex: OpdsFeedItemIndex) {
         _uiState.update { prev ->
-            val sections = (prev.feed?.groups ?: emptyList()).toMutableList()
-            val section = sections.getOrNull(sectionIndex)
-                ?: throw IllegalStateException("No section at index $sectionIndex")
-            sections[sectionIndex] = if (section.navigation != null) {
-                val items = (section.navigation ?: emptyList()).toMutableList()
-                items.removeAt(itemIndex)
-                section.copy(navigation = items)
-            } else {
-                val items = (section.publications ?: emptyList()).toMutableList()
-                items.removeAt(itemIndex)
-                section.copy(publications = items)
-            }
-            prev.copy(feed = prev.feed?.copy(groups = sections))
+            prev.copy(
+                feed = when (itemIndex) {
+                    is OpdsFeedGroupItemItemIndex -> {
+                        prev.feed?.copy(
+                            groups = prev.feed.groups.orEmpty().toMutableList().also { groups ->
+                                val groupType = groups[itemIndex.groupIndex].groupType
+                                if(groupType == OpdsGroupType.NAVIGATION) {
+                                    groups[itemIndex.groupIndex] = groups[itemIndex.groupIndex].copy(
+                                        navigation = groups[itemIndex.groupIndex].navigation.orEmpty()
+                                            .toMutableList().also { it.removeAt(itemIndex.index) }
+                                    )
+                                }else {
+                                    groups[itemIndex.groupIndex] = groups[itemIndex.groupIndex].copy(
+                                        publications = groups[itemIndex.groupIndex].publications.orEmpty()
+                                            .toMutableList().also { it.removeAt(itemIndex.index) }
+                                    )
+                                }
+                            }.toList()
+                        )
+                    }
+
+                    is NavigationItemItemIndex -> {
+                        prev.feed?.copy(
+                            navigation = prev.feed.navigation.orEmpty().toMutableList().also {
+                                it.removeAt(itemIndex.index)
+                            }.toList()
+                        )
+                    }
+
+                    is PublicationItemItemIndex -> {
+                        prev.feed?.copy(
+                            publications = prev.feed.publications.orEmpty().toMutableList().also {
+                                it.removeAt(itemIndex.index)
+                            }
+                        )
+                    }
+                }
+            )
         }
     }
 

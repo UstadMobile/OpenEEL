@@ -30,7 +30,10 @@ import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.OpenEelExpandCollapseListItem
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
+import org.openeel.lib.opds.model.util.NavigationItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
 import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_section
 import org.openeel.shared.generated.resources.collection_section_description
@@ -94,7 +97,7 @@ fun OpdsFeedEditScreen(
     onGroupMoved: (fromIndex: Int, toIndex: Int) -> Unit = { _, _ -> },
     onClickAddItem: (Int) -> Unit = {},
     onClickAddCollection: (Int) -> Unit = {},
-    onClickDeleteItem: (Int, Int) -> Unit = { _, _ -> },
+    onClickDeleteItem: (OpdsFeedItemIndex) -> Unit = {},
     onClickMoveItem: (Int, Int) -> Unit = { _, _ -> },
     onClickMoveItemToGroup: (Int) -> Unit = {},
     onDismissMoveDialog: () -> Unit = {},
@@ -158,8 +161,8 @@ fun OpdsFeedEditScreen(
                     onClickAddCollection(OpdsFeedItemIndex.NO_GROUP)
                 },
                 onItemReorderSettle = onItemReorderSettle,
-                onClickDeleteItem = {
-
+                onClickDeleteItem = { itemIndex ->
+                    onClickDeleteItem(NavigationItemItemIndex(itemIndex))
                 },
                 onClickMoveItem = {
 
@@ -185,8 +188,8 @@ fun OpdsFeedEditScreen(
                 },
                 onItemReorderSettle = onItemReorderSettle,
                 showMoveItemOption = uiState.canMovePublicationItemToOtherGroup,
-                onClickDeleteItem= {
-
+                onClickDeleteItem = { itemIndex ->
+                    onClickDeleteItem(PublicationItemItemIndex(itemIndex))
                 },
                 onClickMoveItem = {
 
@@ -236,7 +239,7 @@ fun OpdsFeedEditScreen(
                         onClickAddItem = { onClickAddItem(groupIndex) },
                         onClickAddPlaylist = { onClickAddCollection(groupIndex) },
                         onClickDeleteItem = { itemIndex ->
-                            onClickDeleteItem(groupIndex, itemIndex)
+                            onClickDeleteItem(OpdsFeedGroupItemItemIndex(groupIndex, itemIndex))
                         },
                         onClickMoveItem = { itemIndex -> onClickMoveItem(groupIndex, itemIndex) },
                         onItemReorderSettle = onItemReorderSettle,
