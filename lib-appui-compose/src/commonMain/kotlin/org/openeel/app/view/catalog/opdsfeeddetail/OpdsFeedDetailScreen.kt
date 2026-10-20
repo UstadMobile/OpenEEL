@@ -35,7 +35,10 @@ import org.openeel.app.components.langMapString
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.util.NavigationItemItemIndex
 import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.assign
 import org.openeel.shared.generated.resources.cancel
@@ -94,10 +97,10 @@ fun OpdsFeedDetailScreen(
     uiState: OpdsFeedDetailUiState = OpdsFeedDetailUiState(),
     @Suppress("unused")
     onSortOrderChanged: (SortOrderOption) -> Unit = { },
-    onClickPublication: (OpdsFeedGroupItemItemIndex) -> Unit = {},
-    onLongPressPublication: (OpdsFeedGroupItemItemIndex) -> Unit = {},
-    onClickNavigation: (OpdsFeedGroupItemItemIndex) -> Unit = {},
-    onLongPressNavigation: (OpdsFeedGroupItemItemIndex) -> Unit = {},
+    onClickPublication: (OpdsFeedItemIndex) -> Unit = {},
+    onLongPressPublication: (OpdsFeedItemIndex) -> Unit = {},
+    onClickNavigation: (OpdsFeedItemIndex) -> Unit = {},
+    onLongPressNavigation: (OpdsFeedItemIndex) -> Unit = {},
     onClickConfirmSelection: () -> Unit = {},
     onClickSelectPlaylist: () -> Unit = {},
     onClickToggleGroup: (Int) -> Unit = {},
@@ -142,7 +145,7 @@ fun OpdsFeedDetailScreen(
                     items = navigation,
                     key = { index, _ -> "top_nav_$index" }
                 ) { index, navigationItem ->
-                    val feedIndex = OpdsFeedGroupItemItemIndex(groupIndex = -1, index)
+                    val feedIndex = NavigationItemItemIndex(index)
                     NavigationListItem(
                         navigation = navigationItem,
                         showCheckbox = uiState.showNavigationCheckboxes,
@@ -160,7 +163,7 @@ fun OpdsFeedDetailScreen(
                     items = publications,
                     key = { index, _ -> "top_pub_$index" }
                 ) { index, publication ->
-                    val feedItemIndex = OpdsFeedGroupItemItemIndex(groupIndex = -1, index)
+                    val feedItemIndex = PublicationItemItemIndex(index)
                     PublicationListItem(
                         publication = publication,
                         showCheckbox = uiState.showPublicationCheckboxes,

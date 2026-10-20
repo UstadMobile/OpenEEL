@@ -20,13 +20,13 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.lib.opds.model.OpdsFeed
-import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
 import org.openeel.lib.opds.model.ext.allPublications
 import org.openeel.lib.opds.model.ext.getNavigationLinkByIndex
 import org.openeel.lib.opds.model.ext.getNavigationLinksByIndexes
 import org.openeel.lib.opds.model.ext.getPublicationByIndex
 import org.openeel.lib.opds.model.ext.getPublicationsByIndexes
 import org.openeel.lib.opds.model.findSelfLinks
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
 import org.openeel.libutil.ext.resolve
 import org.openeel.libutil.ext.toggle
 import org.openeel.shared.domain.account.AppAccountManager
@@ -39,11 +39,11 @@ import org.openeel.shared.generated.resources.language
 import org.openeel.shared.generated.resources.not_found
 import org.openeel.shared.generated.resources.something_went_wrong
 import org.openeel.shared.navigation.AssignmentEdit
-import org.openeel.shared.navigation.PublicationDetail
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.NavResultReturner
 import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.OpdsFeedEdit
+import org.openeel.shared.navigation.PublicationDetail
 import org.openeel.shared.navigation.sendResultIfResultExpected
 import org.openeel.shared.util.SortOrderOption
 import org.openeel.shared.util.ext.appbarTitleString
@@ -69,8 +69,8 @@ data class OpdsFeedDetailUiState(
     val deleteButtonVisible: Boolean = false,
     val isTeacherOrAdmin: Boolean = false,
     val collapsedGroupIndexes: Set<Int> = emptySet(),
-    val selectedPublications: Set<OpdsFeedGroupItemItemIndex> = emptySet(),
-    val selectedNavigationLinks: Set<OpdsFeedGroupItemItemIndex> = emptySet(),
+    val selectedPublications: Set<OpdsFeedItemIndex> = emptySet(),
+    val selectedNavigationLinks: Set<OpdsFeedItemIndex> = emptySet(),
     val showCopyDialog: Boolean = false,
     val copyDialogName: String = "",
     val showDeleteDialog: Boolean = false,
@@ -78,9 +78,9 @@ data class OpdsFeedDetailUiState(
 ) {
     fun isGroupCollapsed(groupIndex: Int) = groupIndex in collapsedGroupIndexes
 
-    fun isPublicationSelected(index: OpdsFeedGroupItemItemIndex): Boolean = index in selectedPublications
+    fun isPublicationSelected(index: OpdsFeedItemIndex): Boolean = index in selectedPublications
 
-    fun isNavigationSelected(index: OpdsFeedGroupItemItemIndex): Boolean = index in selectedNavigationLinks
+    fun isNavigationSelected(index: OpdsFeedItemIndex): Boolean = index in selectedNavigationLinks
 
     val isMultiSelectMode: Boolean
         get() = selectedPublications.isNotEmpty() || selectedNavigationLinks.isNotEmpty()
@@ -200,7 +200,7 @@ class OpdsFeedDetailViewModel(
         _uiState.update { it.copy(activeSortOrderOption = sortOption) }
     }
 
-    fun onClickPublication(index: OpdsFeedGroupItemItemIndex) {
+    fun onClickPublication(index: OpdsFeedItemIndex) {
         val publication = uiState.value.feed.dataOrNull()
             ?.getPublicationByIndex(index)
             ?: return
@@ -250,7 +250,7 @@ class OpdsFeedDetailViewModel(
     }
 
     fun onLongPressPublication(
-        opdsFeedItemIndex: OpdsFeedGroupItemItemIndex
+        opdsFeedItemIndex: OpdsFeedItemIndex
     ) {
         if(route.opdsPickType == OpdsPickType.PUBLICATION) {
             togglePublicationSelection(opdsFeedItemIndex)
@@ -260,7 +260,7 @@ class OpdsFeedDetailViewModel(
     }
 
     private fun togglePublicationSelection(
-        index: OpdsFeedGroupItemItemIndex
+        index: OpdsFeedItemIndex
     ) {
         _uiState.update { prev ->
             val publicationSelections = prev.selectedPublications.toggle(index)
@@ -307,7 +307,7 @@ class OpdsFeedDetailViewModel(
     }
 
     private fun toggleNavigationSelection(
-        index: OpdsFeedGroupItemItemIndex
+        index: OpdsFeedItemIndex
     ) {
         _uiState.update { prev ->
             val navigationSelections = prev.selectedNavigationLinks.toggle(index)
@@ -317,7 +317,7 @@ class OpdsFeedDetailViewModel(
         }
     }
 
-    fun onLongPressNavigation(index: OpdsFeedGroupItemItemIndex) {
+    fun onLongPressNavigation(index: OpdsFeedItemIndex) {
         if(route.opdsPickType == OpdsPickType.CATALOG_FEED) {
             toggleNavigationSelection(index)
         }else {
@@ -326,7 +326,7 @@ class OpdsFeedDetailViewModel(
     }
 
 
-    fun onClickNavigation(index: OpdsFeedGroupItemItemIndex) {
+    fun onClickNavigation(index: OpdsFeedItemIndex) {
         val navigation = uiState.value.feed.dataOrNull()
             ?.getNavigationLinkByIndex(index) ?: return
 

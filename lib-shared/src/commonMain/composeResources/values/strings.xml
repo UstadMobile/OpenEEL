@@ -649,7 +649,7 @@
     <string name="select_none">Select none</string>
     <string name="copy_of">copy the %1$s</string>
     <string name="add_tasks_to_assignment">Add %1$d task to assignment</string>
-    <string name="move_to_section">Move to section…</string>
+    <string name="move_to">Move to</string>
     <string name="n_items">%1$d items</string>
     <string name="share_collection">Share collection</string>
     <string name="who_can_view">Who can view</string>

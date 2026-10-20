@@ -30,6 +30,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.OpenEelExpandCollapseListItem
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
+import org.openeel.lib.opds.model.ext.indexIsInNavigationCollection
 import org.openeel.lib.opds.model.util.NavigationItemItemIndex
 import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
 import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
@@ -44,6 +45,7 @@ import org.openeel.shared.generated.resources.sections
 import org.openeel.shared.generated.resources.title
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.groupType
+import org.openeel.shared.viewmodel.catalog.opdsfeededit.MoveItemDestination
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditUiState
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsGroupType
@@ -72,10 +74,10 @@ fun OpdsFeedEditScreen(
         onClickDeleteGroup = viewModel::onClickDeleteSection,
         onGroupMoved = viewModel::onGroupMoved,
         onClickAddItem = viewModel::onClickAddItem,
-        onClickAddCollection = viewModel::onClickAddPlaylist,
+        onClickAddCollection = viewModel::onClickAddCollection,
         onClickDeleteItem = viewModel::onClickDeleteItem,
         onClickMoveItem = viewModel::onClickMoveItem,
-        onClickMoveItemToGroup = viewModel::onClickMoveItemToSection,
+        onClickMoveItemToGroup = viewModel::onClickMoveItemToGroup,
         onDismissMoveDialog = viewModel::onDismissMoveDialog,
         onItemReorderSettle = viewModel::onItemReorderSettle,
         onDismissAddItemTypeBottomSheet = viewModel::onDismissAddItemTypeBottomSheet,
@@ -98,8 +100,8 @@ fun OpdsFeedEditScreen(
     onClickAddItem: (Int) -> Unit = {},
     onClickAddCollection: (Int) -> Unit = {},
     onClickDeleteItem: (OpdsFeedItemIndex) -> Unit = {},
-    onClickMoveItem: (Int, Int) -> Unit = { _, _ -> },
-    onClickMoveItemToGroup: (Int) -> Unit = {},
+    onClickMoveItem: (OpdsFeedItemIndex) -> Unit = { },
+    onClickMoveItemToGroup: (MoveItemDestination) -> Unit = {},
     onDismissMoveDialog: () -> Unit = {},
     onItemReorderSettle: (from: OpdsFeedItemIndex, toIndex: Int) -> Unit = { _, _ -> },
     onDismissAddItemTypeBottomSheet: () -> Unit = {},
@@ -164,8 +166,8 @@ fun OpdsFeedEditScreen(
                 onClickDeleteItem = { itemIndex ->
                     onClickDeleteItem(NavigationItemItemIndex(itemIndex))
                 },
-                onClickMoveItem = {
-
+                onClickMoveItem = { index ->
+                    onClickMoveItem(NavigationItemItemIndex(index))
                 },
             )
         }
@@ -191,8 +193,8 @@ fun OpdsFeedEditScreen(
                 onClickDeleteItem = { itemIndex ->
                     onClickDeleteItem(PublicationItemItemIndex(itemIndex))
                 },
-                onClickMoveItem = {
-
+                onClickMoveItem = { index ->
+                    onClickMoveItem(PublicationItemItemIndex(index))
                 },
             )
         }
@@ -241,7 +243,9 @@ fun OpdsFeedEditScreen(
                         onClickDeleteItem = { itemIndex ->
                             onClickDeleteItem(OpdsFeedGroupItemItemIndex(groupIndex, itemIndex))
                         },
-                        onClickMoveItem = { itemIndex -> onClickMoveItem(groupIndex, itemIndex) },
+                        onClickMoveItem = { itemIndex ->
+                            onClickMoveItem(OpdsFeedGroupItemItemIndex(groupIndex, itemIndex))
+                        },
                         onItemReorderSettle = onItemReorderSettle,
                     )
                 }
@@ -266,10 +270,14 @@ fun OpdsFeedEditScreen(
         )
     }
 
-    uiState.movingItem?.let { movingItem ->
+    uiState.movingItem?.also { movingItem ->
         OpdsFeedEditMoveToGroupDialog(
-            compatibleSections = movingItem.compatibleSections,
-            allSections = uiState.groups,
+            destinations = uiState.movingItemDestinations.orEmpty(),
+            topLevelDestTitle = if(uiState.feed?.indexIsInNavigationCollection(movingItem) == true) {
+                Res.string.collection_section_description
+            }else {
+                Res.string.links_to_learning_items
+            },
             onClickGroup = onClickMoveItemToGroup,
             onDismiss = onDismissMoveDialog,
         )
