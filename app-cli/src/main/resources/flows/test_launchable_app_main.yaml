@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 env:
   SCHOOL_URL: ${SCHOOL_URL}
   SCHOOL_ADMIN_USER: ${SCHOOL_ADMIN_USER}
@@ -11,10 +11,11 @@ env:
 onFlowStart:
   - startRecording:
       path: "recordings/test_launchable_app"
-  - clearState: world.respect.app
+  - clearState: org.openeel.app
 
 onFlowComplete:
   - stopRecording
+  - setAirplaneMode: disabled
 ---
 - runFlow:
     when:
