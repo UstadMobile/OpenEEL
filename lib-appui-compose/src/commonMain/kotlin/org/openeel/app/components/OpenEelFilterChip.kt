@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -47,14 +46,20 @@ data class OpenEelFilterOption<T>(
 )
 
 /**
- * @property searchable when true, the bottom sheet shows a search field that filters the options
- *           by label (e.g. for long lists such as language and subject).
+ * @property selectedCount the number of options selected (including options not currently shown
+ *           because they do not match the search text).
+ * @property searchText the text entered to search the options.
+ * @property onSearchTextChanged when not null, the bottom sheet shows a search field (e.g. for long
+ *           lists such as language and subject). The search itself is done by the ViewModel, which
+ *           provides the matching [options].
  */
 data class OpenEelFilterDefinition<T>(
     val id: String,
     val label: String,
     val options: List<OpenEelFilterOption<T>>,
-    val searchable: Boolean = false,
+    val selectedCount: Int = 0,
+    val searchText: String = "",
+    val onSearchTextChanged: ((String) -> Unit)? = null,
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,8 +71,7 @@ fun <T> OpenEelFilterChip(
     modifier: Modifier = Modifier,
 ) {
     var isSheetOpen by rememberSaveable(filter.id) { mutableStateOf(false) }
-    var searchQuery by rememberSaveable(filter.id) { mutableStateOf("") }
-    val selectedCount = filter.options.indices.count { it in selectedOptionIndices }
+    val selectedCount = filter.selectedCount
 
     FilterChip(
         selected = selectedCount > 0,
@@ -95,17 +99,9 @@ fun <T> OpenEelFilterChip(
     )
 
     if (isSheetOpen) {
-        // Keep each option's index in filter.options so selection works on the filtered list
-        val visibleOptions = remember(filter.options, searchQuery) {
-            val query = searchQuery.trim()
-            filter.options.withIndex().filter { (_, option) ->
-                query.isEmpty() || option.label.contains(query, ignoreCase = true)
-            }
-        }
-
-        val dismissSheet = {
+        val dismissSheet: () -> Unit = {
             isSheetOpen = false
-            searchQuery = ""
+            filter.onSearchTextChanged?.invoke("")
         }
 
         ModalBottomSheet(
@@ -137,10 +133,10 @@ fun <T> OpenEelFilterChip(
 
             HorizontalDivider(thickness = 1.dp)
 
-            if (filter.searchable) {
+            filter.onSearchTextChanged?.also { onSearchTextChanged ->
                 OpenEelSearchField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
+                    value = filter.searchText,
+                    onValueChange = onSearchTextChanged,
                     placeholder = stringResource(Res.string.search_filter_options, filter.label),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -149,7 +145,7 @@ fun <T> OpenEelFilterChip(
                 )
             }
 
-            if (visibleOptions.isEmpty()) {
+            if (filter.options.isEmpty()) {
                 Text(
                     text = stringResource(Res.string.no_matching_options),
                     style = MaterialTheme.typography.bodyMedium,
@@ -159,7 +155,7 @@ fun <T> OpenEelFilterChip(
             }
 
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(visibleOptions, key = { it.index }) { (index, option) ->
+                itemsIndexed(filter.options) { index, option ->
                     val isSelected = index in selectedOptionIndices
                     OpenEelBottomSheetOption(
                         headlineContent = { Text(option.label) },

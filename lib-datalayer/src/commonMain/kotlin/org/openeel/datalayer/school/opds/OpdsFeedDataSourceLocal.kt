@@ -40,8 +40,14 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
 
     /**
      * Get the languages and subjects available to filter search results.
+     *
+     * @param languageSearchText text to search for in language codes; when blank all match.
+     * @param subjectSearchText text to search for in subject names; when blank all match.
      */
-    fun getSearchFilterOptionsAsFlow(): Flow<OpdsSearchFilterOptions>
+    fun getSearchFilterOptionsAsFlow(
+        languageSearchText: String = "",
+        subjectSearchText: String = "",
+    ): Flow<OpdsSearchFilterOptions>
 
     /**
      * The update local is a little different for OpdsFeed because the data can come from different

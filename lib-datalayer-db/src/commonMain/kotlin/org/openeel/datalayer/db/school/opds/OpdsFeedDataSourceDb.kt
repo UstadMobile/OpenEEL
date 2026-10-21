@@ -61,10 +61,13 @@ class OpdsFeedDataSourceDb(
         )
     }
 
-    override fun getSearchFilterOptionsAsFlow(): Flow<OpdsSearchFilterOptions> {
+    override fun getSearchFilterOptionsAsFlow(
+        languageSearchText: String,
+        subjectSearchText: String,
+    ): Flow<OpdsSearchFilterOptions> {
         val feedDao = schoolDb.getOpdsFeedEntityDao()
-        return feedDao.findPublicationLanguagesAsFlow().combine(
-            feedDao.findPublicationSubjectsAsFlow()
+        return feedDao.findPublicationLanguagesAsFlow(languageSearchText.trim()).combine(
+            feedDao.findPublicationSubjectsAsFlow(subjectSearchText.trim())
         ) { languages, subjects ->
             OpdsSearchFilterOptions(languages = languages, subjects = subjects)
         }

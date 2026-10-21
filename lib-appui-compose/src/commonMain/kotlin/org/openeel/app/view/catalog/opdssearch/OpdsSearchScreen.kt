@@ -29,6 +29,8 @@ fun OpdsSearchScreen(
         uiState = uiState,
         onToggleFilterOption = viewModel::onToggleFilterOption,
         onClearFilters = viewModel::onClearFilters,
+        onLanguageOptionSearchTextChanged = viewModel::onLanguageOptionSearchTextChanged,
+        onSubjectOptionSearchTextChanged = viewModel::onSubjectOptionSearchTextChanged,
         onClickResult = viewModel::onClickResult,
     )
 }
@@ -38,11 +40,22 @@ fun OpdsSearchScreen(
     uiState: OpdsSearchUiState,
     onToggleFilterOption: (ContentFilterOption) -> Unit = { },
     onClearFilters: () -> Unit = { },
+    onLanguageOptionSearchTextChanged: (String) -> Unit = { },
+    onSubjectOptionSearchTextChanged: (String) -> Unit = { },
     onClickResult: (OpdsSearchResult) -> Unit = { },
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         OpenEelContentFilterRow(
-            filters = contentFilterDefinitions(options = uiState.filterOptions),
+            filters = contentFilterDefinitions(
+                options = uiState.filterOptions,
+                selectedFilters = uiState.selectedFilters,
+                languageSearchText = uiState.languageOptionSearchText,
+                onLanguageSearchTextChanged = onLanguageOptionSearchTextChanged,
+                subjectSearchText = uiState.subjectOptionSearchText,
+                onSubjectSearchTextChanged = onSubjectOptionSearchTextChanged,
+                showLanguageFilter = uiState.showLanguageFilter,
+                showSubjectFilter = uiState.showSubjectFilter,
+            ),
             isOptionSelected = { it in uiState.selectedFilters },
             onToggleOption = onToggleFilterOption,
             clearAllEnabled = uiState.selectedFilters.isNotEmpty(),

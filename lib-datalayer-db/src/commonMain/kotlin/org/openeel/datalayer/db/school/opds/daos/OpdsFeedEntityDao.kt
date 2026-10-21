@@ -225,27 +225,35 @@ abstract class OpdsFeedEntityDao {
 
     /**
      * Get the distinct languages used by cached publications (for search filter options).
+     *
+     * @param searchText text to search for in the language code. When empty, all languages match.
      */
     //noinspection AndroidUnresolvedRoomSqlReference
     @Query("""
         SELECT DISTINCT PublicationLanguage.value
           FROM OpdsPublicationEntity
                JOIN json_each(OpdsPublicationEntity.opeMdLanguage) AS PublicationLanguage
+         WHERE PublicationLanguage.value LIKE ('%' || :searchText || '%')
       ORDER BY PublicationLanguage.value
     """)
-    abstract fun findPublicationLanguagesAsFlow(): Flow<List<String>>
+    abstract fun findPublicationLanguagesAsFlow(
+        searchText: String,
+    ): Flow<List<String>>
 
     /**
      * Get the distinct subject names used by cached publications (for search filter options).
+     *
+     * @param searchText text to search for in the subject name. When empty, all subjects match.
      */
     @Query("""
         SELECT DISTINCT $SUBJECT_NAME_SQL AS subjectName
           FROM ReadiumSubjectEntity
          WHERE ReadiumSubjectEntity.rseTopParentType = :publicationParentType
-           AND subjectName IS NOT NULL
+           AND subjectName LIKE ('%' || :searchText || '%')
       ORDER BY subjectName
     """)
     abstract fun findPublicationSubjectsAsFlow(
+        searchText: String,
         publicationParentType: OpdsParentType = OpdsParentType.OPDS_PUBLICATION,
         subjectNamePropType: LangMapEntity.PropType = LangMapEntity.PropType.READIUM_SUBJECT_NAME,
     ): Flow<List<String>>

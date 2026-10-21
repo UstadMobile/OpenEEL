@@ -20,10 +20,21 @@ import org.openeel.shared.generated.resources.type
  * GetLanguageEndonymUseCase (as per AppDetail and PublicationDetail).
  * Subject: options from publication metadata.subject.
  * Type: hardcoded options (see [ContentFilterType]); always shown.
+ *
+ * Language and subject options are searched (and sorted) by the database: [options] contains only
+ * the options matching [languageSearchText] / [subjectSearchText]. [showLanguageFilter] and
+ * [showSubjectFilter] control whether those chips are shown at all.
  **/
 @Composable
 fun contentFilterDefinitions(
     options: OpdsSearchFilterOptions,
+    selectedFilters: Set<ContentFilterOption>,
+    languageSearchText: String,
+    onLanguageSearchTextChanged: (String) -> Unit,
+    subjectSearchText: String,
+    onSubjectSearchTextChanged: (String) -> Unit,
+    showLanguageFilter: Boolean,
+    showSubjectFilter: Boolean,
 ): List<OpenEelFilterDefinition<ContentFilterOption>> {
     val koin = getKoin()
     val getLanguageEndonymUseCase: GetLanguageEndonymUseCase = remember { koin.get() }
@@ -33,7 +44,7 @@ fun contentFilterDefinitions(
             value = ContentFilterOption.Language(langCode),
             label = getLanguageEndonymUseCase(langCode)?.let { stringResource(it) } ?: langCode,
         )
-    }.sortedBy { it.label }
+    }
 
     val subjectOptions = options.subjects.map { subject ->
         OpenEelFilterOption<ContentFilterOption>(
@@ -54,18 +65,23 @@ fun contentFilterDefinitions(
             id = FILTER_ID_LANGUAGE,
             label = stringResource(Res.string.language),
             options = languageOptions,
-            searchable = true,
-        ).takeIf { languageOptions.isNotEmpty() },
+            selectedCount = selectedFilters.count { it is ContentFilterOption.Language },
+            searchText = languageSearchText,
+            onSearchTextChanged = onLanguageSearchTextChanged,
+        ).takeIf { showLanguageFilter },
         OpenEelFilterDefinition(
             id = FILTER_ID_SUBJECT,
             label = stringResource(Res.string.subject),
             options = subjectOptions,
-            searchable = true,
-        ).takeIf { subjectOptions.isNotEmpty() },
+            selectedCount = selectedFilters.count { it is ContentFilterOption.Subject },
+            searchText = subjectSearchText,
+            onSearchTextChanged = onSubjectSearchTextChanged,
+        ).takeIf { showSubjectFilter },
         OpenEelFilterDefinition(
             id = FILTER_ID_TYPE,
             label = stringResource(Res.string.type),
             options = typeOptions,
+            selectedCount = selectedFilters.count { it is ContentFilterOption.Type },
         ),
     )
 }
