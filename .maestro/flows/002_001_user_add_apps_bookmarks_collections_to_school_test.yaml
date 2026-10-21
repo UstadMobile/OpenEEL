@@ -173,10 +173,55 @@ onFlowComplete:
 - inputText: "Collections for Grade 1"
 - tapOn: "Description"
 - inputText: "Test list"
-#- tapOn: "Subject"    # Needs to be implemented in the app
-#- tapOn: "English"
-#- tapOn: "Grade"
-#- tapOn: "Grade 1"
+- runFlow: 
+    when: 
+      visible:
+        id: "keyboard_view_holder_shell"
+    commands: 
+        - hideKeyboard
+- assertVisible: "Links to other collections."
+- tapOn: "Link to collection here"
+- tapOn: "Example Web App"
+- tapOn: "Examples"
+- tapOn: "Select this collection"
+- assertVisible: "Examples"
+- assertVisible: "Move"
+- tapOn: "Collapse"
+- assertNotVisible: "Link to collection here"
+- assertNotVisible: "Examples"
+
+- assertVisible: "Links to learning items"
+- tapOn: "Learning item here"
+- assertVisible: "Browse"
+- assertVisible: "Add from apps, bookmarks, and collections"
+- assertVisible: "Use link"
+- assertVisible: "Add from an external link"
+- tapOn: "Browse"
+- assertVisible:
+    id: "app_title"
+    text: "Select unit(s)"
+- tapOn: "Bookmarks"
+- tapOn: "Statement Maker"
+- tapOn: "Save"
+- assertVisible:
+    id: "app_title"
+    text: "Collections for Grade 1"
+- assertVisible: "Examples"
+- assertVisible: "Statement Maker"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Collections"
+- assertVisible: "Collections for Grade 1"
+- assertVisible: "0 sections, 2 items"
+- tapOn: "Collections for Grade 1"
+- tapOn:
+    id: "floating_action_button"
+- assertVisible:
+    id: "app_title"
+    text: "Edit collection"
+- scrollUntilVisible:
+    element: "Section"
+- assertVisible: "Sections"
 - tapOn: "Section"
 - assertVisible: "Choose section type"
 - assertVisible:
@@ -190,7 +235,8 @@ onFlowComplete:
 - tapOn:
     text: "Collections section"
     index: 0
-- assertVisible: "Collections section"
+- scrollUntilVisible:
+    element: "Collections section"
 - tapOn: "Collections section"
 - runFlow:
     file: "subflows/erase_text.yaml"
@@ -198,93 +244,18 @@ onFlowComplete:
       TEXT: "Collections section"
 - inputText: "Day 1-Collections section"
 - hideKeyboard
-- tapOn: "Link to collection here"
+- scroll
+- tapOn:
+    text: "Link to collection here"
+    index: 1
 - assertVisible:
     id: "app_title"
     text: "Select collection(s)"
 - assertVisible: "Apps"
 - tapOn: "Example Web App"
-- tapOn: "Examples"
 - tapOn: "Select this collection"
-- assertVisible:
-    id: "app_title"
-    text: "Add Collection"
-- assertVisible: "Examples"
-- tapOn: "Save"
-- assertVisible:
-    id: "app_title"
-    text: "Collections for Grade 1"
-- assertVisible: "Day 1-Collections section"
-- assertVisible: "Examples"
-- tapOn:
-    id: "nav_home"
-- tapOn: "Collections"
-- tapOn: "Collections for Grade 1"
-- tapOn:
-    id: "floating_action_button"    # Edit button
-- assertVisible:
-    id: "app_title"
-    text: "Edit Collection"
-- tapOn: "Section"
-- tapOn:
-    text: "Learning item section"
-    index: 1
-- assertVisible: "Learning item section"
-- tapOn: "Learning item here"
-- assertVisible: "Browse"
-- assertVisible: "Add from apps, bookmarks, and collections"
-- assertVisible: "Use link"
-- assertVisible: "Add from an external link"
-- tapOn: "Browse"
-- assertVisible:
-    id: "app_title"
-    text: "Select unit(s)"
-- tapOn: "Bookmarks"
-- tapOn: "Statement Maker"
-- assertVisible:
-    id: "app_title"
-    text: "Edit Collection"
 - scrollUntilVisible:
-    element: "Day 1-Collections section"
-- assertVisible: "Day 1-Collections section"
-- scrollUntilVisible:
-    element: "Learning item section"
-- assertVisible: "Learning item section"
-- tapOn: "Save"
-- assertVisible:
-    id: "app_title"
-    text: "Collections for Grade 1"
-- tapOn:
-    id: "nav_home"
-- tapOn: "Collections"
-- assertVisible: "Collections for Grade 1"
-- assertVisible: "2 sections, 2 items"
-- tapOn: "Collections for Grade 1"
-- tapOn: "Examples"
-- assertVisible: "Statement Maker"
-- back
-- tapOn:
-    id: "expand_collapse_icon"    #Collapse - Collection section day 1
-    index: 0
-#- assertNotVisible: "Examples"
-- assertVisible: "Learning item section"
-- assertVisible: "Statement Maker"
-- tapOn:
-    id: "expand_collapse_icon"    #Expand - Collection section day 1
-    index: 0
-- assertVisible: "Examples"
-- tapOn:
-    id: "floating_action_button"    # Edit button
-- assertVisible:
-    id: "app_title"
-    text: "Edit Collection"
-- tapOn: "Learning item section"
-- runFlow:
-    file: "subflows/erase_text.yaml"
-    env:
-      TEXT: "Learning item section"
-- inputText: "Day 2-Learning item section"
-- hideKeyboard
+    element: "Main Menu"
 - tapOn: "Learning item here"
 - tapOn: "Use Link"
 - assertVisible:
@@ -300,11 +271,20 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Collections for Grade 1"
-- assertVisible: "Day 1-Collections section"
 - assertVisible: "Examples"
-- assertVisible: "Day 2-Learning item section"
-- assertVisible: "Statement Maker"
 - assertVisible: "Assignment Result Statement Demo"
+- assertVisible: "Statement Maker"
+- assertVisible: "Day 1-Collections section"
+- assertVisible: "Main Menu"
+- tapOn:
+    id: "expand_collapse_icon"
+- assertNotVisible: "Main Menu"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Collections"
+- assertVisible: "Collections for Grade 1"
+- assertVisible: "1 sections, 4 items"
+- tapOn: "Collections for Grade 1"
 
 # Add assignment from a collection
 - tapOn: "Assign"
@@ -327,12 +307,18 @@ onFlowComplete:
 - assertVisible: "Tasks"
 - assertVisible: "Statement Maker"
 - assertVisible: "Assignment Result Statement Demo"
+- tapOn: "Task"
+- tapOn: "Example Web App"
+- tapOn: "Examples"
+- tapOn: "Lesson 001"
 - tapOn: "Save"
 - assertVisible:
     id: "app_title"
     text: "Homework 1"
 - assertVisible: "Statement Maker"
 - assertVisible: "Assignment Result Statement Demo"
+- assertVisible: "Lesson 001"
+
 
 # Test Copy link, Remix & Unpin a Collection - Add an app as a collection using link
 - tapOn:
@@ -386,17 +372,17 @@ onFlowComplete:
 - assertVisible:
     id: "publication_title"
     text: "Assignment Result Statement Demo"
-
 - assertVisible:
     id: "app_title"
     text: "Remix of Examples"
+
 - tapOn:
     id: "nav_home"
 - tapOn: "Collections"
 - assertVisible: "Collections for Grade 1"
-- assertVisible: "2 sections, 3 items"
+- assertVisible: "1 sections, 4 items"
 - assertVisible: "Remix of Examples"
-#- assertVisible: "0 sections, 4 items"  --Count is not matching
+- assertVisible: "0 sections, 4 items" 
 - tapOn:
     text: "More Options"
     index: 0
@@ -412,8 +398,6 @@ onFlowComplete:
     id: "app_title"
     text: "Remix collection"
 - assertVisible: "Remix of Collections for Grade 1"
-- assertVisible: "Day 1-Collections section"
-- assertVisible: "Day 2-Learning item section"
 - tapOn: "Remix of Collections for Grade 1"
 - runFlow:
     file: "subflows/erase_text.yaml"
@@ -428,7 +412,7 @@ onFlowComplete:
     id: "nav_home"
 - tapOn: "Collections"
 - assertVisible: "Collections for Term 1"
-- assertVisible: "2 sections, 3 items"
+- assertVisible: "1 sections, 4 items"
 - tapOn: "Collections for Term 1"
 # Delete Collection Permanently
 - tapOn: "Delete"
@@ -458,6 +442,12 @@ onFlowComplete:
 - runScript:
     file: "scripts/setDate.js"
 - inputText: ${output.currentTime}
+- runFlow:
+    when:
+      visible:
+        id: "keyboard_view_holder_shell"
+    commands:
+      - hideKeyboard
 - tapOn: "Task"
 - assertVisible:
     id: "app_title"
