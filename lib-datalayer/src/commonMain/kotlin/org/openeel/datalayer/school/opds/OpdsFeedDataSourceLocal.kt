@@ -21,8 +21,6 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
      * @property types publication schema.org types (metadata.@type) to match.
      * @property includePublications whether publications should be included.
      * @property includeNavigation whether navigation links (collections) should be included.
-     *           Navigation links do not have a language or subject so they are only included
-     *           when no language or subject filter is applied.
      */
     data class SearchParams(
         val searchText: String = "",

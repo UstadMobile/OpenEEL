@@ -9,13 +9,12 @@ import kotlinx.serialization.Serializable
  * @property isPublication true for a publication, false for a navigation link (collection)
  * @property url the absolute URL of a publication that was loaded by itself (e.g. not as part of
  *           a feed), otherwise null.
- * @property href the publication self link href or navigation link href. May be relative to
- *           [feedUrl].
+ * @property href the publication self link href or navigation link href.
  * @property feedUrl the URL of the feed in which the item was found, if any.
  * @property feedTitle the title of the feed in which the item was found, if any.
  * @property identifier the publication metadata identifier, if any.
  * @property iconHref the publication's first image or the navigation link's icon (alternate link
- *           with rel icon), if any. May be relative to [url] or [feedUrl].
+ *           with rel icon), if any.
  */
 @Serializable
 data class OpdsSearchResult(
