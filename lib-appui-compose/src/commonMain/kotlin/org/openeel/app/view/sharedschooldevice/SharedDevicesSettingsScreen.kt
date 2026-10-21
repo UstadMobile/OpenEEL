@@ -1,7 +1,6 @@
 package org.openeel.app.view.sharedschooldevice
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -35,6 +33,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -561,7 +560,7 @@ fun PinEntryDialog(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                BasicTextField(
+                OutlinedTextField(
                     value = currentPin,
                     onValueChange = { newPin ->
                         currentPin = newPin
@@ -569,22 +568,16 @@ fun PinEntryDialog(
                     modifier = Modifier
                         .testTag("pin_text")
                         .fillMaxWidth()
-                        .background(color = MaterialTheme.colorScheme.surfaceVariant)
-                        .focusRequester(focusRequester)
-                        .padding(8.dp),
+                        .focusRequester(focusRequester),
+                    singleLine = true,
+                    isError = errorMessage != null,
+                    supportingText = errorMessage?.let {
+                        { Text(uiTextStringResource(it)) }
+                    },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.NumberPassword
                     ),
                 )
-                if (errorMessage != null) {
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = uiTextStringResource(errorMessage),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Buttons Row
