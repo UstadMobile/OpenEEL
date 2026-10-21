@@ -1,4 +1,4 @@
-rootProject.name = "Respect"
+rootProject.name = "OpenEEL"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
