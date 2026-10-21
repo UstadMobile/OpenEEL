@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.db.school.xapi.entities.XapiRemoteWriteQueueItemEntity
+import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
 
 @Dao
 interface XapiRemoteWriteQueueItemEntityDao {
@@ -45,5 +46,21 @@ interface XapiRemoteWriteQueueItemEntityDao {
            AND XapiRemoteWriteQueueItemEntity.xrqTimeWritten = 0
     """)
     fun pendingCountAsFlow(accountGuid: String): Flow<Int>
+
+    @Query("""
+        SELECT EXISTS(
+               SELECT 1
+                 FROM XapiRemoteWriteQueueItemEntity
+                WHERE XapiRemoteWriteQueueItemEntity.xrqAccountGuid = :accountGuid
+                  AND XapiRemoteWriteQueueItemEntity.xrqResource = :resource
+                  AND XapiRemoteWriteQueueItemEntity.xrqEntityItemId = :itemId
+                  AND XapiRemoteWriteQueueItemEntity.xrqTimeWritten = 0
+        )
+    """)
+    suspend fun isPending(
+        accountGuid: String,
+        resource: XapiRemoteWriteQueueItem.Resource,
+        itemId: String,
+    ): Boolean
 
 }

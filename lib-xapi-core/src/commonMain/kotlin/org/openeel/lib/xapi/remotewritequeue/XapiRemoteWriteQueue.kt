@@ -14,6 +14,17 @@ interface XapiRemoteWriteQueue {
     suspend fun markSent(ids: List<Int>)
 
     /**
+     * Check if there is a pending write matching the given arguments
+     *
+     * @param resource The resource as per [XapiRemoteWriteQueueItem.resource]
+     * @param method The method as per [XapiRemoteWriteQueueItem]
+     */
+    suspend fun isPending(
+        resource: XapiRemoteWriteQueueItem.Resource,
+        itemId: String,
+    ): Boolean
+
+    /**
      * Get the size of the pending backlog as a flow. Useful to wait for the write queue to be
      * completely drained
      */

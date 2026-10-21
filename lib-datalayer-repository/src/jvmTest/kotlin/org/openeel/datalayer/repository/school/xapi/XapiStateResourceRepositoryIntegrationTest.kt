@@ -19,6 +19,7 @@ class XapiStateResourceRepositoryIntegrationTest : AbstractXapiDocumentResourceR
 
     override suspend fun withEmbeddedServerAndRepoClients(
         getAuthenticatedXapiAgentsUseCase: GetAuthenticatedXapiAgentsUseCase,
+        numClients: Int,
         block: suspend RepositoryTestContext.() -> Unit
     ) {
         withEmbeddedServerAndRepositoryClients(
@@ -34,6 +35,7 @@ class XapiStateResourceRepositoryIntegrationTest : AbstractXapiDocumentResourceR
                     )
                 }
             },
+            numClients = numClients,
             block = block,
         )
     }

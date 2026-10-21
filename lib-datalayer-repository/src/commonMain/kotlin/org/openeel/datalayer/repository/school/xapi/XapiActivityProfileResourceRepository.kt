@@ -2,13 +2,23 @@ package org.openeel.datalayer.repository.school.xapi
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonPrimitive
 import org.openeel.datalayer.repository.ext.copyToValidateOnRemote
 import org.openeel.datalayer.repository.flow.asRepoFlow
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.datetime.toInstant
 import org.openeel.lib.dataloadstate.ext.copyLoadState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.takeIfShouldUpdateLocal
+import org.openeel.lib.xapi.ext.encodeToXapiDocument
+import org.openeel.lib.xapi.ext.getJson
 import org.openeel.lib.xapi.ext.isJson
 import org.openeel.lib.xapi.ext.jsonKeys
 import org.openeel.lib.xapi.ext.toParametersFormUrlEncoded
@@ -16,7 +26,10 @@ import org.openeel.lib.xapi.model.XapiDocument
 import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
 import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.xapi.resources.XapiDocumentResource
 import org.openeel.lib.xapi.resources.local.XapiActivityProfileResourceLocal
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 /**
  * An offline-first repository implementation for XapiActivityProfileResource.
@@ -60,6 +73,32 @@ class XapiActivityProfileResourceRepository(
             params = params,
             dataLoadParams = dataLoadParams.copyToValidateOnRemote(localState.metaInfo)
         )
+
+        //If it is found locally, but not found on the remote, it might not have synced yet, or it
+        // might be deleted. We could check and see if there is a matching item in the remote
+        // write queue, if yes, leave it alone. If no, check for deletions.
+
+        //If not found on remote then it might have been deleted, or might not have synced there yet.
+        if(localState is DataReadyState &&
+            (remoteState as? NoDataLoadedState)?.reason == NoDataLoadedState.Reason.NOT_FOUND &&
+            params.profileId != XapiDocumentResource.PROFILE_ID_DELETIONS &&
+            !remoteWriteQueue.isPending(
+                XapiRemoteWriteQueueItem.Resource.ACTIVITY_PROFILE,
+                params.toParameters().toParametersFormUrlEncoded(),
+            )
+        ) {
+            val deletedProfileIdsDoc = getJson(
+                docParams = params.copy(profileId = XapiDocumentResource.PROFILE_ID_DELETIONS),
+                json = json,
+                deserializer = JsonObject.serializer(),
+            )
+            val timeDeleted = deletedProfileIdsDoc.dataOrNull()?.get(params.profileId)?.jsonPrimitive?.
+                contentOrNull?.let { Instant.parse(it) } ?: Instant.DISTANT_PAST
+            if(timeDeleted > localState.data.updated.toInstant()) {
+                local.delete(params)
+                return local.get(params, dataLoadParams)
+            }
+        }
 
         remoteState.takeIfShouldUpdateLocal(localState)?.also {
             local.updateLocal(params, it.data)
@@ -122,11 +161,32 @@ class XapiActivityProfileResourceRepository(
     }
 
     override suspend fun delete(params: XapiActivityProfileResource.SingleDocumentParams) {
+        val deletedProfileDoc = json.encodeToXapiDocument(
+            serializer = JsonObject.serializer(),
+            value = buildJsonObject {
+                put(params.profileId, JsonPrimitive(Clock.System.now().toString()))
+            },
+        )
+        val deletedProfileIdParams = params.copy(
+            profileId = XapiDocumentResource.PROFILE_ID_DELETIONS
+        )
+
         local.delete(params)
-        try {
-            remote.delete(params)
-        } catch (e: Exception) {
-            // ignore network or not found errors
-        }
+        local.post(deletedProfileIdParams, deletedProfileDoc)
+
+        remoteWriteQueue.add(
+            listOf(
+                XapiRemoteWriteQueueItem(
+                    method = XapiRemoteWriteQueueItem.Method.DELETE,
+                    resource = XapiRemoteWriteQueueItem.Resource.ACTIVITY_PROFILE,
+                    itemId = params.toParameters().toParametersFormUrlEncoded(),
+                ),
+                XapiRemoteWriteQueueItem(
+                    method = XapiRemoteWriteQueueItem.Method.POST,
+                    resource = XapiRemoteWriteQueueItem.Resource.ACTIVITY_PROFILE,
+                    itemId = deletedProfileIdParams.toParameters().toParametersFormUrlEncoded(),
+                )
+            )
+        )
     }
 }

@@ -82,7 +82,7 @@ class DrainXapiRemoteWriteQueueUseCase(
                         }
 
                         XapiRemoteWriteQueueItem.Method.DELETE -> {
-                            //not implemented yet
+                            remoteDataSource.state.delete(params)
                         }
                     }
 
@@ -106,7 +106,7 @@ class DrainXapiRemoteWriteQueueUseCase(
                         }
 
                         XapiRemoteWriteQueueItem.Method.DELETE -> {
-                            //not implemented yet
+                            remoteDataSource.agentProfile.delete(params)
                         }
                     }
 
