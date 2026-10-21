@@ -64,7 +64,6 @@ class LoginViewModel(
     schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val filterUsernameUseCase: FilterUsernameUseCase,
     private val savePasswordUseCase: SavePasswordUseCase,
-    private val launchOpenIdAuthorizationUseCase: LaunchOpenIdAuthorizationUseCase,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: LoginScreen = savedStateHandle.toRoute()
@@ -77,7 +76,7 @@ class LoginViewModel(
         get() = getKoin().getOrCreateScope<SchoolDirectoryEntry>(
             SchoolDirectoryEntryScopeId(route.schoolUrl, null).scopeId
         )
-
+    private val launchOpenIdAuthorizationUseCase : LaunchOpenIdAuthorizationUseCase = scope.get()
     private val checkPasskeySupportUseCase: CheckPasskeySupportUseCase = scope.get()
 
     //Short-term internal variable used so that we can avoid showing a save password prompt if/when
@@ -102,17 +101,10 @@ class LoginViewModel(
                     is DataReadyState -> school.data
                     else -> null
                 }
-                val authenticationOptions = schoolEntry?.authenticationOptions.orEmpty()
-                    .ifEmpty { AuthenticationOption.BUILTIN_DEFAULT_OPTIONS }
+                val authenticationOptions = schoolEntry?.authenticationOptions
+                    ?: AuthenticationOption.BUILTIN_DEFAULT_OPTIONS
 
                 _uiState.update { it.copy(authenticationOptions = authenticationOptions) }
-
-                val openIdProvider = authenticationOptions.singleOrNull()
-                    ?.provider as? OpenIdAuthOptionConfig
-                if (openIdProvider != null) {
-                    startOpenIdLogin(openIdProvider.issuer)
-                    return@launch
-                }
 
                 val rpId = schoolEntry?.rpId
 
@@ -269,21 +261,14 @@ class LoginViewModel(
     }
 
     fun onClickOpenId(option: AuthenticationOption) {
-        val provider = option.provider as? OpenIdAuthOptionConfig ?: return
-        startOpenIdLogin(provider.issuer)
-    }
-
-    private fun startOpenIdLogin(issuer: Url) {
+        val config = option.provider as? OpenIdAuthOptionConfig ?: return
         launchWithLoadingIndicator(
             onShowError = { errorText ->
                 _uiState.update { it.copy(errorText = errorText) }
             },
         ) {
             _uiState.update { it.copy(errorText = null) }
-            launchOpenIdAuthorizationUseCase(
-                issuer = issuer,
-                schoolUrl = route.schoolUrl,
-            )
+            launchOpenIdAuthorizationUseCase(config = config)
         }
     }
 

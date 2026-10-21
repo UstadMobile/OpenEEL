@@ -105,6 +105,10 @@ fun managerServerMain(ns: Namespace) {
                                     authenticationOptions = getAuthenticationOptions(
                                         openIdIssuerArg = ns.getString("openid_issuer"),
                                         openIdProviderNameArg = ns.getString("openid_provider_name"),
+                                        openIdClientIdArg = ns.getString("openid_client_id"),
+                                        openIdScopeArg = ns.getString("openid_scope"),
+                                        openIdRedirectUriArg = ns.getString("openid_redirect_uri"),
+                                        openIdPromptArg = ns.getString("openid_prompt"),
                                     ),
                                     lastModified = Clock.System.now(),
                                     stored = Clock.System.now(),
@@ -162,14 +166,28 @@ fun managerServerMain(ns: Namespace) {
 private fun getAuthenticationOptions(
     openIdIssuerArg: String?,
     openIdProviderNameArg: String?,
+    openIdClientIdArg: String?,
+    openIdScopeArg: String?,
+    openIdRedirectUriArg: String?,
+    openIdPromptArg: String?,
 ): List<AuthenticationOption> {
     val openIdIssuers = openIdIssuerArg.splitCommaSeparatedValues()
     val openIdProviderNames = openIdProviderNameArg.splitCommaSeparatedValues()
+    val openIdClientIds = openIdClientIdArg.splitCommaSeparatedValues()
+    val openIdScopes = openIdScopeArg.splitCommaSeparatedValues()
+    val openIdRedirectUris = openIdRedirectUriArg.splitCommaSeparatedValues()
+    val openIdPrompts = openIdPromptArg.splitCommaSeparatedValues()
 
     val openIdOptions = openIdIssuers.mapIndexed { index, issuer ->
         AuthenticationOption(
             name = openIdProviderNames.getOrNull(index) ?: issuer,
-            provider = OpenIdAuthOptionConfig(issuer = Url(issuer)),
+            provider = OpenIdAuthOptionConfig(
+                issuer = Url(issuer),
+                clientId = requireNotNull(openIdClientIds.getOrNull(index)) { "client id is needed"},
+                scope = requireNotNull(openIdScopes.getOrNull(index)) {"scope is needed" },
+                redirectUri = requireNotNull(openIdRedirectUris.getOrNull(index)) {"redirect url is needed" },
+                prompt = openIdPrompts.getOrNull(index),
+            ),
         )
     }
 

@@ -162,6 +162,7 @@ import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUs
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_CLIENT
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.account.authwithopenid.GetTokenAndUserProfileWithOpenIdUseCase
+import org.openeel.shared.domain.account.login.GoToLoginUseCase
 import org.openeel.shared.domain.account.authwithopenid.LaunchOpenIdAuthorizationUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCaseAndroid
@@ -851,10 +852,6 @@ val appKoinModule = module {
         EnqueueActivityContextJobUseCase()
     }
 
-    single<LaunchOpenIdAuthorizationUseCase> {
-        get<LaunchOpenIdAuthorizationUseCaseAndroid>()
-    }
-
     single {
         GetTokenAndUserProfileWithOpenIdUseCase(
             httpClient = get(),
@@ -865,6 +862,7 @@ val appKoinModule = module {
         HandleOpenIdAuthorizationResultUseCaseAndroid(
             context = androidContext().applicationContext,
             getTokenAndUserProfileWithOpenIdUseCase = get(),
+            accountManager = get(),
         )
     }
 
@@ -892,6 +890,20 @@ val appKoinModule = module {
      * can be shared
      */
     scope<SchoolDirectoryEntry> {
+        scoped<LaunchOpenIdAuthorizationUseCase> {
+            LaunchOpenIdAuthorizationUseCaseAndroid(
+                schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
+                enqueueActivityContextJobUseCase = get(),
+            )
+        }
+
+        scoped<GoToLoginUseCase> {
+            GoToLoginUseCase(
+                schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
+                launchOpenIdAuthorizationUseCase = get(),
+            )
+        }
+
         scoped<GetTokenAndUserProfileWithCredentialUseCase> {
             GetTokenAndUserProfileWithCredentialUseCaseClient(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,

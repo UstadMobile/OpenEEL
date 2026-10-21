@@ -20,15 +20,10 @@ import org.openeel.credentials.passkey.GetCredentialUseCaseAndroidImpl
 import org.openeel.credentials.passkey.GetCredentialUseCaseProcessor
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.respect.model.SchoolDirectory
-import org.openeel.datalayer.school.model.PersonStatusEnum
-import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.activitycontextjobprocessor.ActivityContextJobProcessor
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.biometric.BiometricAuthProcessor
 import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
-import org.openeel.shared.navigation.Home
-import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.view.app.AbstractAppActivity
 
 class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
@@ -121,28 +116,11 @@ class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
     private fun handleOpenIdAuthorizationResult(intent: Intent) {
         lifecycleScope.launch {
             try {
-                val callbackResult = getKoin()
-                    .get<HandleOpenIdAuthorizationResultUseCaseAndroid>()(intent = intent)
-                if (callbackResult is HandleOpenIdAuthorizationResultUseCaseAndroid.Result.Authenticated) {
-                    val accountManager = getKoin().get<AppAccountManager>()
-                    accountManager.startSession(
-                        authResponse = callbackResult.authResponse,
-                        schoolUrl = callbackResult.schoolUrl,
-                    )
-
-                    sendNavigationCommand(
-                        NavCommand.Navigate(
-                            destination = if (
-                                callbackResult.authResponse.person.status ==
-                                PersonStatusEnum.PENDING_APPROVAL
-                            ) {
-                                WaitingForApproval()
-                            } else {
-                                Home
-                            },
-                            clearBackStack = true,
-                        )
-                    )
+                val handleAuthorizationResult =
+                    getKoin().get<HandleOpenIdAuthorizationResultUseCaseAndroid>()
+                val navCommand = handleAuthorizationResult(intent)
+                if (navCommand != null) {
+                    _navCommandFlow.tryEmit(navCommand)
                 }
             } catch (cancelled: CancellationException) {
                 throw cancelled

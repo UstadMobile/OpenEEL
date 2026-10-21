@@ -13,7 +13,6 @@ import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.AuthorizationServiceConfiguration
 import net.openid.appauth.ResponseTypeValues
-import net.openid.appauth.connectivity.ConnectionBuilder
 import org.openeel.datalayer.respect.model.OpenIdAuthOptionConfig
 import org.openeel.shared.domain.account.authwithopenid.LaunchOpenIdAuthorizationUseCase
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
@@ -23,6 +22,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class LaunchOpenIdAuthorizationUseCaseAndroid(
+    private val schoolUrl: Url,
     private val enqueueActivityContextJobUseCase: EnqueueActivityContextJobUseCase,
 ) : LaunchOpenIdAuthorizationUseCase {
 
@@ -58,31 +58,31 @@ class LaunchOpenIdAuthorizationUseCaseAndroid(
 
         val authorizationRequest = AuthorizationRequest.Builder(
             serviceConfiguration,
-            CLIENT_ID,
+            config.clientId,
             ResponseTypeValues.CODE,
-            REDIRECT_URI.toUri(),
-        )
-            .setScope(SCOPE)
-            .setPrompt(PROMPT)
-            .build()
+            config.redirectUri.toUri(),
+        ).apply {
+            setScope(config.scope)
+            setPrompt(config.prompt)
+        }.build()
 
         enqueueActivityContextJobUseCase(request = { activity: Activity ->
             val authorizationService = AuthorizationService(
                 activity,
-                openIdAppAuthConfiguration(issuer = issuer),
+                openIdAppAuthConfiguration(issuer = config.issuer),
             )
 
             //You can use Class.forName to lookup MainActivity if needed same as is done in LaunchAppUseCaseAndroid
             val completedIntent = Intent(activity, MainActivity::class.java).apply {
                 action = ACTION_OPENID_AUTHORIZATION_RESULT
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                putExtra(EXTRA_ISSUER, issuer.toString())
+                putExtra(EXTRA_ISSUER, config.issuer.toString())
                 putExtra(EXTRA_SCHOOL_URL, schoolUrl.toString())
             }
             val canceledIntent = Intent(activity, MainActivity::class.java).apply {
                 action = ACTION_OPENID_AUTHORIZATION_CANCELED
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                putExtra(EXTRA_ISSUER, issuer.toString())
+                putExtra(EXTRA_ISSUER, config.issuer.toString())
                 putExtra(EXTRA_SCHOOL_URL, schoolUrl.toString())
             }
 
@@ -134,12 +134,6 @@ class LaunchOpenIdAuthorizationUseCaseAndroid(
         const val ACTION_OPENID_AUTHORIZATION_CANCELED = "org.openeel.OPENID_AUTHORIZATION_CANCELED"
         const val EXTRA_ISSUER = "openid_issuer"
         const val EXTRA_SCHOOL_URL = "openid_school_url"
-        const val CLIENT_ID = "respect-android"
-        const val SCOPE = "openid profile email lrs:read lrs:write"
-        const val PROMPT = "login"
-        // Register this redirect URI in the OpenID provider's client settings.
-        // https://github.com/openid/AppAuth-Android#capturing-the-authorization-redirect
-        const val REDIRECT_URI = "org.openeel.oauth:/oauth2redirect"
         const val AUTHORIZATION_RESULT_REQUEST_CODE = 0
         const val AUTHORIZATION_CANCELED_REQUEST_CODE = 1
 

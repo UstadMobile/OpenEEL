@@ -48,7 +48,7 @@ abstract class AbstractAppActivity : AppCompatActivity() {
             else -> SizeClass.MEDIUM
         }
 
-    private val _navCommandFlow = MutableSharedFlow<NavCommand>(
+    protected val _navCommandFlow = MutableSharedFlow<NavCommand>(
         replay = 1,
         extraBufferCapacity = 0,
         onBufferOverflow = BufferOverflow.DROP_OLDEST

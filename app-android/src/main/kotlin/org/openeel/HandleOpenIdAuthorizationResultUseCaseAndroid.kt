@@ -8,33 +8,26 @@ import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
 import net.openid.appauth.AuthorizationService
 import org.openeel.LaunchOpenIdAuthorizationUseCaseAndroid.Companion.openIdAppAuthConfiguration
-import org.openeel.shared.domain.account.AuthResponse
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.authwithopenid.GetTokenAndUserProfileWithOpenIdUseCase
+import org.openeel.shared.navigation.Home
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.WaitingForApproval
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class HandleOpenIdAuthorizationResultUseCaseAndroid(
     context: Context,
     private val getTokenAndUserProfileWithOpenIdUseCase: GetTokenAndUserProfileWithOpenIdUseCase,
+    private val accountManager: AppAccountManager,
 ) {
 
     private val appContext = context.applicationContext
 
-    sealed interface Result {
-        data object NotAuthorizationCallback : Result
-        data object Canceled : Result
-        data class Authenticated(
-            val schoolUrl: Url,
-            val authResponse: AuthResponse,
-        ) : Result
-    }
-
-    suspend operator fun invoke(intent: Intent): Result {
-        if (intent.action == LaunchOpenIdAuthorizationUseCaseAndroid.ACTION_OPENID_AUTHORIZATION_CANCELED) {
-            return Result.Canceled
-        }
+    suspend operator fun invoke(intent: Intent): NavCommand? {
         if (intent.action != LaunchOpenIdAuthorizationUseCaseAndroid.ACTION_OPENID_AUTHORIZATION_RESULT) {
-            return Result.NotAuthorizationCallback
+            return null
         }
 
         val issuerText = intent.getStringExtra(LaunchOpenIdAuthorizationUseCaseAndroid.EXTRA_ISSUER)
@@ -88,9 +81,18 @@ class HandleOpenIdAuthorizationResultUseCaseAndroid(
             accessToken = accessToken,
         )
 
-        return Result.Authenticated(
-            schoolUrl = schoolUrl,
+        accountManager.startSession(
             authResponse = authResponse,
+            schoolUrl = schoolUrl,
+        )
+
+        return NavCommand.Navigate(
+            destination = if (authResponse.person.status == PersonStatusEnum.PENDING_APPROVAL) {
+                WaitingForApproval()
+            } else {
+                Home
+            },
+            clearBackStack = true,
         )
     }
 }

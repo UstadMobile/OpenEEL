@@ -34,6 +34,14 @@ fun main(args: Array<String>) {
             .help("Comma separated OpenID urls")
         it.addArgument("--openid-provider-name")
             .help("Comma separated OpenID provider names")
+        it.addArgument("--openid-client-id")
+            .help("Comma separated OpenID client IDs")
+        it.addArgument("--openid-scope")
+            .help("Comma separated OpenID scopes")
+        it.addArgument("--openid-redirect-uri")
+            .help("Comma separated OpenID redirect URIs")
+        it.addArgument("--openid-prompt")
+            .help("Comma separated OpenID prompts")
         it.addArgument("-i", "--inDirectoryUrl")
             .help("Directory URL: if directories.virtualhost=true in server config, return this " +
                     "entry only if the directory host url matches this"
