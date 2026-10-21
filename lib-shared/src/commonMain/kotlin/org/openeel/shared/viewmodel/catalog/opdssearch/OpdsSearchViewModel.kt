@@ -48,11 +48,21 @@ import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
  * @property filterOptions the languages and subjects available to filter by.
  * @property selectedFilters the filter options selected by the user.
  * @property results search results; empty until the user enters text or selects a filter.
+ * @property languageOptionSearchText text entered to search the language filter options.
+ * @property subjectOptionSearchText text entered to search the subject filter options.
+ * @property showLanguageFilter true when cached publications have at least one language (regardless
+ *           of the language option search text).
+ * @property showSubjectFilter true when cached publications have at least one subject (regardless
+ *           of the subject option search text).
  */
 data class OpdsSearchUiState(
     val filterOptions: OpdsSearchFilterOptions = OpdsSearchFilterOptions(),
     val selectedFilters: Set<ContentFilterOption> = emptySet(),
     val results: List<OpdsSearchResult> = emptyList(),
+    val languageOptionSearchText: String = "",
+    val subjectOptionSearchText: String = "",
+    val showLanguageFilter: Boolean = false,
+    val showSubjectFilter: Boolean = false,
 ) {
 }
 
@@ -94,6 +104,11 @@ class OpdsSearchViewModel(
      * The current search params, or null when there is no search text and no filter selected.
      */
     private val searchParams = MutableStateFlow<OpdsFeedDataSourceLocal.SearchParams?>(null)
+
+    /**
+     * The language and subject filter option search text (debounced) used to query the options.
+     */
+    private val filterOptionSearchText = MutableStateFlow(Pair("", ""))
 
     init {
         _appUiState.update {
@@ -155,10 +170,28 @@ class OpdsSearchViewModel(
         }
 
         viewModelScope.launch {
-            schoolDataSourceLocal.opdsFeedDataSource.getSearchFilterOptionsAsFlow()
-                .collect { filterOptions ->
-                    _uiState.update { it.copy(filterOptions = filterOptions) }
+            filterOptionSearchText.collectLatest { (languageSearchText, subjectSearchText) ->
+                schoolDataSourceLocal.opdsFeedDataSource.getSearchFilterOptionsAsFlow(
+                    languageSearchText = languageSearchText,
+                    subjectSearchText = subjectSearchText,
+                ).collect { filterOptions ->
+                    _uiState.update {
+                        it.copy(
+                            filterOptions = filterOptions,
+                            showLanguageFilter = if (languageSearchText.isBlank()) {
+                                filterOptions.languages.isNotEmpty()
+                            } else {
+                                it.showLanguageFilter
+                            },
+                            showSubjectFilter = if (subjectSearchText.isBlank()) {
+                                filterOptions.subjects.isNotEmpty()
+                            } else {
+                                it.showSubjectFilter
+                            },
+                        )
+                    }
                 }
+            }
         }
     }
 
@@ -206,6 +239,23 @@ class OpdsSearchViewModel(
         updateSearchParams()
     }
 
+    fun onLanguageOptionSearchTextChanged(text: String) {
+        _uiState.update { it.copy(languageOptionSearchText = text) }
+        launchDebounced.launch(DEBOUNCE_KEY_FILTER_OPTIONS) { updateFilterOptionSearchText() }
+    }
+
+    fun onSubjectOptionSearchTextChanged(text: String) {
+        _uiState.update { it.copy(subjectOptionSearchText = text) }
+        launchDebounced.launch(DEBOUNCE_KEY_FILTER_OPTIONS) { updateFilterOptionSearchText() }
+    }
+
+    private fun updateFilterOptionSearchText() {
+        val state = _uiState.value
+        filterOptionSearchText.value = Pair(
+            state.languageOptionSearchText, state.subjectOptionSearchText
+        )
+    }
+
     fun onClearFilters() {
         _uiState.update { it.copy(selectedFilters = emptySet()) }
         updateSearchParams()
@@ -245,6 +295,8 @@ class OpdsSearchViewModel(
     companion object {
 
         private const val DEBOUNCE_KEY_SEARCH = "search"
+
+        private const val DEBOUNCE_KEY_FILTER_OPTIONS = "filter_options"
 
     }
 
