@@ -75,6 +75,15 @@ val APP_MIGRATION_10_11 = object: Migration(10, 11) {
     }
 }
 
+val APP_MIGRATION_11_12 = object: Migration(11, 12) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE SchoolDirectoryEntryAuthOptionEntity ADD COLUMN sdeAoOpenIdClientId TEXT")
+        connection.execSQL("ALTER TABLE SchoolDirectoryEntryAuthOptionEntity ADD COLUMN sdeAoOpenIdScope TEXT")
+        connection.execSQL("ALTER TABLE SchoolDirectoryEntryAuthOptionEntity ADD COLUMN sdeAoOpenIdRedirectUri TEXT")
+        connection.execSQL("ALTER TABLE SchoolDirectoryEntryAuthOptionEntity ADD COLUMN sdeAoOpenIdPrompt TEXT")
+    }
+}
+
 fun RoomDatabase.Builder<SchoolDirectoryDatabase>.addCommonMigrations(
 
 ): RoomDatabase.Builder<SchoolDirectoryDatabase> {
@@ -85,6 +94,7 @@ fun RoomDatabase.Builder<SchoolDirectoryDatabase>.addCommonMigrations(
         APP_MIGRATION_5_6,
         APP_MIGRATION_9_10,
         APP_MIGRATION_10_11,
+        APP_MIGRATION_11_12,
     )
 }
 

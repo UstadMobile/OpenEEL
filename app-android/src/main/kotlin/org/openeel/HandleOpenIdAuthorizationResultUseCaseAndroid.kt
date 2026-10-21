@@ -1,0 +1,98 @@
+package org.openeel
+
+import android.content.Context
+import android.content.Intent
+import io.ktor.http.Url
+import kotlinx.coroutines.suspendCancellableCoroutine
+import net.openid.appauth.AuthorizationException
+import net.openid.appauth.AuthorizationResponse
+import net.openid.appauth.AuthorizationService
+import org.openeel.LaunchOpenIdAuthorizationUseCaseAndroid.Companion.openIdAppAuthConfiguration
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.account.authwithopenid.GetTokenAndUserProfileWithOpenIdUseCase
+import org.openeel.shared.navigation.Home
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.WaitingForApproval
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+
+class HandleOpenIdAuthorizationResultUseCaseAndroid(
+    context: Context,
+    private val getTokenAndUserProfileWithOpenIdUseCase: GetTokenAndUserProfileWithOpenIdUseCase,
+    private val accountManager: AppAccountManager,
+) {
+
+    private val appContext = context.applicationContext
+
+    suspend operator fun invoke(intent: Intent): NavCommand? {
+        if (intent.action != LaunchOpenIdAuthorizationUseCaseAndroid.ACTION_OPENID_AUTHORIZATION_RESULT) {
+            return null
+        }
+
+        val issuerText = intent.getStringExtra(LaunchOpenIdAuthorizationUseCaseAndroid.EXTRA_ISSUER)
+        val schoolText = intent.getStringExtra(LaunchOpenIdAuthorizationUseCaseAndroid.EXTRA_SCHOOL_URL)
+        if (issuerText == null || schoolText == null) {
+            throw IllegalArgumentException("OpenID callback is missing its issuer or school URL")
+        }
+
+        val issuer = Url(issuerText)
+        val schoolUrl = Url(schoolText)
+        val authorizationResponse = AuthorizationResponse.fromIntent(intent)
+        if (authorizationResponse == null) {
+            val authorizationException = AuthorizationException.fromIntent(intent)
+            throw IllegalStateException(
+                authorizationException?.message ?: "OpenID authorization returned no response"
+            )
+        }
+
+        val authorizationService = AuthorizationService(
+            appContext,
+            openIdAppAuthConfiguration(issuer = issuer),
+        )
+        val accessToken = try {
+            suspendCancellableCoroutine<String> { continuation ->
+                // AppAuth returns the token exchange result through this callback.
+                // https://github.com/openid/AppAuth-Android#exchanging-the-authorization-code
+                authorizationService.performTokenRequest(
+                    authorizationResponse.createTokenExchangeRequest()
+                ) { response, exception ->
+                    if (continuation.isActive) {
+                        val token = response?.accessToken
+                        if (token != null) {
+                            continuation.resume(value = token)
+                        } else {
+                            continuation.resumeWithException(
+                                exception = IllegalStateException(
+                                    exception?.message
+                                        ?: "OpenID token exchange returned no access token"
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        } finally {
+            authorizationService.dispose()
+        }
+
+        val authResponse = getTokenAndUserProfileWithOpenIdUseCase(
+            schoolUrl = schoolUrl,
+            accessToken = accessToken,
+        )
+
+        accountManager.startSession(
+            authResponse = authResponse,
+            schoolUrl = schoolUrl,
+        )
+
+        return NavCommand.Navigate(
+            destination = if (authResponse.person.status == PersonStatusEnum.PENDING_APPROVAL) {
+                WaitingForApproval()
+            } else {
+                Home
+            },
+            clearBackStack = true,
+        )
+    }
+}

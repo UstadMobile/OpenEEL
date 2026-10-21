@@ -23,5 +23,9 @@ data class BuiltinAuthOptionConfig(
 data class OpenIdAuthOptionConfig(
     override val authType: AuthOptionConfigTypeEnum = AuthOptionConfigTypeEnum.OPENID,
     val issuer: Url,
+    val clientId: String,
+    val scope: String,
+    val redirectUri: String,
+    val prompt: String? = null,
 ) : AuthOptionConfig
 

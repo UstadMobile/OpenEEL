@@ -156,6 +156,26 @@ class AppAccountManager(
         return authResponse
     }
 
+    suspend fun startSession(
+        authResponse: AuthResponse,
+        schoolUrl: Url,
+    ) {
+        val schoolDirectoryEntry = appDataSource.schoolDirectoryEntryResource
+            .getSchoolDirectoryEntryByUrl(schoolUrl)
+            .dataOrNull() ?: throw IllegalStateException("School directory entry is unavailable")
+
+        initSession(
+            authResponse = authResponse,
+            session = UserSession(
+                account = UserAccount(
+                    userGuid = authResponse.person.guid,
+                    school = schoolDirectoryEntry,
+                ),
+                profilePersonUid = null,
+            ),
+        )
+    }
+
     @Suppress("unused")
     suspend fun register(
         redeemInviteRequest: RedeemInviteRequest,

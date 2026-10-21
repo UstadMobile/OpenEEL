@@ -48,12 +48,16 @@ abstract class AbstractAppActivity : AppCompatActivity() {
             else -> SizeClass.MEDIUM
         }
 
-    private val _navCommandFlow = MutableSharedFlow<NavCommand>(
+    protected val _navCommandFlow = MutableSharedFlow<NavCommand>(
         replay = 1,
         extraBufferCapacity = 0,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     private val navCommandFlow: SharedFlow<NavCommand> = _navCommandFlow.asSharedFlow()
+
+    protected fun sendNavigationCommand(command: NavCommand) {
+        _navCommandFlow.tryEmit(command)
+    }
 
     @OptIn(
         ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
