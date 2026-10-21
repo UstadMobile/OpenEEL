@@ -303,6 +303,7 @@ onFlowComplete:
 - assertVisible: "Add assignment"
 - assertVisible: "Assignment Result Statement Demo"
 - back
+
 # Add assignment from a collection
 - tapOn: "Assign"
 - assertVisible:
