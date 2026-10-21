@@ -6,7 +6,6 @@ import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
 import org.openeel.datalayer.school.model.composites.OpdsSearchFilterOptions
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
-import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.lib.opds.model.OpdsFeed
 
 interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationHelper {
@@ -37,9 +36,9 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
     /**
      * Search all cached publications and navigation links (from every feed stored locally).
      */
-    fun searchAsPagingSource(
+    fun searchAsFlow(
         params: SearchParams,
-    ): IPagingSourceFactory<Int, OpdsSearchResult>
+    ): Flow<List<OpdsSearchResult>>
 
     /**
      * Get the languages and subjects available to filter search results.

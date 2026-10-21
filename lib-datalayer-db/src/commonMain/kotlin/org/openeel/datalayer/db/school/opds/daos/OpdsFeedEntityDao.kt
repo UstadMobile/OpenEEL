@@ -1,6 +1,5 @@
 package org.openeel.datalayer.db.school.opds.daos
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -194,7 +193,7 @@ abstract class OpdsFeedEntityDao {
                     
       ORDER BY title
     """)
-    abstract fun searchAsPagingSource(
+    abstract fun searchAsFlow(
         searchText: String,
         filterByLanguage: Boolean,
         languages: List<String>,
@@ -222,7 +221,7 @@ abstract class OpdsFeedEntityDao {
             ReadiumLinkEntity.PropertyType.OPDS_FEED_NAVIGATION,
         groupNavigationPropType: ReadiumLinkEntity.PropertyType =
             ReadiumLinkEntity.PropertyType.OPDS_GROUP_NAVIGATION,
-    ): PagingSource<Int, OpdsSearchResult>
+    ): Flow<List<OpdsSearchResult>>
 
     /**
      * Get the distinct languages used by cached publications (for search filter options).

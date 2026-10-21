@@ -13,7 +13,6 @@ import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.school.model.composites.OpdsSearchFilterOptions
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
-import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.db.school.opds.adapters.OpdsFeedEntities
 import org.openeel.datalayer.db.school.opds.adapters.asEntities
 import org.openeel.datalayer.db.school.opds.adapters.asModel
@@ -45,23 +44,21 @@ class OpdsFeedDataSourceDb(
     private val primaryKeyGenerator: PrimaryKeyGenerator,
 ) : OpdsFeedDataSourceLocal{
 
-    override fun searchAsPagingSource(
+    override fun searchAsFlow(
         params: OpdsFeedDataSourceLocal.SearchParams,
-    ): IPagingSourceFactory<Int, OpdsSearchResult> {
-        return IPagingSourceFactory {
-            schoolDb.getOpdsFeedEntityDao().searchAsPagingSource(
-                searchText = params.searchText.trim(),
-                filterByLanguage = params.languages.isNotEmpty(),
-                languages = params.languages,
-                filterBySubject = params.subjects.isNotEmpty(),
-                subjects = params.subjects,
-                filterByType = params.types.isNotEmpty(),
-                types = params.types,
-                includePublications = params.includePublications,
-                includeNavigation = params.includeNavigation &&
-                    params.languages.isEmpty() && params.subjects.isEmpty(),
-            )
-        }
+    ): Flow<List<OpdsSearchResult>> {
+        return schoolDb.getOpdsFeedEntityDao().searchAsFlow(
+            searchText = params.searchText.trim(),
+            filterByLanguage = params.languages.isNotEmpty(),
+            languages = params.languages,
+            filterBySubject = params.subjects.isNotEmpty(),
+            subjects = params.subjects,
+            filterByType = params.types.isNotEmpty(),
+            types = params.types,
+            includePublications = params.includePublications,
+            includeNavigation = params.includeNavigation &&
+                params.languages.isEmpty() && params.subjects.isEmpty(),
+        )
     }
 
     override fun getSearchFilterOptionsAsFlow(): Flow<OpdsSearchFilterOptions> {

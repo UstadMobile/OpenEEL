@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
@@ -22,9 +23,6 @@ import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.datalayer.school.model.composites.OpdsSearchFilterOptions
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
-import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
-import org.openeel.datalayer.shared.paging.IPagingSourceFactory
-import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
 import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.libutil.ext.resolve
 import org.openeel.libutil.ext.toggle
@@ -54,7 +52,7 @@ import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 data class OpdsSearchUiState(
     val filterOptions: OpdsSearchFilterOptions = OpdsSearchFilterOptions(),
     val selectedFilters: Set<ContentFilterOption> = emptySet(),
-    val results: IPagingSourceFactory<Int, OpdsSearchResult> = EmptyPagingSourceFactory(),
+    val results: List<OpdsSearchResult> = emptyList(),
 ) {
 }
 
@@ -92,17 +90,10 @@ class OpdsSearchViewModel(
 
     private val launchDebounced = LaunchDebouncer(viewModelScope)
 
-    private val pagingSourceFactoryHolder = PagingSourceFactoryHolder {
-        val searchText = _appUiState.value.searchState.searchText
-        val state = _uiState.value
-        if (searchText.isNotBlank() || state.selectedFilters.isNotEmpty()) {
-            schoolDataSourceLocal.opdsFeedDataSource.searchAsPagingSource(
-                state.toSearchParams(searchText)
-            )
-        } else {
-            EmptyPagingSourceFactory()
-        }
-    }
+    /**
+     * The current search params, or null when there is no search text and no filter selected.
+     */
+    private val searchParams = MutableStateFlow<OpdsFeedDataSourceLocal.SearchParams?>(null)
 
     init {
         _appUiState.update {
@@ -119,7 +110,17 @@ class OpdsSearchViewModel(
             )
         }
 
-        _uiState.update { it.copy(results = pagingSourceFactoryHolder) }
+        viewModelScope.launch {
+            searchParams.collectLatest { params ->
+                if (params == null) {
+                    _uiState.update { it.copy(results = emptyList()) }
+                } else {
+                    schoolDataSourceLocal.opdsFeedDataSource.searchAsFlow(params).collect { results ->
+                        _uiState.update { it.copy(results = results) }
+                    }
+                }
+            }
+        }
 
         viewModelScope.launch {
             schoolDataSource.xapiResource.statements.getAsFlow(
@@ -181,23 +182,33 @@ class OpdsSearchViewModel(
         )
     }
 
+    private fun updateSearchParams() {
+        val searchText = _appUiState.value.searchState.searchText
+        val state = _uiState.value
+        searchParams.value = if (searchText.isNotBlank() || state.selectedFilters.isNotEmpty()) {
+            state.toSearchParams(searchText)
+        } else {
+            null
+        }
+    }
+
     fun onSearchTextChanged(text: String) {
         _appUiState.update {
             it.copy(searchState = it.searchState.copy(searchText = text))
         }
         launchDebounced.launch(DEBOUNCE_KEY_SEARCH) {
-            pagingSourceFactoryHolder.invalidate()
+            updateSearchParams()
         }
     }
 
     fun onToggleFilterOption(option: ContentFilterOption) {
         _uiState.update { it.copy(selectedFilters = it.selectedFilters.toggle(option)) }
-        pagingSourceFactoryHolder.invalidate()
+        updateSearchParams()
     }
 
     fun onClearFilters() {
         _uiState.update { it.copy(selectedFilters = emptySet()) }
-        pagingSourceFactoryHolder.invalidate()
+        updateSearchParams()
     }
 
     fun onClickResult(result: OpdsSearchResult) {

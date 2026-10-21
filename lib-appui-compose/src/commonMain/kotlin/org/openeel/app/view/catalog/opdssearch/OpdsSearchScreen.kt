@@ -3,18 +3,16 @@ package org.openeel.app.view.catalog.opdssearch
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.paging.compose.collectAsLazyPagingItems
 import io.ktor.http.Url
 import org.openeel.app.view.catalog.opdsfeeddetail.FeedListItem
 import org.openeel.app.components.OpenEelContentFilterRow
 import org.openeel.app.components.contentFilterDefinitions
-import org.openeel.app.components.openEelPagingItems
-import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.shared.domain.contentfilter.ContentFilterOption
 import org.openeel.libutil.ext.resolve
@@ -42,9 +40,6 @@ fun OpdsSearchScreen(
     onClearFilters: () -> Unit = { },
     onClickResult: (OpdsSearchResult) -> Unit = { },
 ) {
-    val pager = openEelRememberPager(uiState.results)
-    val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
-
     Column(modifier = Modifier.fillMaxSize()) {
         OpenEelContentFilterRow(
             filters = contentFilterDefinitions(options = uiState.filterOptions),
@@ -55,25 +50,25 @@ fun OpdsSearchScreen(
         )
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            openEelPagingItems(
-                items = lazyPagingItems,
-                key = { _, index -> index },
-            ) { result ->
+            itemsIndexed(
+                items = uiState.results,
+                key = { index, _ -> index },
+            ) { _, result ->
                 val iconUrl = remember(result) {
-                    result?.iconHref?.let { iconHref ->
+                    result.iconHref?.let { iconHref ->
                         (result.url ?: result.feedUrl)?.let { Url(it).resolve(iconHref).toString() }
                     }
                 }
 
                 FeedListItem(
-                    title = result?.title ?: "",
+                    title = result.title,
                     iconUrl = iconUrl,
                     description = null,
                     language = null,
                     duration = null,
                     showCheckbox = false,
                     isSelected = false,
-                    onClick = { result?.also(onClickResult) },
+                    onClick = { onClickResult(result) },
                     onLongPress = { },
                 )
             }
