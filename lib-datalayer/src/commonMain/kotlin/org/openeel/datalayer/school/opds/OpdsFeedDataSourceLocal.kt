@@ -4,7 +4,6 @@ import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
-import org.openeel.datalayer.school.model.composites.OpdsSearchFilterOptions
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.lib.opds.model.OpdsFeed
 
@@ -18,18 +17,12 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
      * @property searchText text to search for in titles; when blank all items match.
      * @property languages publication language codes (metadata.language) to match.
      * @property subjects publication subject names (metadata.subject) to match.
-     * @property types publication schema.org types (metadata.@type) to match.
-     * @property includePublications whether publications should be included.
-     * @property includeNavigation whether navigation links (collections) should be included.
      */
     data class SearchParams(
         val searchText: String = "",
         val languages: List<String> = emptyList(),
         val subjects: List<String> = emptyList(),
         val types: List<String> = emptyList(),
-        //Convert these to using a property with no backing field: same reason as mentioned on UiState
-        val includePublications: Boolean = true,
-        val includeNavigation: Boolean = true,
     )
 
     /**
@@ -40,15 +33,24 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
     ): Flow<List<OpdsSearchResult>>
 
     /**
-     * Get the languages and subjects available to filter search results.
+     * Get the distinct languages (metadata.language) of cached publications available to filter
+     * search results.
      *
-     * @param languageSearchText text to search for in language codes; when blank all match.
-     * @param subjectSearchText text to search for in subject names; when blank all match.
+     * @param searchText text to search for in language codes; when blank all match.
      */
-    fun getSearchFilterOptionsAsFlow(
-        languageSearchText: String = "",
-        subjectSearchText: String = "",
-    ): Flow<OpdsSearchFilterOptions>
+    fun getLanguageOptionsAsFlow(
+        searchText: String = "",
+    ): Flow<List<String>>
+
+    /**
+     * Get the distinct subject names (metadata.subject) of cached publications available to
+     * filter search results.
+     *
+     * @param searchText text to search for in subject names; when blank all match.
+     */
+    fun getSubjectOptionsAsFlow(
+        searchText: String = "",
+    ): Flow<List<String>>
 
     /**
      * The update local is a little different for OpdsFeed because the data can come from different
@@ -60,4 +62,10 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
         dataLoadResult: DataReadyState<OpdsFeed>,
     )
 
+    companion object{
+        const val TYPE_COLLECTION = "http://schema.org/Collection"
+        const val TYPE_GAME = "http://schema.org/Game"
+        const val TYPE_BOOK = "http://schema.org/Book"
+        const val TYPE_VIDEO = "http://schema.org/VideoObject"
+    }
 }

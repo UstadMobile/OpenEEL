@@ -152,6 +152,7 @@ abstract class OpdsFeedEntityDao {
                    AND PublicationFeedMetadata.ofmePropType = :feedMetadataPropType
                  LIMIT 1) AS feedTitle,
                OpdsPublicationEntity.opeMdIdentifier AS identifier,
+               OpdsPublicationEntity.opeMdType AS type,
                (SELECT PublicationImage.rleHref
                   FROM ReadiumLinkEntity AS PublicationImage
                  WHERE PublicationImage.rleOpdsParentType = :publicationParentType
@@ -178,6 +179,7 @@ abstract class OpdsFeedEntityDao {
                    AND NavigationLinkFeedMetadata.ofmePropType = :feedMetadataPropType
                  LIMIT 1) AS feedTitle,
                NULL AS identifier,
+               NULL AS type,
                (SELECT NavigationIcon.rleHref
                   FROM ReadiumLinkEntity AS NavigationIcon
                  WHERE NavigationIcon.rlePropType = :linkAlternatePropType

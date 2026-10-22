@@ -5,13 +5,11 @@ import androidx.room.useWriterConnection
 import com.ustadmobile.ihttp.headers.IHttpHeaders
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
-import org.openeel.datalayer.school.model.composites.OpdsSearchFilterOptions
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.datalayer.db.school.opds.adapters.OpdsFeedEntities
 import org.openeel.datalayer.db.school.opds.adapters.asEntities
@@ -53,24 +51,41 @@ class OpdsFeedDataSourceDb(
             languages = params.languages,
             filterBySubject = params.subjects.isNotEmpty(),
             subjects = params.subjects,
-            filterByType = params.types.isNotEmpty(),
-            types = params.types,
+            filterByType = params.publicationTypes.isNotEmpty(),
+            types = params.publicationTypes,
             includePublications = params.includePublications,
-            includeNavigation = params.includeNavigation &&
-                params.languages.isEmpty() && params.subjects.isEmpty(),
+            includeNavigation = params.includeNavigation,
         )
     }
 
-    override fun getSearchFilterOptionsAsFlow(
-        languageSearchText: String,
-        subjectSearchText: String,
-    ): Flow<OpdsSearchFilterOptions> {
-        val feedDao = schoolDb.getOpdsFeedEntityDao()
-        return feedDao.findPublicationLanguagesAsFlow(languageSearchText.trim()).combine(
-            feedDao.findPublicationSubjectsAsFlow(subjectSearchText.trim())
-        ) { languages, subjects ->
-            OpdsSearchFilterOptions(languages = languages, subjects = subjects)
-        }
+    /**
+     * Publication schema.org types to match (e.g. excluding TYPE_COLLECTION, which matches
+     * navigation links).
+     */
+    private val OpdsFeedDataSourceLocal.SearchParams.publicationTypes: List<String>
+        get() = types.filter { it != OpdsFeedDataSourceLocal.TYPE_COLLECTION }
+
+    private val OpdsFeedDataSourceLocal.SearchParams.includePublications: Boolean
+        get() = types.isEmpty() || publicationTypes.isNotEmpty()
+
+    /**
+     * Navigation links do not have a language or subject, so they are only included when no
+     * language or subject filter is selected.
+     */
+    private val OpdsFeedDataSourceLocal.SearchParams.includeNavigation: Boolean
+        get() = (types.isEmpty() || OpdsFeedDataSourceLocal.TYPE_COLLECTION in types) &&
+            languages.isEmpty() && subjects.isEmpty()
+
+    override fun getLanguageOptionsAsFlow(
+        searchText: String,
+    ): Flow<List<String>> {
+        return schoolDb.getOpdsFeedEntityDao().findPublicationLanguagesAsFlow(searchText.trim())
+    }
+
+    override fun getSubjectOptionsAsFlow(
+        searchText: String,
+    ): Flow<List<String>> {
+        return schoolDb.getOpdsFeedEntityDao().findPublicationSubjectsAsFlow(searchText.trim())
     }
 
     private suspend fun OpdsFeedEntity?.toDataLoadState(
