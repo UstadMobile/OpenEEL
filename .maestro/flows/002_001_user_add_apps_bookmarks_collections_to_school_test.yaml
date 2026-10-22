@@ -235,8 +235,6 @@ onFlowComplete:
 - tapOn:
     text: "Collections section"
     index: 0
-- scrollUntilVisible:
-    element: "Collections section"
 - tapOn: "Collections section"
 - runFlow:
     file: "subflows/erase_text.yaml"
