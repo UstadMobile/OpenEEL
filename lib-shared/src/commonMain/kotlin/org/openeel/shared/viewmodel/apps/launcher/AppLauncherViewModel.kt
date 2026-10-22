@@ -107,7 +107,6 @@ class AppLauncherViewModel(
                 ),
                 hideBottomNavigation = route.resultDest != null,
                 showBackButton = route.resultDest != null,
-                // Search results open content directly, so search is not shown when picking
                 actions = if(route.resultDest == null) {
                     listOf(
                         AppActionButton(
