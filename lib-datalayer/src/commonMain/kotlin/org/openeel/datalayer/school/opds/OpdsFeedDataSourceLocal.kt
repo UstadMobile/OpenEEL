@@ -27,6 +27,7 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
         val languages: List<String> = emptyList(),
         val subjects: List<String> = emptyList(),
         val types: List<String> = emptyList(),
+        //Convert these to using a property with no backing field: same reason as mentioned on UiState
         val includePublications: Boolean = true,
         val includeNavigation: Boolean = true,
     )

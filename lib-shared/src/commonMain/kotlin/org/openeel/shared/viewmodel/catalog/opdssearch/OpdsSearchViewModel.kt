@@ -6,6 +6,8 @@ import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
@@ -57,15 +59,16 @@ import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
  */
 data class OpdsSearchUiState(
     val filterOptions: OpdsSearchFilterOptions = OpdsSearchFilterOptions(),
+    val searchParams: OpdsFeedDataSourceLocal.SearchParams = OpdsFeedDataSourceLocal.SearchParams(),
+    //ContentFilterOption should not exist like this. We have filter options, what the user can select from,
+    //we have searchParam - what the user has selected.
     val selectedFilters: Set<ContentFilterOption> = emptySet(),
     val results: List<OpdsSearchResult> = emptyList(),
     val languageOptionSearchText: String = "",
     val subjectOptionSearchText: String = "",
     val showLanguageFilter: Boolean = false,
     val showSubjectFilter: Boolean = false,
-) {
-}
-
+)
 /**
  * Search all available (cached) OPDS publications and feeds. Searching and filtering is done by
  * the local database.
@@ -126,45 +129,9 @@ class OpdsSearchViewModel(
         }
 
         viewModelScope.launch {
-            searchParams.collectLatest { params ->
-                if (params == null) {
-                    _uiState.update { it.copy(results = emptyList()) }
-                } else {
-                    schoolDataSourceLocal.opdsFeedDataSource.searchAsFlow(params).collect { results ->
-                        _uiState.update { it.copy(results = results) }
-                    }
-                }
-            }
-        }
-
-        viewModelScope.launch {
-            schoolDataSource.xapiResource.statements.getAsFlow(
-                listParams = XapiStatementsResource.GetStatementParams(
-                    verb = XapiVerb.ID_LISTED_APP,
-                    activity = OpenEelXapiConstants.CATEGORY_APP_LISTING_RECIPE,
-                    relatedActivities = true,
-                ),
-                dataLoadParams = DataLoadParams(),
-            ).collect { state ->
-                state.dataOrNull()?.also { result ->
-                    listedAppUrls.value = result.statements.mapNotNull { statement ->
-                        statement.objectActivityOrNull()?.id
-                    }.toSet()
-                }
-            }
-        }
-
-        viewModelScope.launch {
-            schoolDataSource.schoolConfigSettingDataSource.listAsFlow(
-                loadParams = DataLoadParams(),
-                params = SchoolConfigSettingDataSource.GetListParams(
-                    key = SchoolConfigSettingDataSource.KEY_APP_CATALOGS
-                )
-            ).collect { configs ->
-                configs.dataOrNull()?.also { settings ->
-                    appCatalogUrls.value = settings.mapNotNull { setting ->
-                        runCatching { Url(setting.value) }.getOrNull()
-                    }
+            uiState.map { it.searchParams }.distinctUntilChanged().collectLatest { searchParams ->
+                schoolDataSourceLocal.opdsFeedDataSource.searchAsFlow(searchParams).collect { results ->
+                    _uiState.update { it.copy(results = results) }
                 }
             }
         }
@@ -229,8 +196,13 @@ class OpdsSearchViewModel(
         _appUiState.update {
             it.copy(searchState = it.searchState.copy(searchText = text))
         }
+
         launchDebounced.launch(DEBOUNCE_KEY_SEARCH) {
-            updateSearchParams()
+            _uiState.update { prev ->
+                prev.copy(
+                    searchParams = prev.searchParams.copy(searchText = text)
+                )
+            }
         }
     }
 
