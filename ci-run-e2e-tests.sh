@@ -211,7 +211,6 @@ if [ "$1" == "cloud" ]; then
         --project-id=$MAESTRO_CLOUD_PROJECTID \
         --app-file=./app-android/build/outputs/apk/release/app-android-release.apk \
         --flows=.maestro/flows \
-        --include-tags=EndToEnd \
         $DEVICE_OS_ARG \
         --format=junit \
         --output=$MAESTRO_REPORT_FILE \

@@ -1,6 +1,4 @@
 appId: org.openeel.app
-tags:
-  - EndToEnd
 onFlowStart:
   - clearState: org.openeel.app
   - runScript:
@@ -436,7 +434,9 @@ onFlowComplete:
 - assertVisible: "Permanently delete?"
 - assertVisible: "Permanently delete this collection"
 - tapOn: "Cancel"
-#- tapOn: "Delete"    # Delete functionality not implemented
+
+#- tapOn: "Delete"    # Delete functionality not implemented - when ready uncomment this command- Comment Cancel and enable this command also
+# add assertion to make sure deleted collection is not visible on collection list.
 
 # Adding Collection to an assignment
 - tapOn: "Assignments"
