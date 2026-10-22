@@ -51,7 +51,7 @@ data class LoginUiState(
     val usernameError: StringResourceUiText? = null,
     val passwordError: StringResourceUiText? = null,
     val schoolUrl: Url,
-    val isSharedDevice: Boolean = false
+    val showSelectOtherSchoolButton: Boolean = false
 )
 
 class LoginViewModel(
@@ -81,6 +81,10 @@ class LoginViewModel(
     private var usingSavedPassword = false
 
     init {
+        _uiState.update { prev ->
+            prev.copy(showSelectOtherSchoolButton = route.showSelectOtherSchool == true)
+        }
+
         viewModelScope.launch {
             _appUiState.update { prev ->
                 prev.copy(
@@ -91,11 +95,6 @@ class LoginViewModel(
             }
         }
         viewModelScope.launch {
-            _uiState.update { prev ->
-                prev.copy(
-                    isSharedDevice = route.isSharedDevice == true
-                )
-            }
             try {
                 val school = schoolDirectoryDataSource.schoolDirectoryEntryResource
                     .getSchoolDirectoryEntryByUrl(route.schoolUrl)
@@ -255,9 +254,10 @@ class LoginViewModel(
             NavCommand.Navigate(EnterInviteCode.create(route.schoolUrl))
         )
     }
-    fun onClickSelectAnotherSchool(){
+
+    fun onClickSelectAnotherSchool() {
         _navCommandFlow.tryEmit(
-            NavCommand.Navigate(GetStartedScreen())
+            NavCommand.Navigate(GetStartedScreen(canGoBack = true))
         )
     }
 }

@@ -79,7 +79,7 @@ fun AcceptInviteScreen(
     } else {
         SharedSchoolDeviceEnableScreenContent(
             uiState = uiState,
-            onDeviceNameChange = viewModel::updateDeviceName,
+            onDeviceNameChange = viewModel::onUpdateDeviceName,
             onEnableSharedDeviceMode = viewModel::enableSharedDeviceMode,
         )
     }

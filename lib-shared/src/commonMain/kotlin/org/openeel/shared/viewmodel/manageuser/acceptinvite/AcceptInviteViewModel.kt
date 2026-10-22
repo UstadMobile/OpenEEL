@@ -9,6 +9,7 @@ import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.scope.Scope
@@ -45,7 +46,6 @@ import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
-import org.openeel.shared.viewmodel.manageuser.acceptinvite.AcceptInviteUiState.Companion.CURRENT_DEVICE_GUID
 
 data class AcceptInviteUiState(
     val inviteInfo: InviteInfo? = null,
@@ -53,11 +53,13 @@ data class AcceptInviteUiState(
     val isTeacherInvite: Boolean = false,
     val schoolName: LangMap? = null,
     val schoolUrl: Url? = null,
-    val isSharedDeviceMode: Boolean = false,
     val deviceName: String = "",
 ) {
     val nextButtonEnabled: Boolean
         get() = inviteInfo?.invite != null
+
+    val isSharedDeviceMode: Boolean
+        get() = inviteInfo?.invite?.accepterPersonRole == PersonRoleEnum.SHARED_SCHOOL_DEVICE
 
     companion object {
         const val CURRENT_DEVICE_GUID = "current_device_guid"
@@ -90,6 +92,13 @@ class AcceptInviteViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
+        _appUiState.update {
+            it.copy(
+                hideBottomNavigation = true,
+                userAccountIconVisible = false,
+                showBackButton = true,
+            )
+        }
 
         launchWithLoadingIndicator(
             onShowError = {
@@ -98,27 +107,20 @@ class AcceptInviteViewModel(
         ) {
             val inviteInfo = getInviteInfoUseCase(route.code)
 
-            _uiState.update {
+            val uiStateUpdated = _uiState.updateAndGet {
                 it.copy(
                     inviteInfo = inviteInfo,
                     isTeacherInvite = false
                 )
             }
-            val isSharedDeviceMode =
-                _uiState.value.inviteInfo?.invite?.accepterPersonRole == PersonRoleEnum.SHARED_SCHOOL_DEVICE
-            _uiState.update { it.copy(isSharedDeviceMode = isSharedDeviceMode) }
 
-            val title = if (isSharedDeviceMode) {
-                Res.string.enable_shared_school_device_mode.asUiText()
-            } else {
-                Res.string.invitation.asUiText()
-            }
             _appUiState.update {
                 it.copy(
-                    title = title,
-                    hideBottomNavigation = true,
-                    userAccountIconVisible = false,
-                    showBackButton = true,
+                    title = if (uiStateUpdated.isSharedDeviceMode) {
+                        Res.string.enable_shared_school_device_mode.asUiText()
+                    } else {
+                        Res.string.invitation.asUiText()
+                    },
                 )
             }
         }
@@ -167,7 +169,7 @@ class AcceptInviteViewModel(
         )
     }
 
-    fun updateDeviceName(deviceName: String) {
+    fun onUpdateDeviceName(deviceName: String) {
         _uiState.update { currentState ->
             currentState.copy(deviceName = deviceName, errorText = null)
         }
@@ -204,7 +206,7 @@ class AcceptInviteViewModel(
                     schoolUrl = route.schoolUrl,
                     useActiveUserAuth = _useActiveUserAuth
                 )
-                settings.putString(CURRENT_DEVICE_GUID, personRegistered.guid)
+
                 _navCommandFlow.tryEmit(
                     NavCommand.Navigate(
                         destination = if (personRegistered.status != PersonStatusEnum.PENDING_APPROVAL) {

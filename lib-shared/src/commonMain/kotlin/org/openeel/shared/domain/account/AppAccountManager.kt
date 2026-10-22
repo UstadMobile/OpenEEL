@@ -156,7 +156,15 @@ class AppAccountManager(
         return authResponse
     }
 
-    @Suppress("unused")
+    /**
+     * Register a new user by redeeming an invite.
+     * @param redeemInviteRequest the request to redeem the invite
+     * @param schoolUrl [Url] of the school on which to register
+     * @param useActiveUserAuth true if currently active user's authentication should be used when
+     *        making the redeem request. This is required when enabling shared device mode: the
+     *        teacher/admin's credentials are required for the invite redeem to go through without
+     *        requiring approval. See [RedeemInviteUseCase].
+     */
     suspend fun register(
         redeemInviteRequest: RedeemInviteRequest,
         schoolUrl: Url,

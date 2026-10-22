@@ -77,15 +77,20 @@ object SchoolDirectoryEdit : OpenEelAppRoute
 @Serializable
 data class LoginScreen(
     val schoolUrlStr: String,
-    val isSharedDevice: Boolean? = null,
+    val showSelectOtherSchool: Boolean? = null,
 ) : OpenEelAppRoute {
 
     @Transient
     val schoolUrl = Url(schoolUrlStr)
 
     companion object {
-        fun create(schoolUrl: Url, isSharedDevice: Boolean? = null) =
-            LoginScreen(schoolUrl.toString(), isSharedDevice)
+        fun create(
+            schoolUrl: Url,
+            showSelectOtherSchool: Boolean? = null
+        ) = LoginScreen(
+            schoolUrlStr = schoolUrl.toString(),
+            showSelectOtherSchool = showSelectOtherSchool,
+        )
     }
 }
 

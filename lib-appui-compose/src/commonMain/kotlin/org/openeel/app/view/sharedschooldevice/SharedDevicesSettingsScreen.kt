@@ -94,11 +94,11 @@ import org.openeel.shared.generated.resources.this_device_enable
 import org.openeel.shared.generated.resources.undraw_bookmarks_i66k__1__1
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsUiState
-import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsViewmodel
+import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsViewModel
 
 @Composable
 fun SharedDevicesSettingsScreen(
-    viewModel: SharedDevicesSettingsViewmodel,
+    viewModel: SharedDevicesSettingsViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     SharedDevicesSettingsContent(

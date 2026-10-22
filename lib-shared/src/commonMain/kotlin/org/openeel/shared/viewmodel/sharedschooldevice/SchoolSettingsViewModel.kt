@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
@@ -15,6 +16,7 @@ import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.school
@@ -55,18 +57,20 @@ class SchoolSettingsViewModel(
                     schoolName = schoolName
                 )
             }
-            val deviceList = schoolDataSource.personDataSource.list(
+            schoolDataSource.personDataSource.listAsFlow(
                 loadParams = DataLoadParams(),
                 params = PersonDataSource.GetListParams(
                     filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
                     filterByPersonStatus = PersonStatusEnum.ACTIVE
                 )
-            )
-
-            _uiState.update { prev ->
-                prev.copy(
-                    sharedSchoolDeviceCount = deviceList.dataOrNull()?.size
-                )
+            ).map { data ->
+                data.map { it.size }
+            }.collect { deviceList ->
+                _uiState.update { prev ->
+                    prev.copy(
+                        sharedSchoolDeviceCount = deviceList.dataOrNull()
+                    )
+                }
             }
         }
     }

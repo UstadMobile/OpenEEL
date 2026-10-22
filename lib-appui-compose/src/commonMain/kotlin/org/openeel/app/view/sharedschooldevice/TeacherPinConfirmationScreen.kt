@@ -32,12 +32,12 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.enter_school_device_pin
 import org.openeel.shared.generated.resources.next
 import org.openeel.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationUiState
-import org.openeel.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationViewmodel
+import org.openeel.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationViewModel
 
 
 @Composable
 fun TeacherPinConfirmationScreen(
-    viewModel: TeacherPinConfirmationViewmodel,
+    viewModel: TeacherPinConfirmationViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState(context = Dispatchers.Main.immediate)
     TeacherPinConfirmationScreen(

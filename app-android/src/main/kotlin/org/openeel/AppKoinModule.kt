@@ -303,8 +303,8 @@ import org.openeel.shared.viewmodel.statement.list.StatementListViewModel
 import org.openeel.shared.domain.xapi.xapinanohttpd.XapiResourceProviderAndroid
 import org.openeel.shared.viewmodel.catalog.bookmark.BookmarkListViewModel
 import org.openeel.shared.viewmodel.sharedschooldevice.SchoolSettingsViewModel
-import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsViewmodel
-import org.openeel.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationViewmodel
+import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsViewModel
+import org.openeel.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationViewModel
 import org.openeel.shared.viewmodel.sharedschooldevice.login.SelectClassViewModel
 import org.openeel.shared.viewmodel.sharedschooldevice.login.StudentListViewModel
 
@@ -470,8 +470,8 @@ val appKoinModule = module {
     viewModelOf(::RawStatementViewModel)
     viewModelOf(::BookmarkListViewModel)
     viewModelOf(::SchoolSettingsViewModel)
-    viewModelOf(::SharedDevicesSettingsViewmodel)
-    viewModelOf(::TeacherPinConfirmationViewmodel)
+    viewModelOf(::SharedDevicesSettingsViewModel)
+    viewModelOf(::TeacherPinConfirmationViewModel)
     viewModelOf(::SelectClassViewModel)
     viewModelOf(::StudentListViewModel)
 

@@ -35,7 +35,7 @@ data class TeacherPinConfirmationUiState(
     val pin: String = "",
 )
 
-class TeacherPinConfirmationViewmodel(
+class TeacherPinConfirmationViewModel(
     savedStateHandle: SavedStateHandle,
     private val accountManager: AppAccountManager,
     private val json: Json

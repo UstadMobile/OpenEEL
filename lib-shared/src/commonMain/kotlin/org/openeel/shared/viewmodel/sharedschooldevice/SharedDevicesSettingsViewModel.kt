@@ -73,7 +73,7 @@ data class SharedDevicesSettingsUiState(
     }
 }
 
-class SharedDevicesSettingsViewmodel(
+class SharedDevicesSettingsViewModel(
     savedStateHandle: SavedStateHandle,
     private val accountManager: AppAccountManager,
     private val snackBarDispatcher: SnackBarDispatcher,

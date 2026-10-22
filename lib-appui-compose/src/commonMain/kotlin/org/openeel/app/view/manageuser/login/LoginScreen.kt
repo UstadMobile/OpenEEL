@@ -118,7 +118,7 @@ fun LoginScreen(
         ) {
             Text(text = stringResource(Res.string.login))
         }
-        if (uiState.isSharedDevice) {
+        if (uiState.showSelectOtherSchoolButton) {
             OutlinedButton(
                 onClick = onClickSelectAnotherSchool,
                 modifier = Modifier.fillMaxWidth().defaultItemPadding()
