@@ -20,6 +20,7 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.OpdsGroup
 import org.openeel.lib.opds.model.ext.allPublications
 import org.openeel.lib.opds.model.ext.getNavigationLinkByIndex
 import org.openeel.lib.opds.model.ext.getNavigationLinksByIndexes
@@ -473,6 +474,22 @@ class OpdsFeedDetailViewModel(
         }*/
     }
 
+    fun onClickAssignGroup(
+        group: OpdsGroup
+    ) {
+        _navCommandFlow.tryEmit(
+            NavCommand.Navigate(
+                AssignmentEdit.create(
+                    assignmentActivityId = null,
+                    learningUnitSelected = PublicationsSelection(
+                        url = route.opdsFeedUrl,
+                        selectedPublications = group.publications.orEmpty(),
+                    )
+                )
+            )
+        )
+    }
+
     fun onClickAssignQuickActionButton() {
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
@@ -490,46 +507,6 @@ class OpdsFeedDetailViewModel(
             )
         )
     }
-
-    fun onClickAssignSection(sectionIndex: Int) {
-        /*
-        val feed = _uiState.value.feed
-            ?: throw IllegalStateException("Cannot assign: no feed loaded")
-        val feedUrl = feed.selfUrl()
-            ?: throw IllegalStateException("Cannot assign: feed has no self URL")
-
-        val targetSection = if (sectionIndex == ASSIGN_HEADER_SECTION_INDEX) {
-            _uiState.value.group.firstOrNull { it.publications?.isNotEmpty() == true }
-                ?: throw IllegalStateException("No learning unit section with items found to assign")
-        } else {
-            _uiState.value.group.getOrNull(sectionIndex)
-                ?: throw IllegalStateException("No section at index $sectionIndex")
-        }
-
-        val firstPublication = targetSection.publications?.firstOrNull()
-            ?: throw IllegalStateException(
-                "Assign clicked but section at index $sectionIndex has no learning items"
-            )
-
-        val learningUnitManifestUrl = feedUrl.resolve(
-            publicationSelfLink(firstPublication).href
-        )
-
-        _navCommandFlow.tryEmit(
-            NavCommand.Navigate(
-                destination = AssignmentEdit.create(
-                    assignmentActivityId = null,
-                    learningUnitSelected = LearningUnitSelection(
-                        learningUnitManifestUrl = learningUnitManifestUrl,
-                        selectedPublication = firstPublication,
-                    )
-                )
-            )
-        )
-
-         */
-    }
-
 
     fun onClickEdit() {
         _navCommandFlow.tryEmit(

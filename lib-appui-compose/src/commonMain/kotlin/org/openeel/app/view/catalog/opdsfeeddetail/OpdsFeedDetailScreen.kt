@@ -33,6 +33,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.langMapString
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.OpdsGroup
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.opds.model.util.NavigationItemItemIndex
@@ -82,7 +83,7 @@ fun OpdsFeedDetailScreen(
         onClickCopyLink = viewModel::onClickCopyLink,
         onClickRemix = viewModel::onClickRemix,
         onClickDelete = viewModel::onClickDelete,
-        onClickAssignSection = { /* TODO */ },
+        onClickAssignGroup = viewModel::onClickAssignGroup,
         onClickAssignQuickActionButton = viewModel::onClickAssignQuickActionButton,
         onCopyDialogDismiss = viewModel::onCopyDialogDismiss,
         onCopyDialogNameChanged = viewModel::onCopyDialogNameChanged,
@@ -107,7 +108,7 @@ fun OpdsFeedDetailScreen(
     onClickCopyLink: () -> Unit = {},
     onClickRemix: () -> Unit = {},
     onClickDelete: () -> Unit = {},
-    onClickAssignSection: (Int) -> Unit = {},
+    onClickAssignGroup: (OpdsGroup) -> Unit = {},
     onClickAssignQuickActionButton: () -> Unit = {},
     onCopyDialogDismiss: () -> Unit = {},
     onCopyDialogNameChanged: (String) -> Unit = {},
@@ -181,7 +182,7 @@ fun OpdsFeedDetailScreen(
                         isCollapsed = uiState.isGroupCollapsed(groupIndex),
                         showAssignButton = group.publications?.isNotEmpty() == true,
                         onClickToggle = { onClickToggleGroup(groupIndex) },
-                        onClickAssign = { onClickAssignSection(groupIndex) },
+                        onClickAssign = { onClickAssignGroup(group) },
                     )
                 }
 
