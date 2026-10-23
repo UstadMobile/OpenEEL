@@ -320,7 +320,10 @@ class AppAccountManager(
             throw IllegalArgumentException("switchAccount: account not stored/available")
         }
 
-        _activeSession.value = UserSession(account, null)
+        val newSession = UserSession(account, null)
+        _activeSession.value = newSession
+        settings[SETTINGS_KEY_ACTIVE_SESSION] = json.encodeToString(newSession)
+        putDebugCrashCustomData("SelectedAccount", activeAccount.toString())
     }
 
     /**

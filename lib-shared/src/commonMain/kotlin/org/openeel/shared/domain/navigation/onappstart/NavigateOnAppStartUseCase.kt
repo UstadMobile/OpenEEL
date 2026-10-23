@@ -5,7 +5,9 @@ import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
+import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
 import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
 import org.openeel.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCase
 import org.openeel.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
@@ -15,6 +17,7 @@ import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.SelectClass
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
@@ -73,13 +76,25 @@ class NavigateOnAppStartUseCase(
         }
 
         Napier.i("DeferredDeepLink: NavigateOnAppStartUseCase: init nav command=$initLinkNavCommand")
-        val isChild = accountManager.selectedAccountAndPersonFlow.first()?.isChild == true
-        val hasAccount = accountManager.activeAccount != null
+        val selectedAccountAndPerson = accountManager.selectedAccountAndPersonFlow.first()
+        val activeAccount = accountManager.activeAccount
+        val isChild = selectedAccountAndPerson?.isChild == true
+        // An unselected shared-device account should return to the class selector screen on startup.
+        val isIdleSharedDeviceAccount = selectedAccountAndPerson?.let { selected ->
+            selected.session.profilePersonUid == null &&
+                selected.person.roles.any {
+                    it.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE
+                }
+        } == true
 
 
         return initLinkNavCommand?.withClearBackstack(true) ?: NavCommand.Navigate(
             destination = when {
-                hasAccount -> if (isChild) AssignmentList else Home
+                activeAccount != null &&
+                    settings.getBoolean(EnableSharedDeviceModeUseCase.SETTINGS_KEY_IS_SHARED_MODE, false) &&
+                    isIdleSharedDeviceAccount ->
+                    SelectClass.create(deviceGuid = activeAccount.userGuid)
+                activeAccount != null -> if (isChild) AssignmentList else Home
                 else -> GetStartedScreen()
             },
             clearBackStack = true,

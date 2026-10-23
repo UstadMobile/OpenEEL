@@ -243,9 +243,10 @@ class AccountListViewModel(
         }
 
         if (isSelectedAccountSharedDevice) {
-            // Currently on shared device account - just go to Select Class
+            // Clear the selected student profile before returning to Select Class.
             uiState.value.selectedAccount?.also { selectedAccount ->
                 viewModelScope.launch {
+                    appAccountManager.switchAccount(selectedAccount.session.account)
                     _navCommandFlow.tryEmit(
                         NavCommand.Navigate(
                             destination = SelectClass.create(deviceGuid = selectedAccount.person.guid),
