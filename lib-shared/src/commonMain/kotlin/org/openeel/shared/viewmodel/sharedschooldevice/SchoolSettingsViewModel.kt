@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -57,21 +58,15 @@ class SchoolSettingsViewModel(
                     schoolName = schoolName
                 )
             }
-            schoolDataSource.personDataSource.listAsFlow(
-                loadParams = DataLoadParams(),
-                params = PersonDataSource.GetListParams(
-                    filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
-                    filterByPersonStatus = PersonStatusEnum.ACTIVE
-                )
-            ).map { data ->
-                data.map { it.size }
-            }.collect { deviceList ->
-                _uiState.update { prev ->
-                    prev.copy(
-                        sharedSchoolDeviceCount = deviceList.dataOrNull()
-                    )
-                }
-            }
+            val params = PersonDataSource.GetListParams(
+                filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
+                filterByPersonStatus = PersonStatusEnum.ACTIVE,
+                excludeSharedSchoolDevice = false,
+            )
+            schoolDataSource.personDataSource.listAsFlow(DataLoadParams(), params)
+                .map { it.map { list -> list.size } }
+                .distinctUntilChanged()
+                .collect { count -> _uiState.update { it.copy(sharedSchoolDeviceCount = count.dataOrNull()) } }
         }
     }
 

@@ -160,6 +160,7 @@ class PersonDataSourceDb(
             filterByPersonStatus = params.filterByPersonStatus?.flag ?: 0,
             includeRelated = params.includeRelated,
             includeDeleted = params.common.includeDeleted ?: false,
+            excludeSharedSchoolDevice = params.excludeSharedSchoolDevice,
         ).map { list ->
             DataReadyState(
                 data = list.map {
