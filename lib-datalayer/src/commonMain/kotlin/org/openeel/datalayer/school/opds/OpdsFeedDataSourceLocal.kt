@@ -67,5 +67,7 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
         const val TYPE_GAME = "http://schema.org/Game"
         const val TYPE_BOOK = "http://schema.org/Book"
         const val TYPE_VIDEO = "http://schema.org/VideoObject"
+
+        val TYPE_OPTIONS = listOf(TYPE_COLLECTION, TYPE_GAME, TYPE_BOOK, TYPE_VIDEO)
     }
 }

@@ -16,10 +16,6 @@ import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
-import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_BOOK
-import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_COLLECTION
-import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_GAME
-import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_VIDEO
 import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.lib.opds.model.OpenEelConstants
 import org.openeel.libutil.ext.resolve
@@ -210,11 +206,6 @@ class OpdsSearchViewModel(
     companion object {
 
         private const val DEBOUNCE_KEY_SEARCH = "search"
-
-        /**
-         * The types the user can select from to filter search results.
-         */
-        val TYPE_OPTIONS = listOf(TYPE_COLLECTION, TYPE_GAME, TYPE_BOOK, TYPE_VIDEO)
 
     }
 

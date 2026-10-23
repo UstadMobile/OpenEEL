@@ -28,6 +28,7 @@ import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_BOOK
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_COLLECTION
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_GAME
+import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_OPTIONS
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_VIDEO
 import org.openeel.libutil.ext.resolve
 import org.openeel.shared.domain.getlanguageendonym.GetLanguageEndonymUseCase
@@ -42,7 +43,6 @@ import org.openeel.shared.generated.resources.type
 import org.openeel.shared.generated.resources.video
 import org.openeel.shared.viewmodel.catalog.opdssearch.OpdsSearchUiState
 import org.openeel.shared.viewmodel.catalog.opdssearch.OpdsSearchViewModel
-import org.openeel.shared.viewmodel.catalog.opdssearch.OpdsSearchViewModel.Companion.TYPE_OPTIONS
 
 @Composable
 fun OpdsSearchScreen(
