@@ -84,7 +84,7 @@ class XapiActivityProfileResourceIpcClient(
                 MessageData(
                     data = Bundle().apply {
                         putEndpointAndExtras()
-                        putXapiIpcQueryParameters(params.toParameters())
+                        putXapiIpcQueryParameters(params.toParameters(Json))
                         putXapiIpcHeaders(dataLoadParams.requestHeaders)
                     },
                     what = IpcMessageBridgeWhatFlags.WHAT_REQUEST,
@@ -114,7 +114,7 @@ class XapiActivityProfileResourceIpcClient(
             messageData = MessageData(
                 data = Bundle().apply {
                     putEndpointAndExtras()
-                    putXapiIpcQueryParameters(params.toParameters())
+                    putXapiIpcQueryParameters(params.toParameters(Json))
                     putXapiIpcHeaders(dataLoadParams.requestHeaders)
                 },
                 what = IpcMessageBridgeWhatFlags.WHAT_REQUEST,
@@ -143,7 +143,7 @@ class XapiActivityProfileResourceIpcClient(
             MessageData(
                 data = Bundle().apply {
                     putEndpointAndExtras()
-                    putXapiIpcQueryParameters(params.toParameters())
+                    putXapiIpcQueryParameters(params.toParameters(Json))
                     putAll(docBundle)
                 },
                 what = IpcMessageBridgeWhatFlags.WHAT_REQUEST,
@@ -165,7 +165,7 @@ class XapiActivityProfileResourceIpcClient(
             MessageData(
                 data = Bundle().apply {
                     putEndpointAndExtras()
-                    putXapiIpcQueryParameters(params.toParameters())
+                    putXapiIpcQueryParameters(params.toParameters(Json))
                     putAll(docBundle)
                 },
                 what = IpcMessageBridgeWhatFlags.WHAT_REQUEST,
@@ -185,7 +185,7 @@ class XapiActivityProfileResourceIpcClient(
             MessageData(
                 data = Bundle().apply {
                     putEndpointAndExtras()
-                    putXapiIpcQueryParameters(params.toParameters())
+                    putXapiIpcQueryParameters(params.toParameters(Json))
                 },
                 what = IpcMessageBridgeWhatFlags.WHAT_REQUEST,
                 arg2 = XapiIpcResourceFlags.ACTIVITY_PROFILE_DELETE,

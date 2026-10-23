@@ -3,8 +3,10 @@ package org.openeel.shared.viewmodel.catalog.opdsfeededit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -16,9 +18,17 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
 import org.openeel.datalayer.school.opds.ext.requireSelfUrl
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.dataloadstate.ext.mapAsync
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.OpdsFeedMetadata
 import org.openeel.lib.opds.model.OpdsGroup
+import org.openeel.lib.opds.model.ext.getNavigationLinkByIndex
+import org.openeel.lib.opds.model.ext.getPublicationByIndex
+import org.openeel.lib.opds.model.ext.indexIsInNavigationCollection
+import org.openeel.lib.opds.model.util.NavigationItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.libutil.ext.moveItem
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
@@ -30,7 +40,7 @@ import org.openeel.shared.generated.resources.learning_item_section
 import org.openeel.shared.generated.resources.remix_collection
 import org.openeel.shared.generated.resources.required_field
 import org.openeel.shared.generated.resources.save
-import org.openeel.shared.navigation.ExternalLinkEdit
+import org.openeel.shared.navigation.OpdsFeedEditAddLink
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.NavResultReturner
 import org.openeel.shared.navigation.OpdsFeedDetail
@@ -38,8 +48,13 @@ import org.openeel.shared.navigation.OpdsFeedEdit
 import org.openeel.shared.navigation.OpenEelAppLauncher
 import org.openeel.shared.navigation.RouteResultDest
 import org.openeel.shared.resources.UiText
+import org.openeel.shared.util.ext.addFeedSelection
+import org.openeel.shared.util.ext.addPublicationSelection
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.groupType
+import org.openeel.shared.util.ext.isNewFeedOrNewRemix
+import org.openeel.shared.util.ext.removeItemAt
+import org.openeel.shared.util.ext.resolve
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
@@ -62,21 +77,24 @@ enum class OpdsGroupType {
     PUBLICATION,
 }
 
-data class MovingItemState(
-    val fromSectionIndex: Int,
-    val itemIndex: Int,
-    val compatibleSections: List<CompatibleSection>,
-) {
-    data class CompatibleSection(
-        val sectionIndex: Int,
-    )
-}
+/**
+ * A destination where the [OpdsFeedEditUiState.movingItem] can be moved to.
+ *
+ * @param groupIndex a number above zero when representing a group, -1 when representing the
+ *        top level collections on a feed.
+ * @param group the [OpdsGroup] if the destination represents a group.
+ */
+data class MoveItemDestination(
+    val groupIndex: Int,
+    val group: OpdsGroup?,
+)
 
 data class OpdsFeedEditUiState(
     val feed: OpdsFeed? = null,
+    val baseUrl: Url = Url("http://localhost:8080/"),
     val addGroupTypeDialogVisible: Boolean = false,
     val titleError: UiText? = null,
-    val movingItem: MovingItemState? = null,
+    val movingItem: OpdsFeedItemIndex? = null,
     val isAddItemTypeBottomSheetVisible: Boolean = false,
 ) {
     val title: String
@@ -92,10 +110,52 @@ data class OpdsFeedEditUiState(
         get() = titleError != null
 
     val canMovePublicationItemToOtherGroup: Boolean
-        get() = (feed?.groups?.count { it.groupType == OpdsGroupType.PUBLICATION } ?: 0) > 1
+        get() = (feed?.groups?.count { it.groupType == OpdsGroupType.PUBLICATION } ?: 0) >= 1
 
     val canMoveNavigationItemToOtherGroup: Boolean
-        get() = (feed?.groups?.count { it.groupType == OpdsGroupType.NAVIGATION } ?: 0) > 1
+        get() = (feed?.groups?.count { it.groupType == OpdsGroupType.NAVIGATION } ?: 0) >= 1
+
+    /**
+     * A list of destinations where the [OpdsFeedEditUiState.movingItem] can be moved to. It will
+     * include only [OpdsGroup]s where the group type matches the item type being moved. It will
+     * not include a [MoveItemDestination] for the where the item is currently located.
+     */
+    val movingItemDestinations: List<MoveItemDestination>? by lazy {
+        val movingItemInGroupNum = (movingItem as? OpdsFeedGroupItemItemIndex)?.groupIndex
+        val topLevelOption = if(movingItemInGroupNum != null) {
+            listOf(MoveItemDestination(OpdsFeedItemIndex.NO_GROUP, null))
+        }else {
+            emptyList()
+        }
+
+        when {
+            feed == null || movingItem == null -> null
+
+            feed.indexIsInNavigationCollection(movingItem) -> {
+                topLevelOption + feed.groups.orEmpty().mapIndexedNotNull { index, group ->
+                    if(index != movingItemInGroupNum &&
+                        group.groupType == OpdsGroupType.NAVIGATION
+                    ){
+                        MoveItemDestination(index, group)
+                    }else {
+                        null
+                    }
+                }
+            }
+
+            else -> {
+                topLevelOption + feed.groups.orEmpty().mapIndexedNotNull { index, group ->
+                    if(index != movingItemInGroupNum &&
+                        group.groupType == OpdsGroupType.PUBLICATION
+                    ) {
+                        MoveItemDestination(index, group)
+                    }else {
+                        null
+                    }
+                }
+            }
+        }
+    }
 
 }
 
@@ -114,7 +174,9 @@ class OpdsFeedEditViewModel(
 
     private val route: OpdsFeedEdit = savedStateHandle.toRoute()
 
-    private val _uiState = MutableStateFlow(OpdsFeedEditUiState())
+    private val _uiState = MutableStateFlow(
+        OpdsFeedEditUiState(baseUrl = accountManager.requireActiveSchoolUrl())
+    )
 
     val uiState = _uiState.asStateFlow()
 
@@ -154,10 +216,30 @@ class OpdsFeedEditViewModel(
                         schoolDataSource.opdsFeedDataSource.getByUrl(
                             url = route.url,
                             params = params,
-                        )
+                        ).let { dataLoadState ->
+                            if(route.isCopy) {
+                                dataLoadState.mapAsync {
+                                    makePlaylistOpdsFeedUseCase(
+                                        base = it.resolve(route.url),
+                                        username = accountManager.activeAccount?.userGuid ?: ""
+                                    ).copy(
+                                        metadata = it.metadata.copy(
+                                            title = "Remix of ${it.metadata.title}",
+                                        )
+                                    )
+                                }
+                            }else {
+                                dataLoadState
+                            }
+                        }
                     },
                     uiUpdateFn = { state ->
-                        _uiState.update { it.copy(feed = state.dataOrNull()) }
+                        _uiState.update {
+                            it.copy(
+                                feed = state.dataOrNull(),
+                                baseUrl = state.dataOrNull()?.requireSelfUrl() ?: it.baseUrl,
+                            )
+                        }
                     }
                 )
             }else {
@@ -173,26 +255,18 @@ class OpdsFeedEditViewModel(
                 _uiState.update { it.copy(feed = newFeed) }
             }
 
-            //Note: these SHOULD resolve to absolute URLs on selection
             launch {
-                resultReturner.filteredResultFlowForKey(KEY_LEARNING_UNIT).collect { result ->
-                    val sectionIndex = pendingAddItemGroupIndex ?: return@collect
+                resultReturner.filteredResultFlowForKey(KEY_PUBLICATION).collect { result ->
+                    val groupIndex = pendingAddItemGroupIndex ?: return@collect
                     val publicationSelection = result.result as? PublicationsSelection ?: return@collect
 
                     pendingAddItemGroupIndex = null
 
                     _uiState.update { prev ->
                         prev.copy(
-                            feed = prev.feed?.copy(
-                                groups = prev.feed.groups.orEmpty().toMutableList().also { groupList ->
-                                    val groupToAddTo = groupList[sectionIndex]
-                                    groupList[sectionIndex] = groupToAddTo.copy(
-                                        publications = buildList {
-                                            addAll(groupToAddTo.publications.orEmpty())
-                                            addAll(publicationSelection.selectedPublications)
-                                        }
-                                    )
-                                }
+                            feed = prev.feed?.addPublicationSelection(
+                                selection = publicationSelection,
+                                toGroupIndex = groupIndex,
                             )
                         )
                     }
@@ -200,23 +274,16 @@ class OpdsFeedEditViewModel(
             }
 
             launch {
-                resultReturner.filteredResultFlowForKey(KEY_PLAYLIST).collect { result ->
+                resultReturner.filteredResultFlowForKey(KEY_COLLECTION).collect { result ->
                     val groupIndex = pendingAddItemGroupIndex ?: return@collect
                     val feedSelection = result.result as? OpdsFeedSelection ?: return@collect
                     pendingAddItemGroupIndex = null
 
                     _uiState.update { prev ->
                         prev.copy(
-                            feed = prev.feed?.copy(
-                                groups = prev.feed.groups.orEmpty().toMutableList().also { groupList ->
-                                    val groupToAddTo = groupList[groupIndex]
-                                    groupList[groupIndex] = groupToAddTo.copy(
-                                        navigation = buildList {
-                                            addAll(groupToAddTo.navigation.orEmpty())
-                                            addAll(feedSelection.selectedFeeds)
-                                        }
-                                    )
-                                }
+                            feed = prev.feed?.addFeedSelection(
+                                selection = feedSelection,
+                                toGroupIndex = groupIndex,
                             )
                         )
                     }
@@ -224,6 +291,7 @@ class OpdsFeedEditViewModel(
             }
         }
     }
+
 
     fun onTitleChanged(title: String) {
         _uiState.update { prev ->
@@ -246,12 +314,12 @@ class OpdsFeedEditViewModel(
         }
     }
 
-    fun onSectionTitleChanged(sectionIndex: Int, title: String) {
+    fun onGroupTitleChanged(groupIndex: Int, title: String) {
         _uiState.update { prev ->
-            val sections = (prev.feed?.groups ?: emptyList()).toMutableList()
-            val section = sections.getOrNull(sectionIndex)
-                ?: throw IllegalStateException("No section at index $sectionIndex")
-            sections[sectionIndex] = section.copy(
+            val sections = prev.feed?.groups.orEmpty().toMutableList()
+            val section = sections.getOrNull(groupIndex)
+                ?: throw IllegalStateException("No group at index $groupIndex")
+            sections[groupIndex] = section.copy(
                 metadata = section.metadata.copy(title = title)
             )
             prev.copy(feed = prev.feed?.copy(groups = sections))
@@ -313,124 +381,104 @@ class OpdsFeedEditViewModel(
         }
     }
 
-    fun onGroupItemsReordered(
-        groupIndex: Int,
-        fromIndex: Int,
+    fun onItemReorderSettle(
+        fromItemIndex: OpdsFeedItemIndex,
         toIndex: Int,
     ) {
         _uiState.update { prev ->
             prev.copy(
-                feed = prev.feed?.copy(
-                    groups = prev.feed.groups?.toMutableList()?.also { groupList ->
-                        val group = groupList[groupIndex]
+                feed = when(fromItemIndex) {
+                    is OpdsFeedGroupItemItemIndex -> {
+                        prev.feed?.copy(
+                            groups = prev.feed.groups?.toMutableList()?.also { groupList ->
+                                val group = groupList[fromItemIndex.groupIndex]
 
-                        groupList[groupIndex] = group.copy(
-                            navigation = if(group.groupType == OpdsGroupType.NAVIGATION) {
-                                group.navigation?.moveItem(fromIndex, toIndex)
-                            }else {
-                                group.navigation
-                            },
-                            publications = if(group.groupType == OpdsGroupType.PUBLICATION) {
-                                group.publications?.moveItem(fromIndex, toIndex)
-                            }else {
-                                group.publications
+                                groupList[fromItemIndex.groupIndex] = group.copy(
+                                    navigation = if(group.groupType == OpdsGroupType.NAVIGATION) {
+                                        group.navigation?.moveItem(fromItemIndex.index, toIndex)
+                                    }else {
+                                        group.navigation
+                                    },
+                                    publications = if(group.groupType == OpdsGroupType.PUBLICATION) {
+                                        group.publications?.moveItem(fromItemIndex.index, toIndex)
+                                    }else {
+                                        group.publications
+                                    }
+                                )
                             }
                         )
                     }
-                )
+
+                    is NavigationItemItemIndex -> {
+                        prev.feed?.copy(
+                            navigation = prev.feed.navigation?.moveItem(fromItemIndex.index, toIndex)
+                        )
+                    }
+
+                    is PublicationItemItemIndex -> {
+                        prev.feed?.copy(
+                            publications = prev.feed.publications?.moveItem(fromItemIndex.index, toIndex)
+                        )
+                    }
+                }
             )
         }
     }
 
-    fun onClickDeleteItem(sectionIndex: Int, itemIndex: Int) {
+    fun onClickDeleteItem(itemIndex: OpdsFeedItemIndex) {
         _uiState.update { prev ->
-            val sections = (prev.feed?.groups ?: emptyList()).toMutableList()
-            val section = sections.getOrNull(sectionIndex)
-                ?: throw IllegalStateException("No section at index $sectionIndex")
-            sections[sectionIndex] = if (section.navigation != null) {
-                val items = (section.navigation ?: emptyList()).toMutableList()
-                items.removeAt(itemIndex)
-                section.copy(navigation = items)
-            } else {
-                val items = (section.publications ?: emptyList()).toMutableList()
-                items.removeAt(itemIndex)
-                section.copy(publications = items)
-            }
-            prev.copy(feed = prev.feed?.copy(groups = sections))
+            prev.copy(
+                feed = prev.feed?.removeItemAt(itemIndex)
+            )
         }
     }
 
-    fun onClickMoveItem(sectionIndex: Int, itemIndex: Int) {
-        val sections = _uiState.value.feed?.groups ?: emptyList()
-        val fromSection = sections.getOrNull(sectionIndex)
-            ?: throw IllegalStateException("No section at index $sectionIndex")
-
-        val compatibleSections = sections.mapIndexedNotNull { index, section ->
-            if (index == sectionIndex) return@mapIndexedNotNull null
-            val isCompatible = if (fromSection.navigation != null) {
-                section.navigation != null
-            } else {
-                section.publications != null
-            }
-            if (!isCompatible) return@mapIndexedNotNull null
-            MovingItemState.CompatibleSection(
-                sectionIndex = index,
-            )
+    fun onClickMoveItem(index: OpdsFeedItemIndex) {
+        _uiState.update {
+            it.copy(movingItem = index)
         }
+    }
 
-        if (compatibleSections.size == 1) {
-            moveItemToSection(sectionIndex, itemIndex, compatibleSections.first().sectionIndex)
-        } else {
-            _uiState.update {
-                it.copy(
-                    movingItem = MovingItemState(
-                        fromSectionIndex = sectionIndex,
-                        itemIndex = itemIndex,
-                        compatibleSections = compatibleSections,
-                    )
+    fun onClickMoveItemToGroup(destination: MoveItemDestination) {
+        val fromIndex = _uiState.value.movingItem ?: return
+        val feed = uiState.value.feed ?: return
+        val isNavigationItem = feed.indexIsInNavigationCollection(fromIndex)
+
+        if(isNavigationItem) {
+            _uiState.update { prev ->
+                val item = prev.feed?.getNavigationLinkByIndex(fromIndex) ?: return@update prev
+                prev.copy(
+                    feed = prev.feed.removeItemAt(fromIndex)
+                        .addFeedSelection(
+                            OpdsFeedSelection(
+                                url = prev.feed.requireSelfUrl(),
+                                selectedFeeds = listOf(item)
+                            ),
+                            toGroupIndex = destination.groupIndex,
+                        ),
+                    movingItem = null,
+                )
+            }
+        }else {
+            _uiState.update { prev ->
+                val item = prev.feed?.getPublicationByIndex(fromIndex) ?: return@update prev
+                prev.copy(
+                    feed = prev.feed.removeItemAt(fromIndex)
+                        .addPublicationSelection(
+                            PublicationsSelection(
+                                url = prev.feed.requireSelfUrl(),
+                                selectedPublications = listOf(item),
+                            ),
+                            toGroupIndex = destination.groupIndex
+                        ),
+                    movingItem = null,
                 )
             }
         }
-    }
-
-    fun onClickMoveItemToSection(targetSectionIndex: Int) {
-        val moving = _uiState.value.movingItem
-            ?: throw IllegalStateException(
-                "onClickMoveItemToSection called but no item is being moved"
-            )
-        _uiState.update { it.copy(movingItem = null) }
-        moveItemToSection(moving.fromSectionIndex, moving.itemIndex, targetSectionIndex)
     }
 
     fun onDismissMoveDialog() {
         _uiState.update { it.copy(movingItem = null) }
-    }
-
-    private fun moveItemToSection(sectionIndex: Int, itemIndex: Int, targetSectionIndex: Int) {
-        _uiState.update { prev ->
-            val sections = (prev.feed?.groups ?: emptyList()).toMutableList()
-            val fromSection = sections.getOrNull(sectionIndex)
-                ?: throw IllegalStateException("No section at index $sectionIndex")
-            val toSection = sections.getOrNull(targetSectionIndex)
-                ?: throw IllegalStateException("No section at index $targetSectionIndex")
-
-            sections[sectionIndex] = if (fromSection.navigation != null) {
-                val items = (fromSection.navigation ?: emptyList()).toMutableList()
-                val item = items.removeAt(itemIndex)
-                sections[targetSectionIndex] = toSection.copy(
-                    navigation = (toSection.navigation ?: emptyList()) + item
-                )
-                fromSection.copy(navigation = items)
-            } else {
-                val items = (fromSection.publications ?: emptyList()).toMutableList()
-                val item = items.removeAt(itemIndex)
-                sections[targetSectionIndex] = toSection.copy(
-                    publications = (toSection.publications ?: emptyList()) + item
-                )
-                fromSection.copy(publications = items)
-            }
-            prev.copy(feed = prev.feed?.copy(groups = sections))
-        }
     }
 
     fun onClickAddItem(groupIndex: Int) {
@@ -450,7 +498,7 @@ class OpdsFeedEditViewModel(
                 destination = OpenEelAppLauncher.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
-                        resultKey = KEY_LEARNING_UNIT,
+                        resultKey = KEY_PUBLICATION,
                     ),
                     opdsPickType = OpdsPickType.PUBLICATION,
                 ),
@@ -463,25 +511,25 @@ class OpdsFeedEditViewModel(
         
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                destination = ExternalLinkEdit.create(
+                destination = OpdsFeedEditAddLink.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
-                        resultKey = KEY_LEARNING_UNIT,
+                        resultKey = KEY_PUBLICATION,
                     ),
-
+                    opdsPickType = OpdsPickType.PUBLICATION,
                 ),
             )
         )
     }
 
-    fun onClickAddPlaylist(sectionIndex: Int) {
+    fun onClickAddCollection(sectionIndex: Int) {
         pendingAddItemGroupIndex = sectionIndex
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
                 destination = OpenEelAppLauncher.create(
                     resultDest = RouteResultDest(
                         resultPopUpTo = route,
-                        resultKey = KEY_PLAYLIST,
+                        resultKey = KEY_COLLECTION,
                     ),
                     opdsPickType = OpdsPickType.CATALOG_FEED,
                 ),
@@ -503,23 +551,29 @@ class OpdsFeedEditViewModel(
         }
 
         viewModelScope.launch {
-            saveOpdsFeedUseCase(feed)
+            val actor = accountManager.selectedAccountAndPersonFlow.first()?.xapiAgent
+                ?: throw IllegalStateException("onClickSave: no active account, cannot save")
 
-            _navCommandFlow.tryEmit(
-                NavCommand.Navigate(
-                    destination = OpdsFeedDetail.create(opdsFeedUrl = feed.requireSelfUrl()),
-                    popUpTo = OpdsFeedEdit.create(),
-                    popUpToInclusive = true,
+            saveOpdsFeedUseCase(feed, actor)
+            if(route.isNewFeedOrNewRemix) {
+                _navCommandFlow.tryEmit(
+                    NavCommand.Navigate(
+                        destination = OpdsFeedDetail.create(
+                            opdsFeedUrl = feed.requireSelfUrl(),
+                        ),
+                        popUpTo = route,
+                        popUpToInclusive = true,
+                    )
                 )
-            )
+            }else {
+                _navCommandFlow.tryEmit(NavCommand.PopUp())
+            }
         }
     }
 
     companion object {
-        const val KEY_LEARNING_UNIT = "result_learning_unit"
-        const val KEY_PLAYLIST = "result_playlist"
+        const val KEY_PUBLICATION = "result_learning_unit"
+        const val KEY_COLLECTION = "result_collection"
         private const val KEY_PENDING_ADD_ITEM_GROUP_INDEX = "pending_add_item_section_index"
-        private const val KEY_PENDING_ADD_PLAYLIST_SECTION_INDEX =
-            "pending_add_playlist_section_index"
     }
 }

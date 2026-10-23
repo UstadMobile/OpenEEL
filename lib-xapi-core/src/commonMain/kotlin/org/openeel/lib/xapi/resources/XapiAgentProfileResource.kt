@@ -54,7 +54,7 @@ interface XapiAgentProfileResource: XapiDocumentResource<XapiAgentProfileResourc
             return MultiDocParams(agent, since)
         }
 
-        fun toParameters(json: Json): Parameters {
+        override fun toParameters(json: Json): Parameters {
             return ParametersBuilder().also { parameters ->
                 parameters.append("agent", json.encodeToString(XapiAgent.serializer(), agent))
                 parameters.append("profileId", profileId)

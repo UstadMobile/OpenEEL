@@ -1,25 +1,20 @@
 package org.openeel.server.routes.school.respect
 
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.Url
 import io.ktor.server.application.ApplicationCall
-import io.ktor.server.request.receive
-import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
-import io.ktor.server.routing.post
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.opds.OpdsFeedDataSource
-import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.libutil.ext.appendEndpointSegments
-import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
 import org.openeel.server.util.ext.virtualHost
 
 fun Route.PlaylistRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->
-        call.requireAccountScope().get()
+        call.getUserAccountScope().get()
     },
 ) {
     val playlistEndpointPath = "${OpdsFeedDataSource.PLAYLIST_ENDPOINT_NAME}/{uuid}"

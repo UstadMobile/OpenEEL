@@ -14,15 +14,15 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.EnrollmentDataSource
 import org.openeel.datalayer.school.domain.GetPermissionLastModifiedUseCase
 import org.openeel.server.util.ext.offsetLimitPagingLoadParams
-import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.server.util.ext.respondOffsetLimitPaging
 
 fun Route.EnrollmentRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->
-        call.requireAccountScope().get()
+        call.getUserAccountScope().get()
     },
     getPermissionLastModifiedUseCase: (ApplicationCall) -> GetPermissionLastModifiedUseCase = { call ->
-        call.requireAccountScope().get()
+        call.getUserAccountScope().get()
     }
 ) {
     get(EnrollmentDataSource.ENDPOINT_NAME) {

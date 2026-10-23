@@ -9,6 +9,7 @@ import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.school.adapters.toEntity
 import org.openeel.datalayer.db.school.adapters.toModel
+import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
 import org.openeel.datalayer.db.school.daos.SchoolPermissionGrantDao
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSourceLocal

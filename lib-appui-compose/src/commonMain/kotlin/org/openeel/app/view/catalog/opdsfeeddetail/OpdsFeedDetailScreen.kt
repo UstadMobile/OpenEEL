@@ -33,9 +33,13 @@ import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.langMapString
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.OpdsGroup
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
-import org.openeel.lib.opds.model.ext.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.util.NavigationItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.assign
 import org.openeel.shared.generated.resources.cancel
@@ -76,10 +80,10 @@ fun OpdsFeedDetailScreen(
         onClickConfirmSelection = viewModel::onClickSelectBottomButton,
         onClickSelectPlaylist = viewModel::onClickSelectThisFeed,
         onClickToggleGroup = viewModel::onClickToggleGroup,
-        onClickShare = viewModel::onClickShare,
-        onClickCopy = viewModel::onClickCopy,
+        onClickCopyLink = viewModel::onClickCopyLink,
+        onClickRemix = viewModel::onClickRemix,
         onClickDelete = viewModel::onClickDelete,
-        onClickAssignSection = { /* TODO */ },
+        onClickAssignGroup = viewModel::onClickAssignGroup,
         onClickAssignQuickActionButton = viewModel::onClickAssignQuickActionButton,
         onCopyDialogDismiss = viewModel::onCopyDialogDismiss,
         onCopyDialogNameChanged = viewModel::onCopyDialogNameChanged,
@@ -101,10 +105,10 @@ fun OpdsFeedDetailScreen(
     onClickConfirmSelection: () -> Unit = {},
     onClickSelectPlaylist: () -> Unit = {},
     onClickToggleGroup: (Int) -> Unit = {},
-    onClickShare: () -> Unit = {},
-    onClickCopy: () -> Unit = {},
+    onClickCopyLink: () -> Unit = {},
+    onClickRemix: () -> Unit = {},
     onClickDelete: () -> Unit = {},
-    onClickAssignSection: (Int) -> Unit = {},
+    onClickAssignGroup: (OpdsGroup) -> Unit = {},
     onClickAssignQuickActionButton: () -> Unit = {},
     onCopyDialogDismiss: () -> Unit = {},
     onCopyDialogNameChanged: (String) -> Unit = {},
@@ -127,24 +131,22 @@ fun OpdsFeedDetailScreen(
             },
         ) {
 
-            /* Disabled for respect-update 1/Oct/26
             item(key = "feed_header") {
                 OpdsFeedDetailHeader(
                     uiState = uiState,
-                    onClickShare = onClickShare,
-                    onClickCopy = onClickCopy,
+                    onClickShare = onClickCopyLink,
+                    onClickRemix = onClickRemix,
                     onClickDelete = onClickDelete,
                     onClickAssign = onClickAssignQuickActionButton,
                 )
             }
-            */
 
             catalog?.navigation?.also { navigation ->
                 itemsIndexed(
                     items = navigation,
                     key = { index, _ -> "top_nav_$index" }
                 ) { index, navigationItem ->
-                    val feedIndex = OpdsFeedItemIndex(groupIndex = -1, index)
+                    val feedIndex = NavigationItemItemIndex(index)
                     NavigationListItem(
                         navigation = navigationItem,
                         showCheckbox = uiState.showNavigationCheckboxes,
@@ -162,7 +164,7 @@ fun OpdsFeedDetailScreen(
                     items = publications,
                     key = { index, _ -> "top_pub_$index" }
                 ) { index, publication ->
-                    val feedItemIndex = OpdsFeedItemIndex(groupIndex = -1, index)
+                    val feedItemIndex = PublicationItemItemIndex(index)
                     PublicationListItem(
                         publication = publication,
                         showCheckbox = uiState.showPublicationCheckboxes,
@@ -180,7 +182,7 @@ fun OpdsFeedDetailScreen(
                         isCollapsed = uiState.isGroupCollapsed(groupIndex),
                         showAssignButton = group.publications?.isNotEmpty() == true,
                         onClickToggle = { onClickToggleGroup(groupIndex) },
-                        onClickAssign = { onClickAssignSection(groupIndex) },
+                        onClickAssign = { onClickAssignGroup(group) },
                     )
                 }
 
@@ -189,7 +191,7 @@ fun OpdsFeedDetailScreen(
                         items = group.navigation ?: emptyList(),
                         key = { itemIndex, _ -> "nav_${groupIndex}_$itemIndex" }
                     ) { itemIndex, navigation ->
-                        val feedIndex = OpdsFeedItemIndex(groupIndex = groupIndex, index = itemIndex)
+                        val feedIndex = OpdsFeedGroupItemItemIndex(groupIndex = groupIndex, index = itemIndex)
                         NavigationListItem(
                             navigation = navigation,
                             showCheckbox = uiState.showNavigationCheckboxes,
@@ -203,7 +205,7 @@ fun OpdsFeedDetailScreen(
                         items = group.publications ?: emptyList(),
                         key = { itemIndex, _ -> "pub_${groupIndex}_$itemIndex" }
                     ) { itemIndex, publication ->
-                        val feedItemIndex = OpdsFeedItemIndex(groupIndex = groupIndex, index = itemIndex)
+                        val feedItemIndex = OpdsFeedGroupItemItemIndex(groupIndex = groupIndex, index = itemIndex)
                         PublicationListItem(
                             publication = publication,
                             showCheckbox = uiState.showPublicationCheckboxes,
@@ -247,8 +249,6 @@ fun OpdsFeedDetailScreen(
             }
         }
     }
-
-
 
     if (uiState.showCopyDialog) {
         CopyFeedDialog(
@@ -389,6 +389,8 @@ fun NavigationListItem(
     isSelected: Boolean = false,
     onClickNavigation: (ReadiumLink) -> Unit,
     onLongPress: () -> Unit,
+    description: String? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
 ) {
     FeedListItem(
         title = navigation.title
@@ -397,13 +399,14 @@ fun NavigationListItem(
         iconUrl = navigation.alternate?.find {
             it.rel?.contains(ICON) == true
         }?.href,
-        description = null,
+        description = description,
         language = navigation.language,
         duration = navigation.duration,
         showCheckbox = showCheckbox,
         isSelected = isSelected,
         onClick = { onClickNavigation(navigation) },
         onLongPress = onLongPress,
+        trailingContent = trailingContent,
     )
 }
 

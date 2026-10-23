@@ -206,7 +206,8 @@ abstract class OpenEelViewModel(
      *        be run.
      * @param onShowError optional function that will show an error message to the user e.g. by
      *        updating the UiState. If this is non-null, the exception will be considered handled
-     *        and WILL NOT be rethrown.
+     *        and WILL NOT be rethrown. If this function is being used to display an error message
+     *        to the user, an additional try/catch in the block itself is generally NOT needed.
      * @param block suspended function to run
      */
     fun launchWithLoadingIndicator(

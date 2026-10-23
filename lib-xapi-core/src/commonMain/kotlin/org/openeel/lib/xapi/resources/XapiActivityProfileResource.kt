@@ -3,6 +3,7 @@ package org.openeel.lib.xapi.resources
 import io.ktor.http.Parameters
 import io.ktor.http.ParametersBuilder
 import io.ktor.util.StringValues
+import kotlinx.serialization.json.Json
 import org.openeel.lib.xapi.exceptions.XapiException
 import org.openeel.libutil.ext.appendIfNotNull
 import kotlin.time.Instant
@@ -54,7 +55,7 @@ interface XapiActivityProfileResource : XapiDocumentResource<XapiActivityProfile
             return MultiDocParams(activityId = activityId, since = since)
         }
 
-        fun toParameters(): StringValues {
+        override fun toParameters(json: Json): Parameters {
             return ParametersBuilder().also { parameters ->
                 parameters.append("activityId", activityId)
                 parameters.append("profileId", profileId)

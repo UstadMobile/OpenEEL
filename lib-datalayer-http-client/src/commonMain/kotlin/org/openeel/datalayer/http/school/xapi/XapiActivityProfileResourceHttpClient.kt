@@ -7,6 +7,7 @@ import io.ktor.client.request.put
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.datalayer.ext.bodyAsXapiDocument
 import org.openeel.datalayer.ext.getAsDataLoadState
@@ -34,7 +35,7 @@ class XapiActivityProfileResourceHttpClient(
 
     private suspend fun XapiActivityProfileResource.SingleDocumentParams.urlWithParams(): Url {
         return URLBuilder(xapiUrl().appendEndpointSegments("activities/${XapiActivityProfileResource.ENDPOINT_NAME}")).also {
-            it.parameters.appendAll(this.toParameters())
+            it.parameters.appendAll(this.toParameters(Json))
         }.build()
     }
 
