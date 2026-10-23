@@ -60,7 +60,7 @@ data class OpdsSearchUiState(
 
     val hasFilters: Boolean
         get() = searchParams.languages.isNotEmpty() || searchParams.subjects.isNotEmpty() ||
-            searchParams.types.isNotEmpty()
+                searchParams.types.isNotEmpty()
 
 }
 
@@ -101,30 +101,33 @@ class OpdsSearchViewModel(
 
         viewModelScope.launch {
             uiState.map { it.searchParams }.distinctUntilChanged().collectLatest { searchParams ->
-                schoolDataSourceLocal.opdsFeedDataSource.searchAsFlow(searchParams).collectLatest { results ->
-                    _uiState.update { it.copy(results = results) }
-                }
+                schoolDataSourceLocal.opdsFeedDataSource.searchAsFlow(searchParams)
+                    .collectLatest { searchResults ->
+                        _uiState.update { it.copy(results = searchResults) }
+                    }
             }
         }
 
         viewModelScope.launch {
-            uiState.map { it.languageOptionSearchText }.distinctUntilChanged().collectLatest { searchText ->
-                schoolDataSourceLocal.opdsFeedDataSource.getLanguageOptionsAsFlow(
-                    searchText
-                ).collectLatest { languageOptions ->
-                    _uiState.update { it.copy(languageOptions = languageOptions) }
+            uiState.map { it.languageOptionSearchText }.distinctUntilChanged()
+                .collectLatest { searchText ->
+                    schoolDataSourceLocal.opdsFeedDataSource.getLanguageOptionsAsFlow(
+                        searchText
+                    ).collectLatest { languageOptions ->
+                        _uiState.update { it.copy(languageOptions = languageOptions) }
+                    }
                 }
-            }
         }
 
         viewModelScope.launch {
-            uiState.map { it.subjectOptionSearchText }.distinctUntilChanged().collectLatest { searchText ->
-                schoolDataSourceLocal.opdsFeedDataSource.getSubjectOptionsAsFlow(
-                    searchText
-                ).collectLatest { subjectOptions ->
-                    _uiState.update { it.copy(subjectOptions = subjectOptions) }
+            uiState.map { it.subjectOptionSearchText }.distinctUntilChanged()
+                .collectLatest { searchText ->
+                    schoolDataSourceLocal.opdsFeedDataSource.getSubjectOptionsAsFlow(
+                        searchText
+                    ).collectLatest { subjectOptions ->
+                        _uiState.update { it.copy(subjectOptions = subjectOptions) }
+                    }
                 }
-            }
         }
     }
 
@@ -211,7 +214,7 @@ class OpdsSearchViewModel(
         /**
          * The types the user can select from to filter search results.
          */
-        val TYPE_OPTIONS = listOf(TYPE_COLLECTION, TYPE_GAME, TYPE_BOOK, TYPE_VIDEO,)
+        val TYPE_OPTIONS = listOf(TYPE_COLLECTION, TYPE_GAME, TYPE_BOOK, TYPE_VIDEO)
 
     }
 
