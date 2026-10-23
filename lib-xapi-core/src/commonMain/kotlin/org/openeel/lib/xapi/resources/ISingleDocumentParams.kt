@@ -1,5 +1,7 @@
 package org.openeel.lib.xapi.resources
 
+import io.ktor.http.Parameters
+import kotlinx.serialization.json.Json
 import kotlin.time.Instant
 
 /**
@@ -13,6 +15,11 @@ interface ISingleDocumentParams<MultiDocParams: Any> {
      * returned by getMultipleDocuments
      */
     val idString: String
+
+    /**
+     * Convert this parameters object into KTOR Parameters that can be used with a HTTP request.
+     */
+    fun toParameters(json: Json): Parameters
 
     fun matches(multiDocParams: MultiDocParams): Boolean
 

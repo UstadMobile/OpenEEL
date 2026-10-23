@@ -31,6 +31,7 @@ class XapiRemoteWriteQueueDbTest {
 
             suspend fun isPending() = queue.isPending(
                 resource = XapiRemoteWriteQueueItem.Resource.ACTIVITY_PROFILE,
+                methods = XapiRemoteWriteQueueItem.Method.entries,
                 itemId = "doc-1",
             )
 

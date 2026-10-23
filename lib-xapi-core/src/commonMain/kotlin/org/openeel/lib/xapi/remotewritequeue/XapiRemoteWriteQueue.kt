@@ -17,10 +17,12 @@ interface XapiRemoteWriteQueue {
      * Check if there is a pending write matching the given arguments
      *
      * @param resource The resource as per [XapiRemoteWriteQueueItem.resource]
-     * @param method The method as per [XapiRemoteWriteQueueItem]
+     * @param itemId The queue itemId as per [XapiRemoteWriteQueueItem.itemId]
+     * @param methods the HTTP method as per [XapiRemoteWriteQueueItem.method], or null
      */
     suspend fun isPending(
         resource: XapiRemoteWriteQueueItem.Resource,
+        methods: List<XapiRemoteWriteQueueItem.Method>,
         itemId: String,
     ): Boolean
 

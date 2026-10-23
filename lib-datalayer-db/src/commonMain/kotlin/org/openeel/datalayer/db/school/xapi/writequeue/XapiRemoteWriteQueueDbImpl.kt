@@ -41,10 +41,12 @@ class XapiRemoteWriteQueueDbImpl(
 
     override suspend fun isPending(
         resource: XapiRemoteWriteQueueItem.Resource,
+        methods: List<XapiRemoteWriteQueueItem.Method>,
         itemId: String
     ): Boolean {
         return schoolDb.getXapiRemoteWriteQueueItemEntityDao().isPending(
             accountGuid = account.guid,
+            methods = methods,
             resource = resource,
             itemId = itemId,
         )

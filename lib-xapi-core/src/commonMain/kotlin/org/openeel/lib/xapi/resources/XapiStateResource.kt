@@ -72,7 +72,7 @@ interface XapiStateResource: XapiDocumentResource<XapiStateResource.MultiDocPara
                     multiDocParams.registration == registration
         }
 
-        fun toParameters(json: Json): Parameters {
+        override fun toParameters(json: Json): Parameters {
             return ParametersBuilder().also { parameters ->
                 parameters.append("activityId", activityId)
                 parameters.append("agent", json.encodeToString(XapiAgent.serializer(), agent))

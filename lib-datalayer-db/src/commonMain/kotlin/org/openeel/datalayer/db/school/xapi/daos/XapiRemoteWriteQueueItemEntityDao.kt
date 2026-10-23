@@ -52,14 +52,16 @@ interface XapiRemoteWriteQueueItemEntityDao {
                SELECT 1
                  FROM XapiRemoteWriteQueueItemEntity
                 WHERE XapiRemoteWriteQueueItemEntity.xrqAccountGuid = :accountGuid
+                  AND XapiRemoteWriteQueueItemEntity.xrqTimeWritten = 0
                   AND XapiRemoteWriteQueueItemEntity.xrqResource = :resource
                   AND XapiRemoteWriteQueueItemEntity.xrqEntityItemId = :itemId
-                  AND XapiRemoteWriteQueueItemEntity.xrqTimeWritten = 0
+                  AND XapiRemoteWriteQueueItemEntity.xrqMethod IN (:methods)
         )
     """)
     suspend fun isPending(
         accountGuid: String,
         resource: XapiRemoteWriteQueueItem.Resource,
+        methods: List<XapiRemoteWriteQueueItem.Method>,
         itemId: String,
     ): Boolean
 

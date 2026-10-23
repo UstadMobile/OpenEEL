@@ -67,6 +67,15 @@ class XapiStateResourceRepositoryIntegrationTest : AbstractXapiDocumentResourceR
             authenticatedXapiAgents = { listOf(XapiStateTestParams.SINGLE_DOC_PARAMS1.agent) }
         )
     }
+
+    @Test
+    fun givenDocumentDeletedByFirstClient_whenGetCalledOnSecondClient_thenIsNotFound() {
+        givenDocumentDeletedByFirstClient_whenGetCalledOnSecondClient_thenIsNotFound(
+            params = XapiStateTestParams.SINGLE_DOC_PARAMS1,
+            document = XapiStateTestParams.DOC,
+            authenticatedXapiAgents = { listOf(XapiStateTestParams.SINGLE_DOC_PARAMS1.agent) }
+        )
+    }
 }
 
 
