@@ -57,6 +57,9 @@ class AppAccountManager(
 
     val accounts = _storedAccounts.asStateFlow()
 
+    val activeSession: UserSession?
+        get() = _activeSession.value
+
     private val _activeSession = MutableStateFlow(
         settings.getStringOrNull(SETTINGS_KEY_ACTIVE_SESSION)?.let {
             json.decodeFromString(UserSession.serializer(), it)
