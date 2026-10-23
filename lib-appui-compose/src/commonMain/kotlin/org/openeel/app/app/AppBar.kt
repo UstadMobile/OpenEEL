@@ -110,8 +110,8 @@ fun OpenEelAppBar(
 
     val pendingWriteCount by writeQueueSizeFlow.collectAsState(1)
 
-    var searchActive by remember {
-        mutableStateOf(false)
+    var searchActive by remember(appUiState.searchState.expandedByDefault) {
+        mutableStateOf(appUiState.searchState.expandedByDefault)
     }
 
     var searchHasFocus by remember {

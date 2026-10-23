@@ -309,6 +309,9 @@ class IndictorEdit(val indicatorId: String?) : OpenEelAppRoute
 object OpenEelAppList : OpenEelAppRoute
 
 @Serializable
+object OpdsSearch : OpenEelAppRoute
+
+@Serializable
 object EnterLink : OpenEelAppRoute
 
 @Serializable

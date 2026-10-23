@@ -24,10 +24,12 @@ import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.app
 import org.openeel.shared.generated.resources.home
+import org.openeel.shared.generated.resources.search
 import org.openeel.shared.generated.resources.empty_list_description_admin
 import org.openeel.shared.generated.resources.empty_list_description_non_admin
 import org.openeel.shared.navigation.AppsDetail
 import org.openeel.shared.navigation.OpdsFeedDetail
+import org.openeel.shared.navigation.OpdsSearch
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.Settings
 import org.openeel.shared.navigation.OpenEelAppLauncher
@@ -49,6 +51,8 @@ import org.openeel.libutil.ext.resolve
 import org.openeel.shared.domain.geticonforxapiactivity.GetPublicationForXapiActivityUseCase
 import org.openeel.shared.util.ext.appbarTitleString
 import org.openeel.shared.viewmodel.OpenEelViewModel
+import org.openeel.shared.viewmodel.app.appstate.AppActionButton
+import org.openeel.shared.viewmodel.app.appstate.AppStateIcon
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 
 data class AppLauncherUiState(
@@ -103,6 +107,19 @@ class AppLauncherViewModel(
                 ),
                 hideBottomNavigation = route.resultDest != null,
                 showBackButton = route.resultDest != null,
+                actions = if(route.resultDest == null) {
+                    listOf(
+                        AppActionButton(
+                            icon = AppStateIcon.SEARCH,
+                            contentDescription = Res.string.search.asUiText(),
+                            text = Res.string.search.asUiText(),
+                            onClick = ::onClickSearch,
+                            id = "search",
+                        )
+                    )
+                } else {
+                    emptyList()
+                },
             )
         }
 
@@ -176,6 +193,11 @@ class AppLauncherViewModel(
             )
         )
     }
+
+    fun onClickSearch() {
+        _navCommandFlow.tryEmit(NavCommand.Navigate(OpdsSearch))
+    }
+
     fun onClickSettings() {
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(Settings)
