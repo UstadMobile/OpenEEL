@@ -4,7 +4,6 @@ package org.openeel.shared.viewmodel.manageuser.acceptinvite
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.russhwolf.settings.Settings
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,7 +37,7 @@ import org.openeel.shared.generated.resources.required_field
 import org.openeel.shared.generated.resources.something_wrong_with_invite
 import org.openeel.shared.navigation.AcceptInvite
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.SelectClass
+import org.openeel.shared.navigation.LoginSelectClass
 import org.openeel.shared.navigation.SignupScreen
 import org.openeel.shared.navigation.TermsAndCondition
 import org.openeel.shared.navigation.WaitingForApproval
@@ -61,17 +60,13 @@ data class AcceptInviteUiState(
     val isSharedDeviceMode: Boolean
         get() = inviteInfo?.invite?.accepterPersonRole == PersonRoleEnum.SHARED_SCHOOL_DEVICE
 
-    companion object {
-        const val CURRENT_DEVICE_GUID = "current_device_guid"
-    }
 }
 
 class AcceptInviteViewModel(
     savedStateHandle: SavedStateHandle,
     private val getDeviceInfoUseCase: GetDeviceInfoUseCase,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
-    private val enableSharedDeviceModeUseCase: EnableSharedDeviceModeUseCase,
-    private val settings: Settings
+    private val enableSharedDeviceModeUseCase: EnableSharedDeviceModeUseCase
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: AcceptInvite = savedStateHandle.toRoute()
@@ -210,9 +205,7 @@ class AcceptInviteViewModel(
                 _navCommandFlow.tryEmit(
                     NavCommand.Navigate(
                         destination = if (personRegistered.status != PersonStatusEnum.PENDING_APPROVAL) {
-                            SelectClass(
-                                deviceGuid = personRegistered.guid
-                            )
+                            LoginSelectClass
                         } else {
                             WaitingForApproval()
                         },

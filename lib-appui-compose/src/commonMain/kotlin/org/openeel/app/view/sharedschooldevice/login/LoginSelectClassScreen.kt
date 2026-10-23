@@ -32,15 +32,15 @@ import org.openeel.datalayer.school.model.Clazz
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.scan_qr_code
 import org.openeel.shared.generated.resources.teacher_admin_login
-import org.openeel.shared.viewmodel.sharedschooldevice.login.SelectClassUiState
-import org.openeel.shared.viewmodel.sharedschooldevice.login.SelectClassViewModel
+import org.openeel.shared.viewmodel.sharedschooldevice.login.LoginSelectClassUiState
+import org.openeel.shared.viewmodel.sharedschooldevice.login.LoginSelectClassViewModel
 
 @Composable
-fun SelectClassScreen(
-    viewModel: SelectClassViewModel,
+fun LoginSelectClassScreen(
+    viewModel: LoginSelectClassViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    SelectClassScreen(
+    LoginSelectClassScreen(
         uiState = uiState,
         onClickClazz = viewModel::onClickClazz,
         onClickScanQrCode = viewModel::onClickScanQrCode,
@@ -49,8 +49,8 @@ fun SelectClassScreen(
 }
 
 @Composable
-fun SelectClassScreen(
-    uiState: SelectClassUiState,
+fun LoginSelectClassScreen(
+    uiState: LoginSelectClassUiState,
     onClickClazz: (Clazz) -> Unit,
     onClickScanQrCode: () -> Unit,
     onClickTeacherAdminLogin: () -> Unit,

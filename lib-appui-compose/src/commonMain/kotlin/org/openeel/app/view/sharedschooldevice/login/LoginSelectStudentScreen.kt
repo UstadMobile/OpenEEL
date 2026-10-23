@@ -17,23 +17,23 @@ import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.ClassDataSource
 import org.openeel.datalayer.school.model.Person
-import org.openeel.shared.viewmodel.sharedschooldevice.login.StudentListUiState
-import org.openeel.shared.viewmodel.sharedschooldevice.login.StudentListViewModel
+import org.openeel.shared.viewmodel.sharedschooldevice.login.LoginSelectStudentUiState
+import org.openeel.shared.viewmodel.sharedschooldevice.login.LoginSelectStudentViewModel
 
 @Composable
-fun StudentListScreen(
-    viewModel: StudentListViewModel,
+fun LoginSelectStudentScreen(
+    viewModel: LoginSelectStudentViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    StudentListScreen(
+    LoginSelectStudentScreen(
         uiState = uiState,
         onClickStudent = viewModel::onClickStudent,
     )
 }
 
 @Composable
-fun StudentListScreen(
-    uiState: StudentListUiState,
+fun LoginSelectStudentScreen(
+    uiState: LoginSelectStudentUiState,
     onClickStudent: (Person) -> Unit,
 ) {
     val pager = openEelRememberPager(uiState.students)

@@ -37,6 +37,7 @@ import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUse
 import org.openeel.lib.xapi.ext.getJson
 import org.openeel.lib.xapi.ext.putJson
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.device
@@ -50,7 +51,6 @@ import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
-import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsUiState.Companion.CURRENT_DEVICE_GUID
 import kotlin.random.Random
 import kotlin.time.Clock
 
@@ -69,7 +69,6 @@ data class SharedDevicesSettingsUiState(
 ) {
     companion object {
         const val PIN_LENGTH = 4
-        const val CURRENT_DEVICE_GUID = "current_device_guid"
     }
 }
 

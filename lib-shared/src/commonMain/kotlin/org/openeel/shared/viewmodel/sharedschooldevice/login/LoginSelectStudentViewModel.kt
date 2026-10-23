@@ -24,18 +24,18 @@ import org.openeel.libutil.util.time.localDateInCurrentTimeZone
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.StudentList
+import org.openeel.shared.navigation.LoginSelectStudent
 import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 
-data class StudentListUiState(
+data class LoginSelectStudentUiState(
     val error: UiText? = null,
     val students: IPagingSourceFactory<Int, Person> = EmptyPagingSourceFactory(),
 )
 
-class StudentListViewModel(
+class LoginSelectStudentViewModel(
     savedStateHandle: SavedStateHandle,
     private val accountManager: AppAccountManager,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
@@ -43,9 +43,9 @@ class StudentListViewModel(
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
     private val schoolDataSource: SchoolDataSource by inject()
-    private val route: StudentList = savedStateHandle.toRoute()
+    private val route: LoginSelectStudent = savedStateHandle.toRoute()
 
-    private val _uiState = MutableStateFlow(StudentListUiState())
+    private val _uiState = MutableStateFlow(LoginSelectStudentUiState())
     val uiState = _uiState.asStateFlow()
 
     private val pagingSourceHolder = PagingSourceFactoryHolder {

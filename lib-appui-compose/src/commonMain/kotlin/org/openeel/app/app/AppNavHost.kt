@@ -71,8 +71,8 @@ import org.openeel.app.viewmodel.openEelViewModel
 import org.openeel.app.view.sharedschooldevice.SchoolSettingsScreen
 import org.openeel.app.view.sharedschooldevice.SharedDevicesSettingsScreen
 import org.openeel.app.view.sharedschooldevice.TeacherPinConfirmationScreen
-import org.openeel.app.view.sharedschooldevice.login.SelectClassScreen
-import org.openeel.app.view.sharedschooldevice.login.StudentListScreen
+import org.openeel.app.view.sharedschooldevice.login.LoginSelectClassScreen
+import org.openeel.app.view.sharedschooldevice.login.LoginSelectStudentScreen
 import org.openeel.shared.navigation.AccountList
 import org.openeel.shared.navigation.Acknowledgement
 import org.openeel.shared.navigation.AppsDetail
@@ -133,11 +133,11 @@ import org.openeel.shared.navigation.SchoolSettings
 import org.openeel.shared.navigation.Settings
 import org.openeel.shared.navigation.ShareFeedback
 import org.openeel.shared.navigation.SignupScreen
-import org.openeel.shared.navigation.SelectClass
+import org.openeel.shared.navigation.LoginSelectClass
 import org.openeel.shared.navigation.SharedDevicesSettings
 import org.openeel.shared.navigation.StatementDetail
 import org.openeel.shared.navigation.StatementList
-import org.openeel.shared.navigation.StudentList
+import org.openeel.shared.navigation.LoginSelectStudent
 import org.openeel.shared.navigation.TeacherPinConfirmation
 import org.openeel.shared.navigation.TermsAndCondition
 import org.openeel.shared.navigation.WaitingForApproval
@@ -654,8 +654,8 @@ fun AppNavHost(
             )
         }
 
-        composable<SelectClass> {
-            SelectClassScreen(
+        composable<LoginSelectClass> {
+            LoginSelectClassScreen(
                 viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,
@@ -743,8 +743,8 @@ fun AppNavHost(
         }
 
 
-        composable<StudentList> {
-            StudentListScreen(
+        composable<LoginSelectStudent> {
+            LoginSelectStudentScreen(
                 viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController,

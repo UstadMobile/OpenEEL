@@ -33,7 +33,7 @@ import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.isSameAccount
 import org.openeel.shared.viewmodel.OpenEelViewModel
-import org.openeel.shared.navigation.SelectClass
+import org.openeel.shared.navigation.LoginSelectClass
 
 
 /**
@@ -249,7 +249,7 @@ class AccountListViewModel(
                     appAccountManager.switchAccount(selectedAccount.session.account)
                     _navCommandFlow.tryEmit(
                         NavCommand.Navigate(
-                            destination = SelectClass.create(deviceGuid = selectedAccount.person.guid),
+                            destination = LoginSelectClass,
                             clearBackStack = true
                         )
                     )
@@ -262,7 +262,7 @@ class AccountListViewModel(
                 appAccountManager.switchAccount(sharedDeviceAccount.session.account)
                 _navCommandFlow.tryEmit(
                     NavCommand.Navigate(
-                        destination = SelectClass.create(deviceGuid = sharedDeviceAccount.person.guid),
+                        destination = LoginSelectClass,
                         clearBackStack = true
                     )
                 )

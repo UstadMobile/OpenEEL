@@ -5,7 +5,6 @@ import io.ktor.http.Url
 import org.openeel.datalayer.school.model.Person
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.util.ext.isSameAccount
-import org.openeel.shared.viewmodel.manageuser.acceptinvite.AcceptInviteUiState.Companion.CURRENT_DEVICE_GUID
 
 class EnableSharedDeviceModeUseCase(
     private val accountManager: AppAccountManager,
@@ -46,5 +45,7 @@ class EnableSharedDeviceModeUseCase(
 
     companion object {
         const val SETTINGS_KEY_IS_SHARED_MODE = "is_shared_device_mode"
+
+        const val CURRENT_DEVICE_GUID = "current_device_guid"
     }
 }

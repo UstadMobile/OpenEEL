@@ -3,6 +3,7 @@ package org.openeel.shared.viewmodel.sharedschooldevice.login
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.russhwolf.settings.Settings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -29,38 +30,40 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.ext.getJson
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.login
 import org.openeel.shared.generated.resources.select_class
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.ScanQRCode
-import org.openeel.shared.navigation.SelectClass
-import org.openeel.shared.navigation.StudentList
+import org.openeel.shared.navigation.LoginSelectClass
+import org.openeel.shared.navigation.LoginSelectStudent
 import org.openeel.shared.navigation.TeacherPinConfirmation
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 
-data class SelectClassUiState(
+data class LoginSelectClassUiState(
     val error: UiText? = null,
     val classes: IPagingSourceFactory<Int, Clazz> = EmptyPagingSourceFactory(),
     val isSelfSelectClassAndName: Boolean = true,
     val deviceName: String = ""
 )
 
-class SelectClassViewModel(
+class LoginSelectClassViewModel(
     savedStateHandle: SavedStateHandle,
     accountManager: AppAccountManager,
-    private val json: Json
+    private val json: Json,
+    private val settings: Settings,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
-    private val route: SelectClass = savedStateHandle.toRoute()
+    private val route: LoginSelectClass = savedStateHandle.toRoute()
 
     private val schoolDataSource: SchoolDataSource by inject()
 
-    private val _uiState = MutableStateFlow(SelectClassUiState())
+    private val _uiState = MutableStateFlow(LoginSelectClassUiState())
     val uiState = _uiState.asStateFlow()
 
     val schoolUrl = accountManager.activeAccount?.school?.self
@@ -107,8 +110,12 @@ class SelectClassViewModel(
             }
         }
         viewModelScope.launch {
-            val device =
-                schoolDataSource.personDataSource.findByGuid(DataLoadParams(), route.deviceGuid)
+            val device = schoolDataSource.personDataSource.findByGuid(
+                DataLoadParams(),
+                guid = settings.getStringOrNull(
+                    EnableSharedDeviceModeUseCase.CURRENT_DEVICE_GUID
+                ) ?: throw IllegalStateException("No device id set")
+            )
 
             _uiState.update { prev ->
                 prev.copy(
@@ -136,7 +143,7 @@ class SelectClassViewModel(
     fun onClickClazz(clazz: Clazz) {
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                StudentList.create(
+                LoginSelectStudent.create(
                     className = clazz.title,
                     guid = clazz.guid,
                 )

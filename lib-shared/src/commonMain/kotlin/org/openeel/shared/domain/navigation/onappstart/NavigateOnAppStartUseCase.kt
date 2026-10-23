@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
+import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
 import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
 import org.openeel.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCase
 import org.openeel.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
@@ -16,8 +17,7 @@ import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.SelectClass
-import org.openeel.shared.viewmodel.manageuser.acceptinvite.AcceptInviteUiState.Companion.CURRENT_DEVICE_GUID
+import org.openeel.shared.navigation.LoginSelectClass
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
@@ -90,7 +90,7 @@ class NavigateOnAppStartUseCase(
                     settings.getBoolean(EnableSharedDeviceModeUseCase.SETTINGS_KEY_IS_SHARED_MODE, false) &&
                     settings.getStringOrNull(CURRENT_DEVICE_GUID) == activeAccount.userGuid &&
                     activeSession?.profilePersonUid == null ->
-                    SelectClass.create(deviceGuid = activeAccount.userGuid)
+                    LoginSelectClass
                 activeAccount != null -> if (isChild) AssignmentList else Home
                 else -> GetStartedScreen()
             },

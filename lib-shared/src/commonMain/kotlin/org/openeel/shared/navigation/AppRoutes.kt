@@ -818,24 +818,15 @@ data object SchoolSettings : OpenEelAppRoute
 data object SharedDevicesSettings : OpenEelAppRoute
 
 @Serializable
-data class SelectClass(
-    val deviceGuid: String
-) : OpenEelAppRoute {
+data object LoginSelectClass : OpenEelAppRoute {
 
-    companion object {
-        fun create(
-            deviceGuid: String
-        ) = SelectClass(
-            deviceGuid = deviceGuid
-        )
-    }
 }
 
 @Serializable
 data object TeacherPinConfirmation : OpenEelAppRoute
 
 @Serializable
-data class StudentList(
+data class LoginSelectStudent(
     val className: String,
     val guid: String,
 ) : OpenEelAppRoute {
@@ -844,7 +835,7 @@ data class StudentList(
         fun create(
             className: String,
             guid: String,
-        ) = StudentList(
+        ) = LoginSelectStudent(
             className = className,
             guid = guid,
         )

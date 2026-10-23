@@ -305,8 +305,8 @@ import org.openeel.shared.viewmodel.catalog.bookmark.BookmarkListViewModel
 import org.openeel.shared.viewmodel.sharedschooldevice.SchoolSettingsViewModel
 import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsViewModel
 import org.openeel.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationViewModel
-import org.openeel.shared.viewmodel.sharedschooldevice.login.SelectClassViewModel
-import org.openeel.shared.viewmodel.sharedschooldevice.login.StudentListViewModel
+import org.openeel.shared.viewmodel.sharedschooldevice.login.LoginSelectClassViewModel
+import org.openeel.shared.viewmodel.sharedschooldevice.login.LoginSelectStudentViewModel
 
 
 const val SHARED_PREF_SETTINGS_NAME = "respect_settings3_"
@@ -472,8 +472,8 @@ val appKoinModule = module {
     viewModelOf(::SchoolSettingsViewModel)
     viewModelOf(::SharedDevicesSettingsViewModel)
     viewModelOf(::TeacherPinConfirmationViewModel)
-    viewModelOf(::SelectClassViewModel)
-    viewModelOf(::StudentListViewModel)
+    viewModelOf(::LoginSelectClassViewModel)
+    viewModelOf(::LoginSelectStudentViewModel)
 
     single<LaunchSendWhatsAppUseCase> {
         LaunchSendWhatsAppUseCaseAndroid(androidContext())

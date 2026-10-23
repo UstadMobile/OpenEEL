@@ -24,7 +24,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.datalayer.school.model.PersonRoleEnum
-import org.openeel.shared.navigation.SelectClass
+import org.openeel.shared.navigation.LoginSelectClass
 
 
 
@@ -75,7 +75,7 @@ class WaitingForApprovalViewModel(
                     _navCommandFlow.tryEmit(
                         NavCommand.Navigate(
                             destination = if (personLoaded.roles.firstOrNull()?.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE) {
-                                SelectClass.create(deviceGuid = personLoaded.guid)
+                                LoginSelectClass
                             } else {
                                 Home
                             },
