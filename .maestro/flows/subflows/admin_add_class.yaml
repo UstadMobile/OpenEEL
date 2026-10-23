@@ -12,5 +12,5 @@ appId: org.openeel.app
     id: "app_title"
     text: "Add class"
 - tapOn: "Class name*"
-- inputText: ${CLASSNAME}
+- inputText: ${CLASS_NAME}
 - tapOn: "Save"

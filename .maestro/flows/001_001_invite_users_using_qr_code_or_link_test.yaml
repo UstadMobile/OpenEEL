@@ -114,7 +114,7 @@ onFlowComplete:
 - runFlow:
     file: "subflows/admin_add_class.yaml"
     env:
-      CLASSNAME: "New Class"
+      CLASS_NAME: New Class
 - assertVisible:
     id: "app_title"
     text: "New Class"

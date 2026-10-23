@@ -23,6 +23,34 @@
     <string name="app">App</string>
     <string name="assignments">Assignments</string>
     <string name="assignment">Assignment</string>
+    <string name="device">Device</string>
+    <string name="image_shared_device">Image shared device</string>
+    <string name="pending_device_requests">Pending device request to join</string>
+    <string name="teacher_admin_unlock_pin">Teacher/admin unlock PIN</string>
+
+    <string name="shared_device">Shared Device</string>
+    <string name="shared_device_description_1">Student can login without the school name</string>
+    <string name="shared_device_description_2">Device auto sync offline to reduce data usage</string>
+    <string name="shared_device_description_3">School admin can manually manage</string>
+    <string name="enable">Enable</string>
+    <string name="no_shared_devices_available">No Shared Devices Available</string>
+    <string name="no_shared_devices_available_info">Shared school devices allow multiple users to securely access the app on the same device using their profile</string>
+
+
+    <string name="phone_android_icon">PhoneAndroid</string>
+    <string name="tablet_android_last_seen">last seen</string>
+    <string name="check_circle_icon">CheckCircle</string>
+    <string name="add_device">Add Device</string>
+    <string name="this_device">This device</string>
+    <string name="this_device_enable">Enable shared school device on mode on this device</string>
+    <string name="close_icon">Close Icon</string>
+    <string name="another_device_add">Add using QR code, link, or invite code</string>
+    <string name="another_device">Another device</string>
+    <string name="set_pin">Set PIN</string>
+    <string name="share_icon">Share Icon</string>
+    <string name="arrow_down_icon">Arrow Down</string>
+    <string name="devices">Devices</string>
+
     <string name="add_assignment">Add assignment</string>
     <string name="edit_assignment">Edit assignment</string>
     <string name="classes">Classes</string>
@@ -187,12 +215,15 @@
     <string name="enter_roll_number">Enter Roll Number</string>
     <string name="shared_device_setting">Shared device setting</string>
     <string name="scan_qr_code">Scan QR code badge</string>
-    <string name="teacher_admin_login">Teacher or admin login</string>
+    <string name="teacher_admin_login">Teacher/admin login</string>
     <string name="school_directory">School Directory</string>
     <string name="lets_get_started">Let's get started</string>
     <string name="school_name">School name</string>
+    <string name="enter_school_device_pin">Enter school device PIN</string>
     <string name="school_name_placeholder">Type school name here...</string>
     <string name="i_have_an_invite_code">I have an invite code</string>
+    <string name="select_another_school">Select another school</string>
+
     <string name="invalid_school_name">Invalid school name</string>
     <string name="school_not_found">School not found: please ask your admin to add your school.</string>
     <string name="add_directory">Add Directory</string>
@@ -313,7 +344,7 @@
     <string name="indicator_name">Indicator Name</string>
     <string name="sql">SQL</string>
     <string name="edit_filters">Edit Filters</string>
-    <string name="blank_template">Blank Template</string>>
+    <string name="blank_template">Blank Template</string>
 
     <!-- Duration Metrics -->
     <string name="total_content_usage_duration">Total Content Usage Duration</string>
@@ -390,6 +421,13 @@
     <string name="school">School</string>
     <string name="grade_level">Grade Level</string>
     <string name="assessment_type">Assessment Type (Self/Assignment)</string>
+    <string name="shared_school_devices">Shared school device</string>
+    <string name="enable_shared_school_device_mode">Enable shared school device mode</string>
+
+    <string name="device_name">Device name</string>
+    <string name="enable_shared_device_mode">Enable shared device mode</string>
+    <string name="students_must_enter_their_roll_number">Students must enter their roll number to login</string>
+    <string name="student_can_self_select_their_class_name">Student can self-select their class and name</string>
 
 
     <!-- Demographic Dimensions -->
@@ -462,6 +500,7 @@
 
     <string name="first_names">First names</string>
     <string name="mappings">Mappings</string>
+    <string name="policies_shared_devices">School name, policies, shared device</string>
     <string name="mapping">Mapping</string>
     <string name="edit_mapping">Edit mapping</string>
     <string name="textbooks">Textbooks</string>
@@ -504,7 +543,7 @@
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
 
-    <string name="app_version">App version</string>\
+    <string name="app_version">App version</string>
     <string name="android6_warning">Your device is running Android 6, which is not fully supported. You may experience issues. We recommend using Android 7 or higher</string>
 
     <string name="old_password">Old password</string>
@@ -552,6 +591,7 @@
     <string name="select_family_person">Select family person</string>
     <string name="add_new_person">Add new person</string>
     <string name="invite_person">Invite person</string>
+    <string name="add_shared_school_device">Add shared school device</string>
 
     <string name="empty_list_description_admin">You haven't added any apps for your school yet.</string>
     <string name="empty_list_description_non_admin">No apps added for your school yet. Ask your admin to add some.</string>
@@ -745,5 +785,8 @@
 
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
+
+    <string name="pin_error">Error: please enter 4 digit number</string>
+    <string name="invalid_pin">Invalid PIN</string>
 
 </resources>

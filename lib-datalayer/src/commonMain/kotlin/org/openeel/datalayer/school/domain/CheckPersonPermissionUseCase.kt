@@ -14,13 +14,15 @@ interface CheckPersonPermissionUseCase {
         val roleTeacherPermissionRequired: Long = PermissionFlags.PERSON_TEACHER_WRITE,
         val roleStudentPermissionRequired: Long = PermissionFlags.PERSON_STUDENT_WRITE,
         val roleParentPermissionRequired: Long = PermissionFlags.PERSON_PARENT_WRITE,
+        val roleSharedDevicePermissionRequired: Long = PermissionFlags.PERSON_STUDENT_READ,
     ) {
 
         val flagList: List<Long>
             get() = listOf(roleAdminPermissionRequired,
                 roleTeacherPermissionRequired,
                 roleStudentPermissionRequired,
-                roleParentPermissionRequired
+                roleParentPermissionRequired,
+                roleSharedDevicePermissionRequired
             )
 
         companion object {
@@ -30,6 +32,7 @@ interface CheckPersonPermissionUseCase {
                 roleTeacherPermissionRequired = PermissionFlags.PERSON_TEACHER_WRITE,
                 roleStudentPermissionRequired = PermissionFlags.PERSON_STUDENT_WRITE,
                 roleParentPermissionRequired =  PermissionFlags.PERSON_PARENT_WRITE,
+                roleSharedDevicePermissionRequired = PermissionFlags.PERSON_STUDENT_READ,
             )
 
         }

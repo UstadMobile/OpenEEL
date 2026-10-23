@@ -20,6 +20,7 @@ import org.openeel.shared.generated.resources.qr_code_invalid_format
 import org.openeel.shared.generated.resources.scan_qr_code
 import org.openeel.shared.navigation.CreateAccountSetUsername
 import org.openeel.shared.navigation.Home
+import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.ManageAccount
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.NavResultReturner
@@ -157,14 +158,27 @@ class ScanQRCodeViewModel(
             return
         }
 
-        appAccountManager.login(
-            credential = credential,
-            schoolUrl = schoolUrl
-        )
+        if (route.isSharedDevice) {
+            // For shared device: login without creating a new account
+            appAccountManager.loginAsProfileOnSharedDevice(
+                credential = credential,
+                schoolUrl = schoolUrl
+            )
+        } else {
+            // For normal device: regular login creates new account
+            appAccountManager.login(
+                credential = credential,
+                schoolUrl = schoolUrl
+            )
+        }
 
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                destination = Home,
+                destination = if (route.isSharedDevice) {
+                    AssignmentList
+                } else {
+                    Home
+                },
                 clearBackStack = true,
             )
         )

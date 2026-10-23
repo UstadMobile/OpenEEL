@@ -57,6 +57,9 @@ class AppAccountManager(
 
     val accounts = _storedAccounts.asStateFlow()
 
+    val activeSession: UserSession?
+        get() = _activeSession.value
+
     private val _activeSession = MutableStateFlow(
         settings.getStringOrNull(SETTINGS_KEY_ACTIVE_SESSION)?.let {
             json.decodeFromString(UserSession.serializer(), it)
@@ -99,7 +102,7 @@ class AppAccountManager(
                     loadParams = DataLoadParams(),
                     params = PersonDataSource.GetListParams(
                         common = GetListCommonParams(
-                            guid = session.account.userGuid
+                            guid = activePersonUid
                         ),
                         includeRelated = true,
                     )
@@ -156,10 +159,19 @@ class AppAccountManager(
         return authResponse
     }
 
-    @Suppress("unused")
+    /**
+     * Register a new user by redeeming an invite.
+     * @param redeemInviteRequest the request to redeem the invite
+     * @param schoolUrl [Url] of the school on which to register
+     * @param useActiveUserAuth true if currently active user's authentication should be used when
+     *        making the redeem request. This is required when enabling shared device mode: the
+     *        teacher/admin's credentials are required for the invite redeem to go through without
+     *        requiring approval. See [RedeemInviteUseCase].
+     */
     suspend fun register(
         redeemInviteRequest: RedeemInviteRequest,
         schoolUrl: Url,
+        useActiveUserAuth: Boolean = true
     ): Person {
         val schoolScopeId = SchoolDirectoryEntryScopeId(
             schoolUrl, null,
@@ -169,7 +181,7 @@ class AppAccountManager(
         )
 
         val redeemInviteUseCase: RedeemInviteUseCase = schoolScope.get()
-        val authResponse = redeemInviteUseCase(redeemInviteRequest)
+        val authResponse = redeemInviteUseCase(redeemInviteRequest, useActiveUserAuth)
 
         val schoolDirectoryEntry = appDataSource.schoolDirectoryEntryResource.getSchoolDirectoryEntryByUrl(
             schoolUrl
@@ -281,12 +293,40 @@ class AppAccountManager(
 
     }
 
+    /**
+     * Logs in a user on a shared device by switching to an existing profile without creating a new account.
+     *
+     * This function is specifically designed for shared device scenarios where:
+     * - Users scan a QR code to access the device
+     * - We want to switch to their existing profile rather than creating a new account
+     * - The device remains shared but the active user context changes
+     **/
+    suspend fun loginAsProfileOnSharedDevice(
+        credential: OpenEelCredential,
+        schoolUrl: Url,
+    ): AuthResponse {
+        val schoolScopeId = SchoolDirectoryEntryScopeId(schoolUrl, null)
+        val schoolScope = getKoin().getOrCreateScope<SchoolDirectoryEntry>(
+            schoolScopeId.scopeId
+        )
+
+        val authUseCase: GetTokenAndUserProfileWithCredentialUseCase = schoolScope.get()
+        val authResponse = authUseCase(credential)
+
+        switchProfile(authResponse.person.guid)
+
+        return authResponse
+    }
+
     fun switchAccount(account: UserAccount) {
         if(!_storedAccounts.value.any { it.isSameAccount(account) }) {
             throw IllegalArgumentException("switchAccount: account not stored/available")
         }
 
-        _activeSession.value = UserSession(account, null)
+        val newSession = UserSession(account, null)
+        _activeSession.value = newSession
+        settings[SETTINGS_KEY_ACTIVE_SESSION] = json.encodeToString(newSession)
+        putDebugCrashCustomData("SelectedAccount", activeAccount.toString())
     }
 
     /**

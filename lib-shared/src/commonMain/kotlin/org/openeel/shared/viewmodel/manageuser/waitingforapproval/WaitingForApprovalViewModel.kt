@@ -23,6 +23,9 @@ import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.shared.navigation.LoginSelectClass
+
 
 
 data class WaitingForApprovalUiState(
@@ -68,9 +71,16 @@ class WaitingForApprovalViewModel(
                 ).dataOrNull()
 
                 val personLoaded = personsLoaded?.firstOrNull { it.guid == activeUserUid }
-                if(personLoaded?.status == PersonStatusEnum.ACTIVE) {
+                if (personLoaded?.status == PersonStatusEnum.ACTIVE) {
                     _navCommandFlow.tryEmit(
-                        NavCommand.Navigate(Home)
+                        NavCommand.Navigate(
+                            destination = if (personLoaded.roles.firstOrNull()?.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE) {
+                                LoginSelectClass
+                            } else {
+                                Home
+                            },
+                            clearBackStack = true
+                        )
                     )
                     return@launch
                 }

@@ -22,7 +22,6 @@ import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.map
-import org.openeel.datalayer.school.SchoolConfigSettingDataSource
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.findSelfLinks
 import org.openeel.shared.domain.account.AppAccountManager
@@ -50,26 +49,17 @@ class AppListViewModel(
             )
         }
         viewModelScope.launch {
-            schoolDataSource.schoolConfigSettingDataSource.listAsFlow(
-                loadParams = DataLoadParams(),
-                params = SchoolConfigSettingDataSource.GetListParams(
-                    key = SchoolConfigSettingDataSource.KEY_APP_CATALOGS
-                )
-            ).collectLatest { config ->
-                val feedUrl = config.dataOrNull()?.firstOrNull()?.value?.let {
-                    Url(it)
-                } ?: return@collectLatest
-                schoolDataSource.opdsFeedDataSource.getByUrlAsFlow(
-                    url = feedUrl,
-                    params = DataLoadParams()
-                ).collect { dataLoad ->
-                    _uiState.update { prev ->
-                        prev.copy(
-                            appList = dataLoad.map {
-                                it.resolve(feedUrl).publications ?: emptyList()
-                            }
-                        )
-                    }
+            val feedUrl = Url(DEFAULT_APP_CATALOG_URL)
+            schoolDataSource.opdsFeedDataSource.getByUrlAsFlow(
+                url = feedUrl,
+                params = DataLoadParams()
+            ).collect { dataLoad ->
+                _uiState.update { prev ->
+                    prev.copy(
+                        appList = dataLoad.map {
+                            it.resolve(feedUrl).publications ?: emptyList()
+                        }
+                    )
                 }
             }
         }
@@ -90,5 +80,9 @@ class AppListViewModel(
                 AppsDetail.create(Url(url))
             )
         )
+    }
+
+    companion object {
+        const val DEFAULT_APP_CATALOG_URL = "https://respect.directory/respect-ds/base.json"
     }
 }

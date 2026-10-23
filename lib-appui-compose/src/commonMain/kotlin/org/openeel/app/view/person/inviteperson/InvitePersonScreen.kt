@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.RadioButton
+import androidx.compose.material3.RadioButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Email
@@ -42,6 +42,7 @@ import io.github.alexzhirkevich.qrose.rememberQrCodePainter
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.OpenEelExposedDropDownMenuField
 import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.components.uiTextStringResource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.ClassInvite
 import org.openeel.datalayer.school.model.ClassInviteModeEnum
@@ -112,26 +113,38 @@ fun InvitePersonScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-
-        if(uiState.showRoleSelection) {
-            val selectedRole = uiState.selectedRole ?: uiState.roleOptions.firstOrNull()
+        if (!uiState.isSharedDeviceMode) {
+            if (uiState.showRoleSelection) {
+                val selectedRole = uiState.selectedRole ?: uiState.roleOptions.firstOrNull()
                 ?: PersonRoleEnum.STUDENT
 
-            OpenEelExposedDropDownMenuField(
-                value = selectedRole,
-                modifier = Modifier.defaultItemPadding().fillMaxWidth().testTag("role"),
-                label = {
-                    Text(stringResource(Res.string.role))
-                },
-                onOptionSelected = { newRole ->
-                    onRoleChange(newRole)
-                },
-                options = uiState.roleOptions,
-                itemText = { stringResource(it.label) },
-                enabled = fieldsEnabled,
-            )
+                OpenEelExposedDropDownMenuField(
+                    value = selectedRole,
+                    modifier = Modifier
+                        .defaultItemPadding()
+                        .fillMaxWidth()
+                        .testTag("role"),
+                    label = {
+                        Text(stringResource(Res.string.role))
+                    },
+                    onOptionSelected = { newRole ->
+                        onRoleChange(newRole)
+                    },
+                    options = uiState.roleOptions,
+                    itemText = { stringResource(it.label) },
+                    enabled = fieldsEnabled,
+                )
+            }
         }
-
+        if (uiState.isSharedDeviceMode) {
+            uiState.schoolName?.let {
+                Text(
+                    text = uiTextStringResource(it),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)
+                )
+            }
+        }
 
         uiState.inviteUrl?.also { link ->
             val linkStr = link.toString()

@@ -54,7 +54,7 @@ class DrainXapiRemoteWriteQueueUseCase(
 
                         XapiRemoteWriteQueueItem.Method.PUT -> {
                             val document = localDataSource.activityProfile.get(params).dataOrNull() ?: continue
-                            remoteDataSource.activityProfile.post(params, document)
+                            remoteDataSource.activityProfile.put(params, document)
                         }
 
                         XapiRemoteWriteQueueItem.Method.DELETE -> {

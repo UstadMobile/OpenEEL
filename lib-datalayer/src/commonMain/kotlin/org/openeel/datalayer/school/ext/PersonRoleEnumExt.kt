@@ -20,4 +20,3 @@ val PersonRoleEnum.writePermissionFlag: Long
  */
 val PersonRoleEnum.newUserInviteUid: String
     get() = "$TYPE_NEW_USER:${this.value}"
-

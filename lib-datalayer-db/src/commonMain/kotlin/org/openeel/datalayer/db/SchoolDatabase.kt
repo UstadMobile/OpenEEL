@@ -156,7 +156,7 @@ import org.openeel.datalayer.school.model.Report
         XapiStateDocumentShaEntity::class,
         XapiRemoteWriteQueueItemEntity::class,
     ],
-    version = 19,
+    version = 20,
 )
 @TypeConverters(SharedConverters::class, SchoolTypeConverters::class, OpdsTypeConverters::class)
 @ConstructedBy(SchoolDatabaseConstructor::class)

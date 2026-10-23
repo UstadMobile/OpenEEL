@@ -133,10 +133,12 @@ fun AccountListScreen(
             items = uiState.accounts,
             key = { it.session.account.userGuid }
         ) { account ->
-            AccountListItem(
-                account = account,
-                onClickAccount = onClickAccount,
-            )
+            if (account.session.profilePersonUid != null) {
+                AccountListItem(
+                    account = account,
+                    onClickAccount = onClickAccount,
+                )
+            }
         }
 
         item("divider2") {
