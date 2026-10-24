@@ -187,7 +187,6 @@ onFlowComplete:
 - tapOn: "Collapse"
 - assertNotVisible: "Link to collection here"
 - assertNotVisible: "Examples"
-
 - assertVisible: "Links to learning items"
 - tapOn: "Learning item here"
 - assertVisible: "Browse"
@@ -233,7 +232,7 @@ onFlowComplete:
 - tapOn:
     text: "Collections section"
     index: 0
-- tapOn: "Collections section"
+- tapOn: "Section title"
 - runFlow:
     file: "subflows/erase_text.yaml"
     env:
@@ -483,6 +482,7 @@ onFlowComplete:
 - tapOn: "Assignments"
 - assertVisible: "Homework 1"
 - assertVisible: "Homework 2"
+
 
 
 
