@@ -49,7 +49,7 @@ class ServerAppXapiPolicy(
         }
     }
 
-    class PassThroughXapiDocumentPolicy<MultiDocParams: Any, SingleDocParams: ISingleDocumentParams<MultiDocParams>>:
+    class PassThroughXapiDocumentPolicy<MultiDocParams: Any, SingleDocParams: ISingleDocumentParams>:
             XapiDocumentResourcePolicy<MultiDocParams, SingleDocParams> {
 
         override suspend fun transformReadSingleDocParams(params: SingleDocParams): SingleDocParams {
