@@ -42,14 +42,11 @@ import org.openeel.shared.generated.resources.search_filter_options
  *
  * @param chipLabel the label shown on the chip and as the bottom sheet title.
  * @param options the options the user can select from.
- * @param selectedOptions the options currently selected (may include options not in [options] e.g.
- *        when they do not match the search text).
+ * @param selectedOptions the options currently selected .
  * @param onSelectedOptionsChanged called with the new list of selected options.
  * @param optionLabel the text displayed for an option.
  * @param searchText the text entered to search the options.
- * @param onSearchTextChanged when not null, the bottom sheet shows a search field (e.g. for long
- *        lists such as language and subject). The search itself is done by the ViewModel, which
- *        provides the matching [options].
+ * @param onSearchTextChanged when not null, the bottom sheet shows a search field to filter the options.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
