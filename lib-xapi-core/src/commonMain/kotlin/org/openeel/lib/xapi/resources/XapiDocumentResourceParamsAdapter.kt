@@ -1,5 +1,7 @@
 package org.openeel.lib.xapi.resources
 
+import io.ktor.http.Parameters
+import kotlinx.serialization.json.Json
 import kotlin.time.Instant
 
 interface XapiDocumentResourceParamsAdapter<
@@ -26,5 +28,10 @@ interface XapiDocumentResourceParamsAdapter<
         singleDocParams: SingleDocParams,
         multiDocParams: MultiDocParams,
     ): Boolean
+
+    fun singleDocParamsFromParameters(
+        params: Parameters,
+        json: Json,
+    ): SingleDocParams
 
 }

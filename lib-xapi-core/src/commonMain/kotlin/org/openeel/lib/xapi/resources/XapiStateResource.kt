@@ -101,6 +101,13 @@ interface XapiStateResource: XapiDocumentResource<XapiStateResource.MultiDocPara
                     multiDocParams.agent.requireIfi() == singleDocParams.agent.requireIfi() &&
                     multiDocParams.registration == singleDocParams.registration
         }
+
+        override fun singleDocParamsFromParameters(
+            params: Parameters,
+            json: Json
+        ): SingleDocumentParams {
+            return SingleDocumentParams.fromParameters(params, json)
+        }
     }
 
     companion object {
