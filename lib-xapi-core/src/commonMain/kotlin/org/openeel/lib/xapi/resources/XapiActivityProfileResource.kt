@@ -79,6 +79,10 @@ interface XapiActivityProfileResource : XapiDocumentResource<XapiActivityProfile
         ): Boolean {
             return multiDocParams.activityId == singleDocParams.activityId
         }
+
+        override fun singleDocParamsFromParameters(params: Parameters, json: Json): SingleDocumentParams {
+            return SingleDocumentParams.fromParameters(params)
+        }
     }
 
     companion object {

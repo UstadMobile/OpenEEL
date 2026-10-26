@@ -78,6 +78,10 @@ interface XapiAgentProfileResource: XapiDocumentResource<XapiAgentProfileResourc
         ): Boolean {
             return multiDocParams.agent.requireIfi() == singleDocParams.agent.requireIfi()
         }
+
+        override fun singleDocParamsFromParameters(params: Parameters, json: Json): SingleDocumentParams {
+            return SingleDocumentParams.fromParameters(params, json)
+        }
     }
 
     companion object {
