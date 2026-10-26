@@ -7,7 +7,7 @@ import org.openeel.lib.xapi.resources.ISingleDocumentParams
  *
  */
 interface XapiDocumentResourcePolicy<
-    MultiDocParams: Any, SingleDocParams: ISingleDocumentParams<MultiDocParams>
+    MultiDocParams: Any, SingleDocParams: ISingleDocumentParams
 > {
 
     data class TransformedWrite<T>(

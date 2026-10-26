@@ -16,7 +16,6 @@ import org.openeel.lib.dataloadstate.datetime.roundToEpochSeconds
 import org.openeel.lib.dataloadstate.datetime.toGMTDate
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
-import org.openeel.lib.xapi.model.XapiAgent
 import org.openeel.lib.xapi.model.XapiDocumentByteArrayImpl
 import org.openeel.lib.xapi.resources.XapiAgentProfileResource
 import kotlin.test.Test

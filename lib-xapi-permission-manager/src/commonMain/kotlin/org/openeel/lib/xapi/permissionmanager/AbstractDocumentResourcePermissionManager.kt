@@ -11,7 +11,7 @@ import org.openeel.lib.xapi.resources.ISingleDocumentParams
 import org.openeel.lib.xapi.resources.XapiDocumentResource
 
 abstract class AbstractDocumentResourcePermissionManager<
-        MultiDocParams: Any, SingleDocParams: ISingleDocumentParams<MultiDocParams>
+        MultiDocParams: Any, SingleDocParams: ISingleDocumentParams
 >(
     private val resource: XapiDocumentResource<MultiDocParams, SingleDocParams>,
     private val policy: XapiDocumentResourcePolicy<MultiDocParams, SingleDocParams>,

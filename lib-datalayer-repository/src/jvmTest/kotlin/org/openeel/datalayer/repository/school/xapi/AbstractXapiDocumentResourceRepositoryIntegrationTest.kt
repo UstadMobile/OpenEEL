@@ -27,7 +27,7 @@ import kotlin.time.Duration.Companion.seconds
  */
 abstract class AbstractXapiDocumentResourceRepositoryIntegrationTest<
     MultiDocParams: Any,
-    SingleDocParams: ISingleDocumentParams<MultiDocParams>,
+    SingleDocParams: ISingleDocumentParams,
     T: XapiDocumentResource<MultiDocParams, SingleDocParams>
 > {
 
@@ -102,7 +102,8 @@ abstract class AbstractXapiDocumentResourceRepositoryIntegrationTest<
                 params = params,
                 dataLoadParams = DataLoadParams()
             ).filterIsInstance<DataReadyState<XapiDocument>>().test(
-                timeout = 5.seconds
+                timeout = 5.seconds,
+                name = "Wait for client to receive doc from server"
             ) {
                 assertContentEquals(
                     expected = document.contentsAsByteArray(),

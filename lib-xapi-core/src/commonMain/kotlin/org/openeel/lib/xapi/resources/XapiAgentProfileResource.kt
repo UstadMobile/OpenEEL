@@ -43,16 +43,8 @@ interface XapiAgentProfileResource: XapiDocumentResource<XapiAgentProfileResourc
     data class SingleDocumentParams(
         val agent: XapiAgent,
         val profileId: String,
-    ): ISingleDocumentParams<MultiDocParams> {
+    ): ISingleDocumentParams {
         override val idString: String = profileId
-
-        override fun matches(multiDocParams: MultiDocParams): Boolean {
-            return multiDocParams.agent.requireIfi() == this.agent.requireIfi()
-        }
-
-        override fun toMultiDocParams(since: Instant?): MultiDocParams {
-            return MultiDocParams(agent, since)
-        }
 
         override fun toParameters(json: Json): Parameters {
             return ParametersBuilder().also { parameters ->
@@ -69,6 +61,22 @@ interface XapiAgentProfileResource: XapiDocumentResource<XapiAgentProfileResourc
                     profileId = params["profileId"] ?: throw XapiException(400, "profileId is required"),
                 )
             }
+        }
+    }
+
+    class ParamsAdapter : XapiDocumentResourceParamsAdapter<MultiDocParams, SingleDocumentParams> {
+        override fun singleDocParamsToMutliDocParams(
+            params: SingleDocumentParams,
+            since: Instant?
+        ): MultiDocParams {
+            return MultiDocParams(agent = params.agent, since = since)
+        }
+
+        override fun singleDocParamsMatchMultiDocParams(
+            singleDocParams: SingleDocumentParams,
+            multiDocParams: MultiDocParams
+        ): Boolean {
+            return multiDocParams.agent.requireIfi() == singleDocParams.agent.requireIfi()
         }
     }
 

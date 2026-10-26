@@ -7,7 +7,7 @@ import kotlin.time.Instant
 /**
  * Interface implemented by the SingleDocParams on xAPI document resources.
  */
-interface ISingleDocumentParams<MultiDocParams: Any> {
+interface ISingleDocumentParams {
 
     /**
      * Each of the xAPI use a string id: profileId for the activity profile resource
@@ -20,21 +20,5 @@ interface ISingleDocumentParams<MultiDocParams: Any> {
      * Convert this parameters object into KTOR Parameters that can be used with a HTTP request.
      */
     fun toParameters(json: Json): Parameters
-
-    fun matches(multiDocParams: MultiDocParams): Boolean
-
-    /**
-     * Each of the xAPI document resources (Activity Profile, State, and Agent profile)
-     * MultiDocParams require all the parameters of the SingleDocParams except string id (
-     * profileId or stateId as per [idString].
-     *
-     * All MultiDocParams always include the since parameter.
-     *
-     * @param since the since parameter to use for the MutliDocParams to be returned
-     * @return MultiDocParams corresponding to these SingleDocumentParams
-     */
-    fun toMultiDocParams(
-        since: Instant? = null,
-    ): MultiDocParams
 
 }

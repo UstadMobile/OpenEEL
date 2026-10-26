@@ -40,7 +40,7 @@ import kotlin.time.Instant
  * @param json
  * @param resource [XapiRemoteWriteQueueItem.Resource] enum value for this repository.
  */
-abstract class AbstractXapiDocumentResourceRepository<MultiDocParams: Any, SingleDocParams: ISingleDocumentParams<MultiDocParams>>(
+abstract class AbstractXapiDocumentResourceRepository<MultiDocParams: Any, SingleDocParams: ISingleDocumentParams>(
     internal val local: XapiDocumentResourceLocal<MultiDocParams, SingleDocParams>,
     internal val remote: XapiDocumentResource<MultiDocParams, SingleDocParams>,
     protected val remoteWriteQueue: XapiRemoteWriteQueue,

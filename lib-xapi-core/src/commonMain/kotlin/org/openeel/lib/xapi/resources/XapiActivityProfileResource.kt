@@ -40,20 +40,10 @@ interface XapiActivityProfileResource : XapiDocumentResource<XapiActivityProfile
     data class SingleDocumentParams(
         val activityId: String,
         val profileId: String,
-    ) : ISingleDocumentParams<MultiDocParams> {
+    ) : ISingleDocumentParams {
 
         override val idString: String
             get() = profileId
-
-        override fun matches(multiDocParams: MultiDocParams): Boolean {
-            return multiDocParams.activityId == activityId
-        }
-
-        override fun toMultiDocParams(
-            since: Instant?,
-        ): MultiDocParams {
-            return MultiDocParams(activityId = activityId, since = since)
-        }
 
         override fun toParameters(json: Json): Parameters {
             return ParametersBuilder().also { parameters ->
@@ -69,6 +59,25 @@ interface XapiActivityProfileResource : XapiDocumentResource<XapiActivityProfile
                     profileId = params["profileId"] ?: throw XapiException(400, "profileId is required"),
                 )
             }
+        }
+    }
+
+    class ParamsAdapter : XapiDocumentResourceParamsAdapter<MultiDocParams, SingleDocumentParams> {
+        override fun singleDocParamsToMutliDocParams(
+            params: SingleDocumentParams,
+            since: Instant?
+        ): MultiDocParams {
+            return MultiDocParams(
+                activityId = params.activityId,
+                since = since
+            )
+        }
+
+        override fun singleDocParamsMatchMultiDocParams(
+            singleDocParams: SingleDocumentParams,
+            multiDocParams: MultiDocParams
+        ): Boolean {
+            return multiDocParams.activityId == singleDocParams.activityId
         }
     }
 

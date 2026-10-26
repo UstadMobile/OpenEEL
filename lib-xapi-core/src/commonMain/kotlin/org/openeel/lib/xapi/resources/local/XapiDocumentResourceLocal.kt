@@ -5,7 +5,7 @@ import org.openeel.lib.xapi.resources.ISingleDocumentParams
 import org.openeel.lib.xapi.resources.XapiDocumentResource
 
 interface XapiDocumentResourceLocal<
-        MultiDocParams: Any, SingleDocParams: ISingleDocumentParams<MultiDocParams>
+        MultiDocParams: Any, SingleDocParams: ISingleDocumentParams
 >: XapiDocumentResource<MultiDocParams, SingleDocParams> {
 
     /**
