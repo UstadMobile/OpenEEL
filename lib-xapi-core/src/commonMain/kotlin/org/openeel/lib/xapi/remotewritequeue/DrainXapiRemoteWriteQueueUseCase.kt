@@ -1,5 +1,6 @@
 package org.openeel.lib.xapi.remotewritequeue
 
+import io.github.aakira.napier.Napier
 import io.ktor.http.parseQueryString
 import kotlinx.serialization.json.Json
 import org.openeel.lib.dataloadstate.ext.dataOrNull
@@ -25,96 +26,99 @@ class DrainXapiRemoteWriteQueueUseCase(
      * Drain the Xapi Remote Write queue.
      */
     suspend operator fun invoke() {
-        val pendingItems = xapiRemoteWriteQueue.getPending(DEFAULT_BATCH_SIZE)
+        do {
+            val pendingItems = xapiRemoteWriteQueue.getPending(DEFAULT_BATCH_SIZE)
+            for(queueItem in pendingItems) {
+                when(queueItem.resource) {
+                    XapiRemoteWriteQueueItem.Resource.STATEMENTS -> {
+                        val statement = localDataSource.statements.get(
+                            listParams = XapiStatementsResource.GetStatementParams(
+                                statementId = Uuid.parse(queueItem.itemId),
+                                format = XapiStatementsResource.GetStatementFormatEnum.EXACT,
+                            )
+                        ).dataOrNull()?.statements?.firstOrNull() ?: continue
 
-        for(queueItem in pendingItems) {
-            when(queueItem.resource) {
-                XapiRemoteWriteQueueItem.Resource.STATEMENTS -> {
-                    val statement = localDataSource.statements.get(
-                        listParams = XapiStatementsResource.GetStatementParams(
-                            statementId = Uuid.parse(queueItem.itemId),
-                            format = XapiStatementsResource.GetStatementFormatEnum.EXACT,
+                        remoteDataSource.statements.post(listOf(statement))
+                        xapiRemoteWriteQueue.markSent(listOf(queueItem.xrqItemId))
+                    }
+
+                    XapiRemoteWriteQueueItem.Resource.ACTIVITY_PROFILE -> {
+                        val params = XapiActivityProfileResource.SingleDocumentParams.fromParameters(
+                            parseQueryString(queueItem.itemId)
                         )
-                    ).dataOrNull()?.statements?.firstOrNull() ?: continue
 
-                    remoteDataSource.statements.post(listOf(statement))
-                    xapiRemoteWriteQueue.markSent(listOf(queueItem.xrqItemId))
-                }
+                        when(queueItem.method) {
+                            XapiRemoteWriteQueueItem.Method.POST -> {
+                                val document = localDataSource.activityProfile.get(params).dataOrNull() ?: continue
+                                remoteDataSource.activityProfile.post(params, document)
+                            }
 
-                XapiRemoteWriteQueueItem.Resource.ACTIVITY_PROFILE -> {
-                    val params = XapiActivityProfileResource.SingleDocumentParams.fromParameters(
-                        parseQueryString(queueItem.itemId)
-                    )
+                            XapiRemoteWriteQueueItem.Method.PUT -> {
+                                val document = localDataSource.activityProfile.get(params).dataOrNull() ?: continue
+                                remoteDataSource.activityProfile.post(params, document)
+                            }
 
-                    when(queueItem.method) {
-                        XapiRemoteWriteQueueItem.Method.POST -> {
-                            val document = localDataSource.activityProfile.get(params).dataOrNull() ?: continue
-                            remoteDataSource.activityProfile.post(params, document)
+                            XapiRemoteWriteQueueItem.Method.DELETE -> {
+                                remoteDataSource.activityProfile.delete(params)
+                            }
                         }
 
-                        XapiRemoteWriteQueueItem.Method.PUT -> {
-                            val document = localDataSource.activityProfile.get(params).dataOrNull() ?: continue
-                            remoteDataSource.activityProfile.post(params, document)
-                        }
-
-                        XapiRemoteWriteQueueItem.Method.DELETE -> {
-                            remoteDataSource.activityProfile.delete(params)
-                        }
+                        xapiRemoteWriteQueue.markSent(listOf(queueItem.xrqItemId))
                     }
 
-                    xapiRemoteWriteQueue.markSent(listOf(queueItem.xrqItemId))
-                }
+                    XapiRemoteWriteQueueItem.Resource.STATE -> {
+                        val params = XapiStateResource.SingleDocumentParams.fromParameters(
+                            params = parseQueryString(queueItem.itemId),
+                            json = json,
+                        )
 
-                XapiRemoteWriteQueueItem.Resource.STATE -> {
-                    val params = XapiStateResource.SingleDocumentParams.fromParameters(
-                        params = parseQueryString(queueItem.itemId),
-                        json = json,
-                    )
-                    val document = localDataSource.state.get(params).dataOrNull() ?: continue
+                        when(queueItem.method) {
+                            XapiRemoteWriteQueueItem.Method.POST -> {
+                                val document = localDataSource.state.get(params).dataOrNull() ?: continue
+                                remoteDataSource.state.post(params, document)
+                            }
 
-                    when(queueItem.method) {
-                        XapiRemoteWriteQueueItem.Method.POST -> {
-                            remoteDataSource.state.post(params, document)
+                            XapiRemoteWriteQueueItem.Method.PUT -> {
+                                val document = localDataSource.state.get(params).dataOrNull() ?: continue
+                                remoteDataSource.state.put(params, document)
+                            }
+
+                            XapiRemoteWriteQueueItem.Method.DELETE -> {
+                                remoteDataSource.state.delete(params)
+                            }
                         }
 
-                        XapiRemoteWriteQueueItem.Method.PUT -> {
-                            remoteDataSource.state.put(params, document)
-                        }
-
-                        XapiRemoteWriteQueueItem.Method.DELETE -> {
-                            remoteDataSource.state.delete(params)
-                        }
+                        xapiRemoteWriteQueue.markSent(listOf(queueItem.xrqItemId))
                     }
 
-                    xapiRemoteWriteQueue.markSent(listOf(queueItem.xrqItemId))
-                }
+                    XapiRemoteWriteQueueItem.Resource.AGENT_PROFILE -> {
+                        val params = XapiAgentProfileResource.SingleDocumentParams.fromParameters(
+                            params = parseQueryString(queueItem.itemId),
+                            json = json,
+                        )
 
-                XapiRemoteWriteQueueItem.Resource.AGENT_PROFILE -> {
-                    val params = XapiAgentProfileResource.SingleDocumentParams.fromParameters(
-                        params = parseQueryString(queueItem.itemId),
-                        json = json,
-                    )
-                    val document = localDataSource.agentProfile.get(params).dataOrNull() ?: continue
+                        when(queueItem.method) {
+                            XapiRemoteWriteQueueItem.Method.POST -> {
+                                val document = localDataSource.agentProfile.get(params).dataOrNull() ?: continue
+                                remoteDataSource.agentProfile.post(params, document)
+                            }
 
-                    when(queueItem.method) {
-                        XapiRemoteWriteQueueItem.Method.POST -> {
-                            remoteDataSource.agentProfile.post(params, document)
+                            XapiRemoteWriteQueueItem.Method.PUT -> {
+                                val document = localDataSource.agentProfile.get(params).dataOrNull() ?: continue
+                                remoteDataSource.agentProfile.put(params, document)
+                            }
+
+                            XapiRemoteWriteQueueItem.Method.DELETE -> {
+                                remoteDataSource.agentProfile.delete(params)
+                            }
                         }
 
-                        XapiRemoteWriteQueueItem.Method.PUT -> {
-                            remoteDataSource.agentProfile.put(params, document)
-                        }
-
-                        XapiRemoteWriteQueueItem.Method.DELETE -> {
-                            remoteDataSource.agentProfile.delete(params)
-                        }
+                        xapiRemoteWriteQueue.markSent(listOf(queueItem.xrqItemId))
                     }
-
-                    xapiRemoteWriteQueue.markSent(listOf(queueItem.xrqItemId))
                 }
+
             }
-
-        }
+        }while (pendingItems.isNotEmpty())
     }
 
     companion object {

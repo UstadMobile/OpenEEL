@@ -130,7 +130,7 @@ abstract class AbstractXapiDocumentResourceRepositoryIntegrationTest<
                 params = params,
                 dataLoadParams = DataLoadParams()
             ).filterIsInstance<DataReadyState<XapiDocument>>().test(
-                timeout = 5.seconds
+                timeout = 5.seconds, name = "Wait for doc written locally to be present on server"
             ) {
                 awaitItem()
                 cancelAndIgnoreRemainingEvents()
@@ -141,14 +141,17 @@ abstract class AbstractXapiDocumentResourceRepositoryIntegrationTest<
             serverContext.datasourceContext.datasource.xapiResource.getTestResource().getAsFlow(
                 params = params,
                 dataLoadParams = DataLoadParams()
-            ).filterIsInstance<NoDataLoadedState<XapiDocument>>().test(timeout = 5.seconds) {
+            ).filterIsInstance<NoDataLoadedState<XapiDocument>>().test(
+                timeout = 5.seconds,
+                name = "Wait for doc to be deleted on server"
+            ) {
                 assertEquals(
                     expected = NoDataLoadedState.Reason.NOT_FOUND,
                     actual = awaitItem().reason
                 )
             }
 
-            (0..1).forEach { _ ->
+            (0..1).forEach {
                 val client1ResponseAfterDelete = clients.first().datasource.getTestResource().get(
                     params = params, dataLoadParams = DataLoadParams(),
                 )
@@ -157,7 +160,8 @@ abstract class AbstractXapiDocumentResourceRepositoryIntegrationTest<
 
                 assertEquals(
                     expected = NoDataLoadedState.Reason.NOT_FOUND,
-                    actual = (client1ResponseAfterDelete as? NoDataLoadedState)?.reason
+                    actual = (client1ResponseAfterDelete as? NoDataLoadedState)?.reason,
+                    message = "Client $it data load state should be not loaded, with reason=NOT_FOUND",
                 )
             }
         }
