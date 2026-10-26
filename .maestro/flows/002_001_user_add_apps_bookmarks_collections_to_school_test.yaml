@@ -361,9 +361,12 @@ onFlowComplete:
 - tapOn: "Next"
 - assertVisible: "Could not load this link. Please check the address."
 - tapOn: "Link*"
-#- pasteText #- This command is not pasting the link as expected
-- longPressOn: "Link*"
-- tapOn: "Paste"
+- pasteText:
+    optional: true
+- runFlow:
+    when:
+      visible: "e.g. https://"
+    file: "subflows/workaround_paste_link.yaml"
 - tapOn: "Next"
 - assertVisible:
       id: "app_title"
