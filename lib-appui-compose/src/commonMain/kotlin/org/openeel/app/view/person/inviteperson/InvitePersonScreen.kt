@@ -113,7 +113,15 @@ fun InvitePersonScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        if (!uiState.isSharedDeviceMode) {
+        if (uiState.isSharedDeviceMode) {
+            uiState.schoolName?.also {
+                Text(
+                    text = uiTextStringResource(it),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)
+                )
+            }
+        } else {
             if (uiState.showRoleSelection) {
                 val selectedRole = uiState.selectedRole ?: uiState.roleOptions.firstOrNull()
                 ?: PersonRoleEnum.STUDENT
@@ -133,15 +141,6 @@ fun InvitePersonScreen(
                     options = uiState.roleOptions,
                     itemText = { stringResource(it.label) },
                     enabled = fieldsEnabled,
-                )
-            }
-        }
-        if (uiState.isSharedDeviceMode) {
-            uiState.schoolName?.let {
-                Text(
-                    text = uiTextStringResource(it),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)
                 )
             }
         }

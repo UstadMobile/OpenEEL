@@ -1,6 +1,7 @@
 package org.openeel.shared.domain.account
 
 import kotlinx.serialization.Serializable
+import org.openeel.datalayer.school.model.PersonRoleEnum
 
 /**
  * Sometimes the active account (and token) is not the actual user of a session: e.g.
@@ -13,10 +14,17 @@ import kotlinx.serialization.Serializable
  * @param profilePersonUid where the active user of the session is not the account holder, this
  *        will be the personuid of the active user (e.g. the child's personUid when the session
  *        was started through the parent's account).
+ * @param isParentInitiatedChildSession true when a parent account starts a session using a
+ *        child's profile.
  */
 @Serializable
 data class UserSession(
     val account: UserAccount,
     val profilePersonUid: String?,
+    val isParentInitiatedChildSession: Boolean = false
 )
 
+fun UserSession.isSharedDeviceSessionWithoutProfile(
+    personRole: PersonRoleEnum?,
+): Boolean =
+    personRole == PersonRoleEnum.SHARED_SCHOOL_DEVICE && profilePersonUid == null

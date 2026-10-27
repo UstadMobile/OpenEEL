@@ -17,14 +17,11 @@ import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.waiting_title
-import org.openeel.shared.navigation.Home
-import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
-import org.openeel.datalayer.school.model.PersonRoleEnum
-import org.openeel.shared.navigation.LoginSelectClass
 
 
 
@@ -36,6 +33,7 @@ data class WaitingForApprovalUiState(
 class WaitingForApprovalViewModel(
     savedStateHandle: SavedStateHandle,
     private val accountManager: AppAccountManager,
+    private val navigateOnAppStartUseCase: NavigateOnAppStartUseCase,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
@@ -73,14 +71,7 @@ class WaitingForApprovalViewModel(
                 val personLoaded = personsLoaded?.firstOrNull { it.guid == activeUserUid }
                 if (personLoaded?.status == PersonStatusEnum.ACTIVE) {
                     _navCommandFlow.tryEmit(
-                        NavCommand.Navigate(
-                            destination = if (personLoaded.roles.firstOrNull()?.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE) {
-                                LoginSelectClass
-                            } else {
-                                Home
-                            },
-                            clearBackStack = true
-                        )
+                        navigateOnAppStartUseCase()
                     )
                     return@launch
                 }

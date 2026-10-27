@@ -346,7 +346,10 @@ class AppAccountManager(
             ?: throw IllegalStateException("require school url for active account: no account selected")
     }
 
-    suspend fun switchProfile(personUid: String) {
+    suspend fun switchProfile(
+        personUid: String,
+        isParentInitiatedChildSession: Boolean = false
+    ) {
         val currentSession = _activeSession.value
             ?: throw IllegalStateException("switchProfile: no active session")
 
@@ -362,7 +365,10 @@ class AppAccountManager(
         )
 
 
-        val newSession = currentSession.copy(profilePersonUid = personUid)
+        val newSession = currentSession.copy(
+            profilePersonUid = personUid,
+            isParentInitiatedChildSession = isParentInitiatedChildSession
+        )
         _activeSession.value = newSession
         settings[SETTINGS_KEY_ACTIVE_SESSION] = json.encodeToString(newSession)
 

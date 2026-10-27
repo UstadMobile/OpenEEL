@@ -171,9 +171,7 @@ class AcceptInviteViewModel(
     }
 
     fun enableSharedDeviceMode() {
-        val deviceName = _uiState.value.deviceName
-
-        if (deviceName.isBlank()) {
+        if (_uiState.value.deviceName.isBlank()) {
             _uiState.update { it.copy(errorText = Res.string.required_field.asUiText()) }
             return
         }

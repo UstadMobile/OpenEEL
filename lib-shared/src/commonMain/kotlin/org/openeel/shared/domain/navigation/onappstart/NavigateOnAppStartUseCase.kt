@@ -6,8 +6,7 @@ import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
-import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
+import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
 import org.openeel.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCase
 import org.openeel.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
@@ -84,13 +83,10 @@ class NavigateOnAppStartUseCase(
 
         return initLinkNavCommand?.withClearBackstack(true) ?: NavCommand.Navigate(
             destination = when {
-                // Select a class only for this device's idle shared-device account; otherwise
-                // keep the existing admin/child startup routing.
-                activeAccount != null &&
-                    settings.getBoolean(EnableSharedDeviceModeUseCase.SETTINGS_KEY_IS_SHARED_MODE, false) &&
-                    settings.getStringOrNull(CURRENT_DEVICE_GUID) == activeAccount.userGuid &&
-                    activeSession?.profilePersonUid == null ->
-                    LoginSelectClass
+                selectedAccountAndPerson?.session?.isSharedDeviceSessionWithoutProfile(
+                    selectedAccountAndPerson.person.roles.firstOrNull()?.roleEnum
+                ) == true -> LoginSelectClass
+
                 activeAccount != null -> if (isChild) AssignmentList else Home
                 else -> GetStartedScreen()
             },

@@ -32,7 +32,6 @@ class EnableSharedDeviceModeUseCase(
                 }
             }
 
-            settings.putBoolean(SETTINGS_KEY_IS_SHARED_MODE, true)
             settings.putString(CURRENT_DEVICE_GUID, personRegistered.guid)
 
             return personRegistered
@@ -44,8 +43,6 @@ class EnableSharedDeviceModeUseCase(
     }
 
     companion object {
-        const val SETTINGS_KEY_IS_SHARED_MODE = "is_shared_device_mode"
-
         const val CURRENT_DEVICE_GUID = "current_device_guid"
     }
 }

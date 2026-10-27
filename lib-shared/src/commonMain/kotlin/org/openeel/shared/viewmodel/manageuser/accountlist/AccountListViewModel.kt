@@ -198,7 +198,11 @@ class AccountListViewModel(
 
     fun onClickFamilyPerson(person: Person) {
         viewModelScope.launch {
-            appAccountManager.switchProfile(person.guid)
+            appAccountManager.switchProfile(
+                personUid = person.guid,
+                isParentInitiatedChildSession = uiState.value.accountOwnerRole == PersonRoleEnum.PARENT &&
+                    person.primaryRole() == PersonRoleEnum.STUDENT,
+            )
             _navCommandFlow.tryEmit(
                 NavCommand.Navigate(
                     destination = if(person.roles.firstOrNull()?.roleEnum == PersonRoleEnum.PARENT) {

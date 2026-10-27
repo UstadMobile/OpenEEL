@@ -46,12 +46,9 @@ import org.openeel.app.components.LocalAppLocale
 import org.openeel.app.components.customAppLocale
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.app.effects.NavControllerLogEffect
-import org.openeel.datalayer.db.school.ext.isAdminOrTeacher
 import org.openeel.datalayer.db.school.ext.isParent
 import org.openeel.navigation.NavCommandEffect
-import org.openeel.datalayer.school.ext.primaryRole
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.shared.domain.biometric.BiometricAuthUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.home
@@ -215,7 +212,7 @@ fun App(
                             navController = navController,
                             topLevelItems = topLevelNavItems,
                             onProfileClick = {
-                                if (activeAccount?.isChild == false || activeAccount?.person?.primaryRole() == PersonRoleEnum.STUDENT) {
+                                if (activeAccount?.session?.isParentInitiatedChildSession == false) {
                                     navController.navigate(AccountList)
                                 } else {
                                     coroutineScope.launch {
