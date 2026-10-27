@@ -144,7 +144,7 @@ abstract class AbstractXapiDocumentResourceRepositoryIntegrationTest<
                 dataLoadParams = DataLoadParams()
             ).filterIsInstance<NoDataLoadedState<XapiDocument>>().test(
                 timeout = 5.seconds,
-                name = "Wait for doc to be deleted on server"
+                name = "Wait for dokc to be deleted on server"
             ) {
                 assertEquals(
                     expected = NoDataLoadedState.Reason.NOT_FOUND,

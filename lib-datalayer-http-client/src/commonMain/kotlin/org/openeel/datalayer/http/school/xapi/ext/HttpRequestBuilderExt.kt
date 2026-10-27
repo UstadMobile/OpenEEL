@@ -1,5 +1,6 @@
 package org.openeel.datalayer.http.school.xapi.ext
 
+import io.ktor.client.plugins.retry
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.header
 import io.ktor.client.request.setBody
@@ -7,6 +8,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.http.toHttpDate
+import org.openeel.datalayer.http.schooldirectory.SchoolDirectoryEntryResourceHttpClient.Companion.DEFAULT_MAX_RETRIES
 import org.openeel.lib.xapi.model.XapiDocument
 
 /**
@@ -24,4 +26,10 @@ suspend fun HttpRequestBuilder.setXapiDocumentBody(
     )
     contentType(ContentType.parse(document.type))
     setBody(document.contentsAsByteArray())
+}
+
+internal fun HttpRequestBuilder.useRetry(){
+    retry {
+        retryOnExceptionOrServerErrors(DEFAULT_MAX_RETRIES)
+    }
 }

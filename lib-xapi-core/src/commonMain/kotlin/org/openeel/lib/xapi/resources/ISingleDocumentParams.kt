@@ -2,7 +2,6 @@ package org.openeel.lib.xapi.resources
 
 import io.ktor.http.Parameters
 import kotlinx.serialization.json.Json
-import kotlin.time.Instant
 
 /**
  * Interface implemented by the SingleDocParams on xAPI document resources.
