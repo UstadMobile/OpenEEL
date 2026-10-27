@@ -1,6 +1,7 @@
 package org.openeel.shared.domain.account
 
 import kotlinx.serialization.Serializable
+import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonRoleEnum
 
 /**
@@ -25,6 +26,9 @@ data class UserSession(
 )
 
 fun UserSession.isSharedDeviceSessionWithoutProfile(
-    personRole: PersonRoleEnum?,
+    person: Person?,
+    currentDeviceGuid: String? = null,
 ): Boolean =
-    personRole == PersonRoleEnum.SHARED_SCHOOL_DEVICE && profilePersonUid == null
+    profilePersonUid == null &&
+            (person?.roles?.any { it.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE } == true ||
+                    account.userGuid == currentDeviceGuid)

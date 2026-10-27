@@ -27,8 +27,6 @@ import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.ext.primaryRoleOrNull
-import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.shared.generated.resources.Res
@@ -134,9 +132,7 @@ fun AccountListScreen(
 
         items(
             items = uiState.accounts.filterNot { account ->
-                account.person.roles.any {
-                    it.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE
-                }
+                account.session.isSharedDeviceSessionWithoutProfile(account.person)
             },
             key = { it.session.account.userGuid }
         ) { account ->

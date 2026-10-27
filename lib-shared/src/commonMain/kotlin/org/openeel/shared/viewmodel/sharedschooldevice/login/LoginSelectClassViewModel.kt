@@ -2,7 +2,6 @@ package org.openeel.shared.viewmodel.sharedschooldevice.login
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,10 +33,9 @@ import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.login
 import org.openeel.shared.generated.resources.select_class
+import org.openeel.shared.navigation.LoginSelectStudent
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.ScanQRCode
-import org.openeel.shared.navigation.LoginSelectClass
-import org.openeel.shared.navigation.LoginSelectStudent
 import org.openeel.shared.navigation.TeacherPinConfirmation
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
@@ -58,8 +56,6 @@ class LoginSelectClassViewModel(
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
-
-    private val route: LoginSelectClass = savedStateHandle.toRoute()
 
     private val schoolDataSource: SchoolDataSource by inject()
 
