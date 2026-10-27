@@ -45,6 +45,7 @@ import org.openeel.shared.generated.resources.pin_error
 import org.openeel.shared.generated.resources.shared_school_devices
 import org.openeel.shared.navigation.AcceptInvite
 import org.openeel.shared.navigation.InvitePerson
+import org.openeel.shared.navigation.LoginSelectClass
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
@@ -220,6 +221,16 @@ class SharedDevicesSettingsViewModel(
 
     fun onClickEnableOnThisDevice() {
         viewModelScope.launch {
+            val deviceGuid = settings.getStringOrNull(CURRENT_DEVICE_GUID)
+            if (deviceGuid != null) {
+                _navCommandFlow.tryEmit(
+                    NavCommand.Navigate(
+                        LoginSelectClass
+                    )
+                )
+                return@launch
+            }
+
             val activeAccount = accountManager.activeAccount
             val persons = schoolDataSource.personDataSource.list(
                 loadParams = DataLoadParams(),
@@ -327,7 +338,10 @@ class SharedDevicesSettingsViewModel(
     }
 
     fun onRemoveDevice(person: Person) {
-        settings.remove(CURRENT_DEVICE_GUID)
+        val currentDeviceGuid = settings.getStringOrNull(CURRENT_DEVICE_GUID)
+        if (person.guid == currentDeviceGuid) {
+            settings.remove(CURRENT_DEVICE_GUID)
+        }
         viewModelScope.launch {
             schoolDataSource.personDataSource.store(
                 listOf(
