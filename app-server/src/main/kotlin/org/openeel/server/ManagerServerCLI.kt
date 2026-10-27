@@ -18,6 +18,7 @@ import net.sourceforge.argparse4j.inf.Namespace
 import nl.adaptivity.xmlutil.core.XmlVersion
 import nl.adaptivity.xmlutil.serialization.XML
 import org.openeel.datalayer.respect.model.AuthenticationOption
+import org.openeel.datalayer.respect.model.KeycloakUserDirectoryConfig
 import org.openeel.datalayer.respect.model.OpenIdAuthOptionConfig
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.lib.opds.model.LangMapStringValue
@@ -110,6 +111,10 @@ fun managerServerMain(ns: Namespace) {
                                         openIdRedirectUriArg = ns.getString("openid_redirect_uri"),
                                         openIdPromptArg = ns.getString("openid_prompt"),
                                     ),
+                                    userDirectory = ns.getString("keycloak_user_directory_endpoint")
+                                        ?.let { endpoint ->
+                                            KeycloakUserDirectoryConfig(endpoint = Url(endpoint))
+                                        },
                                     lastModified = Clock.System.now(),
                                     stored = Clock.System.now(),
                                     inDirectoryUrl = nsDirUrl?.let { Url(it) },

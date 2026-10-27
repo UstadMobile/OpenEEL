@@ -42,6 +42,8 @@ fun main(args: Array<String>) {
             .help("Comma separated OpenID redirect URIs")
         it.addArgument("--openid-prompt")
             .help("Comma separated OpenID prompts")
+        it.addArgument("--keycloak-user-directory-endpoint")
+            .help("Keycloak realm endpoint ")
         it.addArgument("-i", "--inDirectoryUrl")
             .help("Directory URL: if directories.virtualhost=true in server config, return this " +
                     "entry only if the directory host url matches this"

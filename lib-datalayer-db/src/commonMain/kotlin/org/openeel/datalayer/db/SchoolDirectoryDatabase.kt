@@ -31,7 +31,7 @@ import org.openeel.datalayer.db.shared.SharedConverters
         //Network validation
         NetworkValidationInfoEntity::class,
     ],
-    version = 12,
+    version = 13,
 )
 @TypeConverters(SharedConverters::class)
 @ConstructedBy(SchoolDirectoryDatabaseConstructor::class)

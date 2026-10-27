@@ -9,8 +9,10 @@ import org.openeel.datalayer.db.shared.adapters.asEntities
 import org.openeel.datalayer.db.shared.adapters.toIModel
 import org.openeel.datalayer.respect.model.AuthenticationOption
 import org.openeel.datalayer.respect.model.BuiltinAuthOptionConfig
+import org.openeel.datalayer.respect.model.KeycloakUserDirectoryConfig
 import org.openeel.datalayer.respect.model.OpenIdAuthOptionConfig
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.respect.model.UserDirectoryConfigTypeEnum
 import org.openeel.datalayer.respect.model.invite.AuthOptionConfigTypeEnum
 import org.openeel.libxxhash.XXStringHasher
 
@@ -36,6 +38,7 @@ fun SchoolDirectoryEntry.toEntities(
     xxStringHasher: XXStringHasher,
 ): SchoolDirectoryEntryEntities {
     val reUid = xxStringHasher.hash(self.toString())
+    val userDirectoryConfig = userDirectory
     return SchoolDirectoryEntryEntities(
         school = SchoolDirectoryEntryEntity(
             reUid = reUid,
@@ -46,6 +49,14 @@ fun SchoolDirectoryEntry.toEntities(
             reLastModified = lastModified,
             reStored = stored,
             reInDirectoryUrl = inDirectoryUrl,
+            reUserDirectoryConfigType = when (userDirectoryConfig) {
+                is KeycloakUserDirectoryConfig -> UserDirectoryConfigTypeEnum.KEYCLOAK
+                null -> null
+            },
+            reUserDirectoryEndpoint = when (userDirectoryConfig) {
+                is KeycloakUserDirectoryConfig -> userDirectoryConfig.endpoint
+                null -> null
+            },
         ),
         langMapEntities = name.asEntities { lang, region, value ->
             SchoolDirectoryEntryLangMapEntity(
@@ -81,6 +92,12 @@ fun SchoolDirectoryEntryEntities.toModel() : SchoolDirectoryEntry {
         lastModified = school.reLastModified,
         stored = school.reStored,
         inDirectoryUrl = school.reInDirectoryUrl,
+        userDirectory = when (school.reUserDirectoryConfigType) {
+            UserDirectoryConfigTypeEnum.KEYCLOAK -> KeycloakUserDirectoryConfig(
+                endpoint = requireNotNull(school.reUserDirectoryEndpoint),
+            )
+            null -> null
+        },
         authenticationOptions = authOptionEntities.map {
             AuthenticationOption(
                 name = it.sdeAoName,
