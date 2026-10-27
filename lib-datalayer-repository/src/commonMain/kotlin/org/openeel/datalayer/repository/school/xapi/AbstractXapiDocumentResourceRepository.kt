@@ -57,24 +57,32 @@ abstract class AbstractXapiDocumentResourceRepository<MultiDocParams: Any, Singl
      */
     abstract fun SingleDocParams.copyWithId(id: String): SingleDocParams
 
-    override suspend fun get(
+    /**
+     * Check to see if a document has been deleted on the remote side. See
+     * [AbstractXapiDocumentResourceRepository.delete] for more details on how deletion is handled.
+     *
+     * If data is found locally, but not on remote, then there are two possible scenarios:
+     *
+     * a) Data was written locally and has not yet been written to the remote.
+     * b) The data was deleted on remote and we should delete it locally.
+     *
+     * So if/when data is found locally, but not on the remote, then we need to check for to see if
+     * it was deleted remotely. This is done by checking the deletions profile JSON doc.
+     *
+     * If remote deletion is detected, then the local deletion is performed.
+     *
+     * @param params SingleDocParams for the document loaded
+     * @param localState local [DataLoadState]
+     * @param remoteState remote [DataLoadState]
+     *
+     * @return true if the data was deleted remotely, false otherwise.
+     */
+    private suspend fun checkForRemoteDeletion(
         params: SingleDocParams,
-        dataLoadParams: DataLoadParams
-    ): DataLoadState<XapiDocument> {
-        val localState = local.get(params, dataLoadParams)
-
-        val remoteState = remote.get(
-            params = params,
-            dataLoadParams = dataLoadParams.copyToValidateOnRemote(localState.metaInfo)
-        )
-
-        /* If data is found locally, but not on remote, then there are three possible scenarios:
-         *
-         * a) Normal situation: data not downloaded locally yet, we need to fetch the data from
-         *    remote and update local.
-         * b) Data was written locally and has not yet been written to the remote.
-         * c) The data was deleted on remote and we should delete it locally.
-         */
+        localState: DataLoadState<XapiDocument>,
+        remoteState: DataLoadState<XapiDocument>
+    ): Boolean {
+        //Possible improvement: don't bother checking the deleted docs if there are pending post/put
         if(localState is DataReadyState &&
             (remoteState as? NoDataLoadedState)?.reason == NoDataLoadedState.Reason.NOT_FOUND &&
             params.idString != XapiDocumentResource.PROFILE_ID_DELETIONS
@@ -88,32 +96,59 @@ abstract class AbstractXapiDocumentResourceRepository<MultiDocParams: Any, Singl
                 ?.jsonPrimitive?.contentOrNull?.let {
                     Instant.parse(it)
                 } ?: Instant.DISTANT_PAST
+
             if(timeDeleted > localState.data.updated.toInstant()) {
                 local.delete(params)
-                return local.get(params, dataLoadParams)
+                return true
             }
         }
 
-        remoteState.takeIfShouldUpdateLocal(localState)?.also { remote ->
-            /* If data has been deleted locally, but not yet on the remote side (e.g. because the
-             * RemoteWriteQueue hasn't written that delete to the remote side yet), then we need to
-             * avoid accidentally bringing back data that should be deleted.
-             */
-            val deletedProfileIdsDoc = local.takeIf {
-                params.idString != XapiDocumentResource.PROFILE_ID_DELETIONS
-            }?.getJson(
-                docParams = params.copyWithId(XapiDocumentResource.PROFILE_ID_DELETIONS),
-                json = json,
-                deserializer = JsonObject.serializer(),
-            )
+        return false
+    }
 
-            val timeDeletedLocally = deletedProfileIdsDoc?.dataOrNull()?.get(params.idString)
-                ?.jsonPrimitive?.contentOrNull?.let {
-                    Instant.parse(it)
-                } ?: Instant.DISTANT_PAST
+    /**
+     * If data has been deleted locally, but not yet on the remote side (e.g. because the
+     * RemoteWriteQueue hasn't written that delete to the remote side yet), then we need to
+     * avoid accidentally bringing back data that should be deleted.
+     */
+    private suspend fun DataReadyState<XapiDocument>.isDeletedLocallySinceLastUpdated(
+        params: SingleDocParams,
+    ): Boolean {
+        val deletedProfileIdsDoc = local.takeIf {
+            params.idString != XapiDocumentResource.PROFILE_ID_DELETIONS
+        }?.getJson(
+            docParams = params.copyWithId(XapiDocumentResource.PROFILE_ID_DELETIONS),
+            json = json,
+            deserializer = JsonObject.serializer(),
+        )
 
-            if(remote.data.updated.toInstant() >= timeDeletedLocally) {
-                local.updateLocal(params, remote.data)
+        val timeDeletedLocally = deletedProfileIdsDoc?.dataOrNull()?.get(params.idString)
+            ?.jsonPrimitive?.contentOrNull?.let {
+                Instant.parse(it)
+            } ?: Instant.DISTANT_PAST
+
+        return timeDeletedLocally >= this.data.updated.toInstant()
+    }
+
+    override suspend fun get(
+        params: SingleDocParams,
+        dataLoadParams: DataLoadParams
+    ): DataLoadState<XapiDocument> {
+        val localState = local.get(params, dataLoadParams)
+
+        val remoteState = remote.get(
+            params = params,
+            dataLoadParams = dataLoadParams.copyToValidateOnRemote(localState.metaInfo)
+        )
+
+        if(checkForRemoteDeletion(params, localState, remoteState)) {
+            return local.get(params, dataLoadParams)
+        }
+
+        remoteState.takeIfShouldUpdateLocal(localState)?.also { remoteDataReady ->
+            if(!remoteDataReady.isDeletedLocallySinceLastUpdated(params)) {
+                local.updateLocal(params, remoteDataReady.data)
+
                 return local.get(params, dataLoadParams).copyLoadState(
                     remoteState = remoteState
                 )
@@ -133,11 +168,20 @@ abstract class AbstractXapiDocumentResourceRepository<MultiDocParams: Any, Singl
                 remote.getAsFlow(params, remoteLoadParams)
             },
             onRemoteUpdated = {
-                local.updateLocal(params, it.data)
-            }
+                if(!it.isDeletedLocallySinceLastUpdated(params)) {
+                    local.updateLocal(params, it.data)
+                }
+            },
+            onEachAfterSend = {
+                val local = it.localState
+                @Suppress("UNCHECKED_CAST")
+                val remote = it.remoteState as? DataLoadState<XapiDocument>
+                if(local != null && remote != null) {
+                    checkForRemoteDeletion(params, local, remote)
+                }
+            },
         )
     }
-
 
     override suspend fun post(
         params: SingleDocParams,
