@@ -35,9 +35,9 @@ import org.openeel.shared.generated.resources.enable_shared_school_device_mode
 import org.openeel.shared.generated.resources.invitation
 import org.openeel.shared.generated.resources.required_field
 import org.openeel.shared.generated.resources.something_wrong_with_invite
+import org.openeel.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
 import org.openeel.shared.navigation.AcceptInvite
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.LoginSelectClass
 import org.openeel.shared.navigation.SignupScreen
 import org.openeel.shared.navigation.TermsAndCondition
 import org.openeel.shared.navigation.WaitingForApproval
@@ -66,7 +66,8 @@ class AcceptInviteViewModel(
     savedStateHandle: SavedStateHandle,
     private val getDeviceInfoUseCase: GetDeviceInfoUseCase,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
-    private val enableSharedDeviceModeUseCase: EnableSharedDeviceModeUseCase
+    private val enableSharedDeviceModeUseCase: EnableSharedDeviceModeUseCase,
+    private val navigateOnAppStartUseCase: NavigateOnAppStartUseCase,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: AcceptInvite = savedStateHandle.toRoute()
@@ -201,14 +202,14 @@ class AcceptInviteViewModel(
                 )
 
                 _navCommandFlow.tryEmit(
-                    NavCommand.Navigate(
-                        destination = if (personRegistered.status != PersonStatusEnum.PENDING_APPROVAL) {
-                            LoginSelectClass
-                        } else {
-                            WaitingForApproval()
-                        },
-                        clearBackStack = true
-                    )
+                    if (personRegistered.status == PersonStatusEnum.PENDING_APPROVAL) {
+                        NavCommand.Navigate(
+                            destination = WaitingForApproval(),
+                            clearBackStack = true
+                        )
+                    } else {
+                        navigateOnAppStartUseCase()
+                    }
                 )
             } catch (e: Exception) {
                 _uiState.update {
