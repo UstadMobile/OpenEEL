@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRole
+import org.openeel.lib.directory.model.PersonRole
 import org.openeel.datalayer.schooldirectory.SchoolDirectoryResourceLocal
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
@@ -14,8 +14,8 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.ext.newUserInviteUid
 import org.openeel.datalayer.school.model.Invite2
 import org.openeel.datalayer.school.model.NewUserInvite
-import org.openeel.datalayer.school.model.PersonGenderEnum
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonGenderEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResourceLocal
 import org.openeel.libutil.ext.normalizeForEndpoint
 import org.openeel.server.util.ext.HttpStatusException

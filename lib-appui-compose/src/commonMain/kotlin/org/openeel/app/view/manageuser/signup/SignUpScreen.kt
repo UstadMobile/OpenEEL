@@ -21,7 +21,7 @@ import org.openeel.app.components.OpenEelGenderExposedDropDownMenuField
 import org.openeel.app.components.OpenEelLocalDateField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
-import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.lib.directory.model.PersonGenderEnum
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.required

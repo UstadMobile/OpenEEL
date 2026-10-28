@@ -5,7 +5,7 @@ import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase.PermissionsRequiredByRole
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 
 class CheckPersonPermissionUseCaseDbImpl(
     private val authenticatedUser: AuthenticatedUserPrincipalId,

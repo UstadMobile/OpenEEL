@@ -2,7 +2,7 @@ package org.openeel.datalayer.school.ext
 
 import org.openeel.datalayer.school.model.Invite2.Companion.TYPE_NEW_USER
 import org.openeel.datalayer.school.model.PermissionFlags
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 
 /**
  * The permission flag required to change a person with this role

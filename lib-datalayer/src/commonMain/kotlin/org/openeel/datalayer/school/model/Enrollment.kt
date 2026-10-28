@@ -4,6 +4,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.lib.serializers.InstantAsISO8601
 import kotlin.time.Clock
 

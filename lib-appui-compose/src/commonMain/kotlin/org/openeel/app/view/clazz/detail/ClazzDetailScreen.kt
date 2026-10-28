@@ -33,7 +33,7 @@ import org.openeel.app.components.openEelPagingItems
 import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.datalayer.school.model.Person
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_student

@@ -9,7 +9,7 @@ import org.openeel.lib.dataloadstate.DataLayerParams.ORDER_BY
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.datalayer.school.model.Enrollment
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.datalayer.shared.WritableDataSource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.params.GetListCommonParams

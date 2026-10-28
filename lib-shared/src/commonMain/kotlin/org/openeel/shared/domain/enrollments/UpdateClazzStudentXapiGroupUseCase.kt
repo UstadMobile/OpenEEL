@@ -6,7 +6,7 @@ import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.ext.asXapiAgent
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.model.XapiStatement

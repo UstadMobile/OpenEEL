@@ -13,7 +13,7 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
-import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.lib.directory.model.PersonGenderEnum
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.child.AddChildAccountUseCase
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest

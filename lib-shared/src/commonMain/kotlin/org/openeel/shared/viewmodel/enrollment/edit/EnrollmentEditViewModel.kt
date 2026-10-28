@@ -18,7 +18,7 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
 import org.openeel.datalayer.school.model.Enrollment
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.libutil.util.time.localDateInCurrentTimeZone
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator

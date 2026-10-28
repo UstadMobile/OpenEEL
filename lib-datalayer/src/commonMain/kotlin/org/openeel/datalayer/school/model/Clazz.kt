@@ -2,8 +2,8 @@ package org.openeel.datalayer.school.model
 
 import kotlinx.serialization.Serializable
 import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.lib.serializers.InstantAsISO8601
-import kotlin.random.Random
 import kotlin.time.Clock
 
 @Serializable

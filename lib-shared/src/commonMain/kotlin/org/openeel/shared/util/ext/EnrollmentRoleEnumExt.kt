@@ -1,8 +1,7 @@
 package org.openeel.shared.util.ext
 
 import org.jetbrains.compose.resources.StringResource
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.pending_student
 import org.openeel.shared.generated.resources.pending_teacher

@@ -5,7 +5,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.StatusEnum
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -16,8 +16,8 @@ import org.openeel.datalayer.db.school.xapi.entities.XapiStatementContextActivit
 import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntityObjectTypeEnum
 import org.openeel.datalayer.school.model.AssignmentAssigneeRefTypeEnum
 import org.openeel.datalayer.school.model.ClassInviteModeEnum
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
-import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.PersonGenderEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.datalayer.school.writequeue.WriteQueueItem
 import org.openeel.lib.xapi.model.XapiInteractionTypeEnum

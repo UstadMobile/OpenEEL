@@ -45,7 +45,7 @@ import org.openeel.app.components.defaultItemPadding
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.ClassInvite
 import org.openeel.datalayer.school.model.ClassInviteModeEnum
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.approval_not_required_until
 import org.openeel.shared.generated.resources.approval_required

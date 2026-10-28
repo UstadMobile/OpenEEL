@@ -1,7 +1,7 @@
 package org.openeel.shared.util.ext
 
 import org.jetbrains.compose.resources.StringResource
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.parent
 import org.openeel.shared.generated.resources.site_administrator

@@ -2,7 +2,7 @@ package org.openeel.datalayer.db.school.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 
 @Entity
 data class ClassPermissionEntity(

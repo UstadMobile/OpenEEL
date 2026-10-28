@@ -40,9 +40,9 @@ import org.openeel.datalayer.repository.school.writequeue.DrainRemoteWriteQueueU
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.model.AuthToken
 import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonGenderEnum
-import org.openeel.datalayer.school.model.PersonRole
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonGenderEnum
+import org.openeel.lib.directory.model.PersonRole
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
 import org.openeel.datalayer.shared.XXHashUidNumberMapper
 import org.openeel.lib.opds.model.LangMapStringValue
