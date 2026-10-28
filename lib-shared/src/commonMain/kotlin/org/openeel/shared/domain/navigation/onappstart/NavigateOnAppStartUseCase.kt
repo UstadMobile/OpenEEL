@@ -6,7 +6,6 @@ import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
 import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
 import org.openeel.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCase
@@ -80,15 +79,11 @@ class NavigateOnAppStartUseCase(
         val activeSession = accountManager.activeSession
         val selectedAccountAndPerson = accountManager.selectedAccountAndPersonFlow.first()
         val isChild = selectedAccountAndPerson?.isChild == true
-        val currentDeviceGuid = settings.getStringOrNull(
-            EnableSharedDeviceModeUseCase.CURRENT_DEVICE_GUID
-        )
 
         return initLinkNavCommand?.withClearBackstack(true) ?: NavCommand.Navigate(
             destination = when {
                 activeSession?.isSharedDeviceSessionWithoutProfile(
-                    person = selectedAccountAndPerson?.person,
-                    currentDeviceGuid = currentDeviceGuid,
+                    person = selectedAccountAndPerson?.person
                 ) == true -> LoginSelectClass
 
                 activeAccount != null -> if (isChild) AssignmentList else Home

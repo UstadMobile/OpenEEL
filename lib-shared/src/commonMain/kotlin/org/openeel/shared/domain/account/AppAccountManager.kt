@@ -105,6 +105,7 @@ class AppAccountManager(
                             guid = activePersonUid
                         ),
                         includeRelated = true,
+                        excludeSharedSchoolDevice = false,
                     )
                 ).collect { persons ->
                     val personsVal = persons.dataOrNull()
@@ -223,6 +224,7 @@ class AppAccountManager(
                     guid = authResponse.person.guid
                 ),
                 includeRelated = true,
+                excludeSharedSchoolDevice = false,
             )
         )
 
