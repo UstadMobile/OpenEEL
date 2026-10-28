@@ -26,7 +26,10 @@ data class UserSession(
 )
 
 fun UserSession.isSharedDeviceSessionWithoutProfile(
-    person: Person?
+    person: Person?,
+    currentDeviceGuid: String? = null
 ): Boolean =
-    profilePersonUid == null &&
-            (person?.roles?.any { it.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE } == true)
+    profilePersonUid == null && (
+            (currentDeviceGuid != null && account.userGuid == currentDeviceGuid) ||
+                    person?.roles?.any { it.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE } == true
+            )

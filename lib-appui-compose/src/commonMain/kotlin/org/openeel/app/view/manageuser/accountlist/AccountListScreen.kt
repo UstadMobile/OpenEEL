@@ -131,9 +131,7 @@ fun AccountListScreen(
         }
 
         items(
-            items = uiState.accounts.filterNot { account ->
-                account.session.isSharedDeviceSessionWithoutProfile(account.person)
-            },
+            items = uiState.visibleAccounts,
             key = { it.session.account.userGuid }
         ) { account ->
             AccountListItem(
@@ -145,42 +143,43 @@ fun AccountListScreen(
         item("divider2") {
             HorizontalDivider()
         }
-
-        item("add_account") {
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickAddAccount()
-                },
-                headlineContent = {
-                    Text(stringResource(Res.string.add_account))
-                },
-                leadingContent = {
-                    Icon(Icons.Default.Add, contentDescription = "")
-                }
-            )
-        }
-        item("divider3") {
-            HorizontalDivider()
-        }
-        item {
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickShareFeedback()
-                },
-                headlineContent = {
-                    Text(
-                        stringResource(
-                            Res.string.send_feedback
+        if(uiState.showSelectedAccountProfileButton) {
+            item("add_account") {
+                ListItem(
+                    modifier = Modifier.clickable {
+                        onClickAddAccount()
+                    },
+                    headlineContent = {
+                        Text(stringResource(Res.string.add_account))
+                    },
+                    leadingContent = {
+                        Icon(Icons.Default.Add, contentDescription = "")
+                    }
+                )
+            }
+            item("divider3") {
+                HorizontalDivider()
+            }
+            item {
+                ListItem(
+                    modifier = Modifier.clickable {
+                        onClickShareFeedback()
+                    },
+                    headlineContent = {
+                        Text(
+                            stringResource(
+                                Res.string.send_feedback
+                            )
                         )
-                    )
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.ChatBubbleOutline,
-                        contentDescription = stringResource(Res.string.send_feedback)
-                    )
-                }
-            )
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.ChatBubbleOutline,
+                            contentDescription = stringResource(Res.string.send_feedback)
+                        )
+                    }
+                )
+            }
         }
 
         item("version_info") {

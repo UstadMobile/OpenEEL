@@ -21,6 +21,7 @@ import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.UserSession
 import org.openeel.shared.domain.account.UserSessionAndPerson
+import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.accounts
 import org.openeel.shared.navigation.AssignmentList
@@ -45,7 +46,17 @@ data class AccountListUiState(
     val selectedAccount: UserSessionAndPerson? = null,
     val accounts: List<UserSessionAndPerson> = emptyList(),
     val accountOwnerRole: PersonRoleEnum? = null,
+    val currentDeviceGuid: String? = null,
     ) {
+    /** Accounts to show in the list: hides the device shared device account */
+    val visibleAccounts: List<UserSessionAndPerson>
+        get() = accounts.filterNot {
+            it.session.isSharedDeviceSessionWithoutProfile(
+                person = it.person,
+                currentDeviceGuid = currentDeviceGuid,
+            )
+        }
+
     val showSelectedAccountProfileButton: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
                 && accountOwnerRole != PersonRoleEnum.SHARED_SCHOOL_DEVICE // Hide for shared device
@@ -260,9 +271,17 @@ class AccountListViewModel(
                 }
             }
         } else if (sharedDeviceAccount?.person?.status == PersonStatusEnum.ACTIVE) {
-            // This is a teacher/admin on a shared device - switch to shared device account first
+            // A teacher/admin is logged in on a shared device. Logging out must:
+            // 1. Remove their account from the stored accounts, so it no longer appears in the
+            //    account list the next time someone else (e.g. the admin) logs in on this device.
+            //    Switching accounts alone would leave it stored.
+            // 2. Switch back to the shared device account.
+            // 3. Return to the Select Class screen.
+            val loggedOutAccount = uiState.value.selectedAccount?.session?.account
             viewModelScope.launch {
-                // First switch to the shared device account
+                if (loggedOutAccount != null) {
+                    appAccountManager.removeAccount(loggedOutAccount)
+                }
                 appAccountManager.switchAccount(sharedDeviceAccount.session.account)
                 _navCommandFlow.tryEmit(
                     NavCommand.Navigate(
