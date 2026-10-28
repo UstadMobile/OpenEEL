@@ -33,6 +33,7 @@
     <string name="shared_device_description_2">Device auto sync offline to reduce data usage</string>
     <string name="shared_device_description_3">School admin can manually manage</string>
     <string name="enable">Enable</string>
+    <string name="device_already_shared">This device is already a shared device</string>
     <string name="no_shared_devices_available">No Shared Devices Available</string>
     <string name="no_shared_devices_available_info">Shared school devices allow multiple users to securely access the app on the same device using their profile</string>
 

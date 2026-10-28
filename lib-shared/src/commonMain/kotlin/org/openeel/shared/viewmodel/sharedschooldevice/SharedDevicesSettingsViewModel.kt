@@ -45,7 +45,6 @@ import org.openeel.shared.generated.resources.pin_error
 import org.openeel.shared.generated.resources.shared_school_devices
 import org.openeel.shared.navigation.AcceptInvite
 import org.openeel.shared.navigation.InvitePerson
-import org.openeel.shared.navigation.LoginSelectClass
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
@@ -158,8 +157,13 @@ class SharedDevicesSettingsViewModel(
     }
 
     fun onClickAdd() {
-        _uiState.update { currentState ->
-            currentState.copy(showBottomSheetOptions = true)
+        val deviceGuid = settings.getStringOrNull(CURRENT_DEVICE_GUID)
+        if (deviceGuid != null) {
+            onClickAddAnotherDevice()
+        } else {
+            _uiState.update { currentState ->
+                currentState.copy(showBottomSheetOptions = true)
+            }
         }
     }
 
@@ -221,16 +225,6 @@ class SharedDevicesSettingsViewModel(
 
     fun onClickEnableOnThisDevice() {
         viewModelScope.launch {
-            val deviceGuid = settings.getStringOrNull(CURRENT_DEVICE_GUID)
-            if (deviceGuid != null) {
-                _navCommandFlow.tryEmit(
-                    NavCommand.Navigate(
-                        LoginSelectClass
-                    )
-                )
-                return@launch
-            }
-
             val activeAccount = accountManager.activeAccount
             val persons = schoolDataSource.personDataSource.list(
                 loadParams = DataLoadParams(),

@@ -195,6 +195,14 @@ fun SharedSchoolDeviceEnableScreenContent(
             .defaultItemPadding(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        uiState.sharedDeviceError?.let { error ->
+            Text(
+                text = uiTextStringResource(error),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.fillMaxWidth().testTag("shared_device_error")
+            )
+        }
         Text(
             text = stringResource(Res.string.device_name),
             style = MaterialTheme.typography.bodyLarge

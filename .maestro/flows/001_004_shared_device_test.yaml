@@ -193,8 +193,6 @@ onFlowComplete:
 # Generate Invite Link (Approval OFF)
 - tapOn:
     id: "floating_action_button"
-- assertVisible: "Add device"
-- tapOn: "Another device"
 - assertVisible:
     id: "app_title"
     text: "Add shared school device"
