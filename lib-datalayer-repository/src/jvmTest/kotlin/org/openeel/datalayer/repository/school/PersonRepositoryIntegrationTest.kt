@@ -16,11 +16,11 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.test.clientservertest.clientServerDatasourceTest
 import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonGenderEnum
 import org.openeel.datalayer.shared.params.GetListCommonParams
-import org.openeel.datalayer.school.model.PersonRole
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRole
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.server.routes.school.respect.PersonRoute
 import org.openeel.server.routes.school.respect.SchoolPermissionGrantRoute
 import kotlin.test.Test

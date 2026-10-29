@@ -6,9 +6,9 @@ import kotlinx.datetime.LocalDate
 import org.openeel.lib.dataloadstate.DataLayerParams
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.datalayer.shared.WritableDataSource

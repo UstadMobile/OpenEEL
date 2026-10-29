@@ -1,8 +1,8 @@
 package org.openeel.shared.util
 
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRole
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonRole
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 

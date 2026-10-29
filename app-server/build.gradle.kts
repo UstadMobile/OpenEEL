@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.ktor.server.netty)
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.ktor.server.auth)
+    implementation(libs.ktor.server.auth.oidc)
     implementation(libs.argparse4j)
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)

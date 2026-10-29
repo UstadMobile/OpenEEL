@@ -30,10 +30,10 @@ import org.openeel.app.components.OpenEelPhoneNumberTextField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.datalayer.db.school.ext.fullName
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonGenderEnum
-import org.openeel.datalayer.school.model.PersonRole
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonGenderEnum
+import org.openeel.lib.directory.model.PersonRole
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.date_of_birth
 import org.openeel.shared.generated.resources.email

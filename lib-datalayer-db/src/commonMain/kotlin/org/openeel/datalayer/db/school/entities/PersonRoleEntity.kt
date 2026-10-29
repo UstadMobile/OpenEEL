@@ -3,7 +3,7 @@ package org.openeel.datalayer.db.school.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.datetime.LocalDate
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 
 @Entity
 data class PersonRoleEntity(

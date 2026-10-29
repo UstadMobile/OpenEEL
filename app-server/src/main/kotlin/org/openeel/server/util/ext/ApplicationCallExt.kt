@@ -15,7 +15,7 @@ import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.lib.dataloadstate.DataLayerHeaders
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.domain.GetPermissionLastModifiedUseCase
-import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.directory.ModelWithTimes
 import org.openeel.datalayer.shared.maxLastStoredOrNull
 import org.openeel.lib.dataloadstate.ktorserver.validateIfNotModifiedSince
 import org.openeel.lib.dataloadstate.throwable.ForbiddenException

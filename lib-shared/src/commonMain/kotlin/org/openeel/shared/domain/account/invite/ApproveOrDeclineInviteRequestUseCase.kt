@@ -10,7 +10,7 @@ import org.openeel.datalayer.school.ext.copyAsApproved
 import org.openeel.datalayer.school.ext.inviteCodeOrNull
 import org.openeel.datalayer.school.ext.relatedPersonRoleEnum
 import org.openeel.datalayer.school.model.ClassInvite
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.datalayer.school.model.StatusEnum
 import org.openeel.datalayer.shared.params.GetListCommonParams

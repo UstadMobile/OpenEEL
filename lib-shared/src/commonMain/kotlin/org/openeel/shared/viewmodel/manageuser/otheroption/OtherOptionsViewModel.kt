@@ -7,20 +7,23 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.mp.KoinPlatform.getKoin
 import org.openeel.datalayer.SchoolDirectoryDataSource
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.libutil.ext.normalizeForEndpoint
+import org.openeel.shared.domain.account.login.GoToLoginUseCase
 import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
 import org.openeel.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.invalid_code
 import org.openeel.shared.generated.resources.invalid_url
 import org.openeel.shared.generated.resources.other_options
-import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.viewmodel.OpenEelViewModel
 
 
@@ -90,9 +93,14 @@ class OtherOptionsViewModel(
                  if(schoolEntry == null)
                      throw IllegalStateException()
 
-                 _navCommandFlow.tryEmit(
-                     NavCommand.Navigate(LoginScreen.create(schoolUrl))
+                 val schoolScope = getKoin().getOrCreateScope<SchoolDirectoryEntry>(
+                     SchoolDirectoryEntryScopeId(schoolUrl, null).scopeId
                  )
+                 val goToLoginUseCase = schoolScope.get<GoToLoginUseCase>()
+                 val goToLoginUseCaseNavCommand = goToLoginUseCase(schoolEntry)
+                 if (goToLoginUseCaseNavCommand != null) {
+                     _navCommandFlow.tryEmit(goToLoginUseCaseNavCommand)
+                 }
              }catch(_: Throwable){
                  _uiState.update {
                      it.copy(errorMessage = StringResourceUiText(Res.string.invalid_url))

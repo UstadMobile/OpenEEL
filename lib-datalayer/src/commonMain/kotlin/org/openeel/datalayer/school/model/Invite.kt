@@ -5,7 +5,9 @@ import kotlinx.serialization.Serializable
 import org.openeel.datalayer.school.model.Invite2.Companion.TYPE_CLASS
 import org.openeel.datalayer.school.model.Invite2.Companion.TYPE_FAMILY_MEMBER
 import org.openeel.datalayer.school.model.Invite2.Companion.TYPE_NEW_USER
-import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.directory.ModelWithTimes
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.lib.serializers.InstantAsISO8601
 import org.openeel.libutil.ext.CHAR_POOL_NUMBERS
 import org.openeel.libutil.ext.randomString

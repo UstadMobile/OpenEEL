@@ -2,7 +2,7 @@ package org.openeel.datalayer.respect.model
 
 import io.ktor.http.Url
 import kotlinx.serialization.Serializable
-import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.directory.ModelWithTimes
 import org.openeel.lib.opds.model.LangMap
 import org.openeel.lib.serializers.InstantAsISO8601
 
@@ -18,6 +18,7 @@ import org.openeel.lib.serializers.InstantAsISO8601
  *           e.g. https://school.example.org/api/school/respect/.
  * @property authenticationOptions a list of authentication options that can be used to access this
  *           school.
+ * @property userDirectory  read-only school user directory.
  */
 @Serializable
 data class SchoolDirectoryEntry(
@@ -27,12 +28,9 @@ data class SchoolDirectoryEntry(
     val respectExt: Url?,
     val rpId : String?,
     val inDirectoryUrl: Url? = null,
-    val authenticationOptions: List<AuthenticationOption> = listOf(
-        AuthenticationOption(
-            name = "Builtin-Default",
-            provider = BuiltinAuthOptionConfig(),
-        )
-    ),
+    val authenticationOptions: List<AuthenticationOption> =
+        AuthenticationOption.BUILTIN_DEFAULT_OPTIONS,
     override val lastModified: InstantAsISO8601,
     override val stored: InstantAsISO8601,
+    val userDirectory: UserDirectoryConfig? = null,
 ): ModelWithTimes

@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.db.school.entities.EnrollmentEntity
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.datalayer.school.model.PermissionFlags
 import org.openeel.datalayer.school.model.StatusEnum
 import org.openeel.datalayer.shared.params.OrderOption

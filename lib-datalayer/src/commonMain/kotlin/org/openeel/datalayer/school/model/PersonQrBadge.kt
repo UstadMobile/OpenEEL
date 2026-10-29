@@ -2,7 +2,7 @@ package org.openeel.datalayer.school.model
 
 import io.ktor.http.Url
 import kotlinx.serialization.Serializable
-import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.directory.ModelWithTimes
 import org.openeel.lib.serializers.InstantAsISO8601
 import kotlin.time.Clock
 

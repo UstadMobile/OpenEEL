@@ -13,7 +13,7 @@ import org.openeel.datalayer.db.school.daos.SchoolPermissionGrantDao
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSourceLocal
 import org.openeel.datalayer.school.ext.assertPersonHasRole
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.SchoolPermissionGrant
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.map

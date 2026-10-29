@@ -1,7 +1,7 @@
 package org.openeel.shared.domain.account
 
 import kotlinx.serialization.Serializable
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.AuthToken
 
 /**

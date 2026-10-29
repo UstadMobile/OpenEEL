@@ -1,4 +1,4 @@
-package org.openeel.datalayer.school.model
+package org.openeel.lib.directory.model
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable

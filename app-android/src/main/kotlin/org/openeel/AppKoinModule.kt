@@ -161,6 +161,9 @@ import org.openeel.shared.domain.school.LaunchCustomTabUseCaseAndroid
 import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCaseAndroid
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_CLIENT
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
+import org.openeel.shared.domain.account.authwithopenid.GetTokenAndUserProfileWithOpenIdUseCase
+import org.openeel.shared.domain.account.login.GoToLoginUseCase
+import org.openeel.shared.domain.account.authwithopenid.LaunchOpenIdAuthorizationUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCaseAndroid
 import org.openeel.shared.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCase
@@ -849,6 +852,20 @@ val appKoinModule = module {
         EnqueueActivityContextJobUseCase()
     }
 
+    single {
+        GetTokenAndUserProfileWithOpenIdUseCase(
+            httpClient = get(),
+        )
+    }
+
+    single {
+        HandleOpenIdAuthorizationResultUseCaseAndroid(
+            context = androidContext().applicationContext,
+            getTokenAndUserProfileWithOpenIdUseCase = get(),
+            accountManager = get(),
+        )
+    }
+
     single<GoToAppStoreUseCase> {
         GoToAppStoreUseCaseAndroid(
             appContext = androidApplication(),
@@ -873,6 +890,20 @@ val appKoinModule = module {
      * can be shared
      */
     scope<SchoolDirectoryEntry> {
+        scoped<LaunchOpenIdAuthorizationUseCase> {
+            LaunchOpenIdAuthorizationUseCaseAndroid(
+                schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
+                enqueueActivityContextJobUseCase = get(),
+            )
+        }
+
+        scoped<GoToLoginUseCase> {
+            GoToLoginUseCase(
+                schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
+                launchOpenIdAuthorizationUseCase = get(),
+            )
+        }
+
         scoped<GetTokenAndUserProfileWithCredentialUseCase> {
             GetTokenAndUserProfileWithCredentialUseCaseClient(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,

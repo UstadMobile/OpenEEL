@@ -1,4 +1,4 @@
-package org.openeel.datalayer.shared
+package org.openeel.lib.directory
 
 import kotlin.time.Instant
 

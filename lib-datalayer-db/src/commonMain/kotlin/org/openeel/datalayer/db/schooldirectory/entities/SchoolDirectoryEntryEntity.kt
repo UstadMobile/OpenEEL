@@ -3,6 +3,7 @@ package org.openeel.datalayer.db.schooldirectory.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.ktor.http.Url
+import org.openeel.datalayer.respect.model.UserDirectoryConfigTypeEnum
 import kotlin.time.Instant
 
 /**
@@ -19,4 +20,6 @@ data class SchoolDirectoryEntryEntity(
     val reLastModified: Instant,
     val reStored: Instant,
     val reInDirectoryUrl: Url?,
+    val reUserDirectoryConfigType: UserDirectoryConfigTypeEnum?,
+    val reUserDirectoryEndpoint: Url?,
 )

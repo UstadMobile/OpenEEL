@@ -20,7 +20,7 @@ import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.PersonDataSourceLocal
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.ext.primaryRole
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.datalayer.shared.maxLastModifiedOrNull
 import org.openeel.datalayer.shared.maxLastStoredOrNull

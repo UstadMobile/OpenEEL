@@ -1,7 +1,7 @@
 package org.openeel.shared.domain.account.authenticatepassword
 
 import org.openeel.credentials.passkey.OpenEelQRBadgeCredential
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 
 interface AuthenticateQrBadgeUseCase {
     data class Response(

@@ -29,7 +29,7 @@ import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.libutil.util.putDebugCrashCustomData
 import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
 import org.openeel.shared.domain.account.invite.RedeemInviteUseCase
@@ -154,6 +154,26 @@ class AppAccountManager(
         initSession(authResponse, UserSession(userAccount, null))
 
         return authResponse
+    }
+
+    suspend fun startSession(
+        authResponse: AuthResponse,
+        schoolUrl: Url,
+    ) {
+        val schoolDirectoryEntry = appDataSource.schoolDirectoryEntryResource
+            .getSchoolDirectoryEntryByUrl(schoolUrl)
+            .dataOrNull() ?: throw IllegalStateException("School directory entry is unavailable")
+
+        initSession(
+            authResponse = authResponse,
+            session = UserSession(
+                account = UserAccount(
+                    userGuid = authResponse.person.guid,
+                    school = schoolDirectoryEntry,
+                ),
+                profilePersonUid = null,
+            ),
+        )
     }
 
     @Suppress("unused")

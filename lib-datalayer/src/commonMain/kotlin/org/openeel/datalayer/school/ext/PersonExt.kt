@@ -7,8 +7,8 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
 import org.openeel.datalayer.exceptions.ForbiddenException
 import org.openeel.datalayer.school.model.Invite2
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.lib.xapi.model.XapiAccount
 import org.openeel.lib.xapi.model.XapiAgent
 

@@ -1,10 +1,13 @@
 package org.openeel
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import io.github.aakira.napier.Napier
 import io.ktor.http.Url
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import org.koin.android.scope.AndroidScopeComponent
@@ -98,6 +101,33 @@ class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
                         baseUrl = Url(directoryUrl)
                     ),
                     clearOthers = true,
+                )
+            }
+        }
+
+        handleOpenIdAuthorizationResult(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleOpenIdAuthorizationResult(intent)
+    }
+
+    private fun handleOpenIdAuthorizationResult(intent: Intent) {
+        lifecycleScope.launch {
+            try {
+                val handleAuthorizationResult =
+                    getKoin().get<HandleOpenIdAuthorizationResultUseCaseAndroid>()
+                val navCommand = handleAuthorizationResult(intent)
+                if (navCommand != null) {
+                    _navCommandFlow.tryEmit(navCommand)
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (exception: Exception) {
+                Napier.e(
+                    message = "Unable to complete OpenID sign-in",
+                    throwable = exception,
                 )
             }
         }

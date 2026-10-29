@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.mp.KoinPlatform.getKoin
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.DataReadyState
@@ -17,18 +18,19 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResource
+import org.openeel.shared.domain.account.login.GoToLoginUseCase
 import org.openeel.shared.domain.getwarnings.GetWarningsUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.lets_get_started
 import org.openeel.shared.generated.resources.school_not_found
 import org.openeel.shared.navigation.GetStartedScreen
-import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.OtherOption
 import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.LaunchDebouncer
+import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
@@ -132,11 +134,21 @@ class GetStartedViewModel(
 
 
     fun onSchoolSelected(school: SchoolDirectoryEntry) {
-        _navCommandFlow.tryEmit(
-            NavCommand.Navigate(
-                LoginScreen.create(school.self)
+        launchWithLoadingIndicator(
+            runIfAlreadyLoading = true,
+            onShowError = { errorText ->
+                _uiState.update { state -> state.copy(errorText = errorText) }
+            },
+        ) {
+            val schoolScope = getKoin().getOrCreateScope<SchoolDirectoryEntry>(
+                SchoolDirectoryEntryScopeId(school.self, null).scopeId
             )
-        )
+            val goToLoginUseCase = schoolScope.get<GoToLoginUseCase>()
+            val navCommand = goToLoginUseCase(school)
+            if (navCommand != null) {
+                _navCommandFlow.tryEmit(navCommand)
+            }
+        }
     }
 
     fun onClickAddMySchool() {

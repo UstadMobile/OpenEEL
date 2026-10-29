@@ -58,3 +58,5 @@ include(":lib-http-ipc-server")
 include(":lib-xapi-test")
 include(":lib-datalayer-http-server")
 include(":lib-dataloadstate-ktor-server")
+
+include(":lib-directory")
