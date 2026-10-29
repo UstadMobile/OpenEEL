@@ -26,3 +26,13 @@ fun LocalDate.toDisplayDateString(): String {
     val month = month.number.toString().padStart(2, '0')
     return "$day/$month/$year"
 }
+
+fun String.toFormattedDate(): String = try {
+    val dt = Instant.parse(this).toLocalDateTime(TimeZone.currentSystemDefault())
+    "${dt.month.number}/${dt.day}/${dt.year}, ${
+        dt.hour.toString().padStart(2, '0')
+    }:${dt.minute.toString().padStart(2, '0')}"
+} catch (e: Exception) {
+    println("Date parsing failed: ${e.message}")
+    this
+}

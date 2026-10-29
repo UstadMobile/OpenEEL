@@ -212,9 +212,9 @@ fun App(
                             navController = navController,
                             topLevelItems = topLevelNavItems,
                             onProfileClick = {
-                                if (activeAccount?.isChild == false) {
+                                if (activeAccount?.session?.isParentInitiatedChildSession == false) {
                                     navController.navigate(AccountList)
-                                }else {
+                                } else {
                                     coroutineScope.launch {
                                         val result = biometricAuthUseCase(
                                             BiometricAuthUseCase.BiometricPromptData(

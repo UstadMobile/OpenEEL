@@ -6,6 +6,7 @@ import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
 import org.openeel.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCase
 import org.openeel.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
@@ -15,6 +16,7 @@ import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.LoginSelectClass
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
@@ -73,13 +75,18 @@ class NavigateOnAppStartUseCase(
         }
 
         Napier.i("DeferredDeepLink: NavigateOnAppStartUseCase: init nav command=$initLinkNavCommand")
-        val isChild = accountManager.selectedAccountAndPersonFlow.first()?.isChild == true
-        val hasAccount = accountManager.activeAccount != null
-
+        val activeAccount = accountManager.activeAccount
+        val activeSession = accountManager.activeSession
+        val selectedAccountAndPerson = accountManager.selectedAccountAndPersonFlow.first()
+        val isChild = selectedAccountAndPerson?.isChild == true
 
         return initLinkNavCommand?.withClearBackstack(true) ?: NavCommand.Navigate(
             destination = when {
-                hasAccount -> if (isChild) AssignmentList else Home
+                activeSession?.isSharedDeviceSessionWithoutProfile(
+                    person = selectedAccountAndPerson?.person
+                ) == true -> LoginSelectClass
+
+                activeAccount != null -> if (isChild) AssignmentList else Home
                 else -> GetStartedScreen()
             },
             clearBackStack = true,

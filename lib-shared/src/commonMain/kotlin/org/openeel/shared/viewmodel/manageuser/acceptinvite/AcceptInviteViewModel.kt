@@ -4,21 +4,28 @@ package org.openeel.shared.viewmodel.manageuser.acceptinvite
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.russhwolf.settings.Settings
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.scope.Scope
 import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.datalayer.SchoolDirectoryDataSource
-import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.respect.model.invite.InviteInfo
+import org.openeel.datalayer.school.ext.accepterPersonRole
 import org.openeel.datalayer.school.ext.isChildUser
 import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.LangMap
+import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
+import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
 import org.openeel.shared.domain.account.invite.GetInviteInfoUseCase
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest.PersonInfo
@@ -26,12 +33,17 @@ import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.toUserFriendlyString
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.device_already_shared
+import org.openeel.shared.generated.resources.enable_shared_school_device_mode
 import org.openeel.shared.generated.resources.invitation
+import org.openeel.shared.generated.resources.required_field
 import org.openeel.shared.generated.resources.something_wrong_with_invite
 import org.openeel.shared.navigation.AcceptInvite
+import org.openeel.shared.navigation.LoginSelectClass
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.SignupScreen
 import org.openeel.shared.navigation.TermsAndCondition
+import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.ext.asUiText
@@ -40,12 +52,17 @@ import org.openeel.shared.viewmodel.OpenEelViewModel
 data class AcceptInviteUiState(
     val inviteInfo: InviteInfo? = null,
     val errorText: UiText? = null,
+    val sharedDeviceError: UiText? = null,
     val isTeacherInvite: Boolean = false,
     val schoolName: LangMap? = null,
     val schoolUrl: Url? = null,
+    val deviceName: String = "",
 ) {
     val nextButtonEnabled: Boolean
         get() = inviteInfo?.invite != null
+
+    val isSharedDeviceMode: Boolean
+        get() = inviteInfo?.invite?.accepterPersonRole == PersonRoleEnum.SHARED_SCHOOL_DEVICE
 
 }
 
@@ -53,6 +70,8 @@ class AcceptInviteViewModel(
     savedStateHandle: SavedStateHandle,
     private val getDeviceInfoUseCase: GetDeviceInfoUseCase,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
+    private val enableSharedDeviceModeUseCase: EnableSharedDeviceModeUseCase,
+    private val settings: Settings,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: AcceptInvite = savedStateHandle.toRoute()
@@ -75,10 +94,9 @@ class AcceptInviteViewModel(
     init {
         _appUiState.update {
             it.copy(
-                title = Res.string.invitation.asUiText(),
                 hideBottomNavigation = true,
                 userAccountIconVisible = false,
-                showBackButton = route.canGoBack,
+                showBackButton = true,
             )
         }
 
@@ -89,10 +107,26 @@ class AcceptInviteViewModel(
         ) {
             val inviteInfo = getInviteInfoUseCase(route.code)
 
-            _uiState.update {
+            val uiStateUpdated = _uiState.updateAndGet {
                 it.copy(
                     inviteInfo = inviteInfo,
                     isTeacherInvite = false
+                )
+            }
+
+            if (uiStateUpdated.isSharedDeviceMode && settings.getStringOrNull(CURRENT_DEVICE_GUID) != null) {
+                _uiState.update {
+                    it.copy(sharedDeviceError = Res.string.device_already_shared.asUiText())
+                }
+            }
+
+            _appUiState.update {
+                it.copy(
+                    title = if (uiStateUpdated.isSharedDeviceMode) {
+                        Res.string.enable_shared_school_device_mode.asUiText()
+                    } else {
+                        Res.string.invitation.asUiText()
+                    },
                 )
             }
         }
@@ -141,4 +175,63 @@ class AcceptInviteViewModel(
         )
     }
 
+    fun onUpdateDeviceName(deviceName: String) {
+        _uiState.update { currentState ->
+            currentState.copy(deviceName = deviceName, errorText = null)
+        }
+    }
+
+    fun enableSharedDeviceMode() {
+        if (_uiState.value.sharedDeviceError != null){
+            return
+        }
+
+        if (_uiState.value.deviceName.isBlank()) {
+            _uiState.update { it.copy(errorText = Res.string.required_field.asUiText()) }
+            return
+        }
+        _uiState.update { it.copy(errorText = null) }
+
+        val invite = uiState.value.inviteInfo?.invite ?: return
+
+        val inviteRedeemRequest = RedeemInviteRequest(
+            code = invite.code,
+            accountPersonInfo = PersonInfo(name = _uiState.value.deviceName),
+            account = RedeemInviteRequest.Account(
+                guid = schoolPrimaryKeyGenerator.primaryKeyGenerator.nextId(Person.TABLE_ID)
+                    .toString(),
+                username = _uiState.value.deviceName
+            ),
+            deviceName = _uiState.value.deviceName,
+            deviceInfo = getDeviceInfoUseCase(),
+            invite = invite
+        )
+        val _useActiveUserAuth = route.useActiveUserAuth ?: true
+        viewModelScope.launch {
+            try {
+                val personRegistered = enableSharedDeviceModeUseCase(
+                    redeemInviteRequest = inviteRedeemRequest,
+                    schoolUrl = route.schoolUrl,
+                    useActiveUserAuth = _useActiveUserAuth
+                )
+
+                _navCommandFlow.tryEmit(
+                    NavCommand.Navigate(
+                        destination = if (personRegistered.status != PersonStatusEnum.PENDING_APPROVAL) {
+                            LoginSelectClass
+                        } else {
+                            WaitingForApproval()
+                        },
+                        clearBackStack = true
+                    )
+                )
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        errorText = e.message?.asUiText()
+                    )
+                }
+            }
+        }
+    }
 }

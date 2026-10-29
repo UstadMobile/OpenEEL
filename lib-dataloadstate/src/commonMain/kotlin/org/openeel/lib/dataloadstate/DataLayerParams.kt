@@ -14,6 +14,8 @@ object DataLayerParams {
 
     const val INCLUDE_RELATED = "includeRelated"
 
+    const val  EXCLUDE_SHARED_SCHOOL_DEVICE = "excludeSharedSchoolDevice"
+
     const val INCLUDE_DELETED = "includeDeleted"
 
     const val IN_CLASS_ON_DAY = "inClassOnDay"

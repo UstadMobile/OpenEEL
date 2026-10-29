@@ -1,0 +1,48 @@
+package org.openeel.shared.domain.account.invite
+
+import com.russhwolf.settings.Settings
+import io.ktor.http.Url
+import org.openeel.datalayer.school.model.Person
+import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.util.ext.isSameAccount
+
+class EnableSharedDeviceModeUseCase(
+    private val accountManager: AppAccountManager,
+    private val settings: Settings,
+) {
+    suspend operator fun invoke(
+        redeemInviteRequest: RedeemInviteRequest,
+        schoolUrl: Url,
+        useActiveUserAuth: Boolean = false
+    ): Person {
+        try {
+            val personRegistered = accountManager.register(
+                redeemInviteRequest = redeemInviteRequest,
+                schoolUrl = schoolUrl,
+                useActiveUserAuth = useActiveUserAuth
+            )
+
+            val deviceAccount = accountManager.activeAccount
+                ?: throw IllegalStateException("Device account was not set as active")
+
+            val currentAccounts = accountManager.accounts.value
+            currentAccounts.forEach { account ->
+                if (!account.isSameAccount(deviceAccount)) {
+                    accountManager.removeAccount(account)
+                }
+            }
+
+            settings.putString(CURRENT_DEVICE_GUID, personRegistered.guid)
+
+            return personRegistered
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
+        }
+    }
+
+    companion object {
+        const val CURRENT_DEVICE_GUID = "current_device_guid"
+    }
+}

@@ -77,13 +77,20 @@ object SchoolDirectoryEdit : OpenEelAppRoute
 @Serializable
 data class LoginScreen(
     val schoolUrlStr: String,
+    val showSelectOtherSchool: Boolean? = null,
 ) : OpenEelAppRoute {
 
     @Transient
     val schoolUrl = Url(schoolUrlStr)
 
     companion object {
-        fun create(schoolUrl: Url) = LoginScreen(schoolUrl.toString())
+        fun create(
+            schoolUrl: Url,
+            showSelectOtherSchool: Boolean? = null
+        ) = LoginScreen(
+            schoolUrlStr = schoolUrl.toString(),
+            showSelectOtherSchool = showSelectOtherSchool,
+        )
     }
 }
 
@@ -439,6 +446,7 @@ class AcceptInvite(
     val schoolUrlStr: String,
     val code: String,
     val canGoBack: Boolean = true,
+    val useActiveUserAuth: Boolean? = null,
 ) : OpenEelAppRoute {
 
     @Transient
@@ -449,10 +457,12 @@ class AcceptInvite(
             schoolUrl: Url,
             code: String,
             canGoBack: Boolean = true,
+            useActiveUserAuth: Boolean? = null,
         ) = AcceptInvite(
             schoolUrlStr = schoolUrl.toString(),
             code = code,
             canGoBack = canGoBack,
+            useActiveUserAuth = useActiveUserAuth,
         )
     }
 }
@@ -742,7 +752,8 @@ data class ScanQRCode(
     val resultDestStr: String? = null,
     private val schoolUrlStr: String? = null,
     val username: String? = null,
-    private val nextAfterScanStr: String? = null
+    private val nextAfterScanStr: String? = null,
+    val isSharedDevice: Boolean = false
 ) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
@@ -762,13 +773,15 @@ data class ScanQRCode(
             resultDest: ResultDest? = null,
             schoolUrl: Url? = null,
             username: String? = null,
-            nextAfterScan: NextAfterScan? = null
+            nextAfterScan: NextAfterScan? = null,
+            isSharedDevice: Boolean = false
         ) = ScanQRCode(
             guid = guid,
             resultDestStr = resultDest?.encodeToJsonStringOrNull(),
             username = username,
             schoolUrlStr = schoolUrl?.toString(),
-            nextAfterScanStr = nextAfterScan?.name
+            nextAfterScanStr = nextAfterScan?.name,
+            isSharedDevice = isSharedDevice
         )
     }
 }
@@ -798,6 +811,37 @@ class PlaylistList private constructor(
         )
     }
 }
+@Serializable
+data object SchoolSettings : OpenEelAppRoute
+
+@Serializable
+data object SharedDevicesSettings : OpenEelAppRoute
+
+@Serializable
+data object LoginSelectClass : OpenEelAppRoute {
+
+}
+
+@Serializable
+data object TeacherPinConfirmation : OpenEelAppRoute
+
+@Serializable
+data class LoginSelectStudent(
+    val className: String,
+    val guid: String,
+) : OpenEelAppRoute {
+
+    companion object {
+        fun create(
+            className: String,
+            guid: String,
+        ) = LoginSelectStudent(
+            className = className,
+            guid = guid,
+        )
+    }
+}
+
 @Serializable
 class OpdsFeedEdit private constructor(
     private val urlStr: String? = null,

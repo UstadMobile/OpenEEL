@@ -10,7 +10,6 @@ import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.PersonPasskeyDataSource
 import org.openeel.datalayer.school.PersonPasswordDataSource
 import org.openeel.datalayer.school.PersonQrBadgeDataSource
-import org.openeel.datalayer.school.SchoolConfigSettingDataSource
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
 import org.openeel.datalayer.school.opds.OpdsFeedDataSource
 import org.openeel.lib.xapi.resources.XapiResource
@@ -46,8 +45,6 @@ interface SchoolDataSource {
     val opdsPublicationDataSource: OpdsPublicationDataSource
 
     val opdsFeedDataSource: OpdsFeedDataSource
-
-    val schoolConfigSettingDataSource: SchoolConfigSettingDataSource
 
     val xapiResource: XapiResource
 

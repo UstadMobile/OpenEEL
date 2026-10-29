@@ -21,7 +21,6 @@ import org.openeel.datalayer.db.school.opds.OpdsFeedDataSourceDb
 import org.openeel.datalayer.db.school.opds.OpdsPublicationDataSourceDb
 import org.openeel.datalayer.db.school.xapi.XapiResourceDb
 import org.openeel.datalayer.school.ClassDataSourceLocal
-import org.openeel.datalayer.school.DummySchoolConfigSettingsDataSource
 import org.openeel.datalayer.school.EnrollmentDataSourceLocal
 import org.openeel.datalayer.school.IndicatorDataSource
 import org.openeel.datalayer.school.InviteDataSourceLocal
@@ -30,7 +29,6 @@ import org.openeel.datalayer.school.PersonPasskeyDataSourceLocal
 import org.openeel.datalayer.school.PersonPasswordDataSourceLocal
 import org.openeel.datalayer.school.PersonQrCodeBadgeDataSourceLocal
 import org.openeel.datalayer.school.ReportDataSourceLocal
-import org.openeel.datalayer.school.SchoolConfigSettingDataSource
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSourceLocal
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
@@ -133,12 +131,6 @@ class SchoolDataSourceDb(
             authenticatedUser = authenticatedUser,
             json = json,
             primaryKeyGenerator = primaryKeyGenerator,
-        )
-    }
-
-    override val schoolConfigSettingDataSource: SchoolConfigSettingDataSource by lazy {
-        DummySchoolConfigSettingsDataSource(
-            defaultAppCatalogUrl = defaultAppCatalogUrl,
         )
     }
 

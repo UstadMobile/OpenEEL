@@ -28,6 +28,7 @@ import org.openeel.app.components.defaultItemPadding
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.model.Person
 import org.openeel.shared.domain.account.UserAccount
+import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_account
 import org.openeel.shared.generated.resources.developed_by
@@ -130,7 +131,11 @@ fun AccountListScreen(
         }
 
         items(
-            items = uiState.accounts,
+            items = uiState.accounts.filterNot {
+                it.session.isSharedDeviceSessionWithoutProfile(
+                    person = it.person
+                )
+            },
             key = { it.session.account.userGuid }
         ) { account ->
             AccountListItem(
@@ -142,42 +147,43 @@ fun AccountListScreen(
         item("divider2") {
             HorizontalDivider()
         }
-
-        item("add_account") {
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickAddAccount()
-                },
-                headlineContent = {
-                    Text(stringResource(Res.string.add_account))
-                },
-                leadingContent = {
-                    Icon(Icons.Default.Add, contentDescription = "")
-                }
-            )
-        }
-        item("divider3") {
-            HorizontalDivider()
-        }
-        item {
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickShareFeedback()
-                },
-                headlineContent = {
-                    Text(
-                        stringResource(
-                            Res.string.send_feedback
+        if(uiState.showSelectedAccountProfileButton) {
+            item("add_account") {
+                ListItem(
+                    modifier = Modifier.clickable {
+                        onClickAddAccount()
+                    },
+                    headlineContent = {
+                        Text(stringResource(Res.string.add_account))
+                    },
+                    leadingContent = {
+                        Icon(Icons.Default.Add, contentDescription = "")
+                    }
+                )
+            }
+            item("divider3") {
+                HorizontalDivider()
+            }
+            item {
+                ListItem(
+                    modifier = Modifier.clickable {
+                        onClickShareFeedback()
+                    },
+                    headlineContent = {
+                        Text(
+                            stringResource(
+                                Res.string.send_feedback
+                            )
                         )
-                    )
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.ChatBubbleOutline,
-                        contentDescription = stringResource(Res.string.send_feedback)
-                    )
-                }
-            )
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.ChatBubbleOutline,
+                            contentDescription = stringResource(Res.string.send_feedback)
+                        )
+                    }
+                )
+            }
         }
 
         item("version_info") {

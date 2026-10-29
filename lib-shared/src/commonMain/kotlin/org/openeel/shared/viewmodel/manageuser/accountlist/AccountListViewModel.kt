@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.school.ext.primaryRole
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.Person
@@ -20,6 +21,7 @@ import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.UserSession
 import org.openeel.shared.domain.account.UserSessionAndPerson
+import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.accounts
 import org.openeel.shared.navigation.AssignmentList
@@ -32,6 +34,8 @@ import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.isSameAccount
 import org.openeel.shared.viewmodel.OpenEelViewModel
+import org.openeel.shared.navigation.LoginSelectClass
+
 
 /**
  * @property selectedAccount if not null, the currently selected account
@@ -41,9 +45,12 @@ import org.openeel.shared.viewmodel.OpenEelViewModel
 data class AccountListUiState(
     val selectedAccount: UserSessionAndPerson? = null,
     val accounts: List<UserSessionAndPerson> = emptyList(),
+    val accountOwnerRole: PersonRoleEnum? = null
 ) {
+
     val showSelectedAccountProfileButton: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
+                && accountOwnerRole != PersonRoleEnum.SHARED_SCHOOL_DEVICE // Hide for shared device
 
     val familyMembersClickEnabled: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
@@ -71,8 +78,20 @@ class AccountListViewModel(
 
         viewModelScope.launch {
             appAccountManager.selectedAccountAndPersonFlow.collect { accountAndPerson ->
+                val accountOwnerRole = appAccountManager.activeAccount?.let { account ->
+                    val accountScope = appAccountManager.getOrCreateAccountScope(account)
+                    val dataSource: SchoolDataSource = accountScope.get()
+                    dataSource.personDataSource.findByGuid(
+                        DataLoadParams(),
+                        account.userGuid
+                    ).dataOrNull()?.primaryRole()
+                }
+
                 _uiState.update { prev ->
-                    prev.copy(selectedAccount = accountAndPerson)
+                    prev.copy(
+                        selectedAccount = accountAndPerson,
+                        accountOwnerRole = accountOwnerRole
+                    )
                 }
             }
         }
@@ -181,7 +200,11 @@ class AccountListViewModel(
 
     fun onClickFamilyPerson(person: Person) {
         viewModelScope.launch {
-            appAccountManager.switchProfile(person.guid)
+            appAccountManager.switchProfile(
+                personUid = person.guid,
+                isParentInitiatedChildSession = uiState.value.accountOwnerRole == PersonRoleEnum.PARENT &&
+                    person.primaryRole() == PersonRoleEnum.STUDENT,
+            )
             _navCommandFlow.tryEmit(
                 NavCommand.Navigate(
                     destination = if(person.roles.firstOrNull()?.roleEnum == PersonRoleEnum.PARENT) {
@@ -215,9 +238,61 @@ class AccountListViewModel(
 
 
     fun onClickLogout() {
-        uiState.value.selectedAccount?.also {
+        val isSelectedAccountSharedDevice =
+            uiState.value.accountOwnerRole == PersonRoleEnum.SHARED_SCHOOL_DEVICE
+
+        // Find the shared device account in the accounts list
+        val sharedDeviceAccount = uiState.value.accounts.find { andPerson ->
+            andPerson.person.roles.any { role ->
+                role.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE
+            }
+        }
+
+        if (isSelectedAccountSharedDevice) {
+            // Clear the selected student profile before returning to Select Class.
+            uiState.value.selectedAccount?.also { selectedAccount ->
+                viewModelScope.launch {
+                    appAccountManager.switchAccount(selectedAccount.session.account)
+                    _navCommandFlow.tryEmit(
+                        NavCommand.Navigate(
+                            destination = LoginSelectClass,
+                            clearBackStack = true
+                        )
+                    )
+                }
+            }
+        } else if (sharedDeviceAccount?.person?.status == PersonStatusEnum.ACTIVE) {
+            // A teacher/admin is logged in on a shared device. Logging out must:
+            // 1. Remove their account from the stored accounts, so it no longer appears in the
+            //    account list the next time someone else (e.g. the admin) logs in on this device.
+            //    Switching accounts alone would leave it stored.
+            // 2. Switch back to the shared device account.
+            // 3. Return to the Select Class screen.
+            val loggedOutAccount = uiState.value.selectedAccount?.session?.account
             viewModelScope.launch {
-                appAccountManager.removeAccount(it.session.account)
+                if (loggedOutAccount != null) {
+                    appAccountManager.removeAccount(loggedOutAccount)
+                }
+                appAccountManager.switchAccount(sharedDeviceAccount.session.account)
+                _navCommandFlow.tryEmit(
+                    NavCommand.Navigate(
+                        destination = LoginSelectClass,
+                        clearBackStack = true
+                    )
+                )
+            }
+        } else {
+            // Regular logout - no shared device present
+            uiState.value.selectedAccount?.also {
+                viewModelScope.launch {
+                    appAccountManager.removeAccount(it.session.account)
+                    _navCommandFlow.tryEmit(
+                        NavCommand.Navigate(
+                            destination = GetStartedScreen(),
+                            clearBackStack = true
+                        )
+                    )
+                }
             }
         }
     }

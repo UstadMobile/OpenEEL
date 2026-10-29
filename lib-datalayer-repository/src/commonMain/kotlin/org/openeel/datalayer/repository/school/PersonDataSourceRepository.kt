@@ -7,6 +7,7 @@ import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.ext.combineWithRemote
 import org.openeel.datalayer.ext.updateFromRemoteIfNeeded
+import org.openeel.datalayer.ext.updateFromRemoteListIfNeeded
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
 import org.openeel.datalayer.repository.shared.paging.RepositoryPagingSourceFactory
 import org.openeel.datalayer.repository.shared.paging.loadAndUpdateLocal2
@@ -57,7 +58,15 @@ class PersonDataSourceRepository(
         loadParams: DataLoadParams,
         params: PersonDataSource.GetListParams,
     ): Flow<DataLoadState<List<Person>>> {
-        return local.listAsFlow(loadParams, params)
+        val remoteParams = params.copy(
+            common = params.common.copy(includeDeleted = true),
+        )
+
+        return local.listAsFlow(loadParams, params).combineWithRemote(
+            remoteFlow = remote.listAsFlow(loadParams, remoteParams).onEach {
+                local.updateFromRemoteListIfNeeded(it, validationHelper)
+            }
+        )
     }
 
     override suspend fun list(
