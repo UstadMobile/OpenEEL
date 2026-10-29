@@ -261,19 +261,30 @@ fun DataLoadState<*>.etagForHttpResponseHeader(): String? {
     return metaInfo.headers[HttpHeaders.ETag] ?: metaInfo.etag
 }
 
-fun DataLoadState<*>.toPrettyString(): String {
-    return when(this) {
-        is DataReadyState -> {
-           if(data is List<*>) {
-               "DataReadyState ${data.size} items"
-           }else {
-               "DataReadyState"
-           }
-        }
-        is DataLoadingState -> "DataLoadingState"
+fun DataLoadState<*>.toPrettyString(
+    includeLocalAndRemote: Boolean = false
+): String {
+    return buildString {
+        when(this@toPrettyString) {
+            is DataReadyState -> {
+                if(data is List<*>) {
+                    append("DataReadyState ${data.size} items")
+                }else {
+                    append("DataReadyState")
+                }
+            }
+            is DataLoadingState -> append("DataLoadingState")
 
-        is DataErrorResult -> "DataErrorResult"
-        is NoDataLoadedState -> "NoDataLoadedState($reason)"
+            is DataErrorResult -> append("DataErrorResult")
+            is NoDataLoadedState -> append("NoDataLoadedState($reason)")
+        }
+
+        if(includeLocalAndRemote) {
+            append("(")
+            append("local=${this@toPrettyString.localState?.toPrettyString(false)} ")
+            append("remote=${this@toPrettyString.remoteState?.toPrettyString(false)}")
+            append(")")
+        }
     }
 }
 
