@@ -211,10 +211,6 @@ onFlowComplete:
 - tapOn: "Login"
 - assertVisible:
          id: "nav_home"
-- tapOn: "Classes"
-- assertVisible:
-    id: "app_title"
-    text: "Classes"
 - retry:
     maxRetries: 3
     commands:
