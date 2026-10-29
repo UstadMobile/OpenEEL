@@ -31,7 +31,7 @@ val ApplicationCall.virtualHost: Url
     get() = request.virtualHost
 
 /**
- * Respect schools are handled using virtual hosting e.g. by subdomains. - see
+ * Schools are handled using virtual hosting e.g. by subdomains. - see
  * SchoolDirectoryEntryScopeId and AppKoinModule.
  */
 fun ApplicationCall.getSchoolKoinScope(): Scope {
@@ -42,13 +42,28 @@ fun ApplicationCall.getSchoolKoinScope(): Scope {
     )
 }
 
-fun ApplicationCall.requireAccountScope(): Scope {
-    val authPrincipalId: UserIdPrincipal = principal() ?:
-        throw ForbiddenException("Not authenticated")
+/**
+ * Get the UserAccount scope for the receiver [ApplicationCall]
+ *
+ * @param authOptional if true, don't require authentication, use UserAccountScopeId with a null
+ *        accountPrincipalId when there is no authentication.
+ *
+ * @return [Scope] Koin scope for the authenticated user account where the receiver [ApplicationCall]
+ *         is authenticated, otherwise the Scope for an anonymous request.
+ */
+fun ApplicationCall.getUserAccountScope(
+    authOptional: Boolean = false,
+): Scope {
+    val authPrincipalId: UserIdPrincipal? = principal()
+
+    if(!authOptional && authPrincipalId == null)
+        throw ForbiddenException()
 
     val scopeId = UserAccountScopeId(
-        request.virtualHost,
-        AuthenticatedUserPrincipalId(authPrincipalId.name)
+        schoolUrl = request.virtualHost,
+        accountPrincipalId = authPrincipalId?.let {
+            AuthenticatedUserPrincipalId(it.name)
+        }
     ).scopeId
 
     return getKoin().getScopeOrNull(scopeId) ?: getKoin().createScope<UserAccount>(scopeId).also {

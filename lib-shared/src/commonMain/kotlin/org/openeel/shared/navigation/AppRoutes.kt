@@ -798,6 +798,10 @@ class PlaylistList private constructor(
         )
     }
 }
+
+@Serializable
+object OpdsFeedListPinUsingLink: OpenEelAppRoute
+
 @Serializable
 class OpdsFeedEdit private constructor(
     private val urlStr: String? = null,
@@ -833,18 +837,28 @@ class PlaylistShare private constructor(
 }
 
 @Serializable
-class ExternalLinkEdit private constructor(
+class OpdsFeedEditAddLink private constructor(
     private val resultDestStr: String? = null,
+    private val opdsPickTypeStr: String,
 ) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     override val resultDest: ResultDest? = ResultDest.fromStringOrNull(resultDestStr)
 
+    @Transient
+    val opdsPickType: OpdsPickType = Json.decodeFromString(
+        OpdsPickType.serializer(), opdsPickTypeStr
+    )
+
     companion object {
         fun create(
             resultDest: ResultDest? = null,
-        ) = ExternalLinkEdit(
-            resultDestStr = resultDest.encodeToJsonStringOrNull()
+            opdsPickType: OpdsPickType,
+        ) = OpdsFeedEditAddLink(
+            resultDestStr = resultDest.encodeToJsonStringOrNull(),
+            opdsPickTypeStr = Json.encodeToString(
+                OpdsPickType.serializer(), opdsPickType
+            ),
         )
     }
 }

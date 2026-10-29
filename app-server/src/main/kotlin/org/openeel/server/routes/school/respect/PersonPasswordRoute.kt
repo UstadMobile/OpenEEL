@@ -9,12 +9,12 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.PersonPasswordDataSource
-import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
 
 fun Route.PersonPasswordRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->
-        call.requireAccountScope().get()
+        call.getUserAccountScope().get()
     },
 ) {
 

@@ -1,0 +1,5 @@
+appId: org.openeel.app
+
+---
+- longPressOn: "Link*"
+- tapOn: "Paste"

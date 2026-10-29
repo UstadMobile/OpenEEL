@@ -7,6 +7,7 @@ import io.ktor.client.request.put
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.datalayer.ext.bodyAsXapiDocument
 import org.openeel.datalayer.ext.getAsDataLoadState
@@ -14,6 +15,7 @@ import org.openeel.datalayer.ext.getDataLoadResultAsFlow
 import org.openeel.datalayer.ext.useTokenProvider
 import org.openeel.datalayer.http.school.xapi.ext.setXapiDocumentBody
 import org.openeel.datalayer.http.school.xapi.ext.throwXapiExceptionIfNotSuccessful
+import org.openeel.datalayer.http.school.xapi.ext.useRetry
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.xapi.model.XapiDocument
@@ -34,7 +36,7 @@ class XapiActivityProfileResourceHttpClient(
 
     private suspend fun XapiActivityProfileResource.SingleDocumentParams.urlWithParams(): Url {
         return URLBuilder(xapiUrl().appendEndpointSegments("activities/${XapiActivityProfileResource.ENDPOINT_NAME}")).also {
-            it.parameters.appendAll(this.toParameters())
+            it.parameters.appendAll(this.toParameters(Json))
         }.build()
     }
 
@@ -46,6 +48,8 @@ class XapiActivityProfileResourceHttpClient(
             url = params.urlWithParams(),
         ) {
             useTokenProvider(tokenProvider)
+            useRetry()
+
             headers.appendAll(dataLoadParams.requestHeaders)
         }
     }
@@ -61,6 +65,8 @@ class XapiActivityProfileResourceHttpClient(
             }
         ) {
             useTokenProvider(tokenProvider)
+            useRetry()
+
             headers.appendAll(dataLoadParams.requestHeaders)
         }
     }
@@ -74,6 +80,8 @@ class XapiActivityProfileResourceHttpClient(
             bodyAdapter = { it.bodyAsXapiDocument() },
         ) {
             useTokenProvider(tokenProvider)
+            useRetry()
+
             headers.appendAll(dataLoadParams.requestHeaders)
         }
     }
@@ -84,6 +92,8 @@ class XapiActivityProfileResourceHttpClient(
     ) {
         httpClient.post(params.urlWithParams()) {
             useTokenProvider(tokenProvider)
+            useRetry()
+
             setXapiDocumentBody(document)
         }.throwXapiExceptionIfNotSuccessful()
     }
@@ -94,6 +104,8 @@ class XapiActivityProfileResourceHttpClient(
     ) {
         httpClient.put(params.urlWithParams()) {
             useTokenProvider(tokenProvider)
+            useRetry()
+
             setXapiDocumentBody(document)
         }.throwXapiExceptionIfNotSuccessful()
     }
@@ -101,6 +113,7 @@ class XapiActivityProfileResourceHttpClient(
     override suspend fun delete(params: XapiActivityProfileResource.SingleDocumentParams) {
         httpClient.delete(params.urlWithParams()) {
             useTokenProvider(tokenProvider)
+            useRetry()
         }.throwXapiExceptionIfNotSuccessful()
     }
 }

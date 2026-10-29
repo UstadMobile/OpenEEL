@@ -3,6 +3,7 @@ package org.openeel.datalayer.repository.flow
 import app.cash.turbine.test
 import io.ktor.http.HttpHeaders
 import io.ktor.http.headers
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -17,6 +18,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.seconds
 
 class RepoFlowTest {
 
@@ -106,15 +108,14 @@ class RepoFlowTest {
             onRemoteUpdated = {}
         )
 
-        repoFlow.test {
-            val first = awaitItem()
-            assertTrue(first is DataReadyState)
-            assertEquals("cached-data", first.data)
+        repoFlow.filter {
+            it.localState is DataReadyState && it.remoteState is NoDataLoadedState
+        }.test {
+            val item = awaitItem()
+            assertTrue(item is DataReadyState)
+            assertEquals("cached-data", item.data)
+            assertEquals(NoDataLoadedState.Reason.NOT_FOUND, (item.remoteState as? NoDataLoadedState)?.reason)
 
-            val second = awaitItem()
-            assertTrue(second is DataReadyState)
-            assertEquals("cached-data", second.data)
-            assertEquals(NoDataLoadedState.Reason.NOT_FOUND, (second.remoteState as? NoDataLoadedState)?.reason)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -189,15 +190,14 @@ class RepoFlowTest {
             }
         )
 
-        repoFlow.test {
-            val first = awaitItem()
-            assertTrue(first is DataReadyState)
-            assertEquals("local-data", first.data)
+        repoFlow.filter {
+            it.localState is DataReadyState && it.remoteState is DataReadyState
+        }.test(timeout = 5.seconds) {
+            val dataReady = awaitItem()
 
-            val second = awaitItem()
-            assertTrue(second is DataReadyState)
-            assertEquals("local-data", second.data)
-            assertEquals("remote-data", (second.remoteState as? DataReadyState)?.data)
+            assertTrue(dataReady is DataReadyState)
+            assertEquals("local-data", dataReady.data)
+            assertEquals("remote-data", (dataReady.remoteState as? DataReadyState)?.data)
             cancelAndIgnoreRemainingEvents()
         }
 

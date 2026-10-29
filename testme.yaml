@@ -1,0 +1,17 @@
+appId: org.openeel.app
+---
+
+- tapOn: "Copy link"
+
+
+#copy link opens a clipboard pop-up, to remove that we use stop the app and launch it again
+- stopApp
+- launchApp
+- tapOn: "Collections"
+- tapOn:
+    id: "ExpandableFab"
+- tapOn: "Add from a link"
+- tapOn: "Link*"
+- pasteText
+
+

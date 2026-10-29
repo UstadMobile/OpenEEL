@@ -24,6 +24,7 @@ import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.hasIfNotModifiedHeaders
 import org.openeel.lib.dataloadstate.ext.isStillValid
 import org.openeel.lib.dataloadstate.ext.requestEtagAndLastModified
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
 import org.openeel.lib.xapi.exceptions.XapiException
 import org.openeel.lib.xapi.ext.isJson
 import org.openeel.lib.xapi.ext.mergeJsonDoc

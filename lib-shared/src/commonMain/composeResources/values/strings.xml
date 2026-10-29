@@ -1,9 +1,10 @@
 <resources>
+    <string name="app_name">OpenEEL</string>
     <string name="empty_list">Empty List</string>
     <string name="empty_list_description">"Add an app from the app list and it will show up here"</string>
     <string name="add_link">Add Link</string>
     <string name="add_from_link">Add from Link</string>
-    <string name="app_link_provided_message">Copy/paste the RESPECT app link provided by the app developer</string>
+    <string name="app_link_provided_message">Copy/paste the launchable app link provided by the app developer</string>
     <string name="error_link_message">"ERROR: Invalid link. Please check the URL and try again."</string>
     <string name="link_label">Link*</string>
     <string name="start_date_label">Start date</string>
@@ -39,7 +40,6 @@
     <string name="apps_detail">App detail</string>
     <string name="lesson_list">Lesson List</string>
     <string name="search">Search</string>
-    <string name="app_name">App name</string>
     <string name="score_or_progress">Score or Progress</string>
     <string name="play">Play</string>
     <string name="install">Install</string>
@@ -52,6 +52,8 @@
     <string name="msg_see_bookmark">Bookmark a lesson or a collection to see it here.</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="remove_bookmark">Bookmark removed</string>
+    <string name="unpin">Unpin</string>
+    <string name="unpinned_1_collection">Unpinned 1 Collection</string>
     <string name="undo">Undo</string>
     <string name="related_lessons">Related Lessons</string>
     <string name="duration">Duration</string>
@@ -242,22 +244,16 @@
     <string name="add_account">Add account</string>
     <string name="send_feedback">Send feedback</string>
     <string name="feedback_submitted">Feedback submitted</string>
-    <string name="feedback_submitted_message">Thank you for your feedback. Respect team will review it internally.</string>
+    <string name="feedback_submitted_message">Thank you for your feedback. The team will review it internally.</string>
     <string name="quick_contact">Quick Contact</string>
-    <string name="whatsapp_respect">Message the developers on WhatsApp</string>
-    <string name="email_respect">Email the developers</string>
+    <string name="message_on_whatsapp">Message the developers on WhatsApp</string>
+    <string name="email_the_developers">Email the developers</string>
     <string name="public_forum">Public forum</string>
     <string name="category">Category</string>
     <string name="your_feedback">Your feedback</string>
     <string name="describe_feedback_placeholder">Describe your issue or feedback in detail</string>
-    <string name="want_response_from_team">I want a response from the Respect team</string>
+    <string name="want_response_from_team">I want a response from the development team</string>
     <string name="submit_feedback">Submit feedback</string>
-    <string name="feedback_respect">Feedback about RESPECT</string>
-    <string name="category_launcher">Respect launcher related issues</string>
-    <string name="category_integrated_apps">Integrated Apps related issues</string>
-    <string name="category_question">Question</string>
-    <string name="category_rate_us">Rate us</string>
-    <string name="category_other">Other</string>
     <string name="error_message">Error: try again</string>
     <string name="logout">Logout</string>
     <string name="profile">Profile</string>
@@ -268,12 +264,12 @@
     <string name="onboardingTitle3">Assignments</string>
     <string name="onboardingTitle4">Data Reporting</string>
 
-    <string name="onboardingDescription1">RESPECT™ makes it easy to discover and use great edtech apps with a single account.</string>
-    <string name="onboardingDescription2">Download lessons to use offline. RESPECT™'s compression can reduce data usage.</string>
-    <string name="onboardingDescription3">Teachers can easily assign lessons from any edtech app on RESPECT™ as homework for students to complete on their parents' phone or any other device.</string>
+    <string name="onboardingDescription1">OpenEEL makes it easy to discover and use great edtech apps with a single account.</string>
+    <string name="onboardingDescription2">Download lessons to use offline. OpenEEL's compression can reduce data usage.</string>
+    <string name="onboardingDescription3">Teachers can easily assign lessons from any edtech app on OpenEEL™ as homework for students to complete on their parents' phone or any other device.</string>
     <string name="onboardingDescription4">Track progress with detailed reports.</string>
 
-    <string name="send_usage_stats_and_crash_reports">Send anonymous usage data and crash reports to RESPECT™.</string>
+    <string name="send_usage_stats_and_crash_reports">Send anonymous usage data and crash reports to developers.</string>
 
     <!-- Edit Report -->
     <string name="edit_report">Edit report</string>
@@ -605,13 +601,13 @@
 
     <string name="developed_by">Developed by UstadMobile FZ-LLC</string>
 
-    <string name="license_text">RESPECT App. Copyright 2025-2026 UstadMobile FZ-LLC.</string>
+    <string name="license_text">%1$s App. Copyright 2025-2026 UstadMobile FZ-LLC.</string>
 
     <string name="open_source">Open Source</string>
 
     <string name="proprietary">Proprietary</string>
 
-    <string name="respect_is_open_source">The RESPECT App is open-source software licensed under the AGPLv3 license. Contains open source libraries copyright respective contributors.</string>
+    <string name="app_is_open_source">%1$s is open-source software licensed under the AGPLv3 license. Contains open source libraries copyright respective contributors.</string>
 
     <string name="supported_by_spix_foundation">Supported by Spix Foundation.</string>
 
@@ -653,7 +649,7 @@
     <string name="select_none">Select none</string>
     <string name="copy_of">copy the %1$s</string>
     <string name="add_tasks_to_assignment">Add %1$d task to assignment</string>
-    <string name="move_to_section">Move to section…</string>
+    <string name="move_to">Move to</string>
     <string name="n_items">%1$d items</string>
     <string name="share_collection">Share collection</string>
     <string name="who_can_view">Who can view</string>
@@ -668,7 +664,7 @@
     <string name="select_this_collection">Select this collection</string>
     <string name="choose_item_type">Choose Item Type:</string>
     <string name="browse">Browse</string>
-    <string name="browse_description">Add from RESPECT apps, lessons, collections</string>
+    <string name="browse_description">Add from apps, bookmarks, and collections</string>
     <string name="use_link">Use link</string>
     <string name="use_link_description">Add from an external link</string>
     <string name="external_link">External Link</string>
@@ -746,4 +742,8 @@
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
 
+    <string name="links_to_learning_items">Links to learning items</string>
+
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>
 </resources>

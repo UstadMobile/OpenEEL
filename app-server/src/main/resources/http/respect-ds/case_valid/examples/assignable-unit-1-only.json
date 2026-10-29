@@ -1,0 +1,44 @@
+{
+  "metadata": {
+    "title": "Assignment Result Statement Demo"
+  },
+
+  "links": [
+    {"rel": "self", "href": "assignable-unit-1-only.json", "type": "application/opds+json"}
+  ],
+
+  "publications": [
+    {
+      "metadata": {
+        "@type": "http://schema.org/Game",
+        "title": "Assignment Result Statement Demo",
+        "author": "Mullah Nasruddin",
+        "identifier": "https://example.app/id/aunit1",
+        "language": "en",
+        "modified": "2015-09-29T17:00:00Z",
+        "subject": [
+          {
+            "name": "Mathematics",
+            "scheme": "https://www.bisg.org/#bisac",
+            "code": "MAT000000"
+          }
+        ]
+      },
+      "links": [
+        {
+          "rel": "self",
+          "href": "assignable-unit-1/unit.json",
+          "type": "application/opds-publication+json"
+        },
+        {
+          "rel": "http://opds-spec.org/acquisition/open-access",
+          "href": "assignable-unit-1/index.html",
+          "type": "text/html"
+        }
+      ],
+      "images": [
+        {"href": "assignable-unit-1/icon.png", "type": "image/png"}
+      ]
+    }
+  ]
+}

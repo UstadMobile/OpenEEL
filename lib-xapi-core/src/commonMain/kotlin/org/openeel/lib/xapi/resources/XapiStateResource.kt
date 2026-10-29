@@ -6,6 +6,7 @@ import io.ktor.util.StringValues
 import kotlinx.serialization.json.Json
 import org.openeel.lib.xapi.exceptions.XapiException
 import org.openeel.lib.xapi.ext.getUuidOrNull
+import org.openeel.lib.xapi.ext.requireIfi
 import org.openeel.lib.xapi.model.XapiAgent
 import org.openeel.libutil.ext.appendIfNotNull
 import kotlin.time.Instant
@@ -53,26 +54,11 @@ interface XapiStateResource: XapiDocumentResource<XapiStateResource.MultiDocPara
         val agent: XapiAgent,
         val registration: Uuid? = null,
         val stateId: String,
-    ) : ISingleDocumentParams<MultiDocParams> {
+    ) : ISingleDocumentParams {
 
         override val idString: String = stateId
 
-        override fun toMultiDocParams(since: Instant?): MultiDocParams {
-            return MultiDocParams(
-                activityId = activityId,
-                agent = agent,
-                registration = registration,
-                since = since,
-            )
-        }
-
-        override fun matches(multiDocParams: MultiDocParams): Boolean {
-            return multiDocParams.activityId == activityId &&
-                    multiDocParams.agent == agent &&
-                    multiDocParams.registration == registration
-        }
-
-        fun toParameters(json: Json): Parameters {
+        override fun toParameters(json: Json): Parameters {
             return ParametersBuilder().also { parameters ->
                 parameters.append("activityId", activityId)
                 parameters.append("agent", json.encodeToString(XapiAgent.serializer(), agent))
@@ -91,6 +77,36 @@ interface XapiStateResource: XapiDocumentResource<XapiStateResource.MultiDocPara
                     stateId = params["stateId"] ?: throw XapiException(400, "stateId is required"),
                 )
             }
+        }
+    }
+
+    class ParamsAdapter : XapiDocumentResourceParamsAdapter<MultiDocParams, SingleDocumentParams> {
+        override fun singleDocParamsToMutliDocParams(
+            params: SingleDocumentParams,
+            since: Instant?
+        ): MultiDocParams {
+            return MultiDocParams(
+                activityId = params.activityId,
+                agent = params.agent,
+                registration = params.registration,
+                since = since,
+            )
+        }
+
+        override fun singleDocParamsMatchMultiDocParams(
+            singleDocParams: SingleDocumentParams,
+            multiDocParams: MultiDocParams
+        ): Boolean {
+            return multiDocParams.activityId == singleDocParams.activityId &&
+                    multiDocParams.agent.requireIfi() == singleDocParams.agent.requireIfi() &&
+                    multiDocParams.registration == singleDocParams.registration
+        }
+
+        override fun singleDocParamsFromParameters(
+            params: Parameters,
+            json: Json
+        ): SingleDocumentParams {
+            return SingleDocumentParams.fromParameters(params, json)
         }
     }
 

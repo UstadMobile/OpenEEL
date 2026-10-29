@@ -47,54 +47,6 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-
-    dependencies {
-        api(projects.libCredentials)
-        implementation(projects.libCache)
-
-        implementation(projects.libAppuiCompose)
-        implementation(projects.libSharedSe)
-        implementation(projects.libXapiIpcServer)
-        implementation(projects.libDatalayerRepository)
-        implementation(projects.libPrimarykeygen)
-        implementation(projects.libHttpIpcServer)
-        implementation(projects.libHttpIpcClient)
-
-        implementation(libs.multiplatformsettings)
-        implementation(libs.androidx.credentials)
-        implementation(libs.androidx.credentials.play.service.auth)
-        implementation(compose.preview)
-        implementation(compose.components.resources)
-        implementation(libs.androidx.activity.compose)
-        implementation(libs.androidx.appcompat)
-
-        implementation(project.dependencies.platform(libs.koin.bom))
-        implementation(libs.koin.core)
-        implementation(libs.koin.android)
-        implementation(libs.okhttp)
-        implementation(libs.ktor.client.okhttp)
-        implementation(libs.ktor.client.core)
-        implementation(libs.ktor.client.json)
-        implementation(libs.ktor.client.content.negotiation)
-        implementation(libs.ktor.serialization.kotlinx.json)
-        implementation(libs.compose.material3.window.size.clazz)
-        implementation(projects.libDatalayerDb)
-        implementation(libs.androidx.room.runtime)
-        implementation(libs.androidx.sqlite.bundled)
-        implementation(libs.androidx.webkit)
-        implementation(libs.material)
-        implementation(libs.androidx.appcompat)
-        implementation(libs.coil3.coil.svg)
-        implementation(libs.acra.http)
-        implementation(libs.acra.core)
-        implementation(libs.libphonenumber.android)
-        implementation(libs.accompanist.permissions)
-        implementation(libs.coil.network.okhttp)
-        implementation(libs.coil3.coil.compose)
-        implementation(libs.napier)
-
-        implementation(compose.material3)
-    }
 }
 
 
@@ -178,5 +130,49 @@ android {
 }
 
 dependencies {
+    api(projects.libCredentials)
+    implementation(projects.libCache)
 
+    implementation(projects.libAppuiCompose)
+    implementation(projects.libSharedSe)
+    implementation(projects.libXapiIpcServer)
+    implementation(projects.libDatalayerRepository)
+    implementation(projects.libPrimarykeygen)
+    implementation(projects.libHttpIpcServer)
+    implementation(projects.libHttpIpcClient)
+
+    implementation(libs.multiplatformsettings)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.service.auth)
+    implementation(compose.preview)
+    implementation(compose.components.resources)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.okhttp)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.json)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.compose.material3.window.size.clazz)
+    implementation(projects.libDatalayerDb)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.sqlite.bundled)
+    implementation(libs.androidx.webkit)
+    implementation(libs.material)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.coil3.coil.svg)
+    implementation(libs.acra.http)
+    implementation(libs.acra.core)
+    implementation(libs.libphonenumber.android)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.coil3.coil.compose)
+    implementation(libs.napier)
+
+    implementation(compose.material3)
 }

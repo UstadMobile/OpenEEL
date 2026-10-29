@@ -4,6 +4,8 @@ import io.ktor.http.Url
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.libutil.ext.resolve
+import org.openeel.shared.util.ext.resolve
+import org.openeel.shared.viewmodel.catalog.PublicationsSelection
 
 fun Publication.resolve(baseUrl: Url) : Publication {
     return copy(
@@ -31,4 +33,22 @@ fun Publication.legacyActivityIdForLink(
     publicationUrl: Url,
 ): String {
     return metadata.identifier?.toString() ?: publicationUrl.resolve(link.href).toString()
+}
+
+/**
+ * Take an existing list of publications, then add selected publications. This will
+ * a) Resolve all links in the selection to absolute links using [PublicationsSelection.url]
+ * b) Return a list with the receiver list and the resolved publications
+ *
+ * @param selection [PublicationsSelection] to add
+ * @receiver a List of [Publication]
+ * @return List with the receiver list and selected publications resolved.
+ */
+fun List<Publication>.resolveAndAddSelection(selection: PublicationsSelection) : List<Publication>{
+    return buildList {
+        addAll(selection.selectedPublications.map {
+            it.resolve(selection.url) }
+        )
+        addAll(this@resolveAndAddSelection)
+    }
 }
