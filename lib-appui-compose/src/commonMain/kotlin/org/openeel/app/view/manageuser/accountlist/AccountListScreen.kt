@@ -131,7 +131,11 @@ fun AccountListScreen(
         }
 
         items(
-            items = uiState.visibleAccounts,
+            items = uiState.accounts.filterNot {
+                it.session.isSharedDeviceSessionWithoutProfile(
+                    person = it.person
+                )
+            },
             key = { it.session.account.userGuid }
         ) { account ->
             AccountListItem(

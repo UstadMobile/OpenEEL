@@ -45,17 +45,8 @@ import org.openeel.shared.navigation.LoginSelectClass
 data class AccountListUiState(
     val selectedAccount: UserSessionAndPerson? = null,
     val accounts: List<UserSessionAndPerson> = emptyList(),
-    val accountOwnerRole: PersonRoleEnum? = null,
-    val currentDeviceGuid: String? = null,
-    ) {
-    /** Accounts to show in the list: hides the device shared device account */
-    val visibleAccounts: List<UserSessionAndPerson>
-        get() = accounts.filterNot {
-            it.session.isSharedDeviceSessionWithoutProfile(
-                person = it.person,
-                currentDeviceGuid = currentDeviceGuid,
-            )
-        }
+    val accountOwnerRole: PersonRoleEnum? = null
+) {
 
     val showSelectedAccountProfileButton: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
