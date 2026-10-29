@@ -4,12 +4,19 @@ import app.cash.turbine.test
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.ext.toPrettyString
 import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
+import org.openeel.lib.xapi.ext.copyWithIdString
+import org.openeel.lib.xapi.ext.decodeFromXapiDocument
 import org.openeel.lib.xapi.model.XapiDocument
 import org.openeel.lib.xapi.resources.ISingleDocumentParams
 import org.openeel.lib.xapi.resources.XapiDocumentResource
@@ -18,7 +25,10 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Instant
 
 /**
  * The DocumentResourceRepositoryIntegrationTests are used to test offline-first repository
@@ -118,6 +128,7 @@ abstract class AbstractXapiDocumentResourceRepositoryIntegrationTest<
         document: XapiDocument,
         authenticatedXapiAgents: GetAuthenticatedXapiAgentsUseCase
     ) = runBlocking {
+        val testStartTime = Clock.System.now()
         withEmbeddedServerAndRepoClients(
             getAuthenticatedXapiAgentsUseCase = authenticatedXapiAgents,
             numClients = 2,
@@ -141,7 +152,7 @@ abstract class AbstractXapiDocumentResourceRepositoryIntegrationTest<
 
             serverContext.datasourceContext.datasource.xapiResource.getTestResource().getAsFlow(
                 params = params,
-                dataLoadParams = DataLoadParams()
+                dataLoadParams = DataLoadParams(),
             ).filterIsInstance<NoDataLoadedState<XapiDocument>>().test(
                 timeout = 5.seconds,
                 name = "Wait for doc to be deleted on server"
@@ -150,18 +161,52 @@ abstract class AbstractXapiDocumentResourceRepositoryIntegrationTest<
                     expected = NoDataLoadedState.Reason.NOT_FOUND,
                     actual = awaitItem().reason
                 )
+                cancelAndIgnoreRemainingEvents()
             }
 
+            serverContext.datasourceContext.datasource.xapiResource.getTestResource().getAsFlow(
+                params = params.copyWithIdString(idString = XapiDocumentResource.PROFILE_ID_DELETIONS),
+                dataLoadParams = DataLoadParams()
+            ).filterIsInstance<DataReadyState<XapiDocument>>().test(
+                timeout = 5.seconds,
+                name = "Wait for delete profile doc to be updated on server"
+            ) {
+                val timeDeleted = Json.decodeFromXapiDocument(
+                    JsonObject.serializer(), document = awaitItem().data
+                )[params.idString]?.jsonPrimitive?.contentOrNull?.let {
+                    Instant.parse(it)
+                }
+
+                assertNotNull(
+                    actual = timeDeleted,
+                    message = "Json profile id deletions should have deleted time"
+                )
+
+                val timeNow = Clock.System.now()
+                assertTrue(
+                    actual = timeDeleted in testStartTime..< timeNow,
+                    message = "Time deleted ($timeDeleted) should be after test started " +
+                            "($testStartTime) and before time of this assertion ($timeNow)",
+                )
+
+                cancelAndIgnoreRemainingEvents()
+            }
+
+
             (0..1).forEach {
-                val client1ResponseAfterDelete = clients.first().datasource.getTestResource().get(
+                val clientResponseAfterDelete = clients.first().datasource.getTestResource().get(
                     params = params, dataLoadParams = DataLoadParams(),
                 )
 
-                assertIs<NoDataLoadedState<*>>(client1ResponseAfterDelete)
+                assertIs<NoDataLoadedState<*>>(
+                    value = clientResponseAfterDelete,
+                    message = "Client $it data load state should be not loaded. It is " +
+                            clientResponseAfterDelete.toPrettyString(true),
+                )
 
                 assertEquals(
                     expected = NoDataLoadedState.Reason.NOT_FOUND,
-                    actual = (client1ResponseAfterDelete as? NoDataLoadedState)?.reason,
+                    actual = (clientResponseAfterDelete as? NoDataLoadedState)?.reason,
                     message = "Client $it data load state should be not loaded, with reason=NOT_FOUND",
                 )
             }

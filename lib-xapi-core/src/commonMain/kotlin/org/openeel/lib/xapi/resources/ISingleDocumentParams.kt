@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 /**
  * Interface implemented by the SingleDocParams on xAPI document resources.
  */
-interface ISingleDocumentParams {
+sealed interface ISingleDocumentParams {
 
     /**
      * Each of the xAPI use a string id: profileId for the activity profile resource
