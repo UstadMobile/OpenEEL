@@ -1,11 +1,10 @@
-package org.openeel.datalayer.school.model
+package org.openeel.lib.directory.model
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
-import org.openeel.datalayer.shared.ModelWithTimes
-import org.openeel.lib.directory.model.PersonGenderEnum
-import org.openeel.lib.directory.model.PersonRole
+import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.lib.directory.ModelWithTimes
 import org.openeel.lib.serializers.InstantAsISO8601
 import kotlin.time.Clock
 

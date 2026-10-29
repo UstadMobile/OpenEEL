@@ -12,7 +12,7 @@ import org.openeel.datalayer.repository.shared.paging.RepositoryPagingSourceFact
 import org.openeel.datalayer.repository.shared.paging.loadAndUpdateLocal2
 import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.PersonDataSourceLocal
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
 import org.openeel.datalayer.school.writequeue.WriteQueueItem

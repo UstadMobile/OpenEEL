@@ -12,7 +12,7 @@ import io.ktor.server.routing.post
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.PersonDataSource
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.server.util.ext.offsetLimitPagingLoadParams
 import org.openeel.server.util.ext.requireAccountScope
 import org.openeel.server.util.ext.respondOffsetLimitPaging

@@ -24,7 +24,7 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
 import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCase
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.lib.directory.model.PersonGenderEnum
 import org.openeel.lib.directory.model.PersonRole
 import org.openeel.lib.directory.model.PersonRoleEnum

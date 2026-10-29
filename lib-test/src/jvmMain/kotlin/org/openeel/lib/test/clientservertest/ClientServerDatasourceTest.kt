@@ -39,7 +39,7 @@ import org.openeel.datalayer.repository.SchoolDataSourceRepository
 import org.openeel.datalayer.repository.school.writequeue.DrainRemoteWriteQueueUseCase
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.model.AuthToken
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.lib.directory.model.PersonGenderEnum
 import org.openeel.lib.directory.model.PersonRole
 import org.openeel.lib.directory.model.PersonRoleEnum

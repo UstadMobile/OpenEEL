@@ -4,7 +4,7 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.openeel.datalayer.SchoolDataSourceLocal
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.lib.directory.model.PersonRole
 import org.openeel.datalayer.schooldirectory.SchoolDirectoryResourceLocal
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry

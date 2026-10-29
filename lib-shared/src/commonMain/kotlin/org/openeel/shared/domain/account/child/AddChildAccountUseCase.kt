@@ -1,7 +1,7 @@
 package org.openeel.shared.domain.account.child
 
 import kotlinx.serialization.Serializable
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 
 interface AddChildAccountUseCase {

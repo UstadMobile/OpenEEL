@@ -1,10 +1,10 @@
 package org.openeel.lib.directory.resources
 
 import kotlinx.coroutines.flow.Flow
+import org.openeel.lib.directory.model.Person
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.directory.model.EnrollmentRoleEnum
-import org.openeel.lib.directory.model.Person2
 import org.openeel.lib.directory.model.PersonRoleEnum
 
 interface PersonDirectoryResource {
@@ -24,14 +24,14 @@ interface PersonDirectoryResource {
     suspend fun list(
         loadParams: DataLoadParams,
         params: GetListParams = GetListParams(),
-    ): DataLoadState<List<Person2>>
+    ): DataLoadState<List<Person>>
 
     fun listAsFlow(
         loadParams: DataLoadParams,
         params: GetListParams = GetListParams(),
-    ): Flow<DataLoadState<List<Person2>>>
+    ): Flow<DataLoadState<List<Person>>>
 
     suspend fun store(
-        list: List<Person2>
+        list: List<Person>
     )
 }

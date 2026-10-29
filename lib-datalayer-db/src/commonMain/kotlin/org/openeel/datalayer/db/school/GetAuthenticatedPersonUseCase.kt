@@ -5,7 +5,7 @@ import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toModel
 import org.openeel.datalayer.db.school.adapters.toPersonEntities
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 
 class GetAuthenticatedPersonUseCase(
     private val authenticatedUserPrincipalId: AuthenticatedUserPrincipalId,

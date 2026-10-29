@@ -2,7 +2,7 @@ package org.openeel.datalayer.respect.model
 
 import io.ktor.http.Url
 import kotlinx.serialization.Serializable
-import org.openeel.datalayer.shared.ModelWithTimes
+import org.openeel.lib.directory.ModelWithTimes
 import org.openeel.lib.opds.model.LangMap
 import org.openeel.lib.serializers.InstantAsISO8601
 

@@ -9,7 +9,7 @@ import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.lib.directory.model.PersonGenderEnum
 import org.openeel.lib.directory.model.PersonRole
 import org.openeel.lib.directory.model.PersonRoleEnum

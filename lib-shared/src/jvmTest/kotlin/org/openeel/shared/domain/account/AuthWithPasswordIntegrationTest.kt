@@ -10,7 +10,7 @@ import org.mockito.kotlin.mock
 import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toEntities
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.libxxhash.XXStringHasher
 import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import org.openeel.datalayer.UidNumberMapper

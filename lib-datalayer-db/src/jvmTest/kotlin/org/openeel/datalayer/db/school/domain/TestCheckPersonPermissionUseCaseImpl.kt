@@ -10,7 +10,7 @@ import org.openeel.datalayer.db.school.testSchoolDb
 import org.openeel.datalayer.db.school.toDataSource
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.ext.primaryRole
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.lib.directory.model.PersonGenderEnum
 import org.openeel.lib.directory.model.PersonRole
 import org.openeel.lib.directory.model.PersonRoleEnum

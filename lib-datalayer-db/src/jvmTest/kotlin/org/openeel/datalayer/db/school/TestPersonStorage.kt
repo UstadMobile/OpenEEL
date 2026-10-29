@@ -7,7 +7,7 @@ import org.junit.rules.TemporaryFolder
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.lib.directory.model.PersonGenderEnum
 import org.openeel.lib.directory.model.PersonRole
 import org.openeel.lib.directory.model.PersonRoleEnum
