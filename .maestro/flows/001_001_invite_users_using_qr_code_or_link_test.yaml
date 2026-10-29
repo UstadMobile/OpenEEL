@@ -215,8 +215,12 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Classes"
-- tapOn: "New Class"
-- assertVisible: "Pending requests.*"
+- retry:
+    maxRetries: 3
+    commands:
+      - tapOn: "Classes"
+      - tapOn: "New Class"
+      - assertVisible: "Pending requests.*"
 - assertVisible: "Student User.*"
 - tapOn: "Accept Invite"
 
