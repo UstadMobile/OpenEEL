@@ -420,6 +420,7 @@ val appKoinModule = module {
     viewModelOf(::WaitingForApprovalViewModel)
     viewModelOf(::CreateAccountViewModel)
     viewModelOf(::GetStartedViewModel)
+    viewModelOf(::NewGetStartedViewModel)
     viewModelOf(::PasskeyListViewModel)
     viewModelOf(::HowPasskeyWorksViewModel)
     viewModelOf(::OtherOptionsViewModel)

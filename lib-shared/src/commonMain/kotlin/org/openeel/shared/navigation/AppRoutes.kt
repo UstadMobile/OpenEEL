@@ -317,6 +317,11 @@ data class GetStartedScreen(
 ) : OpenEelAppRoute
 
 @Serializable
+data class NewGetStartedScreen(
+    val canGoBack: Boolean = false,
+) : RespectAppRoute
+
+@Serializable
 object OtherOption : OpenEelAppRoute
 
 @Serializable

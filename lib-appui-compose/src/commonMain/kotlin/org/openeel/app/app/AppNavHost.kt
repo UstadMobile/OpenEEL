@@ -433,6 +433,15 @@ fun AppNavHost(
             GetStartedScreen(viewModel = viewModel)
         }
 
+        composable<NewGetStartedScreen> {
+            val viewModel: NewGetStartedViewModel = respectViewModel(
+                onSetAppUiState = onSetAppUiState,
+                navController = respectNavController
+            )
+            NewGetStartedScreen(viewModel = viewModel)
+        }
+
+
         composable<OtherOption> {
             val viewModel: OtherOptionsViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
