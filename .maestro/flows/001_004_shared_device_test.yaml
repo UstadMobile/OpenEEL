@@ -51,6 +51,26 @@ onFlowComplete:
       CLASS_NAME: "New Class"
       USERNAME: "teacherauser"
       PASSWORD: "test123"
+# Add Family member to Student profile
+- tapOn: "People"
+- tapOn: "StudentA User"
+- tapOn:
+    id: "floating_action_button"
+- tapOn: "Family member"
+- tapOn: "Add person"
+- tapOn: "First names*"
+- inputText: "Parent"
+- tapOn: "Last name*"
+- inputText: "User"
+- tapOn: "Gender*"
+- tapOn: "Male"
+- tapOn: "Save"
+- assertVisible: "Parent User"
+- tapOn: "Save"
+- assertVisible:
+    id: "app_title"
+    text: "StudentA User"
+- assertVisible: "Parent User"
 - tapOn:
     id: "nav_home"
 - assertVisible:
@@ -136,22 +156,12 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Teacher/admin login"
-#- tapOn: "Enter school device PIN"
-#- inputText: ${maestro.copiedText}
-#- tapOn: "Next"
-#- assertVisible: "Incorrect device PIN"
-#- eraseText
 - tapOn: "Enter school device PIN"
 - inputText: "1234"
 - tapOn: "Next"
 - assertVisible:
     id: "app_title"
     text: "Login"
-#- tapOn: "Select another school"
-#- runFlow:
-#    file: "subflows/get_started_select_school_by_name.yaml"
-#    env:
-#      SCHOOL_NAME: ${SCHOOL_NAME}
 - tapOn:
     id: "username"
 - inputText: "teacherauser"
@@ -344,7 +354,12 @@ onFlowComplete:
 - assertNotVisible: "People"
 - tapOn:
     id: "user_account_icon"
-- assertNotVisible: "Share Feedback"
 - assertVisible: "StudentA User"
+- assertNotVisible: "Share Feedback"
+- assertNotVisible: "TeacherA User"
+- assertNotVisible: "ParentA User"
+- assertNotVisible: "Add account"
 - tapOn: "Logout"
-
+- assertVisible:
+    id: "app_title"
+    text: "Login"
