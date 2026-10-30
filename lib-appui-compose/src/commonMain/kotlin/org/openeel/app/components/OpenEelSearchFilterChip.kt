@@ -67,17 +67,21 @@ fun <T> OpenEelSearchFilterChip(
         onClick = { sheetExpanded = true },
         modifier = modifier,
         label = {
-            Text(
-                text = if (selectedOptions.isNotEmpty()) {
+            val label = if (selectedOptions.isNotEmpty()) {
+                val firstSelectedLabel = optionLabel(selectedOptions.first())
+                if (selectedOptions.size > 1) {
                     stringResource(
                         Res.string.filter_selected_count,
-                        chipLabel,
-                        selectedOptions.size
+                        firstSelectedLabel,
+                        selectedOptions.size - 1
                     )
                 } else {
-                    chipLabel
-                },
-            )
+                    firstSelectedLabel
+                }
+            } else {
+                chipLabel
+            }
+            Text(text = label)
         },
         trailingIcon = {
             Icon(
