@@ -57,7 +57,6 @@ onFlowComplete:
     timeout: 10000
 - assertVisible: "Hello World Lesson"
 - tapOn: "Close"
-- setAirplaneMode: disabled
 - tapOn:
     id: "nav_home"
 - tapOn: "Example Web App"
@@ -146,3 +145,37 @@ onFlowComplete:
     index: 0
 - assertNotVisible: "Lesson 001"
 - assertVisible: "Statement Maker"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Apps"
+# Search all available lessons/collections
+- tapOn:
+    id: "action_search"
+- inputText: "Lesson"
+- assertVisible: "Lesson 001"
+- tapOn: "Language"
+- tapOn: "English"
+- tapOn:
+    id: "close_filter_bottom_sheet_button"
+- assertVisible: "Language (1)"
+- assertVisible: "Lesson 001"
+- tapOn: "Type"
+- assertVisible: "Collection"
+- assertVisible: "Game"
+- assertVisible: "Book"
+- tapOn: "Video"
+- tapOn:
+    id: "close_filter_bottom_sheet_button"
+- assertNotVisible: "Lesson 001"
+- tapOn: "Clear all"
+- assertNotVisible: "Language (1)"
+- assertNotVisible: "Type (1)"
+- assertVisible: "Lesson 001"
+- tapOn:
+    id: "search_box"
+- eraseText
+- inputText: "JS"
+- assertVisible: "JS Tetris"
+- assertNotVisible: "Lesson 001"
+- tapOn: "JS Tetris"
+- assertVisible: "JS Tetris"

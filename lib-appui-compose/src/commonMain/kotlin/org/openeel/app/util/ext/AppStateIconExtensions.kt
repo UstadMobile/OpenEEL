@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.openeel.shared.viewmodel.app.appstate.AppStateIcon
 
@@ -16,4 +17,5 @@ fun AppStateIcon.toImageVector(): ImageVector = when (this) {
     AppStateIcon.CLOSE -> Icons.Filled.Close
     AppStateIcon.DELETE -> Icons.Filled.Delete
     AppStateIcon.MORE_VERT -> Icons.Filled.MoreVert
+    AppStateIcon.SEARCH -> Icons.Filled.Search
 }

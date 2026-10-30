@@ -10,6 +10,7 @@ import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
+import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.datalayer.db.school.opds.adapters.OpdsFeedEntities
 import org.openeel.datalayer.db.school.opds.adapters.asEntities
 import org.openeel.datalayer.db.school.opds.adapters.asModel
@@ -40,6 +41,52 @@ class OpdsFeedDataSourceDb(
     private val json: Json,
     private val primaryKeyGenerator: PrimaryKeyGenerator,
 ) : OpdsFeedDataSourceLocal{
+
+    override fun searchAsFlow(
+        params: OpdsFeedDataSourceLocal.SearchParams,
+    ): Flow<List<OpdsSearchResult>> {
+        return schoolDb.getOpdsFeedEntityDao().searchAsFlow(
+            searchText = params.searchText.trim(),
+            filterByLanguage = params.languages.isNotEmpty(),
+            languages = params.languages,
+            filterBySubject = params.subjects.isNotEmpty(),
+            subjects = params.subjects,
+            filterByType = params.publicationTypes.isNotEmpty(),
+            types = params.publicationTypes,
+            includePublications = params.includePublications,
+            includeNavigation = params.includeNavigation,
+        )
+    }
+
+    /**
+     * Publication schema.org types to match (e.g. excluding TYPE_COLLECTION, which matches
+     * navigation links).
+     */
+    private val OpdsFeedDataSourceLocal.SearchParams.publicationTypes: List<String>
+        get() = types.filter { it != OpdsFeedDataSourceLocal.TYPE_COLLECTION }
+
+    private val OpdsFeedDataSourceLocal.SearchParams.includePublications: Boolean
+        get() = types.isEmpty() || publicationTypes.isNotEmpty()
+
+    /**
+     * Navigation links do not have a language or subject, so they are only included when no
+     * language or subject filter is selected.
+     */
+    private val OpdsFeedDataSourceLocal.SearchParams.includeNavigation: Boolean
+        get() = (types.isEmpty() || OpdsFeedDataSourceLocal.TYPE_COLLECTION in types) &&
+            languages.isEmpty() && subjects.isEmpty()
+
+    override fun getLanguageOptionsAsFlow(
+        searchText: String,
+    ): Flow<List<String>> {
+        return schoolDb.getOpdsFeedEntityDao().findPublicationLanguagesAsFlow(searchText.trim())
+    }
+
+    override fun getSubjectOptionsAsFlow(
+        searchText: String,
+    ): Flow<List<String>> {
+        return schoolDb.getOpdsFeedEntityDao().findPublicationSubjectsAsFlow(searchText.trim())
+    }
 
     private suspend fun OpdsFeedEntity?.toDataLoadState(
         url: Url,
@@ -136,6 +183,8 @@ class OpdsFeedDataSourceDb(
         schoolDb.getOpdsFeedMetadataEntityDao().deleteByFeedUid(feedUid)
         schoolDb.getLangMapEntityDao().deleteAllByFeedUid(feedUid)
         schoolDb.getReadiumLinkEntityDao().deleteAllByFeedUid(feedUid)
+        //Must run before the publications are deleted: uses the feed publication uids
+        schoolDb.getReadiumSubjectEntityDao().deleteAllByFeedUid(feedUid)
         schoolDb.getOpdsPublicationEntityDao().deleteAllByFeedUid(feedUid)
         schoolDb.getOpdsGroupEntityDao().deleteByFeedUid(feedUid)
 
@@ -146,6 +195,7 @@ class OpdsFeedDataSourceDb(
         schoolDb.getLangMapEntityDao().insertAsync(feedEntities.langMapEntities)
         schoolDb.getReadiumLinkEntityDao().insertList(feedEntities.linkEntities)
         schoolDb.getOpdsPublicationEntityDao().insertList(feedEntities.publications)
+        schoolDb.getReadiumSubjectEntityDao().insertList(feedEntities.subjects)
         schoolDb.getOpdsGroupEntityDao().insertList(feedEntities.groups)
     }
 

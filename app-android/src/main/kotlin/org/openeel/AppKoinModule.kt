@@ -224,6 +224,7 @@ import org.openeel.shared.viewmodel.clazz.edit.ClazzEditViewModel
 import org.openeel.shared.viewmodel.clazz.list.ClazzListViewModel
 import org.openeel.shared.viewmodel.catalog.publicationdetail.PublicationDetailViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailViewModel
+import org.openeel.shared.viewmodel.catalog.opdssearch.OpdsSearchViewModel
 import org.openeel.shared.viewmodel.manageuser.accountlist.AccountListViewModel
 import org.openeel.shared.viewmodel.manageuser.sharefeedback.ShareFeedbackViewModel
 import org.openeel.shared.viewmodel.manageuser.acceptinvite.AcceptInviteViewModel
@@ -409,6 +410,7 @@ val appKoinModule = module {
     viewModelOf(::ClazzEditViewModel)
     viewModelOf(::ClazzDetailViewModel)
     viewModelOf(::OpdsFeedDetailViewModel)
+    viewModelOf(::OpdsSearchViewModel)
     viewModelOf(::PublicationDetailViewModel)
     viewModelOf(::ReportViewModel)
     viewModelOf(::AcknowledgementViewModel)
