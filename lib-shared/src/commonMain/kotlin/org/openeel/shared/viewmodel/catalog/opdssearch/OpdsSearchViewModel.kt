@@ -88,7 +88,6 @@ class OpdsSearchViewModel(
                 userAccountIconVisible = false,
                 searchState = AppBarSearchUiState(
                     visible = true,
-                    expandedByDefault = true,
                     searchText = "",
                     onSearchTextChanged = ::onSearchTextChanged,
                 ),

@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.savedstate.read
 import com.ustadmobile.libuicompose.theme.appBarSelectionModeBackgroundColor
 import com.ustadmobile.libuicompose.theme.appBarSelectionModeContentColor
 import kotlinx.coroutines.flow.Flow
@@ -60,6 +61,7 @@ import org.openeel.shared.generated.resources.back
 import org.openeel.shared.generated.resources.search
 import org.openeel.shared.generated.resources.settings
 import org.openeel.shared.generated.resources.more_options
+import org.openeel.shared.navigation.ARG_FOCUS_SEARCH
 import org.openeel.shared.util.ext.isLoading
 import org.openeel.shared.viewmodel.app.appstate.AppActionButton
 import org.openeel.shared.viewmodel.app.appstate.AppBarColors
@@ -77,7 +79,8 @@ fun OpenEelAppBar(
     topLevelItems: List<TopNavigationItem>,
 ) {
     val currentBackStack by navController.currentBackStack.collectAsState()
-    val currentRoute = currentBackStack.lastOrNull()?.destination?.route
+    val currentEntry = currentBackStack.lastOrNull()
+    val currentRoute = currentEntry?.destination?.route
     val isRootDest = remember(currentRoute) {
         topLevelItems.any { it.routeName == currentRoute }
     }
@@ -110,20 +113,20 @@ fun OpenEelAppBar(
 
     val pendingWriteCount by writeQueueSizeFlow.collectAsState(1)
 
-    var searchActive by remember(appUiState.searchState.expandedByDefault) {
-        mutableStateOf(appUiState.searchState.expandedByDefault)
+    var searchActive by remember(currentEntry) {
+        mutableStateOf(false)
     }
 
-    var searchHasFocus by remember {
+    var searchHasFocus by remember(currentEntry) {
         mutableStateOf(false)
     }
 
     val focusRequester = remember { FocusRequester() }
 
-    //Focus the search box when it appears after the user clicks the search icon
-    LaunchedEffect(searchActive) {
-        if(compactHeader && searchActive)
-            focusRequester.requestFocus()
+    LaunchedEffect(currentEntry) {
+        searchActive = currentEntry?.arguments?.read {
+            contains(ARG_FOCUS_SEARCH) && getBoolean(ARG_FOCUS_SEARCH)
+        } == true
     }
 
     var showOverflowMenu by remember { mutableStateOf(false) }
@@ -167,6 +170,12 @@ fun OpenEelAppBar(
             actions = {
                 if(appUiState.searchState.visible) {
                     if(!compactHeader || searchActive) {
+                        // Wait for the field to be composed, including delayed app UI state updates.
+                        LaunchedEffect(currentEntry, searchActive) {
+                            if(searchActive)
+                                focusRequester.requestFocus()
+                        }
+
                         OutlinedTextField(
                             modifier = Modifier.testTag("search_box")
                                 .focusRequester(focusRequester)

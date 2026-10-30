@@ -195,7 +195,7 @@ class AppLauncherViewModel(
     }
 
     fun onClickSearch() {
-        _navCommandFlow.tryEmit(NavCommand.Navigate(OpdsSearch))
+        _navCommandFlow.tryEmit(NavCommand.Navigate(OpdsSearch()))
     }
 
     fun onClickSettings() {
