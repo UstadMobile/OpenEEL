@@ -97,10 +97,16 @@ class OpdsSearchViewModel(
 
         viewModelScope.launch {
             uiState.map { it.searchParams }.distinctUntilChanged().collectLatest { searchParams ->
-                schoolDataSourceLocal.opdsFeedDataSource.searchAsFlow(searchParams)
-                    .collectLatest { searchResults ->
-                        _uiState.update { it.copy(results = searchResults) }
-                    }
+                if (searchParams.searchText.isBlank() && searchParams.languages.isEmpty() &&
+                    searchParams.subjects.isEmpty() && searchParams.types.isEmpty()
+                ) {
+                    _uiState.update { it.copy(results = emptyList()) }
+                } else {
+                    schoolDataSourceLocal.opdsFeedDataSource.searchAsFlow(searchParams)
+                        .collectLatest { searchResults ->
+                            _uiState.update { it.copy(results = searchResults) }
+                        }
+                }
             }
         }
 
