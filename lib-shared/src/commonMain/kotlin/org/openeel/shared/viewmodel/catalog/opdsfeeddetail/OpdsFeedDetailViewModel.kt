@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.db.school.ext.isAdminOrTeacher
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
@@ -32,8 +32,10 @@ import org.openeel.libutil.ext.resolve
 import org.openeel.libutil.ext.toggle
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.catalog.checkcanwritefeedusecase.CheckCanWriteFeedUseCase
+import org.openeel.shared.domain.catalog.deleteopdsfeed.DeleteOpdsFeedUseCase
 import org.openeel.shared.domain.clipboard.SetClipboardStringUseCase
 import org.openeel.shared.ext.resultExpected
+import org.openeel.shared.ext.tryOrShowSnackbarOnError
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.edit
 import org.openeel.shared.generated.resources.language
@@ -131,8 +133,6 @@ class OpdsFeedDetailViewModel(
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
-    private val schoolDataSource: SchoolDataSource by inject()
-
     private val _uiState = MutableStateFlow(OpdsFeedDetailUiState())
 
     val uiState = _uiState.asStateFlow()
@@ -140,6 +140,10 @@ class OpdsFeedDetailViewModel(
     private val route: OpdsFeedDetail = savedStateHandle.toRoute()
 
     private val checkCanWriteFeedUseCase: CheckCanWriteFeedUseCase by inject()
+
+    private val deleteOpdsFeedUseCase: DeleteOpdsFeedUseCase by inject()
+
+    private val opdsMediator: OpdsFeedDataSource by inject()
 
     init {
         _uiState.update {
@@ -180,7 +184,7 @@ class OpdsFeedDetailViewModel(
         }
 
         viewModelScope.launch {
-            schoolDataSource.opdsFeedDataSource.getByUrlAsFlow(
+            opdsMediator.getByUrlAsFlow(
                 url = route.opdsFeedUrl,
                 params = DataLoadParams()
             ).collect { result ->
@@ -404,49 +408,6 @@ class OpdsFeedDetailViewModel(
         _uiState.update { it.copy(copyDialogName = name) }
     }
 
-    fun onCopyDialogConfirm() {
-        /*
-        val feed = _uiState.value.feed
-            ?: throw IllegalStateException("onCopyDialogConfirm called but feed is null")
-        val newName = _uiState.value.copyDialogName.trim()
-        if (newName.isBlank())
-            throw IllegalStateException("onCopyDialogConfirm called but the new name is blank")
-
-        viewModelScope.launch {
-            val sessionAndPerson = accountManager.selectedAccountAndPersonFlow.first()
-                ?: throw IllegalStateException("No active session when copying feed")
-
-            val username = sessionAndPerson.person.username
-                ?: throw IllegalStateException(
-                    "Active person has no username: ${sessionAndPerson.person.guid}"
-                )
-
-            @OptIn(ExperimentalUuidApi::class)
-            val copiedFeed = makePlaylistOpdsFeedUseCase.invoke(
-                base = feed.copy(
-                    metadata = feed.metadata.copy(title = newName)
-                ),
-                username = username,
-            )
-
-            schoolDataSource.opdsFeedDataSource.store(listOf(copiedFeed))
-
-            _uiState.update { it.copy(showCopyDialog = false, copyDialogName = "") }
-
-            val copiedUrl = copiedFeed.selfUrl()
-                ?: throw IllegalStateException("Copied feed has no self URL")
-
-            _navCommandFlow.tryEmit(
-                NavCommand.Navigate(
-                    PlaylistEdit.create(
-                        playlistUrl = copiedUrl,
-                        isCopy = true,
-                    )
-                )
-            )
-        }*/
-    }
-
     fun onClickDelete() {
         _uiState.update { it.copy(showDeleteDialog = true) }
     }
@@ -456,22 +417,14 @@ class OpdsFeedDetailViewModel(
     }
 
     fun onDeleteDialogConfirm() {
-        /*
-        viewModelScope.launch {
-            val feed = _uiState.value.feed
-                ?: throw IllegalStateException("onDeleteDialogConfirm called but feed is null")
-            val selfUrl = feed.selfUrl()
-                ?: throw IllegalStateException("Cannot delete: feed has no self URL")
-
-            schoolDataSource.opdsFeedDataSource.deleteByUrl(selfUrl)
-
-            _uiState.update { it.copy(showDeleteDialog = false) }
-            _navCommandFlow.tryEmit(
-                NavCommand.Navigate(
-                    destination = RespectAppLauncher.create()
+        launchWithLoadingIndicator {
+            snackBarDispatcher.tryOrShowSnackbarOnError {
+                deleteOpdsFeedUseCase(route.opdsFeedUrl)
+                _navCommandFlow.tryEmit(
+                    NavCommand.PopUp()
                 )
-            )
-        }*/
+            }
+        }
     }
 
     fun onClickAssignGroup(

@@ -77,7 +77,7 @@ fun <T: Any, R: Any> Flow<DataLoadState<T>>.asRepoFlow(
                 /* When new remote data is loaded, this normally leads to updating the local
                  * datasource, which then leads to the local flow emitting the new data. We want
                  * to avoid triggering _another_ request to the remote datasource for the same data
-                 * we just received from it.
+                 * we just loaded from the remote data source.
                  *
                  * This is done by keeping the last few headers.
                  */

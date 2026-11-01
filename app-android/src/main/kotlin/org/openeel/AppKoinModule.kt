@@ -162,6 +162,8 @@ import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUs
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_CLIENT
 import org.openeel.datalayer.db.school.auth.GetXapiAuthorityActorUseCaseDbImpl
 import org.openeel.datalayer.http.ext.schoolDirectoryEntryOrNull
+import org.openeel.datalayer.repository.opds.OpdsFeedActivityProfileMediator
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
 import org.openeel.lib.xapi.auth.GetXapiAuthorityActorUseCase
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
@@ -249,6 +251,7 @@ import org.openeel.shared.domain.biometric.BiometricAuthUseCase
 import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
 import org.openeel.shared.domain.catalog.PinOpdsUseCase
 import org.openeel.shared.domain.catalog.checkcanwritefeedusecase.CheckCanWriteFeedUseCase
+import org.openeel.shared.domain.catalog.deleteopdsfeed.DeleteOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
 import org.openeel.shared.domain.createclass.CreateClassUseCase
 import org.openeel.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
@@ -1294,6 +1297,13 @@ val appKoinModule = module {
             )
         }
 
+        scoped<DeleteOpdsFeedUseCase> {
+            DeleteOpdsFeedUseCase(
+                xapiActivityProfileResource = get<SchoolDataSource>().xapiResource.activityProfile,
+                opdsFeedDataSourceLocal = get<SchoolDataSourceLocal>().opdsFeedDataSource,
+            )
+        }
+
         scoped<PinOpdsUseCase> {
             PinOpdsUseCase(
                 statementsResource = get<SchoolDataSource>().xapiResource.statements,
@@ -1321,7 +1331,25 @@ val appKoinModule = module {
                 }
             )
         }
+
+        scoped<OpdsFeedDataSource> {
+            val schoolUrl = UserAccountScopeId.parse(id).schoolUrl
+            val schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>()
+                .schoolDirectoryEntryResource
+
+            OpdsFeedActivityProfileMediator(
+                opdsLocal = get<SchoolDataSourceLocal>().opdsFeedDataSource,
+                opdsRepo = get<SchoolDataSource>().opdsFeedDataSource,
+                activityProfileRepo = get<SchoolDataSource>().xapiResource.activityProfile,
+                json = get(),
+                xapiUrl = {
+                    schoolDirectoryEntryResource.schoolDirectoryEntryOrNull(schoolUrl)?.xapi
+                        ?: throw IllegalStateException("SchoolUrl $schoolUrl has no XAPI URL")
+                }
+            )
+        }
     }
+
     single<RunReportUseCase> {
         MockRunReportUseCaseClientImpl()
     }

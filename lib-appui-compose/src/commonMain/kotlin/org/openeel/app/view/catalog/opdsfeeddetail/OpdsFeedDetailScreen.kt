@@ -18,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -43,11 +42,8 @@ import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.assign
 import org.openeel.shared.generated.resources.cancel
-import org.openeel.shared.generated.resources.copy
 import org.openeel.shared.generated.resources.copy_of
 import org.openeel.shared.generated.resources.delete
-import org.openeel.shared.generated.resources.make_a_copy
-import org.openeel.shared.generated.resources.name
 import org.openeel.shared.generated.resources.permanently_delete
 import org.openeel.shared.generated.resources.permanently_delete_description
 import org.openeel.shared.generated.resources.select_count_items
@@ -85,9 +81,6 @@ fun OpdsFeedDetailScreen(
         onClickDelete = viewModel::onClickDelete,
         onClickAssignGroup = viewModel::onClickAssignGroup,
         onClickAssignQuickActionButton = viewModel::onClickAssignQuickActionButton,
-        onCopyDialogDismiss = viewModel::onCopyDialogDismiss,
-        onCopyDialogNameChanged = viewModel::onCopyDialogNameChanged,
-        onCopyDialogConfirm = viewModel::onCopyDialogConfirm,
         onDeleteDialogDismiss = viewModel::onDeleteDialogDismiss,
         onDeleteDialogConfirm = viewModel::onDeleteDialogConfirm,
     )
@@ -110,9 +103,6 @@ fun OpdsFeedDetailScreen(
     onClickDelete: () -> Unit = {},
     onClickAssignGroup: (OpdsGroup) -> Unit = {},
     onClickAssignQuickActionButton: () -> Unit = {},
-    onCopyDialogDismiss: () -> Unit = {},
-    onCopyDialogNameChanged: (String) -> Unit = {},
-    onCopyDialogConfirm: () -> Unit = {},
     onDeleteDialogDismiss: () -> Unit = {},
     onDeleteDialogConfirm: () -> Unit = {},
 ) {
@@ -250,15 +240,6 @@ fun OpdsFeedDetailScreen(
         }
     }
 
-    if (uiState.showCopyDialog) {
-        CopyFeedDialog(
-            name = uiState.copyDialogName,
-            onNameChanged = onCopyDialogNameChanged,
-            onDismiss = onCopyDialogDismiss,
-            onConfirm = onCopyDialogConfirm,
-        )
-    }
-
     if (uiState.showDeleteDialog) {
         DeleteFeedDialog(
             onDismiss = onDeleteDialogDismiss,
@@ -306,46 +287,6 @@ private fun FeedSectionHeader(
                         contentDescription = null,
                     )
                 }
-            }
-        },
-    )
-}
-
-@Composable
-private fun CopyFeedDialog(
-    name: String,
-    onNameChanged: (String) -> Unit,
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(text = stringResource(Res.string.make_a_copy)) },
-        text = {
-            OutlinedTextField(
-                value = name,
-                onValueChange = onNameChanged,
-                label = { Text(stringResource(Res.string.name)) },
-                singleLine = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("copy_dialog_name_field"),
-            )
-        },
-        confirmButton = {
-            TextButton(
-                onClick = onConfirm,
-                modifier = Modifier.testTag("copy_dialog_confirm"),
-            ) {
-                Text(text = stringResource(Res.string.copy))
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = onDismiss,
-                modifier = Modifier.testTag("copy_dialog_dismiss"),
-            ) {
-                Text(text = stringResource(Res.string.cancel))
             }
         },
     )
