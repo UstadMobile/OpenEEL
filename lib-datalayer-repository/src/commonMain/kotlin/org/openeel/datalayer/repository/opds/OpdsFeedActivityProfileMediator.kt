@@ -1,8 +1,12 @@
 package org.openeel.datalayer.repository.opds
 
 import io.ktor.http.Url
+import io.ktor.http.encodedPath
+import io.ktor.http.protocolWithAuthority
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
@@ -17,6 +21,7 @@ import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.xapi.ext.decodeFromXapiDocument
 import org.openeel.lib.xapi.model.XapiDocument
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.libutil.ext.appendEndpointSegments
 
 /**
  * The [OpdsFeed] data source handling is a little different because whilst normally an OpdsFeed
@@ -27,6 +32,12 @@ import org.openeel.lib.xapi.resources.XapiActivityProfileResource
  * When loading an [OpdsFeed] that is stored using the [XapiActivityProfileResource] (as determined
  * by checking the URL) then loading is done through the [XapiActivityProfileResource] and the
  * [OpdsFeedDataSourceLocal] is updated accordingly (such that search etc will work as expected).
+ *
+ * @param opdsLocal the [OpdsFeedDataSourceLocal]
+ * @param opdsRepo the [OpdsFeedDataSourceRepository] that handles normal offline-first [OpdsFeed] loading
+ * @param activityProfileRepo the [XapiActivityProfileResource] being used to save/load OpdsFeeds
+ * @param json Kotlinx serialization Json
+ * @param xapiUrl the function that provides the xAPI endpoint base Url
  */
 class OpdsFeedActivityProfileMediator(
     val opdsLocal: OpdsFeedDataSourceLocal,
@@ -35,6 +46,12 @@ class OpdsFeedActivityProfileMediator(
     private val json: Json,
     private val xapiUrl: suspend () -> Url,
 ) : OpdsFeedDataSource{
+
+    private suspend fun Url.isFromXapiActivityProfileResource(): Boolean {
+        val xapiUrlVal = xapiUrl()
+        return xapiUrlVal.protocolWithAuthority == this.protocolWithAuthority &&
+                this.encodedPath == xapiUrlVal.appendEndpointSegments("activities/profile").encodedPath
+    }
 
     private suspend fun DataLoadState<XapiDocument>.toOpdsFeed(): DataLoadState<OpdsFeed> {
         return mapAsync { document ->
@@ -67,16 +84,21 @@ class OpdsFeedActivityProfileMediator(
         url: Url,
         params: DataLoadParams
     ): Flow<DataLoadState<OpdsFeed>> {
-        return if(url.toString().contains("activities/profile")) {
-            activityProfileRepo.getAsFlow(
-                params = url.toSingleDocParams()
-            ).map { dataLoadState ->
-                dataLoadState.toOpdsFeed().also {
-                    updateOpdsLocalIfNeeded(url, it)
+        return flow {
+            emitAll(
+                flow = if(url.isFromXapiActivityProfileResource()) {
+                    activityProfileRepo.getAsFlow(
+                        params = url.toSingleDocParams(),
+                        dataLoadParams = params,
+                    ).map { dataLoadState ->
+                        dataLoadState.toOpdsFeed().also {
+                            updateOpdsLocalIfNeeded(url, it)
+                        }
+                    }
+                }else {
+                    opdsRepo.getByUrlAsFlow(url, params)
                 }
-            }
-        }else {
-            opdsRepo.getByUrlAsFlow(url, params)
+            )
         }
     }
 
@@ -84,9 +106,10 @@ class OpdsFeedActivityProfileMediator(
         url: Url,
         params: DataLoadParams
     ): DataLoadState<OpdsFeed> {
-        return if(url.toString().contains("activities/profile")) {
+        return if(url.isFromXapiActivityProfileResource()) {
             activityProfileRepo.get(
                 params = url.toSingleDocParams(),
+                dataLoadParams = params,
             ).toOpdsFeed().also { dataLoadState ->
                 updateOpdsLocalIfNeeded(url, dataLoadState)
             }

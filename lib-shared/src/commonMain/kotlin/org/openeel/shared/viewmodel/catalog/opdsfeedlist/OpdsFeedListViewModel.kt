@@ -18,6 +18,7 @@ import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.db.school.ext.isAdmin
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
@@ -92,6 +93,8 @@ class OpdsFeedListViewModel(
 
     private val schoolDataSource: SchoolDataSource by inject()
 
+    private val opdsFeedDataSource: OpdsFeedDataSource by inject()
+
     private val _uiState = MutableStateFlow(OpdsFeedListUiState())
 
     val uiState = _uiState.asStateFlow()
@@ -116,7 +119,7 @@ class OpdsFeedListViewModel(
                 feedFlowForStatement = { statement ->
                     statement.objectActivityOrNull()?.definition?.webPubManifestAsUrlOrNull()
                         ?.let { opdsCollectionLink ->
-                            schoolDataSource.opdsFeedDataSource.getByUrlAsFlow(
+                            opdsFeedDataSource.getByUrlAsFlow(
                                 url = opdsCollectionLink,
                                 params = DataLoadParams(),
                             )
