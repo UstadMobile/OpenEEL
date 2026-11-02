@@ -57,7 +57,7 @@ class RunLearningUnitTestUseCase {
                 it.parentFile.mkdirs()
         }.writeText(
             buildString {
-                append("appId: world.respect.app\n")
+                append("appId: $APP_PACKAGE_ID\n")
                 append("---\n")
                 params.clickSteps.forEach { step ->
                     append("- scrollUntilVisible:\n")
@@ -119,6 +119,6 @@ class RunLearningUnitTestUseCase {
 
     companion object {
 
-        const val APP_PACKAGE_ID = "world.respect.app"
+        const val APP_PACKAGE_ID = "org.openeel.app"
     }
 }
