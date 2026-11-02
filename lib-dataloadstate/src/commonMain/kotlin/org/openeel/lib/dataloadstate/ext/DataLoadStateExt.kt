@@ -90,6 +90,11 @@ fun DataLoadState<*>.isLoadedOrNotModified(): Boolean {
             (this is NoDataLoadedState && reason == NoDataLoadedState.Reason.NOT_MODIFIED)
 }
 
+fun DataLoadState<*>.isSettledNotFound(): Boolean {
+    return (this as? NoDataLoadedState)?.reason == NoDataLoadedState.Reason.NOT_FOUND
+            && (this.remoteState as? NoDataLoadedState)?.reason == NoDataLoadedState.Reason.NOT_FOUND
+}
+
 /**
  * Transform a DataReadyState with a transformation that can act on the data. If not DataReadyState,
  * then return the original DataLoadState.

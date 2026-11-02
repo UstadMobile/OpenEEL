@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -30,20 +29,17 @@ import org.openeel.lib.xapi.ext.distinctByMostRecentTimestampForActivityId
 import org.openeel.lib.xapi.ext.idAsStringOrNull
 import org.openeel.lib.xapi.ext.objectActivityOrNull
 import org.openeel.lib.xapi.ext.webPubManifestAsUrlOrNull
-import org.openeel.lib.xapi.model.XapiActivity
-import org.openeel.lib.xapi.model.XapiContext
-import org.openeel.lib.xapi.model.XapiContextActivities
 import org.openeel.lib.xapi.model.XapiStatement
-import org.openeel.lib.xapi.model.XapiStatementRef
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.catalog.unpinopdsfeedusecase.UnpinOpdsFeedUseCase
 import org.openeel.shared.ext.resultExpected
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_from_a_link
 import org.openeel.shared.generated.resources.add_new
-import org.openeel.shared.generated.resources.home
 import org.openeel.shared.generated.resources.collection
+import org.openeel.shared.generated.resources.home
 import org.openeel.shared.generated.resources.something_went_wrong
 import org.openeel.shared.generated.resources.undo
 import org.openeel.shared.generated.resources.unpinned_1_collection
@@ -104,6 +100,9 @@ class OpdsFeedListViewModel(
     private val pinStatements = MutableStateFlow<List<XapiStatement>>(emptyList())
 
     private val unpinnedCollections = MutableStateFlow<Map<String, Instant>>(emptyMap())
+
+    private val unpinOpdsFeedUseCase: UnpinOpdsFeedUseCase by inject()
+
 
     init {
         _appUiState.update {
@@ -227,33 +226,11 @@ class OpdsFeedListViewModel(
 
         viewModelScope.launch {
             try {
-                val actor = accountManager.selectedAccountAndPersonFlow.first()?.xapiAgent
-                    ?: throw IllegalStateException("Cannot unpin collection: no active account")
-
-                val pinStatementIds = pinStatements.value.filter {
-                    it.`object`.idAsStringOrNull() == collectionActivityId
-                }.mapNotNull { it.id?.toString() }
-
-                if (pinStatementIds.isNotEmpty()) {
-                    schoolDataSource.xapiResource.statements.post(
-                        pinStatementIds.map { pinStatementId ->
-                            XapiStatement(
-                                actor = actor,
-                                verb = XapiVerb(id = XapiVerb.ID_VOIDED),
-                                `object` = XapiStatementRef(id = pinStatementId),
-                                context = XapiContext(
-                                    contextActivities = XapiContextActivities(
-                                        category = listOf(
-                                            XapiActivity(
-                                                id = OpenEelXapiConstants.CATEGORY_COLLECTION_LISTING_RECIPE,
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        }
-                    )
-                }
+                unpinOpdsFeedUseCase(
+                    pinStatements = pinStatements.value.filter {
+                        it.`object`.idAsStringOrNull() == collectionActivityId
+                    }
+                )
 
                 snackBarDispatcher.showSnackBar(
                     Snack(

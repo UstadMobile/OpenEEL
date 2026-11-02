@@ -4,10 +4,12 @@ import io.ktor.http.Url
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
 import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.shared.domain.catalog.unpinopdsfeedusecase.UnpinOpdsFeedUseCase
 
 class DeleteOpdsFeedUseCase(
     private val xapiActivityProfileResource: XapiActivityProfileResource,
     private val opdsFeedDataSourceLocal: OpdsFeedDataSourceLocal,
+    private val unpinOpdsFeedUseCase: UnpinOpdsFeedUseCase,
 ) {
 
     suspend operator fun invoke(
@@ -23,6 +25,8 @@ class DeleteOpdsFeedUseCase(
         )
 
         opdsFeedDataSourceLocal.delete(feedUrl)
+
+        unpinOpdsFeedUseCase(feedUrl.toString())
     }
 
 }

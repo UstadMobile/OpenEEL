@@ -30,24 +30,27 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.view.catalog.opdsfeeddetail.NavigationListItem
-import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.dataloadstate.ext.isSettledNotFound
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.xapi.ext.objectActivityOrNull
 import org.openeel.lib.xapi.ext.webPubManifestOrNull
 import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.shared.generated.resources.Res
-import org.openeel.shared.generated.resources.created_by
+import org.openeel.shared.generated.resources.collection_not_found
 import org.openeel.shared.generated.resources.empty
 import org.openeel.shared.generated.resources.more_options
 import org.openeel.shared.generated.resources.no_collections_yet
 import org.openeel.shared.generated.resources.no_collections_yet_description
 import org.openeel.shared.generated.resources.sections_and_items
+import org.openeel.shared.generated.resources.this_collection_may_have_been_deleted
 import org.openeel.shared.generated.resources.unpin
 import org.openeel.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListUiState
 import org.openeel.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListViewModel
+import kotlin.collections.orEmpty
+import kotlin.collections.sumOf
 
 @Composable
 fun OpdsFeedListScreen(
@@ -94,35 +97,41 @@ fun OpdsFeedListScreen(
                     val feedFlow = remember(statement.id) {
                         uiState.feedFlowForStatement(statement)
                     }
-                    val feed = feedFlow.collectAsState(DataLoadingState()).value.dataOrNull()
+                    val feed by feedFlow.collectAsState(DataLoadingState())
+                    val feedVal = feed.dataOrNull()
+
                     val activityDefinition = statement.objectActivityOrNull()?.definition
+                    val isNotFound = feed.isSettledNotFound()
 
                     NavigationListItem(
                         navigation = ReadiumLink(
                             href = activityDefinition?.webPubManifestOrNull().orEmpty(),
                             type = OpdsFeed.MEDIA_TYPE,
-                            title = activityDefinition?.name?.entries?.firstOrNull()?.value,
+                            title = if(isNotFound) {
+                                stringResource(Res.string.collection_not_found)
+                            }else {
+                                activityDefinition?.name?.entries?.firstOrNull()?.value
+                            },
                         ),
-                        description = feed?.let {
-                            val isCreatedByActiveUser = feed.links.any { link ->
-                                link.rel?.contains(MakePlaylistOpdsFeedUseCase.REL_OWNER) == true &&
-                                        link.href == uiState.activeUserOwnerHref
+                        description = when {
+                            isNotFound -> {
+                                stringResource(Res.string.this_collection_may_have_been_deleted)
+                            }
+                            feedVal != null -> buildString {
+                                append(
+                                    stringResource(
+                                        Res.string.sections_and_items,
+                                        feedVal.groups?.size ?: 0,
+                                        feedVal.groups.orEmpty().sumOf { group ->
+                                            (group.publications?.size ?: 0) + (group.navigation?.size ?: 0)
+                                        } + feedVal.publications.orEmpty().size + feedVal.navigation.orEmpty().size,
+                                    )
+                                )
                             }
 
-                            listOfNotNull(
-                                stringResource(
-                                    Res.string.sections_and_items,
-                                    feed.groups?.size ?: 0,
-                                    feed.groups.orEmpty().sumOf { group ->
-                                        (group.publications?.size ?: 0) + (group.navigation?.size ?: 0)
-                                    } + feed.publications.orEmpty().size + feed.navigation.orEmpty().size,
-                                ),
-                                if (isCreatedByActiveUser) {
-                                    stringResource(Res.string.created_by, uiState.activeUsername)
-                                } else {
-                                    null
-                                },
-                            ).joinToString("\n")
+                            else -> {
+                                ""
+                            }
                         },
                         onClickNavigation = { onClickCollection(statement) },
                         onLongPress = { onClickCollection(statement) },

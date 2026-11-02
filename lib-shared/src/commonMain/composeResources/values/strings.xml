@@ -746,4 +746,8 @@
 
     <string name="collapse">Collapse</string>
     <string name="expand">Expand</string>
+
+    <string name="collection_not_found">Collection not found</string>
+    <string name="this_collection_may_have_been_deleted">This collection may have been deleted by its creator or no longer available</string>
+
 </resources>

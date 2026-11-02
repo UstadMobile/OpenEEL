@@ -249,10 +249,11 @@ import org.openeel.shared.viewmodel.person.copycode.CopyInviteCodeViewModel
 import org.openeel.shared.viewmodel.person.detail.PersonDetailViewModel
 import org.openeel.shared.domain.biometric.BiometricAuthUseCase
 import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
-import org.openeel.shared.domain.catalog.PinOpdsUseCase
+import org.openeel.shared.domain.catalog.PinOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.checkcanwritefeedusecase.CheckCanWriteFeedUseCase
 import org.openeel.shared.domain.catalog.deleteopdsfeed.DeleteOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
+import org.openeel.shared.domain.catalog.unpinopdsfeedusecase.UnpinOpdsFeedUseCase
 import org.openeel.shared.domain.createclass.CreateClassUseCase
 import org.openeel.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
 import org.openeel.shared.domain.geticonforxapiactivity.GetPublicationForXapiActivityUseCase
@@ -1291,7 +1292,7 @@ val appKoinModule = module {
         scoped<SaveOpdsFeedUseCase> {
             SaveOpdsFeedUseCase(
                 xapiActivityProfileResource = get<SchoolDataSource>().xapiResource.activityProfile,
-                pinOpdsUseCase = get(),
+                pinOpdsFeedUseCase = get(),
                 opdsFeedDataSourceLocal = get<SchoolDataSourceLocal>().opdsFeedDataSource,
                 json = get(),
             )
@@ -1301,12 +1302,20 @@ val appKoinModule = module {
             DeleteOpdsFeedUseCase(
                 xapiActivityProfileResource = get<SchoolDataSource>().xapiResource.activityProfile,
                 opdsFeedDataSourceLocal = get<SchoolDataSourceLocal>().opdsFeedDataSource,
+                unpinOpdsFeedUseCase = get(),
             )
         }
 
-        scoped<PinOpdsUseCase> {
-            PinOpdsUseCase(
+        scoped<PinOpdsFeedUseCase> {
+            PinOpdsFeedUseCase(
                 statementsResource = get<SchoolDataSource>().xapiResource.statements,
+                getXapiAuthorityActorUseCase = get(),
+            )
+        }
+
+        scoped<UnpinOpdsFeedUseCase> {
+            UnpinOpdsFeedUseCase(
+                xapiResource = get<SchoolDataSource>().xapiResource,
                 getXapiAuthorityActorUseCase = get(),
             )
         }

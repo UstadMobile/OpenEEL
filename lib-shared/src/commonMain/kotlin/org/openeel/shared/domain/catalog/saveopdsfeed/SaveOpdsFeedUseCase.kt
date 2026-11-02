@@ -15,7 +15,7 @@ import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.lib.xapi.ext.encodeToXapiDocument
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import org.openeel.lib.xapi.model.XapiActor
-import org.openeel.shared.domain.catalog.PinOpdsUseCase
+import org.openeel.shared.domain.catalog.PinOpdsFeedUseCase
 import kotlin.time.Clock
 
 /**
@@ -31,7 +31,7 @@ import kotlin.time.Clock
 class SaveOpdsFeedUseCase(
     private val xapiActivityProfileResource: XapiActivityProfileResource,
     private val opdsFeedDataSourceLocal: OpdsFeedDataSourceLocal,
-    private val pinOpdsUseCase: PinOpdsUseCase,
+    private val pinOpdsFeedUseCase: PinOpdsFeedUseCase,
     private val json: Json,
 ) {
 
@@ -72,7 +72,7 @@ class SaveOpdsFeedUseCase(
             )
         )
 
-        pinOpdsUseCase(
+        pinOpdsFeedUseCase(
             opdsFeed = feed,
             contextCategoryId = OpenEelXapiConstants.CATEGORY_COLLECTION_LISTING_RECIPE,
         )

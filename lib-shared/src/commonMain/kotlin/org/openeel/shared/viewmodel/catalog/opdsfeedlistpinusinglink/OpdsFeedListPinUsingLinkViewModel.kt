@@ -13,7 +13,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.catalog.PinOpdsUseCase
+import org.openeel.shared.domain.catalog.PinOpdsFeedUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_from_a_link
 import org.openeel.shared.generated.resources.could_not_load_link
@@ -39,7 +39,7 @@ class OpdsFeedListPinUsingLinkViewModel(
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
-    private val pinOpdsUseCase: PinOpdsUseCase by inject()
+    private val pinOpdsFeedUseCase: PinOpdsFeedUseCase by inject()
 
     private val schoolDataSource: SchoolDataSource by inject()
 
@@ -85,7 +85,7 @@ class OpdsFeedListPinUsingLinkViewModel(
             )
 
             if (feedResult is DataReadyState) {
-                pinOpdsUseCase(
+                pinOpdsFeedUseCase(
                     opdsFeed = feedResult.data,
                     contextCategoryId = OpenEelXapiConstants.CATEGORY_COLLECTION_LISTING_RECIPE,
                 )

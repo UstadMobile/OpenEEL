@@ -19,7 +19,7 @@ import org.openeel.lib.xapi.resources.XapiStatementsResource
 /**
  * Pin an OpdsFeed. This is very similar to bookmarking.
  */
-class PinOpdsUseCase(
+class PinOpdsFeedUseCase(
     private val statementsResource: XapiStatementsResource,
     private val getXapiAuthorityActorUseCase: GetXapiAuthorityActorUseCase,
 ) {

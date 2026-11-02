@@ -1,7 +1,6 @@
 package org.openeel.datalayer.repository.opds
 
 import io.ktor.http.Url
-import io.ktor.http.encodedPath
 import io.ktor.http.protocolWithAuthority
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -40,9 +39,9 @@ import org.openeel.libutil.ext.appendEndpointSegments
  * @param xapiUrl the function that provides the xAPI endpoint base Url
  */
 class OpdsFeedActivityProfileMediator(
-    val opdsLocal: OpdsFeedDataSourceLocal,
-    val opdsRepo: OpdsFeedDataSource,
-    val activityProfileRepo: XapiActivityProfileResource,
+    private val opdsLocal: OpdsFeedDataSourceLocal,
+    private val opdsRepo: OpdsFeedDataSource,
+    private val activityProfileRepo: XapiActivityProfileResource,
     private val json: Json,
     private val xapiUrl: suspend () -> Url,
 ) : OpdsFeedDataSource{
