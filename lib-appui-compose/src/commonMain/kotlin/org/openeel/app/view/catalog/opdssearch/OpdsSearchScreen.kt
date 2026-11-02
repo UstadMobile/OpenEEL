@@ -77,59 +77,54 @@ fun OpdsSearchScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row(
-                modifier = Modifier
-                    .weight(1f)
-                    .horizontalScroll(rememberScrollState())
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                OpenEelSearchFilterChip(
-                    chipLabel = stringResource(Res.string.language),
-                    options = uiState.languageOptions,
-                    selectedOptions = uiState.searchParams.languages,
-                    onSelectedOptionsChanged = onLanguagesChanged,
-                    optionLabel = { langCode ->
-                        getLanguageEndonymUseCase(langCode)?.let { stringResource(it) } ?: langCode
-                    },
-                    searchText = uiState.languageOptionSearchText,
-                    onSearchTextChanged = onLanguageOptionSearchTextChanged,
-                )
+            OpenEelSearchFilterChip(
+                chipLabel = stringResource(Res.string.language),
+                options = uiState.languageOptions,
+                selectedOptions = uiState.searchParams.languages,
+                onSelectedOptionsChanged = onLanguagesChanged,
+                optionLabel = { langCode ->
+                    getLanguageEndonymUseCase(langCode)?.let { stringResource(it) } ?: langCode
+                },
+                searchText = uiState.languageOptionSearchText,
+                onSearchTextChanged = onLanguageOptionSearchTextChanged,
+            )
 
-                OpenEelSearchFilterChip(
-                    chipLabel = stringResource(Res.string.subject),
-                    options = uiState.subjectOptions,
-                    selectedOptions = uiState.searchParams.subjects,
-                    onSelectedOptionsChanged = onSubjectsChanged,
-                    optionLabel = { it },
-                    searchText = uiState.subjectOptionSearchText,
-                    onSearchTextChanged = onSubjectOptionSearchTextChanged,
-                )
+            OpenEelSearchFilterChip(
+                chipLabel = stringResource(Res.string.subject),
+                options = uiState.subjectOptions,
+                selectedOptions = uiState.searchParams.subjects,
+                onSelectedOptionsChanged = onSubjectsChanged,
+                optionLabel = { it },
+                searchText = uiState.subjectOptionSearchText,
+                onSearchTextChanged = onSubjectOptionSearchTextChanged,
+            )
 
-                OpenEelSearchFilterChip(
-                    chipLabel = stringResource(Res.string.type),
-                    options = TYPE_OPTIONS,
-                    selectedOptions = uiState.searchParams.types,
-                    onSelectedOptionsChanged = onTypesChanged,
-                    optionLabel = { type ->
-                        when (type) {
-                            TYPE_COLLECTION -> stringResource(Res.string.collection)
-                            TYPE_GAME -> stringResource(Res.string.game)
-                            TYPE_BOOK -> stringResource(Res.string.book)
-                            TYPE_VIDEO -> stringResource(Res.string.video)
-                            else -> type
-                        }
-                    },
-                )
-            }
+            OpenEelSearchFilterChip(
+                chipLabel = stringResource(Res.string.type),
+                options = TYPE_OPTIONS,
+                selectedOptions = uiState.searchParams.types,
+                onSelectedOptionsChanged = onTypesChanged,
+                optionLabel = { type ->
+                    when (type) {
+                        TYPE_COLLECTION -> stringResource(Res.string.collection)
+                        TYPE_GAME -> stringResource(Res.string.game)
+                        TYPE_BOOK -> stringResource(Res.string.book)
+                        TYPE_VIDEO -> stringResource(Res.string.video)
+                        else -> type
+                    }
+                },
+            )
 
             TextButton(
                 onClick = onClearFilters,
                 enabled = uiState.hasFilters,
-                modifier = Modifier.padding(end = 8.dp),
             ) {
                 Text(stringResource(Res.string.clear_all))
             }
