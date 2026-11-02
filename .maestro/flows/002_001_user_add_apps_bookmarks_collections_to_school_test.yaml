@@ -435,10 +435,8 @@ onFlowComplete:
 - tapOn: "Delete"
 - assertVisible: "Permanently delete?"
 - assertVisible: "Permanently delete this collection"
-- tapOn: "Cancel"
-
-#- tapOn: "Delete"    # Delete functionality not implemented - when ready uncomment this command- Comment Cancel and enable this command also
-# add assertion to make sure deleted collection is not visible on collection list.
+- tapOn: "Delete"
+- assertNotVisible:  "Collections for Term 1"
 
 # Adding Collection to an assignment
 - tapOn: "Assignments"
