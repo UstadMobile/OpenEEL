@@ -214,7 +214,10 @@ onFlowComplete:
 - retry:
     maxRetries: 3
     commands:
-      - tapOn: "Classes"
+      - tapOn:
+          id: "nav_people"
+      - tapOn:
+           id: "nav_classes"
       - tapOn: "New Class"
       - assertVisible: "Pending requests.*"
 - assertVisible: "Student User.*"
