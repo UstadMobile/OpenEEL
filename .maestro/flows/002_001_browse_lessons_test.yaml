@@ -157,7 +157,7 @@ onFlowComplete:
 - tapOn: "English"
 - tapOn:
     id: "close_filter_bottom_sheet_button"
-- assertVisible: "Language (1)"
+- assertVisible: "English"
 - assertVisible: "Lesson 001"
 - tapOn: "Type"
 - assertVisible: "Collection"
@@ -166,10 +166,12 @@ onFlowComplete:
 - tapOn: "Video"
 - tapOn:
     id: "close_filter_bottom_sheet_button"
+- assertVisible: "English"
+- assertVisible: "Video"
 - assertNotVisible: "Lesson 001"
 - tapOn: "Clear all"
-- assertNotVisible: "Language (1)"
-- assertNotVisible: "Type (1)"
+- assertNotVisible: "English"
+- assertNotVisible: "Video"
 - assertVisible: "Lesson 001"
 - tapOn:
     id: "search_box"
