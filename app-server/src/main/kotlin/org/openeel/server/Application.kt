@@ -54,7 +54,6 @@ import org.openeel.server.routes.school.respect.InviteRoute
 import org.openeel.server.routes.school.respect.PersonPasskeyRoute
 import org.openeel.server.routes.school.respect.PersonPasswordRoute
 import org.openeel.server.routes.school.respect.PersonRoute
-import org.openeel.server.routes.school.respect.PlaylistRoute
 import org.openeel.server.routes.school.respect.RedeemInviteRoute
 import org.openeel.server.routes.school.respect.SchoolRegistrationRoute
 import org.openeel.server.routes.school.respect.SchoolLinkRoute
@@ -345,10 +344,6 @@ fun Application.module() {
                         AddChildAccountRoute(
                             addChildAccountUseCase = { it.getUserAccountScope().get() }
                         )
-                    }
-
-                    authenticate(AUTH_CONFIG_SCHOOL, optional = true) {
-                        PlaylistRoute()
                     }
                 }
             }

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
@@ -187,7 +188,7 @@ class OpdsFeedDetailViewModel(
             opdsMediator.getByUrlAsFlow(
                 url = route.opdsFeedUrl,
                 params = DataLoadParams()
-            ).collect { result ->
+            ).collectLatest { result ->
                 _uiState.update { prev ->
                     prev.copy(
                         feed = result.map { it.resolve(route.opdsFeedUrl) }
@@ -393,8 +394,8 @@ class OpdsFeedDetailViewModel(
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
                 OpdsFeedEdit.create(
-                    playlistUrl = route.opdsFeedUrl,
-                    isCopy = true,
+                    urlStr = route.opdsFeedUrl,
+                    isRemix = true,
                 )
             )
         )
@@ -463,7 +464,7 @@ class OpdsFeedDetailViewModel(
 
     fun onClickEdit() {
         _navCommandFlow.tryEmit(
-            NavCommand.Navigate(OpdsFeedEdit.create(playlistUrl = route.opdsFeedUrl))
+            NavCommand.Navigate(OpdsFeedEdit.create(urlStr = route.opdsFeedUrl))
         )
     }
 

@@ -1,4 +1,4 @@
-package com.ustadmobile.libuicompose.org.openeel.app.components
+package org.openeel.app.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.uiTextStringResource
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.example_url_placeholder
 import org.openeel.shared.generated.resources.link_label
@@ -51,7 +50,10 @@ fun OpenEelEnterLinkColumn(
             },
             enabled = enabled,
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Uri,
+                autoCorrectEnabled = false,
+            ),
             modifier = Modifier.fillMaxWidth(),
             isError = errorMessage != null,
             supportingText = errorMessage?.let {

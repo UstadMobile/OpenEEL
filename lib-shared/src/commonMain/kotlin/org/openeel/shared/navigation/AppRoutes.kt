@@ -773,7 +773,7 @@ data class ScanQRCode(
     }
 }
 @Serializable
-class PlaylistList private constructor(
+class OpdsFeedList private constructor(
     private val resultDestStr: String? = null,
     val opdsPickTypeStr: String? = null,
 ) : OpenEelAppRoute, RouteWithResultDest {
@@ -790,7 +790,7 @@ class PlaylistList private constructor(
         fun create(
             resultDest: ResultDest? = null,
             opdsPickType: OpdsPickType? = null,
-        ) = PlaylistList(
+        ) = OpdsFeedList(
             resultDestStr = resultDest.encodeToJsonStringOrNull(),
             opdsPickTypeStr = opdsPickType?.let {
                 Json.encodeToString(OpdsPickType.serializer(), it)
@@ -813,11 +813,11 @@ class OpdsFeedEdit private constructor(
 
     companion object {
         fun create(
-            playlistUrl: Url? = null,
-            isCopy: Boolean = false,
+            urlStr: Url? = null,
+            isRemix: Boolean = false,
         ) = OpdsFeedEdit(
-            urlStr = playlistUrl?.toString(),
-            isCopy = isCopy,
+            urlStr = urlStr?.toString(),
+            isCopy = isRemix,
         )
     }
 }

@@ -47,7 +47,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.OpdsFeedEdit
 import org.openeel.shared.navigation.OpdsFeedListPinUsingLink
-import org.openeel.shared.navigation.PlaylistList
+import org.openeel.shared.navigation.OpdsFeedList
 import org.openeel.shared.util.ext.appbarTitleString
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
@@ -95,7 +95,7 @@ class OpdsFeedListViewModel(
 
     val uiState = _uiState.asStateFlow()
 
-    private val route: PlaylistList = savedStateHandle.toRoute()
+    private val route: OpdsFeedList = savedStateHandle.toRoute()
 
     private val pinStatements = MutableStateFlow<List<XapiStatement>>(emptyList())
 

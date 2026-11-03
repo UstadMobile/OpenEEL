@@ -1,6 +1,5 @@
 package org.openeel.app.view.catalog.opdsfeeddetail
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,7 +30,7 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.duration
 
 @Composable
-fun FeedListItem(
+fun OpdsFeedListItem(
     title: String,
     iconUrl: String?,
     description: String?,
