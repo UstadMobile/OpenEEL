@@ -16,6 +16,7 @@ fun Person.fullName(): String = buildString {
 fun Person.isAdminOrTeacher() : Boolean {
     return roles.any {
         it.roleEnum == PersonRoleEnum.SYSTEM_ADMINISTRATOR ||
+                it.roleEnum == PersonRoleEnum.SITE_ADMINISTRATOR ||
                 it.roleEnum == PersonRoleEnum.TEACHER
     }
 }

@@ -47,6 +47,8 @@ dependencies {
     implementation(projects.libIhttpCore)
     implementation(projects.libSharedSe)
 
+    implementation(projects.libXapiPermissionManager)
+
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.sqlite.bundled)
 

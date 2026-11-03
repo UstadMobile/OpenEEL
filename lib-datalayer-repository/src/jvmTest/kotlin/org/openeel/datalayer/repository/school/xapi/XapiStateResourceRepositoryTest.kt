@@ -42,7 +42,10 @@ class XapiStateResourceRepositoryTest : AbstractXapiStateResourceTest() {
 
     @Test
     fun test() {
+        //Problem: Repository delete called, which stores the remote write.
+        //Then, before that remote write is done, get is called, which fetches data from the server.
 
+        givenDocument_whenDeleted_thenCannotBeRetrieved()
     }
 
 }

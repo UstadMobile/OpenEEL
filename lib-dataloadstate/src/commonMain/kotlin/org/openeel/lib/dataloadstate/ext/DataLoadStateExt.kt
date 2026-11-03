@@ -90,6 +90,11 @@ fun DataLoadState<*>.isLoadedOrNotModified(): Boolean {
             (this is NoDataLoadedState && reason == NoDataLoadedState.Reason.NOT_MODIFIED)
 }
 
+fun DataLoadState<*>.isSettledNotFound(): Boolean {
+    return (this as? NoDataLoadedState)?.reason == NoDataLoadedState.Reason.NOT_FOUND
+            && (this.remoteState as? NoDataLoadedState)?.reason == NoDataLoadedState.Reason.NOT_FOUND
+}
+
 /**
  * Transform a DataReadyState with a transformation that can act on the data. If not DataReadyState,
  * then return the original DataLoadState.
@@ -261,19 +266,30 @@ fun DataLoadState<*>.etagForHttpResponseHeader(): String? {
     return metaInfo.headers[HttpHeaders.ETag] ?: metaInfo.etag
 }
 
-fun DataLoadState<*>.toPrettyString(): String {
-    return when(this) {
-        is DataReadyState -> {
-           if(data is List<*>) {
-               "DataReadyState ${data.size} items"
-           }else {
-               "DataReadyState"
-           }
-        }
-        is DataLoadingState -> "DataLoadingState"
+fun DataLoadState<*>.toPrettyString(
+    includeLocalAndRemote: Boolean = false
+): String {
+    return buildString {
+        when(this@toPrettyString) {
+            is DataReadyState -> {
+                if(data is List<*>) {
+                    append("DataReadyState ${data.size} items")
+                }else {
+                    append("DataReadyState")
+                }
+            }
+            is DataLoadingState -> append("DataLoadingState")
 
-        is DataErrorResult -> "DataErrorResult"
-        is NoDataLoadedState -> "NoDataLoadedState($reason)"
+            is DataErrorResult -> append("DataErrorResult")
+            is NoDataLoadedState -> append("NoDataLoadedState($reason)")
+        }
+
+        if(includeLocalAndRemote) {
+            append("(")
+            append("local=${this@toPrettyString.localState?.toPrettyString(false)} ")
+            append("remote=${this@toPrettyString.remoteState?.toPrettyString(false)}")
+            append(")")
+        }
     }
 }
 

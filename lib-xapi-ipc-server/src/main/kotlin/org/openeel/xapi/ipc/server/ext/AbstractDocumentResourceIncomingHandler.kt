@@ -31,7 +31,7 @@ import java.util.concurrent.ExecutorService
 
 abstract class AbstractDocumentResourceIncomingHandler<
         MultiDocParams: Any,
-        SingleDocParams: ISingleDocumentParams<MultiDocParams>,
+        SingleDocParams: ISingleDocumentParams,
         T: XapiDocumentResource<MultiDocParams, SingleDocParams>
 >(
     private val xapiResourceProvider: XapiResourceProvider,
