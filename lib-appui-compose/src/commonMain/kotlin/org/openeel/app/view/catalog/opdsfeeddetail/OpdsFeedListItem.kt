@@ -39,7 +39,7 @@ fun OpdsFeedListItem(
     showCheckbox: Boolean,
     isSelected: Boolean,
     onClick: () -> Unit,
-    onLongPress: () -> Unit,
+    onLongPress: (() -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
 ) {
     ListItem(

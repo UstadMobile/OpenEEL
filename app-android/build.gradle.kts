@@ -142,7 +142,10 @@ dependencies {
     implementation(projects.libHttpIpcClient)
 
     implementation(libs.multiplatformsettings)
+
+    //noinspection LoginCredentials - we know we need to provide Google Play credentials
     implementation(libs.androidx.credentials)
+    //noinspection LoginCredentials - we know we need to provide Google Play credentials
     implementation(libs.androidx.credentials.play.service.auth)
     implementation(compose.preview)
     implementation(compose.components.resources)
@@ -164,7 +167,6 @@ dependencies {
     implementation(libs.androidx.sqlite.bundled)
     implementation(libs.androidx.webkit)
     implementation(libs.material)
-    implementation(libs.androidx.appcompat)
     implementation(libs.coil3.coil.svg)
     implementation(libs.acra.http)
     implementation(libs.acra.core)
