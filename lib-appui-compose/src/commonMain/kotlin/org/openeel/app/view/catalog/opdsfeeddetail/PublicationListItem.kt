@@ -8,10 +8,10 @@ import org.openeel.lib.opds.model.Publication
 @Composable
 fun PublicationListItem(
     publication: Publication,
-    showCheckbox: Boolean,
-    isSelected: Boolean,
+    showCheckbox: Boolean = false,
+    isSelected: Boolean = false,
     onClickPublication: (Publication) -> Unit,
-    onLongPressPublication: (Publication) -> Unit,
+    onLongPressPublication: ((Publication) -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
 ) {
     OpdsFeedListItem(
@@ -23,7 +23,11 @@ fun PublicationListItem(
         showCheckbox = showCheckbox,
         isSelected = isSelected,
         onClick = { onClickPublication(publication) },
-        onLongPress = { onLongPressPublication(publication) },
+        onLongPress = if (onLongPressPublication != null) {
+            { onLongPressPublication(publication) }
+        }else {
+            null
+        },
         trailingContent = trailingContent,
     )
 }
