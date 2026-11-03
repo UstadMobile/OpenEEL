@@ -26,7 +26,14 @@ data class UserSessionAndPerson(
     val person: Person,
     val relatedPersons: List<Person> = emptyList(),
 ){
-    val isChild: Boolean
+    /**
+     * When a session is started through:
+     * a) A parent starting a session for their child
+     * b) Using the child login on shared device mode
+     *
+     * A simplified child mode UI is used.
+     */
+    val isSimplifiedChildMode: Boolean
         get() = session.account.userGuid != person.guid
 
     val xapiAgent: XapiAgent

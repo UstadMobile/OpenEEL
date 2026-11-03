@@ -32,6 +32,8 @@ import kotlin.time.Duration.Companion.milliseconds
  *    been shown, then it will use this use case to determine where to navigate to
  * b) GetStartedViewModel: will always use this use case to determine where to navigate to after the
  *    user clicks the get started button.
+ * c) [org.openeel.shared.viewmodel.manageuser.waitingforapproval.WaitingForApprovalViewModel] to
+ *    navigate once a user's new account has been approved.
  */
 class NavigateOnAppStartUseCase(
     private val accountManager: AppAccountManager,
@@ -42,10 +44,19 @@ class NavigateOnAppStartUseCase(
     private val settings: Settings
 ) {
 
-    suspend operator fun invoke(): NavCommand {
+    /**
+     * @param useDeepLinks if true (by default) check using [GetDeferredDeepLinkUseCase] and
+     *        [InitDeepLinkUriProviderUseCase] for a deep link to use. If we are starting fresh for
+     *        another reason (e.g. the user just activated shared device mode) then this is set to
+     *        false to avoid unexpected re-use of deep links.
+     */
+    suspend operator fun invoke(
+        useDeepLinks: Boolean = true,
+    ): NavCommand {
         val getDeferredDeepLinkUseCaseVal = getDeferredDeepLinkUseCase
 
         val deferredDeepLink = if(
+            useDeepLinks &&
             getDeferredDeepLinkUseCaseVal != null &&
             !settings.getBoolean(KEY_DEFERRED_DEEP_LINK_CHECK_DONE, false)
         ) {
@@ -57,13 +68,17 @@ class NavigateOnAppStartUseCase(
                 }
             }
         }else{
-            Napier.i("DeferredDeepLink: NavigateOnAppStartUseCase : no use case available")
+            Napier.i(
+                "DeferredDeepLink: NavigateOnAppStartUseCase : useDeepLinks=false or no use case available"
+            )
             null
         }
 
         Napier.i("DeferredDeepLink: NavigateOnAppStartUseCase creating initLinkNavCommand: deferredDeepLink=$deferredDeepLink")
         val initLinkNavCommand: NavCommand? = try {
-            (deferredDeepLink ?: initDeepLinkUriProvider())?.let { initDeepLink ->
+            (deferredDeepLink ?: initDeepLinkUriProvider.takeIf {
+                useDeepLinks
+            }?.invoke())?.let { initDeepLink ->
                 resolveUrlToNavCommandUseCase(
                     url = customDeepLinkToUrlUseCase(Url(initDeepLink)),
                     canGoBack = false,
@@ -78,7 +93,7 @@ class NavigateOnAppStartUseCase(
         val activeAccount = accountManager.activeAccount
         val activeSession = accountManager.activeSession
         val selectedAccountAndPerson = accountManager.selectedAccountAndPersonFlow.first()
-        val isChild = selectedAccountAndPerson?.isChild == true
+        val isSimplifiedChildMode = selectedAccountAndPerson?.isSimplifiedChildMode == true
 
         return initLinkNavCommand?.withClearBackstack(true) ?: NavCommand.Navigate(
             destination = when {
@@ -86,7 +101,7 @@ class NavigateOnAppStartUseCase(
                     person = selectedAccountAndPerson?.person
                 ) == true -> LoginSelectClass
 
-                activeAccount != null -> if (isChild) AssignmentList else Home
+                activeAccount != null -> if (isSimplifiedChildMode) AssignmentList else Home
                 else -> GetStartedScreen()
             },
             clearBackStack = true,
