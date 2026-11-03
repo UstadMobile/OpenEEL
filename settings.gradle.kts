@@ -60,3 +60,4 @@ include(":lib-datalayer-http-server")
 include(":lib-dataloadstate-ktor-server")
 
 include(":lib-directory")
+include(":lib-directory-keycloak")

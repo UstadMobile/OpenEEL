@@ -110,7 +110,7 @@ class AccountListViewModel(
                         accounts = storedAccountList.map {
                             UserSessionAndPerson(
                                 session = UserSession(it, null),
-                                person = Person(
+                                person = it.externalPerson ?: Person(
                                     guid = it.userGuid,
                                     givenName = "",
                                     familyName = "",
@@ -122,7 +122,7 @@ class AccountListViewModel(
                     )
                 }
 
-                storedAccountList.forEach { account ->
+                storedAccountList.filter { it.externalPerson == null }.forEach { account ->
                     launch {
                         val accountScope = appAccountManager.getOrCreateAccountScope(account)
                         val dataSource: SchoolDataSource = accountScope.get()
@@ -158,6 +158,10 @@ class AccountListViewModel(
         appAccountManager.switchAccount(account)
 
         viewModelScope.launch {
+            if (account.externalPerson != null) {
+                _navCommandFlow.tryEmit(NavCommand.Navigate(Home, clearBackStack = true))
+                return@launch
+            }
             val accountScope = appAccountManager.getOrCreateAccountScope(account)
             val person = accountScope.get<SchoolDataSource>().personDataSource.findByGuid(
                 loadParams = DataLoadParams(onlyIfCached = true),

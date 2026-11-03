@@ -15,10 +15,9 @@ import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.throwable.withHttpStatus
-import org.openeel.libutil.ext.randomString
 import org.openeel.server.ServerAccountScopeManager
 import org.openeel.shared.domain.account.AuthResponse
-import org.openeel.shared.domain.account.authwithpassword.GetTokenAndUserProfileWithCredentialDbImpl
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Creates a Respect account session from an access token validated by server
@@ -42,6 +41,15 @@ class GetOpenIdLoginResponseUseCaseServer(
             .withHttpStatus(401)
         val subject = claims.subject ?: throw IllegalArgumentException("OpenID subject is missing")
             .withHttpStatus(401)
+
+       // https://www.keycloak.org/docs/latest/server_admin/index.html#_timeouts.
+        val timeCreated = System.currentTimeMillis()
+        val expiresAt = claims.expiresAt?.toEpochMilliseconds()
+            ?: throw IllegalArgumentException("OpenID token expiration is missing").withHttpStatus(401)
+        val ttl = (expiresAt - timeCreated).milliseconds.inWholeSeconds
+        if (ttl !in 1..Int.MAX_VALUE.toLong()) {
+            throw IllegalArgumentException("OpenID token expiration is invalid").withHttpStatus(401)
+        }
         val personGuid = subject
         val accountScope = serverAccountScopeManager.getOrCreateAccountScope(
             AuthenticatedUserPrincipalId(personGuid)
@@ -81,9 +89,9 @@ class GetOpenIdLoginResponseUseCaseServer(
         }
 
         val token = AuthToken(
-            accessToken = randomString(32),
-            timeCreated = System.currentTimeMillis(),
-            ttl = GetTokenAndUserProfileWithCredentialDbImpl.TOKEN_DEFAULT_TTL,
+            accessToken = accessToken.value,
+            timeCreated = timeCreated,
+            ttl = ttl.toInt(),
         )
         schoolDb.getAuthTokenEntityDao().insert(
             token.toEntity(

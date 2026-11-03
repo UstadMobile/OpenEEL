@@ -87,6 +87,8 @@ class PersonListViewModel(
 
     private val route: PersonList = savedStateHandle.toRoute()
 
+    private val isExternalDirectory = accountManager.activeAccount?.school?.userDirectory != null
+
     private val getWritableRolesListUseCase: GetWritableRolesListUseCase by inject()
 
     private val approveOrDeclineInviteRequestUseCase: ApproveOrDeclineInviteRequestUseCase by inject()
@@ -147,14 +149,14 @@ class PersonListViewModel(
 
         viewModelScope.launch {
             accountManager.selectedAccountAndPersonFlow.collect { selectedAcct ->
-                val writableRoles = selectedAcct?.person?.roles?.firstOrNull()?.let {
+                val writableRoles = selectedAcct?.person?.roles?.firstOrNull()?.takeUnless { isExternalDirectory }?.let {
                     getWritableRolesListUseCase(it.roleEnum)
                 } ?: emptyList()
 
                 val canAddPerson = writableRoles.isNotEmpty()
                 _uiState.update { it.copy(writableRoles = writableRoles) }
 
-                val canInvitePerson = canAddPerson || route.inviteUid != null
+                val canInvitePerson = !isExternalDirectory && (canAddPerson || route.inviteUid != null)
 
                 _appUiState.update { prev ->
                     prev.copy(
@@ -178,7 +180,7 @@ class PersonListViewModel(
             it.copy(
                 pendingPersons = pendingPersonsPagingSource,
                 persons = pagingSourceFactoryHolder,
-                showInvite = !route.hideInvite && (route.filterByRole != null||route.addToClassUid!=null)
+                showInvite = !isExternalDirectory && !route.hideInvite && (route.filterByRole != null||route.addToClassUid!=null)
             )
         }
     }

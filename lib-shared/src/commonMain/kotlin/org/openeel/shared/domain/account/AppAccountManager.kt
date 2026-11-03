@@ -26,6 +26,7 @@ import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.respect.model.KeycloakUserDirectoryConfig
 import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
@@ -91,6 +92,16 @@ class AppAccountManager(
     val selectedAccountAndPersonFlow: Flow<UserSessionAndPerson?> =channelFlow {
         _activeSession.collectLatest { session ->
             if(session != null) {
+                val externalPerson = session.account.externalPerson
+                if (externalPerson != null) {
+                    send(
+                        element = UserSessionAndPerson(
+                            session = session,
+                            person = externalPerson
+                        )
+                    )
+                    return@collectLatest
+                }
                 val accountScope = getOrCreateAccountScope(session.account)
                 val schoolDataSource: SchoolDataSource = accountScope.get()
                 val activePersonUid = (session.profilePersonUid ?: session.account.userGuid)
@@ -170,6 +181,9 @@ class AppAccountManager(
                 account = UserAccount(
                     userGuid = authResponse.person.guid,
                     school = schoolDirectoryEntry,
+                    externalPerson = authResponse.person.takeIf {
+                        schoolDirectoryEntry.userDirectory is KeycloakUserDirectoryConfig
+                    },
                 ),
                 profilePersonUid = null,
             ),
@@ -221,23 +235,25 @@ class AppAccountManager(
 
         val accountScope = getOrCreateAccountScope(session.account)
 
-        val schoolDataSource: SchoolDataSource = accountScope.get()
+        if (session.account.externalPerson == null) {
+            val schoolDataSource: SchoolDataSource = accountScope.get()
 
-        //Ensure the active user is loaded into the database
-        schoolDataSource.personDataSource.list(
-            loadParams = DataLoadParams(),
-            params = PersonDataSource.GetListParams(
-                common = GetListCommonParams(
-                    guid = authResponse.person.guid
-                ),
-                includeRelated = true,
+            //Ensure the active user is loaded into the database
+            schoolDataSource.personDataSource.list(
+                loadParams = DataLoadParams(),
+                params = PersonDataSource.GetListParams(
+                    common = GetListCommonParams(
+                        guid = authResponse.person.guid
+                    ),
+                    includeRelated = true,
+                )
             )
-        )
 
-        //Load school permission grants (rules)
-        schoolDataSource.schoolPermissionGrantDataSource.list(
-            DataLoadParams(), SchoolPermissionGrantDataSource.GetListParams()
-        ).dataOrNull() ?: throw IllegalStateException("Could not load permission grants")
+            //Load school permission grants (rules)
+            schoolDataSource.schoolPermissionGrantDataSource.list(
+                DataLoadParams(), SchoolPermissionGrantDataSource.GetListParams()
+            ).dataOrNull() ?: throw IllegalStateException("Could not load permission grants")
+        }
 
         //now we can get the datalayer by creating a UserAccount scope
         val mkDirUseCase: MakeSchoolPathDirUseCase? = schoolScope.getOrNull()

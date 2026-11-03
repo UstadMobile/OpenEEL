@@ -4,16 +4,20 @@ import android.content.Context
 import android.content.Intent
 import io.ktor.http.Url
 import kotlinx.coroutines.suspendCancellableCoroutine
+import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
 import net.openid.appauth.AuthorizationService
 import org.openeel.LaunchOpenIdAuthorizationUseCaseAndroid.Companion.openIdAppAuthConfiguration
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.account.TokenManager
 import org.openeel.shared.domain.account.authwithopenid.GetTokenAndUserProfileWithOpenIdUseCase
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.WaitingForApproval
+import org.openeel.shared.util.di.UserAccountScopeId
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -21,6 +25,7 @@ class HandleOpenIdAuthorizationResultUseCaseAndroid(
     context: Context,
     private val getTokenAndUserProfileWithOpenIdUseCase: GetTokenAndUserProfileWithOpenIdUseCase,
     private val accountManager: AppAccountManager,
+    private val tokenManager: TokenManager,
 ) {
 
     private val appContext = context.applicationContext
@@ -46,6 +51,7 @@ class HandleOpenIdAuthorizationResultUseCaseAndroid(
             )
         }
 
+        val authState = AuthState(authorizationResponse, null)
         val authorizationService = AuthorizationService(
             appContext,
             openIdAppAuthConfiguration(issuer = issuer),
@@ -60,6 +66,7 @@ class HandleOpenIdAuthorizationResultUseCaseAndroid(
                     if (continuation.isActive) {
                         val token = response?.accessToken
                         if (token != null) {
+                            authState.update(response, null)
                             continuation.resume(value = token)
                         } else {
                             continuation.resumeWithException(
@@ -76,10 +83,17 @@ class HandleOpenIdAuthorizationResultUseCaseAndroid(
             authorizationService.dispose()
         }
 
+        val subject = authState.parsedIdToken?.subject
+            ?: throw IllegalStateException(" token response is missing")
+        val accountScopeId = UserAccountScopeId(
+            schoolUrl = schoolUrl,
+            accountPrincipalId = AuthenticatedUserPrincipalId(subject),
+        )
         val authResponse = getTokenAndUserProfileWithOpenIdUseCase(
             schoolUrl = schoolUrl,
             accessToken = accessToken,
         )
+        tokenManager.storeOpenIdAuthState(accountScopeId.scopeId, authState.jsonSerializeString())
 
         accountManager.startSession(
             authResponse = authResponse,

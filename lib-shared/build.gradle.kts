@@ -42,6 +42,7 @@ kotlin {
             api(projects.libDatalayerDb)
             api(projects.libDatalayerHttpClient)
             api(projects.libXapiCore)
+            api(projects.libDirectoryKeycloak)
 
             implementation(projects.libCache)
             implementation(projects.libXxhash)
