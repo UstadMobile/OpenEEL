@@ -31,6 +31,7 @@ import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest.PersonInfo
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.toUserFriendlyString
+import org.openeel.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.device_already_shared
@@ -39,7 +40,6 @@ import org.openeel.shared.generated.resources.invitation
 import org.openeel.shared.generated.resources.required_field
 import org.openeel.shared.generated.resources.something_wrong_with_invite
 import org.openeel.shared.navigation.AcceptInvite
-import org.openeel.shared.navigation.LoginSelectClass
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.SignupScreen
 import org.openeel.shared.navigation.TermsAndCondition
@@ -72,6 +72,7 @@ class AcceptInviteViewModel(
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val enableSharedDeviceModeUseCase: EnableSharedDeviceModeUseCase,
     private val settings: Settings,
+    private val navigateOnAppStartUseCase: NavigateOnAppStartUseCase,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: AcceptInvite = savedStateHandle.toRoute()
@@ -207,6 +208,7 @@ class AcceptInviteViewModel(
             invite = invite
         )
         val _useActiveUserAuth = route.useActiveUserAuth ?: true
+
         viewModelScope.launch {
             try {
                 val personRegistered = enableSharedDeviceModeUseCase(
@@ -216,14 +218,14 @@ class AcceptInviteViewModel(
                 )
 
                 _navCommandFlow.tryEmit(
-                    NavCommand.Navigate(
-                        destination = if (personRegistered.status != PersonStatusEnum.PENDING_APPROVAL) {
-                            LoginSelectClass
-                        } else {
-                            WaitingForApproval()
-                        },
-                        clearBackStack = true
-                    )
+                    if (personRegistered.status == PersonStatusEnum.PENDING_APPROVAL) {
+                        NavCommand.Navigate(
+                            destination = WaitingForApproval(),
+                            clearBackStack = true
+                        )
+                    } else {
+                        navigateOnAppStartUseCase(useDeepLinks = false)
+                    }
                 )
             } catch (e: Exception) {
                 _uiState.update {

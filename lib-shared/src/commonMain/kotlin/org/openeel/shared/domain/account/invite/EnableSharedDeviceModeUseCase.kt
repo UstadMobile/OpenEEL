@@ -2,9 +2,13 @@ package org.openeel.shared.domain.account.invite
 
 import com.russhwolf.settings.Settings
 import io.ktor.http.Url
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeout
+import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.datalayer.school.model.Person
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.util.ext.isSameAccount
+import kotlin.time.Duration.Companion.seconds
 
 class EnableSharedDeviceModeUseCase(
     private val accountManager: AppAccountManager,
@@ -32,6 +36,14 @@ class EnableSharedDeviceModeUseCase(
                 }
             }
 
+            withTimeout(ENABLE_TIMEOUT.seconds) {
+                accountManager.selectedAccountAndPersonFlow.first { selected ->
+                    selected != null &&
+                        selected.session.account.userGuid == personRegistered.guid &&
+                        selected.session.isSharedDeviceSessionWithoutProfile(selected.person)
+                }
+            }
+
             settings.putString(CURRENT_DEVICE_GUID, personRegistered.guid)
 
             return personRegistered
@@ -44,5 +56,6 @@ class EnableSharedDeviceModeUseCase(
 
     companion object {
         const val CURRENT_DEVICE_GUID = "current_device_guid"
+        private const val ENABLE_TIMEOUT = 30L
     }
 }
