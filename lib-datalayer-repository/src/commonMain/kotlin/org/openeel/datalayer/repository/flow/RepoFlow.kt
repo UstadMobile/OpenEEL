@@ -39,12 +39,17 @@ const val LOADED_DEQUE_SIZE = 4
  *        local data where available. Recent duplicate emissions from the receiver local flow (as per
  *        ETag/LastModified headers) will be filtered so that remoteFlow will only be invoked once
  *        per distinct local data emission.
+ * @param onEachAfterSend a function that runs after the local and remote data are combined and
+ *        emitted. This can be used to run a check for remote deletion in the background without
+ *        making the user wait. This function will be canceled if newer data is emitted.
+ *
  * @return A combined flow of the local and remote data.
  */
 fun <T: Any, R: Any> Flow<DataLoadState<T>>.asRepoFlow(
     dataLoadParams: DataLoadParams,
     remoteFlow: (DataLoadParams) -> Flow<DataLoadState<R>>,
     onRemoteUpdated: suspend (DataReadyState<R>) -> Unit,
+    onEachAfterSend: (suspend (DataLoadState<T>) -> Unit)? = null,
 ): Flow<DataLoadState<T>> {
     return channelFlow {
         val remoteFlowState = MutableStateFlow<DataLoadState<R>>(DataLoadingState())
@@ -60,8 +65,9 @@ fun <T: Any, R: Any> Flow<DataLoadState<T>>.asRepoFlow(
         launch {
             sharedLocal.combine(remoteFlowState) { localState, remoteState ->
                 localState.combineWithRemote(remoteState)
-            }.collect {
+            }.collectLatest {
                 send(it)
+                onEachAfterSend?.invoke(it)
             }
         }
 
@@ -71,7 +77,7 @@ fun <T: Any, R: Any> Flow<DataLoadState<T>>.asRepoFlow(
                 /* When new remote data is loaded, this normally leads to updating the local
                  * datasource, which then leads to the local flow emitting the new data. We want
                  * to avoid triggering _another_ request to the remote datasource for the same data
-                 * we just received from it.
+                 * we just loaded from the remote data source.
                  *
                  * This is done by keeping the last few headers.
                  */

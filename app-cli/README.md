@@ -15,6 +15,7 @@ The tester supports both web based learning units.
 Prerequisites:
 * Install [Maestro CLI](https://docs.maestro.dev/maestro-cli/how-to-install-maestro-cli)
 * Install Respect launcher app on an emulator or device
+* Download and unzip the latest app-cli from this repo's [GitHub releases](https://github.com/UstadMobile/Respect/releases)
 
 **Testing HTML/Javascript based learning unit**
 

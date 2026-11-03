@@ -94,6 +94,22 @@ val MIGRATION_18_19 = object: Migration(18, 19) {
 
 val MIGRATION_19_20 = object: Migration(19, 20) {
     override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE `OpdsGroupEntity` ADD COLUMN `ogePublicationsNull` INTEGER NOT NULL DEFAULT 0")
+        connection.execSQL("ALTER TABLE `OpdsGroupEntity` ADD COLUMN `ogeNavigationsNull` INTEGER NOT NULL DEFAULT 0")
+    }
+}
+
+val MIGRATION_20_21 = object: Migration(20, 21) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE `OpdsFeedEntity` ADD COLUMN `ofePublicationsNull` INTEGER NOT NULL DEFAULT 0")
+        connection.execSQL("ALTER TABLE `OpdsFeedEntity` ADD COLUMN `ofeNavigationsNull` INTEGER NOT NULL DEFAULT 0")
+    }
+}
+
+
+
+val MIGRATION_21_22 = object: Migration(21, 22) {
+    override fun migrate(connection: SQLiteConnection) {
         connection.execSQL("UPDATE PersonRoleEntity SET prRoleEnum = CASE WHEN prRoleEnum = 3 THEN 4 WHEN prRoleEnum = 4 THEN 8 WHEN prRoleEnum = 5 THEN 16 ELSE prRoleEnum END WHERE prRoleEnum IN (3, 4, 5)")
         connection.execSQL("UPDATE SchoolPermissionGrantEntity SET spgToRole = CASE WHEN spgToRole = 3 THEN 4 WHEN spgToRole = 4 THEN 8 WHEN spgToRole = 5 THEN 16 ELSE spgToRole END WHERE spgToRole IN (3, 4, 5)")
         connection.execSQL("UPDATE InviteEntity SET iNewUserRole = CASE WHEN iNewUserRole = 3 THEN 4 WHEN iNewUserRole = 4 THEN 8 WHEN iNewUserRole = 5 THEN 16 ELSE iNewUserRole END WHERE iNewUserRole IN (3, 4, 5)")
@@ -106,6 +122,8 @@ fun RoomDatabase.Builder<SchoolDatabase>.addCommonMigrations(
 ): RoomDatabase.Builder<SchoolDatabase> {
     return this.addMigrations(
         MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16,
-        MIGRATION_16_17, MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20,
+        MIGRATION_16_17, MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21,
+        MIGRATION_21_22
     )
 }
+

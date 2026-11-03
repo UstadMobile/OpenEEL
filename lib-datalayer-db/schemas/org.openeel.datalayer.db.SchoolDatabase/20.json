@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 20,
-    "identityHash": "3e2b0e45dd344a1df558b12a2a56488f",
+    "identityHash": "f58f64c0803f2e3d37437a78ee0053e7",
     "entities": [
       {
         "tableName": "PersonEntity",
@@ -1421,7 +1421,7 @@
       },
       {
         "tableName": "OpdsGroupEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ogeUid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ogeOfeUid` INTEGER NOT NULL, `ogeIndex` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ogeUid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ogeOfeUid` INTEGER NOT NULL, `ogeIndex` INTEGER NOT NULL, `ogePublicationsNull` INTEGER NOT NULL DEFAULT 0, `ogeNavigationsNull` INTEGER NOT NULL DEFAULT 0)",
         "fields": [
           {
             "fieldPath": "ogeUid",
@@ -1440,6 +1440,20 @@
             "columnName": "ogeIndex",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "ogePublicationsNull",
+            "columnName": "ogePublicationsNull",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "ogeNavigationsNull",
+            "columnName": "ogeNavigationsNull",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
           }
         ],
         "primaryKey": {
@@ -2759,7 +2773,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3e2b0e45dd344a1df558b12a2a56488f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f58f64c0803f2e3d37437a78ee0053e7')"
     ]
   }
 }

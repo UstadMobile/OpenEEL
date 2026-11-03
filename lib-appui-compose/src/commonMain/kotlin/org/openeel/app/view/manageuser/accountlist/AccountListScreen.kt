@@ -31,12 +31,13 @@ import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_account
+import org.openeel.shared.generated.resources.app_name
 import org.openeel.shared.generated.resources.developed_by
 import org.openeel.shared.generated.resources.family_members
 import org.openeel.shared.generated.resources.license_text
 import org.openeel.shared.generated.resources.logout
 import org.openeel.shared.generated.resources.profile
-import org.openeel.shared.generated.resources.respect_is_open_source
+import org.openeel.shared.generated.resources.app_is_open_source
 import org.openeel.shared.generated.resources.supported_by_spix_foundation
 import org.openeel.shared.generated.resources.send_feedback
 import org.openeel.shared.viewmodel.manageuser.accountlist.AccountListUiState
@@ -199,8 +200,13 @@ fun AccountListScreen(
                 supportingContent = {
                     Column {
                         Text(stringResource(Res.string.supported_by_spix_foundation))
-                        Text(stringResource(Res.string.respect_is_open_source))
-                        Text(stringResource(Res.string.license_text))
+                        Text(stringResource(
+                            resource = Res.string.app_is_open_source,
+                            stringResource(Res.string.app_name))
+                        )
+                        Text(
+                            stringResource(Res.string.license_text, stringResource(Res.string.app_name))
+                        )
                     }
                 }
             )

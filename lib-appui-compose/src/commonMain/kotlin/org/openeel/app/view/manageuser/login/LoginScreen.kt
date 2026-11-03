@@ -85,6 +85,9 @@ fun LoginScreen(
                 { Text(uiTextStringResource(it)) }
             },
             enabled = !appUiState.isLoading,
+            keyboardOptions = KeyboardOptions(
+                autoCorrectEnabled = false,
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .testTag("username")

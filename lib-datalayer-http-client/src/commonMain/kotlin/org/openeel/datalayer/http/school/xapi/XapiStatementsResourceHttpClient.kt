@@ -15,6 +15,7 @@ import org.openeel.datalayer.ext.getAsDataLoadState
 import org.openeel.datalayer.ext.getDataLoadResultAsFlow
 import org.openeel.datalayer.ext.toDataLoadState
 import org.openeel.datalayer.ext.useTokenProvider
+import org.openeel.datalayer.http.school.xapi.ext.useRetry
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.xapi.composites.AssignmentAndProgress
@@ -45,6 +46,7 @@ class XapiStatementsResourceHttpClient(
             url = xapiUrl().appendEndpointSegments(XapiStatementsResource.ENDPOINT_NAME)
         ) {
             useTokenProvider(tokenProvider)
+            useRetry()
 
             contentType(ContentType.Application.Json)
             setBody(list)
@@ -60,6 +62,7 @@ class XapiStatementsResourceHttpClient(
             url = listParams.urlWithParams()
         ) {
             useTokenProvider(tokenProvider)
+            useRetry()
         }
     }
 
@@ -74,6 +77,7 @@ class XapiStatementsResourceHttpClient(
             dataLoadParams = dataLoadParams,
         ) {
             useTokenProvider(tokenProvider)
+            useRetry()
         }
     }
 
