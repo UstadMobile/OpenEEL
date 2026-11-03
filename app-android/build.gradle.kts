@@ -75,7 +75,7 @@ android {
         applicationId = "org.openeel.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 133
+        versionCode = 134
         versionName = project.version.toString()
 
         for(propName in ACRA_PROP_NAMES) {
