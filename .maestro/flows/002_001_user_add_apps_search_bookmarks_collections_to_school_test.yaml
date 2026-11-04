@@ -10,7 +10,7 @@ onFlowStart:
         SCHOOL_URL: ${SCHOOL_URL}
         SCHOOL_NAME: ${SCHOOL_NAME}
         URL_SUBSTITUTION: ${URL_SUBSTITUTION}
-        NAME: "002_001_user_add_apps_bookmarks_collections_to_school_test.yaml"
+        NAME: "002_001_user_add_apps_search_bookmarks_collections_to_school_test.yaml"
 
 onFlowComplete:
   - runFlow:
@@ -147,6 +147,48 @@ onFlowComplete:
     index: 0
 - assertNotVisible: "Lesson 001"
 - assertVisible: "Statement Maker"
+- tapOn:
+    id: "nav_home"
+- tapOn: "Apps"
+
+# Search all available lessons
+- tapOn:
+    id: "action_search"
+- inputText: "Lesson"
+- assertVisible: "Lesson 001"
+- tapOn: "Language"
+- tapOn: "English"
+- tapOn:
+    id: "close_filter_bottom_sheet_button"
+- assertVisible: "English"
+- assertVisible: "Lesson 001"
+- tapOn: "Type"
+- assertVisible: "Collection"
+- assertVisible: "Game"
+- assertVisible: "Book"
+- tapOn: "Video"
+- tapOn:
+    id: "close_filter_bottom_sheet_button"
+- assertVisible: "English"
+- assertVisible: "Video"
+- assertNotVisible: "Lesson 001"
+- swipe:
+   from:
+      text: "Video"
+   direction: LEFT
+   waitToSettleTimeoutMs: 500
+- tapOn: "Clear all"
+- assertNotVisible: "English"
+- assertNotVisible: "Video"
+- assertVisible: "Lesson 001"
+- tapOn:
+    id: "search_box"
+- eraseText
+- inputText: "JS"
+- assertVisible: "JS Tetris"
+- assertNotVisible: "Lesson 001"
+- tapOn: "JS Tetris"
+- assertVisible: "JS Tetris"
 
 - runFlow:
     file: "subflows/admin_add_class.yaml"
@@ -483,6 +525,7 @@ onFlowComplete:
 - tapOn: "Assignments"
 - assertVisible: "Homework 1"
 - assertVisible: "Homework 2"
+
 
 
 
