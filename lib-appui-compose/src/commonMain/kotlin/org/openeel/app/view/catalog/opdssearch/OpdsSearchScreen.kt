@@ -129,6 +129,7 @@ fun OpdsSearchScreen(
             TextButton(
                 onClick = onClearFilters,
                 enabled = uiState.hasFilters,
+                modifier = Modifier.testTag("clear_all_filters_button"),
             ) {
                 Text(stringResource(Res.string.clear_all))
             }
