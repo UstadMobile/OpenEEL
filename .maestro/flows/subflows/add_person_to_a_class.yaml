@@ -16,7 +16,7 @@ appId: org.openeel.app
 - tapOn: "Save"
 - assertVisible:
       id: "app_title"
-      text: ${CLASS_NAME}
+      text: ${CLASSNAME}
 - tapOn:  ${FIRSTNAME} ${LASTNAME}
 - tapOn: "Create account"
 - assertVisible:
