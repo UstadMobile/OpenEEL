@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
@@ -86,6 +87,7 @@ fun OpdsSearchScreen(
         ) {
             OpenEelSearchFilterChip(
                 chipLabel = stringResource(Res.string.language),
+                modifier = Modifier.testTag("language_filter_chip"),
                 options = uiState.languageOptions,
                 selectedOptions = uiState.searchParams.languages,
                 onSelectedOptionsChanged = onLanguagesChanged,
@@ -98,6 +100,7 @@ fun OpdsSearchScreen(
 
             OpenEelSearchFilterChip(
                 chipLabel = stringResource(Res.string.subject),
+                modifier = Modifier.testTag("subject_filter_chip"),
                 options = uiState.subjectOptions,
                 selectedOptions = uiState.searchParams.subjects,
                 onSelectedOptionsChanged = onSubjectsChanged,
@@ -108,6 +111,7 @@ fun OpdsSearchScreen(
 
             OpenEelSearchFilterChip(
                 chipLabel = stringResource(Res.string.type),
+                modifier = Modifier.testTag("type_filter_chip"),
                 options = TYPE_OPTIONS,
                 selectedOptions = uiState.searchParams.types,
                 onSelectedOptionsChanged = onTypesChanged,
