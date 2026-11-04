@@ -86,7 +86,7 @@ data class TopNavigationItem(
     val testTag: String,
 )
 
-private val routeNamePrefix = "org.openeel.shared.navigation"
+private val routeNamePrefix = "world.respect.shared.navigation"
 
 val APP_TOP_LEVEL_NAV_ITEMS = listOf(
     TopNavigationItem(

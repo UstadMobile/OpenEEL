@@ -21,7 +21,6 @@ import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.firstOrNotLoaded
 import org.openeel.lib.dataloadstate.ext.map
-import org.openeel.libutil.ext.appendEndpointSegments
 import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.lib.xapi.ext.decodeFromExtensionOrNull
 import org.openeel.lib.xapi.ext.encodeWithExtension
@@ -31,15 +30,13 @@ import org.openeel.lib.xapi.extensions.reportoptions.DefaultIndicator
 import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
 import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeries
-import org.openeel.lib.xapi.extensions.reportoptions.Indicator
-import org.openeel.datalayer.school.model.Report
-import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
 import org.openeel.lib.xapi.model.XapiActivityDefinition
 import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource.GetStatementParams
+import org.openeel.libutil.ext.appendEndpointSegments
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.xapi.createBlankReportStatement
 import org.openeel.shared.domain.xapi.fillSqlParameters
 import org.openeel.shared.domain.xapi.withReportQueries

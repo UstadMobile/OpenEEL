@@ -547,7 +547,7 @@ fun serverKoinModule(
                 runReportUseCase = get(),
                 json = get(),
                 uidNumberMapper = get(),
-                accountPersonGuid = accountScopeId.accountPrincipalId.guid
+                accountPersonGuid = requireNotNull(accountScopeId.accountPrincipalId).guid
             )
         }
     }

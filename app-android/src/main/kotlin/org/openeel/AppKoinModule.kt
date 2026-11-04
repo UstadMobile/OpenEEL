@@ -1358,13 +1358,12 @@ val appKoinModule = module {
                 }
             )
         }
-    }
-
-    single<RunReportUseCase> {
-        RunReportUseCaseDatabaseImpl(
-            schoolDatabase = get(),
-            generateReportQueriesUseCase = get(),
-        )
+        scoped<RunReportUseCase> {
+            RunReportUseCaseDatabaseImpl(
+                schoolDatabase = get(),
+                generateReportQueriesUseCase = get(),
+            )
+        }
     }
     single<ValidateEmailUseCase> {
         ValidateEmailUseCase()

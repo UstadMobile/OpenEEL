@@ -25,7 +25,6 @@ import org.openeel.lib.xapi.ext.objectStatementRefOrNull
 import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource.GetStatementParams
-import org.openeel.shared.domain.account.RespectAccountManager
 import org.openeel.shared.domain.report.formatter.CreateGraphFormatterUseCase
 import org.openeel.shared.domain.report.formatter.GraphFormatter
 import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
