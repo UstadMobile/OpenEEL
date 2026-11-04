@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class OnboardingViewModel(
     private val setUsageReportingEnabledUseCase: SetUsageReportingEnabledUseCase,
     private val getUsageReportingEnabledUseCase: GetUsageReportingEnabledUseCase,
     private val navigateOnAppStartUseCase: NavigateOnAppStartUseCase,
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     private val _uiState = MutableStateFlow(OnboardingUiState())
 

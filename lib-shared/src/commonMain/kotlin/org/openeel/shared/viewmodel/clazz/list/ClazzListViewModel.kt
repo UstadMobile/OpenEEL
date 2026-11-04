@@ -16,7 +16,7 @@ import org.openeel.datalayer.school.model.Clazz
 import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.classes
 import org.openeel.shared.generated.resources.clazz
@@ -30,7 +30,7 @@ import org.openeel.shared.util.ext.asUiText
 import org.openeel.datalayer.school.model.PermissionFlags
 import org.openeel.datalayer.school.writequeue.EnqueueRunPullSyncUseCase
 import org.openeel.shared.domain.permissions.CheckSchoolPermissionsUseCase
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 
 data class ClazzListUiState(
@@ -44,8 +44,8 @@ data class ClazzListUiState(
 
 class ClazzListViewModel(
     savedStateHandle: SavedStateHandle,
-    accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

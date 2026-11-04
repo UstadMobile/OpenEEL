@@ -28,14 +28,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.langMapString
 import org.openeel.app.view.report.graph.CombinedGraph
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.app.components.langMapString
 import org.openeel.lib.xapi.ext.objectActivityNameOrNull
+import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.shared.generated.resources.No_data_available
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.delete
-import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.shared.viewmodel.report.list.ReportListUiState
 import org.openeel.shared.viewmodel.report.list.ReportListViewModel
 

@@ -11,7 +11,7 @@ import io.ktor.util.sha1
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.xapi.adapters.toXapiActivityProfileDocumentEntity
 import org.openeel.datalayer.db.school.xapi.entities.XapiActivityProfileDocumentShaEntity
 import org.openeel.datalayer.db.shared.InstantAsTimestampString
@@ -24,6 +24,7 @@ import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.hasIfNotModifiedHeaders
 import org.openeel.lib.dataloadstate.ext.isStillValid
 import org.openeel.lib.dataloadstate.ext.requestEtagAndLastModified
+import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
 import org.openeel.lib.xapi.exceptions.XapiException
 import org.openeel.lib.xapi.ext.isJson
 import org.openeel.lib.xapi.ext.mergeJsonDoc
@@ -33,7 +34,7 @@ import org.openeel.lib.xapi.resources.local.XapiActivityProfileResourceLocal
 import kotlin.uuid.Uuid
 
 class XapiActivityProfileResourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val json: Json,
 ) : XapiActivityProfileResourceLocal {
 

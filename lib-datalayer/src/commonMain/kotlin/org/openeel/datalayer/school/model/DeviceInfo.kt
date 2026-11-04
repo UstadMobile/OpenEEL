@@ -47,7 +47,7 @@ data class DeviceInfo(
 
     companion object {
 
-        const val HEADER_NAME = "X-Respect-Device-Info"
+        const val HEADER_NAME = "X-OpenEel-Device-Info"
 
         fun fromHeaderLine(line: String) : DeviceInfo {
             val map = line.split(";").associate {

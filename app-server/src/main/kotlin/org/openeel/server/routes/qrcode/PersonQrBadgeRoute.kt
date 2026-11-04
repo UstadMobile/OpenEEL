@@ -10,12 +10,12 @@ import io.ktor.server.routing.post
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.PersonQrBadgeDataSource
-import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
 
 fun Route.PersonQrBadgeRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->
-        call.requireAccountScope().get()
+        call.getUserAccountScope().get()
     },
 ) {
     get(PersonQrBadgeDataSource.ENDPOINT_NAME) {

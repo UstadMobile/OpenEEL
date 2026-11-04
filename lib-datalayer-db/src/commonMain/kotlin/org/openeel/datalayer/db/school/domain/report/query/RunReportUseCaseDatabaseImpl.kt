@@ -4,7 +4,7 @@ import androidx.room.RoomRawQuery
 import com.ustadmobile.libcache.util.withWriterTransaction
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.domain.report.ext.age
 import org.openeel.lib.xapi.extensions.reportoptions.ReportXAxis
 import org.openeel.libutil.util.time.systemTimeInMillis
@@ -13,7 +13,7 @@ import org.openeel.libutil.util.time.systemTimeInMillis
  * Implementation of RunReportUseCase that runs queries against the local database.
  */
 class RunReportUseCaseDatabaseImpl(
-    private val schoolDatabase: RespectSchoolDatabase,
+    private val schoolDatabase: SchoolDatabase,
     private val generateReportQueriesUseCase: GenerateReportQueriesUseCase
 ) : RunReportUseCase {
 

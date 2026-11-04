@@ -19,8 +19,8 @@ import org.openeel.datalayer.shared.ModelWithTimes
 import org.openeel.datalayer.shared.maxLastStoredOrNull
 import org.openeel.lib.dataloadstate.ktorserver.validateIfNotModifiedSince
 import org.openeel.lib.dataloadstate.throwable.ForbiddenException
-import org.openeel.shared.domain.account.RespectAccount
-import org.openeel.shared.util.di.RespectAccountScopeId
+import org.openeel.shared.domain.account.UserAccount
+import org.openeel.shared.util.di.UserAccountScopeId
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import kotlin.time.Clock
 
@@ -31,7 +31,7 @@ val ApplicationCall.virtualHost: Url
     get() = request.virtualHost
 
 /**
- * Respect schools are handled using virtual hosting e.g. by subdomains. - see
+ * Schools are handled using virtual hosting e.g. by subdomains. - see
  * SchoolDirectoryEntryScopeId and AppKoinModule.
  */
 fun ApplicationCall.getSchoolKoinScope(): Scope {
@@ -42,16 +42,31 @@ fun ApplicationCall.getSchoolKoinScope(): Scope {
     )
 }
 
-fun ApplicationCall.requireAccountScope(): Scope {
-    val authPrincipalId: UserIdPrincipal = principal() ?:
-        throw ForbiddenException("Not authenticated")
+/**
+ * Get the UserAccount scope for the receiver [ApplicationCall]
+ *
+ * @param authOptional if true, don't require authentication, use UserAccountScopeId with a null
+ *        accountPrincipalId when there is no authentication.
+ *
+ * @return [Scope] Koin scope for the authenticated user account where the receiver [ApplicationCall]
+ *         is authenticated, otherwise the Scope for an anonymous request.
+ */
+fun ApplicationCall.getUserAccountScope(
+    authOptional: Boolean = false,
+): Scope {
+    val authPrincipalId: UserIdPrincipal? = principal()
 
-    val scopeId = RespectAccountScopeId(
-        request.virtualHost,
-        AuthenticatedUserPrincipalId(authPrincipalId.name)
+    if(!authOptional && authPrincipalId == null)
+        throw ForbiddenException()
+
+    val scopeId = UserAccountScopeId(
+        schoolUrl = request.virtualHost,
+        accountPrincipalId = authPrincipalId?.let {
+            AuthenticatedUserPrincipalId(it.name)
+        }
     ).scopeId
 
-    return getKoin().getScopeOrNull(scopeId) ?: getKoin().createScope<RespectAccount>(scopeId).also {
+    return getKoin().getScopeOrNull(scopeId) ?: getKoin().createScope<UserAccount>(scopeId).also {
         it.linkTo(getSchoolKoinScope())
     }
 }

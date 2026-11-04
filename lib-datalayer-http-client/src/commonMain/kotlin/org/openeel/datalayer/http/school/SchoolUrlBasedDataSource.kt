@@ -1,7 +1,7 @@
 package org.openeel.datalayer.http.school
 
 import io.ktor.http.Url
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResource
 
 /**
  * Interface for http SchoolDataSources. This is used by various school-scope HTTP datasources.
@@ -22,6 +22,6 @@ interface SchoolUrlBasedDataSource {
     /**
      * School Directory DataSource that can be used to load the SchoolDirectoryEntry for this school
      */
-    val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSource
+    val schoolDirectoryEntryResource: SchoolDirectoryEntryResource
 
 }

@@ -11,8 +11,14 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -29,10 +35,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectDateField
-import org.openeel.app.components.RespectExposedDropDownMenuField
+import org.openeel.app.components.OpenEelDateField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
+import org.openeel.lib.xapi.extensions.reportoptions.Comparisons
+import org.openeel.lib.xapi.extensions.reportoptions.FilterType
 import org.openeel.lib.xapi.extensions.reportoptions.FixedReportTimeRange
 import org.openeel.lib.xapi.extensions.reportoptions.RelativeRangeReportPeriod
 import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
@@ -42,6 +49,7 @@ import org.openeel.lib.xapi.extensions.reportoptions.ReportSeries
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
 import org.openeel.lib.xapi.extensions.reportoptions.ReportTimeRangeUnit
 import org.openeel.lib.xapi.extensions.reportoptions.ReportXAxis
+import org.openeel.lib.xapi.extensions.reportoptions.Indicator
 import org.openeel.shared.ext.label
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_filter
@@ -49,6 +57,7 @@ import org.openeel.shared.generated.resources.add_series
 import org.openeel.shared.generated.resources.chart_type
 import org.openeel.shared.generated.resources.filters
 import org.openeel.shared.generated.resources.from
+import org.openeel.shared.generated.resources.manage_indicators
 import org.openeel.shared.generated.resources.quantity
 import org.openeel.shared.generated.resources.remove
 import org.openeel.shared.generated.resources.series_title
@@ -130,14 +139,13 @@ private fun ReportEditScreen(
             }
         }
 
-        RespectExposedDropDownMenuField(
-            value = selected,
+        ExposedDropdownMenu(
+            selectedValue = selected,
             options = ReportPeriodOption.entries,
             onOptionSelected = { selectedOption ->
                 onReportOptionsChanged(reportOptions.copy(period = selectedOption.period))
             },
             label = { Text(stringResource(Res.string.time_range) + "*") },
-            itemText = { stringResource(it.label) }
         )
 
         // Show CustomPeriodInputs only if selected is CUSTOM_PERIOD
@@ -162,14 +170,13 @@ private fun ReportEditScreen(
             )
         }
 
-        RespectExposedDropDownMenuField(
-            value = reportOptions.xAxis,
+        ExposedDropdownMenu(
+            selectedValue = reportOptions.xAxis,
             options = ReportXAxis.entries,
             onOptionSelected = { xAxis ->
                 onReportOptionsChanged(reportOptions.copy(xAxis = xAxis))
             },
             label = { Text(stringResource(Res.string.x_axis) + "*") },
-            itemText = { stringResource(it.label) }
         )
 
         // Dynamically iterate over the series
@@ -219,20 +226,19 @@ private fun ReportEditScreen(
                 }
 
                 // Y Axis Dropdown
-                RespectExposedDropDownMenuField(
-                    value = seriesItem.reportSeriesYAxis,
-                    options = uiState.availableIndicatorsForNewSeries,
+                ExposedDropdownMenu(
+                    selectedValue = seriesItem.reportSeriesYAxis,
+                    options = uiState.availableIndicators,
                     onOptionSelected = { selectedYAxis ->
                         val updatedSeries = seriesItem.copy(reportSeriesYAxis = selectedYAxis)
                         onSeriesChanged(seriesIndex, updatedSeries)
                     },
                     label = { Text(stringResource(Res.string.y_axis) + "*") },
-                    itemText = { stringResource(it.label) }
                 )
 
                 // Subgroup Dropdown
-                RespectExposedDropDownMenuField(
-                    value = seriesItem.reportSeriesSubGroup,
+                ExposedDropdownMenu(
+                    selectedValue = seriesItem.reportSeriesSubGroup,
                     options = if (reportOptions.xAxis.datePeriod != null) {
                         // X-axis is date - only show non-date options
                         ReportXAxis.entries.filter { it.datePeriod == null }
@@ -248,11 +254,10 @@ private fun ReportEditScreen(
                         onSeriesChanged(seriesIndex, updatedSeries)
                     },
                     label = { Text(stringResource(Res.string.subgroup_by)) },
-                    itemText = { stringResource(it.label) }
                 )
 
                 // Chart Type Dropdown
-                RespectExposedDropDownMenuField(
+                ExposedDropdownMenu(
                     value = seriesItem.reportSeriesVisualType,
                     options = ReportSeriesVisualType.entries,
                     onOptionSelected = { selectedVisualType ->
@@ -261,12 +266,25 @@ private fun ReportEditScreen(
                         onSeriesChanged(seriesIndex, updatedSeries)
                     },
                     label = { Text(stringResource(Res.string.chart_type) + "*") },
-                    itemText = { stringResource(it.label) }
                 )
 
                 if (!seriesItem.reportSeriesFilters.isNullOrEmpty()) {
                     Text(stringResource(Res.string.filters))
                 }
+                    // Chart Type Dropdown
+                    ExposedDropdownMenu(
+                        label = { Text(stringResource(Res.string.chart_type) + "*") },
+                        options = ReportSeriesVisualType.entries,
+                        selectedValue = seriesItem.reportSeriesVisualType,
+                        onOptionSelected = { selectedVisualType ->
+                            val updatedSeries =
+                                seriesItem.copy(reportSeriesVisualType = selectedVisualType)
+                            onSeriesChanged(updatedSeries)
+                        },
+                    )
+                    if (!seriesItem.reportSeriesFilters.isNullOrEmpty()) {
+                        Text(stringResource(Res.string.filters))
+                    }
 
                 seriesItem.reportSeriesFilters?.forEachIndexed { filterIndex, value ->
                     Row(
@@ -339,18 +357,16 @@ fun CustomPeriodInputs(
             supportingText = { quantityError?.let { Text(it) } },
         )
 
-        RespectExposedDropDownMenuField(
+        ExposedDropdownMenu(
             modifier = Modifier.weight(0.8f),
-            value = selectedUnit,
+            selectedValue = selectedUnit,
             options = ReportTimeRangeUnit.entries,
             onOptionSelected = { unit ->
                 selectedUnit = unit
                 quantity.toIntOrNull()?.let { qty ->
                     onCustomPeriodChanged(qty, unit)
                 }
-            },
-            label = { Text(stringResource(Res.string.unit)) },
-            itemText = { stringResource(it.label) }
+            }
         )
     }
 }
@@ -365,10 +381,10 @@ fun CustomDateRangeInputs(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        RespectDateField(
+        DatePickerButton(
             modifier = Modifier.weight(1f),
             value = currentRange.fromDateMillis,
-            label = { Text(stringResource(Res.string.from)) },
+            label = stringResource(Res.string.from),
             timeZoneId = TimeZone.currentSystemDefault().id,
             onValueChange = { newFrom ->
                 onDateRangeChanged(newFrom, currentRange.toDateMillis)
@@ -376,10 +392,10 @@ fun CustomDateRangeInputs(
             supportingText = {}
         )
 
-        RespectDateField(
+        DatePickerButton(
             modifier = Modifier.weight(1f),
             value = currentRange.toDateMillis,
-            label = { Text(stringResource(Res.string.to_)) },
+            label = stringResource(Res.string.to_),
             timeZoneId = TimeZone.currentSystemDefault().id,
             onValueChange = { newTo ->
                 onDateRangeChanged(currentRange.fromDateMillis, newTo)

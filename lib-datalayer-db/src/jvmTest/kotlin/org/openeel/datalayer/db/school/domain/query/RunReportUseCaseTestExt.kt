@@ -6,7 +6,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntity
 import org.openeel.datalayer.db.school.xapi.entities.XapiStatementEntityObjectTypeEnum
 import java.util.UUID
@@ -24,7 +24,7 @@ data class StatementsInsertedInfo(
 /**
  * Insert statements that are used for report tests.
  */
-suspend fun RespectSchoolDatabase.insertStatementsPerDay(
+suspend fun SchoolDatabase.insertStatementsPerDay(
     numStatementsPerDay: Int = DEFAULT_NUM_STATEMENTS_PER_DAY,
     durationPerStatement: Long? = DEFAULT_DURATION_PER_STATEMENT,
     numDays: Int = DEFAULT_NUM_DAYS,

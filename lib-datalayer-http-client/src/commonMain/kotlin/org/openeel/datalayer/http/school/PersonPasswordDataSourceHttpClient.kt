@@ -20,11 +20,11 @@ import org.openeel.datalayer.http.ext.respectEndpointUrl
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
 import org.openeel.datalayer.school.PersonPasswordDataSource
 import org.openeel.datalayer.school.model.PersonPassword
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResource
 
 class PersonPasswordDataSourceHttpClient(
     override val schoolUrl: Url,
-    override val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSource,
+    override val schoolDirectoryEntryResource: SchoolDirectoryEntryResource,
     private val httpClient: HttpClient,
     private val tokenProvider: AuthTokenProvider,
     private val validationHelper: ExtendedDataSourceValidationHelper?,

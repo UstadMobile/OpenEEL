@@ -39,7 +39,7 @@ import org.openeel.lib.xapi.model.XapiStatementResult
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.libutil.ext.resolve
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.bookmark.AddBookmarkUseCase
 import org.openeel.shared.domain.bookmark.RemoveBookmarkUseCase
 import org.openeel.shared.domain.launchapp.gotoappstore.GoToAppStoreUseCase
@@ -58,7 +58,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.exception.getUiTextOrGeneric
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.resolve
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.catalog.PublicationsSelection
@@ -87,10 +87,10 @@ data class PublicationDetailUiState(
 class PublicationDetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val ustadCache: UstadCache,
-    val accountManager: RespectAccountManager,
+    val accountManager: AppAccountManager,
     private val snackBarDispatcher: SnackBarDispatcher,
     private val goToAppStoreUseCase: GoToAppStoreUseCase,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
 
     override val scope: Scope = accountManager.requireActiveAccountScope()

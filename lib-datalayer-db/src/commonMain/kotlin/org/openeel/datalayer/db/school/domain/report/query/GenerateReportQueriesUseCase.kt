@@ -4,7 +4,6 @@ import kotlinx.datetime.offsetAt
 import org.openeel.lib.xapi.extensions.reportoptions.ReportXAxis
 import org.openeel.libutil.util.time.systemTimeInMillis
 import org.openeel.datalayer.ext.DatabaseType
-import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 
 /**
  * `GenerateReportQueriesUseCase`

@@ -5,7 +5,7 @@ import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
 import org.openeel.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCase
 import org.openeel.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
@@ -22,7 +22,7 @@ import kotlin.time.Duration.Companion.milliseconds
  * - If there is any deep link to use (Deferred Deep Link or cold start deep link) then go there
  *   using resolveUrlToNavCommandUseCase
  * - If user already has account signed in: Go to AssignmentList if it is a simplified child mode
- *   account, otherwise go to RespectAppLauncher
+ *   account, otherwise go to AppLauncher
  *
  * This is used in two places:
  *
@@ -32,7 +32,7 @@ import kotlin.time.Duration.Companion.milliseconds
  *    user clicks the get started button.
  */
 class NavigateOnAppStartUseCase(
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val initDeepLinkUriProvider: InitDeepLinkUriProviderUseCase,
     val getDeferredDeepLinkUseCase: GetDeferredDeepLinkUseCase?,
     private val customDeepLinkToUrlUseCase: CustomDeepLinkToUrlUseCase,

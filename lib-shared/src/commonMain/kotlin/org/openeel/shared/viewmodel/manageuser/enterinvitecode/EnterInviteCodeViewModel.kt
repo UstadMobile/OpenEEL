@@ -24,7 +24,7 @@ import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.exception.getUiText
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class EnterInviteCodeUiState(
     val inviteCode: String = "",
@@ -33,7 +33,7 @@ data class EnterInviteCodeUiState(
 
 class EnterInviteCodeViewModel(
     savedStateHandle: SavedStateHandle,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     val route: EnterInviteCode = savedStateHandle.toRoute()
 

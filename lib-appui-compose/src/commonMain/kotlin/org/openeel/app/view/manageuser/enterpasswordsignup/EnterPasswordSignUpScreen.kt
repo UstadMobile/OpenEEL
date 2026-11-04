@@ -13,7 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPasswordField
+import org.openeel.app.components.OpenEelPasswordField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.shared.generated.resources.Res
@@ -47,7 +47,7 @@ fun EnterPasswordSignupScreen(
             .defaultItemPadding()
     ) {
 
-        RespectPasswordField(
+        OpenEelPasswordField(
             value = uiState.password,
             onValueChange = onPasswordChanged,
             label = { Text(stringResource(Res.string.password_label) + "*") },

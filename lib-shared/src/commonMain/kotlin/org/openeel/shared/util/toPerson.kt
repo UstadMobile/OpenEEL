@@ -4,9 +4,9 @@ import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonRole
 import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
-import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 
-fun RespectRedeemInviteRequest.PersonInfo.toPerson(
+fun RedeemInviteRequest.PersonInfo.toPerson(
     role: PersonRoleEnum,
     username: String?=null,
     guid: String,

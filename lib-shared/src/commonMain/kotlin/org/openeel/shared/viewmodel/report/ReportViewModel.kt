@@ -5,11 +5,11 @@ import kotlinx.coroutines.flow.update
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.report
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 class ReportViewModel(
     savedStateHandle: SavedStateHandle
-) : RespectViewModel(savedStateHandle) {
+) : OpenEelViewModel(savedStateHandle) {
 
     init {
         _appUiState.update {

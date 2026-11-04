@@ -11,9 +11,9 @@ import org.openeel.datalayer.db.school.daos.PersonEntityDao.Companion.SELECT_AUT
 import org.openeel.datalayer.db.school.entities.ClassEntity
 import org.openeel.datalayer.db.school.entities.ClassEntityWithPermissions
 import org.openeel.datalayer.db.school.entities.LastModifiedAndPermission
-import org.openeel.datalayer.school.model.ClazzUidAndName
 import org.openeel.datalayer.school.model.PermissionFlags
 import org.openeel.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.school.model.ClazzUidAndName
 
 @Dao
 interface ClassEntityDao {

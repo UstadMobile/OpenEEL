@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPasswordField
+import org.openeel.app.components.OpenEelPasswordField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.shared.generated.resources.Res
@@ -48,7 +48,7 @@ fun ChangePasswordScreen(
 
     Column(Modifier.fillMaxWidth()) {
         if(uiState.requireOldPassword) {
-            RespectPasswordField(
+            OpenEelPasswordField(
                 modifier = Modifier.testTag("old_password")
                     .fillMaxWidth()
                     .defaultItemPadding(),
@@ -68,7 +68,7 @@ fun ChangePasswordScreen(
             )
         }
 
-        RespectPasswordField(
+        OpenEelPasswordField(
             modifier = Modifier.testTag("new_password")
                 .fillMaxWidth()
                 .defaultItemPadding(),

@@ -42,11 +42,11 @@ import com.ustadmobile.libcache.PublicationPinState
 import com.ustadmobile.libuicompose.theme.black
 import com.ustadmobile.libuicompose.theme.white
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.app.components.AlternativeLangLinks
-import org.openeel.app.components.RespectDataLoadHost
-import org.openeel.app.components.RespectOfflineItemStatusIcon
-import org.openeel.app.components.RespectQuickActionButton
+import org.openeel.app.components.OpenEelDataLoadHost
+import org.openeel.app.components.OpenEelOfflineItemStatusIcon
+import org.openeel.app.components.OpenEelQuickActionButton
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.defaultScreenPadding
 import org.openeel.app.components.langMapString
@@ -98,7 +98,7 @@ fun PublicationDetailScreen(
     onClickLicense: (Publication) -> Unit,
     onClickAlternativeLangVersion: (ReadiumLink) -> Unit,
 ) {
-    RespectDataLoadHost(
+    OpenEelDataLoadHost(
         uiState.learningUnit,
         modifier = Modifier
             .fillMaxSize()
@@ -120,7 +120,7 @@ fun PublicationDetailScreen(
                 val iconUrl = lessonDetail?.images?.firstOrNull()?.href
 
                 iconUrl?.also { icon ->
-                    RespectAsyncImage(
+                    OpenEelAsyncImage(
                         uri = icon,
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
@@ -157,7 +157,7 @@ fun PublicationDetailScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 if (appIconUrl != null) {
-                                    RespectAsyncImage(
+                                    OpenEelAsyncImage(
                                         uri = appIconUrl,
                                         contentDescription = "",
                                         contentScale = ContentScale.Fit,
@@ -213,14 +213,14 @@ fun PublicationDetailScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                RespectQuickActionButton(
+                OpenEelQuickActionButton(
                     labelText = when (uiState.pinState.status) {
                         PublicationPinState.Status.IN_PROGRESS -> stringResource(Res.string.cancel)
                         PublicationPinState.Status.READY -> stringResource(Res.string.downloaded)
                         else -> stringResource(Res.string.download)
                     },
                     iconContent = {
-                        RespectOfflineItemStatusIcon(
+                        OpenEelOfflineItemStatusIcon(
                             state = uiState.pinState,
                         )
                     },
@@ -228,7 +228,7 @@ fun PublicationDetailScreen(
                     enabled = uiState.openButtonEnabled,
                 )
 
-                RespectQuickActionButton(
+                OpenEelQuickActionButton(
                     imageVector = if (uiState.isBookmarked) {
                         Icons.Filled.Bookmark
                     } else {
@@ -240,7 +240,7 @@ fun PublicationDetailScreen(
                 )
 
                 if (uiState.showAssignButton) {
-                    RespectQuickActionButton(
+                    OpenEelQuickActionButton(
                         imageVector = Icons.Filled.NearMe,
                         labelText = stringResource(Res.string.assign),
                         onClick = onClickAssign,

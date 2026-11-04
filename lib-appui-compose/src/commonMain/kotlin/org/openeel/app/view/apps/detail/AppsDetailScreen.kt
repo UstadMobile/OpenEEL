@@ -45,7 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.app.components.AlternativeLangLinks
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.langMapString
@@ -102,7 +102,7 @@ fun AppsDetailScreen(
     ) {
         Row(Modifier.defaultItemPadding(top = 16.dp)) {
             appDetail?.findIcons()?.firstOrNull()?.also {
-                RespectAsyncImage(
+                OpenEelAsyncImage(
                     uri = it.href,
                     contentDescription = "",
                     contentScale = ContentScale.Fit,
@@ -341,7 +341,7 @@ fun NavigationList(
         }?.href
 
         iconUrl.also { icon ->
-            RespectAsyncImage(
+            OpenEelAsyncImage(
                 uri = icon,
                 contentDescription = "",
                 contentScale = ContentScale.Fit,
@@ -373,7 +373,7 @@ fun PublicationList(
         val iconUrl = publication.images?.firstOrNull()?.href
 
         iconUrl.also { icon ->
-            RespectAsyncImage(
+            OpenEelAsyncImage(
                 uri = icon,
                 contentDescription = "",
                 contentScale = ContentScale.Fit,

@@ -86,7 +86,7 @@ private val DarkColors = darkColorScheme(
 
 
 @Composable
-fun RespectAppTheme(
+fun OpenEelAppTheme(
   useDarkTheme: Boolean = isSystemInDarkTheme(),
   content: @Composable() () -> Unit
 ) {

@@ -2,7 +2,7 @@ package org.openeel.datalayer.db.school.writequeue
 
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.asEntity
 import org.openeel.datalayer.db.school.adapters.asModel
 import org.openeel.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
@@ -11,7 +11,7 @@ import org.openeel.datalayer.school.writequeue.WriteQueueItem
 import org.openeel.libutil.util.time.systemTimeInMillis
 
 class RemoteWriteQueueDbImpl(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val account: AuthenticatedUserPrincipalId,
     private val enqueueDrainRemoteWriteQueueUseCase: EnqueueDrainRemoteWriteQueueUseCase,
 ): RemoteWriteQueue {

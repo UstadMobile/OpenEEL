@@ -48,13 +48,13 @@ import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.getKoin
 import org.koin.compose.koinInject
-import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.app.util.ext.toImageVector
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
 import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.back
 import org.openeel.shared.generated.resources.search
@@ -69,7 +69,7 @@ import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RespectAppBar(
+fun OpenEelAppBar(
     compactHeader: Boolean,
     appUiState: AppUiState,
     navController: NavController,
@@ -86,7 +86,7 @@ fun RespectAppBar(
 
     val showUserAccountIcon = appUiState.userAccountIconVisible ?: !appUiState.actionBarButtonState.visible
 
-    val accountManager: RespectAccountManager = koinInject()
+    val accountManager: AppAccountManager = koinInject()
     val activeAccount by accountManager.selectedAccountAndPersonFlow.collectAsState(null)
     val activeSessionVal = activeAccount?.session
 
@@ -260,7 +260,7 @@ fun RespectAppBar(
                             onClick = onProfileClick,
                             modifier = Modifier.testTag("user_account_icon"),
                         ) {
-                            RespectPersonAvatar(name = it.person.fullName())
+                            OpenEelPersonAvatar(name = it.person.fullName())
                         }
                     }
                 }

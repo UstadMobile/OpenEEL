@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.filled.Task
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -24,16 +24,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
-import org.openeel.app.components.RespectQuickActionButton
+import org.openeel.app.app.OpenEelAsyncImage
+import org.openeel.app.components.OpenEelQuickActionButton
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.ext.feedIconLinkOrNull
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.assign
+import org.openeel.shared.generated.resources.copy_link
 import org.openeel.shared.generated.resources.remix_collection
 import org.openeel.shared.generated.resources.delete
-import org.openeel.shared.generated.resources.share
 import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailUiState
 
 
@@ -41,7 +41,7 @@ import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailUiState
 fun OpdsFeedDetailHeader(
     uiState: OpdsFeedDetailUiState,
     onClickShare: () -> Unit,
-    onClickCopy: () -> Unit,
+    onClickRemix: () -> Unit,
     onClickDelete: () -> Unit,
     onClickAssign: () -> Unit,
 ) {
@@ -63,7 +63,7 @@ fun OpdsFeedDetailHeader(
             verticalAlignment = Alignment.Top,
         ) {
             feedIconLink?.also {
-                RespectAsyncImage(
+                OpenEelAsyncImage(
                     uri = it.href,
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
@@ -86,26 +86,28 @@ fun OpdsFeedDetailHeader(
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState()),
             ) {
-                RespectQuickActionButton(
+                OpenEelQuickActionButton(
                     modifier = Modifier.testTag("share_btn"),
-                    labelText = stringResource(Res.string.share),
+                    labelText = stringResource(Res.string.copy_link),
                     iconContent = {
-                        Icon(Icons.Filled.Share, null)
+                        Icon(Icons.Filled.Link, null)
                     },
                     onClick = onClickShare
                 )
 
-                RespectQuickActionButton(
-                    modifier = Modifier.testTag("copy_btn"),
-                    labelText = stringResource(Res.string.remix_collection),
-                    iconContent = {
-                        Icon(Icons.Filled.ContentCopy, null)
-                    },
-                    onClick = onClickCopy
-                )
+                if(uiState.remixButtonVisible) {
+                    OpenEelQuickActionButton(
+                        modifier = Modifier.testTag("copy_btn"),
+                        labelText = stringResource(Res.string.remix_collection),
+                        iconContent = {
+                            Icon(Icons.Filled.Shuffle, null)
+                        },
+                        onClick = onClickRemix
+                    )
+                }
 
                 if(uiState.showAssignButton) {
-                    RespectQuickActionButton(
+                    OpenEelQuickActionButton(
                         modifier = Modifier.testTag("header_assign_btn"),
                         labelText = stringResource(Res.string.assign),
                         iconContent = {
@@ -115,8 +117,8 @@ fun OpdsFeedDetailHeader(
                     )
                 }
 
-                if (uiState.isTeacherOrAdmin) {
-                    RespectQuickActionButton(
+                if (uiState.deleteButtonVisible) {
+                    OpenEelQuickActionButton(
                         modifier = Modifier.testTag("delete_btn"),
                         labelText = stringResource(Res.string.delete),
                         iconContent = {

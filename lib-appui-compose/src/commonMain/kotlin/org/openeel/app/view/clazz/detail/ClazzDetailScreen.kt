@@ -27,10 +27,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectListSortHeader
-import org.openeel.app.components.RespectPersonAvatar
-import org.openeel.app.components.respectPagingItems
-import org.openeel.app.components.respectRememberPager
+import org.openeel.app.components.OpenEelListSortHeader
+import org.openeel.app.components.OpenEelPersonAvatar
+import org.openeel.app.components.openEelPagingItems
+import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.EnrollmentRoleEnum
@@ -43,13 +43,11 @@ import org.openeel.shared.generated.resources.pending_requests
 import org.openeel.shared.generated.resources.collapse_pending_invites
 import org.openeel.shared.generated.resources.collapse_students
 import org.openeel.shared.generated.resources.collapse_teachers
-import org.openeel.shared.generated.resources.description
 import org.openeel.shared.generated.resources.expand_pending_invites
 import org.openeel.shared.generated.resources.expand_students
 import org.openeel.shared.generated.resources.expand_teachers
 import org.openeel.shared.generated.resources.manage_enrollments
 import org.openeel.shared.generated.resources.more_options
-import org.openeel.shared.generated.resources.pending_requests
 import org.openeel.shared.generated.resources.remove_from_class
 import org.openeel.shared.generated.resources.student
 import org.openeel.shared.generated.resources.students
@@ -97,11 +95,11 @@ fun ClazzDetailScreen(
     onClickManageEnrollments: (Person, EnrollmentRoleEnum) -> Unit,
     onClickPerson: (Person) -> Unit,
 ) {
-    val teacherPager = respectRememberPager(uiState.teachers)
-    val studentPager = respectRememberPager(uiState.students)
+    val teacherPager = openEelRememberPager(uiState.teachers)
+    val studentPager = openEelRememberPager(uiState.students)
 
-    val pendingTeacherPager = respectRememberPager(uiState.pendingTeachers)
-    val pendingStudentPager = respectRememberPager(uiState.pendingStudents)
+    val pendingTeacherPager = openEelRememberPager(uiState.pendingTeachers)
+    val pendingStudentPager = openEelRememberPager(uiState.pendingStudents)
 
     val teacherLazyPagingItems = teacherPager.flow.collectAsLazyPagingItems()
     val studentLazyPagingItems = studentPager.flow.collectAsLazyPagingItems()
@@ -136,7 +134,7 @@ fun ClazzDetailScreen(
         }
 
         item {
-            RespectListSortHeader(
+            OpenEelListSortHeader(
                 activeSortOrderOption = uiState.activeSortOrderOption,
                 sortOptions = uiState.sortOptions,
                 enabled = uiState.fieldsEnabled,
@@ -185,7 +183,7 @@ fun ClazzDetailScreen(
 
         if (uiState.isPendingExpanded) {
             if (uiState.showAddTeacher) {
-                respectPagingItems(
+                openEelPagingItems(
                     items = pendingTeacherLazyPagingItems,
                     key = { person, index ->
                         person.key(EnrollmentRoleEnum.PENDING_TEACHER, index)
@@ -204,7 +202,7 @@ fun ClazzDetailScreen(
             }
 
             if (uiState.showAddStudent) {
-                respectPagingItems(
+                openEelPagingItems(
                     items = pendingStudentLazyPagingItems,
                     key = { person, index ->
                         person.key(EnrollmentRoleEnum.PENDING_STUDENT, index)
@@ -276,7 +274,7 @@ fun ClazzDetailScreen(
                 }
             }
 
-            respectPagingItems(
+            openEelPagingItems(
                 items = teacherLazyPagingItems,
                 key = { person, index -> person.key(EnrollmentRoleEnum.TEACHER, index) }
             ) { teacher ->
@@ -346,7 +344,7 @@ fun ClazzDetailScreen(
                     )
                 }
             }
-            respectPagingItems(
+            openEelPagingItems(
                 items = studentLazyPagingItems,
                 key = { person, index -> person.key(EnrollmentRoleEnum.STUDENT, index) }
             ) { student ->
@@ -379,7 +377,7 @@ fun PersonListItemWithMenu(
             person?.also(onClick)
         },
         leadingContent = {
-            RespectPersonAvatar(name = person?.fullName() ?: "")
+            OpenEelPersonAvatar(name = person?.fullName() ?: "")
         },
         headlineContent = {
             Text(text = person?.fullName().orEmpty())

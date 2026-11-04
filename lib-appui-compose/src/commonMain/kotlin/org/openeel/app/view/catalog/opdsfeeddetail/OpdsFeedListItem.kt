@@ -1,6 +1,5 @@
 package org.openeel.app.view.catalog.opdsfeeddetail
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,7 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ListAlt
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,14 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.ustadmobile.libuicompose.org.openeel.app.components.OpenEelAvatarBox
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.duration
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FeedListItem(
+fun OpdsFeedListItem(
     title: String,
     iconUrl: String?,
     description: String?,
@@ -37,7 +39,8 @@ fun FeedListItem(
     showCheckbox: Boolean,
     isSelected: Boolean,
     onClick: () -> Unit,
-    onLongPress: () -> Unit,
+    onLongPress: (() -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
 ) {
     ListItem(
         modifier = Modifier
@@ -54,12 +57,21 @@ fun FeedListItem(
                     .width(48.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                RespectAsyncImage(
-                    uri = iconUrl,
-                    contentDescription = "",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(36.dp),
-                )
+                if(iconUrl != null) {
+                    OpenEelAsyncImage(
+                        uri = iconUrl,
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.size(36.dp),
+                    )
+                }else {
+                    OpenEelAvatarBox(
+                        name = title,
+                        modifier = Modifier.size(36.dp)
+                    ) {
+                        Icon(Icons.AutoMirrored.Outlined.ListAlt, contentDescription = null)
+                    }
+                }
             }
         },
         headlineContent = {
@@ -87,7 +99,7 @@ fun FeedListItem(
                 )
             }
         } else {
-            null
+            trailingContent
         },
     )
 }

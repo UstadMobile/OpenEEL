@@ -22,20 +22,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectLongVersionInfoItem
-import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.OpenEelLongVersionInfoItem
+import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.model.Person
-import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_account
+import org.openeel.shared.generated.resources.app_name
 import org.openeel.shared.generated.resources.developed_by
 import org.openeel.shared.generated.resources.family_members
 import org.openeel.shared.generated.resources.license_text
 import org.openeel.shared.generated.resources.logout
 import org.openeel.shared.generated.resources.profile
-import org.openeel.shared.generated.resources.respect_is_open_source
+import org.openeel.shared.generated.resources.app_is_open_source
 import org.openeel.shared.generated.resources.supported_by_spix_foundation
 import org.openeel.shared.generated.resources.send_feedback
 import org.openeel.shared.viewmodel.manageuser.accountlist.AccountListUiState
@@ -61,7 +62,7 @@ fun AccountListScreen(
 @Composable
 fun AccountListScreen(
     uiState: AccountListUiState,
-    onClickAccount: (RespectAccount) -> Unit,
+    onClickAccount: (UserAccount) -> Unit,
     onClickFamilyPerson: (Person) -> Unit,
     onClickAddAccount: () -> Unit,
     onClickLogout: () -> Unit,
@@ -116,7 +117,7 @@ fun AccountListScreen(
                         onClickFamilyPerson(account)
                     },
                     leadingContent = {
-                        RespectPersonAvatar(name = account.fullName())
+                        OpenEelPersonAvatar(name = account.fullName())
                     },
                     headlineContent = {
                         Text(account.fullName())
@@ -181,7 +182,7 @@ fun AccountListScreen(
         }
 
         item("version_info") {
-            RespectLongVersionInfoItem()
+            OpenEelLongVersionInfoItem()
         }
 
         item("copyright_info") {
@@ -193,8 +194,13 @@ fun AccountListScreen(
                 supportingContent = {
                     Column {
                         Text(stringResource(Res.string.supported_by_spix_foundation))
-                        Text(stringResource(Res.string.respect_is_open_source))
-                        Text(stringResource(Res.string.license_text))
+                        Text(stringResource(
+                            resource = Res.string.app_is_open_source,
+                            stringResource(Res.string.app_name))
+                        )
+                        Text(
+                            stringResource(Res.string.license_text, stringResource(Res.string.app_name))
+                        )
                     }
                 }
             )

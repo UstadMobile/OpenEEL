@@ -2,15 +2,15 @@ package org.openeel.shared.domain.account.child
 
 import kotlinx.serialization.Serializable
 import org.openeel.datalayer.school.model.Person
-import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 
 interface AddChildAccountUseCase {
 
     @Serializable
     data class AddChildAccountRequest(
-        val childPersonInfo: RespectRedeemInviteRequest.PersonInfo,
+        val childPersonInfo: RedeemInviteRequest.PersonInfo,
         val parentUid: String,
-        val inviteRedeemRequest: RespectRedeemInviteRequest
+        val inviteRedeemRequest: RedeemInviteRequest
     )
 
     @Serializable

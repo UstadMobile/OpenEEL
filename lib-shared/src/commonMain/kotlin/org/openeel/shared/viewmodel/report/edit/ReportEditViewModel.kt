@@ -31,12 +31,15 @@ import org.openeel.lib.xapi.extensions.reportoptions.DefaultIndicator
 import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
 import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeries
+import org.openeel.lib.xapi.extensions.reportoptions.Indicator
+import org.openeel.datalayer.school.model.Report
+import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
 import org.openeel.lib.xapi.model.XapiActivityDefinition
 import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource.GetStatementParams
-import org.openeel.shared.domain.account.RespectAccountManager
 import org.openeel.shared.domain.xapi.createBlankReportStatement
 import org.openeel.shared.domain.xapi.fillSqlParameters
 import org.openeel.shared.domain.xapi.withReportQueries
@@ -55,7 +58,7 @@ import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.LaunchDebouncer
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 import org.openeel.shared.viewmodel.app.appstate.AppUiState
 import org.openeel.shared.viewmodel.app.appstate.LoadingUiState
@@ -90,11 +93,11 @@ data class ReportEditUiState(
 
 class ReportEditViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val json: Json,
     private val navResultReturner: NavResultReturner,
     private val snackBarDispatcher: SnackBarDispatcher
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

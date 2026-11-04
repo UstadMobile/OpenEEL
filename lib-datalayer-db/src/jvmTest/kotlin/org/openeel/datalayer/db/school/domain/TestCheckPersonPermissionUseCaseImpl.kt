@@ -5,20 +5,17 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
 import org.openeel.datalayer.db.school.insertAdmin
 import org.openeel.datalayer.db.school.testSchoolDb
 import org.openeel.datalayer.db.school.toDataSource
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.ext.primaryRole
-import org.openeel.datalayer.school.ext.writePermissionFlag
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonGenderEnum
 import org.openeel.datalayer.school.model.PersonRole
 import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.shared.XXHashUidNumberMapper
 import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
-import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertFalse
 

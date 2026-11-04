@@ -12,7 +12,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.domain.report.query.GenerateReportQueriesUseCase
 import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCaseDatabaseImpl
@@ -37,14 +37,14 @@ class RunReportUseCaseTest {
     @Rule
     val temporaryFolder = TemporaryFolder()
 
-    private lateinit var schoolDb: RespectSchoolDatabase
+    private lateinit var schoolDb: SchoolDatabase
 
     private lateinit var runReportUseCase: RunReportUseCase
 
     @BeforeTest
     fun setup() {
         val dbDir = temporaryFolder.newFolder("dbdir")
-        schoolDb = Room.databaseBuilder<RespectSchoolDatabase>(
+        schoolDb = Room.databaseBuilder<SchoolDatabase>(
             File(dbDir, "realm-test.db").absolutePath
         ).setDriver(BundledSQLiteDriver())
             .build()

@@ -11,7 +11,7 @@ import io.ktor.util.sha1
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.xapi.adapters.toXapiAgentProfileDocumentEntity
 import org.openeel.datalayer.db.school.xapi.entities.XapiAgentProfileDocumentShaEntity
 import org.openeel.datalayer.db.shared.InstantAsTimestampString
@@ -37,7 +37,7 @@ import kotlin.collections.map
 import kotlin.uuid.Uuid
 
 class XapiAgentProfileResourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val json: Json,
     private val getAuthenticatedXapiAgentsUseCase: GetAuthenticatedXapiAgentsUseCase,
 ) : XapiAgentProfileResourceLocal {

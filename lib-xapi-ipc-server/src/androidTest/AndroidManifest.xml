@@ -6,7 +6,7 @@
     -->
     <application>
         <service
-            android:name="org.openeel.xapi.ipc.server.XapiIpcService"
+            android:name="world.respect.xapi.ipc.server.XapiIpcService"
             android:exported="true"
             tools:ignore="ExportedService">
 

@@ -5,7 +5,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 class MakeSchoolPathDirUseCaseAndroid(
-    private val schoolPath: RespectSchoolPath
+    private val schoolPath: SchoolPath
 ): MakeSchoolPathDirUseCase {
 
     override suspend fun invoke() {

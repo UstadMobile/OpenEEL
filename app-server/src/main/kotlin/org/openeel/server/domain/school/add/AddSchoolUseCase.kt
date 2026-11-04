@@ -6,7 +6,7 @@ import org.koin.core.component.KoinComponent
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonRole
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryDataSourceLocal
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryResourceLocal
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
@@ -16,13 +16,13 @@ import org.openeel.datalayer.school.model.Invite2
 import org.openeel.datalayer.school.model.NewUserInvite
 import org.openeel.datalayer.school.model.PersonGenderEnum
 import org.openeel.datalayer.school.model.PersonRoleEnum
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSourceLocal
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResourceLocal
 import org.openeel.libutil.ext.normalizeForEndpoint
 import org.openeel.server.util.ext.HttpStatusException
-import org.openeel.shared.domain.account.RespectAccount
+import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.domain.account.invite.CreateInviteUseCase
 import org.openeel.shared.domain.account.setpassword.EncryptPersonPasswordUseCase
-import org.openeel.shared.util.di.RespectAccountScopeId
+import org.openeel.shared.util.di.UserAccountScopeId
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import kotlin.time.Clock
 
@@ -30,8 +30,8 @@ import kotlin.time.Clock
  * Used by command line client, potentially web admin UI to add a realm.
  */
 class AddSchoolUseCase(
-    private val directoryDataSource: SchoolDirectoryDataSourceLocal,
-    private val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSourceLocal,
+    private val directoryDataSource: SchoolDirectoryResourceLocal,
+    private val schoolDirectoryEntryDataSource: SchoolDirectoryEntryResourceLocal,
     private val encryptPasswordUseCase: EncryptPersonPasswordUseCase,
 ) : KoinComponent {
 
@@ -76,8 +76,8 @@ class AddSchoolUseCase(
             )
 
             if (request.adminPassword != null) {
-                val accountScope = getKoin().createScope<RespectAccount>(
-                    RespectAccountScopeId(
+                val accountScope = getKoin().createScope<UserAccount>(
+                    UserAccountScopeId(
                         schoolToAdd.self, AuthenticatedUserPrincipalId(adminGuid)
                     ).scopeId
                 )

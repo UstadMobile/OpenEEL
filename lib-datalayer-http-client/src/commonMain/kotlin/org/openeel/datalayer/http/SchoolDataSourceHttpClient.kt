@@ -33,12 +33,12 @@ import org.openeel.datalayer.school.SchoolConfigSettingDataSource
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
 import org.openeel.datalayer.school.opds.OpdsFeedDataSource
 import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResource
 import org.openeel.lib.xapi.resources.XapiResource
 
 class SchoolDataSourceHttpClient(
     private val schoolUrl: Url,
-    private val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSource,
+    private val schoolDirectoryEntryResource: SchoolDirectoryEntryResource,
     private val httpClient: HttpClient,
     private val tokenProvider: AuthTokenProvider,
     private val validationHelper: ExtendedDataSourceValidationHelper,
@@ -51,7 +51,7 @@ class SchoolDataSourceHttpClient(
     override val schoolPermissionGrantDataSource: SchoolPermissionGrantDataSource by lazy {
         SchoolPermissionGrantDataSourceHttpClient(
             schoolUrl = schoolUrl,
-            schoolDirectoryEntryDataSource = schoolDirectoryEntryDataSource,
+            schoolDirectoryEntryResource = schoolDirectoryEntryResource,
             httpClient = httpClient,
             tokenProvider = tokenProvider,
             validationHelper = validationHelper,
@@ -61,7 +61,7 @@ class SchoolDataSourceHttpClient(
     override val personDataSource: PersonDataSource by lazy {
         PersonDataSourceHttpClient(
             schoolUrl = schoolUrl,
-            schoolDirectoryEntryDataSource = schoolDirectoryEntryDataSource,
+            schoolDirectoryEntryResource = schoolDirectoryEntryResource,
             httpClient = httpClient,
             tokenProvider = tokenProvider,
             validationHelper = validationHelper,
@@ -71,7 +71,7 @@ class SchoolDataSourceHttpClient(
     override val personPasskeyDataSource: PersonPasskeyDataSource by lazy {
         PersonPasskeyDataSourceHttpClient(
             schoolUrl = schoolUrl,
-            schoolDirectoryEntryDataSource = schoolDirectoryEntryDataSource,
+            schoolDirectoryEntryResource = schoolDirectoryEntryResource,
             httpClient = httpClient,
             tokenProvider = tokenProvider,
             validationHelper = validationHelper,
@@ -81,7 +81,7 @@ class SchoolDataSourceHttpClient(
     override val personPasswordDataSource: PersonPasswordDataSource by lazy {
         PersonPasswordDataSourceHttpClient(
             schoolUrl = schoolUrl,
-            schoolDirectoryEntryDataSource = schoolDirectoryEntryDataSource,
+            schoolDirectoryEntryResource = schoolDirectoryEntryResource,
             httpClient = httpClient,
             tokenProvider = tokenProvider,
             validationHelper = validationHelper,
@@ -97,7 +97,7 @@ class SchoolDataSourceHttpClient(
     override val classDataSource: ClassDataSource by lazy {
         ClassDataSourceHttpClient(
             schoolUrl = schoolUrl,
-            schoolDirectoryEntryDataSource = schoolDirectoryEntryDataSource,
+            schoolDirectoryEntryResource = schoolDirectoryEntryResource,
             httpClient = httpClient,
             tokenProvider = tokenProvider,
             validationHelper = validationHelper,
@@ -107,7 +107,7 @@ class SchoolDataSourceHttpClient(
     override val personQrBadgeDataSource: PersonQrBadgeDataSource by lazy {
         PersonQrBadgeDataSourceHttpClient(
             schoolUrl = schoolUrl,
-            schoolDirectoryEntryDataSource = schoolDirectoryEntryDataSource,
+            schoolDirectoryEntryResource = schoolDirectoryEntryResource,
             httpClient = httpClient,
             tokenProvider = tokenProvider,
             validationHelper = validationHelper,
@@ -117,7 +117,7 @@ class SchoolDataSourceHttpClient(
     override val enrollmentDataSource: EnrollmentDataSource by lazy {
         EnrollmentDataSourceHttpClient(
             schoolUrl = schoolUrl,
-            schoolDirectoryEntryDataSource = schoolDirectoryEntryDataSource,
+            schoolDirectoryEntryResource = schoolDirectoryEntryResource,
             httpClient = httpClient,
             tokenProvider = tokenProvider,
             validationHelper = validationHelper,
@@ -127,7 +127,7 @@ class SchoolDataSourceHttpClient(
     override val inviteDataSource: InviteDataSource by lazy {
         InviteDataSourceHttpClient(
             schoolUrl = schoolUrl,
-            schoolDirectoryEntryDataSource = schoolDirectoryEntryDataSource,
+            schoolDirectoryEntryResource = schoolDirectoryEntryResource,
             httpClient = httpClient,
             tokenProvider = tokenProvider,
             validationHelper = validationHelper,
@@ -157,7 +157,7 @@ class SchoolDataSourceHttpClient(
     override val xapiResource: XapiResource by lazy {
         XapiResourceHttpClient(
             xapiUrl = {
-                schoolDirectoryEntryDataSource.schoolDirectoryEntryOrNull(schoolUrl)?.xapi
+                schoolDirectoryEntryResource.schoolDirectoryEntryOrNull(schoolUrl)?.xapi
                     ?: throw IllegalStateException("SchoolUrl $schoolUrl has no XAPI URL")
             },
             httpClient = httpClient,

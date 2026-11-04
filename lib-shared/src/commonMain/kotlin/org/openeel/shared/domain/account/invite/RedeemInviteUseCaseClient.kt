@@ -11,14 +11,15 @@ import org.openeel.libutil.ext.appendEndpointSegments
 import org.openeel.shared.domain.account.AuthResponse
 
 /**
- * RedeemInviteUseCase should be used by the RespectAccountManager, not directly by any ViewModel
+ * RedeemInviteUseCase should be used by the [org.openeel.shared.domain.account.AppAccountManager],
+ * not directly by any ViewModel
  */
 class RedeemInviteUseCaseClient(
     private val schoolUrl: Url,
     private val httpClient: HttpClient,
 ) : RedeemInviteUseCase {
 
-    override suspend fun invoke(redeemRequest: RespectRedeemInviteRequest): AuthResponse {
+    override suspend fun invoke(redeemRequest: RedeemInviteRequest): AuthResponse {
         return httpClient.post(
             schoolUrl.appendEndpointSegments("api/school/respect/invite/redeem")
         ) {

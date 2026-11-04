@@ -6,7 +6,7 @@ import io.ktor.http.Url
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
 import org.openeel.datalayer.school.model.Person
@@ -24,9 +24,9 @@ import java.io.File
 suspend fun testSchoolDb(
     tempDir: File,
     dbFileName: String = "school.db",
-    block: suspend (RespectSchoolDatabase) -> Unit,
+    block: suspend (SchoolDatabase) -> Unit,
 ) {
-    val db = Room.databaseBuilder<RespectSchoolDatabase>(
+    val db = Room.databaseBuilder<SchoolDatabase>(
         File(tempDir, dbFileName).absolutePath
     ).setDriver(BundledSQLiteDriver())
         .build()
@@ -57,7 +57,7 @@ suspend fun SchoolDataSourceDb.insertAdmin(
     return adminPerson
 }
 
-fun RespectSchoolDatabase.toDataSource(
+fun SchoolDatabase.toDataSource(
     authenticatedUserUid: String,
     schoolUrl: Url,
     uidNumberMapper: UidNumberMapper = XXHashUidNumberMapper(XXStringHasherCommonJvm()),
@@ -86,7 +86,7 @@ fun RespectSchoolDatabase.toDataSource(
             encodeDefaults = false
             ignoreUnknownKeys = true
         },
-        primaryKeyGenerator = PrimaryKeyGenerator(RespectSchoolDatabase.TABLE_IDS),
+        primaryKeyGenerator = PrimaryKeyGenerator(SchoolDatabase.TABLE_IDS),
         defaultAppCatalogUrl = "https://respect.world/respect-ds/apps.json",
         schoolUrl = schoolUrl,
         authenticatedXapiAgentsUseCase = authenticatedAgents,

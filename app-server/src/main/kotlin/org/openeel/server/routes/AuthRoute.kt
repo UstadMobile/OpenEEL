@@ -6,8 +6,8 @@ import io.ktor.server.request.receiveText
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
-import org.openeel.credentials.passkey.RespectCredential
-import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.credentials.passkey.OpenEelCredential
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.datalayer.school.model.DeviceInfo
 import org.openeel.server.util.ext.getSchoolKoinScope
 import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
@@ -23,9 +23,9 @@ fun Route.AuthRoute() {
         val schoolScope = call.getSchoolKoinScope()
         val getTokenUseCase: GetTokenAndUserProfileWithCredentialUseCase = schoolScope.get()
 
-        val credential: RespectCredential = if(usernameParam != null) {
+        val credential: OpenEelCredential = if(usernameParam != null) {
             val password = call.receiveText().trim()
-            RespectPasswordCredential(usernameParam, password)
+            OpenEelPasswordCredential(usernameParam, password)
         }else {
             call.receive()
         }

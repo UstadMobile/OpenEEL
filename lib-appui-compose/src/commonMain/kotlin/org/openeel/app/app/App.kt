@@ -49,7 +49,7 @@ import org.openeel.app.components.uiTextStringResource
 import org.openeel.app.effects.NavControllerLogEffect
 import org.openeel.datalayer.db.school.ext.isParent
 import org.openeel.navigation.NavCommandEffect
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.biometric.BiometricAuthUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.home
@@ -59,15 +59,15 @@ import org.openeel.shared.generated.resources.cancel
 import org.openeel.shared.generated.resources.classes
 import org.openeel.shared.generated.resources.continue_using_fingerprint_or
 import org.openeel.shared.generated.resources.people
-import org.openeel.shared.generated.resources.reports
 import org.openeel.shared.navigation.AccountList
 import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.ClazzList
 import org.openeel.shared.navigation.Home
+import org.openeel.shared.generated.resources.reports
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.PersonList
 import org.openeel.shared.navigation.Report
-import org.openeel.shared.navigation.RespectComposeNavController
+import org.openeel.shared.navigation.PersonList
+import org.openeel.shared.navigation.OpenEelComposeNavController
 import org.openeel.shared.resources.getUiTextString
 import org.openeel.shared.viewmodel.app.appstate.AppUiState
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
@@ -166,12 +166,12 @@ fun App(
 
     val navController = rememberNavController()
     val respectNavController = remember(Unit) {
-        RespectComposeNavController(navController)
+        OpenEelComposeNavController(navController)
     }
 
     val coroutineScope = rememberCoroutineScope()
 
-    val accountManager: RespectAccountManager = koinInject()
+    val accountManager: AppAccountManager = koinInject()
     val biometricAuthUseCase : BiometricAuthUseCase = koinInject()
     val activeAccount by accountManager.selectedAccountAndPersonFlow.collectAsState(null)
     val topLevelNavItems = if (activeAccount?.isChild == true) {
@@ -216,7 +216,7 @@ fun App(
             Scaffold(
                 topBar = {
                     if (!appUiStateVal.hideAppBar) {
-                        RespectAppBar(
+                        OpenEelAppBar(
                             compactHeader = (widthClass != SizeClass.EXPANDED),
                             appUiState = appUiStateVal,
                             navController = navController,

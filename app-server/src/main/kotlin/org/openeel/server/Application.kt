@@ -26,7 +26,7 @@ import org.koin.logger.slf4jLogger
 import org.openeel.libutil.ext.randomString
 import org.openeel.server.routes.AUTH_CONFIG_DIRECTORY_ADMIN_BASIC
 import org.openeel.server.routes.AuthRoute
-import org.openeel.server.routes.RespectSchoolDirectoryRoute
+import org.openeel.server.routes.SchoolDirectoryRoute
 import org.openeel.server.routes.getRespectSchoolJson
 import java.io.File
 import java.util.Properties
@@ -35,8 +35,7 @@ import org.openeel.demo.demolaunchableappserver.DemoLaunchableAppManifestRoute
 import org.openeel.demo.demolaunchableappserver.DemoLaunchableAppCollectionsRoute
 import org.openeel.Greeting
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.RespectAppDataSource
-import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.http.server.XapiStatementsResourceRoute
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.libutil.ext.RESPECT_SCHOOL_LINK_SEGMENT
@@ -55,7 +54,6 @@ import org.openeel.server.routes.school.respect.InviteRoute
 import org.openeel.server.routes.school.respect.PersonPasskeyRoute
 import org.openeel.server.routes.school.respect.PersonPasswordRoute
 import org.openeel.server.routes.school.respect.PersonRoute
-import org.openeel.server.routes.school.respect.PlaylistRoute
 import org.openeel.server.routes.school.respect.RedeemInviteRoute
 import org.openeel.server.routes.school.respect.SchoolRegistrationRoute
 import org.openeel.server.routes.school.respect.SchoolLinkRoute
@@ -65,10 +63,11 @@ import org.openeel.server.routes.e2etestartifactsroute.ReceiveE2EArtifactUploadR
 import org.openeel.datalayer.http.server.XapiActivityProfileResourceRoute
 import org.openeel.datalayer.http.server.XapiAgentProfileResourceRoute
 import org.openeel.datalayer.http.server.XapiStateResourceRoute
+import org.openeel.lib.xapi.resources.XapiResource
 import org.openeel.server.routes.username.UsernameSuggestionRoute
 import org.openeel.server.routes.username.checkusernameunique.CheckUsernameUniqueRoute
 import org.openeel.server.util.ext.getSchoolKoinScope
-import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.server.util.ext.virtualHost
 import org.openeel.shared.domain.account.validateauth.ValidateAuthorizationUseCase
 import org.openeel.shared.domain.e2eartifactupload.E2EArtifactUploadUseCase
@@ -88,7 +87,7 @@ fun Application.module() {
     val absoluteDataDir = environment.config.absoluteDataDir()
     absoluteDataDir.takeIf { !it.exists() }?.mkdirs()
 
-    Napier.d("Respect-server: init : Data dir=$absoluteDataDir")
+    Napier.d("app-server: init : Data dir=$absoluteDataDir")
 
     environment.config.filePropertyOrNull(SERVER_CONFIG_PID_FILE)?.also { pidFile ->
         pidFile.parentFile?.takeIf { !it.exists() }?.mkdirs()
@@ -265,41 +264,43 @@ fun Application.module() {
                 )
             }
             route("directory") {
-                val respectAppDataSource: RespectAppDataSource by inject()
-                RespectSchoolDirectoryRoute(
-                    respectAppDataSource = respectAppDataSource,
+                val schoolDirectoryDataSource: SchoolDirectoryDataSource by inject()
+                SchoolDirectoryRoute(
+                    schoolDirectoryDataSource = schoolDirectoryDataSource,
                     filterByHost = environment.config.schoolDirsUseVirtualHost()
                 )
             }
 
             route("school") {
                 route("xapi") {
-                    authenticate(AUTH_CONFIG_SCHOOL) {
+                    authenticate(AUTH_CONFIG_SCHOOL, optional = true) {
                         XapiStatementsResourceRoute(
                             json = json,
                             statementResource = { call ->
-                                call.requireAccountScope().get<SchoolDataSource>().xapiResource.statements
+                                call.getUserAccountScope(authOptional = true).get<XapiResource>().statements
                             },
-                            processStatementsUseCase = { it.requireAccountScope().get() }
+                            processStatementsUseCase = { it.getUserAccountScope().get() }
                         )
+
                         route("activities") {
                             XapiActivityProfileResourceRoute(
                                 activityProfileResource = { call ->
-                                    call.requireAccountScope().get<SchoolDataSource>().xapiResource.activityProfile
+                                    call.getUserAccountScope(authOptional = true).get<XapiResource>().activityProfile
                                 }
                             )
 
                             XapiStateResourceRoute(
                                 stateResource = { call ->
-                                    call.requireAccountScope().get<SchoolDataSource>().xapiResource.state
+                                    call.getUserAccountScope(authOptional = true).get<XapiResource>().state
                                 },
                                 json = json,
                             )
                         }
+
                         route("agents") {
                             XapiAgentProfileResourceRoute(
                                 agentProfileResource = { call ->
-                                    call.requireAccountScope().get<SchoolDataSource>().xapiResource.agentProfile
+                                    call.getUserAccountScope(authOptional = true).get<XapiResource>().agentProfile
                                 },
                                 json = json,
                             )
@@ -342,12 +343,8 @@ fun Application.module() {
                         EnrollmentRoute()
                         PersonQrBadgeRoute()
                         AddChildAccountRoute(
-                            addChildAccountUseCase = { it.requireAccountScope().get() }
+                            addChildAccountUseCase = { it.getUserAccountScope().get() }
                         )
-                    }
-
-                    authenticate(AUTH_CONFIG_SCHOOL, optional = true) {
-                        PlaylistRoute()
                     }
                 }
             }

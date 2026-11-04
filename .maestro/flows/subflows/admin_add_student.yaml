@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 
 ---
 - tapOn: "Classes"
@@ -14,7 +14,7 @@ appId: world.respect.app
     file: "e2e_artifact_upload.yaml"
     env:
       NAME: "db-admin-invited-student"
-- clearState: world.respect.app
+- clearState: org.openeel.app
 - launchApp:
     arguments:
       respect_directory: ${output.SCHOOL_URL}
@@ -64,7 +64,7 @@ appId: world.respect.app
     file: "e2e_artifact_upload.yaml"
     env:
       NAME: "db-student-signed-up"
-- clearState: world.respect.app
+- clearState: org.openeel.app
 - runFlow: "school_admin_login_flow.yaml"
 - tapOn: "Classes"
 - assertVisible:

@@ -11,7 +11,7 @@ import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toEntities
 import org.openeel.datalayer.db.school.adapters.toModel
 import org.openeel.datalayer.db.school.adapters.toPersonEntities
@@ -30,7 +30,7 @@ import org.openeel.libutil.util.time.atStartOfDayInMillisUtc
 import kotlin.time.Clock
 
 class PersonDataSourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
     private val authenticatedUser: AuthenticatedUserPrincipalId,
     private val checkPersonPermissionUseCase: CheckPersonPermissionUseCase,

@@ -7,9 +7,9 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
-import org.openeel.datalayer.db.shared.entities.ReportQueryResultEntity
 import org.openeel.datalayer.db.school.domain.report.ext.asStatementReportRow
 import org.openeel.datalayer.db.school.domain.report.ext.directivesToMap
+import org.openeel.datalayer.db.shared.entities.ReportQueryResultEntity
 import org.openeel.lib.serializers.TimeZoneSerializer
 import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeries

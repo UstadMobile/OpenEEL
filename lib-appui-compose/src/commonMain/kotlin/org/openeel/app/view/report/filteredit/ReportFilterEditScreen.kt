@@ -17,11 +17,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectExposedDropDownMenuField
 import org.openeel.app.components.defaultItemPadding
+import org.openeel.app.view.report.edit.ExposedDropdownMenu
 import org.openeel.lib.xapi.extensions.reportoptions.FilterType
 import org.openeel.lib.xapi.extensions.reportoptions.GenderType
-import org.openeel.shared.ext.label
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.condition
 import org.openeel.shared.generated.resources.field
@@ -46,8 +45,8 @@ fun ReportFilterEditScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            RespectExposedDropDownMenuField(
-                value = uiState.filters?.reportFilterField,
+            ExposedDropdownMenu(
+                selectedValue = uiState.filters?.reportFilterField,
                 label = { Text(stringResource(Res.string.field) + "*") },
                 options = FilterType.entries,
                 onOptionSelected = { selectedOption ->
@@ -57,8 +56,7 @@ fun ReportFilterEditScreen(
                         reportFilterCondition = null
                     )
                     viewModel.onEntityChanged(updatedOptions)
-                },
-                itemText = { stringResource(it.label) }
+                }
             )
         }
 
@@ -67,26 +65,25 @@ fun ReportFilterEditScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                RespectExposedDropDownMenuField(
+                ExposedDropdownMenu(
                     modifier = Modifier.weight(0.8f),
                     label = { Text(stringResource(Res.string.condition) + "*") },
-                    value = uiState.filters?.reportFilterCondition,
+                    selectedValue = uiState.filters?.reportFilterCondition,
                     options = uiState.filterConditionOptions?.comparisonTypes ?: emptyList(),
                     onOptionSelected = { selectedOption ->
                         val updatedOptions = uiState.filters?.copy(
                             reportFilterCondition = selectedOption
                         )
                         viewModel.onEntityChanged(updatedOptions)
-                    },
-                    itemText = { stringResource(it.label) }
+                    }
                 )
 
                 when (uiState.filters?.reportFilterField) {
                     FilterType.PERSON_GENDER -> {
-                        RespectExposedDropDownMenuField(
+                        ExposedDropdownMenu(
                             modifier = Modifier.weight(1f),
                             label = { Text(stringResource(Res.string.value) + "*") },
-                            value = GenderType.entries.firstOrNull {
+                            selectedValue = GenderType.entries.firstOrNull {
                                 it.name == uiState.filters?.reportFilterValue
                             },
                             options = GenderType.entries,
@@ -95,8 +92,7 @@ fun ReportFilterEditScreen(
                                     reportFilterValue = selectedGender.name
                                 )
                                 viewModel.onEntityChanged(updatedFilter)
-                            },
-                            itemText = { stringResource(it.label) }
+                            }
                         )
                     }
 

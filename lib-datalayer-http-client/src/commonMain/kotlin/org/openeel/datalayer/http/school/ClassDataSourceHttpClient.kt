@@ -26,13 +26,13 @@ import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelpe
 import org.openeel.datalayer.school.ClassDataSource
 import org.openeel.datalayer.school.ClassDataSource.Companion.PARAM_NAME_INVITE_CODE
 import org.openeel.datalayer.school.model.Clazz
-import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryDataSource
+import org.openeel.datalayer.schooldirectory.SchoolDirectoryEntryResource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.params.GetListCommonParams
 
 class ClassDataSourceHttpClient(
     override val schoolUrl: Url,
-    override val schoolDirectoryEntryDataSource: SchoolDirectoryEntryDataSource,
+    override val schoolDirectoryEntryResource: SchoolDirectoryEntryResource,
     private val httpClient: HttpClient,
     private val tokenProvider: AuthTokenProvider,
     private val validationHelper: ExtendedDataSourceValidationHelper?,

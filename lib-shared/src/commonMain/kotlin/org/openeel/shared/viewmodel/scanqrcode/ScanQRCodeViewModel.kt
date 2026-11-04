@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
-import org.openeel.credentials.passkey.RespectQRBadgeCredential
+import org.openeel.credentials.passkey.OpenEelQRBadgeCredential
 import org.openeel.libutil.ext.schoolUrlOrNull
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
 import org.openeel.shared.ext.NextAfterScan
 import org.openeel.shared.generated.resources.Res
@@ -28,7 +28,7 @@ import org.openeel.shared.navigation.sendResultIfResultExpected
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.exception.getUiTextOrGeneric
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.AppActionButton
 import org.openeel.shared.viewmodel.app.appstate.AppStateIcon
 
@@ -40,9 +40,9 @@ data class ScanQRCodeUiState(
 class ScanQRCodeViewModel(
     savedStateHandle: SavedStateHandle,
     private val resultReturner: NavResultReturner,
-    private val respectAccountManager: RespectAccountManager,
+    private val appAccountManager: AppAccountManager,
     private val resolveUrlToNavCommandUseCase: ResolveUrlToNavCommandUseCase,
-) : RespectViewModel(savedStateHandle), KoinComponent {
+) : OpenEelViewModel(savedStateHandle), KoinComponent {
 
     private val _uiState = MutableStateFlow(ScanQRCodeUiState())
 
@@ -143,7 +143,7 @@ class ScanQRCodeViewModel(
     }
 
     private suspend fun authenticateWithQrCode(url: Url) {
-        val credential = RespectQRBadgeCredential(qrCodeUrl = url)
+        val credential = OpenEelQRBadgeCredential(qrCodeUrl = url)
         val schoolUrl = url.schoolUrlOrNull()
 
         if (schoolUrl == null) {
@@ -157,7 +157,7 @@ class ScanQRCodeViewModel(
             return
         }
 
-        respectAccountManager.login(
+        appAccountManager.login(
             credential = credential,
             schoolUrl = schoolUrl
         )

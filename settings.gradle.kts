@@ -1,4 +1,4 @@
-rootProject.name = "Respect"
+rootProject.name = "OpenEEL"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -58,3 +58,4 @@ include(":lib-http-ipc-server")
 include(":lib-xapi-test")
 include(":lib-datalayer-http-server")
 include(":lib-dataloadstate-ktor-server")
+include(":lib-xapi-permission-manager")

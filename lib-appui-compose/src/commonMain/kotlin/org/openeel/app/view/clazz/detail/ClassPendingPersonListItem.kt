@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.model.Person
 import org.openeel.shared.generated.resources.Res
@@ -35,7 +35,7 @@ fun ClassPendingPersonListItem(
     ListItem(
         modifier = Modifier.fillMaxWidth(),
         leadingContent = {
-            RespectPersonAvatar(
+            OpenEelPersonAvatar(
                 name = person?.fullName() ?: ""
             )
         },

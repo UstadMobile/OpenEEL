@@ -15,7 +15,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
-import com.ustadmobile.libuicompose.theme.RespectAppTheme
+import com.ustadmobile.libuicompose.theme.OpenEelAppTheme
 import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import kotlinx.coroutines.channels.BufferOverflow
@@ -67,7 +67,7 @@ abstract class AbstractAppActivity : AppCompatActivity() {
         setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
 
-            RespectAppTheme {
+            OpenEelAppTheme {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
@@ -88,7 +88,7 @@ abstract class AbstractAppActivity : AppCompatActivity() {
     /**
      * Activity uses singleTop mode - so a new intent will not trigger destruction/recreation
      *
-     * We don't want this because the RespectAccountManager is modelled as using a single account at
+     * We don't want this because the AppAccountManager is modeled as using a single account at
      * a time.
      */
     override fun onNewIntent(intent: Intent) {

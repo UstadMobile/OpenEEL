@@ -5,22 +5,22 @@ import io.ktor.util.encodeBase64
 import kotlinx.coroutines.flow.first
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.xapi.adapters.identifierHash
 import org.openeel.datalayer.db.school.xapi.entities.XapiSessionEntity
 import org.openeel.lib.xapi.nanohttpd.XapiNanoHttpdApp
 import org.openeel.libutil.ext.appendAssignmentXapiSegment
 import org.openeel.libutil.ext.randomString
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.xapi.getxapilaunchurl.GetXapiLaunchUrlUseCase
 
 class GetXapiLaunchParamsUseCaseAndroid(
     private val nanoHttpdApp: XapiNanoHttpdApp,
     private val schoolUrl: Url,
     private val authenticatedUser: AuthenticatedUserPrincipalId,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val uidNumberMapper: UidNumberMapper,
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
 ) : GetXapiLaunchParamsUseCase {
 
     override suspend fun invoke(

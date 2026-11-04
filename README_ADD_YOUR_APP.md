@@ -208,6 +208,7 @@ Example (Lesson-manifest.json)
     }
   ]
 }
+}
 ```
 Notes:
 * The ```resources``` section SHOULD list all resources required for the lesson to function offline

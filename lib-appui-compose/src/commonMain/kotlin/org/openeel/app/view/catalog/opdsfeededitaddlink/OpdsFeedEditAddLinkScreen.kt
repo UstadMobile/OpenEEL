@@ -25,14 +25,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.app.RespectAsyncImage
+import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.add
 import org.openeel.shared.generated.resources.add_thumbnail
 import org.openeel.shared.generated.resources.description
 import org.openeel.shared.generated.resources.example_url_placeholder
-import org.openeel.shared.generated.resources.next
 import org.openeel.shared.generated.resources.required
 import org.openeel.shared.generated.resources.title
 import org.openeel.shared.util.ext.asUiText
@@ -93,7 +93,7 @@ fun OpdsFeedEditAddLinkScreen(
                         strokeWidth = 2.dp,
                     )
                 } else {
-                    Text(text = stringResource(Res.string.next))
+                    Text(text = stringResource(Res.string.add))
                 }
             }
         }
@@ -111,7 +111,7 @@ fun OpdsFeedEditAddLinkScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     if (uiState.imageUrl != null) {
-                        RespectAsyncImage(
+                        OpenEelAsyncImage(
                             uri = uiState.imageUrl,
                             contentDescription = "",
                             contentScale = ContentScale.Crop,

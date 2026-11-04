@@ -1,11 +1,11 @@
 package org.openeel.datalayer.db.schooldirectory.adapters
 
 import org.openeel.datalayer.db.schooldirectory.entities.SchoolDirectoryEntity
-import org.openeel.datalayer.respect.model.RespectSchoolDirectory
+import org.openeel.datalayer.respect.model.SchoolDirectory
 import org.openeel.libxxhash.XXStringHasher
 
 
-fun RespectSchoolDirectory.toEntity(
+fun SchoolDirectory.toEntity(
     xxStringHasher: XXStringHasher,
 ): SchoolDirectoryEntity {
     val rdUid = xxStringHasher.hash(baseUrl.toString())
@@ -17,8 +17,8 @@ fun RespectSchoolDirectory.toEntity(
     )
 }
 
-fun SchoolDirectoryEntity.toModel(): RespectSchoolDirectory {
-    return RespectSchoolDirectory(
+fun SchoolDirectoryEntity.toModel(): SchoolDirectory {
+    return SchoolDirectory(
         invitePrefix = rdInvitePrefix,
         baseUrl = rdUrl,
         name = rdName,

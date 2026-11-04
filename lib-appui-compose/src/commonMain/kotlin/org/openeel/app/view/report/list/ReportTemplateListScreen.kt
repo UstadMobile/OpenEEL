@@ -26,11 +26,11 @@ import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.view.report.graph.CombinedGraph
-import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
 import org.openeel.datalayer.school.model.Report
 import org.openeel.shared.domain.report.model.RunReportResultAndFormatters
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.shared.generated.resources.No_data_available
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.blank_template

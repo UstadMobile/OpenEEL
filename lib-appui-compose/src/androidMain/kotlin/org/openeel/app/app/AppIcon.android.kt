@@ -13,7 +13,7 @@ import org.openeel.appcompose.R
 @Composable
 actual fun AppIcon() {
     Image(
-        painter = painterResource(id = R.drawable.respect_logo),
+        painter = painterResource(id = R.drawable.ic_launcher),
         contentDescription = "app_icon",
         modifier = Modifier.height(100.dp).fillMaxWidth()
             .padding(horizontal = 20.dp),

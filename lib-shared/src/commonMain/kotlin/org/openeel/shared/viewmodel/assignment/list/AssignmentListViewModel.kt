@@ -25,7 +25,7 @@ import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.xapi.model.AssignmentSummary
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.assignment
 import org.openeel.shared.generated.resources.assignments
@@ -34,7 +34,7 @@ import org.openeel.shared.navigation.AssignmentEdit
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.AssignmentListScreenFilter
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -65,8 +65,8 @@ data class AssignmentListUiState(
 @OptIn(ExperimentalUuidApi::class)
 class AssignmentListViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    private val accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

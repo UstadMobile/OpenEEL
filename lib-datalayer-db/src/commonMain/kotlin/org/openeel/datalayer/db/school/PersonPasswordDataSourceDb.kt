@@ -9,7 +9,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.asEntity
 import org.openeel.datalayer.db.school.adapters.asModel
 import org.openeel.datalayer.exceptions.ForbiddenException
@@ -20,7 +20,7 @@ import org.openeel.datalayer.school.model.PersonPassword
 import kotlin.time.Clock
 
 class PersonPasswordDataSourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
     private val checkPersonPermissionUseCase: CheckPersonPermissionUseCase,
     private val authenticatedUser: AuthenticatedUserPrincipalId,

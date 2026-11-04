@@ -2,7 +2,7 @@ package org.openeel.datalayer.db.school.xapi.writequeue
 
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.xapi.adapters.asEntity
 import org.openeel.datalayer.db.school.xapi.adapters.asModel
 import org.openeel.lib.xapi.remotewritequeue.EnqueueDrainXapiRemoteWriteQueueUseCase
@@ -11,7 +11,7 @@ import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueueItem
 import org.openeel.libutil.util.time.systemTimeInMillis
 
 class XapiRemoteWriteQueueDbImpl(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
     private val account: AuthenticatedUserPrincipalId,
     private val enqueueDrainRemoteWriteQueueUseCase: EnqueueDrainXapiRemoteWriteQueueUseCase,
 ): XapiRemoteWriteQueue {
@@ -36,6 +36,19 @@ class XapiRemoteWriteQueueDbImpl(
         schoolDb.getXapiRemoteWriteQueueItemEntityDao().updateTimeWritten(
             ids = ids,
             timeWritten = systemTimeInMillis(),
+        )
+    }
+
+    override suspend fun isPending(
+        resource: XapiRemoteWriteQueueItem.Resource,
+        methods: List<XapiRemoteWriteQueueItem.Method>,
+        itemId: String
+    ): Boolean {
+        return schoolDb.getXapiRemoteWriteQueueItemEntityDao().isPending(
+            accountGuid = account.guid,
+            methods = methods,
+            resource = resource,
+            itemId = itemId,
         )
     }
 

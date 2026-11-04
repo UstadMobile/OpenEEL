@@ -20,7 +20,7 @@ import org.openeel.shared.util.LogTags
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T> RespectExposedDropDownMenuField(
+fun <T> OpenEelExposedDropDownMenuField(
     value: T?,
     options: List<T>,
     onOptionSelected: (T) -> Unit,

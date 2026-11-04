@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 
 ---
 # This flow is run conditionally by chrome-first-run-check.yaml. Selects what to click next based on

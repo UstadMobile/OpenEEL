@@ -16,12 +16,11 @@ import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
-import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.datalayer.UidNumberMapper
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.xapi.OpenEelXapiConstants.CATEGORY_REPORT_QUERY_RECIPE
@@ -32,9 +31,10 @@ import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.lib.xapi.model.XapiStatementRef
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource.GetStatementParams
-import org.openeel.shared.domain.account.RespectAccountManager
 import org.openeel.shared.domain.report.formatter.CreateGraphFormatterUseCase
 import org.openeel.shared.domain.report.formatter.GraphFormatter
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.xapi.asRunReportRequest
 import org.openeel.shared.domain.xapi.toStatementReportRows
 import org.openeel.shared.generated.resources.Res
@@ -44,7 +44,7 @@ import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.ReportDetail
 import org.openeel.shared.navigation.ReportTemplateList
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import kotlin.time.Instant
 
@@ -60,9 +60,9 @@ class ReportListViewModel(
     savedStateHandle: SavedStateHandle,
     private val createGraphFormatterUseCase: CreateGraphFormatterUseCase,
     private val json: Json,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val uidNumberMapper: UidNumberMapper
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
     private val _uiState = MutableStateFlow(ReportListUiState())

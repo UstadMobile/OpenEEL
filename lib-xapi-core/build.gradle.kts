@@ -35,6 +35,7 @@ kotlin {
             api(libs.kotlinx.date.time)
             api(libs.ktor.client.core)
             api(libs.xmlutil.serialization)
+            implementation(libs.napier)
         }
 
         jvmMain.dependencies {
@@ -45,10 +46,9 @@ kotlin {
 
         }
 
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
+
     }
 }

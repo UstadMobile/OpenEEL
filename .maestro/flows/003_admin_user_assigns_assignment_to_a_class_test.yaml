@@ -1,6 +1,6 @@
-appId: world.respect.app
+appId: org.openeel.app
 onFlowStart:
-  - clearState: world.respect.app
+  - clearState: org.openeel.app
   - runScript:
       file: "scripts/school_init.js"
       env:
@@ -31,7 +31,7 @@ onFlowComplete:
     file: "subflows/e2e_artifact_upload.yaml"
     env:
       NAME: "db-admin-class-setup"
-- clearState: world.respect.app
+- clearState: org.openeel.app
 - runFlow:
     file: "subflows/school_user_login_flow.yaml"
     env:
@@ -122,7 +122,7 @@ onFlowComplete:
     file: "subflows/e2e_artifact_upload.yaml"
     env:
       NAME: "db-teacher-assigned"
-- clearState: world.respect.app
+- clearState: org.openeel.app
 - runFlow:
     file: "subflows/school_user_login_flow.yaml"
     env:
@@ -167,7 +167,7 @@ onFlowComplete:
     file: "subflows/e2e_artifact_upload.yaml"
     env:
       NAME: "db-student-a-completed"
-- clearState: world.respect.app
+- clearState: org.openeel.app
 - runFlow:
     file: "subflows/school_user_login_flow.yaml"
     env:
@@ -200,7 +200,7 @@ onFlowComplete:
     file: "subflows/e2e_artifact_upload.yaml"
     env:
       NAME: "db-student-b-completed"
-- clearState: world.respect.app
+- clearState: org.openeel.app
 - runFlow:
     file: "subflows/school_user_login_flow.yaml"
     env:

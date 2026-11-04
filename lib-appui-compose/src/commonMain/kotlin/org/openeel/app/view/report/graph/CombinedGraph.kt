@@ -30,10 +30,10 @@ import io.github.koalaplot.core.xygraph.rememberAxisContent
 import io.github.koalaplot.core.xygraph.rememberFloatLinearAxisModel
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.uiTextStringResource
-import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
+import org.openeel.shared.domain.report.formatter.GraphFormatter
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
 import org.openeel.lib.xapi.extensions.reportoptions.YAxisTypes
-import org.openeel.shared.domain.report.formatter.GraphFormatter
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.shared.ext.label
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.count

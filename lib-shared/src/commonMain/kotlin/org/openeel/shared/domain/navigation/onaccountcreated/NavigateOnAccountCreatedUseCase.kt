@@ -6,7 +6,7 @@ import org.openeel.datalayer.school.model.ClassInvite
 import org.openeel.datalayer.school.model.ClassInviteModeEnum
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonStatusEnum
-import org.openeel.shared.domain.account.invite.RespectRedeemInviteRequest
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.SignupScreen
@@ -23,7 +23,7 @@ class NavigateOnAccountCreatedUseCase(
     operator fun invoke(
         personRegistered: Person,
         navCommandFlow: MutableSharedFlow<NavCommand>,
-        inviteRequest: RespectRedeemInviteRequest? = null,
+        inviteRequest: RedeemInviteRequest? = null,
     ) {
         val invite = inviteRequest?.invite
 

@@ -8,14 +8,14 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.adapters.toReportEntity
 import org.openeel.datalayer.db.school.adapters.toRespectReport
 import org.openeel.datalayer.school.ReportDataSourceLocal
 import org.openeel.datalayer.school.model.Report
 
 class ReportDataSourceDb(
-    private val schoolDb: RespectSchoolDatabase,
+    private val schoolDb: SchoolDatabase,
 ) : ReportDataSourceLocal {
 
     override suspend fun updateLocal(

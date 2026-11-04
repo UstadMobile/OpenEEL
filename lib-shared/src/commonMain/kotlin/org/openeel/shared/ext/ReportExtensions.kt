@@ -2,7 +2,6 @@ package org.openeel.shared.ext
 
 import org.jetbrains.compose.resources.StringResource
 import org.openeel.lib.xapi.extensions.reportoptions.Comparisons
-import org.openeel.lib.xapi.extensions.reportoptions.DefaultIndicator
 import org.openeel.lib.xapi.extensions.reportoptions.FilterType
 import org.openeel.lib.xapi.extensions.reportoptions.GenderType
 import org.openeel.lib.xapi.extensions.reportoptions.ReportPeriodOption
@@ -12,6 +11,7 @@ import org.openeel.lib.xapi.extensions.reportoptions.ReportXAxis
 import org.openeel.lib.xapi.extensions.reportoptions.YAxisTypes
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.*
+import org.openeel.lib.xapi.extensions.reportoptions.DefaultIndicator
 
 val ReportTimeRangeUnit.label: StringResource
     get() = when(this) {

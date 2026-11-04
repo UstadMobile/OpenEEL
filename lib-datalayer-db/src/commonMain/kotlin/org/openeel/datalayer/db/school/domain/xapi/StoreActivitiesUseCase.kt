@@ -1,6 +1,6 @@
 package org.openeel.datalayer.db.school.domain.xapi
 
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.xapi.entities.XapiActivityEntity
 import org.openeel.lib.xapi.model.XapiActivity
 import org.openeel.libutil.util.time.systemTimeInMillis
@@ -14,7 +14,7 @@ import kotlin.time.Instant
  *
  */
 class StoreActivitiesUseCase(
-    private val schoolDatabase: RespectSchoolDatabase,
+    private val schoolDatabase: SchoolDatabase,
 ) {
 
     private val XapiActivityEntity.isIdOnly: Boolean

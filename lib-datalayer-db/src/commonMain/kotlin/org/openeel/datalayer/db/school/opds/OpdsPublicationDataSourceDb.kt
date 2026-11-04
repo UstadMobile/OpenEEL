@@ -13,7 +13,7 @@ import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.opds.adapters.OpdsPublicationEntities
 import org.openeel.datalayer.db.school.opds.adapters.asEntities
 import org.openeel.datalayer.db.school.opds.adapters.asModel
@@ -27,7 +27,7 @@ import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
 
 class OpdsPublicationDataSourceDb(
-    private val respectSchoolDatabase: RespectSchoolDatabase,
+    private val schoolDatabase: SchoolDatabase,
     private val json: Json,
     private val uidNumberMapper: UidNumberMapper,
     private val primaryKeyGenerator: PrimaryKeyGenerator,
@@ -38,7 +38,7 @@ class OpdsPublicationDataSourceDb(
             url: Url,
             requestHeaders: IHttpHeaders,
         ): NetworkValidationInfo? {
-            return respectSchoolDatabase.getOpdsPublicationEntityDao().getLastModifiedAndETag(
+            return schoolDatabase.getOpdsPublicationEntityDao().getLastModifiedAndETag(
                 uidNumberMapper(url.toString())
             )?.asNetworkValidationInfo()
         }
@@ -58,26 +58,26 @@ class OpdsPublicationDataSourceDb(
             feedIndex = 0,
         )
 
-        respectSchoolDatabase.useWriterConnection { con ->
+        schoolDatabase.useWriterConnection { con ->
             con.withTransaction(Transactor.SQLiteTransactionType.IMMEDIATE) {
-                val oldPubUid = respectSchoolDatabase.getOpdsPublicationEntityDao().getUidByUrlHash(
+                val oldPubUid = schoolDatabase.getOpdsPublicationEntityDao().getUidByUrlHash(
                     uidNumberMapper(url.toString())
                 )
 
-                respectSchoolDatabase.getLangMapEntityDao().deleteByTableAndTopParentType(
+                schoolDatabase.getLangMapEntityDao().deleteByTableAndTopParentType(
                     lmeTopParentType = LangMapEntity.TopParentType.OPDS_PUBLICATION.id,
                     lmeEntityUid1 = oldPubUid,
                 )
-                respectSchoolDatabase.getReadiumLinkEntityDao().deleteAllByPublicationUid(oldPubUid)
-                respectSchoolDatabase.getOpdsPublicationEntityDao().deleteByUid(oldPubUid)
-                respectSchoolDatabase.getReadiumSubjectEntityDao().deleteAllByPublicationUid(oldPubUid)
+                schoolDatabase.getReadiumLinkEntityDao().deleteAllByPublicationUid(oldPubUid)
+                schoolDatabase.getOpdsPublicationEntityDao().deleteByUid(oldPubUid)
+                schoolDatabase.getReadiumSubjectEntityDao().deleteAllByPublicationUid(oldPubUid)
 
-                respectSchoolDatabase.getOpdsPublicationEntityDao().insertList(
+                schoolDatabase.getOpdsPublicationEntityDao().insertList(
                     listOf(publicationEntities.opdsPublicationEntity)
                 )
-                respectSchoolDatabase.getLangMapEntityDao().insertAsync(publicationEntities.langMapEntities)
-                respectSchoolDatabase.getReadiumLinkEntityDao().insertList(publicationEntities.linkEntities)
-                respectSchoolDatabase.getReadiumSubjectEntityDao().insertList(publicationEntities.subjectEntities)
+                schoolDatabase.getLangMapEntityDao().insertAsync(publicationEntities.langMapEntities)
+                schoolDatabase.getReadiumLinkEntityDao().insertList(publicationEntities.linkEntities)
+                schoolDatabase.getReadiumSubjectEntityDao().insertList(publicationEntities.subjectEntities)
             }
         }
     }
@@ -85,15 +85,15 @@ class OpdsPublicationDataSourceDb(
     suspend fun OpdsPublicationEntity.loadPublicationEntities(): OpdsPublicationEntities {
         return OpdsPublicationEntities(
             opdsPublicationEntity = this,
-            langMapEntities = respectSchoolDatabase.getLangMapEntityDao().selectAllByTableAndEntityId(
+            langMapEntities = schoolDatabase.getLangMapEntityDao().selectAllByTableAndEntityId(
                 lmeTopParentType = LangMapEntity.TopParentType.OPDS_PUBLICATION.id,
                 lmeEntityUid1 = this.opeUid,
                 lmeEntityUid2 = 0
             ),
-            linkEntities = respectSchoolDatabase.getReadiumLinkEntityDao().findAllByPubUid(
+            linkEntities = schoolDatabase.getReadiumLinkEntityDao().findAllByPubUid(
                 this.opeUid
             ),
-            subjectEntities = respectSchoolDatabase.getReadiumSubjectEntityDao().findAllByPubUid(
+            subjectEntities = schoolDatabase.getReadiumSubjectEntityDao().findAllByPubUid(
                 this.opeUid
             ),
         )
@@ -107,8 +107,8 @@ class OpdsPublicationDataSourceDb(
     ): Flow<DataLoadState<Publication>> {
         val urlHash = uidNumberMapper(url.toString())
 
-        return respectSchoolDatabase.getOpdsPublicationEntityDao().findByUrlHashAsFlow(urlHash).map { entity ->
-            respectSchoolDatabase.useReaderConnection {
+        return schoolDatabase.getOpdsPublicationEntityDao().findByUrlHashAsFlow(urlHash).map { entity ->
+            schoolDatabase.useReaderConnection {
                 entity?.loadPublicationEntities()?.asModel(json) ?: NoDataLoadedState.notFound()
             }
         }
@@ -120,8 +120,8 @@ class OpdsPublicationDataSourceDb(
         referrerUrl: Url?,
         expectedPublicationId: String?
     ) : DataLoadState<Publication> {
-    return respectSchoolDatabase.useReaderConnection {
-            respectSchoolDatabase.getOpdsPublicationEntityDao().findByUrlHash(
+    return schoolDatabase.useReaderConnection {
+            schoolDatabase.getOpdsPublicationEntityDao().findByUrlHash(
                 uidNumberMapper(url.toString())
             )?.loadPublicationEntities()?.asModel(json) ?: NoDataLoadedState.notFound()
         }

@@ -7,7 +7,7 @@ import io.ktor.http.Url
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
@@ -55,7 +55,7 @@ class IpcTestApplication: Application(), XapiResourceProvider{
         authentication: String?
     ): XapiResource {
         return resourceCache.get(XapiResourceKey(endpoint, authentication ?: "")) {
-            val schoolDb = Room.databaseBuilder<RespectSchoolDatabase>(
+            val schoolDb = Room.databaseBuilder<SchoolDatabase>(
                 this@IpcTestApplication, endpoint.sanitizedForFilename()
             ).build()
 

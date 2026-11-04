@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectBasicAlertDialog
+import org.openeel.app.components.OpenEelBasicAlertDialog
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.PersonPasskey
 import org.openeel.shared.generated.resources.Res
@@ -45,7 +45,7 @@ fun PasskeyListScreen(
     )
 
     if (uiState.showRevokePasskeyDialog) {
-        RespectBasicAlertDialog(
+        OpenEelBasicAlertDialog(
             headlineText = stringResource(Res.string.delete_this_passkey),
             bodyText = stringResource(Res.string.loss_access_passkey_dialog),
             onConfirm = viewModel::onConfirmRevokePasskey,

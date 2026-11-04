@@ -1,7 +1,7 @@
-appId: world.respect.app
+appId: org.openeel.app
 ---
 
 - launchApp:
-    appId: world.respect.app
+    appId: org.openeel.app
     arguments:
       respect_directory: ""

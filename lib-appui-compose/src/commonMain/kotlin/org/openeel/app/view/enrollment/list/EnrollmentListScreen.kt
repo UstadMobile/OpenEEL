@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.defaultItemPadding
-import org.openeel.app.components.respectPagingItems
-import org.openeel.app.components.respectRememberPager
+import org.openeel.app.components.openEelPagingItems
+import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.EnrollmentDataSource
@@ -57,7 +57,7 @@ fun EnrollmentListScreen(
     onClickEdit: (Enrollment?) -> Unit,
     onClickDelete: (Enrollment) -> Unit,
 ) {
-    val pager = respectRememberPager(uiState.enrollments)
+    val pager = openEelRememberPager(uiState.enrollments)
     val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
 
     //Ensure that there is not more than one expanded item at a time
@@ -72,7 +72,7 @@ fun EnrollmentListScreen(
             )
         }
 
-        respectPagingItems(
+        openEelPagingItems(
             items = lazyPagingItems,
             key = { item, index -> item?.uid ?: index.toString() },
             contentType = { EnrollmentDataSource.ENDPOINT_NAME },

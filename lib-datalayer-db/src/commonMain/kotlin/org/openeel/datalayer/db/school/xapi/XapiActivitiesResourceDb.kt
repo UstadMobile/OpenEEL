@@ -3,11 +3,10 @@ package org.openeel.datalayer.db.school.xapi
 import androidx.room.Transactor
 import androidx.room.useWriterConnection
 import kotlinx.serialization.json.Json
-import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.UidNumberMapper
-import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.school.xapi.adapters.toEntities
 import org.openeel.datalayer.db.school.xapi.adapters.toModel
 import org.openeel.datalayer.db.school.xapi.entities.XapiActivityLangMapEntry
@@ -18,8 +17,7 @@ import kotlin.time.Clock
 import kotlin.time.Instant
 
 class XapiActivitiesResourceDb(
-    private val schoolDb: RespectSchoolDatabase,
-    private val authenticatedUser: AuthenticatedUserPrincipalId,
+    private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
     private val json: Json,
 ) : XapiActivitiesResourceLocal{

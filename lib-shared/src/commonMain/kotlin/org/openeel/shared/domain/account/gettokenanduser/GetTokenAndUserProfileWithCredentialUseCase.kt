@@ -1,6 +1,6 @@
 package org.openeel.shared.domain.account.gettokenanduser
 
-import org.openeel.credentials.passkey.RespectCredential
+import org.openeel.credentials.passkey.OpenEelCredential
 import org.openeel.datalayer.school.model.DeviceInfo
 import org.openeel.shared.domain.account.AuthResponse
 
@@ -16,7 +16,7 @@ import org.openeel.shared.domain.account.AuthResponse
 interface GetTokenAndUserProfileWithCredentialUseCase {
 
     suspend operator fun invoke(
-        credential: RespectCredential,
+        credential: OpenEelCredential,
         deviceInfo: DeviceInfo? = null,
     ): AuthResponse
 

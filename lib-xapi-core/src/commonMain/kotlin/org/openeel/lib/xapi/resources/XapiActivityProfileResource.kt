@@ -3,6 +3,7 @@ package org.openeel.lib.xapi.resources
 import io.ktor.http.Parameters
 import io.ktor.http.ParametersBuilder
 import io.ktor.util.StringValues
+import kotlinx.serialization.json.Json
 import org.openeel.lib.xapi.exceptions.XapiException
 import org.openeel.libutil.ext.appendIfNotNull
 import kotlin.time.Instant
@@ -39,22 +40,12 @@ interface XapiActivityProfileResource : XapiDocumentResource<XapiActivityProfile
     data class SingleDocumentParams(
         val activityId: String,
         val profileId: String,
-    ) : ISingleDocumentParams<MultiDocParams> {
+    ) : ISingleDocumentParams {
 
         override val idString: String
             get() = profileId
 
-        override fun matches(multiDocParams: MultiDocParams): Boolean {
-            return multiDocParams.activityId == activityId
-        }
-
-        override fun toMultiDocParams(
-            since: Instant?,
-        ): MultiDocParams {
-            return MultiDocParams(activityId = activityId, since = since)
-        }
-
-        fun toParameters(): StringValues {
+        override fun toParameters(json: Json): Parameters {
             return ParametersBuilder().also { parameters ->
                 parameters.append("activityId", activityId)
                 parameters.append("profileId", profileId)
@@ -68,6 +59,29 @@ interface XapiActivityProfileResource : XapiDocumentResource<XapiActivityProfile
                     profileId = params["profileId"] ?: throw XapiException(400, "profileId is required"),
                 )
             }
+        }
+    }
+
+    class ParamsAdapter : XapiDocumentResourceParamsAdapter<MultiDocParams, SingleDocumentParams> {
+        override fun singleDocParamsToMutliDocParams(
+            params: SingleDocumentParams,
+            since: Instant?
+        ): MultiDocParams {
+            return MultiDocParams(
+                activityId = params.activityId,
+                since = since
+            )
+        }
+
+        override fun singleDocParamsMatchMultiDocParams(
+            singleDocParams: SingleDocumentParams,
+            multiDocParams: MultiDocParams
+        ): Boolean {
+            return multiDocParams.activityId == singleDocParams.activityId
+        }
+
+        override fun singleDocParamsFromParameters(params: Parameters, json: Json): SingleDocumentParams {
+            return SingleDocumentParams.fromParameters(params)
         }
     }
 

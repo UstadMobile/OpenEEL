@@ -1,4 +1,4 @@
-appId: world.respect.app
+appId: org.openeel.app
 ---
 
 # Setup school to use for the test. See comments in school_init.js file.

@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import org.openeel.credentials.passkey.RespectPasswordCredential
+import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.navigation.onaccountcreated.NavigateOnAccountCreatedUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.create_account
@@ -20,7 +20,7 @@ import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 
 data class EnterPasswordSignupUiState(
     val password: String = "",
@@ -30,8 +30,8 @@ data class EnterPasswordSignupUiState(
 
 class EnterPasswordSignupViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+    private val accountManager: AppAccountManager,
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
     private val route: EnterPasswordSignup = savedStateHandle.toRoute()
 
 
@@ -90,10 +90,10 @@ class EnterPasswordSignupViewModel(
                 }
             }
         ) {
-            val redeemRequest = route.respectRedeemInviteRequest.copy(
-                account = route.respectRedeemInviteRequest.account.copy(
-                    credential = RespectPasswordCredential(
-                        username = route.respectRedeemInviteRequest.account.username,
+            val redeemRequest = route.redeemInviteRequest.copy(
+                account = route.redeemInviteRequest.account.copy(
+                    credential = OpenEelPasswordCredential(
+                        username = route.redeemInviteRequest.account.username,
                         password = password,
                     )
                 )

@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPersonAvatar
+import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.shared.util.ext.fullName
 import org.openeel.shared.util.ext.label
@@ -19,7 +19,7 @@ fun PersonListItem(
     ListItem(
         modifier = modifier,
         leadingContent = {
-            RespectPersonAvatar(person?.fullName() ?: "")
+            OpenEelPersonAvatar(person?.fullName() ?: "")
         },
         headlineContent = {
             Text(person?.fullName() ?: "")

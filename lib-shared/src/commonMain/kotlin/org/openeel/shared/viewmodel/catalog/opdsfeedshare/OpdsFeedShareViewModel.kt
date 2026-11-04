@@ -14,7 +14,7 @@ import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataReadyState
-import org.openeel.shared.domain.account.RespectAccountManager
+import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.clipboard.SetClipboardStringUseCase
 import org.openeel.shared.domain.sharelink.CreatePlaylistShareLinkUseCase
 import org.openeel.shared.domain.sharelink.LaunchSendEmailUseCase
@@ -26,7 +26,7 @@ import org.openeel.shared.navigation.EnterLink
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.PlaylistShare
 import org.openeel.shared.util.ext.asUiText
-import org.openeel.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 
 data class OpdsFeedShareUiState(
@@ -43,12 +43,12 @@ data class OpdsFeedShareUiState(
 
 class OpdsFeedShareViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: RespectAccountManager,
+    private val accountManager: AppAccountManager,
     private val setClipboardStringUseCase: SetClipboardStringUseCase,
     private val shareLinkLauncher: LaunchShareLinkUseCase,
     private val smsLinkLauncher: LaunchSendSmsUseCase,
     private val launchSendEmailUseCase: LaunchSendEmailUseCase,
-) : RespectViewModel(savedStateHandle), KoinScopeComponent {
+) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 

@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.app.components.RespectPasswordField
+import org.openeel.app.components.OpenEelPasswordField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.shared.generated.resources.Res
@@ -24,7 +24,7 @@ fun CreateAccountSetPasswordScreen(
     val uiState by viewModel.uiState.collectAsState()
     val appUiState by viewModel.appUiState.collectAsState()
 
-    RespectPasswordField(
+    OpenEelPasswordField(
         value = uiState.password,
         onValueChange = viewModel::onPasswordChanged,
         label = { Text(stringResource(Res.string.password_label)) },
