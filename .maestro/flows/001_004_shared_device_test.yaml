@@ -27,7 +27,7 @@ onFlowComplete:
 - runFlow:
      file: "subflows/admin_add_class.yaml"
      env:
-       CLASS_NAME: New Class
+       CLASSNAME: New Class
 - runFlow:
     file: "subflows/add_person_to_a_class.yaml"
     env:
@@ -36,7 +36,7 @@ onFlowComplete:
       FIRSTNAME: "StudentA"
       LASTNAME:  "User"
       GENDER: "Male"
-      CLASS_NAME: "New Class"
+      CLASSNAME: "New Class"
       USERNAME: "studentauser"
       PASSWORD: "test123"
       QR_BADGE_LINK: ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312
@@ -48,7 +48,7 @@ onFlowComplete:
       FIRSTNAME: "TeacherA"
       LASTNAME:  "User"
       GENDER: "Male"
-      CLASS_NAME: "New Class"
+      CLASSNAME: "New Class"
       USERNAME: "teacherauser"
       PASSWORD: "test123"
 # Add Family member to Student profile
