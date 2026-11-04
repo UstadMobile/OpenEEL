@@ -1,0 +1,48 @@
+package org.openeel.datalayer.db.school.writequeue
+
+import kotlinx.coroutines.flow.Flow
+import org.openeel.datalayer.AuthenticatedUserPrincipalId
+import org.openeel.datalayer.db.RespectSchoolDatabase
+import org.openeel.datalayer.db.school.adapters.asEntity
+import org.openeel.datalayer.db.school.adapters.asModel
+import org.openeel.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
+import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
+import org.openeel.datalayer.school.writequeue.WriteQueueItem
+import org.openeel.libutil.util.time.systemTimeInMillis
+
+class RemoteWriteQueueDbImpl(
+    private val schoolDb: RespectSchoolDatabase,
+    private val account: AuthenticatedUserPrincipalId,
+    private val enqueueDrainRemoteWriteQueueUseCase: EnqueueDrainRemoteWriteQueueUseCase,
+): RemoteWriteQueue {
+
+    override suspend fun add(items: List<WriteQueueItem>) {
+        schoolDb.getWriteQueueItemEntityDao().upsert(
+            items.map { it.asEntity(account.guid) }
+        )
+        enqueueDrainRemoteWriteQueueUseCase()
+    }
+
+    override suspend fun getPending(limit: Int): List<WriteQueueItem> {
+        return schoolDb.getWriteQueueItemEntityDao().getPending(
+            accountGuid = account.guid,
+            limit = limit,
+        ).map {
+            it.asModel()
+        }
+    }
+
+    override suspend fun markSent(ids: List<Int>) {
+        schoolDb.getWriteQueueItemEntityDao().updateTimeWritten(
+            ids = ids,
+            timeWritten = systemTimeInMillis(),
+        )
+    }
+
+    override fun queueSizeAsFlow(): Flow<Int> {
+        return schoolDb.getWriteQueueItemEntityDao().pendingCountAsFlow(
+            accountGuid = account.guid,
+        )
+    }
+
+}

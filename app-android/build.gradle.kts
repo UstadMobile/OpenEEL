@@ -116,11 +116,11 @@ android {
         }
     }
 
-    namespace = "world.respect.app"
+    namespace = "org.openeel.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "world.respect.app"
+        applicationId = "org.openeel.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 133

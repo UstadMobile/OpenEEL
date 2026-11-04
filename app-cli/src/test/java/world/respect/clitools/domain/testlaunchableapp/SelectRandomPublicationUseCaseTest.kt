@@ -1,4 +1,4 @@
-package world.respect.clitools.domain.testlaunchableapp
+package org.openeel.clitools.domain.testlaunchableapp
 
 import io.ktor.http.Url
 import io.ktor.serialization.kotlinx.json.json
@@ -10,13 +10,13 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
 import kotlinx.serialization.json.Json
-import world.respect.lib.opds.model.LangMapStringValue
-import world.respect.lib.opds.model.OpdsFeed
-import world.respect.lib.opds.model.OpdsFeedMetadata
-import world.respect.lib.opds.model.OpdsGroup
-import world.respect.lib.opds.model.Publication
-import world.respect.lib.opds.model.ReadiumLink
-import world.respect.lib.opds.model.ReadiumMetadata
+import org.openeel.lib.opds.model.LangMapStringValue
+import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.OpdsFeedMetadata
+import org.openeel.lib.opds.model.OpdsGroup
+import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.lib.opds.model.ReadiumMetadata
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

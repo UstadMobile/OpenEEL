@@ -1,0 +1,23 @@
+package org.openeel.datalayer.school.ext
+
+import org.openeel.datalayer.school.model.Invite2.Companion.TYPE_NEW_USER
+import org.openeel.datalayer.school.model.PermissionFlags
+import org.openeel.datalayer.school.model.PersonRoleEnum
+
+/**
+ * The permission flag required to change a person with this role
+ */
+val PersonRoleEnum.writePermissionFlag: Long
+    get() = when(this) {
+        PersonRoleEnum.STUDENT -> PermissionFlags.PERSON_STUDENT_WRITE
+        PersonRoleEnum.TEACHER -> PermissionFlags.PERSON_TEACHER_WRITE
+        PersonRoleEnum.PARENT -> PermissionFlags.PERSON_PARENT_WRITE
+        else -> PermissionFlags.PERSON_ADMIN_WRITE
+    }
+
+/**
+ * The uid to use for a new user invite.
+ */
+val PersonRoleEnum.newUserInviteUid: String
+    get() = "$TYPE_NEW_USER:${this.value}"
+

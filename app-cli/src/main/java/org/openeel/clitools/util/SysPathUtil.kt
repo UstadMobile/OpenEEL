@@ -1,0 +1,30 @@
+package org.openeel.clitools.util
+
+import org.openeel.clitools.ext.getCommandFile
+import java.io.File
+
+object SysPathUtil {
+
+    fun findCommandInPath(
+        commandName: String,
+        manuallySpecifiedLocation: File? = null,
+        pathVar: String = System.getenv("PATH") ?: "",
+        extraSearchPaths: String = System.getProperty("user.dir") ?: "",
+        osName: String = System.getProperty("os.name") ?: "",
+        fileSeparator: String = File.pathSeparator,
+    ): File? {
+        if(manuallySpecifiedLocation?.exists() == true)
+            return manuallySpecifiedLocation
+
+        val pathToSearch = pathVar + if(extraSearchPaths.isNotEmpty()) {
+            fileSeparator + extraSearchPaths
+        }else {
+            ""
+        }
+
+        return pathToSearch.split(fileSeparator).firstNotNullOfOrNull {
+            File(it, commandName).getCommandFile(osName)
+        }
+    }
+
+}

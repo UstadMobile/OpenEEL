@@ -17,7 +17,7 @@ kotlin {
 
 
 android {
-    namespace = "world.respect.app.xapi.ipc.server"
+    namespace = "org.openeel.app.xapi.ipc.server"
     compileSdk {
         version = release(libs.versions.android.compileSdk.get().toInt())
     }
@@ -25,7 +25,7 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
 
-        testInstrumentationRunner = "world.respect.xapi.ipc.server.InstrumentationTestRunner"
+        testInstrumentationRunner = "org.openeel.xapi.ipc.server.InstrumentationTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
     compileOptions {

@@ -9,7 +9,7 @@ plugins {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "world.respect.shared.generated.resources"
+    packageOfResClass = "org.openeel.shared.generated.resources"
 }
 
 

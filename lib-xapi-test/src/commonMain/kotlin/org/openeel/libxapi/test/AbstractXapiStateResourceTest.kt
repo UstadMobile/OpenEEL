@@ -1,11 +1,11 @@
 package org.openeel.libxapi.test
 
 import kotlinx.coroutines.runBlocking
-import world.respect.lib.dataloadstate.NoDataLoadedState
-import world.respect.lib.dataloadstate.datetime.toGMTDate
-import world.respect.lib.xapi.exceptions.XapiException
-import world.respect.lib.xapi.model.XapiDocumentByteArrayImpl
-import world.respect.lib.xapi.resources.XapiStateResource
+import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.datetime.toGMTDate
+import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.model.XapiDocumentByteArrayImpl
+import org.openeel.lib.xapi.resources.XapiStateResource
 import kotlin.test.Test
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.minutes

@@ -2,10 +2,10 @@ package org.openeel.libxapi.test
 
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
-import world.respect.lib.dataloadstate.datetime.toGMTDate
-import world.respect.lib.xapi.model.XapiDocument
-import world.respect.lib.xapi.model.XapiDocumentByteArrayImpl
-import world.respect.lib.xapi.resources.XapiActivityProfileResource
+import org.openeel.lib.dataloadstate.datetime.toGMTDate
+import org.openeel.lib.xapi.model.XapiDocument
+import org.openeel.lib.xapi.model.XapiDocumentByteArrayImpl
+import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import kotlin.time.Clock
 
 /**

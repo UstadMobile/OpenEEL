@@ -37,7 +37,7 @@ import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import world.respect.libxxhash.jvmimpl.XXStringHasherCommonJvm
+import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.SequenceInputStream

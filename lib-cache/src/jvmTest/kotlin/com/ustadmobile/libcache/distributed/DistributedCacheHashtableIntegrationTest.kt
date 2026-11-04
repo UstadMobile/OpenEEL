@@ -30,7 +30,7 @@ import okhttp3.OkHttpClient
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import world.respect.libxxhash.jvmimpl.XXStringHasherCommonJvm
+import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

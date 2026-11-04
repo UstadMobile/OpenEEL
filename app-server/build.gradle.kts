@@ -13,7 +13,7 @@ plugins {
 
 
 application {
-    mainClass.set("world.respect.server.ServerAppMainKt")
+    mainClass.set("org.openeel.server.ServerAppMainKt")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
 }
 
@@ -29,7 +29,7 @@ kotlin {
 }
 
 buildConfig {
-    packageName("world.respect.server")
+    packageName("org.openeel.server")
     className("RespectServerBuildConfig")
 
     buildConfigField<String>("RESPECT_DEFAULT_APPLIST", defaultAppList)

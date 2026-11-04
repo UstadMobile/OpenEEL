@@ -6,7 +6,7 @@ import com.ustadmobile.libcache.distributed.neighborUid
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.libxxhash.XXStringHasher
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 

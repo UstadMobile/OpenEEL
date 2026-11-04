@@ -34,7 +34,7 @@ import com.ustadmobile.ihttp.request.iRequestBuilder
 import com.ustadmobile.libcache.util.concurrentSafeMapOf
 import com.ustadmobile.libcache.util.withWriterTransaction
 import kotlinx.coroutines.runBlocking
-import world.respect.libxxhash.XXStringHasher
+import org.openeel.libxxhash.XXStringHasher
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 

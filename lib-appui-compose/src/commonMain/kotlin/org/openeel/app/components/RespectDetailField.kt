@@ -1,0 +1,27 @@
+package org.openeel.app.components
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
+
+@Composable
+fun RespectDetailField(
+    label: @Composable () -> Unit,
+    value: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+
+    Column(modifier = modifier) {
+        CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.bodySmall) {
+            label()
+        }
+
+        CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.bodyMedium) {
+            value()
+        }
+
+    }
+}
