@@ -23,7 +23,7 @@ import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.openeel.app.components.OpenEelSearchFilterChip
-import org.openeel.app.view.catalog.opdsfeeddetail.FeedListItem
+import org.openeel.app.view.catalog.opdsfeeddetail.OpdsFeedListItem
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_BOOK
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_COLLECTION
@@ -141,7 +141,7 @@ fun OpdsSearchScreen(
                     }
                 }
 
-                FeedListItem(
+                OpdsFeedListItem(
                     title = result.title,
                     iconUrl = iconUrl,
                     description = null,
