@@ -162,7 +162,6 @@ import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUs
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_CLIENT
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.account.authwithopenid.GetTokenAndUserProfileWithOpenIdUseCase
-import org.openeel.lib.directory.keycloak.KeycloakPersonDataSource
 import org.openeel.lib.directory.keycloak.KeycloakPersonDirectoryResource
 import org.openeel.lib.directory.resources.PersonDirectoryResource
 import org.openeel.datalayer.respect.model.KeycloakUserDirectoryConfig
@@ -1069,10 +1068,6 @@ val appKoinModule = module {
             get<KeycloakPersonDirectoryResource>()
         }
 
-        scoped<KeycloakPersonDataSource> {
-            KeycloakPersonDataSource(directory = get())
-        }
-
         scoped<RemoteWriteQueue> {
             get<UserAccountSchoolScopeLink>()
             val accountScopeId = UserAccountScopeId.parse(id)
@@ -1181,16 +1176,7 @@ val appKoinModule = module {
         }
 
         scoped<SchoolDataSource> {
-            val repository = get<SchoolDataSourceRepository>()
-            val account = get<AppAccountManager>().accounts.value.firstOrNull()
-            if (account?.school?.userDirectory is KeycloakUserDirectoryConfig) {
-                val directory = get<KeycloakPersonDataSource>()
-                object : SchoolDataSource by repository {
-                    override val personDataSource = directory
-                }
-            } else {
-                repository
-            }
+            get<SchoolDataSourceRepository>()
         }
 
         scoped<ApproveOrDeclineInviteRequestUseCase> {
