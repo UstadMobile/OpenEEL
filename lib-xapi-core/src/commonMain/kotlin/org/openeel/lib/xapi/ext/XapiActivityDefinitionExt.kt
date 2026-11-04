@@ -28,6 +28,7 @@ fun XapiActivityDefinition.webPubManifestAsUrlOrNull(): Url? {
     return webPubManifestOrNull()?.runCatching { Url(this) }?.getOrNull()
 }
 
+
 /**
  * Get the deadline as a string via the extension if present
  */

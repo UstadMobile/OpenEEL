@@ -62,6 +62,10 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
         dataLoadResult: DataReadyState<OpdsFeed>,
     )
 
+    suspend fun delete(
+        url: Url,
+    )
+
     companion object{
         const val TYPE_COLLECTION = "http://schema.org/Collection"
         const val TYPE_GAME = "http://schema.org/Game"

@@ -52,7 +52,7 @@ import org.openeel.app.view.person.setusernameandpassword.CreateAccountSetUserna
 import org.openeel.app.view.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkScreen
 import org.openeel.app.view.catalog.opdsfeededit.OpdsFeedEditScreen
 import org.openeel.app.view.catalog.opdsfeedlist.OpdsFeedListScreen
-import org.openeel.app.view.catalog.opdsfeedshare.PlaylistShareScreen
+import org.openeel.app.view.catalog.opdsfeedlistpinusinglink.OpdsFeedListPinUsingLinkScreen
 import org.openeel.app.view.report.detail.ReportDetailScreen
 import org.openeel.app.view.report.edit.ReportEditScreen
 import org.openeel.app.view.report.filteredit.ReportFilterEditScreen
@@ -96,7 +96,7 @@ import org.openeel.shared.navigation.IndicatorList
 import org.openeel.shared.navigation.IndictorEdit
 import org.openeel.shared.navigation.InvitePerson
 import org.openeel.shared.navigation.EnterInviteCode
-import org.openeel.shared.navigation.ExternalLinkEdit
+import org.openeel.shared.navigation.OpdsFeedEditAddLink
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.PublicationDetail
 import org.openeel.shared.navigation.OpdsFeedDetail
@@ -111,8 +111,8 @@ import org.openeel.shared.navigation.PersonDetail
 import org.openeel.shared.navigation.PersonEdit
 import org.openeel.shared.navigation.PersonList
 import org.openeel.shared.navigation.OpdsFeedEdit
-import org.openeel.shared.navigation.PlaylistList
-import org.openeel.shared.navigation.PlaylistShare
+import org.openeel.shared.navigation.OpdsFeedListPinUsingLink
+import org.openeel.shared.navigation.OpdsFeedList
 import org.openeel.shared.navigation.QrCode
 import org.openeel.shared.navigation.RawStatement
 import org.openeel.shared.navigation.Report
@@ -605,7 +605,7 @@ fun AppNavHost(
             )
         }
 
-        composable<PlaylistList> {
+        composable<OpdsFeedList> {
             OpdsFeedListScreen(
                 viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
@@ -613,6 +613,16 @@ fun AppNavHost(
                 )
             )
         }
+
+        composable<OpdsFeedListPinUsingLink> {
+            OpdsFeedListPinUsingLinkScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
+
         composable<OpdsFeedEdit> {
             OpdsFeedEditScreen(
                 viewModel = openEelViewModel(
@@ -621,15 +631,8 @@ fun AppNavHost(
                 )
             )
         }
-        composable<PlaylistShare> {
-            PlaylistShareScreen(
-                viewModel = openEelViewModel(
-                    onSetAppUiState = onSetAppUiState,
-                    navController = respectNavController,
-                )
-            )
-        }
-        composable<ExternalLinkEdit> {
+
+        composable<OpdsFeedEditAddLink> {
             OpdsFeedEditAddLinkScreen(
                 viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,

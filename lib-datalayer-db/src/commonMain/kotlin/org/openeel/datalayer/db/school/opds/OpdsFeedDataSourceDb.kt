@@ -158,6 +158,17 @@ class OpdsFeedDataSourceDb(
         )?.asNetworkValidationInfo()
     }
 
+    private suspend fun deleteFeedAndRelated(
+        feedUid: Long,
+    ) {
+        schoolDb.getOpdsFeedEntityDao().deleteByFeedUid(feedUid)
+        schoolDb.getOpdsFeedMetadataEntityDao().deleteByFeedUid(feedUid)
+        schoolDb.getLangMapEntityDao().deleteAllByFeedUid(feedUid)
+        schoolDb.getReadiumLinkEntityDao().deleteAllByFeedUid(feedUid)
+        schoolDb.getOpdsPublicationEntityDao().deleteAllByFeedUid(feedUid)
+        schoolDb.getOpdsGroupEntityDao().deleteByFeedUid(feedUid)
+    }
+
     private suspend fun doUpsertOpdsFeed(
         opdsFeed: OpdsFeed,
         dataLoadMetaInfo: DataLoadMetaInfo,
@@ -187,6 +198,7 @@ class OpdsFeedDataSourceDb(
         schoolDb.getReadiumSubjectEntityDao().deleteAllByFeedUid(feedUid)
         schoolDb.getOpdsPublicationEntityDao().deleteAllByFeedUid(feedUid)
         schoolDb.getOpdsGroupEntityDao().deleteByFeedUid(feedUid)
+        deleteFeedAndRelated(feedUid)
 
         schoolDb.getOpdsFeedEntityDao().insertList(
             listOf(feedEntities.opdsFeed.copy(ofeStored = Clock.System.now()))
@@ -199,6 +211,16 @@ class OpdsFeedDataSourceDb(
         schoolDb.getOpdsGroupEntityDao().insertList(feedEntities.groups)
     }
 
+
+    override suspend fun delete(
+        url: Url,
+    ) {
+        schoolDb.useWriterConnection { con ->
+            con.withTransaction(Transactor.SQLiteTransactionType.IMMEDIATE) {
+                deleteFeedAndRelated(uidNumberMapper(url.toString()))
+            }
+        }
+    }
 
     override suspend fun updateLocal(
         url: Url,

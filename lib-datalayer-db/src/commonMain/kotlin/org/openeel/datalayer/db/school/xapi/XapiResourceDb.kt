@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
-import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
+import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
 import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
 import org.openeel.lib.xapi.resources.local.XapiActivitiesResourceLocal
 import org.openeel.lib.xapi.resources.local.XapiActivityProfileResourceLocal
@@ -19,7 +19,7 @@ import org.openeel.lib.xapi.resources.local.XapiStatementsResourceLocal
 class XapiResourceDb(
     private val schoolDb: SchoolDatabase,
     private val uidNumberMapper: UidNumberMapper,
-    private val authenticatedUser: AuthenticatedUserPrincipalId,
+    private val authenticatedUser: AuthenticatedUserPrincipalId?,
     private val json: Json,
     private val schoolUrl: Url,
     private val getAuthenticatedXapiAgentsUseCase: GetAuthenticatedXapiAgentsUseCase,
@@ -47,7 +47,6 @@ class XapiResourceDb(
     override val agents: XapiAgentsResourceLocal by lazy {
         XapiAgentsResourceDb(
             schoolDb = schoolDb,
-            authenticatedUser = authenticatedUser,
             uidNumberMapper = uidNumberMapper,
         )
     }
@@ -55,7 +54,6 @@ class XapiResourceDb(
     override val activities: XapiActivitiesResourceLocal by lazy{
         XapiActivitiesResourceDb(
             schoolDb = schoolDb,
-            authenticatedUser = authenticatedUser,
             uidNumberMapper = uidNumberMapper,
             json = json,
         )

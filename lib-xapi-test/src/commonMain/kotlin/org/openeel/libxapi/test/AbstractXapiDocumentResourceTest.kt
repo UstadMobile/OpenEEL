@@ -18,6 +18,7 @@ import org.openeel.lib.dataloadstate.datetime.toInstant
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.auth.GetAuthenticatedXapiAgentsUseCase
 import org.openeel.lib.xapi.exceptions.XapiException
+import org.openeel.lib.xapi.ext.paramsAdapter
 import org.openeel.lib.xapi.ext.decodeFromXapiDocument
 import org.openeel.lib.xapi.ext.getJson
 import org.openeel.lib.xapi.ext.mergeTopLevel
@@ -36,7 +37,7 @@ import kotlin.time.Duration.Companion.seconds
 
 abstract class AbstractXapiDocumentResourceTest<
         MultiDocParams: Any,
-        SingleDocParams: ISingleDocumentParams<MultiDocParams>,
+        SingleDocParams: ISingleDocumentParams,
         T: XapiDocumentResource<MultiDocParams, SingleDocParams>
 > {
 
@@ -366,7 +367,9 @@ abstract class AbstractXapiDocumentResourceTest<
             }
 
             val paramsToSearchFor = documentsAndParams[indexToSearch].second
-            val multiDocSearchParams = paramsToSearchFor.toMultiDocParams()
+            val multiDocSearchParams = resource.paramsAdapter().singleDocParamsToMutliDocParams(
+                paramsToSearchFor
+            )
 
             val idStrings = resource.getMultipleDocuments(
                 params = multiDocSearchParams
@@ -374,7 +377,9 @@ abstract class AbstractXapiDocumentResourceTest<
             assertNotNull(idStrings)
             assertEquals(
                 expected = documentsAndParams.filter {
-                    it.second.matches(multiDocSearchParams)
+                    resource.paramsAdapter().singleDocParamsMatchMultiDocParams(
+                        it.second, multiDocSearchParams
+                    )
                 }.map { it.second.idString },
                 actual = idStrings
             )
@@ -398,11 +403,17 @@ abstract class AbstractXapiDocumentResourceTest<
 
             documentsAndParams.forEach { (doc, docParams) ->
                 val since = doc.updated.toInstant()
-                val multiDocParams = docParams.toMultiDocParams(since = since)
+                val multiDocParams = resource.paramsAdapter().singleDocParamsToMutliDocParams(
+                    params = docParams,
+                    since = since
+                )
 
                 assertEquals(
                     expected = documentsAndParams.filter {
-                        it.second.matches(multiDocParams) && it.first.updated.toInstant() > since
+                        resource.paramsAdapter().singleDocParamsMatchMultiDocParams(
+                            singleDocParams = it.second,
+                            multiDocParams = multiDocParams,
+                        ) && it.first.updated.toInstant() > since
                     }.map {
                         it.second.idString
                     }.toSet(),
