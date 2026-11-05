@@ -45,6 +45,7 @@ import org.openeel.datalayer.db.school.daos.PersonRelatedPersonEntityDao
 import org.openeel.datalayer.db.school.daos.PullSyncStatusEntityDao
 import org.openeel.datalayer.db.school.daos.ReportQueryResultDao
 import org.openeel.datalayer.db.school.daos.WriteQueueItemEntityDao
+import org.openeel.datalayer.db.shared.entities.ReportQueryResultEntity
 import org.openeel.datalayer.db.school.entities.ClassEntity
 import org.openeel.datalayer.db.school.entities.EnrollmentEntity
 import org.openeel.datalayer.db.school.entities.PersonQrBadgeEntity
@@ -123,6 +124,7 @@ import org.openeel.datalayer.school.model.Report
         PullSyncStatusEntity::class,
         PersonQrBadgeEntity::class,
         InviteEntity::class,
+        ReportQueryResultEntity::class,
 
         //Shared (used by OPDS)
         LangMapEntity::class,
@@ -157,7 +159,7 @@ import org.openeel.datalayer.school.model.Report
         XapiStateDocumentShaEntity::class,
         XapiRemoteWriteQueueItemEntity::class,
     ],
-    version = 21,
+    version = 22,
 )
 @TypeConverters(SharedConverters::class, SchoolTypeConverters::class, OpdsTypeConverters::class)
 @ConstructedBy(SchoolDatabaseConstructor::class)

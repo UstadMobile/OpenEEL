@@ -143,7 +143,7 @@ private fun ReportEditScreen(
                 onReportOptionsChanged(reportOptions.copy(period = selectedOption.period))
             },
             label = { Text(stringResource(Res.string.time_range) + "*") },
-            itemText = { it.toString() },
+            itemText = { stringResource(it.label) },
         )
 
         // Show CustomPeriodInputs only if selected is CUSTOM_PERIOD
@@ -175,7 +175,7 @@ private fun ReportEditScreen(
                 onReportOptionsChanged(reportOptions.copy(xAxis = xAxis))
             },
             label = { Text(stringResource(Res.string.x_axis) + "*") },
-            itemText = { it.toString() },
+            itemText = { stringResource(it.label) },
         )
 
         // Dynamically iterate over the series
@@ -233,7 +233,7 @@ private fun ReportEditScreen(
                         onSeriesChanged(seriesIndex, updatedSeries)
                     },
                     label = { Text(stringResource(Res.string.y_axis) + "*") },
-                    itemText = { it.toString() },
+                    itemText = { stringResource(it.label) },
                 )
 
                 // Subgroup Dropdown
@@ -254,7 +254,7 @@ private fun ReportEditScreen(
                         onSeriesChanged(seriesIndex, updatedSeries)
                     },
                     label = { Text(stringResource(Res.string.subgroup_by)) },
-                    itemText = { it.toString() },
+                    itemText = { stringResource(it.label) },
                 )
 
                 // Chart Type Dropdown
@@ -267,7 +267,7 @@ private fun ReportEditScreen(
                         onSeriesChanged(seriesIndex, updatedSeries)
                     },
                     label = { Text(stringResource(Res.string.chart_type) + "*") },
-                    itemText = { it.toString() },
+                    itemText = { stringResource(it.label) },
                 )
 
                 if (!seriesItem.reportSeriesFilters.isNullOrEmpty()) {
@@ -355,7 +355,7 @@ fun CustomPeriodInputs(
                     onCustomPeriodChanged(qty, unit)
                 }
             },
-            itemText = { it.toString() },
+            itemText = { stringResource(it.label) },
         )
     }
 }
