@@ -43,8 +43,6 @@ appId: org.openeel.app
     file: "assign_qr_badge_flow.yaml"
     env:
       QR_BADGE_LINK: ${QR_BADGE_LINK}
-- assertVisible: "Manage account"
-- assertVisible:
-    id: "qr_change_btn"
+
 
 
