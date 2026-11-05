@@ -1,4 +1,4 @@
-package org.openeel.shared.viewmodel.manageuser.otheroption
+package org.openeel.shared.viewmodel.manageuser.connectlearningspace
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -13,38 +13,39 @@ import org.openeel.libutil.ext.normalizeForEndpoint
 import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
 import org.openeel.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
 import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.connect_existing_learning_space
 import org.openeel.shared.generated.resources.invalid_code
 import org.openeel.shared.generated.resources.invalid_url
-import org.openeel.shared.generated.resources.other_options
 import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 
 
-data class OtherOptionsUiState(
+data class ConnectLearningSpaceUiState(
     val link: String = "",
     val errorMessage: StringResourceUiText? = null,
     val manageDirectoriesVisible: Boolean = false,
 )
 
-class OtherOptionsViewModel(
+class ConnectLearningSpaceViewModel(
     savedStateHandle: SavedStateHandle,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val getDevModeEnabledUseCase: GetDevModeEnabledUseCase,
     private val resolveUrlToNavCommandUseCase: ResolveUrlToNavCommandUseCase,
 ) : OpenEelViewModel(savedStateHandle) {
 
-    private val _uiState = MutableStateFlow(OtherOptionsUiState())
+    private val _uiState = MutableStateFlow(ConnectLearningSpaceUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
             _appUiState.update { prev ->
                 prev.copy(
-                    title = Res.string.other_options.asUiText(),
+                    title = Res.string.connect_existing_learning_space.asUiText(),
                     hideBottomNavigation = true,
                     userAccountIconVisible = false,
                 )
@@ -84,7 +85,7 @@ class OtherOptionsViewModel(
                  }
 
                  val schoolUrl = url.normalizeForEndpoint()
-                 val schoolEntry = this@OtherOptionsViewModel.schoolDirectoryDataSource.schoolDirectoryEntryResource
+                 val schoolEntry = this@ConnectLearningSpaceViewModel.schoolDirectoryDataSource.schoolDirectoryEntryResource
                      .getSchoolDirectoryEntryByUrl(schoolUrl).dataOrNull()
 
                  if(schoolEntry == null)
@@ -99,6 +100,10 @@ class OtherOptionsViewModel(
                  }
              }
          }
+    }
+
+    fun onClickScanQRBadge() {
+        _navCommandFlow.tryEmit(NavCommand.Navigate(ScanQRCode()))
     }
 
     fun onClickManageSchoolDirectories() {

@@ -30,7 +30,7 @@ import org.openeel.app.view.manageuser.getstarted.GetStartedScreen
 import org.openeel.app.view.manageuser.howpasskeywork.HowPasskeyWorksScreen
 import org.openeel.app.view.manageuser.enterinvitecode.EnterInviteCodeScreen
 import org.openeel.app.view.manageuser.login.LoginScreen
-import org.openeel.app.view.manageuser.otheroption.OtherOptionsScreen
+import org.openeel.app.view.manageuser.connectlearningspace.ConnectLearningSpaceScreen
 import org.openeel.app.view.manageuser.otheroptionsignup.OtherOptionsSignupScreen
 import org.openeel.app.view.manageuser.sharefeedback.ShareFeedbackScreen
 import org.openeel.app.view.manageuser.signup.SignupScreen
@@ -52,6 +52,7 @@ import org.openeel.app.view.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkScree
 import org.openeel.app.view.catalog.opdsfeededit.OpdsFeedEditScreen
 import org.openeel.app.view.catalog.opdsfeedlist.OpdsFeedListScreen
 import org.openeel.app.view.catalog.opdsfeedshare.PlaylistShareScreen
+import org.openeel.app.view.manageuser.getstarted.NewGetStartedScreen
 import org.openeel.app.view.report.detail.ReportDetailScreen
 import org.openeel.app.view.report.edit.ReportEditScreen
 import org.openeel.app.view.report.filteredit.ReportFilterEditScreen
@@ -80,6 +81,7 @@ import org.openeel.shared.navigation.ClazzEdit
 import org.openeel.shared.navigation.ClazzList
 import org.openeel.shared.navigation.AcceptInvite
 import org.openeel.shared.navigation.BookmarkList
+import org.openeel.shared.navigation.ConnectLearningSpace
 import org.openeel.shared.navigation.CopyCode
 import org.openeel.shared.navigation.CreateAccount
 import org.openeel.shared.navigation.CreateAccountSetPassword
@@ -101,8 +103,8 @@ import org.openeel.shared.navigation.PublicationDetail
 import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.ManageAccount
+import org.openeel.shared.navigation.NewGetStartedScreen
 import org.openeel.shared.navigation.Onboarding
-import org.openeel.shared.navigation.OtherOption
 import org.openeel.shared.navigation.OtherOptionsSignup
 import org.openeel.shared.navigation.PasskeyList
 import org.openeel.shared.navigation.PersonDetail
@@ -147,8 +149,9 @@ import org.openeel.shared.viewmodel.manageuser.enterpasswordsignup.EnterPassword
 import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
 import org.openeel.shared.viewmodel.manageuser.howpasskeywork.HowPasskeyWorksViewModel
 import org.openeel.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeViewModel
+import org.openeel.shared.viewmodel.manageuser.getstarted.NewGetStartedViewModel
 import org.openeel.shared.viewmodel.manageuser.login.LoginViewModel
-import org.openeel.shared.viewmodel.manageuser.otheroption.OtherOptionsViewModel
+import org.openeel.shared.viewmodel.manageuser.connectlearningspace.ConnectLearningSpaceViewModel
 import org.openeel.shared.viewmodel.manageuser.otheroptionsignup.OtherOptionsSignupViewModel
 import org.openeel.shared.viewmodel.manageuser.profile.SignupViewModel
 import org.openeel.shared.viewmodel.manageuser.signup.CreateAccountViewModel
@@ -434,7 +437,7 @@ fun AppNavHost(
         }
 
         composable<NewGetStartedScreen> {
-            val viewModel: NewGetStartedViewModel = respectViewModel(
+            val viewModel: NewGetStartedViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
@@ -442,12 +445,12 @@ fun AppNavHost(
         }
 
 
-        composable<OtherOption> {
-            val viewModel: OtherOptionsViewModel = openEelViewModel(
+        composable<ConnectLearningSpace> {
+            val viewModel: ConnectLearningSpaceViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
-            OtherOptionsScreen(viewModel = viewModel)
+            ConnectLearningSpaceScreen(viewModel = viewModel)
         }
 
         composable<OpdsFeedDetail> {

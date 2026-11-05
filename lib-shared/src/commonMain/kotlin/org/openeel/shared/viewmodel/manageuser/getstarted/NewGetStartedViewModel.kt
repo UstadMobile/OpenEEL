@@ -1,8 +1,33 @@
-package world.respect.shared.viewmodel.manageuser.getstarted
+package org.openeel.shared.viewmodel.manageuser.getstarted
 
 import androidx.lifecycle.SavedStateHandle
-import world.respect.shared.viewmodel.RespectViewModel
+import org.openeel.shared.viewmodel.OpenEelViewModel
+import com.russhwolf.settings.Settings
+import kotlinx.coroutines.flow.update
+import org.openeel.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.lets_get_started
+import org.openeel.shared.navigation.ConnectLearningSpace
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.util.ext.asUiText
+
 
 class NewGetStartedViewModel(
     savedStateHandle: SavedStateHandle,
-) : RespectViewModel(savedStateHandle)
+    private val settings: Settings,
+    private val navigateOnAppStartUseCase: NavigateOnAppStartUseCase,
+) : OpenEelViewModel(savedStateHandle) {
+    init {
+        _appUiState.update { prev ->
+            prev.copy(
+                title = Res.string.lets_get_started.asUiText(),
+                hideBottomNavigation = true,
+                userAccountIconVisible = false,
+            )
+        }
+    }
+    fun onClickConnectExistingLearningSpace() {
+        _navCommandFlow.tryEmit(NavCommand.Navigate(ConnectLearningSpace))
+
+    }
+}

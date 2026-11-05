@@ -319,10 +319,10 @@ data class GetStartedScreen(
 @Serializable
 data class NewGetStartedScreen(
     val canGoBack: Boolean = false,
-) : RespectAppRoute
+) : OpenEelAppRoute
 
 @Serializable
-object OtherOption : OpenEelAppRoute
+object ConnectLearningSpace : OpenEelAppRoute
 
 @Serializable
 object HowPasskeyWorks : OpenEelAppRoute

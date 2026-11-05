@@ -12,6 +12,8 @@ import org.openeel.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
 import org.openeel.shared.domain.onboarding.ShouldShowOnboardingUseCase
 import org.openeel.shared.domain.usagereporting.GetUsageReportingEnabledUseCase
 import org.openeel.shared.domain.usagereporting.SetUsageReportingEnabledUseCase
+import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.NewGetStartedScreen
 
 data class OnboardingUiState(
     val isLoading: Boolean = false,
@@ -49,13 +51,13 @@ class OnboardingViewModel(
     }
 
     fun onClickGetStartedButton() {
-
-        settings.putString(ShouldShowOnboardingUseCase.KEY_ONBOARDING_SHOWN, true.toString())
         setUsageReportingEnabledUseCase(_uiState.value.usageStatsOptInChecked)
-
-        viewModelScope.launch {
-            _navCommandFlow.tryEmit(navigateOnAppStartUseCase())
-        }
+        _navCommandFlow.tryEmit(
+            NavCommand.Navigate(
+                destination = NewGetStartedScreen(),
+                clearBackStack = true,
+            )
+        )
 
     }
 
