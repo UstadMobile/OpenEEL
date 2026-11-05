@@ -32,7 +32,7 @@ import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.openEelPagingItems
 import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.db.school.ext.fullName
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.ext.primaryRoleOrNull
 import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.composites.PersonListDetails
@@ -198,7 +198,7 @@ fun PersonListScreen(
         openEelPagingItems(
             items = lazyPagingItems,
             key = { item, index -> item?.guid ?: index.toString() },
-            contentType = { PersonDataSource.ENDPOINT_NAME },
+            contentType = { BuiltinPersonDirectoryResource.ENDPOINT_NAME },
         ) { person ->
             PersonListItem(
                 person = person,

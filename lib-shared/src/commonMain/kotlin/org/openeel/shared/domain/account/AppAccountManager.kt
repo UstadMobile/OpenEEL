@@ -27,7 +27,7 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.respect.model.KeycloakUserDirectoryConfig
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
 import org.openeel.lib.directory.model.Person
@@ -108,7 +108,7 @@ class AppAccountManager(
 
                 schoolDataSource.personDataSource.listAsFlow(
                     loadParams = DataLoadParams(),
-                    params = PersonDataSource.GetListParams(
+                    params = BuiltinPersonDirectoryResource.GetListParams(
                         common = GetListCommonParams(
                             guid = session.account.userGuid
                         ),
@@ -241,7 +241,7 @@ class AppAccountManager(
             //Ensure the active user is loaded into the database
             schoolDataSource.personDataSource.list(
                 loadParams = DataLoadParams(),
-                params = PersonDataSource.GetListParams(
+                params = BuiltinPersonDirectoryResource.GetListParams(
                     common = GetListCommonParams(
                         guid = authResponse.person.guid
                     ),

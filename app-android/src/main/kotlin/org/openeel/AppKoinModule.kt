@@ -1065,7 +1065,12 @@ val appKoinModule = module {
         }
 
         scoped<PersonDirectoryResource> {
-            get<KeycloakPersonDirectoryResource>()
+            val account = get<AppAccountManager>().accounts.value.firstOrNull()
+            if (account?.school?.userDirectory is KeycloakUserDirectoryConfig) {
+                get<KeycloakPersonDirectoryResource>()
+            } else {
+                get<SchoolDataSourceRepository>().personDataSource
+            }
         }
 
         scoped<RemoteWriteQueue> {

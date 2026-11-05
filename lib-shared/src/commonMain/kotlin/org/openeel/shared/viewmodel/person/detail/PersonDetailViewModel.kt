@@ -14,11 +14,9 @@ import org.koin.core.scope.Scope
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
-import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.lib.directory.resources.PersonDirectoryResource
 import org.openeel.lib.directory.model.Person
-import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.phonenumber.OnClickPhoneNumUseCase
 import org.openeel.shared.generated.resources.Res
@@ -60,7 +58,7 @@ class PersonDetailViewModel(
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
-    private val schoolDataSource: SchoolDataSource by inject()
+    private val personDirectory: PersonDirectoryResource by inject()
 
     private val route: PersonDetail = savedStateHandle.toRoute()
 
@@ -82,12 +80,10 @@ class PersonDetailViewModel(
         }
 
         viewModelScope.launch {
-            schoolDataSource.personDataSource.listAsFlow(
+            personDirectory.listAsFlow(
                 loadParams = DataLoadParams(),
-                params = PersonDataSource.GetListParams(
-                    common = GetListCommonParams(
-                        guid = route.guid
-                    ),
+                params = PersonDirectoryResource.GetListParams(
+                    filterByPersonGuid = route.guid,
                     includeRelated = true,
                 )
             ).combine(accountManager.selectedAccountAndPersonFlow) { person, activeAccount ->

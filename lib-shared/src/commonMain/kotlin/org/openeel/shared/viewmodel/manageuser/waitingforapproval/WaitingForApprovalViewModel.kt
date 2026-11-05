@@ -13,7 +13,7 @@ import org.koin.core.scope.Scope
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.shared.domain.account.AppAccountManager
@@ -59,7 +59,7 @@ class WaitingForApprovalViewModel(
             while(true) {
                 val personsLoaded = schoolDataSource.personDataSource.list(
                     loadParams = DataLoadParams(),
-                    params = PersonDataSource.GetListParams(
+                    params = BuiltinPersonDirectoryResource.GetListParams(
                         common = GetListCommonParams(
                             guid = activeUserUid,
                         ),

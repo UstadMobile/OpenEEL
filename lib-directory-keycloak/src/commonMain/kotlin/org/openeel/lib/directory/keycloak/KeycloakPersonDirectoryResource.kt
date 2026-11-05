@@ -32,8 +32,11 @@ class KeycloakPersonDirectoryResource(
 
     private fun PersonDirectoryResource.GetListParams.urlWithParams(): Url {
         val roleName = filterByPersonRole?.value
+        val personGuid = filterByPersonGuid
         return URLBuilder(adminEndpoint).apply {
-            if (roleName != null) {
+            if (personGuid != null) {
+                appendPathSegments(KEYCLOAK_USERS_PATH, personGuid)
+            } else if (roleName != null) {
                 //https://www.keycloak.org/docs-api/26.8.1/rest-api/#_get_adminrealmsrealmrolesrole_nameusers
                 // GET /admin/realms/{realm}/roles/{role-name}/users
                 appendPathSegments(KEYCLOAK_ROLES_PATH, roleName, KEYCLOAK_USERS_PATH)
@@ -64,6 +67,18 @@ class KeycloakPersonDirectoryResource(
         loadParams: DataLoadParams,
         params: PersonDirectoryResource.GetListParams,
     ): Flow<DataLoadState<List<Person>>> {
+        if (params.filterByPersonGuid != null) {
+           return httpClient.getDataLoadResultAsFlow<KeycloakUser>(
+                urlFn = { params.urlWithParams() },
+                dataLoadParams = loadParams,
+            ) {
+                bearerAuth(tokenProvider.provideToken().accessToken)
+            }.map {
+                state -> state.map { user ->
+                    listOf(user.toPerson())
+                }
+            }
+        }
         return httpClient.getDataLoadResultAsFlow<List<KeycloakUser>>(
             urlFn = { params.urlWithParams() },
             dataLoadParams = loadParams,

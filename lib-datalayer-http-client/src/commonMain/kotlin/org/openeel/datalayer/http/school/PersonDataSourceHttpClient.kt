@@ -24,7 +24,7 @@ import org.openeel.datalayer.http.ext.appendCommonListParams
 import org.openeel.datalayer.http.ext.respectEndpointUrl
 import org.openeel.datalayer.http.shared.paging.OffsetLimitHttpPagingSource
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.adapters.asListDetails
 import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.composites.PersonListDetails
@@ -39,10 +39,10 @@ class PersonDataSourceHttpClient(
     private val httpClient: HttpClient,
     private val tokenProvider: AuthTokenProvider,
     private val validationHelper: ExtendedDataSourceValidationHelper?,
-) : PersonDataSource, SchoolUrlBasedDataSource {
+) : BuiltinPersonDirectoryResource, SchoolUrlBasedDataSource {
 
-    private suspend fun PersonDataSource.GetListParams.urlWithParams(): Url {
-        return URLBuilder(respectEndpointUrl(PersonDataSource.ENDPOINT_NAME))
+    private suspend fun BuiltinPersonDirectoryResource.GetListParams.urlWithParams(): Url {
+        return URLBuilder(respectEndpointUrl(BuiltinPersonDirectoryResource.ENDPOINT_NAME))
             .apply {
                 parameters.appendCommonListParams(common)
                 parameters.appendIfNotNull(DataLayerParams.FILTER_BY_CLASS_UID, filterByClazzUid)
@@ -64,7 +64,7 @@ class PersonDataSourceHttpClient(
         guid: String
     ): DataLoadState<Person> {
         return httpClient.getAsDataLoadState<List<Person>>(
-            PersonDataSource.GetListParams(
+            BuiltinPersonDirectoryResource.GetListParams(
                 GetListCommonParams(guid = guid)
             ).urlWithParams()
         ) {
@@ -76,7 +76,7 @@ class PersonDataSourceHttpClient(
     override fun findByGuidAsFlow(guid: String): Flow<DataLoadState<Person>> {
         return httpClient.getDataLoadResultAsFlow<List<Person>>(
             urlFn = {
-                PersonDataSource.GetListParams(
+                BuiltinPersonDirectoryResource.GetListParams(
                     GetListCommonParams(guid = guid)
                 ).urlWithParams()
             },
@@ -91,7 +91,7 @@ class PersonDataSourceHttpClient(
 
     override fun listAsFlow(
         loadParams: DataLoadParams,
-        params: PersonDataSource.GetListParams,
+        params: BuiltinPersonDirectoryResource.GetListParams,
     ): Flow<DataLoadState<List<Person>>> {
         return httpClient.getDataLoadResultAsFlow<List<Person>>(
             urlFn = { params.urlWithParams() },
@@ -105,7 +105,7 @@ class PersonDataSourceHttpClient(
 
     override suspend fun list(
         loadParams: DataLoadParams,
-        params: PersonDataSource.GetListParams,
+        params: BuiltinPersonDirectoryResource.GetListParams,
     ): DataLoadState<List<Person>> {
         return httpClient.getAsDataLoadState<List<Person>>(
             url = params.urlWithParams(),
@@ -118,7 +118,7 @@ class PersonDataSourceHttpClient(
 
     override fun listAsPagingSource(
         loadParams: DataLoadParams,
-        params: PersonDataSource.GetListParams,
+        params: BuiltinPersonDirectoryResource.GetListParams,
     ): IPagingSourceFactory<Int, Person> {
         return IPagingSourceFactory {
             OffsetLimitHttpPagingSource(
@@ -137,7 +137,7 @@ class PersonDataSourceHttpClient(
 
     override fun listDetailsAsPagingSource(
         loadParams: DataLoadParams,
-        listParams: PersonDataSource.GetListParams
+        listParams: BuiltinPersonDirectoryResource.GetListParams
     ): IPagingSourceFactory<Int, PersonListDetails> {
         return IPagingSourceFactory {
             OffsetLimitHttpPagingSource<Person>(
@@ -153,7 +153,7 @@ class PersonDataSourceHttpClient(
 
     override suspend fun store(list: List<Person>) {
         httpClient.post(
-            url = respectEndpointUrl(PersonDataSource.ENDPOINT_NAME)
+            url = respectEndpointUrl(BuiltinPersonDirectoryResource.ENDPOINT_NAME)
         ) {
             useTokenProvider(tokenProvider)
             contentType(ContentType.Application.Json)

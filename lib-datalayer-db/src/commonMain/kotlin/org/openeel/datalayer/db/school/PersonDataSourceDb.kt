@@ -16,7 +16,7 @@ import org.openeel.datalayer.db.school.adapters.toEntities
 import org.openeel.datalayer.db.school.adapters.toModel
 import org.openeel.datalayer.db.school.adapters.toPersonEntities
 import org.openeel.datalayer.exceptions.ForbiddenException
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.PersonDataSourceLocal
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.ext.primaryRole
@@ -146,7 +146,7 @@ class PersonDataSourceDb(
 
     override fun listAsFlow(
         loadParams: DataLoadParams,
-        params: PersonDataSource.GetListParams,
+        params: BuiltinPersonDirectoryResource.GetListParams,
     ): Flow<DataLoadState<List<Person>>> {
         return schoolDb.getPersonEntityDao().listAsFlow(
             authenticatedPersonUidNum = uidNumberMapper(authenticatedUser.guid),
@@ -171,7 +171,7 @@ class PersonDataSourceDb(
 
     override fun listAsPagingSource(
         loadParams: DataLoadParams,
-        params: PersonDataSource.GetListParams,
+        params: BuiltinPersonDirectoryResource.GetListParams,
     ): IPagingSourceFactory<Int, Person> {
         return IPagingSourceFactory {
             schoolDb.getPersonEntityDao().listAsPagingSource(
@@ -194,7 +194,7 @@ class PersonDataSourceDb(
 
     override suspend fun list(
         loadParams: DataLoadParams,
-        params: PersonDataSource.GetListParams,
+        params: BuiltinPersonDirectoryResource.GetListParams,
     ): DataLoadState<List<Person>> {
         val queryTime = Clock.System.now()
         val data = schoolDb.getPersonEntityDao().list(
@@ -224,7 +224,7 @@ class PersonDataSourceDb(
 
     override fun listDetailsAsPagingSource(
         loadParams: DataLoadParams,
-        listParams: PersonDataSource.GetListParams,
+        listParams: BuiltinPersonDirectoryResource.GetListParams,
     ): IPagingSourceFactory<Int, PersonListDetails> {
         return IPagingSourceFactory {
             schoolDb.getPersonEntityDao().findAllListDetailsAsPagingSource(

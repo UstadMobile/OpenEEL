@@ -11,7 +11,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.lib.directory.model.Person
 import org.openeel.server.util.ext.offsetLimitPagingLoadParams
 import org.openeel.server.util.ext.requireAccountScope
@@ -23,10 +23,10 @@ fun Route.PersonRoute(
         call.requireAccountScope().get()
     },
 ) {
-    get(PersonDataSource.ENDPOINT_NAME) {
+    get(BuiltinPersonDirectoryResource.ENDPOINT_NAME) {
         val schoolDataSource = schoolDataSource(call)
         call.response.header(HttpHeaders.Vary, HttpHeaders.Authorization)
-        val getListParams = PersonDataSource.GetListParams.fromParams(
+        val getListParams = BuiltinPersonDirectoryResource.GetListParams.fromParams(
             call.request.queryParameters
         )
 
@@ -40,7 +40,7 @@ fun Route.PersonRoute(
         )
     }
 
-    post(PersonDataSource.ENDPOINT_NAME) {
+    post(BuiltinPersonDirectoryResource.ENDPOINT_NAME) {
         val schoolDataSource = schoolDataSource(call)
         val persons: List<Person> = call.receive()
         schoolDataSource.personDataSource.store(persons)

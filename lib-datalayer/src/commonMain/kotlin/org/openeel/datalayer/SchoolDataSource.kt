@@ -6,7 +6,7 @@ import org.openeel.datalayer.school.EnrollmentDataSource
 import org.openeel.datalayer.school.ReportDataSource
 import org.openeel.datalayer.school.IndicatorDataSource
 import org.openeel.datalayer.school.InviteDataSource
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.PersonPasskeyDataSource
 import org.openeel.datalayer.school.PersonPasswordDataSource
 import org.openeel.datalayer.school.PersonQrBadgeDataSource
@@ -25,7 +25,7 @@ interface SchoolDataSource {
 
     val schoolPermissionGrantDataSource: SchoolPermissionGrantDataSource
 
-    val personDataSource: PersonDataSource
+    val personDataSource: BuiltinPersonDirectoryResource
 
     val personPasskeyDataSource: PersonPasskeyDataSource
 

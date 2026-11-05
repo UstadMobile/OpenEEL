@@ -5,7 +5,7 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.db.school.ext.isStudent
 import org.openeel.datalayer.db.school.ext.isTeacher
 import org.openeel.datalayer.school.EnrollmentDataSource
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.ext.copyAsApproved
 import org.openeel.datalayer.school.ext.inviteCodeOrNull
 import org.openeel.datalayer.school.ext.relatedPersonRoleEnum
@@ -37,7 +37,7 @@ class ApproveOrDeclineInviteRequestUseCase(
     ) {
         val persons = schoolDataSource.personDataSource.list(
             loadParams = DataLoadParams(),
-            params = PersonDataSource.GetListParams(
+            params = BuiltinPersonDirectoryResource.GetListParams(
                 common = GetListCommonParams(
                     guid = personUid
                 ),

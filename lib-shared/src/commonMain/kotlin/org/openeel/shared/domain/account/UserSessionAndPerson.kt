@@ -11,7 +11,7 @@ import org.openeel.lib.xapi.model.XapiAgent
  * @property person the person that is the active person for the session
  * @property relatedPersons where the [UserAccount]'s related personUid has related personUids as
  *           per Person.relatedPersonUids (eg a parents' account), then the relatedPersons are all
- *           those returned by PersonDataSource.list (common.guid = session.account.userGuid,
+ *           those returned by BuiltinPersonDirectoryResource.list (common.guid = session.account.userGuid,
  *           includeRelated=true).
  *
  *           If the (active) person is not the account holder themselves, then the account holder

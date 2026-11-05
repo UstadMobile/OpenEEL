@@ -13,7 +13,7 @@ import org.koin.core.scope.Scope
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.datalayer.shared.paging.EmptyPagingSource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
@@ -96,7 +96,7 @@ class PersonListViewModel(
     private val pendingPersonsPagingSource = PagingSourceFactoryHolder {
         schoolDataSource.personDataSource.listAsPagingSource(
             DataLoadParams(),
-            PersonDataSource.GetListParams(
+            BuiltinPersonDirectoryResource.GetListParams(
                 filterByPersonStatus = PersonStatusEnum.PENDING_APPROVAL,
             )
         )
@@ -105,7 +105,7 @@ class PersonListViewModel(
     private val pagingSourceFactoryHolder = PagingSourceFactoryHolder {
         schoolDataSource.personDataSource.listDetailsAsPagingSource(
             DataLoadParams(),
-            PersonDataSource.GetListParams(
+            BuiltinPersonDirectoryResource.GetListParams(
                 filterByName = _appUiState.value.searchState.searchText.takeIf { it.isNotBlank() },
                 filterByPersonRole = route.filterByRole,
                 filterByPersonStatus = PersonStatusEnum.ACTIVE,

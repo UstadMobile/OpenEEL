@@ -10,11 +10,13 @@ import org.openeel.lib.directory.model.PersonRoleEnum
 interface PersonDirectoryResource {
 
     /**
+     * @param filterByPersonGuid load only this person and, when supported, their related persons.
      * @param includeRelated if true, then include all Persons related (as per
      *        Person.relatedPersonUids) to those that match the other criteria.
      */
     data class GetListParams(
         val filterByClazzUid: String? = null,
+        val filterByPersonGuid: String? = null,
         val filterByEnrolmentRole: EnrollmentRoleEnum? = null,
         val filterByName: String? = null,
         val filterByPersonRole: PersonRoleEnum? = null,

@@ -4,7 +4,7 @@ import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.ext.asXapiAgent
 import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.lib.dataloadstate.DataLoadParams
@@ -26,7 +26,7 @@ class UpdateClazzStudentXapiGroupUseCase(
     ) {
         val studentsInClass = schoolDataSource.personDataSource.list(
             loadParams = DataLoadParams(),
-            params = PersonDataSource.GetListParams(
+            params = BuiltinPersonDirectoryResource.GetListParams(
                 filterByClazzUid = clazzUid,
                 filterByEnrolmentRole = EnrollmentRoleEnum.STUDENT,
             )
