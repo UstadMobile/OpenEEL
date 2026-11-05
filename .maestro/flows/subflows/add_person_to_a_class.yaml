@@ -44,5 +44,7 @@ appId: org.openeel.app
     env:
       QR_BADGE_LINK: ${QR_BADGE_LINK}
 - assertVisible: "Manage account"
-- assertVisible: "Username"
+- assertVisible:
+    id: "qr_change_btn"
+
 
