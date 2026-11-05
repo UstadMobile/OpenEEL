@@ -22,6 +22,7 @@ import org.openeel.app.view.enrollment.list.EnrollmentListScreen
 import org.openeel.app.view.home.HomeScreen
 import org.openeel.app.view.catalog.publicationdetail.PublicationDetailScreen
 import org.openeel.app.view.catalog.opdsfeeddetail.OpdsFeedDetailScreen
+import org.openeel.app.view.catalog.opdssearch.OpdsSearchScreen
 import org.openeel.app.view.manageuser.accountlist.AccountListScreen
 import org.openeel.app.view.manageuser.acceptinvite.AcceptInviteScreen
 import org.openeel.app.view.manageuser.createaccount.CreateAccountScreen
@@ -103,6 +104,7 @@ import org.openeel.shared.navigation.OpdsFeedEditAddLink
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.PublicationDetail
 import org.openeel.shared.navigation.OpdsFeedDetail
+import org.openeel.shared.navigation.OpdsSearch
 import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.ManageAccount
 import org.openeel.shared.navigation.NewGetStartedScreen
@@ -467,6 +469,15 @@ fun AppNavHost(
 
         composable<OpdsFeedDetail> {
             OpdsFeedDetailScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController
+                )
+            )
+        }
+
+        composable<OpdsSearch> {
+            OpdsSearchScreen(
                 viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
