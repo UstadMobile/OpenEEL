@@ -51,7 +51,6 @@ import org.openeel.app.view.person.setusernameandpassword.CreateAccountSetUserna
 import org.openeel.app.view.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkScreen
 import org.openeel.app.view.catalog.opdsfeededit.OpdsFeedEditScreen
 import org.openeel.app.view.catalog.opdsfeedlist.OpdsFeedListScreen
-import org.openeel.app.view.catalog.opdsfeedshare.PlaylistShareScreen
 import org.openeel.app.view.manageuser.getstarted.NewGetStartedScreen
 import org.openeel.app.view.catalog.opdsfeedlistpinusinglink.OpdsFeedListPinUsingLinkScreen
 import org.openeel.app.view.report.detail.ReportDetailScreen
