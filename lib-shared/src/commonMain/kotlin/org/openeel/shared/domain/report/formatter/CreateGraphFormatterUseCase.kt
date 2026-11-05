@@ -2,7 +2,7 @@ package org.openeel.shared.domain.report.formatter
 
 import org.openeel.lib.xapi.extensions.reportoptions.ReportXAxis
 import org.openeel.lib.xapi.extensions.reportoptions.YAxisTypes
-import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.shared.resources.StringUiText
 import org.openeel.shared.resources.UiText
 import kotlin.reflect.KClass

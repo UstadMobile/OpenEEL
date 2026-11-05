@@ -9,15 +9,15 @@ import kotlinx.serialization.Serializable
  * Report queries can be large, complex, and run over millions of rows. They may also have to be run
  * on the server side when a client does not have a full sync of all the relevant data.
  *
- * The ReportQueryResult entity provides a way to cache results client side and server side, as well
+ * The ReportQueryResultEntity entity provides a way to cache results client side and server side, as well
  * as way to serialize results when they are transferred between the server and client.
  *
- * There is one ReportQueryResult per xAxis/subgroup combination query result as per
+ * There is one ReportQueryResultEntity per xAxis/subgroup combination query result as per
  * GenerateReportQueriesUseCase.
  *
  * @param rqrUid auto generated UID
  * @param rqrReportUid foreign key for Report.reportUid (there is a one:many relationship between
- *        Report and ReportQueryResult)
+ *        Report and ReportQueryResultEntity)
  * @param rqrLastModified when the result was actually generated
  * @param rqrLastValidated
  * @param rqrReportSeriesUid series uid as per ReportOptions2.reportSeriesUid
@@ -38,10 +38,10 @@ import kotlinx.serialization.Serializable
     )
 )
 @Serializable
-data class ReportQueryResult(
+data class ReportQueryResultEntity(
     @PrimaryKey(autoGenerate = true)
     var rqrUid: Long = 0,
-    var rqrReportUid: Long = 0,
+    var rqrReportUid: String = "",
     var rqrLastModified: Long = 0,
     var rqrLastValidated: Long = 0,
     var rqrReportSeriesUid: Int = 0,

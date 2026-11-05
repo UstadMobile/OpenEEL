@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class StatementReportRow(
-    var yAxis: Double = 0.toDouble(),
-    var xAxis: String = "",
-    var subgroup: String = "",
+    val yAxis: Double = 0.toDouble(),
+    val xAxis: String = "",
+    val subgroup: String = "",
 )

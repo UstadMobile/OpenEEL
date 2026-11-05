@@ -8,6 +8,7 @@ import org.openeel.lib.xapi.model.XapiContext
 import org.openeel.lib.xapi.model.XapiContextActivities
 import org.openeel.lib.xapi.model.XapiObjectType
 import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiStatementRef
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
 
@@ -175,6 +176,10 @@ fun XapiStatement.objectActivityNameOrNull(): Map<String, String>? {
 
 fun XapiStatement.objectSubstatementOrNull(): XapiStatement? {
     return `object` as? XapiStatement
+}
+
+fun XapiStatement.objectStatementRefOrNull(): XapiStatementRef? {
+    return `object` as? XapiStatementRef
 }
 
 /**

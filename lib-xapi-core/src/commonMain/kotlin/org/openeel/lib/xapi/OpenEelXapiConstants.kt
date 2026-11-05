@@ -46,4 +46,12 @@ object OpenEelXapiConstants {
 
     const val ACTIVITY_PROFILEID_OPDS_COLLECTION = "https://id.openeel.org/profile/activity/opds-collection"
 
+    const val EXTENSION_REPORT_QUERY = "https://id.openeel.org/xapi/extension/queries"
+
+    const val EXTENSION_REPORT_OPTIONS = "https://id.openeel.org/xapi/extension/report-options"
+
+    const val EXTENSION_REPORT_QUERY_RESULT = "https://id.openeel.org/xapi/extension/query-result"
+
+    const val CATEGORY_REPORT_QUERY_RECIPE ="https://id.openeel.org/xapi/recipes/xapi-sql-query"
+
 }

@@ -1,0 +1,251 @@
+appId: world.respect.app
+onFlowStart:
+  - clearState: world.respect.app
+  - runScript:
+      file: "scripts/school_init.js"
+      env:
+        TESTCONTROLLER_URL: ${TESTCONTROLLER_URL}
+        SCHOOL_ADMIN_PASSWORD: ${SCHOOL_ADMIN_PASSWORD}
+        DIR_ADMIN_AUTH_HEADER: ${DIR_ADMIN_AUTH_HEADER}
+        SCHOOL_URL: ${SCHOOL_URL}
+        SCHOOL_NAME: ${SCHOOL_NAME}
+        URL_SUBSTITUTION: ${URL_SUBSTITUTION}
+        NAME: "005_admin_user_adds_report_test.yaml"
+
+onFlowComplete:
+  - runFlow:
+      file: "subflows/teardown.yaml"
+      env:
+        NAME: "db-final"
+        TESTCONTROLLER_URL: ${TESTCONTROLLER_URL}
+---
+- runFlow: "subflows/school_admin_login_flow.yaml"
+- runFlow: "subflows/admin_add_app.yaml"
+- runFlow:
+    file:  "subflows/admin_add_class_with_members.yaml"
+    env:
+      CLASSNAME: "TestClass"
+
+# Teacher Add Assignment
+- runFlow:
+    file: "subflows/e2e_artifact_upload.yaml"
+    env:
+      NAME: "db-admin-class-setup"
+- clearState: world.respect.app
+- runFlow:
+    file: "subflows/school_user_login_flow.yaml"
+    env:
+      USERNAME: "teacherauser"
+      PASSWORD: "test123"
+- assertVisible:
+        id: "nav_home"
+- tapOn: "Classes"
+- assertVisible:
+    id: "app_title"
+    text: "Classes"
+- assertVisible: "TestClass"
+- tapOn: "Assignments"
+- tapOn:
+    id: "floating_action_button"   #  +Assignment button
+- assertVisible:
+    id: "app_title"
+    text: "Add assignment"
+- tapOn: "Save"
+- assertVisible: "Required field"
+- tapOn: "Assignment title*"
+- inputText: "Homework 1"
+- tapOn: "Assign to"
+- tapOn: "TestClass"
+- tapOn: "Description"
+- inputText: "Please complete this Homework on time."
+- runFlow:
+    when:
+      notVisible: "Due date"
+    commands:
+      - hideKeyboard
+- tapOn: "Due date"
+- runScript:
+    file: "scripts/setDate.js"
+- inputText: ${output.futureDate}
+- tapOn: "Time"
+- runScript:
+    file: "scripts/setDate.js"
+- inputText: ${output.currentTime}
+- runFlow:
+    when:
+      notVisible: "Task"
+    commands:
+      - hideKeyboard
+- tapOn: "Task"
+- assertVisible:
+    id: "app_title"
+    text: "Home"
+- tapOn: "Example Web App"
+- assertVisible:
+    id: "app_title"
+    text: "Main Menu"
+- tapOn: "Examples"
+- tapOn: "Statement Maker"
+- tapOn: "Task"
+- assertVisible:
+    id: "app_title"
+    text: "Home"
+- tapOn: "Example Web App"
+- assertVisible:
+    id: "app_title"
+    text: "Main Menu"
+- tapOn: "Examples"
+- tapOn: "Assignment Result Statement Demo"
+- tapOn: "Save"
+- assertVisible:
+    id: "app_title"
+    text: "Homework 1"
+- tapOn: "Assignments"
+- assertVisible:
+    id: "app_title"
+    text: "Assignments"
+- assertVisible: "Homework 1"
+
+- runFlow:
+    file: "subflows/e2e_artifact_upload.yaml"
+    env:
+      NAME: "db-teacher-assigned"
+- clearState: world.respect.app
+- runFlow:
+    file: "subflows/school_user_login_flow.yaml"
+    env:
+      USERNAME: "studentauser"
+      PASSWORD: "test123"
+- tapOn: "Assignments"
+- tapOn: "Homework 1"
+- assertVisible:
+    id: "app_title"
+    text: "Homework 1"
+- tapOn: "Statement Maker"
+- assertVisible:
+    text: "Statement Maker"
+- tapOn: "Open"
+- assertVisible: "Statement Maker"
+- retry:
+    maxRetries: 3
+    commands:
+      - tapOn: "Send statement"
+      - assertVisible: "Statement sent.*"
+- tapOn: "Close"
+- back
+- tapOn: "Assignment Result Statement Demo"
+- tapOn: "Open"
+- assertVisible: "Assignment Result.*"
+- tapOn: "Score"
+- inputText: 1
+- retry:
+    maxRetries: 3
+    commands:
+      - tapOn: "Send statement"
+      - assertVisible: "Statement sent.*"
+- tapOn: "Close"
+- tapOn: "Assignments"
+- tapOn: "Homework 1"
+
+
+# Student B user complete 1 task
+- runFlow:
+    file: "subflows/e2e_artifact_upload.yaml"
+    env:
+      NAME: "db-student-a-completed"
+- clearState: world.respect.app
+- runFlow:
+    file: "subflows/school_user_login_flow.yaml"
+    env:
+      USERNAME: "studentbuser"
+      PASSWORD: "test123"
+- tapOn: "Assignments"
+- tapOn: "Homework 1"
+- assertVisible:
+    id: "app_title"
+    text: "Homework 1"
+- assertVisible: "Statement Maker"
+- tapOn: "Assignment Result Statement Demo"
+- tapOn: "Open"
+- assertVisible: "Assignment Result.*"
+- tapOn: "Score"
+- inputText: 1
+- retry:
+    maxRetries: 3
+    commands:
+      - tapOn: "Send statement"
+      - assertVisible: "Statement sent.*"
+- tapOn: "Close"
+- tapOn: "Assignments"
+- tapOn: "Homework 1"
+- assertVisible: "All (2)"
+- assertVisible: "Completed (1)"
+
+# Teacher Validate students results
+- runFlow:
+    file: "subflows/e2e_artifact_upload.yaml"
+    env:
+      NAME: "db-student-b-completed"
+- clearState: world.respect.app
+- runFlow:
+    file: "subflows/school_user_login_flow.yaml"
+    env:
+      USERNAME: "teacherauser"
+      PASSWORD: "test123"
+- tapOn: "Assignments"
+- assertVisible: "Homework 1"
+- assertVisible: "TestClass.*"
+- tapOn: "Homework 1"
+- assertVisible: "Average"
+- assertVisible: "95%"
+- assertVisible: "100%"
+- assertVisible: "90%"   
+# Create Reports
+- tapOn: "Reports"
+- tapOn:
+    id: "floating_action_button"
+- assertVisible: "Select template"
+- tapOn: "Blank Template"
+- tapOn: "Title*"
+- inputText: "TestReport"
+- assertVisible: "Time range*"
+- assertVisible: "Last week"
+- assertVisible: "X Axis*"
+- tapOn: "Day"
+- tapOn: "Class name"
+- assertVisible: "Series Title*"
+- assertVisible: "Y Axis*"
+- tapOn: "Number of Unique Users"
+- tapOn: "Total Score"
+- assertVisible: "Subgroup by"
+- tapOn: "Subgroup by"
+- tapOn: "Weekly"
+- assertVisible: "Chart type*"
+- assertVisible: "Bar Chart"
+- assertVisible: "Add Filter"
+- assertVisible: "Add Series"
+- tapOn: "Done"
+- tapOn: "People"
+- tapOn:
+    id: "nav_reports"
+- assertVisible:
+    id: "app_title"
+    text: "Reports"
+- assertVisible: "TestReport"
+- assertVisible: "Delete"
+- tapOn: "TestReport"
+- assertVisible: "Class name"
+- assertVisible: "Count"
+- tapOn:
+    id: "floating_action_button"
+- tapOn: "Subgroup by"
+- tapOn: "Day"
+- tapOn: "Done"
+- tapOn:
+    id: "nav_people"
+- tapOn: "Reports"
+- tapOn: "TestReport"
+
+
+
+

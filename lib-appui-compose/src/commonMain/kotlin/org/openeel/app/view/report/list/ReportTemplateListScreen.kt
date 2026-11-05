@@ -30,7 +30,7 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
 import org.openeel.datalayer.school.model.Report
 import org.openeel.shared.domain.report.model.RunReportResultAndFormatters
-import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.shared.generated.resources.No_data_available
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.blank_template
@@ -82,10 +82,10 @@ private fun ReportTemplateCard(
             reportResult = RunReportUseCase.RunReportResult(
                 timestamp = 0,
                 request = RunReportUseCase.RunReportRequest(
-                    reportUid = report.guid.toLong(),
+                    reportUid = report.guid,
                     reportOptions = ReportOptions(),
                     accountPersonUid = activeUserPersonUid,
-                    timeZoneId = TimeZone.currentSystemDefault().id,
+                    timeZone = TimeZone.currentSystemDefault(),
                 ),
                 results = emptyList()
             ),

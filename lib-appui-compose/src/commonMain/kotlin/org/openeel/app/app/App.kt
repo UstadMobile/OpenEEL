@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import kotlin.Boolean
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.rememberNavController
@@ -62,7 +63,9 @@ import org.openeel.shared.navigation.AccountList
 import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.ClazzList
 import org.openeel.shared.navigation.Home
+import org.openeel.shared.generated.resources.reports
 import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.Report
 import org.openeel.shared.navigation.PersonList
 import org.openeel.shared.navigation.OpenEelComposeNavController
 import org.openeel.shared.resources.getUiTextString
@@ -113,6 +116,13 @@ val APP_TOP_LEVEL_NAV_ITEMS = listOf(
         label = Res.string.people,
         routeName = "$routeNamePrefix.PersonList",
         testTag = "nav_people",
+    ),
+    TopNavigationItem(
+        destRoute = Report,
+        icon = Icons.Filled.BarChart,
+        label = Res.string.reports,
+        routeName = "$routeNamePrefix.Report",
+        testTag = "nav_reports",
     ),
 )
 val APP_TOP_LEVEL_NAV_ITEMS_FOR_CHILD = listOf(

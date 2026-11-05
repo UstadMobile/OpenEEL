@@ -2,6 +2,7 @@ package org.openeel.lib.xapi.ext
 
 import io.ktor.http.Url
 import kotlinx.serialization.DeserializationStrategy
+import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -68,5 +69,29 @@ fun <T> XapiActivityDefinition.decodeFromExtensionOrNull(
         json.decodeFromJsonElement(deserializer, it)
     }
 }
+
+/**
+ * Encode (using kotlinx serialization) to an extension property
+ *
+ * @param json Json to use
+ * @param extensionIri extension iri
+ * @param serializer kotlinx serialization serializer
+ * @param value value to encode
+ *
+ * @return updated activity definition
+ */
+fun <T> XapiActivityDefinition.encodeWithExtension(
+    json: Json,
+    extensionIri: String,
+    serializer: SerializationStrategy<T>,
+    value: T,
+): XapiActivityDefinition {
+    return copy(
+        extensions = (extensions ?: emptyMap()).toMutableMap().apply {
+            put(extensionIri, json.encodeToJsonElement(serializer, value))
+        }
+    )
+}
+
 
 

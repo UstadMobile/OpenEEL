@@ -21,7 +21,7 @@ import org.openeel.datalayer.school.model.Report
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.report.formatter.CreateGraphFormatterUseCase
 import org.openeel.shared.domain.report.model.RunReportResultAndFormatters
-import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.select_template
 import org.openeel.shared.navigation.NavCommand
@@ -40,7 +40,6 @@ data class ReportTemplateListUiState(
 
 class ReportTemplateListViewModel(
     savedStateHandle: SavedStateHandle,
-    private val runReportUseCase: RunReportUseCase,
     private val createGraphFormatterUseCase: CreateGraphFormatterUseCase,
     accountManager: AppAccountManager
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
@@ -50,6 +49,7 @@ class ReportTemplateListViewModel(
     val uiState = _uiState.asStateFlow()
     private val activeUserPersonUid: Long = 0
     private val schoolDataSource: SchoolDataSource by inject()
+    private val runReportUseCase: RunReportUseCase by inject()
 
 
     init {
@@ -78,10 +78,10 @@ class ReportTemplateListViewModel(
                         reportResult = RunReportUseCase.RunReportResult(
                             timestamp = Clock.System.now().toEpochMilliseconds(),
                             request = RunReportUseCase.RunReportRequest(
-                                reportUid = 0L,
+                                reportUid = "0",
                                 reportOptions = ReportOptions(),
                                 accountPersonUid = activeUserPersonUid,
-                                timeZoneId = TimeZone.currentSystemDefault().id
+                                timeZone = TimeZone.currentSystemDefault()
                             ),
                             results = emptyList()
                         ),
@@ -92,10 +92,10 @@ class ReportTemplateListViewModel(
             }
         } else {
             val request = RunReportUseCase.RunReportRequest(
-                reportUid = report.guid.toLong(),
+                reportUid = report.guid,
                 reportOptions = report.reportOptions,
                 accountPersonUid = activeUserPersonUid,
-                timeZoneId = TimeZone.currentSystemDefault().id
+                timeZone = TimeZone.currentSystemDefault()
             )
 
             return runReportUseCase(request).map { reportResult ->

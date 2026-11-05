@@ -33,8 +33,12 @@ import org.openeel.datalayer.db.addCommonMigrations
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
 import org.openeel.datalayer.db.school.domain.GetPermissionLastModifiedUseCaseDbImpl
+import org.openeel.datalayer.db.school.domain.report.query.GenerateReportQueriesUseCase
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCaseDatabaseImpl
 import org.openeel.datalayer.db.school.xapi.XapiResourceDb
 import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryResourceDb
+import org.openeel.datalayer.http.server.ProcessXapiStatementsUseCase
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.domain.GetPermissionLastModifiedUseCase
@@ -229,6 +233,10 @@ fun serverKoinModule(
 
     single<EncryptPersonPasswordUseCase> {
         EncryptPersonPasswordUseCaseImpl()
+    }
+
+    single<GenerateReportQueriesUseCase> {
+        GenerateReportQueriesUseCase()
     }
 
 
@@ -524,6 +532,24 @@ fun serverKoinModule(
             )
         }
 
+        factory<RunReportUseCase> {
+            RunReportUseCaseDatabaseImpl(
+                schoolDatabase = get(),
+                generateReportQueriesUseCase = get()
+            )
+        }
+
+        factory<ProcessXapiStatementsUseCase> {
+            val accountScopeId = UserAccountScopeId.parse(id)
+
+            ProcessXapiStatementsUseCase(
+                statementResource = get<SchoolDataSource>().xapiResource.statements,
+                runReportUseCase = get(),
+                json = get(),
+                uidNumberMapper = get(),
+                accountPersonGuid = requireNotNull(accountScopeId.accountPrincipalId).guid
+            )
+        }
     }
 
 

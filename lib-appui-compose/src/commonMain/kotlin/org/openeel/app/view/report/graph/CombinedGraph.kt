@@ -16,8 +16,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.koalaplot.core.Symbol
 import io.github.koalaplot.core.bar.GroupedVerticalBarPlot
-import io.github.koalaplot.core.bar.solidBar
+import io.github.koalaplot.core.bar.verticalSolidBar
 import io.github.koalaplot.core.line.LinePlot
+import io.github.koalaplot.core.style.KoalaPlotTheme
 import io.github.koalaplot.core.style.LineStyle
 import io.github.koalaplot.core.util.ExperimentalKoalaPlotApi
 import io.github.koalaplot.core.util.VerticalRotation
@@ -25,13 +26,14 @@ import io.github.koalaplot.core.util.rotateVertically
 import io.github.koalaplot.core.xygraph.CategoryAxisModel
 import io.github.koalaplot.core.xygraph.Point
 import io.github.koalaplot.core.xygraph.XYGraph
+import io.github.koalaplot.core.xygraph.rememberAxisContent
 import io.github.koalaplot.core.xygraph.rememberFloatLinearAxisModel
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.shared.domain.report.formatter.GraphFormatter
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
 import org.openeel.lib.xapi.extensions.reportoptions.YAxisTypes
-import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.shared.ext.label
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.count
@@ -69,67 +71,73 @@ fun CombinedGraph(
             reportResult.yRange,
             minimumMajorTickIncrement = 1f
         ),
-        xAxisLabels = {
-            if (!isSmallSize) {
-                xAxisFormatter?.format(it)?.let { uiText ->
-                    Text(
-                        text = uiTextStringResource(uiText),
-                        modifier = Modifier.rotateVertically(VerticalRotation.COUNTER_CLOCKWISE),
-                        fontSize = MaterialTheme.typography.labelSmall.fontSize,
-                        maxLines = 1
-                    )
+        yAxisContent  = rememberAxisContent(
+            labels = {
+                if (!isSmallSize) {
+                    val value = yAxisFormatter?.adjust(it.toDouble()) ?: 0.0
+                    val formattedText = yAxisFormatter?.format(value)
+                    if (formattedText != null) {
+                        Text(
+                            text = uiTextStringResource(formattedText),
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                            fontSize = MaterialTheme.typography.labelSmall.fontSize
+                        )
+                    }
+                }
+            },
+            title = {
+                if (!isSmallSize) {
+                    Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = if (reportResult.yAxisType == YAxisTypes.DURATION.name) {
+                                stringResource(Res.string.duration) + getDurationUnitTitle(reportResult.yRange.endInclusive)
+                            } else {
+                                stringResource(Res.string.count)
+                            },
+                            modifier = Modifier.rotateVertically(VerticalRotation.COUNTER_CLOCKWISE)
+                        )
+                    }
                 }
             }
-        },
-        xAxisTitle = {
-            if (!isSmallSize) {
-                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                    Text(
-                        text = stringResource(reportResult.request.reportOptions.xAxis.label),
-                    )
+        ),
+        xAxisContent = rememberAxisContent(
+            labels =  {
+                if (!isSmallSize) {
+                    xAxisFormatter?.format(it)?.let { uiText ->
+                        Text(
+                            text = uiTextStringResource(uiText),
+                            modifier = Modifier.rotateVertically(VerticalRotation.COUNTER_CLOCKWISE),
+                            fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                            maxLines = 1
+                        )
+                    }
+                }
+            },
+            title = {
+                if (!isSmallSize) {
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = stringResource(reportResult.request.reportOptions.xAxis.label),
+                        )
+                    }
                 }
             }
-        },
-        yAxisLabels = {
-            if (!isSmallSize) {
-                val value = yAxisFormatter?.adjust(it.toDouble()) ?: 0.0
-                val formattedText = yAxisFormatter?.format(value)
-                if (formattedText != null) {
-                    Text(
-                        text = uiTextStringResource(formattedText),
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                        fontSize = MaterialTheme.typography.labelSmall.fontSize
-                    )
-                }
-            }
-        },
-        yAxisTitle = {
-            if (!isSmallSize) {
-                Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
-                    Text(
-                        text = if (reportResult.yAxisType == YAxisTypes.DURATION.name) {
-                            stringResource(Res.string.duration) + getDurationUnitTitle(reportResult.yRange.endInclusive)
-                        } else {
-                            stringResource(Res.string.count)
-                        },
-                        modifier = Modifier.rotateVertically(VerticalRotation.COUNTER_CLOCKWISE)
-                    )
-                }
-            }
-        }
+        ),
     ) {
         /*
          * Create one barchart. For each series-subgroup combination, create a series on the barchart
          * and emit an item for each result row.
          */
-        GroupedVerticalBarPlot {
-            reportResult.distinctSubgroups.filter {
-                it.series.reportSeriesOptions.reportSeriesVisualType == ReportSeriesVisualType.BAR_CHART
-            }.forEach { resultSubgroup ->
-                series(solidBar(colorMap[resultSubgroup] ?: Color.Transparent)) {
-                    resultSubgroup.subgroupData.forEach { resultRow ->
-                        item(resultRow.xAxis, 0f, resultRow.yAxis.toFloat())
+        GroupedVerticalBarPlot(
+            animationSpec = KoalaPlotTheme.animationSpec
+        ) {
+            reportResult.distinctSubgroups.filter { subgroup ->
+                subgroup.series.reportSeriesOptions.reportSeriesVisualType == ReportSeriesVisualType.BAR_CHART
+            }.forEach { subgroup ->
+                series(verticalSolidBar(colorMap[subgroup] ?: Color.Transparent)) {
+                    subgroup.subgroupData.forEach { dataPoint ->
+                        item(dataPoint.xAxis, 0f, dataPoint.yAxis.toFloat())
                     }
                 }
             }

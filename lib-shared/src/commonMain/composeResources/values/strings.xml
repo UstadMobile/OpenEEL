@@ -319,6 +319,8 @@
     <string name="sql">SQL</string>
     <string name="edit_filters">Edit Filters</string>
     <string name="blank_template">Blank Template</string>>
+    <string name="number_unique_users">Number of Unique Users</string>
+
 
     <!-- Duration Metrics -->
     <string name="total_content_usage_duration">Total Content Usage Duration</string>
@@ -747,6 +749,22 @@
 
     <string name="select_units">Select unit(s)</string>
     <string name="select_collections">Select collection(s)</string>
+
+    <!-- Report Indicators -->
+    <string name="indicator_total_content_usage_duration">Total content usage duration</string>
+    <string name="indicator_total_content_usage_duration_desc">The cumulative amount of time spent by all users engaging with educational content, measured in hours and minutes</string>
+
+    <string name="indicator_average_content_usage_duration">Average content usage duration per user</string>
+    <string name="indicator_average_content_usage_duration_desc">The mean time spent by individual users interacting with learning materials, calculated as total usage time divided by number of active users</string>
+
+    <string name="indicator_score_average">Score (Average)</string>
+    <string name="indicator_score_average_desc">The mean performance score across all assessments, tests, or evaluations for a given student group or time period</string>
+
+    <string name="indicator_score_total">Score (Total)</string>
+    <string name="indicator_score_total_desc">The sum of all points earned by students across multiple assessments or cumulative performance measurements</string>
+
+    <string name="indicator_number_of_unique_users">Number of Unique Users</string>
+    <string name="indicator_number_of_unique_users_desc">The count of distinct users who engaged with the learning content during the specified time period</string>
 
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>

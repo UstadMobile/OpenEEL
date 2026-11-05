@@ -6,14 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -35,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.OpenEelDateField
+import org.openeel.app.components.OpenEelExposedDropDownMenuField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.lib.xapi.extensions.reportoptions.Comparisons
@@ -79,13 +77,12 @@ fun ReportEditScreen(
     )
     ReportEditScreen(
         uiState = uiState,
-        onReportChanged = viewModel::onEntityChanged,
+        onReportOptionsChanged = viewModel::onEntityChanged,
         onSeriesChanged = viewModel::onSeriesChanged,
         onAddSeries = viewModel::onAddSeries,
         onAddFilter = viewModel::onAddFilter,
         onRemoveSeries = viewModel::onRemoveSeries,
         onRemoveFilter = viewModel::onRemoveFilter,
-        manageIndicator = viewModel::onClickManageIndicator,
         onEditFilter = viewModel::onEditFilter
     )
 }
@@ -93,379 +90,232 @@ fun ReportEditScreen(
 @Composable
 private fun ReportEditScreen(
     uiState: ReportEditUiState = ReportEditUiState(),
-    onReportChanged: (ReportOptions) -> Unit = {},
+    onReportOptionsChanged: (ReportOptions) -> Unit = {},
     onAddSeries: () -> Unit = { },
     onAddFilter: (Int) -> Unit = { },
-    onSeriesChanged: (ReportSeries) -> Unit = {},
+    onSeriesChanged: (Int, ReportSeries) -> Unit = { _, _ -> },
     onRemoveSeries: (Int) -> Unit = { },
     onRemoveFilter: (Int, Int) -> Unit = { _, _ -> },
-    manageIndicator: () -> Unit = { },
-    onEditFilter: (ReportFilter) -> Unit = { },
+    onEditFilter: (Int, Int, ReportFilter) -> Unit = { _, _, _ -> },
 ) {
-    val firstIndicatorType = uiState.reportOptions.series.firstOrNull()?.reportSeriesYAxis?.type
-
-    // Calculate disabled indicators (those with different types than the first series)
-    val disabledIndicators =
-        if (uiState.reportOptions.series.size > 1 && firstIndicatorType != null) {
-            uiState.availableIndicators.filter { it.type != firstIndicatorType }
-        } else {
-            emptyList()
-        }
-    LazyColumn(
+    val reportOptions = uiState.reportOptions
+    val firstIndicatorType = reportOptions.series.firstOrNull()?.reportSeriesYAxis?.type
+    Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .defaultItemPadding(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
 
     ) {
-        item {
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = uiState.reportOptions.title,
-                label = { Text(stringResource(Res.string.title) + "*") },
-                singleLine = true,
-                onValueChange = { newTitle ->
-                    val updatedOptions = uiState.reportOptions.copy(title = newTitle)
-                    onReportChanged(updatedOptions)
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = reportOptions.title,
+            label = { Text(stringResource(Res.string.title) + "*") },
+            onValueChange = { newTitle ->
+                onReportOptionsChanged(reportOptions.copy(title = newTitle))
+            },
+            supportingText = {
+                uiState.reportTitleError?.let {
+                    Text(uiTextStringResource(it))
+                }
+            },
+            isError = uiState.isTitleError,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        )
+
+        // Determine selected option based on TIME RANGE TYPE
+        val selected = remember(reportOptions.period) {
+            when (val currentPeriod = reportOptions.period) {
+                is FixedReportTimeRange -> ReportPeriodOption.CUSTOM_DATE_RANGE
+                is RelativeRangeReportPeriod -> ReportPeriodOption.entries.find { option ->
+                    val optionPeriod = option.period as? RelativeRangeReportPeriod ?: return@find false
+                    optionPeriod.rangeUnit == currentPeriod.rangeUnit &&
+                            optionPeriod.rangeQuantity == currentPeriod.rangeQuantity
+                } ?: ReportPeriodOption.CUSTOM_PERIOD
+            }
+        }
+
+        OpenEelExposedDropDownMenuField(
+            value = selected,
+            options = ReportPeriodOption.entries,
+            onOptionSelected = { selectedOption ->
+                onReportOptionsChanged(reportOptions.copy(period = selectedOption.period))
+            },
+            label = { Text(stringResource(Res.string.time_range) + "*") },
+            itemText = { stringResource(it.label) },
+        )
+
+        // Show CustomPeriodInputs only if selected is CUSTOM_PERIOD
+        if (selected == ReportPeriodOption.CUSTOM_PERIOD) {
+            // When selected is CUSTOM_PERIOD
+            CustomPeriodInputs(
+                currentRange = reportOptions.period as RelativeRangeReportPeriod,
+                onCustomPeriodChanged = { qty, unit ->
+                    onReportOptionsChanged(reportOptions.copy(period = RelativeRangeReportPeriod(unit, qty)))
                 },
-                isError = uiState.submitted && uiState.reportTitleError != null,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                supportingText = {
-                    uiState.reportTitleError?.let {
-                        Text(uiTextStringResource(it))
-                    }
-                }
+                quantityError = null
             )
-
-        }
-        item {
-            // Determine selected option based on TIME RANGE TYPE
-            val selected = remember(uiState.reportOptions.period) {
-                ReportPeriodOption.entries.find { option ->
-                    when (val currentPeriod = uiState.reportOptions.period) {
-                        is RelativeRangeReportPeriod -> {
-                            val optionPeriod = option.period as? RelativeRangeReportPeriod
-                            optionPeriod?.rangeUnit == currentPeriod.rangeUnit &&
-                                    optionPeriod.rangeQuantity == currentPeriod.rangeQuantity
-                        }
-
-                        is FixedReportTimeRange -> {
-                            option == ReportPeriodOption.CUSTOM_DATE_RANGE
-                        }
-
-                    }
-                } ?: run {
-                    when (uiState.reportOptions.period) {
-                        is RelativeRangeReportPeriod -> ReportPeriodOption.CUSTOM_PERIOD
-                        is FixedReportTimeRange -> ReportPeriodOption.CUSTOM_DATE_RANGE
-                    }
-                }
-            }
-
-            ExposedDropdownMenu(
-                label = { Text(stringResource(Res.string.time_range) + "*") },
-                options = ReportPeriodOption.entries,
-                selectedValue = selected,
-                onOptionSelected = { selectedOption ->
-                    handleTimeRangeSelection(
-                        selectedOption,
-                        uiState.reportOptions,
-                        onReportChanged
-                    )
-                },
-            )
-
-            // Show CustomPeriodInputs only if selected is CUSTOM_PERIOD
-            if (selected == ReportPeriodOption.CUSTOM_PERIOD) {
-                // When selected is CUSTOM_PERIOD
-                CustomPeriodInputs(
-                    currentRange = uiState.reportOptions.period as RelativeRangeReportPeriod,
-                    onCustomPeriodChanged = { qty, unit ->
-                        val newRange = RelativeRangeReportPeriod(unit, qty)
-                        val updatedOptions = uiState.reportOptions.copy(period = newRange)
-                        onReportChanged(updatedOptions)
-                    },
-                    quantityError = null
-                )
-            }
-
-            // Show CustomDateRangeInputs only if selected is CUSTOM_DATE_RANGE
-            if (selected == ReportPeriodOption.CUSTOM_DATE_RANGE) {
-                CustomDateRangeInputs(
-                    currentRange = uiState.reportOptions.period as FixedReportTimeRange,
-                    onDateRangeChanged = { from, to ->
-                        val newRange = FixedReportTimeRange(from, to)
-                        val updatedOptions = uiState.reportOptions.copy(period = newRange)
-                        onReportChanged(updatedOptions)
-                    }
-                )
-            }
         }
 
-        item {
-            ExposedDropdownMenu(
-                selectedValue = uiState.reportOptions.xAxis,
-                label = { Text(stringResource(Res.string.x_axis) + "*") },
-                options = ReportXAxis.entries,
-                onOptionSelected = {
-                    val updatedOptions = uiState.reportOptions.copy(xAxis = it)
-                    onReportChanged(updatedOptions)
+        // Show CustomDateRangeInputs only if selected is CUSTOM_DATE_RANGE
+        if (selected == ReportPeriodOption.CUSTOM_DATE_RANGE) {
+            CustomDateRangeInputs(
+                currentRange = reportOptions.period as FixedReportTimeRange,
+                onDateRangeChanged = { from, to ->
+                    onReportOptionsChanged(reportOptions.copy(period = FixedReportTimeRange(from, to)))
                 }
             )
         }
+
+        OpenEelExposedDropDownMenuField(
+            value = reportOptions.xAxis,
+            options = ReportXAxis.entries,
+            onOptionSelected = { xAxis ->
+                onReportOptionsChanged(reportOptions.copy(xAxis = xAxis))
+            },
+            label = { Text(stringResource(Res.string.x_axis) + "*") },
+            itemText = { stringResource(it.label) },
+        )
 
         // Dynamically iterate over the series
-        uiState.reportOptions.series.forEach { seriesItem ->
-            item {
-                HorizontalDivider(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    thickness = 1.dp
-                )
-            }
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+        reportOptions.series.forEachIndexed { seriesIndex, seriesItem ->
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                thickness = 1.dp
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // Series Title Input
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Series Title Input
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        OutlinedTextField(
-                            modifier = Modifier.weight(1f),
-                            value = seriesItem.reportSeriesTitle,
-                            label = {
-                                Text(
-                                    stringResource(Res.string.series_title) + "*",
-                                )
-                            },
-                            singleLine = true,
-                            onValueChange = { newTitle ->
-                                val updatedSeries = seriesItem.copy(reportSeriesTitle = newTitle)
-                                onSeriesChanged(updatedSeries)
-                            }
-                        )
-                        if (!uiState.hasSingleSeries) {
-                            Icon(
-                                imageVector = Icons.Filled.Close,
-                                contentDescription = stringResource(Res.string.remove),
-                                modifier = Modifier
-                                    .clickable {
-                                        //onRemoveSeries(seriesItem.reportSeriesUid)
-                                    }
-                                    .align(Alignment.CenterVertically)
+                    OutlinedTextField(
+                        modifier = Modifier.weight(1f),
+                        value = seriesItem.reportSeriesTitle,
+                        label = {
+                            Text(
+                                stringResource(Res.string.series_title) + "*",
                             )
-                        }
-                    }
-
-                    // Y Axis Dropdown
-                    ExposedDropdownMenu(
-                        selectedValue = seriesItem.reportSeriesYAxis,
-                        label = { Text(stringResource(Res.string.y_axis) + "*") },
-                        options = uiState.availableIndicators,
-                        onOptionSelected = { selectedYAxis ->
-                            val updatedSeries = seriesItem.copy(reportSeriesYAxis = selectedYAxis)
-                            onSeriesChanged(updatedSeries)
                         },
-                        disabledOptions = disabledIndicators,
-                        additionalMenuItems = {
-                            DropdownMenuItem(
-                                onClick = {
-                                    manageIndicator()
-                                },
-                                text = {
-                                    Text(
-                                        text = stringResource(Res.string.manage_indicators),
-                                        color = MaterialTheme.colorScheme.error
-                                    )
-                                }
-                            )
+                        singleLine = true,
+                        onValueChange = { newTitle ->
+                            val updatedSeries = seriesItem.copy(reportSeriesTitle = newTitle)
+                            onSeriesChanged(seriesIndex, updatedSeries)
                         }
                     )
-
-                    // Subgroup Dropdown
-                    ExposedDropdownMenu(
-                        label = { Text(stringResource(Res.string.subgroup_by)) },
-                        options = if (uiState.reportOptions.xAxis.datePeriod != null) {
-                            // X-axis is date - only show non-date options
-                            ReportXAxis.entries.filter { it.datePeriod == null }
-                        } else {
-                            // X-axis is non-date - show date options plus other non-date options
-                            ReportXAxis.entries.filter {
-                                it.datePeriod != null ||  // Include all date options
-                                        (it != uiState.reportOptions.xAxis)
-                            }
-                        },
-                        selectedValue = seriesItem.reportSeriesSubGroup,
-                        onOptionSelected = { selectedXAxis ->
-                            val updatedSeries =
-                                seriesItem.copy(reportSeriesSubGroup = selectedXAxis)
-                            onSeriesChanged(updatedSeries)
-                        }
-                    )
-
-
-                    // Chart Type Dropdown
-                    ExposedDropdownMenu(
-                        label = { Text(stringResource(Res.string.chart_type) + "*") },
-                        options = ReportSeriesVisualType.entries,
-                        selectedValue = seriesItem.reportSeriesVisualType,
-                        onOptionSelected = { selectedVisualType ->
-                            val updatedSeries =
-                                seriesItem.copy(reportSeriesVisualType = selectedVisualType)
-                            onSeriesChanged(updatedSeries)
-                        },
-                    )
-                    if (!seriesItem.reportSeriesFilters.isNullOrEmpty()) {
-                        Text(stringResource(Res.string.filters))
-                    }
-
-                    seriesItem.reportSeriesFilters?.forEachIndexed { index, value ->
-                        Row(
+                    if (!uiState.hasSingleSeries) {
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = stringResource(Res.string.remove),
                             modifier = Modifier
                                 .clickable {
-                                    onEditFilter(value)
+                                    onRemoveSeries(seriesIndex)
                                 }
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text("${value.reportFilterField?.let { stringResource(it.label) }} ${value.reportFilterCondition?.symbol} ${value.reportFilterValue}")
-                            Icon(
-                                imageVector = Icons.Filled.Close,
-                                contentDescription = stringResource(Res.string.remove),
-                                modifier = Modifier
-                                    .clickable {
-                                        //onRemoveFilter(index, seriesItem.reportSeriesUid)
-                                    }
-                            )
+                                .align(Alignment.CenterVertically)
+                        )
+                    }
+                }
+
+                // Y Axis Dropdown
+                OpenEelExposedDropDownMenuField(
+                    value = seriesItem.reportSeriesYAxis,
+                    options = uiState.availableIndicatorsForNewSeries,
+                    onOptionSelected = { selectedYAxis ->
+                        val updatedSeries = seriesItem.copy(reportSeriesYAxis = selectedYAxis)
+                        onSeriesChanged(seriesIndex, updatedSeries)
+                    },
+                    label = { Text(stringResource(Res.string.y_axis) + "*") },
+                    itemText = { stringResource(it.label) },
+                )
+
+                // Subgroup Dropdown
+                OpenEelExposedDropDownMenuField(
+                    value = seriesItem.reportSeriesSubGroup,
+                    options = if (reportOptions.xAxis.datePeriod != null) {
+                        // X-axis is date - only show non-date options
+                        ReportXAxis.entries.filter { it.datePeriod == null }
+                    } else {
+                        // X-axis is non-date - show date options plus other non-date options
+                        ReportXAxis.entries.filter {
+                            it.datePeriod != null || (it != reportOptions.xAxis)
                         }
+                    },
+                    onOptionSelected = { selectedXAxis ->
+                        val updatedSeries =
+                            seriesItem.copy(reportSeriesSubGroup = selectedXAxis)
+                        onSeriesChanged(seriesIndex, updatedSeries)
+                    },
+                    label = { Text(stringResource(Res.string.subgroup_by)) },
+                    itemText = { stringResource(it.label) },
+                )
+
+                // Chart Type Dropdown
+                OpenEelExposedDropDownMenuField(
+                    value = seriesItem.reportSeriesVisualType,
+                    options = ReportSeriesVisualType.entries,
+                    onOptionSelected = { selectedVisualType ->
+                        val updatedSeries =
+                            seriesItem.copy(reportSeriesVisualType = selectedVisualType)
+                        onSeriesChanged(seriesIndex, updatedSeries)
+                    },
+                    label = { Text(stringResource(Res.string.chart_type) + "*") },
+                    itemText = { stringResource(it.label) },
+                )
+
+                if (!seriesItem.reportSeriesFilters.isNullOrEmpty()) {
+                    Text(stringResource(Res.string.filters))
+                }
+
+                seriesItem.reportSeriesFilters?.forEachIndexed { filterIndex, value ->
+                    Row(
+                        modifier = Modifier
+                            .clickable {
+                                onEditFilter(seriesIndex, filterIndex, value)
+                            }
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text("${value.reportFilterField?.let { stringResource(it.label) }} ${value.reportFilterCondition?.symbol} ${value.reportFilterValue}")
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = stringResource(Res.string.remove),
+                            modifier = Modifier
+                                .clickable {
+                                    onRemoveFilter(seriesIndex, filterIndex)
+                                }
+                        )
                     }
                 }
             }
-            item {
-                OutlinedButton(
-                    onClick = {
-                        //onAddFilter(seriesItem.reportSeriesUid)
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = stringResource(Res.string.add_filter),
-                    )
-                }
-            }
-        }
 
-        item {
-            OutlinedButton(onClick = { onAddSeries() }, modifier = Modifier.fillMaxWidth()) {
+            OutlinedButton(
+                onClick = {
+                    onAddFilter(seriesIndex)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
-                    text = stringResource(Res.string.add_series),
+                    text = stringResource(Res.string.add_filter),
                 )
             }
+        }
+
+        OutlinedButton(onClick = { onAddSeries() }, modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = stringResource(Res.string.add_series),
+            )
         }
     }
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun <T> ExposedDropdownMenu(
-    modifier: Modifier = Modifier,
-    options: List<T>,
-    selectedValue: T?,
-    disabledOptions: List<T> = emptyList(),
-    isError: Boolean = false,
-    label: @Composable (() -> Unit)? = null,
-    supportingText: @Composable (() -> Unit)? = null,
-    onOptionSelected: (T) -> Unit,
-    additionalMenuItems: @Composable (() -> Unit)? = null
-
-) {
-    var isExpanded by remember { mutableStateOf(false) }
-
-    ExposedDropdownMenuBox(
-        expanded = isExpanded,
-        onExpandedChange = { isExpanded = !isExpanded },
-        modifier = modifier.fillMaxWidth()
-    ) {
-        OutlinedTextField(
-            value = selectedValue?.let {
-                when (it) {
-                    is ReportTimeRangeUnit -> stringResource(it.label)
-                    is ReportPeriodOption -> stringResource(it.label)
-                    is ReportXAxis -> stringResource(it.label)
-                    is ReportSeriesVisualType -> stringResource(it.label)
-                    is FilterType -> stringResource(it.label)
-                    is Comparisons -> stringResource(it.label)
-                    is Indicator -> (it.name)
-                    else -> it.toString()
-                }
-            } ?: "",
-            onValueChange = {},
-            readOnly = true,
-            modifier = modifier
-                .fillMaxWidth()
-                .menuAnchor(),
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
-            },
-            supportingText = supportingText,
-            isError = isError,
-            label = label,
-        )
-        ExposedDropdownMenu(
-            expanded = isExpanded,
-            onDismissRequest = { isExpanded = false },
-            modifier = Modifier
-        ) {
-            options.forEach { option ->
-                val isDisabled = option in disabledOptions
-                DropdownMenuItem(
-                    onClick = {
-                        if (!isDisabled) {
-                            onOptionSelected(option)
-                            isExpanded = false
-                        }
-                    },
-                    text = {
-                        val text = when (option) {
-                            is ReportTimeRangeUnit -> stringResource(option.label)
-                            is ReportPeriodOption -> stringResource(option.label)
-                            is ReportXAxis -> stringResource(option.label)
-                            is ReportSeriesVisualType -> stringResource(option.label)
-                            is FilterType -> stringResource(option.label)
-                            is Comparisons -> stringResource(option.label)
-                            is Indicator -> (option.name)
-                            else -> option.toString()
-                        }
-                        Text(
-                            text,
-                            color = if (isDisabled) MaterialTheme.colorScheme.onPrimary else LocalContentColor.current
-                        )
-                    },
-                    enabled = !isDisabled
-                )
-            }
-            additionalMenuItems?.invoke()
-        }
-    }
-}
-
-fun handleTimeRangeSelection(
-    selectedOption: ReportPeriodOption,
-    currentOptions: ReportOptions,
-    onReportChanged: (ReportOptions) -> Unit
-) {
-    val newOptions = currentOptions.copy(
-        period = selectedOption.period
-    )
-
-    onReportChanged(newOptions)
-}
 
 @Composable
 fun CustomPeriodInputs(
@@ -495,18 +345,17 @@ fun CustomPeriodInputs(
             supportingText = { quantityError?.let { Text(it) } },
         )
 
-
-        ExposedDropdownMenu(
+        OpenEelExposedDropDownMenuField(
+            value = selectedUnit,
             modifier = Modifier.weight(0.8f),
-            label = { Text(stringResource(Res.string.unit)) },
             options = ReportTimeRangeUnit.entries,
-            selectedValue = selectedUnit,
             onOptionSelected = { unit ->
                 selectedUnit = unit
                 quantity.toIntOrNull()?.let { qty ->
                     onCustomPeriodChanged(qty, unit)
                 }
-            }
+            },
+            itemText = { stringResource(it.label) },
         )
     }
 }
@@ -517,46 +366,28 @@ fun CustomDateRangeInputs(
     onDateRangeChanged: (Long, Long) -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        DatePickerButton(
-            label = stringResource(Res.string.from),
-            timestamp = currentRange.fromDateMillis,
-            onDateSelected = { newFrom ->
+        OpenEelDateField(
+            modifier = Modifier.weight(1f),
+            value = currentRange.fromDateMillis,
+            label = { Text(stringResource(Res.string.from)) },
+            timeZoneId = TimeZone.currentSystemDefault().id,
+            onValueChange = { newFrom ->
                 onDateRangeChanged(newFrom, currentRange.toDateMillis)
             },
-            modifier = Modifier.weight(1f)
+            supportingText = {}
         )
 
-        DatePickerButton(
-            label = stringResource(Res.string.to_),
-            timestamp = currentRange.toDateMillis,
-            onDateSelected = { newTo ->
-                onDateRangeChanged(currentRange.fromDateMillis, newTo)
-            },
-            modifier = Modifier.weight(1f)
-        )
-    }
-}
-
-@Composable
-fun DatePickerButton(
-    label: String,
-    timestamp: Long,
-    onDateSelected: (Long) -> Unit,
-    modifier: Modifier
-) {
-    Column(modifier = modifier) {
         OpenEelDateField(
-            modifier = Modifier.fillMaxWidth(),
-            value = timestamp,
-            label = { Text(label) },
+            modifier = Modifier.weight(1f),
+            value = currentRange.toDateMillis,
+            label = { Text(stringResource(Res.string.to_)) },
             timeZoneId = TimeZone.currentSystemDefault().id,
-            onValueChange = {
-                onDateSelected(it)
+            onValueChange = { newTo ->
+                onDateRangeChanged(currentRange.fromDateMillis, newTo)
             },
             supportingText = {}
         )

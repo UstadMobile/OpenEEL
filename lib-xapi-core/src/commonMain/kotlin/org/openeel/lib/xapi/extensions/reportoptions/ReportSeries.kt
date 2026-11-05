@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ReportSeries(
     val reportSeriesTitle: String = "Series 1",
-    val reportSeriesYAxis: Indicator = DefaultIndicators.list.first(),
+    val reportSeriesYAxis: DefaultIndicator = DefaultIndicator.NUMBER_OF_UNIQUE_USERS,
     val reportSeriesVisualType: ReportSeriesVisualType = ReportSeriesVisualType.BAR_CHART,
     val reportSeriesSubGroup: ReportXAxis? = ReportXAxis.DAY,
     val reportSeriesFilters: List<ReportFilter>? = null

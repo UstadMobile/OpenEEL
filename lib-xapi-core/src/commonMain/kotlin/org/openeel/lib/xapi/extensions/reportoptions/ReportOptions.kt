@@ -3,8 +3,7 @@ package org.openeel.lib.xapi.extensions.reportoptions
 import kotlinx.serialization.Serializable
 
 /**
- * Represents options selected by the user to generate a report. This is serialized into JSON
- * which is saved as to a string field on the Report entity.
+ * Represents options selected by the user to generate a report.
  */
 @Serializable
 data class ReportOptions(

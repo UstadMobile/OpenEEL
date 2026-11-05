@@ -57,18 +57,12 @@ class ReportFilterEditViewModel(
     }
 
     fun onEntityChanged(value: ReportFilter?) {
-        /*
-        val updatedFilter = value?.copy(
-            reportFilterSeriesUid = _uiState.value.filters?.reportFilterSeriesUid ?: 0
-        )
-
         _uiState.update { currentState ->
             currentState.copy(
-                filters = updatedFilter,
-                filterConditionOptions = getConditionOptionsForField(updatedFilter?.reportFilterField)
+                filters = value,
+                filterConditionOptions = getConditionOptionsForField(value?.reportFilterField)
             )
         }
-         */
     }
 
     fun onClickSave() {

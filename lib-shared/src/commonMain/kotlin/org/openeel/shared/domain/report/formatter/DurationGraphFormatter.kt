@@ -2,7 +2,7 @@ package org.openeel.shared.domain.report.formatter
 
 import org.openeel.datalayer.ext.MS_PER_HOUR
 import org.openeel.datalayer.ext.MS_PER_MIN
-import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.shared.resources.StringUiText
 import org.openeel.shared.resources.UiText
 import kotlin.math.roundToInt
