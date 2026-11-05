@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 19,
-    "identityHash": "5425c72769242dab6012256268e746c0",
+    "identityHash": "3e2b0e45dd344a1df558b12a2a56488f",
     "entities": [
       {
         "tableName": "PersonEntity",
@@ -2755,89 +2755,11 @@
             "xrqItemId"
           ]
         }
-      },
-      {
-        "tableName": "ReportQueryResultEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rqrUid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `rqrReportUid` TEXT NOT NULL, `rqrLastModified` INTEGER NOT NULL, `rqrLastValidated` INTEGER NOT NULL, `rqrReportSeriesUid` INTEGER NOT NULL, `rqrXAxis` TEXT NOT NULL, `rqrYAxis` REAL NOT NULL, `rqrSubgroup` TEXT NOT NULL, `rqrTimeZone` TEXT NOT NULL)",
-        "fields": [
-          {
-            "fieldPath": "rqrUid",
-            "columnName": "rqrUid",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rqrReportUid",
-            "columnName": "rqrReportUid",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rqrLastModified",
-            "columnName": "rqrLastModified",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rqrLastValidated",
-            "columnName": "rqrLastValidated",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rqrReportSeriesUid",
-            "columnName": "rqrReportSeriesUid",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rqrXAxis",
-            "columnName": "rqrXAxis",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rqrYAxis",
-            "columnName": "rqrYAxis",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rqrSubgroup",
-            "columnName": "rqrSubgroup",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rqrTimeZone",
-            "columnName": "rqrTimeZone",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "rqrUid"
-          ]
-        },
-        "indices": [
-          {
-            "name": "idx_reportqueryresult_rqrreportuid_rqrtimezone",
-            "unique": false,
-            "columnNames": [
-              "rqrReportUid",
-              "rqrTimeZone"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `idx_reportqueryresult_rqrreportuid_rqrtimezone` ON `${TABLE_NAME}` (`rqrReportUid`, `rqrTimeZone`)"
-          }
-        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5425c72769242dab6012256268e746c0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3e2b0e45dd344a1df558b12a2a56488f')"
     ]
   }
 }
