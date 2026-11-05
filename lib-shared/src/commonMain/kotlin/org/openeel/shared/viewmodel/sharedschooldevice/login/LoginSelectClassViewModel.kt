@@ -13,6 +13,7 @@ import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.ClassDataSource
+import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.model.Clazz
 import org.openeel.datalayer.school.model.SHARED_DEVICE_SETTINGS_ACTIVITY_ID
 import org.openeel.datalayer.school.model.SHARED_DEVICE_SETTINGS_PROFILE_ID
@@ -20,13 +21,12 @@ import org.openeel.datalayer.school.model.SharedDeviceSettings
 import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
-import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
-import org.openeel.lib.dataloadstate.DataReadyState
-import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.xapi.ext.getJson
+import org.openeel.lib.xapi.ext.getJsonAsFlow
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
@@ -44,9 +44,12 @@ import org.openeel.shared.viewmodel.OpenEelViewModel
 data class LoginSelectClassUiState(
     val error: UiText? = null,
     val classes: IPagingSourceFactory<Int, Clazz> = EmptyPagingSourceFactory(),
-    val isSelfSelectClassAndName: Boolean = true,
+    val settings: DataLoadState<SharedDeviceSettings> = DataLoadingState(),
     val deviceName: String = ""
-)
+) {
+    val isSelfSelectClassAndName: Boolean
+        get() = settings.dataOrNull()?.canSelectName ?: false
+}
 
 class LoginSelectClassViewModel(
     savedStateHandle: SavedStateHandle,
@@ -59,9 +62,6 @@ class LoginSelectClassViewModel(
 
     private val schoolDataSource: SchoolDataSource by inject()
 
-    private val _uiState = MutableStateFlow(LoginSelectClassUiState())
-    val uiState = _uiState.asStateFlow()
-
     val schoolUrl = accountManager.activeAccount?.school?.self
         ?: throw IllegalStateException("No active school")
     private val pagingSourceHolder = PagingSourceFactoryHolder {
@@ -71,53 +71,59 @@ class LoginSelectClassViewModel(
         )
     }
 
+    private val _uiState = MutableStateFlow(
+        LoginSelectClassUiState(classes = pagingSourceHolder)
+    )
+
+    val uiState = _uiState.asStateFlow()
+
     init {
+        _appUiState.update {
+            it.copy(
+                hideBottomNavigation = true,
+                userAccountIconVisible = false,
+                showBackButton = false
+            )
+        }
+
         viewModelScope.launch {
-            val settings = when (val result = schoolDataSource.xapiResource.activityProfile.getJson(
+            schoolDataSource.xapiResource.activityProfile.getJsonAsFlow(
                 docParams = XapiActivityProfileResource.SingleDocumentParams(
                     activityId = SHARED_DEVICE_SETTINGS_ACTIVITY_ID,
                     profileId = SHARED_DEVICE_SETTINGS_PROFILE_ID,
                 ),
                 json = json,
-                deserializer = SharedDeviceSettings.serializer(),
-            )) {
-                is DataReadyState -> result.data
-                is NoDataLoadedState -> when (result.reason) {
-                    NoDataLoadedState.Reason.NOT_FOUND -> SharedDeviceSettings()
-                    NoDataLoadedState.Reason.NOT_MODIFIED ->
-                        throw IllegalStateException("Shared device settings are not available")
+                deserializer = SharedDeviceSettings.serializer()
+            ).collect { settingsData ->
+                _uiState.update {
+                    it.copy(settings = settingsData)
                 }
 
-                is DataErrorResult -> throw result.error
-                is DataLoadingState -> result.partialData
-                    ?: throw IllegalStateException("Shared device settings are still loading")
-            }
-            val selfEnableValue = settings.canSelectName
-            _uiState.update {
-                it.copy(isSelfSelectClassAndName = selfEnableValue)
-            }
-            _appUiState.update {
-                it.copy(
-                    title = if (_uiState.value.isSelfSelectClassAndName) Res.string.select_class.asUiText() else Res.string.login.asUiText(),
-                    hideBottomNavigation = true,
-                    userAccountIconVisible = false,
-                    showBackButton = false
-                )
+                _appUiState.update {
+                    it.copy(
+                        title = if (settingsData.dataOrNull()?.canSelectName == true)
+                            Res.string.select_class.asUiText()
+                        else
+                            Res.string.login.asUiText(),
+                    )
+                }
             }
         }
-        viewModelScope.launch {
-            val device = schoolDataSource.personDataSource.findByGuid(
-                DataLoadParams(),
-                guid = settings.getStringOrNull(
-                    EnableSharedDeviceModeUseCase.CURRENT_DEVICE_GUID
-                ) ?: throw IllegalStateException("No device id set")
-            )
 
-            _uiState.update { prev ->
-                prev.copy(
-                    classes = pagingSourceHolder,
-                    deviceName = device.dataOrNull()?.givenName ?: ""
+        viewModelScope.launch {
+            schoolDataSource.personDataSource.listAsFlow(
+                loadParams = DataLoadParams(),
+                params = PersonDataSource.GetListParams(
+                    common = GetListCommonParams(
+                        guid = settings.getString(
+                            key = EnableSharedDeviceModeUseCase.CURRENT_DEVICE_GUID, "0"
+                        )
+                    )
                 )
+            ).collect { deviceData ->
+                _uiState.update {
+                    it.copy(deviceName = deviceData.dataOrNull()?.firstOrNull()?.givenName ?: "")
+                }
             }
         }
     }

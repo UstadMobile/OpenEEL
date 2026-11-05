@@ -1,6 +1,7 @@
 package org.openeel.shared.domain.account.invite
 
 import com.russhwolf.settings.Settings
+import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeout
@@ -13,10 +14,11 @@ import kotlin.time.Duration.Companion.seconds
 class EnableSharedDeviceModeUseCase(
     private val accountManager: AppAccountManager,
     private val settings: Settings,
+    private val schoolUrl: Url,
 ) {
+
     suspend operator fun invoke(
         redeemInviteRequest: RedeemInviteRequest,
-        schoolUrl: Url,
         useActiveUserAuth: Boolean = false
     ): Person {
         try {
@@ -25,16 +27,14 @@ class EnableSharedDeviceModeUseCase(
                 schoolUrl = schoolUrl,
                 useActiveUserAuth = useActiveUserAuth
             )
+            settings.putString(CURRENT_DEVICE_GUID, personRegistered.guid)
 
             val deviceAccount = accountManager.activeAccount
                 ?: throw IllegalStateException("Device account was not set as active")
 
             val currentAccounts = accountManager.accounts.value
-            currentAccounts.forEach { account ->
-                if (!account.isSameAccount(deviceAccount)) {
-                    accountManager.removeAccount(account)
-                }
-            }
+            currentAccounts.filterNot { it.isSameAccount(deviceAccount) }
+                .forEach { accountManager.removeAccount(it) }
 
             withTimeout(ENABLE_TIMEOUT.seconds) {
                 accountManager.selectedAccountAndPersonFlow.first { selected ->
@@ -44,12 +44,13 @@ class EnableSharedDeviceModeUseCase(
                 }
             }
 
-            settings.putString(CURRENT_DEVICE_GUID, personRegistered.guid)
-
             return personRegistered
-
         } catch (e: Exception) {
-            e.printStackTrace()
+            Napier.e(
+                tag = "EnableSharedDeviceModeUseCase",
+                message = "EnableSharedDeviceModeUseCase: exception",
+                throwable = e
+            )
             throw e
         }
     }
