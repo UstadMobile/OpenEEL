@@ -7,7 +7,6 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
-import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.shared.domain.account.invite.RedeemInviteUseCase
 
 fun Route.RedeemInviteRoute(
@@ -15,15 +14,12 @@ fun Route.RedeemInviteRoute(
 ) {
 
     post("redeem") {
-     val redeemRequest: RedeemInviteRequest = call.receive()
-
-        val isAuthenticated = call.principal<UserIdPrincipal>() != null
-
-        val response = redeemInviteUseCase(call).invoke(
-            redeemRequest,
-            useActiveUserAuth = isAuthenticated
+        call.respond(
+            redeemInviteUseCase(call).invoke(
+                redeemRequest = call.receive(),
+                useActiveUserAuth = call.principal<UserIdPrincipal>() != null,
+            )
         )
-        call.respond(response)
     }
 
 }
