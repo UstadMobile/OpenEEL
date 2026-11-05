@@ -43,5 +43,8 @@ appId: org.openeel.app
     file: "assign_qr_badge_flow.yaml"
     env:
       QR_BADGE_LINK: ${QR_BADGE_LINK}
-
+- assertVisible:
+    id: "app_title"
+    text: "Manage account"
+- assertVisible: "Username"
 
