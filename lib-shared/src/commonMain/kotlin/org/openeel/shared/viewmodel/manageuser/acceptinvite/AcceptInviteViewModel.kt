@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.datalayer.SchoolDirectoryDataSource
@@ -70,7 +71,6 @@ class AcceptInviteViewModel(
     savedStateHandle: SavedStateHandle,
     private val getDeviceInfoUseCase: GetDeviceInfoUseCase,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
-    private val enableSharedDeviceModeUseCase: EnableSharedDeviceModeUseCase,
     private val settings: Settings,
     private val navigateOnAppStartUseCase: NavigateOnAppStartUseCase,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
@@ -81,6 +81,8 @@ class AcceptInviteViewModel(
         get() = getKoin().getOrCreateScope<SchoolDirectoryEntry>(
             SchoolDirectoryEntryScopeId(route.schoolUrl, null).scopeId
         )
+
+    private val enableSharedDeviceModeUseCase: EnableSharedDeviceModeUseCase by inject()
 
     private val getInviteInfoUseCase: GetInviteInfoUseCase = scope.get()
 
@@ -195,26 +197,23 @@ class AcceptInviteViewModel(
 
         val invite = uiState.value.inviteInfo?.invite ?: return
 
-        val inviteRedeemRequest = RedeemInviteRequest(
-            code = invite.code,
-            accountPersonInfo = PersonInfo(name = _uiState.value.deviceName),
-            account = RedeemInviteRequest.Account(
-                guid = schoolPrimaryKeyGenerator.primaryKeyGenerator.nextId(Person.TABLE_ID)
-                    .toString(),
-                username = _uiState.value.deviceName
-            ),
-            deviceName = _uiState.value.deviceName,
-            deviceInfo = getDeviceInfoUseCase(),
-            invite = invite
-        )
-        val _useActiveUserAuth = route.useActiveUserAuth ?: true
-
         viewModelScope.launch {
             try {
                 val personRegistered = enableSharedDeviceModeUseCase(
-                    redeemInviteRequest = inviteRedeemRequest,
-                    schoolUrl = route.schoolUrl,
-                    useActiveUserAuth = _useActiveUserAuth
+                    redeemInviteRequest = RedeemInviteRequest(
+                        code = invite.code,
+                        accountPersonInfo = PersonInfo(name = _uiState.value.deviceName),
+                        account = RedeemInviteRequest.Account(
+                            guid = schoolPrimaryKeyGenerator.primaryKeyGenerator.nextId(
+                                Person.TABLE_ID
+                            ).toString(),
+                            username = _uiState.value.deviceName
+                        ),
+                        deviceName = _uiState.value.deviceName,
+                        deviceInfo = getDeviceInfoUseCase(),
+                        invite = invite
+                    ),
+                    useActiveUserAuth = route.useActiveUserAuth ?: true
                 )
 
                 _navCommandFlow.tryEmit(

@@ -838,12 +838,6 @@ val appKoinModule = module {
             settings = get(),
         )
     }
-    single<EnableSharedDeviceModeUseCase> {
-        EnableSharedDeviceModeUseCase(
-            accountManager = get(),
-            settings = get(),
-        )
-    }
 
     single<XapiNanoHttpdApp>(createdAtStart = true) {
         XapiNanoHttpdApp(
@@ -1021,6 +1015,14 @@ val appKoinModule = module {
         scoped<NavigateOnAccountCreatedUseCase> {
             NavigateOnAccountCreatedUseCase(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl
+            )
+        }
+
+        scoped<EnableSharedDeviceModeUseCase> {
+            EnableSharedDeviceModeUseCase(
+                accountManager = get(),
+                settings = get(),
+                schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
             )
         }
     }

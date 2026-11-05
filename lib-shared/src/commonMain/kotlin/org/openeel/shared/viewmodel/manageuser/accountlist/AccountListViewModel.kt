@@ -55,6 +55,14 @@ data class AccountListUiState(
     val familyMembersClickEnabled: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
 
+    val visibleAccounts: List<UserSessionAndPerson> by lazy {
+        accounts.filterNot {
+            it.session.isSharedDeviceSessionWithoutProfile(
+                person = it.person
+            )
+        }
+    }
+
 }
 
 class AccountListViewModel(
