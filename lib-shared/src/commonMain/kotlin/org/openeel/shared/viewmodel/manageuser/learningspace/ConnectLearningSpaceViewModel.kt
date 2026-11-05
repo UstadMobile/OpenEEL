@@ -1,4 +1,4 @@
-package org.openeel.shared.viewmodel.manageuser.connectlearningspace
+package org.openeel.shared.viewmodel.manageuser.learningspace
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope

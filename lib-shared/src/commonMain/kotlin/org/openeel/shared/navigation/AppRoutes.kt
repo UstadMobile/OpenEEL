@@ -325,6 +325,9 @@ data class NewGetStartedScreen(
 object ConnectLearningSpace : OpenEelAppRoute
 
 @Serializable
+object CreateLearningSpace : OpenEelAppRoute
+
+@Serializable
 object HowPasskeyWorks : OpenEelAppRoute
 
 @Serializable

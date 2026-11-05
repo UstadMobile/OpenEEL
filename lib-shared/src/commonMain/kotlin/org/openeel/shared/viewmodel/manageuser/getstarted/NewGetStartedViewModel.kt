@@ -8,6 +8,7 @@ import org.openeel.shared.domain.navigation.onappstart.NavigateOnAppStartUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.lets_get_started
 import org.openeel.shared.navigation.ConnectLearningSpace
+import org.openeel.shared.navigation.CreateLearningSpace
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.ext.asUiText
 
@@ -26,8 +27,13 @@ class NewGetStartedViewModel(
             )
         }
     }
-    fun onClickConnectExistingLearningSpace() {
+    fun onClickConnectLearningSpace() {
         _navCommandFlow.tryEmit(NavCommand.Navigate(ConnectLearningSpace))
+
+    }
+
+    fun onClickCreateLearningSpace(){
+        _navCommandFlow.tryEmit(NavCommand.Navigate(CreateLearningSpace))
 
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,14 +39,16 @@ fun NewGetStartedScreen(
     viewModel: NewGetStartedViewModel
 ) {
     NewGetStartedScreen(
-        onClickConnectExistingLearningSpace = viewModel::onClickConnectExistingLearningSpace,
+        onClickConnectLearningSpace = viewModel::onClickConnectLearningSpace,
+        onClickCreateLearningSpace = viewModel::onClickCreateLearningSpace,
     )
 }
 
 
 @Composable
 fun NewGetStartedScreen(
-    onClickConnectExistingLearningSpace: () -> Unit,
+    onClickConnectLearningSpace: () -> Unit,
+    onClickCreateLearningSpace: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -58,12 +61,13 @@ fun NewGetStartedScreen(
             headline = stringResource(Res.string.connect_existing_learning_space),
             subtitle = stringResource(Res.string.connect_existing_learning_space_description),
             image = AppRes.drawable.connect_space,
-            modifier = Modifier.clickable(onClick = onClickConnectExistingLearningSpace),
+            modifier = Modifier.clickable(onClick = onClickConnectLearningSpace),
         )
         LearningSpaceCard(
             headline = stringResource(Res.string.create_new_learning_space),
             subtitle = stringResource(Res.string.create_new_learning_space_description),
             image = AppRes.drawable.create_space,
+            modifier = Modifier.clickable(onClick = onClickCreateLearningSpace)
         )
     }
 }
@@ -77,6 +81,9 @@ private fun LearningSpaceCard(
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
     ) {
         Row(
             modifier = Modifier.padding(16.dp),

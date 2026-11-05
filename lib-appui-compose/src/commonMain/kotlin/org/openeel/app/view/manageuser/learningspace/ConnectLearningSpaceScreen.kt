@@ -1,4 +1,4 @@
-package org.openeel.app.view.manageuser.connectlearningspace
+package org.openeel.app.view.manageuser.learningspace
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +27,8 @@ import org.openeel.shared.generated.resources.manage_school_directories
 import org.openeel.shared.generated.resources.next
 import org.openeel.shared.generated.resources.paste_link_here
 import org.openeel.shared.generated.resources.scan_qr_code_badge
-import org.openeel.shared.viewmodel.manageuser.connectlearningspace.ConnectLearningSpaceUiState
-import org.openeel.shared.viewmodel.manageuser.connectlearningspace.ConnectLearningSpaceViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectLearningSpaceUiState
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectLearningSpaceViewModel
 
 @Composable
 fun ConnectLearningSpaceScreen(
