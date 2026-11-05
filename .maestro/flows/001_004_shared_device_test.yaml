@@ -31,7 +31,6 @@ onFlowComplete:
 - runFlow:
     file: "subflows/add_person_to_a_class.yaml"
     env:
-
       ADD_USER: "Add Student"
       FIRSTNAME: "StudentA"
       LASTNAME:  "User"
@@ -320,29 +319,18 @@ onFlowComplete:
     text: "Login"
 - assertNotVisible: "New Class"
 - assertVisible: "Teacher/admin login"
-
-# Retry logic added since noted a flaky error in the flow - invalid QR code scanned, when user scans the QR code.
-- retry:
-    maxRetries: 3
-    commands:
-      - runFlow:
-          when:
-            visible: "Invalid QR code scanned"
-          commands:
-            - back
-      - tapOn: "Scan QR code badge"
-      - assertVisible:
-          id: "app_title"
-          text: "Scan QR code badge"
-      - tapOn: "More Options"
-      - tapOn: "Paste URL"
-      - tapOn: "Url"
-      - inputText: ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312
-      - tapOn: "OK"
-      - assertVisible:
-          id: "app_title"
-          text: "Assignments"
-
+- tapOn: "Scan QR code badge"
+- assertVisible:
+      id: "app_title"
+      text: "Scan QR code badge"
+- tapOn: "More Options"
+- tapOn: "Paste URL"
+- tapOn: "Url"
+- inputText: ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312
+- tapOn: "OK"
+- assertVisible:
+      id: "app_title"
+      text: "Assignments"
 - assertVisible: "Assignments"
 - assertVisible: "Home"
 - assertNotVisible: "Class"
