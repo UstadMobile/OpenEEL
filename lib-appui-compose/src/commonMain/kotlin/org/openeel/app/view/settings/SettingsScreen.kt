@@ -1,18 +1,13 @@
 package org.openeel.app.view.settings
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,9 +15,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.shared.generated.resources.Res
-import org.openeel.shared.generated.resources.loading
-import org.openeel.shared.generated.resources.policies_shared_devices
 import org.openeel.shared.generated.resources.mappings
+import org.openeel.shared.generated.resources.policies_shared_devices
 import org.openeel.shared.generated.resources.school
 import org.openeel.shared.viewmodel.settings.SettingsViewModel
 
@@ -37,64 +31,31 @@ fun SettingsScreen(
             .padding(vertical = 8.dp),
     ) {
         item {
-            SettingsListItem(
-                icon = Icons.Filled.Map,
-                title = stringResource(Res.string.mappings),
-                onClick = onNavigateToMapping,
-                testTag = "mapping_setting_item"
+            ListItem(
+                modifier = Modifier.clickable {
+                    onNavigateToMapping()
+                }.testTag("mapping_setting_item"),
+                headlineContent = { Text(stringResource(Res.string.mappings)) },
+                leadingContent = {
+                    Icon(Icons.Filled.Map, contentDescription = null)
+                }
             )
         }
         item {
-            SettingsListItem(
-                icon = Icons.Filled.School,
-                title = stringResource(Res.string.school),
-                onClick = onClickSchool,
-                testTag = "shared_devices_item",
-                description = stringResource(Res.string.policies_shared_devices),
+            ListItem(
+                modifier = Modifier.clickable {
+                    onClickSchool()
+                }.testTag("shared_devices_item"),
+                headlineContent = { Text(stringResource(Res.string.school)) },
+                supportingContent = {
+                    Text(stringResource(Res.string.policies_shared_devices))
+                },
+                leadingContent = {
+                    Icon(Icons.Filled.Map, contentDescription = null)
+                }
             )
         }
     }
-}
-
-@Composable
-private fun SettingsListItem(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    title: String,
-    onClick: () -> Unit,
-    testTag: String,
-    description: String? = null
-) {
-    ListItem(
-        headlineContent = {
-            Column {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                description?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
-            }
-        },
-        leadingContent = {
-            Icon(
-                imageVector = icon,
-                contentDescription = stringResource(Res.string.loading),
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        },
-        modifier = Modifier
-            .testTag(testTag)
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        tonalElevation = 0.dp
-    )
 }
 
 @Composable
