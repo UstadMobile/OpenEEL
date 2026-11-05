@@ -11,6 +11,3 @@ appId: org.openeel.app
 - inputText: ${QR_BADGE_LINK}
 - hideKeyboard
 - tapOn: "OK"
-- assertVisible: "Manage account"
-- assertVisible:
-      id: "qr_change_btn"

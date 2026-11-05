@@ -39,6 +39,9 @@ onFlowComplete:
       USERNAME: "studentauser"
       PASSWORD: "test123"
       QR_BADGE_LINK: ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312
+- assertVisible: "Manage account"
+- assertVisible:
+    id: "qr_change_btn"
 - back
 - runFlow:
     file: "subflows/add_person_to_a_class.yaml"

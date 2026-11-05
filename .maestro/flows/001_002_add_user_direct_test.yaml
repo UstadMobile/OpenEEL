@@ -275,6 +275,10 @@ onFlowComplete:
     file: "subflows/assign_qr_badge_flow.yaml"
     env:
       QR_BADGE_LINK: ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312    #Validation to ensure that one QR badge is assigned to one, and only one, student.
+- assertVisible:
+    id: "app_title"
+    text: "Manage account"
+- assertVisible: "Assign QR code badge"
 - assertVisible: "This QR code is already assigned to another student"
 - runFlow:
     file: "subflows/assign_qr_badge_flow.yaml"
