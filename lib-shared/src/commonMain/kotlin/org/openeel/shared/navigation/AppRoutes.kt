@@ -25,6 +25,9 @@ import kotlin.uuid.Uuid
 @Serializable
 sealed interface OpenEelAppRoute
 
+/** Optional Boolean route argument requesting AppBar search focus on entry. */
+const val ARG_FOCUS_SEARCH = "focusSearch"
+
 @Serializable
 data class Acknowledgement(
     val schoolUrlStr: String? = null,
@@ -307,6 +310,12 @@ class IndictorEdit(val indicatorId: String?) : OpenEelAppRoute
 
 @Serializable
 object OpenEelAppList : OpenEelAppRoute
+
+@Serializable
+data class OpdsSearch(
+    @SerialName(ARG_FOCUS_SEARCH)
+    val focusSearch: Boolean = true,
+) : OpenEelAppRoute
 
 @Serializable
 object EnterLink : OpenEelAppRoute
