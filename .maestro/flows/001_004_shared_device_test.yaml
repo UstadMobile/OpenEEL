@@ -320,34 +320,29 @@ onFlowComplete:
     text: "Login"
 - assertNotVisible: "New Class"
 - assertVisible: "Teacher/admin login"
-- tapOn: "Scan QR code badge"
-- assertVisible:
-    id: "app_title"
-    text: "Scan QR code badge"
-- tapOn: "More Options"
-- tapOn: "Paste URL"
-- tapOn: "Url"
-- inputText:  ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312
-- tapOn: "OK"
 
-# DISABLED temporarily 21/Jan/2026 by Mike - how this is handled is being changed
-# This part validate - When a device is in shared school device mode, if the user clicks scan a QR code badge button, then ONLY a QR code badge (student login badge) will be accepted.
-#- inputText: ${maestro.copiedText}
-#- tapOn: "OK"
-#- assertVisible: "Invalid QR code scanned"
-#- tapOn: "Try again"
-#- assertVisible:
-#    id: "app_title"
-#    text: "Scan QR code badge"
-#- tapOn: "More Options"
-#- tapOn: "Paste URL"
-#- tapOn: "Url"
-#- inputText:  ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312
-#- tapOn: "Ok"
+# Retry logic added since noted a flaky error in the flow - invalid QR code scanned, when user scans the QR code.
+- retry:
+    maxRetries: 3
+    commands:
+      - runFlow:
+          when:
+            visible: "Invalid QR code scanned"
+          commands:
+            - back
+      - tapOn: "Scan QR code badge"
+      - assertVisible:
+          id: "app_title"
+          text: "Scan QR code badge"
+      - tapOn: "More Options"
+      - tapOn: "Paste URL"
+      - tapOn: "Url"
+      - inputText: ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312
+      - tapOn: "OK"
+      - assertVisible:
+          id: "app_title"
+          text: "Assignments"
 
-- assertVisible:
-    id: "app_title"
-    text: "Assignments"
 - assertVisible: "Assignments"
 - assertVisible: "Home"
 - assertNotVisible: "Class"
