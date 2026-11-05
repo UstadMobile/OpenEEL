@@ -8,12 +8,12 @@ import io.ktor.server.routing.get
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
-import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.lib.dataloadstate.ktorserver.respondDataLoadState
 
 fun Route.SchoolPermissionGrantRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->
-        call.requireAccountScope().get()
+        call.getUserAccountScope().get()
     },
 ) {
     get(SchoolPermissionGrantDataSource.ENDPOINT_NAME){

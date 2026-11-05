@@ -2,7 +2,8 @@ appId: org.openeel.app
 
 ---
 #  Admin add new class
-- tapOn: "Classes"
+- tapOn:
+       id: "nav_classes"
 - assertVisible:
     id: "app_title"
     text: "Classes"

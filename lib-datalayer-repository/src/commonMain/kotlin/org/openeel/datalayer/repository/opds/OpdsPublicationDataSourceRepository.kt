@@ -51,7 +51,9 @@ class OpdsPublicationDataSourceRepository(
         if(remoteData is DataReadyState)
             local.updateOpdsPublication(remoteData)
 
-        return local.getByUrl(url, params, referrerUrl, expectedPublicationId)
+        return local.getByUrl(
+            url, params, referrerUrl, expectedPublicationId
+        ).combineWithRemote(remoteData)
     }
 
 }

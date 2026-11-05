@@ -17,4 +17,8 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
         dataLoadResult: DataReadyState<OpdsFeed>,
     )
 
+    suspend fun delete(
+        url: Url,
+    )
+
 }

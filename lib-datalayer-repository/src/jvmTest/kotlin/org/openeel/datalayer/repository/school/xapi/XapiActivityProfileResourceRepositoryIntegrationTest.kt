@@ -17,6 +17,7 @@ class XapiActivityProfileResourceRepositoryIntegrationTest: AbstractXapiDocument
 
     override suspend fun withEmbeddedServerAndRepoClients(
         getAuthenticatedXapiAgentsUseCase: GetAuthenticatedXapiAgentsUseCase,
+        numClients: Int,
         block: suspend RepositoryTestContext.() -> Unit
     ) {
         withEmbeddedServerAndRepositoryClients(
@@ -31,6 +32,7 @@ class XapiActivityProfileResourceRepositoryIntegrationTest: AbstractXapiDocument
                     )
                 }
             },
+            numClients = numClients,
             block = block,
         )
     }
@@ -61,4 +63,14 @@ class XapiActivityProfileResourceRepositoryIntegrationTest: AbstractXapiDocument
             authenticatedXapiAgents = { listOf(XapiStateTestParams.SINGLE_DOC_PARAMS1.agent) }
         )
     }
+
+    @Test
+    fun givenDocumentDeletedByFirstClient_whenGetCalledOnSecondClient_thenIsNotFound() {
+        givenDocumentDeletedByFirstClient_whenGetCalledOnSecondClient_thenIsNotFound(
+            params = XapiActivityProfileTestParams.SINGLE_DOC_PARAMS1,
+            document = XapiActivityProfileTestParams.DOC,
+            authenticatedXapiAgents = { listOf(XapiStateTestParams.SINGLE_DOC_PARAMS1.agent) }
+        )
+    }
+
 }

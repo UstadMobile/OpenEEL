@@ -20,24 +20,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import sh.calvin.reorderable.ReorderableColumn
+import org.openeel.app.components.OpenEelExpandCollapseListItem
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
+import org.openeel.lib.opds.model.ext.indexIsInNavigationCollection
+import org.openeel.lib.opds.model.util.NavigationItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedGroupItemItemIndex
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_section
+import org.openeel.shared.generated.resources.collection_section_description
 import org.openeel.shared.generated.resources.description
+import org.openeel.shared.generated.resources.links_to_learning_items
 import org.openeel.shared.generated.resources.required
 import org.openeel.shared.generated.resources.sections
 import org.openeel.shared.generated.resources.title
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.groupType
+import org.openeel.shared.viewmodel.catalog.opdsfeededit.MoveItemDestination
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditUiState
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsGroupType
+import sh.calvin.reorderable.ReorderableColumn
 
 /**
  * The width of one IconButton as per
@@ -55,19 +67,19 @@ fun OpdsFeedEditScreen(
         uiState = uiState,
         onTitleChanged = viewModel::onTitleChanged,
         onDescriptionChanged = viewModel::onDescriptionChanged,
-        onGroupTitleChanged = viewModel::onSectionTitleChanged,
+        onGroupTitleChanged = viewModel::onGroupTitleChanged,
         onClickAddGroup = viewModel::onClickAddGroup,
         onDismissAddGroupTypeDialog = viewModel::onDismissAddGroupTypeDialog,
         onClickAddGroupType = viewModel::onClickAddGroupType,
         onClickDeleteGroup = viewModel::onClickDeleteSection,
         onGroupMoved = viewModel::onGroupMoved,
         onClickAddItem = viewModel::onClickAddItem,
-        onClickAddPlaylist = viewModel::onClickAddPlaylist,
+        onClickAddCollection = viewModel::onClickAddCollection,
         onClickDeleteItem = viewModel::onClickDeleteItem,
         onClickMoveItem = viewModel::onClickMoveItem,
-        onClickMoveItemToGroup = viewModel::onClickMoveItemToSection,
+        onClickMoveItemToGroup = viewModel::onClickMoveItemToGroup,
         onDismissMoveDialog = viewModel::onDismissMoveDialog,
-        onGroupItemsReordered = viewModel::onGroupItemsReordered,
+        onItemReorderSettle = viewModel::onItemReorderSettle,
         onDismissAddItemTypeBottomSheet = viewModel::onDismissAddItemTypeBottomSheet,
         onClickAddItemBrowse = viewModel::onClickAddItemBrowse,
         onClickAddItemUseLink = viewModel::onClickAddItemUseLink,
@@ -86,16 +98,19 @@ fun OpdsFeedEditScreen(
     onClickDeleteGroup: (Int) -> Unit = {},
     onGroupMoved: (fromIndex: Int, toIndex: Int) -> Unit = { _, _ -> },
     onClickAddItem: (Int) -> Unit = {},
-    onClickAddPlaylist: (Int) -> Unit = {},
-    onClickDeleteItem: (Int, Int) -> Unit = { _, _ -> },
-    onClickMoveItem: (Int, Int) -> Unit = { _, _ -> },
-    onClickMoveItemToGroup: (Int) -> Unit = {},
+    onClickAddCollection: (Int) -> Unit = {},
+    onClickDeleteItem: (OpdsFeedItemIndex) -> Unit = {},
+    onClickMoveItem: (OpdsFeedItemIndex) -> Unit = { },
+    onClickMoveItemToGroup: (MoveItemDestination) -> Unit = {},
     onDismissMoveDialog: () -> Unit = {},
-    onGroupItemsReordered: (groupIndex: Int, fromIndex: Int, toIndex: Int) -> Unit = { _, _, _ -> },
+    onItemReorderSettle: (from: OpdsFeedItemIndex, toIndex: Int) -> Unit = { _, _ -> },
     onDismissAddItemTypeBottomSheet: () -> Unit = {},
     onClickAddItemBrowse: () -> Unit = {},
     onClickAddItemUseLink: () -> Unit = {},
 ) {
+    var collectionsExpanded by remember { mutableStateOf(true) }
+    var learningItemsExpanded by remember { mutableStateOf(true) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -129,6 +144,63 @@ fun OpdsFeedEditScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        OpenEelExpandCollapseListItem(
+            expanded = collectionsExpanded,
+            onExpandedChanged = { collectionsExpanded = it },
+            headlineContent = {
+                Text(stringResource(Res.string.collection_section_description))
+            },
+        )
+
+        if (collectionsExpanded) {
+            NavigationItemsReorderableColumn(
+                modifier = Modifier.fillMaxWidth(),
+                indentPadding = 0.dp,
+                navItems = uiState.feed?.navigation.orEmpty(),
+                baseUrl = uiState.baseUrl,
+                groupIndex = OpdsFeedItemIndex.NO_GROUP,
+                showMoveItemOption = uiState.canMoveNavigationItemToOtherGroup,
+                onClickAdd = {
+                    onClickAddCollection(OpdsFeedItemIndex.NO_GROUP)
+                },
+                onItemReorderSettle = onItemReorderSettle,
+                onClickDeleteItem = { itemIndex ->
+                    onClickDeleteItem(NavigationItemItemIndex(itemIndex))
+                },
+                onClickMoveItem = { index ->
+                    onClickMoveItem(NavigationItemItemIndex(index))
+                },
+            )
+        }
+
+        OpenEelExpandCollapseListItem(
+            expanded = learningItemsExpanded,
+            onExpandedChanged = { learningItemsExpanded = it },
+            headlineContent = {
+                Text(stringResource(Res.string.links_to_learning_items))
+            },
+        )
+
+        if (learningItemsExpanded) {
+            OpdsFeedEditPublicationsReorderableColumn(
+                indentPadding = 0.dp,
+                pubItems = uiState.feed?.publications.orEmpty(),
+                baseUrl = uiState.baseUrl,
+                groupIndex = OpdsFeedItemIndex.NO_GROUP,
+                onClickAddItem = {
+                    onClickAddItem(OpdsFeedItemIndex.NO_GROUP)
+                },
+                onItemReorderSettle = onItemReorderSettle,
+                showMoveItemOption = uiState.canMovePublicationItemToOtherGroup,
+                onClickDeleteItem = { itemIndex ->
+                    onClickDeleteItem(PublicationItemItemIndex(itemIndex))
+                },
+                onClickMoveItem = { index ->
+                    onClickMoveItem(PublicationItemItemIndex(index))
+                },
+            )
+        }
+
         Text(
             text = stringResource(Res.string.sections),
             style = MaterialTheme.typography.titleMedium,
@@ -161,6 +233,7 @@ fun OpdsFeedEditScreen(
                     OpdsFeedGroupEditItem(
                         groupIndex = groupIndex,
                         group = group,
+                        baseUrl = uiState.baseUrl,
                         showMoveItemOption = if(group.groupType == OpdsGroupType.NAVIGATION) {
                             uiState.canMoveNavigationItemToOtherGroup
                         }else {
@@ -169,16 +242,14 @@ fun OpdsFeedEditScreen(
                         onGroupTitleChanged = { t -> onGroupTitleChanged(groupIndex, t) },
                         onClickDeleteGroup = { onClickDeleteGroup(groupIndex) },
                         onClickAddItem = { onClickAddItem(groupIndex) },
-                        onClickAddPlaylist = { onClickAddPlaylist(groupIndex) },
+                        onClickAddPlaylist = { onClickAddCollection(groupIndex) },
                         onClickDeleteItem = { itemIndex ->
-                            onClickDeleteItem(groupIndex, itemIndex)
+                            onClickDeleteItem(OpdsFeedGroupItemItemIndex(groupIndex, itemIndex))
                         },
-                        onClickMoveItem = { itemIndex -> onClickMoveItem(groupIndex, itemIndex) },
-                        onGroupItemsReordered = { fromIndex, toIndex ->
-                            onGroupItemsReordered(
-                                groupIndex, fromIndex, toIndex
-                            )
+                        onClickMoveItem = { itemIndex ->
+                            onClickMoveItem(OpdsFeedGroupItemItemIndex(groupIndex, itemIndex))
                         },
+                        onItemReorderSettle = onItemReorderSettle,
                     )
                 }
             }
@@ -202,10 +273,14 @@ fun OpdsFeedEditScreen(
         )
     }
 
-    uiState.movingItem?.let { movingItem ->
+    uiState.movingItem?.also { movingItem ->
         OpdsFeedEditMoveToGroupDialog(
-            compatibleSections = movingItem.compatibleSections,
-            allSections = uiState.groups,
+            destinations = uiState.movingItemDestinations.orEmpty(),
+            topLevelDestTitle = if(uiState.feed?.indexIsInNavigationCollection(movingItem) == true) {
+                Res.string.collection_section_description
+            }else {
+                Res.string.links_to_learning_items
+            },
             onClickGroup = onClickMoveItemToGroup,
             onDismiss = onDismissMoveDialog,
         )

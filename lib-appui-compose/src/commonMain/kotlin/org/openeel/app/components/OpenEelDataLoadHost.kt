@@ -2,6 +2,8 @@ package org.openeel.app.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
@@ -12,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.openeel.lib.dataloadstate.DataErrorResult
 import org.openeel.lib.dataloadstate.DataLoadState
-import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.ext.isSettledNotFound
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.not_found
 import org.openeel.shared.util.exception.getUiTextOrGeneric
@@ -34,12 +36,13 @@ fun OpenEelDataLoadHost(
 ) {
     val exception = (dataLoadState as? DataErrorResult<*>)?.error
 
-    if(exception != null || dataLoadState is NoDataLoadedState<*>) {
+    if(exception != null || dataLoadState.isSettledNotFound()) {
         Column(
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            Spacer(Modifier.height(16.dp))
             Icon(
                 imageVector = Icons.Outlined.ErrorOutline,
                 contentDescription = null,

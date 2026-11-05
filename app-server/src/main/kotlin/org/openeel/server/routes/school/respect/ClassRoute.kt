@@ -13,13 +13,13 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.ClassDataSource
 import org.openeel.server.util.ext.offsetLimitPagingLoadParams
-import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.server.util.ext.respondOffsetLimitPaging
 
 @Suppress("FunctionName")
 fun Route.ClassRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->
-        call.requireAccountScope().get()
+        call.getUserAccountScope().get()
     },
 ) {
     get(ClassDataSource.ENDPOINT_NAME) {

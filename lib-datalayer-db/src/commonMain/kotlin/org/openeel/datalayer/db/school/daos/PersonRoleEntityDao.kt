@@ -10,6 +10,19 @@ import org.openeel.datalayer.db.school.entities.PersonRoleEntity
 interface PersonRoleEntityDao {
 
     @Query("""
+        SELECT EXISTS(
+               SELECT 1
+                 FROM PersonRoleEntity
+                WHERE PersonRoleEntity.prPersonGuidHash = :personUidHash
+                  AND PersonRoleEntity.prRoleEnum IN (:roles)
+                  AND PersonRoleEntity.prIsPrimaryRole)
+    """)
+    suspend fun personHasRole(
+        personUidHash: Long,
+        roles: List<Int>,
+    ): Boolean
+
+    @Query("""
         DELETE FROM PersonRoleEntity
          WHERE prPersonGuidHash = :personGuidHash
     """)

@@ -77,7 +77,7 @@ import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.addCommonMigrations
 import org.openeel.datalayer.db.networkvalidation.ExtendedDataSourceValidationHelperImpl
-import org.openeel.datalayer.db.school.GetAuthenticatedPersonUseCase
+import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
 import org.openeel.datalayer.db.school.writequeue.RemoteWriteQueueDbImpl
 import org.openeel.datalayer.db.school.xapi.writequeue.XapiRemoteWriteQueueDbImpl
@@ -160,6 +160,11 @@ import org.openeel.shared.domain.devmode.SetDevModeEnabledUseCase
 import org.openeel.shared.domain.school.LaunchCustomTabUseCaseAndroid
 import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCaseAndroid
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_CLIENT
+import org.openeel.datalayer.db.school.auth.GetXapiAuthorityActorUseCaseDbImpl
+import org.openeel.datalayer.http.ext.schoolDirectoryEntryOrNull
+import org.openeel.datalayer.repository.opds.OpdsFeedActivityProfileMediator
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
+import org.openeel.lib.xapi.auth.GetXapiAuthorityActorUseCase
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCaseAndroid
@@ -244,7 +249,11 @@ import org.openeel.shared.viewmodel.person.copycode.CopyInviteCodeViewModel
 import org.openeel.shared.viewmodel.person.detail.PersonDetailViewModel
 import org.openeel.shared.domain.biometric.BiometricAuthUseCase
 import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
+import org.openeel.shared.domain.catalog.PinOpdsFeedUseCase
+import org.openeel.shared.domain.catalog.checkcanwritefeedusecase.CheckCanWriteFeedUseCase
+import org.openeel.shared.domain.catalog.deleteopdsfeed.DeleteOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
+import org.openeel.shared.domain.catalog.unpinopdsfeedusecase.UnpinOpdsFeedUseCase
 import org.openeel.shared.domain.createclass.CreateClassUseCase
 import org.openeel.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
 import org.openeel.shared.domain.geticonforxapiactivity.GetPublicationForXapiActivityUseCase
@@ -282,6 +291,7 @@ import org.openeel.shared.viewmodel.person.setusernameandpassword.CreateAccountS
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeedlist.OpdsFeedListViewModel
+import org.openeel.shared.viewmodel.catalog.opdsfeedlistpinusinglink.OpdsFeedListPinUsingLinkViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeedshare.OpdsFeedShareViewModel
 import org.openeel.shared.viewmodel.schooldirectory.edit.SchoolDirectoryEditViewModel
 import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryListViewModel
@@ -459,6 +469,7 @@ val appKoinModule = module {
     viewModelOf(::OpdsFeedListViewModel)
     viewModelOf(::OpdsFeedEditViewModel)
     viewModelOf(::OpdsFeedEditAddLinkViewModel)
+    viewModelOf(::OpdsFeedListPinUsingLinkViewModel)
     viewModelOf(::OpdsFeedShareViewModel)
 
     viewModelOf(::StatementListViewModel)
@@ -1026,7 +1037,7 @@ val appKoinModule = module {
 
             RemoteWriteQueueDbImpl(
                 schoolDb = get(),
-                account = AuthenticatedUserPrincipalId(accountScopeId.accountPrincipalId.guid),
+                account = AuthenticatedUserPrincipalId(requireNotNull(accountScopeId.accountPrincipalId).guid),
                 enqueueDrainRemoteWriteQueueUseCase = get(),
             )
         }
@@ -1037,7 +1048,7 @@ val appKoinModule = module {
 
             XapiRemoteWriteQueueDbImpl(
                 schoolDb = get(),
-                account = AuthenticatedUserPrincipalId(accountScopeId.accountPrincipalId.guid),
+                account = AuthenticatedUserPrincipalId(requireNotNull(accountScopeId.accountPrincipalId).guid),
                 enqueueDrainRemoteWriteQueueUseCase = get(),
             )
         }
@@ -1093,7 +1104,7 @@ val appKoinModule = module {
                 schoolDb = get(),
                 uidNumberMapper = get(),
                 authenticatedUser = AuthenticatedUserPrincipalId(
-                    accountScopeId.accountPrincipalId.guid
+                    requireNotNull(accountScopeId.accountPrincipalId).guid
                 ),
                 checkPersonPermissionUseCase = get(),
                 json = get(),
@@ -1148,7 +1159,7 @@ val appKoinModule = module {
             val accountScopeId = UserAccountScopeId.parse(id)
             GetAuthenticatedPersonUseCase(
                 authenticatedUserPrincipalId = AuthenticatedUserPrincipalId(
-                    accountScopeId.accountPrincipalId.guid
+                    requireNotNull(accountScopeId.accountPrincipalId).guid
                 ),
                 schoolDb = get(),
                 uidNumberMapper = get(),
@@ -1161,7 +1172,7 @@ val appKoinModule = module {
             CheckPersonPermissionUseCaseDbImpl(
                 schoolDb = get(),
                 authenticatedUser = AuthenticatedUserPrincipalId(
-                    accountScopeId.accountPrincipalId.guid
+                    requireNotNull(accountScopeId.accountPrincipalId).guid
                 ),
                 uidNumberMapper = get(),
             )
@@ -1179,7 +1190,7 @@ val appKoinModule = module {
             PullSyncTrackerDbImpl(
                 schoolDb = get(),
                 authenticatedUser = AuthenticatedUserPrincipalId(
-                    accountScopeId.accountPrincipalId.guid
+                    requireNotNull(accountScopeId.accountPrincipalId).guid
                 ),
                 uidNumberMapper = get(),
             )
@@ -1197,7 +1208,9 @@ val appKoinModule = module {
             RunPullSyncUseCase(
                 pullSyncTracker = get(),
                 schoolDataSource = get(),
-                authenticatedUser = UserAccountScopeId.parse(id).accountPrincipalId,
+                authenticatedUser = requireNotNull(
+                    UserAccountScopeId.parse(id).accountPrincipalId
+                ),
             )
         }
 
@@ -1235,7 +1248,7 @@ val appKoinModule = module {
             GetXapiLaunchParamsUseCaseAndroid(
                 nanoHttpdApp = get(),
                 schoolUrl = accountScopeId.schoolUrl,
-                authenticatedUser = accountScopeId.accountPrincipalId,
+                authenticatedUser = requireNotNull(requireNotNull(accountScopeId.accountPrincipalId)),
                 accountManager = get(),
                 uidNumberMapper = get(),
                 schoolDb = get(),
@@ -1247,7 +1260,7 @@ val appKoinModule = module {
 
             UpdateClazzStudentXapiGroupUseCase(
                 schoolDataSource = get(),
-                authenticatedUserPrincipalId = accountScopeId.accountPrincipalId,
+                authenticatedUserPrincipalId = requireNotNull(accountScopeId.accountPrincipalId),
                 schoolUrl = accountScopeId.schoolUrl,
             )
         }
@@ -1281,11 +1294,73 @@ val appKoinModule = module {
         scoped<SaveOpdsFeedUseCase> {
             SaveOpdsFeedUseCase(
                 xapiActivityProfileResource = get<SchoolDataSource>().xapiResource.activityProfile,
+                pinOpdsFeedUseCase = get(),
                 opdsFeedDataSourceLocal = get<SchoolDataSourceLocal>().opdsFeedDataSource,
                 json = get(),
             )
         }
+
+        scoped<DeleteOpdsFeedUseCase> {
+            DeleteOpdsFeedUseCase(
+                xapiActivityProfileResource = get<SchoolDataSource>().xapiResource.activityProfile,
+                opdsFeedDataSourceLocal = get<SchoolDataSourceLocal>().opdsFeedDataSource,
+                unpinOpdsFeedUseCase = get(),
+            )
+        }
+
+        scoped<PinOpdsFeedUseCase> {
+            PinOpdsFeedUseCase(
+                statementsResource = get<SchoolDataSource>().xapiResource.statements,
+                getXapiAuthorityActorUseCase = get(),
+            )
+        }
+
+        scoped<UnpinOpdsFeedUseCase> {
+            UnpinOpdsFeedUseCase(
+                xapiResource = get<SchoolDataSource>().xapiResource,
+                getXapiAuthorityActorUseCase = get(),
+            )
+        }
+
+        scoped<GetXapiAuthorityActorUseCase> {
+            GetXapiAuthorityActorUseCaseDbImpl(
+                getAuthenticatedPersonUseCase = get(),
+                schoolUrl = UserAccountScopeId.parse(id).schoolUrl,
+            )
+        }
+
+        scoped<CheckCanWriteFeedUseCase> {
+            val schoolUrl = UserAccountScopeId.parse(id).schoolUrl
+            val schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>()
+                .schoolDirectoryEntryResource
+
+            CheckCanWriteFeedUseCase(
+                getAuthenticatedPersonUseCase = get(),
+                xapiUrl = {
+                    schoolDirectoryEntryResource.schoolDirectoryEntryOrNull(schoolUrl)?.xapi
+                        ?: throw IllegalStateException("SchoolUrl $schoolUrl has no XAPI URL")
+                }
+            )
+        }
+
+        scoped<OpdsFeedDataSource> {
+            val schoolUrl = UserAccountScopeId.parse(id).schoolUrl
+            val schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>()
+                .schoolDirectoryEntryResource
+
+            OpdsFeedActivityProfileMediator(
+                opdsLocal = get<SchoolDataSourceLocal>().opdsFeedDataSource,
+                opdsRepo = get<SchoolDataSource>().opdsFeedDataSource,
+                activityProfileRepo = get<SchoolDataSource>().xapiResource.activityProfile,
+                json = get(),
+                xapiUrl = {
+                    schoolDirectoryEntryResource.schoolDirectoryEntryOrNull(schoolUrl)?.xapi
+                        ?: throw IllegalStateException("SchoolUrl $schoolUrl has no XAPI URL")
+                }
+            )
+        }
     }
+
     single<RunReportUseCase> {
         MockRunReportUseCaseClientImpl()
     }
