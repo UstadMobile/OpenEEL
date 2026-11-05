@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.jetbrains.compose.resources.stringResource
+import org.openeel.app.components.OpenEelDataLoadHost
 import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.openEelPagingItems
@@ -55,93 +56,95 @@ fun LoginSelectClassScreen(
     onClickScanQrCode: () -> Unit,
     onClickTeacherAdminLogin: () -> Unit,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        if (uiState.isSelfSelectClassAndName) {
-            val pager = openEelRememberPager(uiState.classes)
-            val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
-            val listState = rememberLazyListState()
+    OpenEelDataLoadHost(uiState.settings) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (uiState.isSelfSelectClassAndName) {
+                val pager = openEelRememberPager(uiState.classes)
+                val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
+                val listState = rememberLazyListState()
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                state = listState
-            ) {
-                openEelPagingItems(
-                    items = lazyPagingItems,
-                    key = { item, index -> item?.guid ?: index.toString() },
-                    contentType = { ClassDataSource.ENDPOINT_NAME },
-                ) { clazz ->
-                    ListItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                clazz?.also(onClickClazz)
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    state = listState
+                ) {
+                    openEelPagingItems(
+                        items = lazyPagingItems,
+                        key = { item, index -> item?.guid ?: index.toString() },
+                        contentType = { ClassDataSource.ENDPOINT_NAME },
+                    ) { clazz ->
+                        ListItem(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    clazz?.also(onClickClazz)
+                                },
+                            leadingContent = {
+                                OpenEelPersonAvatar(name = clazz?.title ?: "")
                             },
-                        leadingContent = {
-                            OpenEelPersonAvatar(name = clazz?.title ?: "")
-                        },
-                        headlineContent = {
-                            Text(text = clazz?.title ?: "")
-                        }
+                            headlineContent = {
+                                Text(text = clazz?.title ?: "")
+                            }
+                        )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.padding(bottom = 160.dp))
+                    }
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .defaultItemPadding(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Scan button appears bottom when self-select is enabled
+                if (uiState.isSelfSelectClassAndName) {
+                    OutlinedButton(
+                        onClick = onClickScanQrCode,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = stringResource(Res.string.scan_qr_code))
+                    }
+                }
+                OutlinedButton(
+                    onClick = onClickTeacherAdminLogin,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(text = stringResource(Res.string.teacher_admin_login))
+                }
+
+                if (uiState.deviceName.isNotEmpty()) {
+                    Text(
+                        text = uiState.deviceName,
+                        modifier = Modifier.padding(top = 8.dp),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                item {
-                    Spacer(modifier = Modifier.padding(bottom = 160.dp))
-                }
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .defaultItemPadding(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // Scan button appears bottom when self-select is enabled
-            if (uiState.isSelfSelectClassAndName) {
-                OutlinedButton(
-                    onClick = onClickScanQrCode,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = stringResource(Res.string.scan_qr_code))
-                }
-            }
-            OutlinedButton(
-                onClick = onClickTeacherAdminLogin,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(text = stringResource(Res.string.teacher_admin_login))
             }
 
-            if (uiState.deviceName.isNotEmpty()) {
-                Text(
-                    text = uiState.deviceName,
-                    modifier = Modifier.padding(top = 8.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-
-        // Centered scan button (only when self-select is disabled)
-        if (!uiState.isSelfSelectClassAndName) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 120.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Button(
-                    onClick = onClickScanQrCode,
+            // Centered scan button (only when self-select is disabled)
+            if (!uiState.isSelfSelectClassAndName) {
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSurface
-                    ),
+                        .fillMaxSize()
+                        .padding(bottom = 120.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(text = stringResource(Res.string.scan_qr_code))
+                    Button(
+                        onClick = onClickScanQrCode,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                    ) {
+                        Text(text = stringResource(Res.string.scan_qr_code))
+                    }
                 }
             }
         }
