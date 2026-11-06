@@ -25,17 +25,4 @@ class HostListDataSourceRepository(
             remoteFlow = { remote.listAsFlow(it, params) },
             onRemoteUpdated = { local.updateLocal(params.url, it) },
         )
-
-    override suspend fun list(
-        loadParams: DataLoadParams,
-        params: HostListDataSource.GetListParams,
-    ): DataLoadState<List<SchoolDirectory>> {
-        val localData = local.list(loadParams, params)
-        val remoteData = remote.list(loadParams.copyToValidateOnRemote(localData.metaInfo), params)
-        remoteData.takeIfShouldUpdateLocal(localData)?.let {
-            local.updateLocal(params.url, it)
-            return local.list(loadParams, params).combineWithRemote(remoteData)
-        }
-        return localData.combineWithRemote(remoteData)
-    }
 }
