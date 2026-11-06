@@ -399,6 +399,13 @@ onFlowComplete:
     arguments:
       respect_directory: ${output.SCHOOL_URL}
 - tapOn: "Get Started"
+- assertVisible:
+    id: "app_title"
+    text: "Let's get started"
+- tapOn: "Connect to existing learning space"
+- assertVisible:
+    id: "app_title"
+    text: "Connect to existing learning space"
 - tapOn: "Scan QR code/badge"
 - assertVisible:
     id: "app_title"
