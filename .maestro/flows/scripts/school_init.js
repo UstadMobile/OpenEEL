@@ -15,9 +15,6 @@ if(!isSetString(SCHOOL_ADMIN_PASSWORD)) {
     throw "SCHOOL_ADMIN_PASSWORD not set. e.g. maestro test -e SCHOOL_ADMIN_PASSWORD=adminpassword . See README";
 }
 
-if(isSetString(SCHOOL_NAME)) {
-    output.SCHOOL_NAME = SCHOOL_NAME;
-}
 
 /*
  * If TESTCONTROLLER_URL is set, then use test controller to add a new school.
@@ -43,10 +40,6 @@ if(isSetUrl(TESTCONTROLLER_URL)) {
 
     const timeNow = new Date().toISOString();
 
-    if(!isSetString(SCHOOL_NAME)) {
-        output.SCHOOL_NAME = "TestSchool";
-    }
-
     const newSchoolResponse = http.post(serverUrl + "api/directory/school", {
         headers: {
             'Content-Type': 'application/json',
@@ -56,7 +49,6 @@ if(isSetUrl(TESTCONTROLLER_URL)) {
             [
                 {
                     "school": {
-                        "name": output.SCHOOL_NAME,
                         "self": serverUrl,
                         "xapi": (serverUrl + "api/school/xapi"),
                         "oneRoster": (serverUrl + "api/school/oneroster"),
@@ -82,10 +74,6 @@ if(isSetUrl(TESTCONTROLLER_URL)) {
 }
 
 output.SCHOOL_URL_ENCODED = encodeURIComponent(output.SCHOOL_URL);
-
-if(!isSetString(output.SCHOOL_NAME)) {
-    throw "SCHOOL_NAME not set and not using TESTCONTROLLER_URL. e.g. maestro test -e SCHOOL_NAME=TestSchool . See README";
-}
 
 if(isSetString(TEST_APP_URL)) {
     output.TEST_APP_URL = TEST_APP_URL;
