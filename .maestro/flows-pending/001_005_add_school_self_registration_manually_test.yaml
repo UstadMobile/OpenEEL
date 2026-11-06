@@ -1,0 +1,111 @@
+appId: org.openeel.app
+onFlowStart:
+  - clearState: org.openeel.app
+  - runScript:
+      file: "scripts/school_init.js"
+      env:
+        TESTCONTROLLER_URL: ${TESTCONTROLLER_URL}
+        SCHOOL_ADMIN_PASSWORD: ${SCHOOL_ADMIN_PASSWORD}
+        DIR_ADMIN_AUTH_HEADER: ${DIR_ADMIN_AUTH_HEADER}
+        SCHOOL_URL: ${SCHOOL_URL}
+        NO_SCHOOL_CREATION: "true"
+        URL_SUBSTITUTION: ${URL_SUBSTITUTION}
+        NAME: "001_005_add_school_self_registration_manually_test"
+
+onFlowComplete:
+  - runFlow:
+      file: "subflows/teardown.yaml"
+      env:
+        NAME: "db-teacher-validated-results"
+---
+
+- launchApp:
+    arguments:
+      respect_directory: ${output.SCHOOL_URL}
+- tapOn: "Get Started"
+- assertVisible:
+    id: "app_title"
+    text: "Let's get started"
+- assertVisible: "Create a new learning space. You can invite friends and colleagues if you want, or keep it personal for yourself."
+- tapOn: "Create new learning space"
+- assertVisible:
+    id: "app_title"
+    text: "Select where your data will be stored"
+- tapOn: "Enter link manually"
+- assertVisible:
+       id: "app_title"
+       text: "Registration URL"
+- assertVisible: "Use the link provided by the administrator of the server you want to use to create your new leaning space. This will only be available if the administrator has enabled it."
+- tapOn: "Registration url:"
+- inputText: ${output.SCHOOL_URL}
+- tapOn: "Next"
+- runFlow:
+    when:
+      notVisible: "Register New School"
+    file: "subflows/chrome-first-run-check.yaml"
+- assertVisible: "Register New School"
+- tapOn:
+    id: "schoolUrl"
+- inputText: ${output.SCHOOL_URL}
+- tapOn: "Next"
+- assertVisible:
+    id: "app_title"
+    text: "Invitation"
+- assertVisible: "Role"
+- assertVisible: "System administrator"
+- assertVisible: "School server URL"
+- assertVisible: ${output.SCHOOL_URL}
+- tapOn: "Next"
+- assertVisible:
+    id: "app_title"
+    text: "Terms and conditions"
+- tapOn: "Accept"
+- assertVisible:
+    id: "app_title"
+    text: "Your profile"
+- tapOn: "Your name*"
+- inputText: "Admin"
+- tapOn: "Gender*"
+- tapOn: "Female"
+- tapOn: "Your date of birth*"
+- runScript:
+    file: "scripts/setDate.js"
+- inputText: ${output.pastYearDateP}
+- tapOn: "Next"
+- assertVisible:
+    id: "app_title"
+    text: "Create account"
+- extendedWaitUntil:
+    visible: "admin" #username
+    timeout: 10000
+- tapOn: "Next"
+- tapOn: "Password*"
+- inputText: ${SCHOOL_ADMIN_PASSWORD}
+- tapOn: "Sign-up"
+- assertVisible:
+    id: "app_title"
+    text: "Apps"
+- tapOn:
+    id: "user_account_icon"
+- assertVisible: "Profile"
+- assertVisible: "admin"
+- assertVisible: ${output.SCHOOL_URL}
+- tapOn: "Logout"
+- runFlow:
+    file: "subflows/get_started_select_school_by_link.yaml"
+    env:
+      SCHOOL_URL: ${output.SCHOOL_URL}
+- tapOn:
+    id: "username"
+- inputText: "admin"
+- tapOn:
+    id : "password"
+- inputText: ${SCHOOL_ADMIN_PASSWORD}
+- tapOn: "Login"
+- runFlow:
+    when:
+      visible: "Save password for Respect?"
+    file: "subflows/save_password_prompt_cancel.yaml"
+- assertVisible:
+       id: "app_title"
+       text: "Home"
