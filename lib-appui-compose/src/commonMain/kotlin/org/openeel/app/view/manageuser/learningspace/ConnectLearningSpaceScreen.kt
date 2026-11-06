@@ -1,4 +1,4 @@
-package org.openeel.app.view.manageuser.otheroption
+package org.openeel.app.view.manageuser.learningspace
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,29 +26,32 @@ import org.openeel.shared.generated.resources.enter_school_link
 import org.openeel.shared.generated.resources.manage_school_directories
 import org.openeel.shared.generated.resources.next
 import org.openeel.shared.generated.resources.paste_link_here
-import org.openeel.shared.viewmodel.manageuser.otheroption.OtherOptionsUiState
-import org.openeel.shared.viewmodel.manageuser.otheroption.OtherOptionsViewModel
+import org.openeel.shared.generated.resources.scan_qr_code_badge
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectLearningSpaceUiState
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectLearningSpaceViewModel
 
 @Composable
-fun OtherOptionsScreen(
-    viewModel: OtherOptionsViewModel
+fun ConnectLearningSpaceScreen(
+    viewModel: ConnectLearningSpaceViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    OtherOptionsScreen(
+    ConnectLearningSpaceScreen(
         uiState = uiState,
         onLinkChanged = viewModel::onLinkChanged,
         onClickNext = viewModel::onClickNext,
+        onClickScanQRBadge = viewModel::onClickScanQRBadge,
         onClickManageSchoolDirectories = viewModel::onClickManageSchoolDirectories,
     )
 }
 
 @Composable
-fun OtherOptionsScreen(
-    uiState: OtherOptionsUiState,
+fun ConnectLearningSpaceScreen(
+    uiState: ConnectLearningSpaceUiState,
     onLinkChanged: (String) -> Unit,
     onClickNext: () -> Unit,
     onClickManageSchoolDirectories: () -> Unit,
+    onClickScanQRBadge: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -69,7 +72,7 @@ fun OtherOptionsScreen(
                 { Text(uiTextStringResource(it)) }
             }
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         Button(
             onClick = onClickNext,
@@ -78,6 +81,15 @@ fun OtherOptionsScreen(
             Text(
                 text = stringResource(Res.string.next),
             )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedButton(
+            onClick = onClickScanQRBadge,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = stringResource(Res.string.scan_qr_code_badge))
         }
 
         if(uiState.manageDirectoriesVisible) {

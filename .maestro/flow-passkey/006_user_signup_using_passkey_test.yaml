@@ -76,7 +76,7 @@ onFlowComplete:
 - tapOn: "Get Started"
 
 - runFlow:
-    file: "subflows/get_started_select_school_by_name.yaml"
+    file: "subflows/get_started_select_school_by_link.yaml"
     env:
       SCHOOL_NAME: ${SCHOOL_NAME}
 - runFlow:

@@ -44,6 +44,7 @@ import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.openeel.app.BuildConfig
@@ -68,6 +69,12 @@ import org.openeel.credentials.password.SavePasswordUseCaseAndroidImpl
 import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDirectoryDataSource
+import org.openeel.datalayer.host.HostListDataSource
+import org.openeel.datalayer.host.HostConfigSettingsDataSource
+import org.openeel.datalayer.host.DummyHostConfigSettingsDataSource
+import org.openeel.datalayer.db.host.HostListDataSourceDb
+import org.openeel.datalayer.http.host.HostListDataSourceHttpClient
+import org.openeel.datalayer.repository.host.HostListDataSourceRepository
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
@@ -158,6 +165,7 @@ import org.openeel.shared.domain.createlink.CreateInviteLinkUseCase
 import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
 import org.openeel.shared.domain.devmode.SetDevModeEnabledUseCase
 import org.openeel.shared.domain.school.LaunchCustomTabUseCaseAndroid
+import org.openeel.shared.domain.school.LaunchSchoolSelfRegistrationUseCase
 import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCaseAndroid
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_CLIENT
 import org.openeel.datalayer.db.school.auth.GetXapiAuthorityActorUseCaseDbImpl
@@ -238,7 +246,8 @@ import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
 import org.openeel.shared.viewmodel.manageuser.howpasskeywork.HowPasskeyWorksViewModel
 import org.openeel.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeViewModel
 import org.openeel.shared.viewmodel.manageuser.login.LoginViewModel
-import org.openeel.shared.viewmodel.manageuser.otheroption.OtherOptionsViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectLearningSpaceViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.CreateLearningSpaceViewModel
 import org.openeel.shared.viewmodel.manageuser.otheroptionsignup.OtherOptionsSignupViewModel
 import org.openeel.shared.viewmodel.manageuser.profile.SignupViewModel
 import org.openeel.shared.viewmodel.manageuser.signup.CreateAccountViewModel
@@ -312,6 +321,7 @@ import org.openeel.shared.viewmodel.statement.detail.StatementDetailViewModel
 import org.openeel.shared.viewmodel.statement.list.StatementListViewModel
 import org.openeel.shared.domain.xapi.xapinanohttpd.XapiResourceProviderAndroid
 import org.openeel.shared.viewmodel.catalog.bookmark.BookmarkListViewModel
+import org.openeel.shared.viewmodel.manageuser.getstarted.NewGetStartedViewModel
 
 
 const val SHARED_PREF_SETTINGS_NAME = "respect_settings3_"
@@ -432,9 +442,19 @@ val appKoinModule = module {
     viewModelOf(::WaitingForApprovalViewModel)
     viewModelOf(::CreateAccountViewModel)
     viewModelOf(::GetStartedViewModel)
+    viewModelOf(::NewGetStartedViewModel)
     viewModelOf(::PasskeyListViewModel)
     viewModelOf(::HowPasskeyWorksViewModel)
-    viewModelOf(::OtherOptionsViewModel)
+    viewModelOf(::ConnectLearningSpaceViewModel)
+    viewModel {
+        CreateLearningSpaceViewModel(
+            savedStateHandle = get(),
+            hostListDataSource = get(),
+            hostConfigSettingsDataSource = get(),
+            launchSchoolSelfRegistrationUseCase = get(),
+            snackBarDispatcher = get(),
+        )
+    }
     viewModelOf(::OtherOptionsSignupViewModel)
     viewModelOf(::EnterPasswordSignupViewModel)
     viewModelOf(::AccountListViewModel)
@@ -624,6 +644,17 @@ val appKoinModule = module {
             .build()
     }
 
+    single<HostConfigSettingsDataSource> {
+        DummyHostConfigSettingsDataSource(defaultHostListUrl = BuildConfig.DEFAULT_HOST_LIST)
+    }
+
+    single<HostListDataSource> {
+        HostListDataSourceRepository(
+            local = HostListDataSourceDb(database = get(), json = get()),
+            remote = HostListDataSourceHttpClient(httpClient = get(), json = get()),
+        )
+    }
+
     single<SchoolDirectoryDataSource> {
         SchoolDirectoryResourceRepository(
             local = SchoolDirectoryDataSourceDb(
@@ -669,6 +700,12 @@ val appKoinModule = module {
     }
     single<LaunchCustomTabUseCase> {
         LaunchCustomTabUseCaseAndroid(androidContext().applicationContext)
+    }
+    single<LaunchSchoolSelfRegistrationUseCase> {
+        LaunchSchoolSelfRegistrationUseCase(
+            launchCustomTabUseCase = get(),
+            getAppVersionInfoUseCase = get(),
+        )
     }
     single<ShouldShowOnboardingUseCase> {
         ShouldShowOnboardingUseCase(settings = get())

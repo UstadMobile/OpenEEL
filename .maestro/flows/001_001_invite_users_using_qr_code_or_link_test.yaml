@@ -8,7 +8,6 @@ onFlowStart:
         SCHOOL_ADMIN_PASSWORD: ${SCHOOL_ADMIN_PASSWORD}
         DIR_ADMIN_AUTH_HEADER: ${DIR_ADMIN_AUTH_HEADER}
         SCHOOL_URL: ${SCHOOL_URL}
-        SCHOOL_NAME: ${SCHOOL_NAME}
         URL_SUBSTITUTION: ${URL_SUBSTITUTION}
         NAME: "001_001_invite_users_using_qr_code_or_link_test"
 
@@ -59,6 +58,13 @@ onFlowComplete:
     arguments:
       respect_directory: ${output.SCHOOL_URL}
 - tapOn: "Get Started"
+- assertVisible:
+    id: "app_title"
+    text: "Let's get started"
+- tapOn: "Connect to existing learning space"
+- assertVisible: 
+      id: "app_title"
+      text: "Connect to existing learning space"
 - tapOn: "Scan QR code/badge"
 - assertVisible:
     id: "app_title"
@@ -73,8 +79,6 @@ onFlowComplete:
     text: "Invitation"
 - assertVisible: "Role"
 - assertVisible: "Teacher"
-- assertVisible: "School name"
-- assertVisible: ${output.SCHOOL_NAME}
 - assertVisible: "School server URL"
 - assertVisible: ${output.SCHOOL_URL}
 - tapOn: "Next"
@@ -138,9 +142,9 @@ onFlowComplete:
       respect_directory: ${output.SCHOOL_URL}
 - tapOn: "Get Started"
 - runFlow:
-    file: "subflows/get_started_select_school_by_name.yaml"
+    file: "subflows/get_started_select_school_by_link.yaml"
     env:
-      SCHOOL_NAME: ${SCHOOL_NAME}
+      SCHOOL_URL: ${output.SCHOOL_URL}
 - tapOn: "I have an invite code"
 - tapOn: "Invite code"
 - pasteText
@@ -150,8 +154,6 @@ onFlowComplete:
     text: "Invitation"
 - assertVisible: "Role"
 - assertVisible: "Student"
-- assertVisible: "School name"
-- assertVisible: ${output.SCHOOL_NAME}
 - assertVisible: "Class name"
 - assertVisible: "New Class"
 - assertVisible: "School server URL"
@@ -199,9 +201,9 @@ onFlowComplete:
       respect_directory: ${output.SCHOOL_URL}
 - tapOn: "Get Started"
 - runFlow:
-    file: "subflows/get_started_select_school_by_name.yaml"
+    file: "subflows/get_started_select_school_by_link.yaml"
     env:
-      SCHOOL_NAME: ${SCHOOL_NAME}
+      SCHOOL_URL: ${output.SCHOOL_URL}
 - tapOn:
     id: "username"
 - inputText: "teacherauser"
@@ -243,8 +245,6 @@ onFlowComplete:
     text: "Invitation"
 - assertVisible: "Role"
 - assertVisible: "Parent"
-- assertVisible: "School name"
-- assertVisible: ${output.SCHOOL_NAME}
 - assertVisible: "Class name"
 - assertVisible: "New Class"
 - assertVisible: "School server URL"

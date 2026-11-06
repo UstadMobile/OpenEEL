@@ -21,10 +21,10 @@ import org.openeel.shared.domain.getwarnings.GetWarningsUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.lets_get_started
 import org.openeel.shared.generated.resources.school_not_found
+import org.openeel.shared.navigation.ConnectLearningSpace
 import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.OtherOption
 import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.resources.UiText
@@ -151,7 +151,7 @@ class GetStartedViewModel(
         _navCommandFlow.tryEmit(NavCommand.Navigate(ScanQRCode()))
     }
     fun onClickOtherOptions() {
-        _navCommandFlow.tryEmit(NavCommand.Navigate(OtherOption))
+        _navCommandFlow.tryEmit(NavCommand.Navigate(ConnectLearningSpace))
     }
 
     fun onDirectorySelected(directory: SchoolDirectory) {
