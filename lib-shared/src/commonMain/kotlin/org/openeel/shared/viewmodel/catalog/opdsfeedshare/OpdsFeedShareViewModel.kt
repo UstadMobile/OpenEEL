@@ -110,7 +110,7 @@ class OpdsFeedShareViewModel(
 
     fun onClickCopyLink() {
         setClipboardStringUseCase(_uiState.value.shareUrl)
-        _navCommandFlow.tryEmit(NavCommand.Navigate(EnterLink))
+        _navCommandFlow.tryEmit(NavCommand.Navigate(EnterLink.create()))
     }
 
     fun onClickShareLink() {

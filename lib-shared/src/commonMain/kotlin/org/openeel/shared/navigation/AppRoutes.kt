@@ -16,6 +16,7 @@ import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
 import org.openeel.lib.xapi.model.XapiActor
 import org.openeel.shared.ext.NextAfterScan
 import org.openeel.shared.viewmodel.catalog.PublicationsSelection
+import org.openeel.shared.viewmodel.apps.enterlink.EnterLinkModeEnum
 import org.openeel.shared.viewmodel.manageuser.signup.SignupScreenModeEnum
 import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryMode
 import org.openeel.lib.opds.model.LangMap
@@ -318,7 +319,21 @@ data class OpdsSearch(
 ) : OpenEelAppRoute
 
 @Serializable
-object EnterLink : OpenEelAppRoute
+data class EnterLink(
+    val modeStr: String = EnterLinkModeEnum.APP_OR_PLAYLIST.value,
+) : OpenEelAppRoute {
+
+    @Transient
+    val mode: EnterLinkModeEnum = EnterLinkModeEnum.fromValue(modeStr)
+
+    companion object {
+
+        fun create(
+            mode: EnterLinkModeEnum = EnterLinkModeEnum.APP_OR_PLAYLIST,
+        ) = EnterLink(mode.value)
+
+    }
+}
 
 @Serializable
 data class GetStartedScreen(
