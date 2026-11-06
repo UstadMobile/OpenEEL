@@ -330,10 +330,10 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Let's get started"
-- tapOn: "Connect to existing learning space"
+- tapOn: "Connect to an existing learning space"
 - assertVisible:
     id: "app_title"
-    text: "Connect to existing learning space"
+    text: "Connect to an existing learning space"
 - tapOn: "Paste the link here"
 - inputText: ${output.SCHOOL_URL}
 - tapOn: "Next"
@@ -402,10 +402,10 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Let's get started"
-- tapOn: "Connect to existing learning space"
+- tapOn: "Connect to an existing learning space"
 - assertVisible:
     id: "app_title"
-    text: "Connect to existing learning space"
+    text: "Connect to an existing learning space"
 - tapOn: "Scan QR code/badge"
 - assertVisible:
     id: "app_title"

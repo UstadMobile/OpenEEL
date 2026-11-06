@@ -759,7 +759,7 @@
     <string name="collection_not_found">Collection not found</string>
     <string name="this_collection_may_have_been_deleted">This collection may have been deleted by its creator or no longer available</string>
 
-    <string name="connect_existing_learning_space">Connect to existing learning space</string>
+    <string name="connect_existing_learning_space">Connect to an existing learning space</string>
     <string name="connect_existing_learning_space_description">Connect to an existing learning space or use a standard Experience API (xAPI) server.</string>
     <string name="create_new_learning_space">Create new learning space</string>
     <string name="create_new_learning_space_description">Create a new learning space. You can invite friends and colleagues if you want, or keep it personal for yourself.</string>
