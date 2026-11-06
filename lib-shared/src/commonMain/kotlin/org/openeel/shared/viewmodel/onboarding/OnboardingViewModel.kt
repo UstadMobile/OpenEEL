@@ -52,6 +52,7 @@ class OnboardingViewModel(
 
     fun onClickGetStartedButton() {
         setUsageReportingEnabledUseCase(_uiState.value.usageStatsOptInChecked)
+        settings.putString(ShouldShowOnboardingUseCase.KEY_ONBOARDING_SHOWN, true.toString())
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
                 destination = NewGetStartedScreen(),
