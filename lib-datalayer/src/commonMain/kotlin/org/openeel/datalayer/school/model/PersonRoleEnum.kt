@@ -12,9 +12,10 @@ import kotlinx.serialization.encoding.Encoder
 enum class PersonRoleEnum(val value: String, val flag: Int) {
     SITE_ADMINISTRATOR("siteAdministrator", 1),
     STUDENT("student", 2),
-    SYSTEM_ADMINISTRATOR("systemAdministrator", 3),
-    TEACHER("teacher", 4),
-    PARENT("parent", 5);
+    SYSTEM_ADMINISTRATOR("systemAdministrator", 4),
+    TEACHER("teacher", 8),
+    PARENT("parent", 16),
+    SHARED_SCHOOL_DEVICE("sharedschooldevice", 32);
 
     companion object {
 
@@ -22,12 +23,13 @@ enum class PersonRoleEnum(val value: String, val flag: Int) {
 
         const val STUDENT_INT = 2
 
-        const val SYSTEM_ADMINISTRATOR_INT = 3
+        const val SYSTEM_ADMINISTRATOR_INT = 4
 
-        const val TEACHER_INT = 4
+        const val TEACHER_INT = 8
 
-        const val PARENT_INT = 5
+        const val PARENT_INT = 16
 
+        const val SHARED_SCHOOL_DEVICE_INT = 32
 
         fun fromValue(value: String): PersonRoleEnum {
             return entries.first { it.value == value }
@@ -56,4 +58,3 @@ object PersonRoleEnumSerializer: KSerializer<PersonRoleEnum> {
         return PersonRoleEnum.fromValue(decoder.decodeString())
     }
 }
-

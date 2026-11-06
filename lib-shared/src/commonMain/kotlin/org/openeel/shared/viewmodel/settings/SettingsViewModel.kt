@@ -10,6 +10,8 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.settings
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
+import org.openeel.shared.navigation.SchoolSettings
+import org.openeel.shared.navigation.NavCommand
 
 data class SettingsUiState(
     val loading: Boolean = false,
@@ -37,5 +39,11 @@ class SettingsViewModel(
 
     fun onNavigateToLanguage() {
         // TODO
+    }
+
+    fun onClickSchool() {
+        _navCommandFlow.tryEmit(
+            NavCommand.Navigate(SchoolSettings)
+        )
     }
 }

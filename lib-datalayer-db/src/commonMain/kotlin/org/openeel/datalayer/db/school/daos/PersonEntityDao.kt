@@ -57,6 +57,7 @@ interface PersonEntityDao {
         roleTeacherPermissionRequired: Long = PermissionFlags.PERSON_TEACHER_WRITE,
         roleStudentPermissionRequired: Long = PermissionFlags.PERSON_STUDENT_WRITE,
         roleParentPermissionRequired: Long = PermissionFlags.PERSON_PARENT_WRITE,
+        roleSharedDevicePermissionRequired: Long = PermissionFlags.PERSON_STUDENT_READ,
     ): LastModifiedAndPermission
 
 
@@ -332,6 +333,7 @@ interface PersonEntityDao {
              WHEN ${PersonRoleEnum.TEACHER_INT} THEN ${PermissionFlags.PERSON_TEACHER_READ}
              WHEN ${PersonRoleEnum.STUDENT_INT} THEN ${PermissionFlags.PERSON_STUDENT_READ}
              WHEN ${PersonRoleEnum.PARENT_INT} THEN ${PermissionFlags.PERSON_PARENT_READ}
+              WHEN ${PersonRoleEnum.SHARED_SCHOOL_DEVICE_INT} THEN ${PermissionFlags.PERSON_STUDENT_READ}
              ELSE ${Long.MAX_VALUE}
         """
 
@@ -478,6 +480,7 @@ interface PersonEntityDao {
                           WHEN ${PersonRoleEnum.TEACHER_INT} THEN :roleTeacherPermissionRequired
                           WHEN ${PersonRoleEnum.STUDENT_INT} THEN :roleStudentPermissionRequired
                           WHEN ${PersonRoleEnum.PARENT_INT} THEN :roleParentPermissionRequired
+                          WHEN ${PersonRoleEnum.SHARED_SCHOOL_DEVICE_INT} THEN :roleSharedDevicePermissionRequired
                           ELSE ${Long.MAX_VALUE}
                         END
                  )

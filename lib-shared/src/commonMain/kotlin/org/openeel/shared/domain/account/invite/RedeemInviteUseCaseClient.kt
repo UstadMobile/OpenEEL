@@ -5,25 +5,39 @@ import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.Url
 import io.ktor.http.contentType
+import org.openeel.datalayer.AuthTokenProvider
+import org.openeel.datalayer.ext.useTokenProvider
 import org.openeel.libutil.ext.appendEndpointSegments
 import org.openeel.shared.domain.account.AuthResponse
+import org.openeel.shared.domain.account.AppAccountManager
 
 /**
- * RedeemInviteUseCase should be used by the [org.openeel.shared.domain.account.AppAccountManager],
+ * RedeemInviteUseCase should be used by the [AppAccountManager],
  * not directly by any ViewModel
  */
 class RedeemInviteUseCaseClient(
     private val schoolUrl: Url,
     private val httpClient: HttpClient,
+    private val accountManager: AppAccountManager,
 ) : RedeemInviteUseCase {
 
-    override suspend fun invoke(redeemRequest: RedeemInviteRequest): AuthResponse {
+    override suspend fun invoke(
+        redeemRequest: RedeemInviteRequest,
+        useActiveUserAuth: Boolean
+    ): AuthResponse {
         return httpClient.post(
             schoolUrl.appendEndpointSegments("api/school/respect/invite/redeem")
         ) {
             contentType(ContentType.Application.Json)
+
+            if (useActiveUserAuth) {
+                val scope = accountManager.requireActiveAccountScope()
+                useTokenProvider(scope.get<AuthTokenProvider>())
+            }
+
             setBody(redeemRequest)
         }.body()
     }

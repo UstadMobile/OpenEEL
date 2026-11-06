@@ -39,6 +39,7 @@ interface PersonDataSource: WritableDataSource<Person> {
         val filterByPersonRole: PersonRoleEnum? = null,
         val includeRelated: Boolean = false,
         val inClassOnDay: LocalDate? = null,
+        val excludeSharedSchoolDevice: Boolean = true,
     ) {
 
         companion object {
@@ -60,6 +61,7 @@ interface PersonDataSource: WritableDataSource<Person> {
                         PersonRoleEnum.fromValue(it)
                     },
                     includeRelated = stringValues[DataLayerParams.INCLUDE_RELATED]?.toBoolean() ?: false,
+                    excludeSharedSchoolDevice = stringValues[DataLayerParams.EXCLUDE_SHARED_SCHOOL_DEVICE]?.toBoolean() ?: false,
 
                 )
             }
