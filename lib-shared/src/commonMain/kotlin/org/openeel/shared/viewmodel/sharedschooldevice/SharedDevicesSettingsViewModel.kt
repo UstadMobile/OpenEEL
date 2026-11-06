@@ -6,14 +6,12 @@ import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.db.school.ext.isAdminOrTeacher
 import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.ext.newUserInviteUid
 import org.openeel.datalayer.school.model.Person
@@ -25,16 +23,14 @@ import org.openeel.datalayer.school.model.SharedDeviceSettings
 import org.openeel.datalayer.shared.paging.EmptyPagingSource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
-import org.openeel.datalayer.shared.params.GetListCommonParams
-import org.openeel.lib.dataloadstate.DataErrorResult
 import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
-import org.openeel.lib.dataloadstate.DataReadyState
-import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.dataloadstate.ext.isSettledNotFound
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUseCase
-import org.openeel.lib.xapi.ext.getJson
+import org.openeel.lib.xapi.ext.getJsonAsFlow
 import org.openeel.lib.xapi.ext.putJson
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
@@ -62,8 +58,8 @@ data class SharedDevicesSettingsUiState(
         IPagingSourceFactory { EmptyPagingSource() },
     val error: UiText? = null,
     val isPendingExpanded: Boolean = true,
-    val sharedDeviceSettings: SharedDeviceSettings = SharedDeviceSettings(),
-    val showPinDialog: Boolean = false,
+    val sharedDeviceSettings: DataLoadState<SharedDeviceSettings> = DataLoadingState(),
+    val newPinDialogVisible: Boolean = false,
     val showBottomSheetOptions: Boolean = false,
     val currentDeviceGuid: String? = null
 ) {
@@ -71,7 +67,6 @@ data class SharedDevicesSettingsUiState(
         const val PIN_LENGTH = 4
     }
 }
-
 class SharedDevicesSettingsViewModel(
     savedStateHandle: SavedStateHandle,
     private val accountManager: AppAccountManager,
@@ -82,6 +77,12 @@ class SharedDevicesSettingsViewModel(
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
     private val schoolDataSource: SchoolDataSource by inject()
+
+    private val settingsDocParams = XapiActivityProfileResource.SingleDocumentParams(
+        activityId = SHARED_DEVICE_SETTINGS_ACTIVITY_ID,
+        profileId = SHARED_DEVICE_SETTINGS_PROFILE_ID,
+    )
+
     private val approveOrDeclineInviteRequestUseCase: ApproveOrDeclineInviteRequestUseCase by inject()
     private val _uiState = MutableStateFlow(SharedDevicesSettingsUiState())
     val uiState = _uiState.asStateFlow()
@@ -114,7 +115,6 @@ class SharedDevicesSettingsViewModel(
     }
 
     init {
-        loadSharedDeviceSettings()
         _appUiState.update {
             it.copy(
                 title = Res.string.shared_school_devices.asUiText(),
@@ -136,23 +136,49 @@ class SharedDevicesSettingsViewModel(
                 currentDeviceGuid = currentDeviceGuid
             )
         }
+
+        viewModelScope.launch {
+            schoolDataSource.xapiResource.activityProfile.getJsonAsFlow(
+                docParams = settingsDocParams,
+                json = json,
+                deserializer = SharedDeviceSettings.serializer(),
+            ).collect { dataLoadState ->
+                _uiState.update { it.copy(sharedDeviceSettings = dataLoadState) }
+                if(dataLoadState.isSettledNotFound()) {
+                    putSharedDeviceSettings(
+                        SharedDeviceSettings(
+                            pin = Random.nextInt(1000, 10000).toString()
+                                .padStart(SharedDevicesSettingsUiState.PIN_LENGTH, '0'),
+                            canSelectName = true,
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private suspend fun putSharedDeviceSettings(
+        sharedDeviceSettings: SharedDeviceSettings
+    ) {
+        schoolDataSource.xapiResource.activityProfile.putJson(
+            docParams = settingsDocParams,
+            document = sharedDeviceSettings,
+            json = json,
+            serializer = SharedDeviceSettings.serializer(),
+        )
+    }
+
+    private suspend fun updateSharedDeviceSettings(
+        block: (SharedDeviceSettings) -> SharedDeviceSettings
+    ) {
+        _uiState.value.sharedDeviceSettings.dataOrNull()?.also { sharedDeviceSettings ->
+            putSharedDeviceSettings(block(sharedDeviceSettings))
+        }
     }
 
     fun toggleSelfSelect(enabled: Boolean) {
-        val updatedSettings = _uiState.value.sharedDeviceSettings.copy(
-            canSelectName = enabled,
-        )
-        _uiState.update { currentState ->
-            currentState.copy(sharedDeviceSettings = updatedSettings)
-        }
         viewModelScope.launch {
-            try {
-                putSharedDeviceSettings(updatedSettings)
-            } catch (e: Exception) {
-                _uiState.update { currentState ->
-                    currentState.copy(error = e.message?.asUiText())
-                }
-            }
+            updateSharedDeviceSettings { it.copy(canSelectName = enabled) }
         }
     }
 
@@ -179,102 +205,35 @@ class SharedDevicesSettingsViewModel(
         )
     }
 
-    private fun loadSharedDeviceSettings() {
-        viewModelScope.launch {
-            try {
-                val settings = when (val result = schoolDataSource.xapiResource.activityProfile.getJson(
-                    docParams = XapiActivityProfileResource.SingleDocumentParams(
-                        activityId = SHARED_DEVICE_SETTINGS_ACTIVITY_ID,
-                        profileId = SHARED_DEVICE_SETTINGS_PROFILE_ID,
-                    ),
-                    json = json,
-                    deserializer = SharedDeviceSettings.serializer(),
-                )) {
-                    is DataReadyState -> result.data
-                    is NoDataLoadedState -> when (result.reason) {
-                        NoDataLoadedState.Reason.NOT_FOUND -> SharedDeviceSettings()
-                        NoDataLoadedState.Reason.NOT_MODIFIED ->
-                            throw IllegalStateException("Shared device settings are not available")
-                    }
-                    is DataErrorResult -> throw result.error
-                    is DataLoadingState -> result.partialData
-                        ?: throw IllegalStateException("Shared device settings are still loading")
-                }
-                val settingsWithPin = if (settings.pin.isNotBlank()) {
-                    settings
-                } else {
-                    settings.copy(
-                        pin = Random.nextInt(1000, 10000).toString().padStart(4, '0'),
-                    ).also { putSharedDeviceSettings(it) }
-                }
-                _uiState.update {
-                    it.copy(
-                        sharedDeviceSettings = settingsWithPin
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        error = e.message?.asUiText()
-                    )
-                }
-            }
-        }
-    }
-
-
     fun onClickEnableOnThisDevice() {
         viewModelScope.launch {
-            val activeAccount = accountManager.activeAccount
-            val persons = schoolDataSource.personDataSource.list(
-                loadParams = DataLoadParams(),
-                params = PersonDataSource.GetListParams(
-                    common = GetListCommonParams(
-                        guid = activeAccount?.userGuid
-                    ),
-                    includeRelated = true,
+            val inviteCode = schoolDataSource.inviteDataSource.findByGuid(
+                guid = InvitePerson.NewUserInviteOptions(
+                    presetRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE
+                ).presetRole?.newUserInviteUid
+                    ?: throw IllegalStateException("no invite found for shared device role")
+            ).dataOrNull()?.code ?: throw IllegalStateException("Invite code not found/error")
+
+            _navCommandFlow.tryEmit(
+                NavCommand.Navigate(
+                    AcceptInvite.create(
+                        schoolUrl = schoolUrl,
+                        code = inviteCode,
+                        useActiveUserAuth = true,
+                    )
                 )
-            ).dataOrNull()
-            val activePerson = persons?.firstOrNull { person ->
-                person.guid == (activeAccount?.userGuid)
-            }
-            val isTeacherOrAdmin = activePerson?.isAdminOrTeacher() ?: false
-
-            val inviteUid = InvitePerson.NewUserInviteOptions(
-                presetRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE
-            ).presetRole?.newUserInviteUid
-
-            activeAccount?.school?.self?.let { url ->
-                if (inviteUid != null) {
-                    schoolDataSource.inviteDataSource.findByUidAsFlow(
-                        uid = inviteUid,
-                        loadParams = DataLoadParams()
-                    ).collectLatest { invite ->
-                        invite.dataOrNull()?.let { it ->
-                            _navCommandFlow.tryEmit(
-                                NavCommand.Navigate(
-                                    AcceptInvite.create(
-                                        schoolUrl = url,
-                                        code = it.code,
-                                        useActiveUserAuth = !isTeacherOrAdmin,
-                                    )
-                                )
-                            )
-                        }
-                    }
-                }
-            }
+            )
         }
     }
 
     fun onShowPinDialog() {
-        _uiState.update { it.copy(showPinDialog = true) }
+        _uiState.update { it.copy(newPinDialogVisible = true) }
     }
 
     fun onDismissPinDialog() {
         _uiState.update {
             it.copy(
-                showPinDialog = false,
+                newPinDialogVisible = false,
                 error = null
             )
         }
@@ -282,26 +241,12 @@ class SharedDevicesSettingsViewModel(
 
     fun onSavePin(pin: String) {
         if (pin.length == SharedDevicesSettingsUiState.PIN_LENGTH && pin.all { it.isDigit() }) {
-            val updatedSettings = _uiState.value.sharedDeviceSettings.copy(pin = pin)
-            _uiState.update {
-                it.copy(sharedDeviceSettings = updatedSettings)
-            }
+            _uiState.update { it.copy(newPinDialogVisible = false) }
             viewModelScope.launch {
-                try {
-                    putSharedDeviceSettings(updatedSettings)
-                } catch (e: Exception) {
-                    _uiState.update {
-                        it.copy(
-                            error = e.message?.asUiText()
-                        )
-                    }
-                }
-                onDismissPinDialog()
+                updateSharedDeviceSettings { it.copy(pin = pin) }
             }
-        } else {
-            _uiState.update {
-                it.copy(error = Res.string.pin_error.asUiText())
-            }
+        }else {
+            _uiState.update { it.copy(error = Res.string.pin_error.asUiText()) }
         }
     }
 
@@ -336,6 +281,7 @@ class SharedDevicesSettingsViewModel(
         if (person.guid == currentDeviceGuid) {
             settings.remove(CURRENT_DEVICE_GUID)
         }
+
         viewModelScope.launch {
             schoolDataSource.personDataSource.store(
                 listOf(
@@ -348,15 +294,4 @@ class SharedDevicesSettingsViewModel(
         }
     }
 
-    private suspend fun putSharedDeviceSettings(settings: SharedDeviceSettings) {
-        schoolDataSource.xapiResource.activityProfile.putJson(
-            docParams = XapiActivityProfileResource.SingleDocumentParams(
-                activityId = SHARED_DEVICE_SETTINGS_ACTIVITY_ID,
-                profileId = SHARED_DEVICE_SETTINGS_PROFILE_ID,
-            ),
-            document = settings,
-            json = json,
-            serializer = SharedDeviceSettings.serializer(),
-        )
-    }
 }

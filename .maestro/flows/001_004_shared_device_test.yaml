@@ -142,7 +142,6 @@ onFlowComplete:
 - assertVisible: "Required field*" #mandatory field error
 - tapOn:
     text: "Device name *"
-    index: 1
 - inputText: "Test Device 1"
 - hideKeyboard
 - assertVisible: "Enable"
@@ -236,7 +235,6 @@ onFlowComplete:
     text: "Enable shared school device mode"
 - tapOn:
     text: "Device name *"
-    index: 1
 - inputText: "Test Device 2"
 - tapOn: "Enable"
 - assertVisible:

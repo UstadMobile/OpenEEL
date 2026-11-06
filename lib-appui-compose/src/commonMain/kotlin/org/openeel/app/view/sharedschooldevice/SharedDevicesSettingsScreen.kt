@@ -67,6 +67,7 @@ import org.openeel.app.components.uiTextStringResource
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.ext.getDeviceInfo
 import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.libutil.util.time.toFormattedDate
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.accept_invite
@@ -123,7 +124,7 @@ fun SharedDevicesSettingsScreen(
 }
 
 @Composable
-private fun SharedDevicesSettingsContent(
+fun SharedDevicesSettingsContent(
     uiState: SharedDevicesSettingsUiState,
     onToggleSelfSelect: (Boolean) -> Unit,
     onShowPinDialog: () -> Unit,
@@ -180,7 +181,7 @@ private fun SharedDevicesSettingsContent(
                 ) {
                     SettingsOptionRow(
                         title = stringResource(Res.string.student_can_self_select_their_class_name),
-                        checked = uiState.sharedDeviceSettings.canSelectName,
+                        checked = uiState.sharedDeviceSettings.dataOrNull()?.canSelectName ?: false,
                         onCheckedChange = onToggleSelfSelect
                     )
                 }
@@ -203,7 +204,7 @@ private fun SharedDevicesSettingsContent(
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Text(
-                            text = uiState.sharedDeviceSettings.pin,
+                            text = uiState.sharedDeviceSettings.dataOrNull()?.pin ?: "",
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.testTag("set_pin")
                         )
@@ -389,7 +390,7 @@ private fun SharedDevicesSettingsContent(
         }
 
         // PIN Dialog
-        if (uiState.showPinDialog) {
+        if (uiState.newPinDialogVisible) {
             PinEntryDialog(
                 onDismiss = onDismissPinDialog,
                 onSave = onSavePin,
@@ -398,7 +399,7 @@ private fun SharedDevicesSettingsContent(
         }
 
         // Bottom Sheet
-        if (uiState.showBottomSheetOptions && !uiState.showPinDialog) {
+        if (uiState.showBottomSheetOptions && !uiState.newPinDialogVisible) {
             AddDeviceBottomSheet(
                 onDismiss = onDismissBottomSheet,
                 onAddAnotherDevice = onAddAnotherDevice,

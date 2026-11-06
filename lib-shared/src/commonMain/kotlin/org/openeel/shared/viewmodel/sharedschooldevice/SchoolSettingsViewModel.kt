@@ -49,6 +49,7 @@ class SchoolSettingsViewModel(
         _appUiState.update {
             it.copy(
                 title = Res.string.school.asUiText(),
+                hideBottomNavigation = true,
             )
         }
         viewModelScope.launch {

@@ -47,6 +47,7 @@ import org.openeel.shared.navigation.TermsAndCondition
 import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
+import org.openeel.shared.util.exception.getUiTextOrGeneric
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 
@@ -58,6 +59,7 @@ data class AcceptInviteUiState(
     val schoolName: LangMap? = null,
     val schoolUrl: Url? = null,
     val deviceName: String = "",
+    val deviceNameError: UiText? = null,
 ) {
     val nextButtonEnabled: Boolean
         get() = inviteInfo?.invite != null
@@ -180,20 +182,22 @@ class AcceptInviteViewModel(
 
     fun onUpdateDeviceName(deviceName: String) {
         _uiState.update { currentState ->
-            currentState.copy(deviceName = deviceName, errorText = null)
+            currentState.copy(
+                deviceName = deviceName,
+                deviceNameError = null,
+            )
         }
     }
 
     fun enableSharedDeviceMode() {
-        if (_uiState.value.sharedDeviceError != null){
+        if (_uiState.value.deviceName.isBlank()) {
+            _uiState.update { it.copy(deviceNameError = Res.string.required_field.asUiText()) }
             return
         }
 
-        if (_uiState.value.deviceName.isBlank()) {
-            _uiState.update { it.copy(errorText = Res.string.required_field.asUiText()) }
-            return
+        _uiState.update {
+            it.copy(sharedDeviceError = null)
         }
-        _uiState.update { it.copy(errorText = null) }
 
         val invite = uiState.value.inviteInfo?.invite ?: return
 
@@ -213,7 +217,7 @@ class AcceptInviteViewModel(
                         deviceInfo = getDeviceInfoUseCase(),
                         invite = invite
                     ),
-                    useActiveUserAuth = route.useActiveUserAuth ?: true
+                    useActiveUserAuth = route.useActiveUserAuth ?: false
                 )
 
                 _navCommandFlow.tryEmit(
@@ -228,9 +232,7 @@ class AcceptInviteViewModel(
                 )
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(
-                        errorText = e.message?.asUiText()
-                    )
+                    it.copy(sharedDeviceError = e.getUiTextOrGeneric())
                 }
             }
         }

@@ -9,6 +9,7 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.Url
 import io.ktor.http.contentType
 import org.openeel.datalayer.AuthTokenProvider
+import org.openeel.datalayer.ext.useTokenProvider
 import org.openeel.libutil.ext.appendEndpointSegments
 import org.openeel.shared.domain.account.AuthResponse
 import org.openeel.shared.domain.account.AppAccountManager
@@ -32,15 +33,9 @@ class RedeemInviteUseCaseClient(
         ) {
             contentType(ContentType.Application.Json)
 
-            if (!useActiveUserAuth) {
+            if (useActiveUserAuth) {
                 val scope = accountManager.requireActiveAccountScope()
-                val tokenProvider = scope.getOrNull<AuthTokenProvider>()
-                    ?: throw IllegalStateException(
-                        "useActiveUserAuth=true but no token provider found for active account"
-                    )
-
-                val token = tokenProvider.provideToken()
-                headers.append(HttpHeaders.Authorization, "Bearer ${token.accessToken}")
+                useTokenProvider(scope.get<AuthTokenProvider>())
             }
 
             setBody(redeemRequest)
