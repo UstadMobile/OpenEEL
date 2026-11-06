@@ -160,7 +160,6 @@ class PersonDataSourceDb(
             filterByPersonStatus = params.filterByPersonStatus?.flag ?: 0,
             includeRelated = params.includeRelated,
             includeDeleted = params.common.includeDeleted ?: false,
-            excludeSharedSchoolDevice = params.excludeSharedSchoolDevice,
         ).map { list ->
             DataReadyState(
                 data = list.map {
@@ -187,7 +186,6 @@ class PersonDataSourceDb(
                 filterByPersonStatus = params.filterByPersonStatus?.flag ?: 0,
                 includeRelated = params.includeRelated,
                 includeDeleted = params.common.includeDeleted ?: false,
-                excludeSharedSchoolDevice = params.excludeSharedSchoolDevice,
             ).map(tag = { "PersonDataSourceDb/listAsPagingSource(params=$params)" }) {
                 it.toPersonEntities().toModel()
             }
@@ -239,7 +237,6 @@ class PersonDataSourceDb(
                 filterByPersonRole = listParams.filterByPersonRole?.flag ?: 0,
                 filterByPersonStatus = listParams.filterByPersonStatus?.flag ?: 0,
                 includeRelated = listParams.includeRelated,
-                excludeSharedSchoolDevice = listParams.excludeSharedSchoolDevice,
             )
         }
     }

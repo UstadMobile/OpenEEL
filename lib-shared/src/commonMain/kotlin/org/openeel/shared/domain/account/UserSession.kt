@@ -1,8 +1,6 @@
 package org.openeel.shared.domain.account
 
 import kotlinx.serialization.Serializable
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRoleEnum
 
 /**
  * Sometimes the active account (and token) is not the actual user of a session: e.g.
@@ -23,11 +21,12 @@ data class UserSession(
     val account: UserAccount,
     val profilePersonUid: String?,
     val isParentInitiatedChildSession: Boolean = false
-)
+) {
 
-fun UserSession.isSharedDeviceSessionWithoutProfile(
-    person: Person?
-): Boolean =
-    profilePersonUid == null && person?.roles?.any {
-        it.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE
-    } == true
+    /**
+     * Get the active person uid: as above, where profilePersonUid is not null, this takes precedence
+     */
+    val activePersonUid: String
+        get() = profilePersonUid ?: account.userGuid
+
+}

@@ -30,6 +30,7 @@ import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
 import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.libutil.util.putDebugCrashCustomData
 import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
 import org.openeel.shared.domain.account.invite.RedeemInviteUseCase
@@ -91,32 +92,47 @@ class AppAccountManager(
         }
     }
 
-    val selectedAccountAndPersonFlow: Flow<UserSessionAndPerson?> =channelFlow {
+    val selectedAccountAndPersonFlow: Flow<UserSessionAndPerson?> = channelFlow {
         _activeSession.collectLatest { session ->
             if(session != null) {
                 val accountScope = getOrCreateAccountScope(session.account)
                 val schoolDataSource: SchoolDataSource = accountScope.get()
-                val activePersonUid = (session.profilePersonUid ?: session.account.userGuid)
 
                 schoolDataSource.personDataSource.listAsFlow(
                     loadParams = DataLoadParams(),
                     params = PersonDataSource.GetListParams(
                         common = GetListCommonParams(
-                            guid = activePersonUid
+                            guid = session.activePersonUid
                         ),
                         includeRelated = true,
-                        excludeSharedSchoolDevice = false,
                     )
-                ).collect { persons ->
+                ).combine(
+                    //this could check if shared device mode is enabled at all - avoid running if not
+                    //needed
+                    flow = schoolDataSource.personDataSource.listAsFlow(
+                        loadParams = DataLoadParams(),
+                        params = PersonDataSource.GetListParams(
+                            common = GetListCommonParams(
+                                guid = session.account.userGuid,
+                            ),
+                            filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
+                        ),
+                    )
+                ) { persons, sharedDevice ->
+                    Pair(persons, sharedDevice)
+                }.collect { (persons, sharedDevice) ->
                     val personsVal = persons.dataOrNull()
                     send(
                         element = personsVal?.firstOrNull {
-                            it.guid == activePersonUid
+                            it.guid == session.activePersonUid
                         }?.let { activeProfilePerson ->
                             UserSessionAndPerson(
                                 session = session,
                                 person = activeProfilePerson,
-                                relatedPersons = personsVal.filterNot { it.guid == activePersonUid },
+                                sharedDevice = sharedDevice.dataOrNull()?.firstOrNull(),
+                                relatedPersons = personsVal.filterNot {
+                                    it.guid == session.activePersonUid
+                                },
                             )
                         }
                     )
@@ -348,6 +364,14 @@ class AppAccountManager(
             ?: throw IllegalStateException("require school url for active account: no account selected")
     }
 
+    /**
+     * Sometimes the active person is NOT the account holder; e.g.:
+     * a) When a session is started for a child using a parent account
+     * b) When a session is started using shared device mode.
+     *
+     * @param personUid the person to switch to e.g. the PersonUid for the child when a session is
+     *        started using the parents profile or the self-selected student in shared device mode.
+     */
     suspend fun switchProfile(
         personUid: String,
         isParentInitiatedChildSession: Boolean = false

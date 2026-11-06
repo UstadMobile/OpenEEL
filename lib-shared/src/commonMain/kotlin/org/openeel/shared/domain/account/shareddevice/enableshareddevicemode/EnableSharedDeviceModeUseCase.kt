@@ -5,7 +5,6 @@ import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeout
-import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.datalayer.school.model.Person
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.util.ext.isSameAccount
@@ -40,7 +39,7 @@ class EnableSharedDeviceModeUseCase(
                 accountManager.selectedAccountAndPersonFlow.first { selected ->
                     selected != null &&
                         selected.session.account.userGuid == personRegistered.guid &&
-                        selected.session.isSharedDeviceSessionWithoutProfile(selected.person)
+                        selected.isSharedDeviceSessionWithoutStudentSelected
                 }
             }
 

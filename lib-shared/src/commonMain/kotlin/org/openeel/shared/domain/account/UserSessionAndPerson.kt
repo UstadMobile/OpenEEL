@@ -3,6 +3,7 @@ package org.openeel.shared.domain.account
 import kotlinx.serialization.Serializable
 import org.openeel.datalayer.school.ext.asXapiAgent
 import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.lib.xapi.model.XapiAgent
 
 /**
@@ -24,6 +25,7 @@ import org.openeel.lib.xapi.model.XapiAgent
 data class UserSessionAndPerson(
     val session: UserSession,
     val person: Person,
+    val sharedDevice: Person? = null,
     val relatedPersons: List<Person> = emptyList(),
 ){
     /**
@@ -38,5 +40,14 @@ data class UserSessionAndPerson(
 
     val xapiAgent: XapiAgent
         get() = person.asXapiAgent(session.account.school.self)
+
+    /**
+     * When this session is a Shared Device Account and no student account has been selected yet.
+     */
+    val isSharedDeviceSessionWithoutStudentSelected: Boolean
+        get() = session.profilePersonUid == null && person.roles.any {
+            it.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE
+        }
+
 
 }

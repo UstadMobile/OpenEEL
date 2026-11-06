@@ -6,7 +6,6 @@ import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.shared.domain.navigation.deeplink.CustomDeepLinkToUrlUseCase
 import org.openeel.shared.domain.navigation.deeplink.InitDeepLinkUriProviderUseCase
 import org.openeel.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLinkUseCase
@@ -91,17 +90,20 @@ class NavigateOnAppStartUseCase(
 
         Napier.i("DeferredDeepLink: NavigateOnAppStartUseCase: init nav command=$initLinkNavCommand")
         val activeAccount = accountManager.activeAccount
-        val activeSession = accountManager.activeSession
         val selectedAccountAndPerson = accountManager.selectedAccountAndPersonFlow.first()
         val isSimplifiedChildMode = selectedAccountAndPerson?.isSimplifiedChildMode == true
 
         return initLinkNavCommand?.withClearBackstack(true) ?: NavCommand.Navigate(
             destination = when {
-                activeSession?.isSharedDeviceSessionWithoutProfile(
-                    person = selectedAccountAndPerson?.person
-                ) == true -> LoginSelectClass
+                selectedAccountAndPerson?.isSharedDeviceSessionWithoutStudentSelected == true -> {
+                    LoginSelectClass
+                }
 
-                activeAccount != null -> if (isSimplifiedChildMode) AssignmentList else Home
+
+                activeAccount != null -> {
+                    if (isSimplifiedChildMode) AssignmentList else Home
+                }
+
                 else -> GetStartedScreen()
             },
             clearBackStack = true,

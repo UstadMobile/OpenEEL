@@ -21,9 +21,10 @@ import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.UserSession
 import org.openeel.shared.domain.account.UserSessionAndPerson
-import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
+import org.openeel.shared.domain.account.shareddevice.isshareddevice.CheckIsSharedDeviceUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.accounts
+import org.openeel.shared.generated.resources.something_went_wrong
 import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.Home
@@ -35,6 +36,8 @@ import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.isSameAccount
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.navigation.LoginSelectClass
+import org.openeel.shared.viewmodel.app.appstate.Snack
+import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 
 
 /**
@@ -44,29 +47,26 @@ import org.openeel.shared.navigation.LoginSelectClass
  */
 data class AccountListUiState(
     val selectedAccount: UserSessionAndPerson? = null,
-    val accounts: List<UserSessionAndPerson> = emptyList(),
-    val accountOwnerRole: PersonRoleEnum? = null
+    val accounts: List<UserSessionAndPerson> = emptyList()
 ) {
 
     val showSelectedAccountProfileButton: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
-                && accountOwnerRole != PersonRoleEnum.SHARED_SCHOOL_DEVICE // Hide for shared device
+                && selectedAccount?.sharedDevice == null
 
     val familyMembersClickEnabled: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
 
     val visibleAccounts: List<UserSessionAndPerson> by lazy {
-        accounts.filterNot {
-            it.session.isSharedDeviceSessionWithoutProfile(
-                person = it.person
-            )
-        }
+        accounts.filterNot { it.isSharedDeviceSessionWithoutStudentSelected }
     }
 
 }
 
 class AccountListViewModel(
     private val appAccountManager: AppAccountManager,
+    private val checkIsSharedDeviceUseCase: CheckIsSharedDeviceUseCase,
+    private val snackBarDispatcher: SnackBarDispatcher,
     savedStateHandle: SavedStateHandle
 ) : OpenEelViewModel(savedStateHandle){
 
@@ -98,7 +98,6 @@ class AccountListViewModel(
                 _uiState.update { prev ->
                     prev.copy(
                         selectedAccount = accountAndPerson,
-                        accountOwnerRole = accountOwnerRole
                     )
                 }
             }
@@ -210,8 +209,8 @@ class AccountListViewModel(
         viewModelScope.launch {
             appAccountManager.switchProfile(
                 personUid = person.guid,
-                isParentInitiatedChildSession = uiState.value.accountOwnerRole == PersonRoleEnum.PARENT &&
-                    person.primaryRole() == PersonRoleEnum.STUDENT,
+                isParentInitiatedChildSession = uiState.value.selectedAccount?.person
+                    ?.primaryRole() == PersonRoleEnum.PARENT,
             )
             _navCommandFlow.tryEmit(
                 NavCommand.Navigate(
@@ -246,60 +245,36 @@ class AccountListViewModel(
 
 
     fun onClickLogout() {
-        val isSelectedAccountSharedDevice =
-            uiState.value.accountOwnerRole == PersonRoleEnum.SHARED_SCHOOL_DEVICE
+        uiState.value.selectedAccount?.also { selectedAccount ->
+            viewModelScope.launch {
+                val sharedDeviceResultAccountUid = checkIsSharedDeviceUseCase().accountPersonUid
+                if(sharedDeviceResultAccountUid != null) {
+                    val sharedDeviceAccount = appAccountManager.accounts.value.firstOrNull {
+                        it.userGuid == sharedDeviceResultAccountUid
+                    } ?: return@launch run {
+                        snackBarDispatcher.showSnackBar(
+                            Snack(Res.string.something_went_wrong.asUiText())
+                        )
+                    }
 
-        // Find the shared device account in the accounts list
-        val sharedDeviceAccount = uiState.value.accounts.find { andPerson ->
-            andPerson.person.roles.any { role ->
-                role.roleEnum == PersonRoleEnum.SHARED_SCHOOL_DEVICE
-            }
-        }
+                    /*
+                     * If logging out of a teacher/admin account etc, then we need to remove it
+                     * from the stored accounts list.
+                     */
+                    if(selectedAccount.sharedDevice == null) {
+                        appAccountManager.removeAccount(selectedAccount.session.account)
+                    }
 
-        if (isSelectedAccountSharedDevice) {
-            // Clear the selected student profile before returning to Select Class.
-            uiState.value.selectedAccount?.also { selectedAccount ->
-                viewModelScope.launch {
-                    appAccountManager.switchAccount(selectedAccount.session.account)
+                    appAccountManager.switchAccount(sharedDeviceAccount)
+
                     _navCommandFlow.tryEmit(
                         NavCommand.Navigate(
                             destination = LoginSelectClass,
                             clearBackStack = true
                         )
                     )
-                }
-            }
-        } else if (sharedDeviceAccount?.person?.status == PersonStatusEnum.ACTIVE) {
-            // A teacher/admin is logged in on a shared device. Logging out must:
-            // 1. Remove their account from the stored accounts, so it no longer appears in the
-            //    account list the next time someone else (e.g. the admin) logs in on this device.
-            //    Switching accounts alone would leave it stored.
-            // 2. Switch back to the shared device account.
-            // 3. Return to the Select Class screen.
-            val loggedOutAccount = uiState.value.selectedAccount?.session?.account
-            viewModelScope.launch {
-                if (loggedOutAccount != null) {
-                    appAccountManager.removeAccount(loggedOutAccount)
-                }
-                appAccountManager.switchAccount(sharedDeviceAccount.session.account)
-                _navCommandFlow.tryEmit(
-                    NavCommand.Navigate(
-                        destination = LoginSelectClass,
-                        clearBackStack = true
-                    )
-                )
-            }
-        } else {
-            // Regular logout - no shared device present
-            uiState.value.selectedAccount?.also {
-                viewModelScope.launch {
-                    appAccountManager.removeAccount(it.session.account)
-                    _navCommandFlow.tryEmit(
-                        NavCommand.Navigate(
-                            destination = GetStartedScreen(),
-                            clearBackStack = true
-                        )
-                    )
+                }else {
+                    appAccountManager.removeAccount(selectedAccount.session.account)
                 }
             }
         }

@@ -28,7 +28,6 @@ import org.openeel.app.components.defaultItemPadding
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.model.Person
 import org.openeel.shared.domain.account.UserAccount
-import org.openeel.shared.domain.account.isSharedDeviceSessionWithoutProfile
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_account
 import org.openeel.shared.generated.resources.app_name
