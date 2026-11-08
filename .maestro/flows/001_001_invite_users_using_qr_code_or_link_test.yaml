@@ -221,7 +221,12 @@ onFlowComplete:
       - tapOn:
            id: "nav_classes"
       - tapOn: "New Class"
-      - assertVisible: "Pending requests.*"
+      - assertVisible:
+          id: "app_title"
+          text: "New Class"
+      - extendedWaitUntil:
+          visible: "Pending requests.*"
+          timeout: 10000
 - assertVisible: "Student User.*"
 - tapOn: "Accept Invite"
 
