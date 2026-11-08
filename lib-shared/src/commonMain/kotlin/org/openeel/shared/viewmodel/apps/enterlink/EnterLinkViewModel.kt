@@ -120,11 +120,12 @@ class EnterLinkViewModel(
                         )
                     )
                 } else {
-                    throw (appResult as? DataErrorResult)?.error ?: IllegalStateException()
+                    throw (appResult as? DataErrorResult)?.error
+                        ?: IllegalStateException("No app or playlist found for $linkUrl")
                 }
             } catch (e: CancellationException) {
                 throw e
-            } catch (e: Throwable) {
+            } catch (e: Exception) {
                 Napier.w(message = "EnterLinkViewModel: could not open link", throwable = e)
                 _uiState.update {
                     it.copy(

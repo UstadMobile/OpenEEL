@@ -5,7 +5,6 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.json.Json
-import org.openeel.datalayer.ext.getAsDataLoadState
 import org.openeel.datalayer.ext.getDataLoadResultAsFlow
 import org.openeel.datalayer.host.HostListDataSource
 import org.openeel.datalayer.respect.model.SchoolDirectory
@@ -36,5 +35,4 @@ class HostListDataSourceHttpClient(
             bodyAdapter = ::decodeHosts,
             requestBuilder = { headers.appendAll(loadParams.requestHeaders) },
         )
-
 }

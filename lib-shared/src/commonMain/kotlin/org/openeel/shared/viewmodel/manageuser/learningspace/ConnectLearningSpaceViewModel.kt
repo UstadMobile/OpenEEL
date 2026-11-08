@@ -2,7 +2,9 @@ package org.openeel.shared.viewmodel.manageuser.learningspace
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import io.github.aakira.napier.Napier
 import io.ktor.http.Url
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -66,40 +68,35 @@ class ConnectLearningSpaceViewModel(
         }
     }
 
-     fun onClickNext() {
-         val link = uiState.value.link
-         if (link.isBlank()) {
-             _uiState.update {
-                 it.copy(errorMessage = StringResourceUiText(Res.string.invalid_code))
-             }
-             return
-         }
+    fun onClickNext() {
+        if (uiState.value.link.isBlank()) {
+            _uiState.update {
+                it.copy(errorMessage = StringResourceUiText(Res.string.invalid_code))
+            }
+            return
+        }
 
-         launchWithLoadingIndicator {
-             try {
-                 val url = Url(link)
-                 val navCommand = resolveUrlToNavCommandUseCase(url)
-                 if(navCommand != null) {
-                     _navCommandFlow.tryEmit(navCommand)
-                     return@launchWithLoadingIndicator
-                 }
-
-                 val schoolUrl = url.normalizeForEndpoint()
-                 val schoolEntry = this@ConnectLearningSpaceViewModel.schoolDirectoryDataSource.schoolDirectoryEntryResource
-                     .getSchoolDirectoryEntryByUrl(schoolUrl).dataOrNull()
-
-                 if(schoolEntry == null)
-                     throw IllegalStateException()
-
-                 _navCommandFlow.tryEmit(
-                     NavCommand.Navigate(LoginScreen.create(schoolUrl))
-                 )
-             }catch(_: Throwable){
-                 _uiState.update {
-                     it.copy(errorMessage = StringResourceUiText(Res.string.invalid_url))
-                 }
-             }
-         }
+        launchWithLoadingIndicator {
+            try {
+                val url = Url(uiState.value.link)
+                _navCommandFlow.tryEmit(
+                    resolveUrlToNavCommandUseCase(url) ?: url.normalizeForEndpoint().let { schoolUrl ->
+                        requireNotNull(
+                            schoolDirectoryDataSource.schoolDirectoryEntryResource
+                                .getSchoolDirectoryEntryByUrl(schoolUrl).dataOrNull()
+                        ) { "No school found for $schoolUrl" }
+                        NavCommand.Navigate(LoginScreen.create(schoolUrl))
+                    }
+                )
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Napier.w(message = "ConnectLearningSpaceViewModel: could not open link", throwable = e)
+                _uiState.update {
+                    it.copy(errorMessage = StringResourceUiText(Res.string.invalid_url))
+                }
+            }
+        }
     }
 
     fun onClickScanQRBadge() {

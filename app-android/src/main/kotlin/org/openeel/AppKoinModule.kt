@@ -44,7 +44,6 @@ import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModelOf
-import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.openeel.app.BuildConfig
@@ -446,15 +445,7 @@ val appKoinModule = module {
     viewModelOf(::PasskeyListViewModel)
     viewModelOf(::HowPasskeyWorksViewModel)
     viewModelOf(::ConnectLearningSpaceViewModel)
-    viewModel {
-        CreateLearningSpaceViewModel(
-            savedStateHandle = get(),
-            hostListDataSource = get(),
-            hostConfigSettingsDataSource = get(),
-            launchSchoolSelfRegistrationUseCase = get(),
-            snackBarDispatcher = get(),
-        )
-    }
+    viewModelOf(::CreateLearningSpaceViewModel)
     viewModelOf(::OtherOptionsSignupViewModel)
     viewModelOf(::EnterPasswordSignupViewModel)
     viewModelOf(::AccountListViewModel)
