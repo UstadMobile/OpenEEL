@@ -111,6 +111,7 @@ class SharedDevicesSettingsViewModel(
                 filterByName = _appUiState.value.searchState.searchText.takeIf { it.isNotBlank() },
                 filterByPersonStatus = PersonStatusEnum.ACTIVE,
                 filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
+                prioritizedGuid = currentDeviceGuid,
                 excludeSharedSchoolDevice = false
             )
         )

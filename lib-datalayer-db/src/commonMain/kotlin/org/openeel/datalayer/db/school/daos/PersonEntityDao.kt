@@ -176,7 +176,12 @@ interface PersonEntityDao {
           WHERE PersonEntity.pGuidHash IN (
                 SELECT DISTINCT uidNum
                   FROM AllPersons)
-          ORDER BY PersonEntity.pGivenName
+          ORDER BY CASE
+                       WHEN :prioritizedGuidHash != 0
+                        AND PersonEntity.pGuidHash = :prioritizedGuidHash THEN 0
+                       ELSE 1
+                   END,
+                   PersonEntity.pGivenName
     """)
     fun listAsPagingSource(
         authenticatedPersonUidNum: Long,
@@ -191,6 +196,7 @@ interface PersonEntityDao {
         filterByPersonStatus: Int = 0,
         includeRelated: Boolean = false,
         includeDeleted: Boolean = false,
+        prioritizedGuidHash: Long = 0,
     ): PagingSource<Int, PersonEntityWithRoles>
 
     @Query("""

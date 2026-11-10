@@ -37,6 +37,7 @@ interface PersonDataSource: WritableDataSource<Person> {
         val filterByName: String? = null,
         val filterByPersonStatus: PersonStatusEnum? = null,
         val filterByPersonRole: PersonRoleEnum? = null,
+        val prioritizedGuid: String? = null,
         val includeRelated: Boolean = false,
         val inClassOnDay: LocalDate? = null,
         val excludeSharedSchoolDevice: Boolean = true,
