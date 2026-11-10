@@ -25,13 +25,10 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.datalayer.respect.model.SchoolDirectory
 import org.openeel.lib.dataloadstate.DataReadyState
-import org.openeel.lib.dataloadstate.NoDataLoadedState
-import org.openeel.shared.generated.resources.not_found
-import org.openeel.lib.dataloadstate.DataErrorResult
-import org.openeel.shared.util.exception.getUiTextOrGeneric
+import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_from_link
-import org.openeel.app.components.uiTextStringResource
 import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.shared.viewmodel.manageuser.learningspace.CreateLearningSpaceUiState
 import org.openeel.shared.viewmodel.manageuser.learningspace.CreateLearningSpaceViewModel
@@ -56,9 +53,6 @@ fun CreateLearningSpaceScreen(
     onSelectHost: (SchoolDirectory) -> Unit,
 ) {
     val hostsState = uiState.hosts
-    val loadState = hostsState.let {
-        if (it is NoDataLoadedState<*>) it.remoteState ?: it else it
-    }
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item(key = "add_from_link") {
@@ -78,80 +72,34 @@ fun CreateLearningSpaceScreen(
             )
         }
 
-        when {
-            hostsState is DataReadyState -> {
-                items(
-                    items = hostsState.data,
-                    key = { it.baseUrl.toString() },
-                ) { host ->
-                    HostListItem(
-                        host = host,
-                        onClick = { onSelectHost(host) },
+        items(
+            items = hostsState.dataOrNull().orEmpty(),
+            key = { it.baseUrl.toString() },
+        ) { host ->
+            ListItem(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(onClick = { onSelectHost(host) })
+                    .testTag("host_item"),
+                leadingContent = {
+                    OpenEelAsyncImage(
+                        uri = host.icon,
+                        contentDescription = "",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(24.dp),
                     )
-                }
-            }
-
-            loadState is DataErrorResult -> {
-                item(key = "error") {
-                    ListItem(
-                        headlineContent = {
-                            Text(uiTextStringResource(loadState.error.getUiTextOrGeneric()))
-                        }
+                },
+                headlineContent = {
+                    Text(
+                        text = host.name
                     )
-                }
-            }
+                },
+                supportingContent = {
+                    Text(text = host.baseUrl.toString())
+                },
+            )
 
-            loadState is NoDataLoadedState<*> -> {
-                item(key = "not_found") {
-                    ListItem(
-                        headlineContent = { Text(stringResource(Res.string.not_found)) }
-                    )
-                }
-            }
-
-            else -> {
-                item(key = "loading") {
-                    Box(
-                        modifier = Modifier.fillMaxWidth().padding(16.dp),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-            }
         }
     }
 }
 
-@Composable
-fun HostListItem(
-    host: SchoolDirectory,
-    onClick: () -> Unit,
-) {
-    ListItem(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .testTag("host_item"),
-        leadingContent = {
-            OpenEelAsyncImage(
-                uri = requireNotNull(host.icon) {
-                    "Host ${host.baseUrl} must have an icon URL"
-                }.toString(),
-                contentDescription = "",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.size(24.dp),
-            )
-        },
-        headlineContent = {
-            Text(
-                text = requireNotNull(host.name) {
-                    "Host ${host.baseUrl} must have a name"
-                }
-            )
-        },
-        supportingContent = {
-            Text(text = host.baseUrl.toString())
-        },
-    )
-}
