@@ -3,16 +3,13 @@ package org.openeel.app.view.sharedschooldevice.login
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,44 +54,58 @@ fun LoginSelectClassScreen(
     onClickTeacherAdminLogin: () -> Unit,
 ) {
     OpenEelDataLoadHost(uiState.settings) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            if (uiState.isSelfSelectClassAndName) {
-                val pager = openEelRememberPager(uiState.classes)
-                val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
-                val listState = rememberLazyListState()
+        Column(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                if (uiState.isSelfSelectClassAndName) {
+                    val pager = openEelRememberPager(uiState.classes)
+                    val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
+                    val listState = rememberLazyListState()
 
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    state = listState
-                ) {
-                    openEelPagingItems(
-                        items = lazyPagingItems,
-                        key = { item, index -> item?.guid ?: index.toString() },
-                        contentType = { ClassDataSource.ENDPOINT_NAME },
-                    ) { clazz ->
-                        ListItem(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    clazz?.also(onClickClazz)
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        state = listState
+                    ) {
+                        openEelPagingItems(
+                            items = lazyPagingItems,
+                            key = { item, index -> item?.guid ?: index.toString() },
+                            contentType = { ClassDataSource.ENDPOINT_NAME },
+                        ) { clazz ->
+                            ListItem(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        clazz?.also(onClickClazz)
+                                    },
+                                leadingContent = {
+                                    OpenEelPersonAvatar(name = clazz?.title ?: "")
                                 },
-                            leadingContent = {
-                                OpenEelPersonAvatar(name = clazz?.title ?: "")
-                            },
-                            headlineContent = {
-                                Text(text = clazz?.title ?: "")
-                            }
-                        )
+                                headlineContent = {
+                                    Text(text = clazz?.title ?: "")
+                                }
+                            )
+                        }
                     }
-                    item {
-                        Spacer(modifier = Modifier.padding(bottom = 160.dp))
+                }
+                // Centered scan button (only when self-select is disabled)
+                else {
+                    Button(
+                        onClick = onClickScanQrCode,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        Text(text = stringResource(Res.string.scan_qr_code))
                     }
                 }
             }
 
             Column(
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .defaultItemPadding(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -118,33 +129,8 @@ fun LoginSelectClassScreen(
                 if (uiState.deviceName.isNotEmpty()) {
                     Text(
                         text = uiState.deviceName,
-                        modifier = Modifier.padding(top = 8.dp),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        modifier = Modifier.padding(top = 8.dp)
                     )
-                }
-            }
-
-            // Centered scan button (only when self-select is disabled)
-            if (!uiState.isSelfSelectClassAndName) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(bottom = 120.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Button(
-                        onClick = onClickScanQrCode,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSurface
-                        ),
-                    ) {
-                        Text(text = stringResource(Res.string.scan_qr_code))
-                    }
                 }
             }
         }
