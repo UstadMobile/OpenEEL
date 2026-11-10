@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.school.ext.primaryRole
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.school.ext.hasRoleEnum
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonGenderEnum
@@ -52,7 +51,7 @@ data class AccountListUiState(
 ) {
 
     val showAddAccountButton: Boolean
-        get() = selectedAccount?.person?.hasRoleEnum(PersonRoleEnum.SHARED_SCHOOL_DEVICE) != true
+        get() = selectedAccount?.sharedDevice == null
 
     val showSelectedAccountProfileButton: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
@@ -90,15 +89,6 @@ class AccountListViewModel(
 
         viewModelScope.launch {
             appAccountManager.selectedAccountAndPersonFlow.collect { accountAndPerson ->
-                val accountOwnerRole = appAccountManager.activeAccount?.let { account ->
-                    val accountScope = appAccountManager.getOrCreateAccountScope(account)
-                    val dataSource: SchoolDataSource = accountScope.get()
-                    dataSource.personDataSource.findByGuid(
-                        DataLoadParams(),
-                        account.userGuid
-                    ).dataOrNull()?.primaryRole()
-                }
-
                 _uiState.update { prev ->
                     prev.copy(
                         selectedAccount = accountAndPerson,
@@ -153,7 +143,7 @@ class AccountListViewModel(
                 }
 
                 storedAccountList.forEach { account ->
-                    launch {
+                    this@launch.launch {
                         val accountScope = appAccountManager.getOrCreateAccountScope(account)
                         val dataSource: SchoolDataSource = accountScope.get()
                         dataSource.personDataSource.findByGuidAsFlow(
