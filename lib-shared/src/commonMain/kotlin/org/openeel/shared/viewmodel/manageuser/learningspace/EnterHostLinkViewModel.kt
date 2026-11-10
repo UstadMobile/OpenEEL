@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.update
 import org.openeel.shared.domain.school.LaunchSchoolSelfRegistrationUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.enter_link
+import org.openeel.shared.generated.resources.registration_url
 import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
@@ -29,7 +30,7 @@ class EnterHostLinkViewModel(
     init {
         _appUiState.update {
             it.copy(
-                title = Res.string.enter_link.asUiText(),
+                title = Res.string.registration_url.asUiText(),
                 hideBottomNavigation = true,
                 userAccountIconVisible = false,
             )

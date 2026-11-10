@@ -10,6 +10,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.registration_url_label
 import org.openeel.app.components.OpenEelEnterLinkColumn
 import org.openeel.app.components.OpenEelShortVersionInfoText
 import org.openeel.app.components.defaultItemPadding
@@ -45,6 +48,7 @@ fun EnterHostLinkScreen(
             onLinkChanged = onLinkChanged,
             onClickNext = onClickNext,
             enabled = !appUiState.isLoading,
+            label = stringResource(Res.string.registration_url_label),
             modifier = Modifier.fillMaxWidth().padding(16.dp),
         )
 
