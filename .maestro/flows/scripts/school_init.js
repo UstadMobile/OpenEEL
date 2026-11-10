@@ -92,3 +92,4 @@ if(isSetString(TEST_APP_URL)) {
 }else {
     output.TEST_APP_URL = output.SCHOOL_URL + "static-resources/respect-ds/case_valid/appmanifest.json";
 }
+
