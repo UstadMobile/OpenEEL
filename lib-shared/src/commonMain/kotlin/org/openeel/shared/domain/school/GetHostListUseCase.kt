@@ -19,7 +19,6 @@ class GetHostListUseCase(
     @Serializable
     data class Host(
         val baseUrl: Url,
-        val icon: String,
     )
 
     suspend operator fun invoke(): List<Host> =

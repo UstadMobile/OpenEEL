@@ -69,6 +69,8 @@ import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.shared.domain.school.GetHostListUseCase
+import org.openeel.domain.getfavicons.GetFavIconUseCase
+import org.openeel.shared.domain.getfavicons.GetFavIconUseCaseImpl
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
@@ -632,6 +634,10 @@ val appKoinModule = module {
             .addMigrations(migrate6to8AddDirectories(addDirectoriesFromPropertiesUseCase = get()))
             .addMigrations(APP_MIGRATION_8_9_CLIENT)
             .build()
+    }
+
+    single<GetFavIconUseCase> {
+        GetFavIconUseCaseImpl(httpClient = get())
     }
 
     single {

@@ -12,13 +12,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import io.github.aakira.napier.Napier
+import kotlinx.coroutines.CancellationException
+import org.koin.compose.koinInject
+import org.openeel.domain.getfavicons.GetFavIconUseCase
 import org.openeel.shared.domain.school.GetHostListUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_from_link
@@ -45,6 +53,8 @@ fun CreateNewLearningSpaceScreen(
     onClickAddLink: () -> Unit,
     onSelectHost: (GetHostListUseCase.Host) -> Unit,
 ) {
+    val getFavIconUseCase: GetFavIconUseCase = koinInject()
+
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item(key = "add_from_link") {
             ListItem(
@@ -67,6 +77,19 @@ fun CreateNewLearningSpaceScreen(
             items = uiState.hosts,
             key = { it.baseUrl.toString() },
         ) { host ->
+            var favIconUrl by remember(host.baseUrl) { mutableStateOf<String?>(null) }
+
+            LaunchedEffect(host.baseUrl) {
+                favIconUrl = try {
+                    getFavIconUseCase(host.baseUrl).first().url
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    Napier.w("Could not load favicon for ${host.baseUrl}", e)
+                    null
+                }
+            }
+
             ListItem(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -74,7 +97,7 @@ fun CreateNewLearningSpaceScreen(
                     .testTag("host_item"),
                 leadingContent = {
                     OpenEelAsyncImage(
-                        uri = host.icon,
+                        uri = favIconUrl,
                         contentDescription = "",
                         contentScale = ContentScale.Fit,
                         modifier = Modifier.size(24.dp),

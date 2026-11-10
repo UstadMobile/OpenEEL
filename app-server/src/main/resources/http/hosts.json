@@ -2,331 +2,276 @@
   {
     "invitePrefix": "Algeria",
     "baseUrl": "https://dz.onrespect.app/",
-    "name": "Algeria",
-    "icon": "https://dz.onrespect.app/favicon.ico"
+    "name": "Algeria"
   },
   {
     "invitePrefix": "Angola",
     "baseUrl": "https://ao.onrespect.app/",
-    "name": "Angola",
-    "icon": "https://ao.onrespect.app/favicon.ico"
+    "name": "Angola"
   },
   {
     "invitePrefix": "Benin",
     "baseUrl": "https://bj.onrespect.app/",
-    "name": "Benin",
-    "icon": "https://bj.onrespect.app/favicon.ico"
+    "name": "Benin"
   },
   {
     "invitePrefix": "Botswana",
     "baseUrl": "https://bw.onrespect.app/",
-    "name": "Botswana",
-    "icon": "https://bw.onrespect.app/favicon.ico"
+    "name": "Botswana"
   },
   {
     "invitePrefix": "Burkina Faso",
     "baseUrl": "https://bf.onrespect.app/",
-    "name": "Burkina Faso",
-    "icon": "https://bf.onrespect.app/favicon.ico"
+    "name": "Burkina Faso"
   },
   {
     "invitePrefix": "Burundi",
     "baseUrl": "https://bi.onrespect.app/",
-    "name": "Burundi",
-    "icon": "https://bi.onrespect.app/favicon.ico"
+    "name": "Burundi"
   },
   {
     "invitePrefix": "Cabo Verde",
     "baseUrl": "https://cv.onrespect.app/",
-    "name": "Cabo Verde",
-    "icon": "https://cv.onrespect.app/favicon.ico"
+    "name": "Cabo Verde"
   },
   {
     "invitePrefix": "Cameroon",
     "baseUrl": "https://cm.onrespect.app/",
-    "name": "Cameroon",
-    "icon": "https://cm.onrespect.app/favicon.ico"
+    "name": "Cameroon"
   },
   {
     "invitePrefix": "Central African Republic",
     "baseUrl": "https://cf.onrespect.app/",
-    "name": "Central African Republic",
-    "icon": "https://cf.onrespect.app/favicon.ico"
+    "name": "Central African Republic"
   },
   {
     "invitePrefix": "Chad",
     "baseUrl": "https://td.onrespect.app/",
-    "name": "Chad",
-    "icon": "https://td.onrespect.app/favicon.ico"
+    "name": "Chad"
   },
   {
     "invitePrefix": "Comoros",
     "baseUrl": "https://km.onrespect.app/",
-    "name": "Comoros",
-    "icon": "https://km.onrespect.app/favicon.ico"
+    "name": "Comoros"
   },
   {
     "invitePrefix": "Congo",
     "baseUrl": "https://cg.onrespect.app/",
-    "name": "Congo",
-    "icon": "https://cg.onrespect.app/favicon.ico"
+    "name": "Congo"
   },
   {
     "invitePrefix": "Congo, Democratic Republic of the",
     "baseUrl": "https://cd.onrespect.app/",
-    "name": "Congo, Democratic Republic of the",
-    "icon": "https://cd.onrespect.app/favicon.ico"
+    "name": "Congo, Democratic Republic of the"
   },
   {
     "invitePrefix": "Côte dIvoire",
     "baseUrl": "https://ci.onrespect.app/",
-    "name": "Côte dIvoire",
-    "icon": "https://ci.onrespect.app/favicon.ico"
+    "name": "Côte dIvoire"
   },
   {
     "invitePrefix": "Demos and review",
     "baseUrl": "https://respect-testing.ustadmobile.com/",
-    "name": "Demos and review",
-    "icon": "https://respect-testing.ustadmobile.com/favicon.ico"
+    "name": "Demos and review"
   },
   {
     "invitePrefix": "Djibouti",
     "baseUrl": "https://dj.onrespect.app/",
-    "name": "Djibouti",
-    "icon": "https://dj.onrespect.app/favicon.ico"
+    "name": "Djibouti"
   },
   {
     "invitePrefix": "Egypt",
     "baseUrl": "https://eg.onrespect.app/",
-    "name": "Egypt",
-    "icon": "https://eg.onrespect.app/favicon.ico"
+    "name": "Egypt"
   },
   {
     "invitePrefix": "Equatorial Guinea",
     "baseUrl": "https://gq.onrespect.app/",
-    "name": "Equatorial Guinea",
-    "icon": "https://gq.onrespect.app/favicon.ico"
+    "name": "Equatorial Guinea"
   },
   {
     "invitePrefix": "Eritrea",
     "baseUrl": "https://er.onrespect.app/",
-    "name": "Eritrea",
-    "icon": "https://er.onrespect.app/favicon.ico"
+    "name": "Eritrea"
   },
   {
     "invitePrefix": "Eswatini",
     "baseUrl": "https://sz.onrespect.app/",
-    "name": "Eswatini",
-    "icon": "https://sz.onrespect.app/favicon.ico"
+    "name": "Eswatini"
   },
   {
     "invitePrefix": "Ethiopia",
     "baseUrl": "https://et.onrespect.app/",
-    "name": "Ethiopia",
-    "icon": "https://et.onrespect.app/favicon.ico"
+    "name": "Ethiopia"
   },
   {
     "invitePrefix": "Gabon",
     "baseUrl": "https://ga.onrespect.app/",
-    "name": "Gabon",
-    "icon": "https://ga.onrespect.app/favicon.ico"
+    "name": "Gabon"
   },
   {
     "invitePrefix": "Gambia",
     "baseUrl": "https://gm.onrespect.app/",
-    "name": "Gambia",
-    "icon": "https://gm.onrespect.app/favicon.ico"
+    "name": "Gambia"
   },
   {
     "invitePrefix": "Ghana",
     "baseUrl": "https://gh.onrespect.app/",
-    "name": "Ghana",
-    "icon": "https://gh.onrespect.app/favicon.ico"
+    "name": "Ghana"
   },
   {
     "invitePrefix": "Guinea",
     "baseUrl": "https://gn.onrespect.app/",
-    "name": "Guinea",
-    "icon": "https://gn.onrespect.app/favicon.ico"
+    "name": "Guinea"
   },
   {
     "invitePrefix": "Guinea-Bissau",
     "baseUrl": "https://gw.onrespect.app/",
-    "name": "Guinea-Bissau",
-    "icon": "https://gw.onrespect.app/favicon.ico"
+    "name": "Guinea-Bissau"
   },
   {
     "invitePrefix": "Kenya",
     "baseUrl": "https://ke.onrespect.app/",
-    "name": "Kenya",
-    "icon": "https://ke.onrespect.app/favicon.ico"
+    "name": "Kenya"
   },
   {
     "invitePrefix": "Lesotho",
     "baseUrl": "https://ls.onrespect.app/",
-    "name": "Lesotho",
-    "icon": "https://ls.onrespect.app/favicon.ico"
+    "name": "Lesotho"
   },
   {
     "invitePrefix": "Liberia",
     "baseUrl": "https://lr.onrespect.app/",
-    "name": "Liberia",
-    "icon": "https://lr.onrespect.app/favicon.ico"
+    "name": "Liberia"
   },
   {
     "invitePrefix": "Libya",
     "baseUrl": "https://ly.onrespect.app/",
-    "name": "Libya",
-    "icon": "https://ly.onrespect.app/favicon.ico"
+    "name": "Libya"
   },
   {
     "invitePrefix": "Madagascar",
     "baseUrl": "https://mg.onrespect.app/",
-    "name": "Madagascar",
-    "icon": "https://mg.onrespect.app/favicon.ico"
+    "name": "Madagascar"
   },
   {
     "invitePrefix": "Malawi",
     "baseUrl": "https://mw.onrespect.app/",
-    "name": "Malawi",
-    "icon": "https://mw.onrespect.app/favicon.ico"
+    "name": "Malawi"
   },
   {
     "invitePrefix": "Mali",
     "baseUrl": "https://ml.onrespect.app/",
-    "name": "Mali",
-    "icon": "https://ml.onrespect.app/favicon.ico"
+    "name": "Mali"
   },
   {
     "invitePrefix": "Mauritania",
     "baseUrl": "https://mr.onrespect.app/",
-    "name": "Mauritania",
-    "icon": "https://mr.onrespect.app/favicon.ico"
+    "name": "Mauritania"
   },
   {
     "invitePrefix": "Mauritius",
     "baseUrl": "https://mu.onrespect.app/",
-    "name": "Mauritius",
-    "icon": "https://mu.onrespect.app/favicon.ico"
+    "name": "Mauritius"
   },
   {
     "invitePrefix": "Morocco",
     "baseUrl": "https://ma.onrespect.app/",
-    "name": "Morocco",
-    "icon": "https://ma.onrespect.app/favicon.ico"
+    "name": "Morocco"
   },
   {
     "invitePrefix": "Mozambique",
     "baseUrl": "https://mz.onrespect.app/",
-    "name": "Mozambique",
-    "icon": "https://mz.onrespect.app/favicon.ico"
+    "name": "Mozambique"
   },
   {
     "invitePrefix": "Namibia",
     "baseUrl": "https://na.onrespect.app/",
-    "name": "Namibia",
-    "icon": "https://na.onrespect.app/favicon.ico"
+    "name": "Namibia"
   },
   {
     "invitePrefix": "Niger",
     "baseUrl": "https://ne.onrespect.app/",
-    "name": "Niger",
-    "icon": "https://ne.onrespect.app/favicon.ico"
+    "name": "Niger"
   },
   {
     "invitePrefix": "Nigeria",
     "baseUrl": "https://ng.onrespect.app/",
-    "name": "Nigeria",
-    "icon": "https://ng.onrespect.app/favicon.ico"
+    "name": "Nigeria"
   },
   {
     "invitePrefix": "Rwanda",
     "baseUrl": "https://rw.onrespect.app/",
-    "name": "Rwanda",
-    "icon": "https://rw.onrespect.app/favicon.ico"
+    "name": "Rwanda"
   },
   {
     "invitePrefix": "Sao Tome and Principe",
     "baseUrl": "https://st.onrespect.app/",
-    "name": "Sao Tome and Principe",
-    "icon": "https://st.onrespect.app/favicon.ico"
+    "name": "Sao Tome and Principe"
   },
   {
     "invitePrefix": "Senegal",
     "baseUrl": "https://sn.onrespect.app/",
-    "name": "Senegal",
-    "icon": "https://sn.onrespect.app/favicon.ico"
+    "name": "Senegal"
   },
   {
     "invitePrefix": "Seychelles",
     "baseUrl": "https://sc.onrespect.app/",
-    "name": "Seychelles",
-    "icon": "https://sc.onrespect.app/favicon.ico"
+    "name": "Seychelles"
   },
   {
     "invitePrefix": "Sierra Leone",
     "baseUrl": "https://sl.onrespect.app/",
-    "name": "Sierra Leone",
-    "icon": "https://sl.onrespect.app/favicon.ico"
+    "name": "Sierra Leone"
   },
   {
     "invitePrefix": "Somalia",
     "baseUrl": "https://so.onrespect.app/",
-    "name": "Somalia",
-    "icon": "https://so.onrespect.app/favicon.ico"
+    "name": "Somalia"
   },
   {
     "invitePrefix": "South Africa",
     "baseUrl": "https://za.onrespect.app/",
-    "name": "South Africa",
-    "icon": "https://za.onrespect.app/favicon.ico"
+    "name": "South Africa"
   },
   {
     "invitePrefix": "South Sudan",
     "baseUrl": "https://ss.onrespect.app/",
-    "name": "South Sudan",
-    "icon": "https://ss.onrespect.app/favicon.ico"
+    "name": "South Sudan"
   },
   {
     "invitePrefix": "Sudan",
     "baseUrl": "https://sd.onrespect.app/",
-    "name": "Sudan",
-    "icon": "https://sd.onrespect.app/favicon.ico"
+    "name": "Sudan"
   },
   {
     "invitePrefix": "Tanzania, United Republic of",
     "baseUrl": "https://tz.onrespect.app/",
-    "name": "Tanzania, United Republic of",
-    "icon": "https://tz.onrespect.app/favicon.ico"
+    "name": "Tanzania, United Republic of"
   },
   {
     "invitePrefix": "Togo",
     "baseUrl": "https://tg.onrespect.app/",
-    "name": "Togo",
-    "icon": "https://tg.onrespect.app/favicon.ico"
+    "name": "Togo"
   },
   {
     "invitePrefix": "Tunisia",
     "baseUrl": "https://tn.onrespect.app/",
-    "name": "Tunisia",
-    "icon": "https://tn.onrespect.app/favicon.ico"
+    "name": "Tunisia"
   },
   {
     "invitePrefix": "Uganda",
     "baseUrl": "https://ug.onrespect.app/",
-    "name": "Uganda",
-    "icon": "https://ug.onrespect.app/favicon.ico"
+    "name": "Uganda"
   },
   {
     "invitePrefix": "Zambia",
     "baseUrl": "https://zm.onrespect.app/",
-    "name": "Zambia",
-    "icon": "https://zm.onrespect.app/favicon.ico"
+    "name": "Zambia"
   },
   {
     "invitePrefix": "Zimbabwe",
     "baseUrl": "https://zw.onrespect.app/",
-    "name": "Zimbabwe",
-    "icon": "https://zw.onrespect.app/favicon.ico"
+    "name": "Zimbabwe"
   }
 ]

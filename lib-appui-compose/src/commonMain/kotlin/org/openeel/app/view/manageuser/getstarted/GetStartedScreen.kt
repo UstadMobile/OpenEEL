@@ -112,7 +112,13 @@ fun GetStartedScreen(
                     Text(text = stringResource(Res.string.school_directory))
                 },
                 itemText = { item ->
-                    item.baseUrl.toString()
+                    buildString {
+                        item.name?.also {
+                            append(it)
+                            append(" - ")
+                        }
+                        append(item.baseUrl.toString())
+                    }
                 }
             )
         }
