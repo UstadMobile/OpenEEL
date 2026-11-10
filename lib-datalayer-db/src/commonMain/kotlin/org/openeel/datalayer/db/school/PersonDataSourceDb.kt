@@ -188,7 +188,6 @@ class PersonDataSourceDb(
                 filterByPersonStatus = params.filterByPersonStatus?.flag ?: 0,
                 includeRelated = params.includeRelated,
                 includeDeleted = params.common.includeDeleted ?: false,
-                prioritizedGuidHash = params.prioritizedGuid?.let { uidNumberMapper(it) } ?: 0,
             ).map(tag = { "PersonDataSourceDb/listAsPagingSource(params=$params)" }) {
                 it.toPersonEntities().toModel()
             }

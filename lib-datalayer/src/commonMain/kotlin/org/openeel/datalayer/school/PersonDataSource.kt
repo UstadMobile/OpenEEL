@@ -38,7 +38,6 @@ interface PersonDataSource: WritableDataSource<Person> {
         val filterByPersonStatus: PersonStatusEnum? = null,
         val filterByPersonRole: PersonRoleEnum? = null,
         val excludeByPersonRole: PersonRoleEnum? = null,
-        val prioritizedGuid: String? = null,
         val includeRelated: Boolean = false,
         val inClassOnDay: LocalDate? = null,
     ) {

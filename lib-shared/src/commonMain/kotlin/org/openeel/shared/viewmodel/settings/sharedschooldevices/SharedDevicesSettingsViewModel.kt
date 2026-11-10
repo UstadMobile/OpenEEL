@@ -67,7 +67,7 @@ data class SharedDevicesSettingsUiState(
     val showBottomSheetOptions: Boolean = false,
     val currentDeviceGuid: String? = null
 ) {
-    fun isCurrentDevice(person: Person): Boolean = person.guid == currentDeviceGuid
+    fun isCurrentDevice(person: Person): Boolean = person.guid == thisDevice.dataOrNull()?.guid
 
     companion object {
         const val PIN_LENGTH = 4
@@ -75,7 +75,7 @@ data class SharedDevicesSettingsUiState(
 }
 class SharedDevicesSettingsViewModel(
     savedStateHandle: SavedStateHandle,
-    private val accountManager: AppAccountManager,
+    accountManager: AppAccountManager,
     private val snackBarDispatcher: SnackBarDispatcher,
     private val settings: Settings,
     private val json: Json
@@ -91,6 +91,7 @@ class SharedDevicesSettingsViewModel(
 
     private val approveOrDeclineInviteRequestUseCase: ApproveOrDeclineInviteRequestUseCase by inject()
     private val _uiState = MutableStateFlow(SharedDevicesSettingsUiState())
+
     val uiState = _uiState.asStateFlow()
 
     private val currentDeviceGuid = settings.getStringOrNull(CURRENT_DEVICE_GUID)
@@ -114,7 +115,6 @@ class SharedDevicesSettingsViewModel(
                 filterByName = _appUiState.value.searchState.searchText.takeIf { it.isNotBlank() },
                 filterByPersonStatus = PersonStatusEnum.ACTIVE,
                 filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
-                prioritizedGuid = currentDeviceGuid
             )
         )
     }
@@ -138,7 +138,6 @@ class SharedDevicesSettingsViewModel(
             it.copy(
                 devices = pagingSourceFactoryHolder,
                 pendingDevices = pendingPersonsPagingSource,
-                currentDeviceGuid = currentDeviceGuid
             )
         }
 
@@ -163,6 +162,10 @@ class SharedDevicesSettingsViewModel(
 
         viewModelScope.launch {
             if(currentDeviceGuid != null) {
+                /*
+                 * There isn't an elegant way of adding this to query parameters especially for
+                 * external user directory sources, so this is handled as a separate flow.
+                 */
                 schoolDataSource.personDataSource.listAsFlow(
                     loadParams = DataLoadParams(),
                     params = PersonDataSource.GetListParams(
