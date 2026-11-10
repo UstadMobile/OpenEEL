@@ -25,11 +25,11 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_from_link
 import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceUiState
-import org.openeel.shared.viewmodel.manageuser.learningspace.CreateLearningSpaceViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceViewModel
 
 @Composable
 fun CreateNewLearningSpaceScreen(
-    viewModel: CreateLearningSpaceViewModel
+    viewModel: CreateNewLearningSpaceViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
 

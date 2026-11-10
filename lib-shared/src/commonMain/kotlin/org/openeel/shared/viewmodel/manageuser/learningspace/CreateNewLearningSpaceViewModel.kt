@@ -29,7 +29,7 @@ data class CreateNewLearningSpaceUiState(
     val hosts: DataLoadState<List<SchoolDirectory>> = DataLoadingState(),
 )
 
-class CreateLearningSpaceViewModel(
+class CreateNewLearningSpaceViewModel(
     savedStateHandle: SavedStateHandle,
     private val hostListDataSource: HostListDataSource,
     private val hostConfigSettingsDataSource: HostConfigSettingsDataSource,

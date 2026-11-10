@@ -246,8 +246,6 @@ import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
 import org.openeel.shared.viewmodel.manageuser.howpasskeywork.HowPasskeyWorksViewModel
 import org.openeel.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeViewModel
 import org.openeel.shared.viewmodel.manageuser.login.LoginViewModel
-import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceViewModel
-import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceViewModel
 import org.openeel.shared.viewmodel.manageuser.otheroptionsignup.OtherOptionsSignupViewModel
 import org.openeel.shared.viewmodel.manageuser.profile.SignupViewModel
 import org.openeel.shared.viewmodel.manageuser.signup.CreateAccountViewModel
@@ -322,6 +320,10 @@ import org.openeel.shared.viewmodel.statement.list.StatementListViewModel
 import org.openeel.shared.domain.xapi.xapinanohttpd.XapiResourceProviderAndroid
 import org.openeel.shared.viewmodel.catalog.bookmark.BookmarkListViewModel
 import org.openeel.shared.viewmodel.manageuser.getstarted.NewGetStartedViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceViewModel
+
+
 
 
 const val SHARED_PREF_SETTINGS_NAME = "respect_settings3_"
@@ -446,8 +448,8 @@ val appKoinModule = module {
     viewModelOf(::NewGetStartedViewModel)
     viewModelOf(::PasskeyListViewModel)
     viewModelOf(::HowPasskeyWorksViewModel)
-    viewModelOf(::ConnectToExistingLearningSpaceViewModel)
     viewModelOf(::CreateNewLearningSpaceViewModel)
+    viewModelOf(::ConnectToExistingLearningSpaceViewModel)
     viewModelOf(::OtherOptionsSignupViewModel)
     viewModelOf(::EnterPasswordSignupViewModel)
     viewModelOf(::AccountListViewModel)

@@ -33,7 +33,7 @@ data class ConnectToExistingLearningSpaceUiState(
     val manageDirectoriesVisible: Boolean = false,
 )
 
-class ConnectLearningSpaceViewModel(
+class ConnectToExistingLearningSpaceViewModel(
     savedStateHandle: SavedStateHandle,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val getDevModeEnabledUseCase: GetDevModeEnabledUseCase,
