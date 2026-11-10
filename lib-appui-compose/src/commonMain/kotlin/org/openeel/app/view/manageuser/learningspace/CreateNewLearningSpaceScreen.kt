@@ -80,13 +80,10 @@ fun CreateNewLearningSpaceScreen(
             var favIconUrl by remember(host.baseUrl) { mutableStateOf<String?>(null) }
 
             LaunchedEffect(host.baseUrl) {
-                favIconUrl = try {
-                    getFavIconUseCase(host.baseUrl).first().url
-                } catch (e: CancellationException) {
-                    throw e
+                try {
+                    favIconUrl = getFavIconUseCase(host.baseUrl).first().url
                 } catch (e: Exception) {
                     Napier.w("Could not load favicon for ${host.baseUrl}", e)
-                    null
                 }
             }
 
@@ -104,9 +101,10 @@ fun CreateNewLearningSpaceScreen(
                     )
                 },
                 headlineContent = {
-                    Text(
-                        text = host.baseUrl.toString()
-                    )
+                    Text(text = host.name)
+                },
+                supportingContent = {
+                    Text(text = host.baseUrl.toString())
                 },
             )
 
