@@ -12,9 +12,9 @@ import org.openeel.shared.domain.navigation.deferreddeeplink.GetDeferredDeepLink
 import org.openeel.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
 import org.openeel.shared.ext.withClearBackstack
 import org.openeel.shared.navigation.AssignmentList
-import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.NewGetStartedScreen
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
@@ -24,12 +24,8 @@ import kotlin.time.Duration.Companion.milliseconds
  * - If user already has account signed in: Go to AssignmentList if it is a simplified child mode
  *   account, otherwise go to AppLauncher
  *
- * This is used in two places:
- *
- * a) AcknowledgementViewModel: the first screen of the app. If the GetStarted screen has already
- *    been shown, then it will use this use case to determine where to navigate to
- * b) GetStartedViewModel: will always use this use case to determine where to navigate to after the
- *    user clicks the get started button.
+ * AcknowledgementViewModel uses this after onboarding has been shown. Without a deep link or
+ * signed-in account, go to NewGetStartedScreen.
  */
 class NavigateOnAppStartUseCase(
     private val accountManager: AppAccountManager,
@@ -80,7 +76,7 @@ class NavigateOnAppStartUseCase(
         return initLinkNavCommand?.withClearBackstack(true) ?: NavCommand.Navigate(
             destination = when {
                 hasAccount -> if (isChild) AssignmentList else Home
-                else -> GetStartedScreen()
+                else -> NewGetStartedScreen()
             },
             clearBackStack = true,
         )
