@@ -14,7 +14,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.respect.model.SchoolDirectory
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
-import org.openeel.lib.dataloadstate.DataReadyState
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.shared.domain.school.LaunchSchoolSelfRegistrationUseCase
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
 import org.openeel.shared.generated.resources.Res
@@ -58,17 +58,15 @@ class CreateLearningSpaceViewModel(
                     key = HostConfigSettingsDataSource.KEY_HOST_LIST,
                 ),
             ).collectLatest { hostConfigSettings ->
-                if (hostConfigSettings is DataReadyState) {
-
-                    hostListDataSource.listAsFlow(
-                        loadParams = DataLoadParams(),
-                        params = HostListDataSource.GetListParams(
-                            url = Url(
-                                requireNotNull(hostConfigSettings.data.firstOrNull()?.value)
-                            )
-                        ),
-                    ).collect { hosts ->
-                        _uiState.update { it.copy(hosts = hosts) }
+                val hostListUrl = hostConfigSettings.dataOrNull()?.firstOrNull()?.value?.let {
+                    Url(it)
+                } ?: return@collectLatest
+                hostListDataSource.listAsFlow(
+                    loadParams = DataLoadParams(),
+                    params = HostListDataSource.GetListParams(url = hostListUrl),
+                ).collect { hosts ->
+                    _uiState.update { prev ->
+                        prev.copy(hosts = hosts)
                     }
                 }
             }
