@@ -1,4 +1,4 @@
-package org.openeel.app.view.sharedschooldevice
+package org.openeel.app.view.settings.school
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,7 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.devices
 import org.openeel.shared.generated.resources.school_name
 import org.openeel.shared.generated.resources.shared_school_devices
-import org.openeel.shared.viewmodel.sharedschooldevice.SchoolSettingsViewModel
+import org.openeel.shared.viewmodel.settings.school.SchoolSettingsViewModel
 
 @Composable
 fun SchoolSettingsScreen(

@@ -22,8 +22,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.policies_shared_devices
 import org.openeel.shared.generated.resources.school
-import org.openeel.shared.viewmodel.settings.SettingsUiState
-import org.openeel.shared.viewmodel.settings.SettingsViewModel
+import org.openeel.shared.viewmodel.settings.main.SettingsUiState
+import org.openeel.shared.viewmodel.settings.main.SettingsViewModel
 
 @Composable
 fun SettingsScreen(
