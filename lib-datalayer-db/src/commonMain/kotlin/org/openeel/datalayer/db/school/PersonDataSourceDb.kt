@@ -157,6 +157,7 @@ class PersonDataSourceDb(
             inClassOnDayInUtcMs = params.inClassOnDay?.atStartOfDayInMillisUtc() ?: 0,
             filterByName = params.filterByName,
             filterByPersonRole = params.filterByPersonRole?.flag ?: 0,
+            excludeByPersonRole = params.excludeByPersonRole?.flag ?: 0,
             filterByPersonStatus = params.filterByPersonStatus?.flag ?: 0,
             includeRelated = params.includeRelated,
             includeDeleted = params.common.includeDeleted ?: false,
@@ -183,6 +184,7 @@ class PersonDataSourceDb(
                 inClassOnDayInUtcMs = params.inClassOnDay?.atStartOfDayInMillisUtc() ?: 0,
                 filterByName = params.filterByName,
                 filterByPersonRole = params.filterByPersonRole?.flag ?: 0,
+                excludeByPersonRole = params.excludeByPersonRole?.flag ?: 0,
                 filterByPersonStatus = params.filterByPersonStatus?.flag ?: 0,
                 includeRelated = params.includeRelated,
                 includeDeleted = params.common.includeDeleted ?: false,
@@ -207,6 +209,8 @@ class PersonDataSourceDb(
             inClassOnDayInUtcMs = params.inClassOnDay?.atStartOfDayInMillisUtc() ?: 0,
             filterByName = params.filterByName,
             filterByPersonRole = params.filterByPersonRole?.flag ?: 0,
+            excludeByPersonRole = params.excludeByPersonRole?.flag ?: 0,
+            filterByPersonStatus = params.filterByPersonStatus?.flag ?: 0,
             includeRelated = params.includeRelated,
             includeDeleted = params.common.includeDeleted ?: false,
         ).map {
@@ -234,10 +238,13 @@ class PersonDataSourceDb(
                 guidHash = listParams.common.guid?.let { uidNumberMapper(it) } ?: 0,
                 inClazzGuidHash = listParams.filterByClazzUid?.let { uidNumberMapper(it) } ?: 0,
                 inClazzRoleFlag = listParams.filterByEnrolmentRole?.flag ?: 0,
+                inClassOnDayInUtcMs = listParams.inClassOnDay?.atStartOfDayInMillisUtc() ?: 0,
                 filterByName = listParams.filterByName,
                 filterByPersonRole = listParams.filterByPersonRole?.flag ?: 0,
+                excludeByPersonRole = listParams.excludeByPersonRole?.flag ?: 0,
                 filterByPersonStatus = listParams.filterByPersonStatus?.flag ?: 0,
                 includeRelated = listParams.includeRelated,
+                includeDeleted = listParams.common.includeDeleted ?: false,
             )
         }
     }

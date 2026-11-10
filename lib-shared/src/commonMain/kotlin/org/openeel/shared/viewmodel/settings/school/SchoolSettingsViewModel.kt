@@ -1,4 +1,4 @@
-package org.openeel.shared.viewmodel.sharedschooldevice
+package org.openeel.shared.viewmodel.settings.school
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope

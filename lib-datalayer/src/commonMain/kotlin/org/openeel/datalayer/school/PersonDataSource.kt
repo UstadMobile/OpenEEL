@@ -37,10 +37,10 @@ interface PersonDataSource: WritableDataSource<Person> {
         val filterByName: String? = null,
         val filterByPersonStatus: PersonStatusEnum? = null,
         val filterByPersonRole: PersonRoleEnum? = null,
+        val excludeByPersonRole: PersonRoleEnum? = null,
         val prioritizedGuid: String? = null,
         val includeRelated: Boolean = false,
         val inClassOnDay: LocalDate? = null,
-        val excludeSharedSchoolDevice: Boolean = true,
     ) {
 
         companion object {
@@ -61,9 +61,10 @@ interface PersonDataSource: WritableDataSource<Person> {
                     filterByPersonRole = stringValues[FILTER_BY_PERSON_ROLE]?.let {
                         PersonRoleEnum.fromValue(it)
                     },
+                    excludeByPersonRole = stringValues[EXCLUDE_BY_PERSON_ROLE]?.let {
+                        PersonRoleEnum.fromValue(it)
+                    },
                     includeRelated = stringValues[DataLayerParams.INCLUDE_RELATED]?.toBoolean() ?: false,
-                    excludeSharedSchoolDevice = stringValues[DataLayerParams.EXCLUDE_SHARED_SCHOOL_DEVICE]?.toBoolean() ?: false,
-
                 )
             }
         }
@@ -114,6 +115,8 @@ interface PersonDataSource: WritableDataSource<Person> {
 
 
         const val FILTER_BY_PERSON_ROLE = "filterByPersonRole"
+
+        const val EXCLUDE_BY_PERSON_ROLE = "excludeByPersonRole"
 
 
     }

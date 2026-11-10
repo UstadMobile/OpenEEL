@@ -1,4 +1,4 @@
-package org.openeel.shared.viewmodel.sharedschooldevice
+package org.openeel.shared.viewmodel.settings.sharedschooldevices
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -23,10 +23,13 @@ import org.openeel.datalayer.school.model.SharedDeviceSettings
 import org.openeel.datalayer.shared.paging.EmptyPagingSource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
+import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.dataloadstate.ext.firstOrNotFound
 import org.openeel.lib.dataloadstate.ext.isSettledNotFound
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUseCase
@@ -54,6 +57,7 @@ data class SharedDevicesSettingsUiState(
     val devices: IPagingSourceFactory<Int, Person> = IPagingSourceFactory {
         EmptyPagingSource()
     },
+    val thisDevice: DataLoadState<Person> = DataLoadingState(),
     val pendingDevices: IPagingSourceFactory<Int, Person> =
         IPagingSourceFactory { EmptyPagingSource() },
     val error: UiText? = null,
@@ -98,8 +102,7 @@ class SharedDevicesSettingsViewModel(
             DataLoadParams(),
             PersonDataSource.GetListParams(
                 filterByPersonStatus = PersonStatusEnum.PENDING_APPROVAL,
-                filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
-                excludeSharedSchoolDevice = false
+                filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE
             )
         )
     }
@@ -111,8 +114,7 @@ class SharedDevicesSettingsViewModel(
                 filterByName = _appUiState.value.searchState.searchText.takeIf { it.isNotBlank() },
                 filterByPersonStatus = PersonStatusEnum.ACTIVE,
                 filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
-                prioritizedGuid = currentDeviceGuid,
-                excludeSharedSchoolDevice = false
+                prioritizedGuid = currentDeviceGuid
             )
         )
     }
@@ -156,6 +158,22 @@ class SharedDevicesSettingsViewModel(
                         )
                     )
                 }
+            }
+        }
+
+        viewModelScope.launch {
+            if(currentDeviceGuid != null) {
+                schoolDataSource.personDataSource.listAsFlow(
+                    loadParams = DataLoadParams(),
+                    params = PersonDataSource.GetListParams(
+                        common = GetListCommonParams(guid = currentDeviceGuid),
+                        filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
+                    )
+                ).collect { thisDevice ->
+                    _uiState.update { it.copy(thisDevice = thisDevice.firstOrNotFound()) }
+                }
+            }else {
+                _uiState.update { it.copy(thisDevice = NoDataLoadedState.notFound()) }
             }
         }
     }

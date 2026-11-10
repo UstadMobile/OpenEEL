@@ -15,7 +15,7 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
-import org.openeel.lib.dataloadstate.ext.firstOrNotLoaded
+import org.openeel.lib.dataloadstate.ext.firstOrNotFound
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.lib.xapi.resources.XapiStatementsResource
@@ -65,7 +65,7 @@ class RawStatementViewModel(
             ).collectLatest { loadState ->
                 _uiState.update { state ->
                     state.copy(
-                        statement = loadState.map { it.statements }.firstOrNotLoaded()
+                        statement = loadState.map { it.statements }.firstOrNotFound()
                     )
                 }
             }

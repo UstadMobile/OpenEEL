@@ -69,8 +69,8 @@ import org.openeel.app.view.statement.detail.RawStatementScreen
 import org.openeel.app.view.statement.detail.StatementDetailScreen
 import org.openeel.app.view.statement.list.StatementListScreen
 import org.openeel.app.viewmodel.openEelViewModel
-import org.openeel.app.view.sharedschooldevice.SchoolSettingsScreen
-import org.openeel.app.view.sharedschooldevice.SharedDevicesSettingsScreen
+import org.openeel.app.view.settings.school.SchoolSettingsScreen
+import org.openeel.app.view.settings.sharedschooldevices.SharedDevicesSettingsScreen
 import org.openeel.app.view.sharedschooldevice.TeacherPinConfirmationScreen
 import org.openeel.app.view.sharedschooldevice.login.LoginSelectClassScreen
 import org.openeel.app.view.sharedschooldevice.login.LoginSelectStudentScreen
@@ -177,7 +177,7 @@ import org.openeel.shared.viewmodel.report.list.ReportListViewModel
 import org.openeel.shared.viewmodel.report.list.ReportTemplateListViewModel
 import org.openeel.shared.viewmodel.schooldirectory.edit.SchoolDirectoryEditViewModel
 import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryListViewModel
-import org.openeel.shared.viewmodel.settings.SettingsViewModel
+import org.openeel.shared.viewmodel.settings.main.SettingsViewModel
 
 @Composable
 fun AppNavHost(

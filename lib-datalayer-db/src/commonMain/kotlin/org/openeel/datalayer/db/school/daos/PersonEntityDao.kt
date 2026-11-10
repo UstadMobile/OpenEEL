@@ -118,6 +118,7 @@ interface PersonEntityDao {
         filterByName: String? = null,
         timeNow: Long = systemTimeInMillis(),
         filterByPersonRole: Int = 0,
+        excludeByPersonRole: Int = 0,
         filterByPersonStatus: Int = 0,
         includeRelated: Boolean = false,
         includeDeleted: Boolean = false,
@@ -145,6 +146,7 @@ interface PersonEntityDao {
         filterByName: String? = null,
         timeNow: Long = systemTimeInMillis(),
         filterByPersonRole: Int = 0,
+        excludeByPersonRole: Int = 0,
         filterByPersonStatus: Int = 0,
         includeRelated: Boolean = false,
         includeDeleted: Boolean = false,
@@ -193,6 +195,7 @@ interface PersonEntityDao {
         filterByName: String? = null,
         timeNow: Long = systemTimeInMillis(),
         filterByPersonRole: Int = 0,
+        excludeByPersonRole: Int = 0,
         filterByPersonStatus: Int = 0,
         includeRelated: Boolean = false,
         includeDeleted: Boolean = false,
@@ -232,6 +235,7 @@ interface PersonEntityDao {
         filterByName: String? = null,
         timeNow: Long = systemTimeInMillis(),
         filterByPersonRole: Int = 0,
+        excludeByPersonRole: Int = 0,
         filterByPersonStatus: Int = 0,
         includeRelated: Boolean = false,
         includeDeleted: Boolean = false,
@@ -440,6 +444,10 @@ interface PersonEntityDao {
                       AND (:filterByName IS NULL 
                            OR (PersonEntity.pGivenName || ' ' || PersonEntity.pFamilyName) LIKE ('%' || :filterByName || '%'))
                       AND (:filterByPersonRole = 0 OR :filterByPersonRole IN 
+                           (SELECT PersonRoleEntity.prRoleEnum
+                              FROM PersonRoleEntity
+                             WHERE PersonRoleEntity.prPersonGuidHash = PersonEntity.pGuidHash))
+                      AND (:excludeByPersonRole = 0 OR :excludeByPersonRole NOT IN 
                            (SELECT PersonRoleEntity.prRoleEnum
                               FROM PersonRoleEntity
                              WHERE PersonRoleEntity.prPersonGuidHash = PersonEntity.pGuidHash))

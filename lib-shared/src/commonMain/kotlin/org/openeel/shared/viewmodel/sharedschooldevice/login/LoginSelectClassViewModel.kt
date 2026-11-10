@@ -12,6 +12,7 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.ClassDataSource
 import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.model.Clazz
@@ -122,7 +123,7 @@ class LoginSelectClassViewModel(
                 )
             ).collect { deviceData ->
                 _uiState.update {
-                    it.copy(deviceName = deviceData.dataOrNull()?.firstOrNull()?.givenName ?: "")
+                    it.copy(deviceName = deviceData.dataOrNull()?.firstOrNull()?.fullName() ?: "")
                 }
             }
         }

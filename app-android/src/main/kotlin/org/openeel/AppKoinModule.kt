@@ -288,7 +288,7 @@ import org.openeel.shared.viewmodel.report.list.ReportListViewModel
 import org.openeel.shared.viewmodel.report.list.ReportTemplateListViewModel
 import org.openeel.sharedse.domain.account.authenticatepassword.AuthenticatePasswordUseCaseDbImpl
 import java.io.File
-import org.openeel.shared.viewmodel.settings.SettingsViewModel
+import org.openeel.shared.viewmodel.settings.main.SettingsViewModel
 import org.openeel.shared.viewmodel.person.setusernameandpassword.CreateAccountSetPasswordViewModel
 import org.openeel.shared.viewmodel.person.setusernameandpassword.CreateAccountSetUserNameViewModel
 import org.openeel.shared.viewmodel.catalog.opdsfeededit.OpdsFeedEditViewModel
@@ -314,8 +314,8 @@ import org.openeel.shared.viewmodel.statement.detail.StatementDetailViewModel
 import org.openeel.shared.viewmodel.statement.list.StatementListViewModel
 import org.openeel.shared.domain.xapi.xapinanohttpd.XapiResourceProviderAndroid
 import org.openeel.shared.viewmodel.catalog.bookmark.BookmarkListViewModel
-import org.openeel.shared.viewmodel.sharedschooldevice.SchoolSettingsViewModel
-import org.openeel.shared.viewmodel.sharedschooldevice.SharedDevicesSettingsViewModel
+import org.openeel.shared.viewmodel.settings.school.SchoolSettingsViewModel
+import org.openeel.shared.viewmodel.settings.sharedschooldevices.SharedDevicesSettingsViewModel
 import org.openeel.shared.viewmodel.sharedschooldevice.TeacherPinConfirmationViewModel
 import org.openeel.shared.viewmodel.sharedschooldevice.login.LoginSelectClassViewModel
 import org.openeel.shared.viewmodel.sharedschooldevice.login.LoginSelectStudentViewModel
