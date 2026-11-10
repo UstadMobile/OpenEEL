@@ -13,6 +13,7 @@
     <string name="empty_list_description">"Add an app from the app list and it will show up here"</string>
     <string name="add_link">Add Link</string>
     <string name="add_from_link">Add from Link</string>
+    <string name="enter_link_manually">Enter link manually</string>
     <string name="app_link_provided_message">Copy/paste the launchable app link provided by the app developer</string>
     <string name="error_link_message">"ERROR: Invalid link. Please check the URL and try again."</string>
     <string name="link_label">Link*</string>

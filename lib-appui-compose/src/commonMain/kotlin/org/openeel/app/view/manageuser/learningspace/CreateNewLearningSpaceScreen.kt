@@ -31,6 +31,7 @@ import org.openeel.shared.domain.school.GetHostListUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_from_link
 import org.openeel.app.app.OpenEelAsyncImage
+import org.openeel.shared.generated.resources.enter_link_manually
 import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceUiState
 import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceViewModel
 
@@ -56,7 +57,7 @@ fun CreateNewLearningSpaceScreen(
     val getFavIconUseCase: GetFavIconUseCase = koinInject()
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        item(key = "add_from_link") {
+        item(key = "enter_link_manually") {
             ListItem(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -68,7 +69,7 @@ fun CreateNewLearningSpaceScreen(
                     )
                 },
                 headlineContent = {
-                    Text(text = stringResource(Res.string.add_from_link))
+                    Text(text = stringResource(Res.string.enter_link_manually))
                 }
             )
         }
