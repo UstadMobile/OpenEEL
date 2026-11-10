@@ -16,6 +16,7 @@
     <string name="enter_link_manually">Enter link manually</string>
     <string name="registration_url">Registration URL</string>
     <string name="registration_url_label">Registration url:</string>
+    <string name="registration_url_info">Use the link provided by the administrator of the server you want to use to create your new leaning space. This will only be available if the administrator has enabled it.</string>
     <string name="app_link_provided_message">Copy/paste the launchable app link provided by the app developer</string>
     <string name="error_link_message">"ERROR: Invalid link. Please check the URL and try again."</string>
     <string name="link_label">Link*</string>
