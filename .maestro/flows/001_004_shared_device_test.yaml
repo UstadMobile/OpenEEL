@@ -80,6 +80,17 @@ onFlowComplete:
     text: "Home"
 
 # Enable Shared Mode - Test Device 1
+# To view Settings icon -Admin user needs to click on App Version button 7 times
+- tapOn:
+    id: "user_account_icon"
+- repeat:
+    times: 7
+    commands:
+      - tapOn: "App version:.*"
+- assertVisible: "Developer mode enabled"
+- back
+- tapOn:
+    id: "nav_home"
 - tapOn:
     id: "Settings"
 - assertVisible:
@@ -174,11 +185,18 @@ onFlowComplete:
     when:
       visible: "Save password for Respect?"
     file: "subflows/save_password_prompt_cancel.yaml"
+
+# To view Settings icon -Admin user needs to click on App Version button 7 times
+- tapOn:
+    id: "user_account_icon"
+- repeat:
+    times: 7
+    commands:
+      - tapOn: "App version:.*"
+- assertVisible: "Developer mode enabled"
+- back
 - tapOn:
     id: "nav_home"
-- assertVisible:
-    id: "app_title"
-    text: "Home"
 - tapOn:
     id: "Settings"
 - assertVisible:
@@ -282,6 +300,17 @@ onFlowComplete:
     when:
       visible: "Save password for Respect?"
     file: "subflows/save_password_prompt_cancel.yaml"
+# To view Settings icon -Admin user needs to click on App Version button 7 times
+- tapOn:
+    id: "user_account_icon"
+- repeat:
+    times: 7
+    commands:
+      - tapOn: "App version:.*"
+- assertVisible: "Developer mode enabled"
+- back
+- tapOn:
+    id: "nav_home"
 - tapOn:
     id: "nav_home"
 - assertVisible:
@@ -325,7 +354,7 @@ onFlowComplete:
       id: "app_title"
       text: "Scan QR code badge"
 - tapOn: "More Options"
-- tapOn: "Paste URL"
+- tapOn: "Paste Url"
 - tapOn: "Url"
 - inputText: ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312
 - tapOn: "OK"
