@@ -9,6 +9,9 @@ import androidx.navigation.compose.composable
 import org.openeel.app.view.acknowledgement.AcknowledgementScreen
 import org.openeel.app.view.apps.detail.AppsDetailScreen
 import org.openeel.app.view.apps.enterlink.EnterLinkScreen
+import org.openeel.app.view.manageuser.learningspace.EnterHostLinkScreen
+import org.openeel.shared.navigation.EnterHostLink
+import org.openeel.shared.viewmodel.manageuser.learningspace.EnterHostLinkViewModel
 import org.openeel.app.view.apps.list.AppListScreen
 import org.openeel.app.view.assignment.detail.AssignmentDetailScreen
 import org.openeel.app.view.assignment.edit.AssignmentEditScreen
@@ -31,7 +34,7 @@ import org.openeel.app.view.manageuser.getstarted.GetStartedScreen
 import org.openeel.app.view.manageuser.howpasskeywork.HowPasskeyWorksScreen
 import org.openeel.app.view.manageuser.enterinvitecode.EnterInviteCodeScreen
 import org.openeel.app.view.manageuser.login.LoginScreen
-import org.openeel.app.view.manageuser.learningspace.ConnectLearningSpaceScreen
+import org.openeel.app.view.manageuser.learningspace.ConnectToExistingLearningSpace
 import org.openeel.app.view.manageuser.otheroptionsignup.OtherOptionsSignupScreen
 import org.openeel.app.view.manageuser.sharefeedback.ShareFeedbackScreen
 import org.openeel.app.view.manageuser.signup.SignupScreen
@@ -54,7 +57,7 @@ import org.openeel.app.view.catalog.opdsfeededit.OpdsFeedEditScreen
 import org.openeel.app.view.catalog.opdsfeedlist.OpdsFeedListScreen
 import org.openeel.app.view.manageuser.getstarted.NewGetStartedScreen
 import org.openeel.app.view.catalog.opdsfeedlistpinusinglink.OpdsFeedListPinUsingLinkScreen
-import org.openeel.app.view.manageuser.learningspace.CreateLearningSpaceScreen
+import org.openeel.app.view.manageuser.learningspace.CreateNewLearningSpaceScreen
 import org.openeel.app.view.report.detail.ReportDetailScreen
 import org.openeel.app.view.report.edit.ReportEditScreen
 import org.openeel.app.view.report.filteredit.ReportFilterEditScreen
@@ -83,12 +86,12 @@ import org.openeel.shared.navigation.ClazzEdit
 import org.openeel.shared.navigation.ClazzList
 import org.openeel.shared.navigation.AcceptInvite
 import org.openeel.shared.navigation.BookmarkList
-import org.openeel.shared.navigation.ConnectLearningSpace
+import org.openeel.shared.navigation.ConnectToExistingLearningSpace
 import org.openeel.shared.navigation.CopyCode
 import org.openeel.shared.navigation.CreateAccount
 import org.openeel.shared.navigation.CreateAccountSetPassword
 import org.openeel.shared.navigation.CreateAccountSetUsername
-import org.openeel.shared.navigation.CreateLearningSpace
+import org.openeel.shared.navigation.CreateNewLearningSpace
 import org.openeel.shared.navigation.EnrollmentEdit
 import org.openeel.shared.navigation.EnrollmentList
 import org.openeel.shared.navigation.EnterLink
@@ -433,6 +436,14 @@ fun AppNavHost(
             EnterLinkScreen(viewModel = viewModel)
         }
 
+        composable<EnterHostLink> {
+            val viewModel: EnterHostLinkViewModel = openEelViewModel(
+                onSetAppUiState = onSetAppUiState,
+                navController = respectNavController,
+            )
+            EnterHostLinkScreen(viewModel = viewModel)
+        }
+
         composable<GetStartedScreen> {
             val viewModel: GetStartedViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
@@ -450,20 +461,20 @@ fun AppNavHost(
         }
 
 
-        composable<ConnectLearningSpace> {
+        composable<ConnectToExistingLearningSpace> {
             val viewModel: ConnectLearningSpaceViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
-            ConnectLearningSpaceScreen(viewModel = viewModel)
+            ConnectToExistingLearningSpace(viewModel = viewModel)
         }
 
-        composable<CreateLearningSpace> {
+        composable<CreateNewLearningSpace> {
             val viewModel: CreateLearningSpaceViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
-            CreateLearningSpaceScreen(viewModel = viewModel)
+            CreateNewLearningSpaceScreen(viewModel = viewModel)
         }
 
 

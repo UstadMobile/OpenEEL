@@ -1,12 +1,7 @@
 package org.openeel.shared.viewmodel.apps.enterlink
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.toRoute
-import io.github.aakira.napier.Napier
-import io.ktor.http.URLProtocol
 import io.ktor.http.Url
-import io.ktor.http.parseUrl
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -20,13 +15,11 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.libutil.ext.appendEndpointSegments
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.school.LaunchSchoolSelfRegistrationUseCase
 import org.openeel.shared.domain.sharelink.CreatePlaylistShareLinkUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.enter_link
 import org.openeel.shared.generated.resources.invalid_url
 import org.openeel.shared.navigation.AppsDetail
-import org.openeel.shared.navigation.EnterLink
 import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.resources.StringResourceUiText
@@ -42,12 +35,9 @@ data class EnterLinkUiState(
 class EnterLinkViewModel(
     savedStateHandle: SavedStateHandle,
     accountManager: AppAccountManager,
-    private val launchSchoolSelfRegistrationUseCase: LaunchSchoolSelfRegistrationUseCase,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
-    private val route = savedStateHandle.toRoute<EnterLink>()
-
-    override val scope: Scope by lazy { accountManager.requireActiveAccountScope() }
+    override val scope: Scope = accountManager.requireActiveAccountScope()
 
     private val schoolDataSource: SchoolDataSource by inject()
 
@@ -60,7 +50,6 @@ class EnterLinkViewModel(
             it.copy(
                 title = Res.string.enter_link.asUiText(),
                 hideBottomNavigation = true,
-                userAccountIconVisible = if (route.mode == EnterLinkModeEnum.HOST) false else it.userAccountIconVisible,
             )
         }
     }
@@ -74,24 +63,6 @@ class EnterLinkViewModel(
         }
     }
     fun onClickNext() {
-        if (route.mode == EnterLinkModeEnum.HOST) {
-            val hostUrl = parseHostUrlOrNull(uiState.value.linkUrl) ?: run {
-                _uiState.update {
-                    it.copy(errorMessage = StringResourceUiText(Res.string.invalid_url))
-                }
-                return
-            }
-
-            launchWithLoadingIndicator(
-                onShowError = { errorMessage ->
-                    _uiState.update { it.copy(errorMessage = errorMessage) }
-                }
-            ) {
-                launchSchoolSelfRegistrationUseCase(hostUrl)
-            }
-            return
-        }
-
         launchWithLoadingIndicator {
             try {
                 val linkUrl = Url(uiState.value.linkUrl)
@@ -120,13 +91,9 @@ class EnterLinkViewModel(
                         )
                     )
                 } else {
-                    throw (appResult as? DataErrorResult)?.error
-                        ?: IllegalStateException("No app or playlist found for $linkUrl")
+                    throw (appResult as? DataErrorResult)?.error ?: IllegalStateException()
                 }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Napier.w(message = "EnterLinkViewModel: could not open link", throwable = e)
+            } catch (_: Throwable) {
                 _uiState.update {
                     it.copy(
                         errorMessage = StringResourceUiText(Res.string.invalid_url)
@@ -146,18 +113,5 @@ class EnterLinkViewModel(
             OpdsFeedDataSource.PLAYLIST_ENDPOINT_NAME,
             shareLink.playlistUuid,
         )
-    }
-
-    companion object {
-
-        fun parseHostUrlOrNull(link: String): Url? {
-            val trimmed = link.trim().takeIf { it.isNotEmpty() } ?: return null
-            val withProtocol = trimmed.takeIf { it.contains("://") } ?: "https://$trimmed"
-
-            return parseUrl(withProtocol)?.takeIf { url ->
-                url.protocol in listOf(URLProtocol.HTTP, URLProtocol.HTTPS) &&
-                        url.host.isNotBlank()
-            }
-        }
     }
 }

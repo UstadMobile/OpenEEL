@@ -224,6 +224,7 @@ import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.app.appstate.SnackBarFlowDispatcher
 import org.openeel.shared.viewmodel.apps.detail.AppsDetailViewModel
 import org.openeel.shared.viewmodel.apps.enterlink.EnterLinkViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.EnterHostLinkViewModel
 import org.openeel.shared.viewmodel.apps.launcher.AppLauncherViewModel
 import org.openeel.shared.viewmodel.apps.list.AppListViewModel
 import org.openeel.shared.viewmodel.assignment.detail.AssignmentDetailViewModel
@@ -245,8 +246,8 @@ import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
 import org.openeel.shared.viewmodel.manageuser.howpasskeywork.HowPasskeyWorksViewModel
 import org.openeel.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeViewModel
 import org.openeel.shared.viewmodel.manageuser.login.LoginViewModel
-import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectLearningSpaceViewModel
-import org.openeel.shared.viewmodel.manageuser.learningspace.CreateLearningSpaceViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceViewModel
 import org.openeel.shared.viewmodel.manageuser.otheroptionsignup.OtherOptionsSignupViewModel
 import org.openeel.shared.viewmodel.manageuser.profile.SignupViewModel
 import org.openeel.shared.viewmodel.manageuser.signup.CreateAccountViewModel
@@ -424,6 +425,7 @@ val appKoinModule = module {
     viewModelOf(::AppsDetailViewModel)
     viewModelOf(::AppLauncherViewModel)
     viewModelOf(::EnterLinkViewModel)
+    viewModelOf(::EnterHostLinkViewModel)
     viewModelOf(::AppListViewModel)
     viewModelOf(::ClazzListViewModel)
     viewModelOf(::ClazzEditViewModel)
@@ -444,8 +446,8 @@ val appKoinModule = module {
     viewModelOf(::NewGetStartedViewModel)
     viewModelOf(::PasskeyListViewModel)
     viewModelOf(::HowPasskeyWorksViewModel)
-    viewModelOf(::ConnectLearningSpaceViewModel)
-    viewModelOf(::CreateLearningSpaceViewModel)
+    viewModelOf(::ConnectToExistingLearningSpaceViewModel)
+    viewModelOf(::CreateNewLearningSpaceViewModel)
     viewModelOf(::OtherOptionsSignupViewModel)
     viewModelOf(::EnterPasswordSignupViewModel)
     viewModelOf(::AccountListViewModel)

@@ -27,7 +27,7 @@ import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 
 
-data class ConnectLearningSpaceUiState(
+data class ConnectToExistingLearningSpaceUiState(
     val link: String = "",
     val errorMessage: StringResourceUiText? = null,
     val manageDirectoriesVisible: Boolean = false,
@@ -40,7 +40,7 @@ class ConnectLearningSpaceViewModel(
     private val resolveUrlToNavCommandUseCase: ResolveUrlToNavCommandUseCase,
 ) : OpenEelViewModel(savedStateHandle) {
 
-    private val _uiState = MutableStateFlow(ConnectLearningSpaceUiState())
+    private val _uiState = MutableStateFlow(ConnectToExistingLearningSpaceUiState())
     val uiState = _uiState.asStateFlow()
 
     init {

@@ -19,14 +19,13 @@ import org.openeel.shared.domain.school.LaunchSchoolSelfRegistrationUseCase
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.select_where_to_store_data
-import org.openeel.shared.navigation.EnterLink
-import org.openeel.shared.viewmodel.apps.enterlink.EnterLinkModeEnum
+import org.openeel.shared.navigation.EnterHostLink
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 
-data class CreateLearningSpaceUiState(
+data class CreateNewLearningSpaceUiState(
     val hosts: DataLoadState<List<SchoolDirectory>> = DataLoadingState(),
 )
 
@@ -38,7 +37,7 @@ class CreateLearningSpaceViewModel(
     private val snackBarDispatcher: SnackBarDispatcher,
 ) : OpenEelViewModel(savedStateHandle) {
 
-    private val _uiState = MutableStateFlow(CreateLearningSpaceUiState())
+    private val _uiState = MutableStateFlow(CreateNewLearningSpaceUiState())
 
     val uiState = _uiState.asStateFlow()
 
@@ -82,6 +81,6 @@ class CreateLearningSpaceViewModel(
     }
 
     fun onClickAddLink() {
-        _navCommandFlow.tryEmit(NavCommand.Navigate(EnterLink.create(EnterLinkModeEnum.HOST)))
+        _navCommandFlow.tryEmit(NavCommand.Navigate(EnterHostLink))
     }
 }

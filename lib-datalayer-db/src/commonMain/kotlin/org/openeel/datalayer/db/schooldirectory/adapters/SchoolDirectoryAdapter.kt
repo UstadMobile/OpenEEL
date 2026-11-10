@@ -13,7 +13,7 @@ fun SchoolDirectory.toEntity(
         rdUid = rdUid,
         rdUrl = baseUrl,
         rdInvitePrefix = invitePrefix,
-        rdName = name,
+        rdName = baseUrl.toString(),
     )
 }
 
@@ -21,6 +21,5 @@ fun SchoolDirectoryEntity.toModel(): SchoolDirectory {
     return SchoolDirectory(
         invitePrefix = rdInvitePrefix,
         baseUrl = rdUrl,
-        name = rdName,
     )
 }

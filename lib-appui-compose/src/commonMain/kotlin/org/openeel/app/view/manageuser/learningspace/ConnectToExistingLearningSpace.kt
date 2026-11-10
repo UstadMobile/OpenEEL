@@ -27,16 +27,16 @@ import org.openeel.shared.generated.resources.manage_school_directories
 import org.openeel.shared.generated.resources.next
 import org.openeel.shared.generated.resources.paste_link_here
 import org.openeel.shared.generated.resources.scan_qr_code_badge
-import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectLearningSpaceUiState
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceUiState
 import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectLearningSpaceViewModel
 
 @Composable
-fun ConnectLearningSpaceScreen(
+fun ConnectToExistingLearningSpace(
     viewModel: ConnectLearningSpaceViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    ConnectLearningSpaceScreen(
+    ConnectToExistingLearningSpace(
         uiState = uiState,
         onLinkChanged = viewModel::onLinkChanged,
         onClickNext = viewModel::onClickNext,
@@ -46,8 +46,8 @@ fun ConnectLearningSpaceScreen(
 }
 
 @Composable
-fun ConnectLearningSpaceScreen(
-    uiState: ConnectLearningSpaceUiState,
+fun ConnectToExistingLearningSpace(
+    uiState: ConnectToExistingLearningSpaceUiState,
     onLinkChanged: (String) -> Unit,
     onClickNext: () -> Unit,
     onClickManageSchoolDirectories: () -> Unit,

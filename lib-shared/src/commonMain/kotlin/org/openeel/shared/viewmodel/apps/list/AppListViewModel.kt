@@ -78,7 +78,7 @@ class AppListViewModel(
     fun onClickAddLink() {
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                EnterLink.create()
+                EnterLink
             )
         )
     }

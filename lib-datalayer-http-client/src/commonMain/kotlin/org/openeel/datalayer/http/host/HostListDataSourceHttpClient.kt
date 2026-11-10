@@ -18,9 +18,6 @@ class HostListDataSourceHttpClient(
 
     private suspend fun decodeHosts(response: HttpResponse): List<SchoolDirectory> =
         json.decodeFromString<List<SchoolDirectory>>(response.bodyAsText()).onEach { host ->
-            require(!host.name.isNullOrBlank()) {
-                "Host ${host.baseUrl} must have a non-blank name"
-            }
             requireNotNull(host.icon) {
                 "Host ${host.baseUrl} must have an icon URL"
             }

@@ -19,8 +19,7 @@ import kotlinx.serialization.Serializable
 data class SchoolDirectory(
     val invitePrefix: String,
     val baseUrl: Url,
-    val name: String,
-    val icon: String,
+    val icon: String? = null,
 ) {
 
     companion object {

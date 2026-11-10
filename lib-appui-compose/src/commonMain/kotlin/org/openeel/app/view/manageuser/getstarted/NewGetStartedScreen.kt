@@ -41,16 +41,16 @@ fun NewGetStartedScreen(
     viewModel: NewGetStartedViewModel
 ) {
     NewGetStartedScreen(
-        onClickConnectLearningSpace = viewModel::onClickConnectLearningSpace,
-        onClickCreateLearningSpace = viewModel::onClickCreateLearningSpace,
+        onClickConnectToExistingLearningSpace = viewModel::onClickConnectToExistingLearningSpace,
+        onClickCreateNewLearningSpace = viewModel::onClickCreateNewLearningSpace,
     )
 }
 
 
 @Composable
 fun NewGetStartedScreen(
-    onClickConnectLearningSpace: () -> Unit,
-    onClickCreateLearningSpace: () -> Unit
+    onClickConnectToExistingLearningSpace: () -> Unit,
+    onClickCreateNewLearningSpace: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -63,13 +63,13 @@ fun NewGetStartedScreen(
             headline = stringResource(Res.string.connect_existing_learning_space),
             subtitle = stringResource(Res.string.connect_existing_learning_space_description),
             image = AppRes.drawable.connect_space,
-            modifier = Modifier.clickable(onClick = onClickConnectLearningSpace),
+            modifier = Modifier.clickable(onClick = onClickConnectToExistingLearningSpace),
         )
         LearningSpaceCard(
             headline = stringResource(Res.string.create_new_learning_space),
             subtitle = stringResource(Res.string.create_new_learning_space_description),
             image = AppRes.drawable.create_space,
-            modifier = Modifier.clickable(onClick = onClickCreateLearningSpace)
+            modifier = Modifier.clickable(onClick = onClickCreateNewLearningSpace)
         )
     }
 }
