@@ -118,8 +118,7 @@ class LoginSelectClassViewModel(
                         guid = settings.getString(
                             key = EnableSharedDeviceModeUseCase.CURRENT_DEVICE_GUID, "0"
                         )
-                    ),
-                    excludeSharedSchoolDevice = false
+                    )
                 )
             ).collect { deviceData ->
                 _uiState.update {
