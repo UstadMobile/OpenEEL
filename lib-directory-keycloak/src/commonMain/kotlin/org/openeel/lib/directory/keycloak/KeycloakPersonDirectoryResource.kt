@@ -16,6 +16,8 @@ import org.openeel.datalayer.respect.model.KeycloakUserDirectoryConfig
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.ext.map
+import org.openeel.lib.directory.keycloak.adapters.toPerson
+import org.openeel.lib.directory.keycloak.model.KeycloakUserRepresentation
 import org.openeel.lib.directory.model.Person
 import org.openeel.lib.directory.resources.PersonDirectoryResource
 
@@ -54,7 +56,7 @@ class KeycloakPersonDirectoryResource(
         loadParams: DataLoadParams,
         params: PersonDirectoryResource.GetListParams,
     ): DataLoadState<List<Person>> {
-        return httpClient.getAsDataLoadState<List<KeycloakUser>>(
+        return httpClient.getAsDataLoadState<List<KeycloakUserRepresentation>>(
             url = params.urlWithParams(),
         ) {
             bearerAuth(tokenProvider.provideToken().accessToken)
@@ -68,7 +70,7 @@ class KeycloakPersonDirectoryResource(
         params: PersonDirectoryResource.GetListParams,
     ): Flow<DataLoadState<List<Person>>> {
         if (params.filterByPersonGuid != null) {
-           return httpClient.getDataLoadResultAsFlow<KeycloakUser>(
+           return httpClient.getDataLoadResultAsFlow<KeycloakUserRepresentation>(
                 urlFn = { params.urlWithParams() },
                 dataLoadParams = loadParams,
             ) {
@@ -79,7 +81,7 @@ class KeycloakPersonDirectoryResource(
                 }
             }
         }
-        return httpClient.getDataLoadResultAsFlow<List<KeycloakUser>>(
+        return httpClient.getDataLoadResultAsFlow<List<KeycloakUserRepresentation>>(
             urlFn = { params.urlWithParams() },
             dataLoadParams = loadParams,
             block = {
@@ -98,7 +100,7 @@ class KeycloakPersonDirectoryResource(
             url = URLBuilder(adminEndpoint).apply {
                 appendPathSegments(KEYCLOAK_USERS_PATH, guid)
             }.build(),
-            bodyAdapter = { response -> response.body<KeycloakUser>().toPerson() },
+            bodyAdapter = { response -> response.body<KeycloakUserRepresentation>().toPerson() },
         ) {
             bearerAuth(tokenProvider.provideToken().accessToken)
         }
