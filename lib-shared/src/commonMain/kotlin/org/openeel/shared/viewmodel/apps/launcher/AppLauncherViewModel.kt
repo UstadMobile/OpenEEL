@@ -94,7 +94,6 @@ class AppLauncherViewModel(
             it.copy(
                 title = route.opdsPickType?.appbarTitleString?.asUiText() ?: Res.string.home.asUiText(),
                 onClickSettings = ::onClickSettings,
-                settingsIconVisible = route.resultDest == null,
                 fabState = FabUiState(
                     icon = FabUiState.FabIcon.ADD,
                     text = Res.string.app.asUiText(),
@@ -152,6 +151,8 @@ class AppLauncherViewModel(
                         fabState = it.fabState.copy(
                             visible = isAdmin && route.resultDest == null
                         ),
+                        settingsIconVisible = route.resultDest == null &&
+                                selected?.isSimplifiedChildMode != true,
                     )
                 }
                 _uiState.update {
