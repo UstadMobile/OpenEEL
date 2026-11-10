@@ -28,11 +28,11 @@ import org.openeel.shared.generated.resources.next
 import org.openeel.shared.generated.resources.paste_link_here
 import org.openeel.shared.generated.resources.scan_qr_code_badge
 import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceUiState
-import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectLearningSpaceViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceViewModel
 
 @Composable
 fun ConnectToExistingLearningSpace(
-    viewModel: ConnectLearningSpaceViewModel
+    viewModel: ConnectToExistingLearningSpaceViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
 

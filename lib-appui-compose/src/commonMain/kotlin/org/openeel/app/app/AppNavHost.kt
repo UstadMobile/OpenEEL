@@ -158,7 +158,7 @@ import org.openeel.shared.viewmodel.manageuser.howpasskeywork.HowPasskeyWorksVie
 import org.openeel.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeViewModel
 import org.openeel.shared.viewmodel.manageuser.getstarted.NewGetStartedViewModel
 import org.openeel.shared.viewmodel.manageuser.login.LoginViewModel
-import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectLearningSpaceViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceViewModel
 import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceViewModel
 import org.openeel.shared.viewmodel.manageuser.otheroptionsignup.OtherOptionsSignupViewModel
 import org.openeel.shared.viewmodel.manageuser.profile.SignupViewModel
@@ -462,7 +462,7 @@ fun AppNavHost(
 
 
         composable<ConnectToExistingLearningSpace> {
-            val viewModel: ConnectLearningSpaceViewModel = openEelViewModel(
+            val viewModel: ConnectToExistingLearningSpaceViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
