@@ -19,8 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.openeel.datalayer.respect.model.SchoolDirectory
-import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.shared.domain.school.GetHostListUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_from_link
 import org.openeel.app.app.OpenEelAsyncImage
@@ -44,10 +43,8 @@ fun CreateNewLearningSpaceScreen(
 fun CreateNewLearningSpaceScreen(
     uiState: CreateNewLearningSpaceUiState,
     onClickAddLink: () -> Unit,
-    onSelectHost: (SchoolDirectory) -> Unit,
+    onSelectHost: (GetHostListUseCase.Host) -> Unit,
 ) {
-    val hostsState = uiState.hosts
-
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item(key = "add_from_link") {
             ListItem(
@@ -67,7 +64,7 @@ fun CreateNewLearningSpaceScreen(
         }
 
         items(
-            items = hostsState.dataOrNull().orEmpty(),
+            items = uiState.hosts,
             key = { it.baseUrl.toString() },
         ) { host ->
             ListItem(

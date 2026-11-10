@@ -15,5 +15,5 @@ data class SchoolDirectoryEntity(
     val rdUid: Long,
     val rdUrl: Url,
     val rdInvitePrefix: String,
-    val rdName: String,
+    val rdName: String?,
 )

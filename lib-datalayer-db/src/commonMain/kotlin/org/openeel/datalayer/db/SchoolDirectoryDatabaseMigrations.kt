@@ -75,14 +75,6 @@ val APP_MIGRATION_10_11 = object: Migration(10, 11) {
     }
 }
 
-val APP_MIGRATION_11_12 = object : Migration(11, 12) {
-    override fun migrate(connection: SQLiteConnection) {
-        connection.execSQL(
-            "CREATE TABLE IF NOT EXISTS `HostListEntity` (`url` TEXT NOT NULL, `hostsJson` TEXT NOT NULL, `etag` TEXT, `lastModified` TEXT, PRIMARY KEY(`url`))"
-        )
-    }
-}
-
 fun RoomDatabase.Builder<SchoolDirectoryDatabase>.addCommonMigrations(
 
 ): RoomDatabase.Builder<SchoolDirectoryDatabase> {
@@ -93,7 +85,5 @@ fun RoomDatabase.Builder<SchoolDirectoryDatabase>.addCommonMigrations(
         APP_MIGRATION_5_6,
         APP_MIGRATION_9_10,
         APP_MIGRATION_10_11,
-        APP_MIGRATION_11_12,
     )
 }
-

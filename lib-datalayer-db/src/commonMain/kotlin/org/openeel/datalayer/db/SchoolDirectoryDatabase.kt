@@ -18,8 +18,6 @@ import org.openeel.datalayer.db.schooldirectory.entities.SchoolDirectoryEntryAut
 import org.openeel.datalayer.db.schooldirectory.entities.SchoolDirectoryEntryEntity
 import org.openeel.datalayer.db.schooldirectory.entities.SchoolDirectoryEntryLangMapEntity
 import org.openeel.datalayer.db.shared.SharedConverters
-import org.openeel.datalayer.db.host.daos.HostListEntityDao
-import org.openeel.datalayer.db.host.entities.HostListEntity
 
 @Database(
     entities = [
@@ -32,15 +30,12 @@ import org.openeel.datalayer.db.host.entities.HostListEntity
 
         //Network validation
         NetworkValidationInfoEntity::class,
-        HostListEntity::class,
     ],
-    version = 12,
+    version = 11,
 )
 @TypeConverters(SharedConverters::class)
 @ConstructedBy(SchoolDirectoryDatabaseConstructor::class)
 abstract class SchoolDirectoryDatabase : RoomDatabase() {
-
-    abstract fun getHostListEntityDao(): HostListEntityDao
 
     abstract fun getSchoolDirectoryEntryEntityDao(): SchoolDirectoryEntryEntityDao
 

@@ -68,12 +68,7 @@ import org.openeel.credentials.password.SavePasswordUseCaseAndroidImpl
 import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDirectoryDataSource
-import org.openeel.datalayer.host.HostListDataSource
-import org.openeel.datalayer.host.HostConfigSettingsDataSource
-import org.openeel.datalayer.host.DummyHostConfigSettingsDataSource
-import org.openeel.datalayer.db.host.HostListDataSourceDb
-import org.openeel.datalayer.http.host.HostListDataSourceHttpClient
-import org.openeel.datalayer.repository.host.HostListDataSourceRepository
+import org.openeel.shared.domain.school.GetHostListUseCase
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
@@ -639,14 +634,11 @@ val appKoinModule = module {
             .build()
     }
 
-    single<HostConfigSettingsDataSource> {
-        DummyHostConfigSettingsDataSource(defaultHostListUrl = BuildConfig.DEFAULT_HOST_LIST)
-    }
-
-    single<HostListDataSource> {
-        HostListDataSourceRepository(
-            local = HostListDataSourceDb(database = get(), json = get()),
-            remote = HostListDataSourceHttpClient(httpClient = get(), json = get()),
+    single {
+        GetHostListUseCase(
+            httpClient = get(),
+            json = get(),
+            hostListUrl = Url(BuildConfig.DEFAULT_HOST_LIST),
         )
     }
 
