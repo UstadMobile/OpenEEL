@@ -63,6 +63,8 @@ data class SharedDevicesSettingsUiState(
     val showBottomSheetOptions: Boolean = false,
     val currentDeviceGuid: String? = null
 ) {
+    fun isCurrentDevice(person: Person): Boolean = person.guid == currentDeviceGuid
+
     companion object {
         const val PIN_LENGTH = 4
     }

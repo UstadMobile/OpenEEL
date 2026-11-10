@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,7 +11,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.shared.generated.resources.Res
@@ -29,7 +27,7 @@ fun SchoolSettingsScreen(
     Column {
         SchoolSettingsScreen(
             title = stringResource(Res.string.school_name),
-            description =   uiState.schoolName?.let {
+            description = uiState.schoolName?.let {
                 uiTextStringResource(it)
             } ?: "",
             testTag = "my_school",
@@ -67,10 +65,6 @@ fun SchoolSettingsScreen(
         modifier = Modifier
             .testTag(testTag)
             .fillMaxWidth()
-            .clickable(onClick = onClick),
-        colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        tonalElevation = 0.dp
+            .clickable(onClick = onClick)
     )
 }
