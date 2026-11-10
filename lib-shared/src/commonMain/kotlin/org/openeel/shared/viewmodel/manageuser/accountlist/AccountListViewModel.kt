@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.school.ext.primaryRole
 import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.ext.hasRoleEnum
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonGenderEnum
@@ -49,6 +50,9 @@ data class AccountListUiState(
     val selectedAccount: UserSessionAndPerson? = null,
     val accounts: List<UserSessionAndPerson> = emptyList()
 ) {
+
+    val showAddAccountButton: Boolean
+        get() = selectedAccount?.person?.hasRoleEnum(PersonRoleEnum.SHARED_SCHOOL_DEVICE) != true
 
     val showSelectedAccountProfileButton: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL

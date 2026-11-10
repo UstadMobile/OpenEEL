@@ -31,13 +31,12 @@ class RedeemInviteUseCaseClient(
         return httpClient.post(
             schoolUrl.appendEndpointSegments("api/school/respect/invite/redeem")
         ) {
-            contentType(ContentType.Application.Json)
-
             if (useActiveUserAuth) {
                 val scope = accountManager.requireActiveAccountScope()
                 useTokenProvider(scope.get<AuthTokenProvider>())
             }
 
+            contentType(ContentType.Application.Json)
             setBody(redeemRequest)
         }.body()
     }

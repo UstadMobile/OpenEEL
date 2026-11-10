@@ -98,7 +98,7 @@ fun AccountListScreen(
             }
         }
 
-        if (!familyPersons.isEmpty()) {
+        if (familyPersons.isNotEmpty()) {
             item("family_member_header") {
                 Text(
                     modifier = Modifier.defaultItemPadding(),
@@ -143,7 +143,8 @@ fun AccountListScreen(
         item("divider2") {
             HorizontalDivider()
         }
-        if(uiState.showSelectedAccountProfileButton) {
+
+        if(uiState.showAddAccountButton) {
             item("add_account") {
                 ListItem(
                     modifier = Modifier.clickable {
@@ -157,10 +158,12 @@ fun AccountListScreen(
                     }
                 )
             }
+
             item("divider3") {
                 HorizontalDivider()
             }
-            item {
+
+            item("share_feedback") {
                 ListItem(
                     modifier = Modifier.clickable {
                         onClickShareFeedback()

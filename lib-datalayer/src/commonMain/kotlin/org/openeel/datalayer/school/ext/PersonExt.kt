@@ -30,6 +30,11 @@ fun Person.primaryRole(): PersonRoleEnum {
     return roles.first { it.isPrimaryRole }.roleEnum
 }
 
+
+fun Person.hasRoleEnum(roleEnum: PersonRoleEnum): Boolean {
+    return roles.any { it.roleEnum == roleEnum }
+}
+
 /**
  * Put the invite code in the metadata of the Person
  */

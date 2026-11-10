@@ -240,7 +240,6 @@ class AppAccountManager(
                     guid = authResponse.person.guid
                 ),
                 includeRelated = true,
-                excludeSharedSchoolDevice = false,
             )
         )
 

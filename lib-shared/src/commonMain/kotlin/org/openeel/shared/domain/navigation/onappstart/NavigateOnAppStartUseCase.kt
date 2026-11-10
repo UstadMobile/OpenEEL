@@ -99,7 +99,6 @@ class NavigateOnAppStartUseCase(
                     LoginSelectClass
                 }
 
-
                 activeAccount != null -> {
                     if (isSimplifiedChildMode) AssignmentList else Home
                 }

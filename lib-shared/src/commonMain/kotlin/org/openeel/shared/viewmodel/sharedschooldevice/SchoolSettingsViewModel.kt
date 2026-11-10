@@ -52,6 +52,8 @@ class SchoolSettingsViewModel(
                 hideBottomNavigation = true,
             )
         }
+
+
         viewModelScope.launch {
             val schoolName = accountManager.activeAccount?.school?.name?.asUiText()
             _uiState.update { prev ->
@@ -59,15 +61,18 @@ class SchoolSettingsViewModel(
                     schoolName = schoolName
                 )
             }
-            val params = PersonDataSource.GetListParams(
-                filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
-                filterByPersonStatus = PersonStatusEnum.ACTIVE,
-                excludeSharedSchoolDevice = false,
-            )
-            schoolDataSource.personDataSource.listAsFlow(DataLoadParams(), params)
-                .map { it.map { list -> list.size } }
+
+            schoolDataSource.personDataSource.listAsFlow(
+                loadParams = DataLoadParams(),
+                params = PersonDataSource.GetListParams(
+                    filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
+                    filterByPersonStatus = PersonStatusEnum.ACTIVE,
+                )
+            ).map { it.map { list -> list.size } }
                 .distinctUntilChanged()
-                .collect { count -> _uiState.update { it.copy(sharedSchoolDeviceCount = count.dataOrNull()) } }
+                .collect { count ->
+                    _uiState.update { it.copy(sharedSchoolDeviceCount = count.dataOrNull()) }
+                }
         }
     }
 
