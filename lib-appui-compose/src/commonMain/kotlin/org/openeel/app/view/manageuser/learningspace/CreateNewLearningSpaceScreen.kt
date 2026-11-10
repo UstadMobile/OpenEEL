@@ -27,7 +27,6 @@ import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CancellationException
 import org.koin.compose.koinInject
 import org.openeel.domain.getfavicons.GetFavIconUseCase
-import org.openeel.shared.domain.school.GetHostListUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_from_link
 import org.openeel.app.app.OpenEelAsyncImage
@@ -52,7 +51,7 @@ fun CreateNewLearningSpaceScreen(
 fun CreateNewLearningSpaceScreen(
     uiState: CreateNewLearningSpaceUiState,
     onClickAddLink: () -> Unit,
-    onSelectHost: (GetHostListUseCase.Host) -> Unit,
+    onSelectHost: (CreateNewLearningSpaceViewModel.Host) -> Unit,
 ) {
     val getFavIconUseCase: GetFavIconUseCase = koinInject()
 

@@ -68,7 +68,7 @@ import org.openeel.credentials.password.SavePasswordUseCaseAndroidImpl
 import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDirectoryDataSource
-import org.openeel.shared.domain.school.GetHostListUseCase
+import org.openeel.shared.viewmodel.manageuser.learningspace.HostListConfig
 import org.openeel.domain.getfavicons.GetFavIconUseCase
 import org.openeel.shared.domain.getfavicons.GetFavIconUseCaseImpl
 import org.openeel.datalayer.SchoolDataSource
@@ -641,11 +641,7 @@ val appKoinModule = module {
     }
 
     single {
-        GetHostListUseCase(
-            httpClient = get(),
-            json = get(),
-            hostListUrl = Url(BuildConfig.DEFAULT_HOST_LIST),
-        )
+        HostListConfig(url = Url(BuildConfig.DEFAULT_HOST_LIST))
     }
 
     single<SchoolDirectoryDataSource> {
