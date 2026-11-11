@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
@@ -20,7 +19,6 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.findSelfLinks
@@ -42,6 +40,8 @@ class AppListViewModel(
     val uiState = _uiState.asStateFlow()
     private val schoolDataSource: SchoolDataSource by inject()
 
+    private val defaultAppCatalog: DefaultAppCatalog by inject()
+
     init {
         _appUiState.update {
             it.copy(
@@ -49,15 +49,14 @@ class AppListViewModel(
             )
         }
         viewModelScope.launch {
-            val feedUrl = Url(DEFAULT_APP_CATALOG_URL)
             schoolDataSource.opdsFeedDataSource.getByUrlAsFlow(
-                url = feedUrl,
+                url = defaultAppCatalog.url,
                 params = DataLoadParams()
             ).collect { dataLoad ->
                 _uiState.update { prev ->
                     prev.copy(
                         appList = dataLoad.map {
-                            it.resolve(feedUrl).publications ?: emptyList()
+                            it.resolve(defaultAppCatalog.url).publications ?: emptyList()
                         }
                     )
                 }
@@ -80,9 +79,5 @@ class AppListViewModel(
                 AppsDetail.create(Url(url))
             )
         )
-    }
-
-    companion object {
-        const val DEFAULT_APP_CATALOG_URL = "https://respect.directory/respect-ds/base.json"
     }
 }

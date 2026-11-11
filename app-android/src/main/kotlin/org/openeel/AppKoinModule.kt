@@ -313,6 +313,7 @@ import org.openeel.shared.viewmodel.statement.detail.RawStatementViewModel
 import org.openeel.shared.viewmodel.statement.detail.StatementDetailViewModel
 import org.openeel.shared.viewmodel.statement.list.StatementListViewModel
 import org.openeel.shared.domain.xapi.xapinanohttpd.XapiResourceProviderAndroid
+import org.openeel.shared.viewmodel.apps.list.DefaultAppCatalog
 import org.openeel.shared.viewmodel.catalog.bookmark.BookmarkListViewModel
 import org.openeel.shared.viewmodel.settings.school.SchoolSettingsViewModel
 import org.openeel.shared.viewmodel.settings.sharedschooldevices.SharedDevicesSettingsViewModel
@@ -890,6 +891,10 @@ val appKoinModule = module {
 
     single<CheckIsSharedDeviceUseCase> {
         CheckIsSharedDeviceUseCase(settings = get())
+    }
+
+    single<DefaultAppCatalog> {
+        DefaultAppCatalog(url = Url(BuildConfig.DEFAULT_APP_LIST))
     }
 
     /**
