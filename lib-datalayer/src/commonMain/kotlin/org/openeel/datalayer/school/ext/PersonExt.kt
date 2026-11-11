@@ -4,6 +4,7 @@ import io.ktor.http.Url
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.openeel.datalayer.exceptions.ForbiddenException
 import org.openeel.datalayer.school.model.Invite2
@@ -11,6 +12,7 @@ import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.lib.xapi.model.XapiAccount
 import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.datalayer.school.model.DeviceInfo
 
 fun Person?.assertPersonHasRole(
     role: PersonRoleEnum
@@ -28,11 +30,17 @@ fun Person.primaryRole(): PersonRoleEnum {
     return roles.first { it.isPrimaryRole }.roleEnum
 }
 
+
+fun Person.hasRoleEnum(roleEnum: PersonRoleEnum): Boolean {
+    return roles.any { it.roleEnum == roleEnum }
+}
+
 /**
  * Put the invite code in the metadata of the Person
  */
 fun Person.copyWithInviteInfo(
-    invite: Invite2
+    invite: Invite2,
+    deviceInfo: DeviceInfo? = null
 ): Person {
     return copy(
         metadata = buildJsonObject {
@@ -42,6 +50,13 @@ fun Person.copyWithInviteInfo(
 
             put(Person.METADATA_KEY_INVITE_ID, JsonPrimitive(invite.code))
             put(Person.METADATA_KEY_INVITE_UID, JsonPrimitive(invite.uid))
+
+            if (deviceInfo != null) {
+                put(Person.DEVICE_INFO, JsonPrimitive(deviceInfo.toString()))
+                put(Person.DEVICE_MODEL, JsonPrimitive(deviceInfo.model))
+                put(Person.DEVICE_PLATFORM, JsonPrimitive(deviceInfo.platform.name))
+                put(Person.DEVICE_OS_VERSION, JsonPrimitive(deviceInfo.version))
+            }
         }
     )
 }
@@ -52,6 +67,29 @@ fun Person.inviteCodeOrNull(): String? {
 
 fun Person.inviteUidOrNull(): String? {
     return metadata?.get(Person.METADATA_KEY_INVITE_UID)?.jsonPrimitive?.contentOrNull
+}
+fun Person.deviceModelOrNull(): String? {
+    return metadata?.jsonObject?.get(Person.DEVICE_MODEL)?.jsonPrimitive?.content
+}
+
+fun Person.devicePlatformOrNull(): String? {
+    return metadata?.jsonObject?.get(Person.DEVICE_PLATFORM)?.jsonPrimitive?.content
+}
+
+fun Person.deviceOsVersionOrNull(): String? {
+    return metadata?.jsonObject?.get(Person.DEVICE_OS_VERSION)?.jsonPrimitive?.content
+}
+
+
+fun Person.getDeviceInfo(): String {
+    val model = deviceModelOrNull() ?: return givenName
+    val platform = devicePlatformOrNull() ?: "Android"
+    val osVersion = deviceOsVersionOrNull() ?: ""
+
+    val deviceType = if (model.contains("tab", ignoreCase = true) ||
+        model.contains("pad", ignoreCase = true)) "Tablet" else "Mobile"
+
+    return "$deviceType ($platform $osVersion)"
 }
 
 /**

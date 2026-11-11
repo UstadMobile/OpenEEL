@@ -98,7 +98,7 @@ fun AccountListScreen(
             }
         }
 
-        if (!familyPersons.isEmpty()) {
+        if (familyPersons.isNotEmpty()) {
             item("family_member_header") {
                 Text(
                     modifier = Modifier.defaultItemPadding(),
@@ -131,7 +131,7 @@ fun AccountListScreen(
         }
 
         items(
-            items = uiState.accounts,
+            items = uiState.visibleAccounts,
             key = { it.session.account.userGuid }
         ) { account ->
             AccountListItem(
@@ -144,41 +144,45 @@ fun AccountListScreen(
             HorizontalDivider()
         }
 
-        item("add_account") {
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickAddAccount()
-                },
-                headlineContent = {
-                    Text(stringResource(Res.string.add_account))
-                },
-                leadingContent = {
-                    Icon(Icons.Default.Add, contentDescription = "")
-                }
-            )
-        }
-        item("divider3") {
-            HorizontalDivider()
-        }
-        item {
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickShareFeedback()
-                },
-                headlineContent = {
-                    Text(
-                        stringResource(
-                            Res.string.send_feedback
+        if(uiState.showAddAccountButton) {
+            item("add_account") {
+                ListItem(
+                    modifier = Modifier.clickable {
+                        onClickAddAccount()
+                    },
+                    headlineContent = {
+                        Text(stringResource(Res.string.add_account))
+                    },
+                    leadingContent = {
+                        Icon(Icons.Default.Add, contentDescription = "")
+                    }
+                )
+            }
+
+            item("divider3") {
+                HorizontalDivider()
+            }
+
+            item("share_feedback") {
+                ListItem(
+                    modifier = Modifier.clickable {
+                        onClickShareFeedback()
+                    },
+                    headlineContent = {
+                        Text(
+                            stringResource(
+                                Res.string.send_feedback
+                            )
                         )
-                    )
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.ChatBubbleOutline,
-                        contentDescription = stringResource(Res.string.send_feedback)
-                    )
-                }
-            )
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.ChatBubbleOutline,
+                            contentDescription = stringResource(Res.string.send_feedback)
+                        )
+                    }
+                )
+            }
         }
 
         item("version_info") {

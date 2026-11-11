@@ -23,16 +23,17 @@ import org.openeel.datalayer.school.ext.accepterPersonRole
 import org.openeel.datalayer.school.ext.copyWithInviteInfo
 import org.openeel.datalayer.school.ext.isApprovalRequiredNow
 import org.openeel.datalayer.school.model.AuthToken
-import org.openeel.datalayer.school.model.Invite2
-import org.openeel.datalayer.school.model.NewUserInvite
 import org.openeel.datalayer.school.model.ClassInvite
 import org.openeel.datalayer.school.model.ClassInviteModeEnum
 import org.openeel.datalayer.school.model.Enrollment
 import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.datalayer.school.model.Invite2
+import org.openeel.datalayer.school.model.NewUserInvite
+import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.datalayer.school.model.StatusEnum
-import org.openeel.libutil.ext.randomString
 import org.openeel.lib.dataloadstate.throwable.withHttpStatus
+import org.openeel.libutil.ext.randomString
 import org.openeel.shared.domain.account.AuthResponse
 import org.openeel.shared.domain.account.authwithpassword.GetTokenAndUserProfileWithCredentialDbImpl
 import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
@@ -42,7 +43,6 @@ import org.openeel.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.util.di.SchoolDataSourceLocalProvider
 import org.openeel.shared.util.toPerson
-import java.lang.IllegalArgumentException
 import kotlin.time.Clock
 
 /**
@@ -64,7 +64,8 @@ class RedeemInviteUseCaseDb(
 ) : RedeemInviteUseCase, KoinComponent {
 
     override suspend fun invoke(
-        redeemRequest: RedeemInviteRequest
+        redeemRequest: RedeemInviteRequest,
+        useActiveUserAuth: Boolean
     ): AuthResponse {
         val inviteFromDb = schoolDb.getInviteEntityDao().getInviteByInviteCode(
             redeemRequest.code
@@ -74,8 +75,13 @@ class RedeemInviteUseCaseDb(
 
         val accountGuid = redeemRequest.account.guid
 
-        val approvalRequired = inviteFromDb.isApprovalRequiredNow()
-
+        val isSharedDeviceInvite =
+            redeemRequest.invite.accepterPersonRole == PersonRoleEnum.SHARED_SCHOOL_DEVICE
+        val approvalRequired = if (isSharedDeviceInvite && useActiveUserAuth) {
+            false
+        } else {
+            inviteFromDb.isApprovalRequiredNow()
+        }
         val accountPerson = redeemRequest.accountPersonInfo.toPerson(
             role = redeemRequest.invite.accepterPersonRole,
             username = redeemRequest.account.username,
@@ -88,7 +94,10 @@ class RedeemInviteUseCaseDb(
             },
         ).let {
             if(approvalRequired) {
-                it.copyWithInviteInfo(invite = redeemRequest.invite)
+                it.copyWithInviteInfo(
+                    invite = redeemRequest.invite,
+                    deviceInfo = redeemRequest.deviceInfo
+                )
             }else {
                 it
             }
@@ -199,6 +208,29 @@ class RedeemInviteUseCaseDb(
 
             is OpenEelQRBadgeCredential -> {
                 throw IllegalArgumentException("Using a QR code badge to redeem invite for new account not yet supported")
+            }
+            null -> {
+                // Handle shared school device case - no credential needed
+                // For shared devices, we just create the person account without authentication credentials
+                val token = AuthToken(
+                    accessToken = randomString(32),
+                    timeCreated = System.currentTimeMillis(),
+                    ttl = GetTokenAndUserProfileWithCredentialDbImpl.TOKEN_DEFAULT_TTL,
+                )
+
+                val personGuidHash = uidNumberMapper(accountPerson.guid)
+                schoolDb.getAuthTokenEntityDao().insert(
+                    token.toEntity(
+                        pGuid = accountPerson.guid,
+                        pGuidHash = personGuidHash,
+                        deviceInfo = redeemRequest.deviceInfo,
+                    )
+                )
+
+                AuthResponse(
+                    token = token,
+                    person = accountPerson,
+                )
             }
         }
         markFirstUserInviteAsDeleted(inviteFromDb, schoolDataSourceVal)

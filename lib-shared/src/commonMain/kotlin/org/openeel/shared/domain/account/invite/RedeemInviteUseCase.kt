@@ -12,10 +12,15 @@ import org.openeel.shared.domain.account.AuthResponse
 interface RedeemInviteUseCase {
 
     /**
-     *
+     * @param redeemRequest invite request to redeem
+     * @param useActiveUserAuth true if currently active user's authentication should be used when
+     *        making the redeem request. This is required when enabling shared device mode: the
+     *        teacher/admin's credentials are required for the invite redeem to go through without
+     *        requiring approval.
      */
     suspend operator fun invoke(
-        redeemRequest: RedeemInviteRequest
+        redeemRequest: RedeemInviteRequest,
+        useActiveUserAuth: Boolean = false
     ): AuthResponse
 
 }
