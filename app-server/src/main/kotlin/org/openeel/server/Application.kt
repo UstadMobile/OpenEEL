@@ -69,7 +69,6 @@ import org.openeel.server.routes.username.checkusernameunique.CheckUsernameUniqu
 import org.openeel.server.util.ext.getSchoolKoinScope
 import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.server.util.ext.virtualHost
-import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceViewModel
 import org.openeel.shared.domain.account.validateauth.ValidateAuthorizationUseCase
 import org.openeel.shared.domain.e2eartifactupload.E2EArtifactUploadUseCase
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
@@ -358,17 +357,6 @@ fun Application.module() {
                 route(E2EArtifactUploadUseCase.ENDPOINT_DIR) {
                     ReceiveE2EArtifactUploadRoute(e2eUploadsDir = e2eUploadsDir)
                 }
-            }
-
-            get(CreateNewLearningSpaceViewModel.Host.E2E_HOST_LIST_ENDPOINT) {
-                call.respond(
-                    listOf(
-                        CreateNewLearningSpaceViewModel.Host(
-                            baseUrl = call.request.virtualHost,
-                            name = CreateNewLearningSpaceViewModel.Host.E2E_HOST_NAME,
-                        )
-                    )
-                )
             }
         }
     }

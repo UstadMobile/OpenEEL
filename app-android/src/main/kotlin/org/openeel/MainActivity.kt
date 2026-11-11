@@ -102,14 +102,6 @@ class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
                 )
             }
         }
-
-        /*
-         * Override the host list URL (used by end-to-end tests where the test server URL is only
-         * known at runtime).
-         */
-        intent.extras?.getString(EXTRA_RESPECT_HOSTLIST)?.takeIf { it.isNotBlank() }?.also { hostListUrl ->
-            getKoin().get<HostListConfig>().url = Url(hostListUrl)
-        }
     }
 
     companion object {
@@ -118,8 +110,6 @@ class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
          *
          */
         const val EXTRA_RESPECT_DIRECTORY = "respect_directory"
-
-        const val EXTRA_RESPECT_HOSTLIST = "respect_hostlist"
 
     }
 }
