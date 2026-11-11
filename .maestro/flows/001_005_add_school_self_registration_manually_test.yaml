@@ -43,11 +43,10 @@ onFlowComplete:
       notVisible: "Register New School"
     file: "subflows/chrome-first-run-check.yaml"
 - assertVisible: "Register New School"
-- tapOn:
-    id: "schoolName"
+# Tap the field labels: some Chrome versions (e.g. on CI) do not expose the HTML input id
+- tapOn: "School Name:"
 - inputText: "TestSchool"
-- tapOn:
-    id: "schoolUrl"
+- tapOn: "School URL:"
 - inputText: ${output.SCHOOL_URL}
 - tapOn: "Next"
 - assertVisible:
