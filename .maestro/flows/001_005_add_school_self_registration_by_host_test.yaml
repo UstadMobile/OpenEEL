@@ -40,7 +40,7 @@ onFlowComplete:
 - assertVisible: "Register New School"
 - tapOn:
     id: "schoolName"
-- inputText: "Test School"
+- inputText: "TestSchool"
 - tapOn:
     id: "schoolUrl"
 - inputText: ${output.SCHOOL_URL}
