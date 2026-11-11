@@ -232,20 +232,20 @@ fun <T: Any> DataLoadState<List<T>>.notLoadedIfEmpty(): DataLoadState<List<T>> {
  *         Otherwise, the original DataLoadState
  *
  */
-fun <T: Any> DataLoadState<List<T>>.firstOrNotLoaded(): DataLoadState<T> {
+fun <T: Any> DataLoadState<List<T>>.firstOrNotFound(): DataLoadState<T> {
     return mapDataReadyState {
         if(it.data.isNotEmpty()) {
             DataReadyState(
                 data = it.data.first(),
                 metaInfo = metaInfo,
-                localState = localState?.firstOrNotLoaded(),
+                localState = localState?.firstOrNotFound(),
                 remoteState = remoteState,
             )
         }else {
             NoDataLoadedState(
                 reason = NoDataLoadedState.Reason.NOT_FOUND,
                 metaInfo = metaInfo,
-                localState = localState?.firstOrNotLoaded(),
+                localState = localState?.firstOrNotFound(),
                 remoteState = remoteState,
             )
         }

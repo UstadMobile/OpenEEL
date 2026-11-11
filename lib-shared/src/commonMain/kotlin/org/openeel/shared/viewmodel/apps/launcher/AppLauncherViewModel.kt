@@ -146,13 +146,13 @@ class AppLauncherViewModel(
         viewModelScope.launch {
             accountManager.selectedAccountAndPersonFlow.collect { selected ->
                 val isAdmin = selected?.person?.isAdmin() == true
-                val devModeEnabled = getDevModeEnabledUseCase()
                 _appUiState.update {
                     it.copy(
                         fabState = it.fabState.copy(
                             visible = isAdmin && route.resultDest == null
                         ),
-                        settingsIconVisible = isAdmin && devModeEnabled,
+                        settingsIconVisible = route.resultDest == null &&
+                                selected?.isSimplifiedChildMode != true,
                     )
                 }
                 _uiState.update {

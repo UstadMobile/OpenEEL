@@ -6,6 +6,7 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
+import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.Person
 import org.openeel.datalayer.school.model.PersonGenderEnum
@@ -72,6 +73,77 @@ class TestPersonStorage {
                 assertDetailsMatch(parentPerson, parentFromDb)
                 assertDetailsMatch(childPerson, childFromDb)
 
+            }
+        }
+    }
+
+    @Test
+    fun givenPersonsWithDifferentRoles_whenQueriedWithExcludeByPersonRole_thenShouldExcludeExpectedRoles() {
+        val adminUid = "1"
+        val parentGuid = "2"
+        val childGuid = "3"
+        val teacherGuid = "4"
+
+        runBlocking {
+            testSchoolDb(temporaryFolder.newFolder()) { db ->
+                val schoolDs = db.toDataSource(
+                    authenticatedUserUid = adminUid,
+                    schoolUrl = Url("http://localhost:8098/"),
+                )
+
+                val parentPerson = Person(
+                    guid = parentGuid,
+                    givenName = "Parent",
+                    familyName = "Person",
+                    gender = PersonGenderEnum.FEMALE,
+                    roles = listOf(PersonRole(true, PersonRoleEnum.PARENT)),
+                )
+
+                val childPerson = Person(
+                    guid = childGuid,
+                    givenName = "Child",
+                    familyName = "Person",
+                    gender = PersonGenderEnum.FEMALE,
+                    roles = listOf(PersonRole(true, PersonRoleEnum.STUDENT)),
+                )
+
+                val teacherPerson = Person(
+                    guid = teacherGuid,
+                    givenName = "Teacher",
+                    familyName = "Person",
+                    gender = PersonGenderEnum.FEMALE,
+                    roles = listOf(PersonRole(true, PersonRoleEnum.TEACHER)),
+                )
+
+                schoolDs.insertAdmin(adminUid)
+                AddDefaultSchoolPermissionGrantsUseCase(
+                    db, XXHashUidNumberMapper(XXStringHasherCommonJvm())
+                ).invoke()
+                schoolDs.personDataSource.store(listOf(parentPerson, childPerson, teacherPerson))
+
+                val listWithoutStudents = schoolDs.personDataSource.list(
+                    loadParams = DataLoadParams(),
+                    params = PersonDataSource.GetListParams(
+                        excludeByPersonRole = PersonRoleEnum.STUDENT
+                    )
+                ).dataOrNull()
+
+                assertEquals(
+                    listOf(adminUid, parentGuid, teacherGuid),
+                    listWithoutStudents?.map { it.guid }?.sorted()
+                )
+
+                val listOnlyTeachers = schoolDs.personDataSource.list(
+                    loadParams = DataLoadParams(),
+                    params = PersonDataSource.GetListParams(
+                        filterByPersonRole = PersonRoleEnum.TEACHER
+                    )
+                ).dataOrNull()
+
+                assertEquals(
+                    listOf(teacherGuid),
+                    listOnlyTeachers?.map { it.guid }
+                )
             }
         }
     }

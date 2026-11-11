@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.credentials.passkey.CheckPasskeySupportUseCase
 import org.openeel.credentials.passkey.CreatePasskeyUseCase
@@ -16,6 +17,7 @@ import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.navigation.onaccountcreated.NavigateOnAccountCreatedUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.other_options
 import org.openeel.shared.generated.resources.passkey_not_supported
@@ -57,6 +59,8 @@ class OtherOptionsSignupViewModel(
     private val createPasskeyUseCase: CreatePasskeyUseCase? by lazy {
         scope.getOrNull()
     }
+
+    private val navigateOnAccountCreatedUseCase: NavigateOnAccountCreatedUseCase by inject()
 
     init {
         _appUiState.update {
@@ -120,35 +124,17 @@ class OtherOptionsSignupViewModel(
                                 )
                             )
 
-                            accountManager.register(
+                            val personRegistered = accountManager.register(
                                 redeemInviteRequest = redeemRequest,
-                                schoolUrl = route.schoolUrl
+                                schoolUrl = route.schoolUrl,
+                                useActiveUserAuth = false,
                             )
 
-                            /*
-                            _navCommandFlow.tryEmit(
-                                NavCommand.Navigate(
-                                    destination = if(
-                                        route.respectRedeemInviteRequest.role == PersonRoleEnum.PARENT
-                                    ) {
-                                        SignupScreen.create(
-                                            schoolUrl = route.schoolUrl,
-                                            profileType = ProfileType.CHILD,
-                                            inviteRequest = redeemRequest
-                                        )
-                                    }else {
-                                        if (redeemRequest.invite.forClassGuid == null &&
-                                            redeemRequest.invite.forFamilyOfGuid == null){
-                                            RespectAppLauncher()
-                                        }else{
-                                            WaitingForApproval()
-
-                                        }
-                                    },
-                                    clearBackStack = true,
-                                )
+                            navigateOnAccountCreatedUseCase(
+                                personRegistered = personRegistered,
+                                navCommandFlow = _navCommandFlow,
+                                inviteRequest = redeemRequest,
                             )
-                            */
                         }
 
                         is CreatePasskeyUseCase.Error -> {

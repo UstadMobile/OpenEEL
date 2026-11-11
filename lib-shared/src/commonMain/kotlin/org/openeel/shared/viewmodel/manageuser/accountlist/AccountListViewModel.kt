@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.datalayer.school.ext.primaryRole
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.Person
@@ -20,8 +21,10 @@ import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.UserSession
 import org.openeel.shared.domain.account.UserSessionAndPerson
+import org.openeel.shared.domain.account.shareddevice.isshareddevice.CheckIsSharedDeviceUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.accounts
+import org.openeel.shared.generated.resources.something_went_wrong
 import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.Home
@@ -32,6 +35,10 @@ import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.isSameAccount
 import org.openeel.shared.viewmodel.OpenEelViewModel
+import org.openeel.shared.navigation.LoginSelectClass
+import org.openeel.shared.viewmodel.app.appstate.Snack
+import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
+
 
 /**
  * @property selectedAccount if not null, the currently selected account
@@ -40,18 +47,29 @@ import org.openeel.shared.viewmodel.OpenEelViewModel
  */
 data class AccountListUiState(
     val selectedAccount: UserSessionAndPerson? = null,
-    val accounts: List<UserSessionAndPerson> = emptyList(),
+    val accounts: List<UserSessionAndPerson> = emptyList()
 ) {
+
+    val showAddAccountButton: Boolean
+        get() = selectedAccount?.sharedDevice == null
+
     val showSelectedAccountProfileButton: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
+                && selectedAccount?.sharedDevice == null
 
     val familyMembersClickEnabled: Boolean
         get() = selectedAccount?.person?.status != PersonStatusEnum.PENDING_APPROVAL
+
+    val visibleAccounts: List<UserSessionAndPerson> by lazy {
+        accounts.filterNot { it.isSharedDeviceSessionWithoutStudentSelected }
+    }
 
 }
 
 class AccountListViewModel(
     private val appAccountManager: AppAccountManager,
+    private val checkIsSharedDeviceUseCase: CheckIsSharedDeviceUseCase,
+    private val snackBarDispatcher: SnackBarDispatcher,
     savedStateHandle: SavedStateHandle
 ) : OpenEelViewModel(savedStateHandle){
 
@@ -72,7 +90,9 @@ class AccountListViewModel(
         viewModelScope.launch {
             appAccountManager.selectedAccountAndPersonFlow.collect { accountAndPerson ->
                 _uiState.update { prev ->
-                    prev.copy(selectedAccount = accountAndPerson)
+                    prev.copy(
+                        selectedAccount = accountAndPerson,
+                    )
                 }
             }
         }
@@ -123,7 +143,7 @@ class AccountListViewModel(
                 }
 
                 storedAccountList.forEach { account ->
-                    launch {
+                    this@launch.launch {
                         val accountScope = appAccountManager.getOrCreateAccountScope(account)
                         val dataSource: SchoolDataSource = accountScope.get()
                         dataSource.personDataSource.findByGuidAsFlow(
@@ -181,7 +201,11 @@ class AccountListViewModel(
 
     fun onClickFamilyPerson(person: Person) {
         viewModelScope.launch {
-            appAccountManager.switchProfile(person.guid)
+            appAccountManager.switchProfile(
+                personUid = person.guid,
+                isParentInitiatedChildSession = uiState.value.selectedAccount?.person
+                    ?.primaryRole() == PersonRoleEnum.PARENT,
+            )
             _navCommandFlow.tryEmit(
                 NavCommand.Navigate(
                     destination = if(person.roles.firstOrNull()?.roleEnum == PersonRoleEnum.PARENT) {
@@ -215,9 +239,37 @@ class AccountListViewModel(
 
 
     fun onClickLogout() {
-        uiState.value.selectedAccount?.also {
+        uiState.value.selectedAccount?.also { selectedAccount ->
             viewModelScope.launch {
-                appAccountManager.removeAccount(it.session.account)
+                val sharedDeviceResultAccountUid = checkIsSharedDeviceUseCase().accountPersonUid
+                if(sharedDeviceResultAccountUid != null) {
+                    val sharedDeviceAccount = appAccountManager.accounts.value.firstOrNull {
+                        it.userGuid == sharedDeviceResultAccountUid
+                    } ?: return@launch run {
+                        snackBarDispatcher.showSnackBar(
+                            Snack(Res.string.something_went_wrong.asUiText())
+                        )
+                    }
+
+                    /*
+                     * If logging out of a teacher/admin account etc, then we need to remove it
+                     * from the stored accounts list.
+                     */
+                    if(selectedAccount.sharedDevice == null) {
+                        appAccountManager.removeAccount(selectedAccount.session.account)
+                    }
+
+                    appAccountManager.switchAccount(sharedDeviceAccount)
+
+                    _navCommandFlow.tryEmit(
+                        NavCommand.Navigate(
+                            destination = LoginSelectClass,
+                            clearBackStack = true
+                        )
+                    )
+                }else {
+                    appAccountManager.removeAccount(selectedAccount.session.account)
+                }
             }
         }
     }
