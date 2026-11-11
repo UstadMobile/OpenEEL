@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.OpenEelExposedDropDownMenuField
@@ -31,7 +30,6 @@ import org.openeel.shared.viewmodel.report.filteredit.ReportFilterEditViewModel
 
 @Composable
 fun ReportFilterEditScreen(
-    navController: NavHostController,
     viewModel: ReportFilterEditViewModel
 ) {
     val uiState: ReportFilterEditUiState by viewModel.uiState.collectAsStateWithLifecycle(
@@ -68,7 +66,7 @@ fun ReportFilterEditScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 OpenEelExposedDropDownMenuField(
-                    modifier = Modifier.weight(0.8f),
+                    modifier = Modifier.weight(0.9f),
                     label = { Text(stringResource(Res.string.condition) + "*") },
                     value = uiState.filters?.reportFilterCondition,
                     options = uiState.filterConditionOptions?.comparisonTypes ?: emptyList(),

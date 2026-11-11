@@ -25,7 +25,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.view.report.graph.CombinedGraph
@@ -90,8 +89,6 @@ private fun ReportGridCard(
                 // Title above the chart
                 Text(
                     text = request.objectActivityNameOrNull()?.let { langMapString(it) } ?: "",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
@@ -108,7 +105,6 @@ private fun ReportGridCard(
                     ) {
                         Text(
                             stringResource(Res.string.No_data_available),
-                            style = MaterialTheme.typography.bodyMedium
                         )
                     } else {
                         CombinedGraph(

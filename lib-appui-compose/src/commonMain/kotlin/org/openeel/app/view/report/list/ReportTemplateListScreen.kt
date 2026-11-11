@@ -21,16 +21,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.view.report.graph.CombinedGraph
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
+import org.openeel.datalayer.school.model.Report
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
-import org.openeel.datalayer.school.model.Report
 import org.openeel.shared.domain.report.model.RunReportResultAndFormatters
-import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
 import org.openeel.shared.generated.resources.No_data_available
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.blank_template
@@ -112,8 +111,7 @@ private fun ReportTemplateCard(
                 reportResultWithFormatters.reportResult.resultSeries.isEmpty()
             ) {
                 Text(
-                    stringResource(Res.string.No_data_available),
-                    style = MaterialTheme.typography.bodyMedium
+                    stringResource(Res.string.No_data_available)
                 )
             } else {
                 CombinedGraph(
@@ -131,8 +129,6 @@ private fun ReportTemplateCard(
         // Title above the chart
         Text(
             text = report.title,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp).weight(1f)
                 .weight(2f),
         )

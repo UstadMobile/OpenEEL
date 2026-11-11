@@ -33,8 +33,6 @@ import kotlin.time.ExperimentalTime
 
 data class ReportTemplateListUiState(
     val templates: DataLoadState<List<Report>> = DataLoadingState(),
-    val isLoading: Boolean = false,
-    val error: String? = null,
     val activeUserPersonUid: Long = 0L,
 )
 

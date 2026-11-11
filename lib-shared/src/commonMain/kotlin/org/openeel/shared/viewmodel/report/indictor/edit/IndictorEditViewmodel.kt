@@ -26,7 +26,6 @@ import org.openeel.shared.generated.resources.indicator
 import org.openeel.shared.navigation.IndicatorDetail
 import org.openeel.shared.navigation.IndictorEdit
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.resources.UiText
 import org.openeel.shared.util.LaunchDebouncer
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
@@ -34,9 +33,6 @@ import org.openeel.shared.viewmodel.app.appstate.ActionBarButtonUiState
 
 data class IndicatorEditUiState(
     val indicatorData: DataLoadState<Indicator> = DataLoadingState(),
-    val nameError: UiText? = null,
-    val descriptionError: UiText? = null,
-    val sqlError: UiText? = null,
     val errorMessage: String? = null
 )
 

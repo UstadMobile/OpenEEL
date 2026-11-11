@@ -3,18 +3,15 @@ package org.openeel.app.view.report.indicator.list
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.lib.xapi.extensions.reportoptions.Indicator
 import org.openeel.shared.viewmodel.report.indictor.list.IndicatorListUiState
@@ -62,22 +59,19 @@ private fun IndicatorListContent(
         modifier = modifier,
     ) {
         items(indicators, key = { it.name }) { indicator ->
-            Column(
+            ListItem(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onItemClick(indicator) }
-                    .padding(vertical = 12.dp)
-            ) {
-                Text(
-                    text = indicator.name,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
-                Text(
-                    text = indicator.description,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
+                    .clickable { onItemClick(indicator) },
+                headlineContent = {
+                    Text(text = indicator.name)
+                },
+                supportingContent = {
+                    Text(
+                        text = indicator.description,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                },
+            )
         }
     }
 }

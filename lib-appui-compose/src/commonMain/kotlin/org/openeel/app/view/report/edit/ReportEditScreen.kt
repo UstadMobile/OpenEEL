@@ -13,8 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -35,8 +33,6 @@ import org.openeel.app.components.OpenEelDateField
 import org.openeel.app.components.OpenEelExposedDropDownMenuField
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.uiTextStringResource
-import org.openeel.lib.xapi.extensions.reportoptions.Comparisons
-import org.openeel.lib.xapi.extensions.reportoptions.FilterType
 import org.openeel.lib.xapi.extensions.reportoptions.FixedReportTimeRange
 import org.openeel.lib.xapi.extensions.reportoptions.RelativeRangeReportPeriod
 import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
@@ -46,7 +42,6 @@ import org.openeel.lib.xapi.extensions.reportoptions.ReportSeries
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeriesVisualType
 import org.openeel.lib.xapi.extensions.reportoptions.ReportTimeRangeUnit
 import org.openeel.lib.xapi.extensions.reportoptions.ReportXAxis
-import org.openeel.lib.xapi.extensions.reportoptions.Indicator
 import org.openeel.shared.ext.label
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_filter
@@ -54,7 +49,6 @@ import org.openeel.shared.generated.resources.add_series
 import org.openeel.shared.generated.resources.chart_type
 import org.openeel.shared.generated.resources.filters
 import org.openeel.shared.generated.resources.from
-import org.openeel.shared.generated.resources.manage_indicators
 import org.openeel.shared.generated.resources.quantity
 import org.openeel.shared.generated.resources.remove
 import org.openeel.shared.generated.resources.series_title
@@ -62,7 +56,6 @@ import org.openeel.shared.generated.resources.subgroup_by
 import org.openeel.shared.generated.resources.time_range
 import org.openeel.shared.generated.resources.title
 import org.openeel.shared.generated.resources.to_
-import org.openeel.shared.generated.resources.unit
 import org.openeel.shared.generated.resources.x_axis
 import org.openeel.shared.generated.resources.y_axis
 import org.openeel.shared.viewmodel.report.edit.ReportEditUiState
@@ -98,8 +91,6 @@ private fun ReportEditScreen(
     onRemoveFilter: (Int, Int) -> Unit = { _, _ -> },
     onEditFilter: (Int, Int, ReportFilter) -> Unit = { _, _, _ -> },
 ) {
-    val reportOptions = uiState.reportOptions
-    val firstIndicatorType = reportOptions.series.firstOrNull()?.reportSeriesYAxis?.type
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -110,10 +101,10 @@ private fun ReportEditScreen(
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = reportOptions.title,
+            value = uiState.reportOptions.title,
             label = { Text(stringResource(Res.string.title) + "*") },
             onValueChange = { newTitle ->
-                onReportOptionsChanged(reportOptions.copy(title = newTitle))
+                onReportOptionsChanged(uiState.reportOptions.copy(title = newTitle))
             },
             supportingText = {
                 uiState.reportTitleError?.let {
@@ -125,8 +116,8 @@ private fun ReportEditScreen(
         )
 
         // Determine selected option based on TIME RANGE TYPE
-        val selected = remember(reportOptions.period) {
-            when (val currentPeriod = reportOptions.period) {
+        val selected = remember(uiState.reportOptions.period) {
+            when (val currentPeriod = uiState.reportOptions.period) {
                 is FixedReportTimeRange -> ReportPeriodOption.CUSTOM_DATE_RANGE
                 is RelativeRangeReportPeriod -> ReportPeriodOption.entries.find { option ->
                     val optionPeriod = option.period as? RelativeRangeReportPeriod ?: return@find false
@@ -140,7 +131,7 @@ private fun ReportEditScreen(
             value = selected,
             options = ReportPeriodOption.entries,
             onOptionSelected = { selectedOption ->
-                onReportOptionsChanged(reportOptions.copy(period = selectedOption.period))
+                onReportOptionsChanged(uiState.reportOptions.copy(period = selectedOption.period))
             },
             label = { Text(stringResource(Res.string.time_range) + "*") },
             itemText = { stringResource(it.label) },
@@ -150,9 +141,9 @@ private fun ReportEditScreen(
         if (selected == ReportPeriodOption.CUSTOM_PERIOD) {
             // When selected is CUSTOM_PERIOD
             CustomPeriodInputs(
-                currentRange = reportOptions.period as RelativeRangeReportPeriod,
+                currentRange = uiState.reportOptions.period as RelativeRangeReportPeriod,
                 onCustomPeriodChanged = { qty, unit ->
-                    onReportOptionsChanged(reportOptions.copy(period = RelativeRangeReportPeriod(unit, qty)))
+                    onReportOptionsChanged(uiState.reportOptions.copy(period = RelativeRangeReportPeriod(unit, qty)))
                 },
                 quantityError = null
             )
@@ -161,25 +152,25 @@ private fun ReportEditScreen(
         // Show CustomDateRangeInputs only if selected is CUSTOM_DATE_RANGE
         if (selected == ReportPeriodOption.CUSTOM_DATE_RANGE) {
             CustomDateRangeInputs(
-                currentRange = reportOptions.period as FixedReportTimeRange,
+                currentRange = uiState.reportOptions.period as FixedReportTimeRange,
                 onDateRangeChanged = { from, to ->
-                    onReportOptionsChanged(reportOptions.copy(period = FixedReportTimeRange(from, to)))
+                    onReportOptionsChanged(uiState.reportOptions.copy(period = FixedReportTimeRange(from, to)))
                 }
             )
         }
 
         OpenEelExposedDropDownMenuField(
-            value = reportOptions.xAxis,
+            value = uiState.reportOptions.xAxis,
             options = ReportXAxis.entries,
             onOptionSelected = { xAxis ->
-                onReportOptionsChanged(reportOptions.copy(xAxis = xAxis))
+                onReportOptionsChanged(uiState.reportOptions.copy(xAxis = xAxis))
             },
             label = { Text(stringResource(Res.string.x_axis) + "*") },
             itemText = { stringResource(it.label) },
         )
 
         // Dynamically iterate over the series
-        reportOptions.series.forEachIndexed { seriesIndex, seriesItem ->
+        uiState.reportOptions.series.forEachIndexed { seriesIndex, seriesItem ->
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -239,13 +230,13 @@ private fun ReportEditScreen(
                 // Subgroup Dropdown
                 OpenEelExposedDropDownMenuField(
                     value = seriesItem.reportSeriesSubGroup,
-                    options = if (reportOptions.xAxis.datePeriod != null) {
+                    options = if (uiState.reportOptions.xAxis.datePeriod != null) {
                         // X-axis is date - only show non-date options
                         ReportXAxis.entries.filter { it.datePeriod == null }
                     } else {
                         // X-axis is non-date - show date options plus other non-date options
                         ReportXAxis.entries.filter {
-                            it.datePeriod != null || (it != reportOptions.xAxis)
+                            it.datePeriod != null || (it != uiState.reportOptions.xAxis)
                         }
                     },
                     onOptionSelected = { selectedXAxis ->

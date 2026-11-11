@@ -22,7 +22,6 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.ext.distinctByMostRecentTimestampForActivityId
 import org.openeel.lib.xapi.ext.objectActivityNameOrNull
 import org.openeel.lib.xapi.ext.objectStatementRefOrNull
-import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource.GetStatementParams
 import org.openeel.shared.domain.report.formatter.CreateGraphFormatterUseCase
@@ -44,8 +43,6 @@ import org.openeel.shared.viewmodel.app.appstate.FabUiState
 data class ReportDetailUiState(
     val title: LangMapUiText? = null,
     val reportResult: RunReportUseCase.RunReportResult? = null,
-    val errorMessage: String? = null,
-    val reportOptions: ReportOptions = ReportOptions(),
     val xAxisFormatter: GraphFormatter<String>? = null,
     val yAxisFormatter: GraphFormatter<Double>? = null,
     val subgroupFormatter: GraphFormatter<String>? = null
@@ -158,7 +155,6 @@ class ReportDetailViewModel(
 
             val newState = ReportDetailUiState(
                 title = statement.objectActivityNameOrNull()?.let { LangMapUiText(it) },
-                reportOptions = reportResult?.request?.reportOptions ?: ReportOptions(),
                 reportResult = reportResult,
                 xAxisFormatter = xAxisFormatter,
                 yAxisFormatter = yAxisFormatter,
