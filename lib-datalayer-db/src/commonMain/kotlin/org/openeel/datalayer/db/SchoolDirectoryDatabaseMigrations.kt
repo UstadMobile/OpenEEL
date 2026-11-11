@@ -87,3 +87,5 @@ fun RoomDatabase.Builder<SchoolDirectoryDatabase>.addCommonMigrations(
         APP_MIGRATION_10_11,
     )
 }
+
+
