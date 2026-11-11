@@ -17,5 +17,4 @@ interface IndicatorDataSource {
 
     suspend fun updateIndicator(indicator: Indicator)
 
-    suspend fun initializeDefaultIndicators(idGenerator: () -> String)
 }

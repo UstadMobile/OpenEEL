@@ -278,7 +278,8 @@ fun Application.module() {
                             json = json,
                             statementResource = { call ->
                                 call.getUserAccountScope(authOptional = true).get<XapiResource>().statements
-                            }
+                            },
+                            processStatementsUseCase = { it.getUserAccountScope().get() }
                         )
 
                         route("activities") {

@@ -10,7 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.view.report.graph.CombinedGraph
@@ -21,7 +20,6 @@ import org.openeel.shared.viewmodel.report.detail.ReportDetailViewModel
 
 @Composable
 fun ReportDetailScreen(
-    navController: NavHostController,
     viewModel: ReportDetailViewModel
 ) {
     val uiState: ReportDetailUiState by viewModel.uiState.collectAsStateWithLifecycle(

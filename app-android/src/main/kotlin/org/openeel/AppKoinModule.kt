@@ -161,6 +161,7 @@ import org.openeel.shared.domain.school.LaunchCustomTabUseCaseAndroid
 import org.openeel.app.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCaseAndroid
 import org.openeel.datalayer.db.APP_MIGRATION_8_9_CLIENT
 import org.openeel.datalayer.db.school.auth.GetXapiAuthorityActorUseCaseDbImpl
+import org.openeel.datalayer.db.school.domain.report.query.GenerateReportQueriesUseCase
 import org.openeel.datalayer.http.ext.schoolDirectoryEntryOrNull
 import org.openeel.datalayer.repository.opds.OpdsFeedActivityProfileMediator
 import org.openeel.datalayer.school.opds.OpdsFeedDataSource
@@ -193,8 +194,8 @@ import org.openeel.shared.domain.phonenumber.OnClickPhoneNumberUseCaseAndroid
 import org.openeel.shared.domain.phonenumber.PhoneNumValidatorAndroid
 import org.openeel.shared.domain.phonenumber.PhoneNumValidatorUseCase
 import org.openeel.shared.domain.report.formatter.CreateGraphFormatterUseCase
-import org.openeel.shared.domain.report.query.MockRunReportUseCaseClientImpl
-import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCase
+import org.openeel.datalayer.db.school.domain.report.query.RunReportUseCaseDatabaseImpl
 import org.openeel.shared.domain.school.LaunchCustomTabUseCase
 import org.openeel.shared.domain.school.SchoolPath
 import org.openeel.shared.domain.school.SchoolDbPath
@@ -1359,15 +1360,20 @@ val appKoinModule = module {
                 }
             )
         }
+        scoped<RunReportUseCase> {
+            RunReportUseCaseDatabaseImpl(
+                schoolDatabase = get(),
+                generateReportQueriesUseCase = get(),
+            )
+        }
     }
-
-    single<RunReportUseCase> {
-        MockRunReportUseCaseClientImpl()
-    }
-    single<ValidateEmailUseCase>{
+    single<ValidateEmailUseCase> {
         ValidateEmailUseCase()
     }
     single<CreateGraphFormatterUseCase> {
         CreateGraphFormatterUseCase()
+    }
+    single<GenerateReportQueriesUseCase> {
+        GenerateReportQueriesUseCase()
     }
 }

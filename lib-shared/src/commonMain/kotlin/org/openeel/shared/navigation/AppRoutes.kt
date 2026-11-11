@@ -274,7 +274,7 @@ data class ClazzEdit(
 object Report : OpenEelAppRoute
 
 @Serializable
-class ReportEdit(val reportUid: String?) : OpenEelAppRoute
+class ReportEdit(val reportActivityUid: String?) : OpenEelAppRoute
 
 @Serializable
 class ReportDetail(val reportUid: String) : OpenEelAppRoute

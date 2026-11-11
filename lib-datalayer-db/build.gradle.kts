@@ -29,6 +29,7 @@ kotlin {
             implementation(projects.libPrimarykeygen)
             implementation(projects.libXxhash)
             implementation(projects.libUtil)
+            implementation(projects.libCache)
             implementation(libs.kotlinx.serialization.json)
             api(libs.uri.kmp)
             api(libs.kotlinx.date.time)

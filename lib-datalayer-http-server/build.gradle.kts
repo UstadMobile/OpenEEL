@@ -17,6 +17,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.libDatalayer)
+            api(projects.libDatalayerDb)
+            api(projects.libShared)
             api(projects.libDataloadstateKtorServer)
             api(libs.ktor.server.core)
             implementation(libs.napier)

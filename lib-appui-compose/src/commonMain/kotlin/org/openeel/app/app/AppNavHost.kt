@@ -344,7 +344,7 @@ fun AppNavHost(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
-            ReportDetailScreen(navController = navController, viewModel = viewModel)
+            ReportDetailScreen(viewModel = viewModel)
         }
 
         composable<ReportEdit> {
@@ -384,7 +384,7 @@ fun AppNavHost(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
-            ReportFilterEditScreen(navController = navController, viewModel = viewModel)
+            ReportFilterEditScreen(viewModel = viewModel)
         }
 
         composable<IndicatorList> {
@@ -400,7 +400,7 @@ fun AppNavHost(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
-            IndicatorDetailScreen(navController = navController, viewModel = viewModel)
+            IndicatorDetailScreen(viewModel = viewModel)
         }
 
         composable<HowPasskeyWorks> {

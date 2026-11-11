@@ -36,5 +36,7 @@ data class XapiActivityDefinition(
 
         const val TYPE_ASSIGNMENT = "http://id.tincanapi.com/activitytype/school-assignment"
 
+        const val TYPE_REPORT = "https://id.openeel.org/xapi/activity-type/query-request"
+
     }
 }

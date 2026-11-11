@@ -23,19 +23,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.view.report.graph.CombinedGraph
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
-import org.openeel.datalayer.school.model.Report
-import org.openeel.shared.domain.report.model.RunReportResultAndFormatters
-import org.openeel.shared.domain.report.query.RunReportUseCase
+import org.openeel.app.components.langMapString
+import org.openeel.lib.xapi.ext.objectActivityNameOrNull
+import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.shared.generated.resources.No_data_available
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.delete
@@ -53,11 +49,11 @@ fun ReportListScreen(
             .fillMaxSize()
             .padding(4.dp)
     ) {
-        items(uiState.reportList.dataOrNull() ?: emptyList<Report>()) { report ->
+        items(uiState.reportRequests.dataOrNull() ?: emptyList()) { request ->
             ReportGridCard(
-                report = report,
-                viewModel = viewModel,
-                activeUserPersonUid = uiState.activeUserPersonUid
+                request = request,
+                uiState = uiState,
+                viewModel = viewModel
             )
         }
     }
@@ -65,36 +61,21 @@ fun ReportListScreen(
 
 @Composable
 private fun ReportGridCard(
-    report: Report,
-    viewModel: ReportListViewModel,
-    activeUserPersonUid: Long
+    request: XapiStatement,
+    uiState: ReportListUiState,
+    viewModel: ReportListViewModel
 ) {
-    val reportDataFlow = remember(report.guid) {
-        viewModel.runReport(report)
-    }
-    val reportResultWithFormatters by reportDataFlow.collectAsState(
-        initial = RunReportResultAndFormatters(
-            reportResult = RunReportUseCase.RunReportResult(
-                timestamp = 0,
-                request = RunReportUseCase.RunReportRequest(
-                    reportUid = report.guid.toLong(),
-                    reportOptions = ReportOptions(),
-                    accountPersonUid = activeUserPersonUid,
-                    timeZoneId = TimeZone.currentSystemDefault().id,
-                ),
-                results = emptyList()
-            ),
-            xAxisFormatter = null,
-            yAxisFormatter = null
-        )
-    )
+    val requestId = request.id?.toString() ?: return
+    val reportResult = uiState.reportResults[requestId]
+    val xAxisFormatter = uiState.xAxisFormatters[requestId]
+    val yAxisFormatter = uiState.yAxisFormatters[requestId]
 
     Card(
         modifier = Modifier
             .padding(10.dp)
             .fillMaxWidth()
             .clickable {
-                viewModel.onClickEntry(report)
+                viewModel.onClickEntry(request)
             }
             .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.12f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -107,9 +88,7 @@ private fun ReportGridCard(
             ) {
                 // Title above the chart
                 Text(
-                    report.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
+                    text = request.objectActivityNameOrNull()?.let { langMapString(it) } ?: "",
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
@@ -120,21 +99,21 @@ private fun ReportGridCard(
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    if (reportResultWithFormatters.reportResult.results.isEmpty() ||
-                        reportResultWithFormatters.reportResult.resultSeries.isEmpty()
+                    if (reportResult == null ||
+                        reportResult.results.isEmpty() ||
+                        reportResult.resultSeries.isEmpty()
                     ) {
                         Text(
                             stringResource(Res.string.No_data_available),
-                            style = MaterialTheme.typography.bodyMedium
                         )
                     } else {
                         CombinedGraph(
-                            reportResult = reportResultWithFormatters.reportResult,
+                            reportResult = reportResult,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .background(color = MaterialTheme.colorScheme.surface),
-                            xAxisFormatter = reportResultWithFormatters.xAxisFormatter,
-                            yAxisFormatter = reportResultWithFormatters.yAxisFormatter
+                            xAxisFormatter = xAxisFormatter,
+                            yAxisFormatter = yAxisFormatter
                         )
                     }
                 }
@@ -148,7 +127,7 @@ private fun ReportGridCard(
                 modifier = Modifier
                     .size(32.dp)
                     .padding(8.dp)
-                    .clickable { viewModel.onRemoveReport(report.guid) }
+                    .clickable { viewModel.onRemoveReport(request) }
                     .align(Alignment.TopEnd)
             )
         }

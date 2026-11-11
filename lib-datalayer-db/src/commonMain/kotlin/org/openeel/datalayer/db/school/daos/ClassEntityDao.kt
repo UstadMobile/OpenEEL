@@ -13,6 +13,7 @@ import org.openeel.datalayer.db.school.entities.ClassEntityWithPermissions
 import org.openeel.datalayer.db.school.entities.LastModifiedAndPermission
 import org.openeel.datalayer.school.model.PermissionFlags
 import org.openeel.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.school.model.ClazzUidAndName
 
 @Dao
 interface ClassEntityDao {
@@ -99,6 +100,13 @@ interface ClassEntityDao {
             OR ClassEntity.cTeacherInviteGuid = :code 
     """)
     suspend fun findByInviteCode(code: String): List<ClassEntityWithPermissions>
+
+    @Query("""
+        SELECT ClassEntity.cGuid, ClassEntity.cTitle
+          FROM ClassEntity
+         WHERE ClassEntity.cGuidHash IN (:uidList) 
+    """)
+    suspend fun findClazzNamesByUids(uidList: List<Long>): List<ClazzUidAndName>
 
     @Query("""
           WITH ${PersonEntityDao.AUTHENTICATED_PERMISSION_PERSON_UIDS_CTE_SQL},

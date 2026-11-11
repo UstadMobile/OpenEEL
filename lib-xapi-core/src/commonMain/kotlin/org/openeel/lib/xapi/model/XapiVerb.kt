@@ -32,6 +32,10 @@ data class XapiVerb(
          */
         const val ID_ASSIGN = "http://activitystrea.ms/schema/1.0/assign"
 
+        const val ID_REPORT_QUERY_REQUEST = "https://id.openeel.org/xapi/verb/query-request"
+
+        const val ID_REPORT_QUERY_RESPONSE = "https://id.openeel.org/xapi/verb/query-response"
+
         /**
          * See https://registry.tincanapi.com/#uri/verb/12
          */

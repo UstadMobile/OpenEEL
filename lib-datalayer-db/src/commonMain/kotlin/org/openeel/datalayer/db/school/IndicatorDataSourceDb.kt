@@ -11,7 +11,6 @@ import org.openeel.datalayer.db.school.adapters.toIndicator
 import org.openeel.datalayer.db.school.adapters.toIndicatorEntity
 import org.openeel.lib.xapi.extensions.reportoptions.Indicator
 import org.openeel.datalayer.school.IndicatorDataSource
-import org.openeel.lib.xapi.extensions.reportoptions.DefaultIndicators
 
 class IndicatorDataSourceDb(
     private val schoolDb: SchoolDatabase,
@@ -55,15 +54,4 @@ class IndicatorDataSourceDb(
         schoolDb.getIndicatorEntityDao().updateIndicator(indicatorEntity)
     }
 
-    override suspend fun initializeDefaultIndicators(idGenerator: () -> String) {
-        val existingCount = schoolDb.getIndicatorEntityDao().getIndicatorCount()
-        if (existingCount == 0) {
-            DefaultIndicators.list.forEach { indicator ->
-                val indicatorWithId = indicator.copy(
-                    indicatorId = idGenerator()
-                )
-                putIndicator(indicatorWithId)
-            }
-        }
-    }
 }

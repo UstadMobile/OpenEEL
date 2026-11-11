@@ -1,4 +1,4 @@
-package org.openeel.shared.domain.report.query
+package org.openeel.datalayer.db.school.domain.report.query
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDateTime
@@ -7,9 +7,10 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
-import org.openeel.datalayer.db.shared.entities.ReportQueryResult
-import org.openeel.datalayer.http.headers.directives.directivesToMap
-import org.openeel.shared.domain.report.ext.asStatementReportRow
+import org.openeel.datalayer.db.school.domain.report.ext.asStatementReportRow
+import org.openeel.datalayer.db.school.domain.report.ext.directivesToMap
+import org.openeel.datalayer.db.shared.entities.ReportQueryResultEntity
+import org.openeel.lib.serializers.TimeZoneSerializer
 import org.openeel.lib.xapi.extensions.reportoptions.ReportOptions
 import org.openeel.lib.xapi.extensions.reportoptions.ReportSeries
 import org.openeel.lib.xapi.extensions.reportoptions.StatementReportRow
@@ -129,11 +130,12 @@ interface RunReportUseCase {
      */
     @Serializable
     data class RunReportRequest(
-        val reportUid: Long,
+        val reportUid: String,
         val reportOptions: ReportOptions,
         val accountPersonUid: Long,
         val cacheControl: String? = null,
-        val timeZoneId: String,
+        @Serializable(with = TimeZoneSerializer::class)
+        val timeZone: TimeZone,
     ) {
 
         /**
@@ -171,7 +173,7 @@ interface RunReportUseCase {
          * This functions "fills" it in with zero so the data can be graphed as expected.
          */
         @OptIn(ExperimentalTime::class)
-        private fun List<StatementReportRow>.fillIfNeeded(
+        fun List<StatementReportRow>.fillIfNeeded(
             request: RunReportRequest,
         ): List<StatementReportRow> {
             //If there are no rows in the database query result; we must use the empty subgroup
@@ -181,13 +183,12 @@ interface RunReportUseCase {
             val resultList = mutableListOf<StatementReportRow>()
             val rowMap = this.associateBy { Pair(it.xAxis, it.subgroup) }
 
-            val timeZone = TimeZone.of(request.timeZoneId)
             var fromDateTime = Instant
-                .fromEpochMilliseconds(request.reportOptions.period.periodStartMillis(timeZone))
-                .toLocalDateTime(timeZone)
-            val reportEndMs = request.reportOptions.period.periodEndMillis(timeZone)
+                .fromEpochMilliseconds(request.reportOptions.period.periodStartMillis(request.timeZone))
+                .toLocalDateTime(request.timeZone)
+            val reportEndMs = request.reportOptions.period.periodEndMillis(request.timeZone)
 
-            while (fromDateTime.toInstant(timeZone).toEpochMilliseconds() < reportEndMs) {
+            while (fromDateTime.toInstant(request.timeZone).toEpochMilliseconds() < reportEndMs) {
                 val xAxisStr = fromDateTime.date.toString()
                 resultList.addAll(
                     allSubGroups.map { subgroup ->
@@ -205,28 +206,25 @@ interface RunReportUseCase {
         }
 
         fun reportQueryResultsToResultStatementReportRows(
-            queryResults: List<ReportQueryResult>,
+            queryResults: List<ReportQueryResultEntity>,
             request: RunReportRequest,
             xAxisNameFn: (String) -> String = { it },
         ): List<List<StatementReportRow>> {
             val queryResultMap = queryResults.groupBy { it.rqrReportSeriesUid }
-                .map { entry ->
-                    entry.key to entry.value.map {
+                .mapValues { entry ->
+                    entry.value.map {
                         it.asStatementReportRow().let { reportRow ->
                             reportRow.copy(
                                 xAxis = xAxisNameFn(reportRow.xAxis)
                             )
                         }
                     }.fillIfNeeded(request)
-                }.toMap()
+                }
 
-            TODO()
-            /*
-            return request.reportOptions.series.mapNotNull {
+            return request.reportOptions.series.mapIndexed { index, _ ->
                 //ensure that the order matches the order as per request.reportOptions.series
-                queryResultMap[it.reportSeriesUid]
+                queryResultMap[index] ?: emptyList()
             }
-             */
         }
 
 
