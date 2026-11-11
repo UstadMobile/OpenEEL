@@ -26,7 +26,6 @@ import org.openeel.shared.navigation.AssignmentList
 import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.NewGetStartedScreen
 import org.openeel.shared.navigation.PersonDetail
 import org.openeel.shared.navigation.ShareFeedback
 import org.openeel.shared.navigation.WaitingForApproval
@@ -87,13 +86,13 @@ class AccountListViewModel(
                 /*
                  * If there are no stored accounts (eg because they have logged out of all accounts),
                  * or if a session is terminated remotely (eg password reset), then must go to
-                 * NewGetStarted screen.
+                 * GetStarted screen.
                  */
                 if(storedAccounts.isEmpty() && !emittedNavToGetStartedCommand) {
                     emittedNavToGetStartedCommand = true
                     _navCommandFlow.tryEmit(
                         NavCommand.Navigate(
-                            NewGetStartedScreen(), clearBackStack = true
+                            GetStartedScreen(), clearBackStack = true
                         )
                     )
 

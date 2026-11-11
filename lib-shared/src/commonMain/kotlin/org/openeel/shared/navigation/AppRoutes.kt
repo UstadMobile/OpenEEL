@@ -329,11 +329,6 @@ data class GetStartedScreen(
 ) : OpenEelAppRoute
 
 @Serializable
-data class NewGetStartedScreen(
-    val canGoBack: Boolean = false,
-) : OpenEelAppRoute
-
-@Serializable
 object ConnectToExistingLearningSpace : OpenEelAppRoute
 
 @Serializable

@@ -55,7 +55,6 @@ import org.openeel.app.view.person.setusernameandpassword.CreateAccountSetUserna
 import org.openeel.app.view.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkScreen
 import org.openeel.app.view.catalog.opdsfeededit.OpdsFeedEditScreen
 import org.openeel.app.view.catalog.opdsfeedlist.OpdsFeedListScreen
-import org.openeel.app.view.manageuser.getstarted.NewGetStartedScreen
 import org.openeel.app.view.catalog.opdsfeedlistpinusinglink.OpdsFeedListPinUsingLinkScreen
 import org.openeel.app.view.manageuser.learningspace.CreateNewLearningSpaceScreen
 import org.openeel.app.view.report.detail.ReportDetailScreen
@@ -110,7 +109,6 @@ import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.OpdsSearch
 import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.ManageAccount
-import org.openeel.shared.navigation.NewGetStartedScreen
 import org.openeel.shared.navigation.Onboarding
 import org.openeel.shared.navigation.OtherOptionsSignup
 import org.openeel.shared.navigation.PasskeyList
@@ -156,7 +154,6 @@ import org.openeel.shared.viewmodel.manageuser.enterpasswordsignup.EnterPassword
 import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
 import org.openeel.shared.viewmodel.manageuser.howpasskeywork.HowPasskeyWorksViewModel
 import org.openeel.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeViewModel
-import org.openeel.shared.viewmodel.manageuser.getstarted.NewGetStartedViewModel
 import org.openeel.shared.viewmodel.manageuser.login.LoginViewModel
 import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceViewModel
 import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceViewModel
@@ -452,13 +449,6 @@ fun AppNavHost(
             GetStartedScreen(viewModel = viewModel)
         }
 
-        composable<NewGetStartedScreen> {
-            val viewModel: NewGetStartedViewModel = openEelViewModel(
-                onSetAppUiState = onSetAppUiState,
-                navController = respectNavController
-            )
-            NewGetStartedScreen(viewModel = viewModel)
-        }
 
 
         composable<ConnectToExistingLearningSpace> {
