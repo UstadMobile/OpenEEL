@@ -38,6 +38,9 @@ onFlowComplete:
     file: "subflows/chrome-first-run-check.yaml"
 - assertVisible: "Register New School"
 - tapOn:
+    id: "schoolName"
+- inputText: "Test School"
+- tapOn:
     id: "schoolUrl"
 - inputText: ${output.SCHOOL_URL}
 - tapOn: "Next"
@@ -77,7 +80,7 @@ onFlowComplete:
 - tapOn: "Sign-up"
 - assertVisible:
     id: "app_title"
-    text: "Apps"
+    text: "Home"
 - tapOn:
     id: "user_account_icon"
 - assertVisible: "Profile"

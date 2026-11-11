@@ -1,5 +1,10 @@
 [
   {
+    "invitePrefix": "openeel-community-app",
+    "baseUrl": "http://10.0.2.2:8098/",
+    "name": "openeel-community-app"
+  },
+  {
     "invitePrefix": "Algeria",
     "baseUrl": "https://dz.onrespect.app/",
     "name": "Algeria"
