@@ -26,7 +26,14 @@ import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.app.appstate.Snack
 
-data class HostListConfig(val url: Url)
+/**
+ * @param defaultUrl the host list URL set at build time.
+ * @property url the host list URL to load; can be overridden at runtime (e.g. by end-to-end tests
+ *           using a launch argument).
+ */
+class HostListConfig(defaultUrl: Url) {
+    var url: Url = defaultUrl
+}
 
 data class CreateNewLearningSpaceUiState(
     val hosts: List<CreateNewLearningSpaceViewModel.Host> = emptyList(),
@@ -45,7 +52,20 @@ class CreateNewLearningSpaceViewModel(
     data class Host(
         val baseUrl: Url,
         val name: String,
-    )
+    ) {
+        companion object {
+
+            const val E2E_HOST_LIST_ENDPOINT = "e2e-hostlist.json"
+
+            /**
+             * Path (relative to the server URL) where a server with end-to-end testing enabled
+             * serves a host list containing only itself.
+             */
+            const val E2E_HOST_LIST_PATH = "api/$E2E_HOST_LIST_ENDPOINT"
+
+            const val E2E_HOST_NAME = "openeel-community-app"
+        }
+    }
 
     private val _uiState = MutableStateFlow(CreateNewLearningSpaceUiState())
 

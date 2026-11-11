@@ -641,7 +641,7 @@ val appKoinModule = module {
     }
 
     single {
-        HostListConfig(url = Url(BuildConfig.DEFAULT_HOST_LIST))
+        HostListConfig(defaultUrl = Url(BuildConfig.DEFAULT_HOST_LIST))
     }
 
     single<SchoolDirectoryDataSource> {

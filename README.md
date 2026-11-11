@@ -94,6 +94,10 @@ DEFAULT_HOSTLIST - the JSON URL loaded online for learning space hosts; the host
 Host icons are discovered from HTML favicon links, falling back to `/favicon.ico`,
 with the results cached in memory using cache4k.
 
+For end-to-end tests, the host list URL can be overridden at runtime using the `respect_hostlist`
+launch argument. A server with `ktor.e2eartifactupload.enabled=true` serves a host list containing
+only itself at `api/e2e-hostlist.json`.
+
 ## Publishing
 
 As per [Kotlin docs](https://kotlinlang.org/docs/multiplatform/multiplatform-publish-lib-setup.html#publishing-to-a-local-maven-repository)

@@ -22,6 +22,7 @@ onFlowComplete:
 - launchApp:
     arguments:
       respect_directory: ${output.SCHOOL_URL}
+      respect_hostlist: ${output.SCHOOL_URL}api/e2e-hostlist.json
 - tapOn: "Get Started"
 - assertVisible:
     id: "app_title"

@@ -21,6 +21,7 @@ import org.openeel.shared.domain.activitycontextjobprocessor.ActivityContextJobP
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.biometric.BiometricAuthProcessor
 import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
+import org.openeel.shared.viewmodel.manageuser.learningspace.HostListConfig
 import org.openeel.view.app.AbstractAppActivity
 
 class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
@@ -101,6 +102,14 @@ class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
                 )
             }
         }
+
+        /*
+         * Override the host list URL (used by end-to-end tests where the test server URL is only
+         * known at runtime).
+         */
+        intent.extras?.getString(EXTRA_RESPECT_HOSTLIST)?.takeIf { it.isNotBlank() }?.also { hostListUrl ->
+            getKoin().get<HostListConfig>().url = Url(hostListUrl)
+        }
     }
 
     companion object {
@@ -109,6 +118,8 @@ class MainActivity : AbstractAppActivity(), AndroidScopeComponent {
          *
          */
         const val EXTRA_RESPECT_DIRECTORY = "respect_directory"
+
+        const val EXTRA_RESPECT_HOSTLIST = "respect_hostlist"
 
     }
 }
