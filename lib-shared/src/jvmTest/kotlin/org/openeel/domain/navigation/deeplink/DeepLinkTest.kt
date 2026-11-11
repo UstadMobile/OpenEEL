@@ -40,7 +40,7 @@ class DeepLinkTest {
 
     companion object {
 
-        const val CUSTOM_PROTO = "world.respect.app"
+        const val CUSTOM_PROTO = "org.example.app"
 
     }
 }

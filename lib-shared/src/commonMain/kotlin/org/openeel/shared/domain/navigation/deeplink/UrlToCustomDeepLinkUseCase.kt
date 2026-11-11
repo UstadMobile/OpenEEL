@@ -20,17 +20,19 @@ import io.ktor.http.encodedPath
  * Conversion is as follows:
  * https://schoolname.example.org/some/path?param=value
  * becomes
- * world.respect.app://https/schoolname.example.org/some/path?param=value
+ * {customProtocol}://https/schoolname.example.org/some/path?param=value
  *
  * http://192.168.1.2:8098/some/path?param=value
  * becomes
- * world.respect.app://192.168.1.2:8098/some/path?param=value
+ * {customProtocol}://192.168.1.2:8098/some/path?param=value
  *
  * The mapping moves the http/https into the host, and the host into the path. We want to have a
  * single custom protocol, however we need to support both http and https links.
  *
  * A Custom Deep Link created using UrlToCustomDeepLinkUseCase can be converted back using
  * CustomDeepLinkToUrlUseCase.
+ *
+ * @param customProtocol the custom protocol registered in AndroidManifest.xml - normally the app package id.
  */
 class UrlToCustomDeepLinkUseCase(
     val customProtocol: String,
