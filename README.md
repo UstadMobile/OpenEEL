@@ -91,8 +91,7 @@ DEFAULT_APPLIST - the default list of launchable app manifest URLs e.g. https://
 DEFAULT_HOSTLIST - the JSON URL loaded online for learning space hosts; the host list is not stored in the database
 ```
 
-Host icons are discovered from HTML favicon links, falling back to `/favicon.ico`,
-with the results cached in memory using cache4k.
+Hosts are shown with a generic globe icon.
 
 For end-to-end tests, the host list URL can be overridden at runtime using the `respect_hostlist`
 launch argument. Every server serves a host list containing only itself at
