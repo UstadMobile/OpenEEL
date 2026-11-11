@@ -48,18 +48,13 @@
     <string name="no_shared_devices_available_info">Shared school devices allow multiple users to securely access the app on the same device using their profile</string>
 
 
-    <string name="phone_android_icon">PhoneAndroid</string>
     <string name="tablet_android_last_seen">last seen</string>
-    <string name="check_circle_icon">CheckCircle</string>
     <string name="add_device">Add Device</string>
     <string name="this_device">This device</string>
     <string name="this_device_enable">Enable shared school device on mode on this device</string>
-    <string name="close_icon">Close Icon</string>
     <string name="another_device_add">Add using QR code, link, or invite code</string>
     <string name="another_device">Another device</string>
     <string name="set_pin">Set PIN</string>
-    <string name="share_icon">Share Icon</string>
-    <string name="arrow_down_icon">Arrow Down</string>
     <string name="devices">Devices</string>
 
     <string name="add_assignment">Add assignment</string>

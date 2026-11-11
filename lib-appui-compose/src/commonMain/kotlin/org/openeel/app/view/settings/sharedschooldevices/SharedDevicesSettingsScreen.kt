@@ -8,12 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.KeyboardArrowDown
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -23,20 +18,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.openeel.app.components.OpenEelExpandCollapseListItem
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.openEelPagingItems
 import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.school.model.Person
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.shared.generated.resources.Res
-import org.openeel.shared.generated.resources.arrow_down_icon
 import org.openeel.shared.generated.resources.devices
 import org.openeel.shared.generated.resources.no_shared_devices_available
 import org.openeel.shared.generated.resources.no_shared_devices_available_info
@@ -147,23 +141,17 @@ fun SharedDevicesSettingsContent(
         // Pending Requests Dropdown Section
         if (pendingItems.itemCount > 0) {
             item("pending_person_header") {
-                ListItem(
-                    modifier = Modifier.clickable { onTogglePendingInvites() },
+                OpenEelExpandCollapseListItem(
+                    expanded = uiState.isPendingExpanded,
+                    onExpandedChanged = {
+                        onTogglePendingInvites()
+                    },
                     headlineContent = {
                         Text(
                             text = stringResource(Res.string.pending_device_requests) +
                                     " (${pendingItems.itemCount})"
                         )
                     },
-                    trailingContent = {
-                        Icon(
-                            imageVector = Icons.Outlined.KeyboardArrowDown,
-                            modifier = Modifier
-                                .size(24.dp)
-                                .rotate(if (uiState.isPendingExpanded) 0f else -90f),
-                            contentDescription = stringResource(Res.string.arrow_down_icon)
-                        )
-                    }
                 )
             }
         }

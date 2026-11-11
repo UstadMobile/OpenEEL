@@ -25,8 +25,6 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_device
 import org.openeel.shared.generated.resources.another_device
 import org.openeel.shared.generated.resources.another_device_add
-import org.openeel.shared.generated.resources.phone_android_icon
-import org.openeel.shared.generated.resources.share_icon
 import org.openeel.shared.generated.resources.this_device
 import org.openeel.shared.generated.resources.this_device_enable
 
@@ -54,7 +52,7 @@ fun SharedDeviceAddBottomSheet(
             leadingContent = {
                 Icon(
                     imageVector = Icons.Default.PhoneAndroid,
-                    contentDescription = stringResource(Res.string.phone_android_icon),
+                    contentDescription = null,
                 )
             },
             headlineContent = { Text(text = stringResource(Res.string.this_device)) },
@@ -69,7 +67,7 @@ fun SharedDeviceAddBottomSheet(
             leadingContent = {
                 Icon(
                     imageVector = Icons.Default.Share,
-                    contentDescription = stringResource(Res.string.share_icon),
+                    contentDescription = null,
                 )
             },
             headlineContent = { Text(text = stringResource(Res.string.another_device)) },
