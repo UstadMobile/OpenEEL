@@ -188,7 +188,7 @@ class AppAccountManager(
     suspend fun register(
         redeemInviteRequest: RedeemInviteRequest,
         schoolUrl: Url,
-        useActiveUserAuth: Boolean = true
+        useActiveUserAuth: Boolean,
     ): Person {
         val schoolScopeId = SchoolDirectoryEntryScopeId(
             schoolUrl, null,

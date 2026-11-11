@@ -174,7 +174,7 @@ import org.openeel.shared.domain.e2eartifactupload.E2EArtifactUploadUseCaseClien
 import org.openeel.shared.domain.getwarnings.GetWarningsUseCase
 import org.openeel.shared.domain.getwarnings.GetWarningsUseCaseAndroid
 import org.openeel.shared.domain.license.GetLicenseLabelUseCaseAndroid
-import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
+import org.openeel.shared.domain.account.shareddevice.enableshareddevicemode.EnableSharedDeviceModeUseCase
 import org.openeel.shared.domain.account.shareddevice.isshareddevice.CheckIsSharedDeviceUseCase
 import org.openeel.shared.domain.bookmark.AddBookmarkUseCase
 import org.openeel.shared.domain.bookmark.RemoveBookmarkUseCase

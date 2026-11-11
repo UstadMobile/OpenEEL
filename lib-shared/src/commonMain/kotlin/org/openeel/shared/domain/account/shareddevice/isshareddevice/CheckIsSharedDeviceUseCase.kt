@@ -1,7 +1,7 @@
 package org.openeel.shared.domain.account.shareddevice.isshareddevice
 
 import com.russhwolf.settings.Settings
-import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
+import org.openeel.shared.domain.account.shareddevice.enableshareddevicemode.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
 
 class CheckIsSharedDeviceUseCase(
     private val settings: Settings,

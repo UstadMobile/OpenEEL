@@ -30,7 +30,7 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.ext.getJsonAsFlow
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import org.openeel.shared.domain.account.AppAccountManager
-import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
+import org.openeel.shared.domain.account.shareddevice.enableshareddevicemode.EnableSharedDeviceModeUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.login
 import org.openeel.shared.generated.resources.select_class

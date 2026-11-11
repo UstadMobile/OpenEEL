@@ -1,4 +1,4 @@
-package org.openeel.shared.domain.account.invite
+package org.openeel.shared.domain.account.shareddevice.enableshareddevicemode
 
 import com.russhwolf.settings.Settings
 import io.github.aakira.napier.Napier
@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeout
 import org.openeel.datalayer.school.model.Person
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.shared.util.ext.isSameAccount
 import kotlin.time.Duration.Companion.seconds
 

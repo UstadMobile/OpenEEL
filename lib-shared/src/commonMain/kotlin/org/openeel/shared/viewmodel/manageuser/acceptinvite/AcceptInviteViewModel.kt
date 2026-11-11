@@ -25,8 +25,8 @@ import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.LangMap
-import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase
-import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
+import org.openeel.shared.domain.account.shareddevice.enableshareddevicemode.EnableSharedDeviceModeUseCase
+import org.openeel.shared.domain.account.shareddevice.enableshareddevicemode.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
 import org.openeel.shared.domain.account.invite.GetInviteInfoUseCase
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest.PersonInfo

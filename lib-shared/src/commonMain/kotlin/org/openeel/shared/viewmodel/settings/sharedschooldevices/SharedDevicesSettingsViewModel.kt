@@ -36,7 +36,7 @@ import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUse
 import org.openeel.lib.xapi.ext.getJsonAsFlow
 import org.openeel.lib.xapi.ext.putJson
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
-import org.openeel.shared.domain.account.invite.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
+import org.openeel.shared.domain.account.shareddevice.enableshareddevicemode.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.device
