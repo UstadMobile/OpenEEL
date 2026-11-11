@@ -20,9 +20,9 @@ class SavePersonQrBadgeWorker(
 
         return try {
             val personGuid = inputData.getString(KEY_PERSON_GUID)
-                ?: error("Missing QR badge person GUID")
+                ?: throw IllegalArgumentException("Missing QR badge person GUID")
             val qrCodeUrl = inputData.getString(KEY_QR_CODE_URL)?.let(::Url)
-                ?: error("Missing QR badge URL")
+                ?: throw IllegalArgumentException("Missing QR badge URL")
 
             val outcome = savePersonQrBadgeUseCase(
                 SavePersonQrBadgeUseCase.Request(

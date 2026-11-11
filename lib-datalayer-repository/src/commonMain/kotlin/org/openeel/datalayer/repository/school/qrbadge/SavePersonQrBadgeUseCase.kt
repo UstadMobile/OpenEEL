@@ -1,8 +1,6 @@
 package org.openeel.datalayer.repository.school.qrbadge
 
 import io.ktor.http.Url
-import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.repository.SchoolDataSourceRepository
 import org.openeel.datalayer.school.PersonQrBadgeDataSource
 import org.openeel.datalayer.school.model.PersonQrBadge
 import org.openeel.datalayer.school.model.StatusEnum
@@ -11,7 +9,7 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import kotlin.time.Clock
 
 class SavePersonQrBadgeUseCase(
-    private val schoolDataSource: SchoolDataSource,
+    private val personQrBadgeDataSource: PersonQrBadgeDataSource,
 ) {
 
     enum class Outcome {
@@ -25,10 +23,7 @@ class SavePersonQrBadgeUseCase(
     )
 
     suspend operator fun invoke(request: Request): Outcome {
-        val repository = schoolDataSource as? SchoolDataSourceRepository
-            ?: error("SchoolDataSource must use the offline-first repository")
-
-        val matchingBadges = repository.remote.personQrBadgeDataSource.listAll(
+        val matchingBadges = personQrBadgeDataSource.listAll(
             loadParams = DataLoadParams(),
             listParams = PersonQrBadgeDataSource.GetListParams(
                 qrCodeUrl = request.qrCodeUrl,
@@ -39,7 +34,7 @@ class SavePersonQrBadgeUseCase(
             return Outcome.ALREADY_ASSIGNED
         }
 
-        schoolDataSource.personQrBadgeDataSource.store(
+        personQrBadgeDataSource.store(
             listOf(
                 PersonQrBadge(
                     personGuid = request.personGuid,

@@ -1086,7 +1086,7 @@ val appKoinModule = module {
 
         scoped<SavePersonQrBadgeUseCase> {
             SavePersonQrBadgeUseCase(
-                schoolDataSource = get(),
+                personQrBadgeDataSource = get<SchoolDataSource>().personQrBadgeDataSource,
             )
         }
 
