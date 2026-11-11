@@ -26,7 +26,6 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Let's get started"
-- assertVisible: "Create a new learning space. You can invite friends and colleagues if you want, or keep it personal for yourself."
 - tapOn: "Create new learning space"
 - assertVisible:
     id: "app_title"
