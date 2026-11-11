@@ -31,12 +31,12 @@ import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLe
 import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceViewModel
 
 @Composable
-fun ConnectToExistingLearningSpace(
+fun ConnectToExistingLearningSpaceScreen(
     viewModel: ConnectToExistingLearningSpaceViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    ConnectToExistingLearningSpace(
+    ConnectToExistingLearningSpaceScreen(
         uiState = uiState,
         onLinkChanged = viewModel::onLinkChanged,
         onClickNext = viewModel::onClickNext,
@@ -46,7 +46,7 @@ fun ConnectToExistingLearningSpace(
 }
 
 @Composable
-fun ConnectToExistingLearningSpace(
+fun ConnectToExistingLearningSpaceScreen(
     uiState: ConnectToExistingLearningSpaceUiState,
     onLinkChanged: (String) -> Unit,
     onClickNext: () -> Unit,

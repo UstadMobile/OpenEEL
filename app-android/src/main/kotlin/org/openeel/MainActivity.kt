@@ -21,7 +21,6 @@ import org.openeel.shared.domain.activitycontextjobprocessor.ActivityContextJobP
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
 import org.openeel.shared.domain.biometric.BiometricAuthProcessor
 import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
-import org.openeel.shared.viewmodel.manageuser.learningspace.HostListConfig
 import org.openeel.view.app.AbstractAppActivity
 
 class MainActivity : AbstractAppActivity(), AndroidScopeComponent {

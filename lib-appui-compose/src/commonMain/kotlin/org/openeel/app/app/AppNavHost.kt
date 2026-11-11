@@ -34,7 +34,7 @@ import org.openeel.app.view.manageuser.getstarted.GetStartedScreen
 import org.openeel.app.view.manageuser.howpasskeywork.HowPasskeyWorksScreen
 import org.openeel.app.view.manageuser.enterinvitecode.EnterInviteCodeScreen
 import org.openeel.app.view.manageuser.login.LoginScreen
-import org.openeel.app.view.manageuser.learningspace.ConnectToExistingLearningSpace
+import org.openeel.app.view.manageuser.learningspace.ConnectToExistingLearningSpaceScreen
 import org.openeel.app.view.manageuser.otheroptionsignup.OtherOptionsSignupScreen
 import org.openeel.app.view.manageuser.sharefeedback.ShareFeedbackScreen
 import org.openeel.app.view.manageuser.signup.SignupScreen
@@ -456,7 +456,7 @@ fun AppNavHost(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
-            ConnectToExistingLearningSpace(viewModel = viewModel)
+            ConnectToExistingLearningSpaceScreen(viewModel = viewModel)
         }
 
         composable<CreateNewLearningSpace> {
