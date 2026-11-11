@@ -20,6 +20,7 @@ import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.paging.PagingSourceFactoryHolder
 import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.libutil.util.time.localDateInCurrentTimeZone
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.navigation.AssignmentList
@@ -62,21 +63,31 @@ class LoginSelectStudentViewModel(
     }
     private val enqueuePullSyncUseCase: EnqueueRunPullSyncUseCase by inject()
 
-
     init {
         _appUiState.update {
             it.copy(
-                title = route.className.asUiText(),
                 hideBottomNavigation = true,
                 userAccountIconVisible = false
             )
         }
+
+        viewModelScope.launch {
+            schoolDataSource.classDataSource.findByGuidAsFlow(
+                guid = route.guid
+            ).collect {
+                _appUiState.update { prev ->
+                    prev.copy(title = it.dataOrNull()?.title?.asUiText() ?: prev.title)
+                }
+            }
+        }
+
 
         _uiState.update { prev ->
             prev.copy(
                 students = pagingSourceHolder,
             )
         }
+
         viewModelScope.launch {
             enqueuePullSyncUseCase()
         }

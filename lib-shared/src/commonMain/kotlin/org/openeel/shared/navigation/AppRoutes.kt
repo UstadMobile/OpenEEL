@@ -28,6 +28,16 @@ sealed interface OpenEelAppRoute
 /** Optional Boolean route argument requesting AppBar search focus on entry. */
 const val ARG_FOCUS_SEARCH = "focusSearch"
 
+/**
+ * AppRoutes: important:
+ *
+ * a) NEVER include extra data that can be looked up using an ID e.g. a person/class name etc. This
+ *    leads to duplication.
+ * b) Routes are data classes with only primitive and string arguments. If a non-primitive argument
+ *    is required then add a string property, use a serializer, and create a transient property.
+ *    This is because Jetpack compose navigation does not handle objects.
+ */
+
 @Serializable
 data class Acknowledgement(
     val schoolUrlStr: String? = null,
@@ -840,16 +850,13 @@ data object TeacherPinConfirmation : OpenEelAppRoute
 
 @Serializable
 data class LoginSelectStudent(
-    val className: String,
     val guid: String,
 ) : OpenEelAppRoute {
 
     companion object {
         fun create(
-            className: String,
             guid: String,
         ) = LoginSelectStudent(
-            className = className,
             guid = guid,
         )
     }

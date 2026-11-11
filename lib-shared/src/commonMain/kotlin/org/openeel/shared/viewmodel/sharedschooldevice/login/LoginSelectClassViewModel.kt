@@ -147,7 +147,6 @@ class LoginSelectClassViewModel(
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
                 LoginSelectStudent.create(
-                    className = clazz.title,
                     guid = clazz.guid,
                 )
             )
