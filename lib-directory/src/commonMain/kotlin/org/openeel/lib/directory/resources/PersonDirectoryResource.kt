@@ -1,6 +1,8 @@
 package org.openeel.lib.directory.resources
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.datetime.LocalDate
+import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.lib.directory.model.Person
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
@@ -21,6 +23,8 @@ interface PersonDirectoryResource {
         val filterByName: String? = null,
         val filterByPersonRole: PersonRoleEnum? = null,
         val includeRelated: Boolean = false,
+        val filterByPersonStatus: PersonStatusEnum? = null,
+        val inClassOnDay: LocalDate? = null,
     )
 
     suspend fun list(

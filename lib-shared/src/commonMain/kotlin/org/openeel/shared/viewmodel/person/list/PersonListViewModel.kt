@@ -12,8 +12,8 @@ import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
+import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.datalayer.shared.paging.EmptyPagingSource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
@@ -87,8 +87,6 @@ class PersonListViewModel(
 
     private val route: PersonList = savedStateHandle.toRoute()
 
-    private val isExternalDirectory = accountManager.activeAccount?.school?.userDirectory != null
-
     private val getWritableRolesListUseCase: GetWritableRolesListUseCase by inject()
 
     private val approveOrDeclineInviteRequestUseCase: ApproveOrDeclineInviteRequestUseCase by inject()
@@ -149,14 +147,14 @@ class PersonListViewModel(
 
         viewModelScope.launch {
             accountManager.selectedAccountAndPersonFlow.collect { selectedAcct ->
-                val writableRoles = selectedAcct?.person?.roles?.firstOrNull()?.takeUnless { isExternalDirectory }?.let {
+                val writableRoles = selectedAcct?.person?.roles?.firstOrNull()?.let {
                     getWritableRolesListUseCase(it.roleEnum)
                 } ?: emptyList()
 
                 val canAddPerson = writableRoles.isNotEmpty()
                 _uiState.update { it.copy(writableRoles = writableRoles) }
 
-                val canInvitePerson = !isExternalDirectory && (canAddPerson || route.inviteUid != null)
+                val canInvitePerson = canAddPerson || route.inviteUid != null
 
                 _appUiState.update { prev ->
                     prev.copy(
@@ -180,7 +178,7 @@ class PersonListViewModel(
             it.copy(
                 pendingPersons = pendingPersonsPagingSource,
                 persons = pagingSourceFactoryHolder,
-                showInvite = !isExternalDirectory && !route.hideInvite && (route.filterByRole != null||route.addToClassUid!=null)
+                showInvite = !route.hideInvite && (route.filterByRole != null||route.addToClassUid!=null)
             )
         }
     }
