@@ -65,7 +65,12 @@ class LoginViewModel(
 
     private val route: LoginScreen = savedStateHandle.toRoute()
 
-    private val _uiState = MutableStateFlow(LoginUiState(schoolUrl = route.schoolUrl))
+    private val _uiState = MutableStateFlow(
+        LoginUiState(
+            schoolUrl = route.schoolUrl,
+            showSelectOtherSchoolButton = route.showSelectOtherSchool == true
+        )
+    )
 
     val uiState = _uiState.asStateFlow()
 
@@ -81,10 +86,6 @@ class LoginViewModel(
     private var usingSavedPassword = false
 
     init {
-        _uiState.update { prev ->
-            prev.copy(showSelectOtherSchoolButton = route.showSelectOtherSchool == true)
-        }
-
         viewModelScope.launch {
             _appUiState.update { prev ->
                 prev.copy(

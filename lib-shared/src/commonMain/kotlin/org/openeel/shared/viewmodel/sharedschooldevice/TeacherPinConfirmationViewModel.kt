@@ -14,11 +14,11 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.model.SHARED_DEVICE_SETTINGS_ACTIVITY_ID
 import org.openeel.datalayer.school.model.SHARED_DEVICE_SETTINGS_PROFILE_ID
 import org.openeel.datalayer.school.model.SharedDeviceSettings
-import org.openeel.lib.dataloadstate.DataErrorResult
+import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.DataReadyState
-import org.openeel.lib.dataloadstate.NoDataLoadedState
-import org.openeel.lib.xapi.ext.getJson
+import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.xapi.ext.getJsonAsFlow
 import org.openeel.lib.xapi.resources.XapiActivityProfileResource
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
@@ -33,7 +33,11 @@ import org.openeel.shared.viewmodel.OpenEelViewModel
 data class TeacherPinConfirmationUiState(
     val errorMessage: UiText? = null,
     val pin: String = "",
-)
+    val settings: DataLoadState<SharedDeviceSettings> = DataLoadingState(),
+) {
+    val buttonEnabled: Boolean
+        get() = settings is DataReadyState
+}
 
 class TeacherPinConfirmationViewModel(
     savedStateHandle: SavedStateHandle,
@@ -58,6 +62,19 @@ class TeacherPinConfirmationViewModel(
                 userAccountIconVisible = false
             )
         }
+
+        viewModelScope.launch {
+            schoolDataSource.xapiResource.activityProfile.getJsonAsFlow(
+                docParams = XapiActivityProfileResource.SingleDocumentParams(
+                    activityId = SHARED_DEVICE_SETTINGS_ACTIVITY_ID,
+                    profileId = SHARED_DEVICE_SETTINGS_PROFILE_ID,
+                ),
+                json = json,
+                deserializer = SharedDeviceSettings.serializer(),
+            ).collect {
+                _uiState.update { prev -> prev.copy(settings = it) }
+            }
+        }
     }
 
     fun onPinChanged(pin: String) {
@@ -65,8 +82,11 @@ class TeacherPinConfirmationViewModel(
     }
 
     fun onClickNext() {
+        //button will be disabled if settings not loaded
+        val uiStateVal = uiState.value
+        val settingsWithPin = uiStateVal.settings.dataOrNull() ?: return
         viewModelScope.launch {
-            if (verifyTeacherPin(_uiState.value.pin)) {
+            if (settingsWithPin.pin == uiStateVal.pin) {
                 val schoolUrl = accountManager.activeAccount?.school?.self
                 schoolUrl?.let { url ->
                     _navCommandFlow.tryEmit(
@@ -79,26 +99,4 @@ class TeacherPinConfirmationViewModel(
         }
     }
 
-    private suspend fun verifyTeacherPin(enteredPin: String): Boolean {
-        val correctPin = when (val result = schoolDataSource.xapiResource.activityProfile.getJson(
-            docParams = XapiActivityProfileResource.SingleDocumentParams(
-                activityId = SHARED_DEVICE_SETTINGS_ACTIVITY_ID,
-                profileId = SHARED_DEVICE_SETTINGS_PROFILE_ID,
-            ),
-            json = json,
-            deserializer = SharedDeviceSettings.serializer(),
-        )) {
-            is DataReadyState -> result.data
-            is NoDataLoadedState -> when (result.reason) {
-                NoDataLoadedState.Reason.NOT_FOUND -> SharedDeviceSettings()
-                NoDataLoadedState.Reason.NOT_MODIFIED ->
-                    throw IllegalStateException("Shared device settings are not available")
-            }
-
-            is DataErrorResult -> throw result.error
-            is DataLoadingState -> result.partialData
-                ?: throw IllegalStateException("Shared device settings are still loading")
-        }
-        return enteredPin == correctPin.pin
-    }
 }

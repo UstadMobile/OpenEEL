@@ -50,16 +50,14 @@ class LoginSelectStudentViewModel(
     val uiState = _uiState.asStateFlow()
 
     private val pagingSourceHolder = PagingSourceFactoryHolder {
-        val params = PersonDataSource.GetListParams(
-            filterByClazzUid = route.guid,
-            filterByEnrolmentRole = EnrollmentRoleEnum.STUDENT,
-            inClassOnDay = localDateInCurrentTimeZone()
-        )
-        val result = schoolDataSource.personDataSource.listAsPagingSource(
+        schoolDataSource.personDataSource.listAsPagingSource(
             loadParams = DataLoadParams(),
-            params = params
+            params = PersonDataSource.GetListParams(
+                filterByClazzUid = route.guid,
+                filterByEnrolmentRole = EnrollmentRoleEnum.STUDENT,
+                inClassOnDay = localDateInCurrentTimeZone()
+            )
         )
-        result
     }
     private val enqueuePullSyncUseCase: EnqueueRunPullSyncUseCase by inject()
 
