@@ -358,17 +358,17 @@ fun Application.module() {
                 route(E2EArtifactUploadUseCase.ENDPOINT_DIR) {
                     ReceiveE2EArtifactUploadRoute(e2eUploadsDir = e2eUploadsDir)
                 }
+            }
 
-                get(CreateNewLearningSpaceViewModel.Host.E2E_HOST_LIST_ENDPOINT) {
-                    call.respond(
-                        listOf(
-                            CreateNewLearningSpaceViewModel.Host(
-                                baseUrl = call.request.virtualHost,
-                                name = CreateNewLearningSpaceViewModel.Host.E2E_HOST_NAME,
-                            )
+            get(CreateNewLearningSpaceViewModel.Host.E2E_HOST_LIST_ENDPOINT) {
+                call.respond(
+                    listOf(
+                        CreateNewLearningSpaceViewModel.Host(
+                            baseUrl = call.request.virtualHost,
+                            name = CreateNewLearningSpaceViewModel.Host.E2E_HOST_NAME,
                         )
                     )
-                }
+                )
             }
         }
     }

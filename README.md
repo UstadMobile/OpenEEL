@@ -95,8 +95,8 @@ Host icons are discovered from HTML favicon links, falling back to `/favicon.ico
 with the results cached in memory using cache4k.
 
 For end-to-end tests, the host list URL can be overridden at runtime using the `respect_hostlist`
-launch argument. A server with `ktor.e2eartifactupload.enabled=true` serves a host list containing
-only itself at `api/e2e-hostlist.json`.
+launch argument. Every server serves a host list containing only itself at
+`api/e2e-hostlist.json`.
 
 ## Publishing
 
