@@ -50,15 +50,18 @@ export TESTSERVER_CONTROLLER_URL=http://192.168.1.2:8094/
 Where:
 * 192.168.1.2 is the local IP of the developer's laptop
 
-Note: You can filter which tests to run by setting the environment variable ```MAESTRO_EXTRA_ARGS```
+Note: You can filter which tests to run by setting the environment variable ```MAESTRO_INCLUDE_TAGS```
 with arguments as per [Maestro test discovery and tags](https://docs.maestro.dev/maestro-flows/workspace-management/test-discovery-and-tags)
 e.g.
 
 ```
 export TESTSERVER_CONTROLLER_URL=http://192.168.1.2:8094/
-export MAESTRO_EXTRA_ARGS=" --include-tags=basic "
+export MAESTRO_INCLUDE_TAGS=basic
 ./ci-run-e2e-tests.sh
 ```
+
+In Jenkins, add `MAESTRO_INCLUDE_TAGS=smoke` to the job's Properties Content. To run all flows, comment it out
+(`#MAESTRO_INCLUDE_TAGS=smoke`) or leave it out.
 
 or set a particular test to run using ```MAESTRO_FLOW``` arg
 

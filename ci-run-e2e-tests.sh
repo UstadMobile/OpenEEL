@@ -125,10 +125,6 @@ fi
 DIR_ADMIN_TO_ENCODE="admin:$DIR_ADMIN_AUTH_PASS"
 DIR_ADMIN_AUTH_HEADER="Basic $(printf '%s' $DIR_ADMIN_TO_ENCODE | base64)"
 
-# Explicitly set to empty string if unset
-if [ "$MAESTRO_EXTRA_ARGS" == "" ]; then
-   MAESTRO_EXTRA_ARGS=""
-fi
 
 if [ "$MAESTRO_FLOW" == "" ]; then
     MAESTRO_FLOW=.maestro/flows/*.yaml
@@ -277,7 +273,7 @@ else
       --env DIR_ADMIN_AUTH_HEADER="$DIR_ADMIN_AUTH_HEADER" \
       --env SCHOOL_NAME=TestSchool \
       $TEST_APP_URL_ARG \
-      $MAESTRO_EXTRA_ARGS \
+      $INCLUDE_TAGS_ARG \
       --format=junit \
       --test-output-dir=$MAESTRO_OUTPUT_DIR \
       --output=$MAESTRO_REPORT_FILE \
