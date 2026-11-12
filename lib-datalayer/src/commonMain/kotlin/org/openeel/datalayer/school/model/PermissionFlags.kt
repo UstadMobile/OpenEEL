@@ -56,5 +56,7 @@ object PermissionFlags {
 
     const val SYSADMIN_DEFAULT_SCHOOL_PERMISSIONS = Long.MAX_VALUE
 
+    const val SHARED_DEVICE_DEFAULT_SCHOOL_PERMISSIONS = CLASS_READ
+        .or(PERSON_STUDENT_READ)
 
 }

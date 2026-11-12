@@ -9,4 +9,5 @@ appId: org.openeel.app
 - tapOn: "Paste URL"
 - tapOn: "Url"
 - inputText: ${QR_BADGE_LINK}
+- hideKeyboard
 - tapOn: "OK"

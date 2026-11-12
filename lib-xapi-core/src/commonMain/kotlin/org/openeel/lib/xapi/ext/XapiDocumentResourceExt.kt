@@ -1,9 +1,14 @@
 package org.openeel.lib.xapi.ext
 
 import io.ktor.util.date.GMTDate
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json
+import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.datetime.toGMTDate
 import org.openeel.lib.dataloadstate.ext.mapAsync
@@ -70,6 +75,30 @@ suspend fun <
             deserializer = deserializer,
             document = document,
         )
+    }
+}
+
+
+fun <
+    SingleDocParams: ISingleDocumentParams,
+    T: Any
+> XapiDocumentResource<*, SingleDocParams>.getJsonAsFlow(
+    docParams: SingleDocParams,
+    json: Json,
+    deserializer: DeserializationStrategy<T>
+): Flow<DataLoadState<T>> {
+    return getAsFlow(
+        params = docParams,
+        dataLoadParams = DataLoadParams()
+    ).map { dataState ->
+        withContext(Dispatchers.IO) {
+            dataState.mapAsync { document ->
+                json.decodeFromXapiDocument(
+                    deserializer = deserializer,
+                    document = document,
+                )
+            }
+        }
     }
 }
 

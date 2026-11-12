@@ -30,6 +30,7 @@ import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
 import org.openeel.datalayer.school.model.Person
+import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.libutil.util.putDebugCrashCustomData
 import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
 import org.openeel.shared.domain.account.invite.RedeemInviteUseCase
@@ -56,6 +57,9 @@ class AppAccountManager(
     )
 
     val accounts = _storedAccounts.asStateFlow()
+
+    val activeSession: UserSession?
+        get() = _activeSession.value
 
     private val _activeSession = MutableStateFlow(
         settings.getStringOrNull(SETTINGS_KEY_ACTIVE_SESSION)?.let {
@@ -88,31 +92,47 @@ class AppAccountManager(
         }
     }
 
-    val selectedAccountAndPersonFlow: Flow<UserSessionAndPerson?> =channelFlow {
+    val selectedAccountAndPersonFlow: Flow<UserSessionAndPerson?> = channelFlow {
         _activeSession.collectLatest { session ->
             if(session != null) {
                 val accountScope = getOrCreateAccountScope(session.account)
                 val schoolDataSource: SchoolDataSource = accountScope.get()
-                val activePersonUid = (session.profilePersonUid ?: session.account.userGuid)
 
                 schoolDataSource.personDataSource.listAsFlow(
                     loadParams = DataLoadParams(),
                     params = PersonDataSource.GetListParams(
                         common = GetListCommonParams(
-                            guid = session.account.userGuid
+                            guid = session.activePersonUid
                         ),
                         includeRelated = true,
                     )
-                ).collect { persons ->
+                ).combine(
+                    //this could check if shared device mode is enabled at all - avoid running if not
+                    //needed
+                    flow = schoolDataSource.personDataSource.listAsFlow(
+                        loadParams = DataLoadParams(),
+                        params = PersonDataSource.GetListParams(
+                            common = GetListCommonParams(
+                                guid = session.account.userGuid,
+                            ),
+                            filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
+                        ),
+                    )
+                ) { persons, sharedDevice ->
+                    Pair(persons, sharedDevice)
+                }.collect { (persons, sharedDevice) ->
                     val personsVal = persons.dataOrNull()
                     send(
                         element = personsVal?.firstOrNull {
-                            it.guid == activePersonUid
+                            it.guid == session.activePersonUid
                         }?.let { activeProfilePerson ->
                             UserSessionAndPerson(
                                 session = session,
                                 person = activeProfilePerson,
-                                relatedPersons = personsVal.filterNot { it.guid == activePersonUid },
+                                sharedDevice = sharedDevice.dataOrNull()?.firstOrNull(),
+                                relatedPersons = personsVal.filterNot {
+                                    it.guid == session.activePersonUid
+                                },
                             )
                         }
                     )
@@ -156,10 +176,19 @@ class AppAccountManager(
         return authResponse
     }
 
-    @Suppress("unused")
+    /**
+     * Register a new user by redeeming an invite.
+     * @param redeemInviteRequest the request to redeem the invite
+     * @param schoolUrl [Url] of the school on which to register
+     * @param useActiveUserAuth true if currently active user's authentication should be used when
+     *        making the redeem request. This is required when enabling shared device mode: the
+     *        teacher/admin's credentials are required for the invite redeem to go through without
+     *        requiring approval. See [RedeemInviteUseCase].
+     */
     suspend fun register(
         redeemInviteRequest: RedeemInviteRequest,
         schoolUrl: Url,
+        useActiveUserAuth: Boolean,
     ): Person {
         val schoolScopeId = SchoolDirectoryEntryScopeId(
             schoolUrl, null,
@@ -169,7 +198,7 @@ class AppAccountManager(
         )
 
         val redeemInviteUseCase: RedeemInviteUseCase = schoolScope.get()
-        val authResponse = redeemInviteUseCase(redeemInviteRequest)
+        val authResponse = redeemInviteUseCase(redeemInviteRequest, useActiveUserAuth)
 
         val schoolDirectoryEntry = appDataSource.schoolDirectoryEntryResource.getSchoolDirectoryEntryByUrl(
             schoolUrl
@@ -281,12 +310,40 @@ class AppAccountManager(
 
     }
 
+    /**
+     * Logs in a user on a shared device by switching to an existing profile without creating a new account.
+     *
+     * This function is specifically designed for shared device scenarios where:
+     * - Users scan a QR code to access the device
+     * - We want to switch to their existing profile rather than creating a new account
+     * - The device remains shared but the active user context changes
+     **/
+    suspend fun loginAsProfileOnSharedDevice(
+        credential: OpenEelCredential,
+        schoolUrl: Url,
+    ): AuthResponse {
+        val schoolScopeId = SchoolDirectoryEntryScopeId(schoolUrl, null)
+        val schoolScope = getKoin().getOrCreateScope<SchoolDirectoryEntry>(
+            schoolScopeId.scopeId
+        )
+
+        val authUseCase: GetTokenAndUserProfileWithCredentialUseCase = schoolScope.get()
+        val authResponse = authUseCase(credential)
+
+        switchProfile(authResponse.person.guid)
+
+        return authResponse
+    }
+
     fun switchAccount(account: UserAccount) {
         if(!_storedAccounts.value.any { it.isSameAccount(account) }) {
             throw IllegalArgumentException("switchAccount: account not stored/available")
         }
 
-        _activeSession.value = UserSession(account, null)
+        val newSession = UserSession(account, null)
+        _activeSession.value = newSession
+        settings[SETTINGS_KEY_ACTIVE_SESSION] = json.encodeToString(newSession)
+        putDebugCrashCustomData("SelectedAccount", activeAccount.toString())
     }
 
     /**
@@ -306,7 +363,18 @@ class AppAccountManager(
             ?: throw IllegalStateException("require school url for active account: no account selected")
     }
 
-    suspend fun switchProfile(personUid: String) {
+    /**
+     * Sometimes the active person is NOT the account holder; e.g.:
+     * a) When a session is started for a child using a parent account
+     * b) When a session is started using shared device mode.
+     *
+     * @param personUid the person to switch to e.g. the PersonUid for the child when a session is
+     *        started using the parents profile or the self-selected student in shared device mode.
+     */
+    suspend fun switchProfile(
+        personUid: String,
+        isParentInitiatedChildSession: Boolean = false
+    ) {
         val currentSession = _activeSession.value
             ?: throw IllegalStateException("switchProfile: no active session")
 
@@ -322,7 +390,10 @@ class AppAccountManager(
         )
 
 
-        val newSession = currentSession.copy(profilePersonUid = personUid)
+        val newSession = currentSession.copy(
+            profilePersonUid = personUid,
+            isParentInitiatedChildSession = isParentInitiatedChildSession
+        )
         _activeSession.value = newSession
         settings[SETTINGS_KEY_ACTIVE_SESSION] = json.encodeToString(newSession)
 

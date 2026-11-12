@@ -96,6 +96,7 @@ class PersonListViewModel(
             DataLoadParams(),
             PersonDataSource.GetListParams(
                 filterByPersonStatus = PersonStatusEnum.PENDING_APPROVAL,
+                excludeByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
             )
         )
     }
@@ -107,6 +108,7 @@ class PersonListViewModel(
                 filterByName = _appUiState.value.searchState.searchText.takeIf { it.isNotBlank() },
                 filterByPersonRole = route.filterByRole,
                 filterByPersonStatus = PersonStatusEnum.ACTIVE,
+                excludeByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
             )
         )
     }

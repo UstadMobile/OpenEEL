@@ -102,6 +102,7 @@ class EnterPasswordSignupViewModel(
             val personRegistered = accountManager.register(
                 redeemInviteRequest = redeemRequest,
                 schoolUrl = route.schoolUrl,
+                useActiveUserAuth = false,
             )
 
             navigateOnAccountCreatedUseCase(

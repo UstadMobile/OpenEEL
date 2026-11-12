@@ -14,7 +14,7 @@ import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.lib.dataloadstate.DataLayerParams
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
-import org.openeel.lib.dataloadstate.ext.firstOrNotLoaded
+import org.openeel.lib.dataloadstate.ext.firstOrNotFound
 import org.openeel.datalayer.ext.getAsDataLoadState
 import org.openeel.datalayer.ext.getDataLoadResultAsFlow
 import org.openeel.datalayer.ext.useTokenProvider
@@ -49,6 +49,8 @@ class PersonDataSourceHttpClient(
                 parameters.appendIfNotNull(DataLayerParams.FILTER_BY_ENROLLMENT_ROLE, filterByEnrolmentRole?.value)
                 parameters.appendIfNotNull(DataLayerParams.FILTER_BY_PERSON_STATUS, filterByPersonStatus?.value)
                 parameters.appendIfNotNull(DataLayerParams.FILTER_BY_NAME, filterByName)
+                parameters.appendIfNotNull(PersonDataSource.FILTER_BY_PERSON_ROLE, filterByPersonRole?.value)
+                parameters.appendIfNotNull(PersonDataSource.EXCLUDE_BY_PERSON_ROLE, excludeByPersonRole?.value)
                 parameters.appendIfNotNull(DataLayerParams.INCLUDE_RELATED, includeRelated.toString())
                 parameters.appendIfNotNull(DataLayerParams.IN_CLASS_ON_DAY, inClassOnDay?.toString())
             }
@@ -70,7 +72,7 @@ class PersonDataSourceHttpClient(
         ) {
             useTokenProvider(tokenProvider)
             useValidationCacheControl(validationHelper)
-        }.firstOrNotLoaded()
+        }.firstOrNotFound()
     }
 
     override fun findByGuidAsFlow(guid: String): Flow<DataLoadState<Person>> {
@@ -85,7 +87,7 @@ class PersonDataSourceHttpClient(
             useTokenProvider(tokenProvider)
             useValidationCacheControl(validationHelper)
         }.map {
-            it.firstOrNotLoaded()
+            it.firstOrNotFound()
         }
     }
 

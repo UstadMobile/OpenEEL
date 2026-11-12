@@ -225,7 +225,8 @@ class CreateAccountViewModel(
 
                             val personRegistered = accountManager.register(
                                 redeemInviteRequest = redeemRequest,
-                                schoolUrl = route.schoolUrl
+                                schoolUrl = route.schoolUrl,
+                                useActiveUserAuth = false,
                             )
 
                             navigateOnAccountCreatedUseCase(

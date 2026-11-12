@@ -73,6 +73,11 @@ import org.openeel.app.view.statement.detail.RawStatementScreen
 import org.openeel.app.view.statement.detail.StatementDetailScreen
 import org.openeel.app.view.statement.list.StatementListScreen
 import org.openeel.app.viewmodel.openEelViewModel
+import org.openeel.app.view.settings.school.SchoolSettingsScreen
+import org.openeel.app.view.settings.sharedschooldevices.SharedDevicesSettingsScreen
+import org.openeel.app.view.sharedschooldevice.TeacherPinConfirmationScreen
+import org.openeel.app.view.sharedschooldevice.login.LoginSelectClassScreen
+import org.openeel.app.view.sharedschooldevice.login.LoginSelectStudentScreen
 import org.openeel.shared.navigation.AccountList
 import org.openeel.shared.navigation.Acknowledgement
 import org.openeel.shared.navigation.AppsDetail
@@ -131,11 +136,16 @@ import org.openeel.shared.navigation.OpenEelComposeNavController
 import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.navigation.SchoolDirectoryEdit
 import org.openeel.shared.navigation.SchoolDirectoryList
+import org.openeel.shared.navigation.SchoolSettings
 import org.openeel.shared.navigation.Settings
 import org.openeel.shared.navigation.ShareFeedback
 import org.openeel.shared.navigation.SignupScreen
+import org.openeel.shared.navigation.LoginSelectClass
+import org.openeel.shared.navigation.SharedDevicesSettings
 import org.openeel.shared.navigation.StatementDetail
 import org.openeel.shared.navigation.StatementList
+import org.openeel.shared.navigation.LoginSelectStudent
+import org.openeel.shared.navigation.TeacherPinConfirmation
 import org.openeel.shared.navigation.TermsAndCondition
 import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.viewmodel.acknowledgement.AcknowledgementViewModel
@@ -173,7 +183,7 @@ import org.openeel.shared.viewmodel.report.list.ReportListViewModel
 import org.openeel.shared.viewmodel.report.list.ReportTemplateListViewModel
 import org.openeel.shared.viewmodel.schooldirectory.edit.SchoolDirectoryEditViewModel
 import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryListViewModel
-import org.openeel.shared.viewmodel.settings.SettingsViewModel
+import org.openeel.shared.viewmodel.settings.main.SettingsViewModel
 
 @Composable
 fun AppNavHost(
@@ -665,6 +675,41 @@ fun AppNavHost(
                 )
             )
         }
+        composable<SchoolSettings> {
+            SchoolSettingsScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
+
+        composable<SharedDevicesSettings> {
+            SharedDevicesSettingsScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
+
+        composable<LoginSelectClass> {
+            LoginSelectClassScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
+        composable<TeacherPinConfirmation> {
+            TeacherPinConfirmationScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
+
 
         composable<SchoolDirectoryList> {
             val viewModel: SchoolDirectoryListViewModel = openEelViewModel(
@@ -736,5 +781,14 @@ fun AppNavHost(
             )
         }
 
+
+        composable<LoginSelectStudent> {
+            LoginSelectStudentScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
     }
 }
