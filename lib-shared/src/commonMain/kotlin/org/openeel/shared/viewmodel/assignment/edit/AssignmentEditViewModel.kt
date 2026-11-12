@@ -25,7 +25,7 @@ import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.dataloadstate.ext.firstOrNotLoaded
+import org.openeel.lib.dataloadstate.ext.firstOrNotFound
 import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.Publication
@@ -161,7 +161,7 @@ class AssignmentEditViewModel(
                             result.statements.mostRecentByTimestampOrNull()?.let {
                                 listOf(it)
                             } ?: emptyList()
-                        }.firstOrNotLoaded()
+                        }.firstOrNotFound()
                     },
                     uiUpdateFn = { entity ->
                         _uiState.update { prev ->
