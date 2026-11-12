@@ -183,6 +183,7 @@ if [ "$1" == "cloud" ]; then
     COMMIT_ARG=""
     BRANCH_ARG=""
     DEVICE_OS_ARG=""
+    INCLUDE_TAGS_ARG=""
 
     if [ "$BUILD_TAG" != "" ]; then
         NAME_ARG="--name=$BUILD_TAG"
@@ -204,6 +205,10 @@ if [ "$1" == "cloud" ]; then
            DEVICE_OS_ARG="--device-os=android-35"
      fi
 
+     if [ "$MAESTRO_INCLUDE_TAGS" != "" ]; then
+         INCLUDE_TAGS_ARG="--include-tags=$MAESTRO_INCLUDE_TAGS"
+     fi
+
     MAESTRO_LOG_FILE="$TESTSERVERCONTROLLER_BASEDIR/lastMaestroRun.log"
 
     maestro cloud \
@@ -212,6 +217,7 @@ if [ "$1" == "cloud" ]; then
         --app-file=./app-android/build/outputs/apk/release/app-android-release.apk \
         --flows=.maestro/flows \
         $DEVICE_OS_ARG \
+        $INCLUDE_TAGS_ARG \
         --format=junit \
         --output=$MAESTRO_REPORT_FILE \
         --timeout=300 \
