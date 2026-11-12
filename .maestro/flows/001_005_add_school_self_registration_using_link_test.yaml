@@ -10,7 +10,7 @@ onFlowStart:
         SCHOOL_URL: ${SCHOOL_URL}
         NO_SCHOOL_CREATION: "true"
         URL_SUBSTITUTION: ${URL_SUBSTITUTION}
-        NAME: "001_005_add_school_self_registration_manually_test"
+        NAME: "001_005_add_school_self_registration_using_link_test"
 
 onFlowComplete:
   - runFlow:
