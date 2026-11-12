@@ -9,6 +9,7 @@
  * SCHOOL_NAME: The name of the school to use (e.g. as it will be typed in the Get Started screen)
  * DIR_ADMIN_AUTH_HEADER: The Authorization header to use for the school directory admin, used to
  * automatically create a school.
+ * TEST_APP_URL: optional launchable app manifest URL. Defaults to the school's static test manifest.
  * NO_SCHOOL_CREATION: if set to "true", then the school will not be automatically created (e.g. if
  * running a test of self-school registration).
  */
@@ -44,6 +45,8 @@ if(isSetUrl(TESTCONTROLLER_URL)) {
     console.log("Response body = " + testControllerResponse.body);
     const responseJson = json(testControllerResponse.body);
 
+    // Used by teardown.js to stop the test server
+    output.SCHOOL_PORT = responseJson.port;
     const serverUrl = isSetUrl(URL_SUBSTITUTION) ?
         URL_SUBSTITUTION.replace("_PORT_", responseJson.port) : responseJson.url;
 
@@ -94,6 +97,9 @@ if(isSetUrl(TESTCONTROLLER_URL)) {
 }else {
     throw "SCHOOL_URL not set AND TESTCONTROLLER_URL not set. See README";
 }
+
+// Used by subflows/e2e_artifact_upload.yaml
+output.SCHOOL_URL_ENCODED = encodeURIComponent(output.SCHOOL_URL);
 
 if(!isSetString(output.SCHOOL_NAME)) {
     throw "SCHOOL_NAME not set and not using TESTCONTROLLER_URL. e.g. maestro test -e SCHOOL_NAME=TestSchool . See README"
