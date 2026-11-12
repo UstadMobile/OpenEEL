@@ -338,12 +338,18 @@ data class OpdsSearch(
 object EnterLink : OpenEelAppRoute
 
 @Serializable
+object EnterHostLink : OpenEelAppRoute
+
+@Serializable
 data class GetStartedScreen(
     val canGoBack: Boolean = false,
 ) : OpenEelAppRoute
 
 @Serializable
-object OtherOption : OpenEelAppRoute
+object ConnectToExistingLearningSpace : OpenEelAppRoute
+
+@Serializable
+object CreateNewLearningSpace : OpenEelAppRoute
 
 @Serializable
 object HowPasskeyWorks : OpenEelAppRoute

@@ -105,7 +105,7 @@ import org.openeel.sharedse.domain.account.authenticatepassword.AuthenticateQrBa
 import java.io.File
 
 const val APP_DB_FILENAME = "respect-app.db"
-const val CUSTOM_PROTO = "world.respect.app"
+const val CUSTOM_PROTO = "org.openeel.app"
 
 fun serverKoinModule(
     config: ApplicationConfig,

@@ -23,9 +23,13 @@ onFlowComplete:
     file: "generated/clear_native_app.yaml"
 - launchApp
 - tapOn: "Get Started"
-- assertVisible: "Let's get started"
-- tapOn: "Other options"
-- assertVisible: "Other options"
+- assertVisible:
+    id: "app_title"
+    text: "Let's get started"
+- tapOn: "Connect to an existing learning space"
+- assertVisible:
+    id: "app_title"
+    text: "Connect to an existing learning space"
 - tapOn: "Paste the link here"
 - inputText: ${SCHOOL_URL}
 - tapOn: "Next"

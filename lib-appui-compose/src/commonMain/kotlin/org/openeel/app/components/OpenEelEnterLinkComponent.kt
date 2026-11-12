@@ -28,6 +28,7 @@ fun OpenEelEnterLinkColumn(
     onClickNext: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    label: String = stringResource(Res.string.link_label),
     buttonContent: @Composable RowScope.() -> Unit = {
         Text(stringResource(Res.string.next))
     }
@@ -38,11 +39,7 @@ fun OpenEelEnterLinkColumn(
         OutlinedTextField(
             value = linkUrl,
             onValueChange = onLinkChanged,
-            label = {
-                Text(
-                    text = stringResource(Res.string.link_label)
-                )
-            },
+            label = { Text(text = label) },
             placeholder = {
                 Text(
                     text = stringResource(Res.string.example_url_placeholder),
