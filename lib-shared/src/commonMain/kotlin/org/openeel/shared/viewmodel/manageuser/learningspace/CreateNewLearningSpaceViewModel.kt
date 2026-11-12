@@ -52,20 +52,7 @@ class CreateNewLearningSpaceViewModel(
     data class Host(
         val baseUrl: Url,
         val name: String,
-    ) {
-        companion object {
-
-            const val E2E_HOST_LIST_ENDPOINT = "e2e-hostlist.json"
-
-            /**
-             * Path (relative to the server URL) where a server with end-to-end testing enabled
-             * serves a host list containing only itself.
-             */
-            const val E2E_HOST_LIST_PATH = "api/$E2E_HOST_LIST_ENDPOINT"
-
-            const val E2E_HOST_NAME = "openeel-community-app"
-        }
-    }
+    )
 
     private val _uiState = MutableStateFlow(CreateNewLearningSpaceUiState())
 
