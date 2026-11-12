@@ -81,6 +81,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.common.java8)
             implementation(libs.androidx.work.runtime)
             implementation(libs.koin.android)
+            implementation(libs.androidx.webkit)
         }
     }
 }
