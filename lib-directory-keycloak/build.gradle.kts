@@ -21,7 +21,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.libDirectory)
-            api(projects.libDatalayer)
             implementation(libs.ktor.client.core)
         }
 
