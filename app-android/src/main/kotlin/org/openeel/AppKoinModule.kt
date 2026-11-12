@@ -89,6 +89,8 @@ import org.openeel.datalayer.repository.SchoolDirectoryResourceRepository
 import org.openeel.datalayer.repository.SchoolDataSourceRepository
 import org.openeel.datalayer.repository.school.pullsync.EnqueueRunPullSyncUseCaseAndroidImpl
 import org.openeel.datalayer.repository.school.pullsync.RunPullSyncUseCase
+import org.openeel.datalayer.repository.school.qrbadge.EnqueueSavePersonQrBadgeUseCaseAndroidImpl
+import org.openeel.datalayer.repository.school.qrbadge.SavePersonQrBadgeUseCase
 import org.openeel.datalayer.repository.school.writequeue.DrainRemoteWriteQueueUseCase
 import org.openeel.datalayer.repository.school.writequeue.EnqueueDrainRemoteWriteQueueUseCaseAndroidImpl
 import org.openeel.datalayer.repository.school.writequeue.EnqueueDrainXapiRemoteWriteQueueUseCaseAndroidImpl
@@ -98,6 +100,7 @@ import org.openeel.datalayer.school.domain.GetWritableRolesListUseCase
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCaseImpl
 import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
 import org.openeel.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
+import org.openeel.datalayer.school.writequeue.EnqueueSavePersonQrBadgeUseCase
 import org.openeel.datalayer.school.writequeue.EnqueueRunPullSyncUseCase
 import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
 import org.openeel.lib.xapi.remotewritequeue.DrainXapiRemoteWriteQueueUseCase
@@ -1100,6 +1103,20 @@ val appKoinModule = module {
                 context = androidContext().applicationContext,
                 scopeId = id,
                 scopeClass = UserAccount::class,
+            )
+        }
+
+        scoped<EnqueueSavePersonQrBadgeUseCase> {
+            EnqueueSavePersonQrBadgeUseCaseAndroidImpl(
+                context = androidContext().applicationContext,
+                scopeId = id,
+                scopeClass = UserAccount::class,
+            )
+        }
+
+        scoped<SavePersonQrBadgeUseCase> {
+            SavePersonQrBadgeUseCase(
+                personQrBadgeDataSource = get<SchoolDataSource>().personQrBadgeDataSource,
             )
         }
 
