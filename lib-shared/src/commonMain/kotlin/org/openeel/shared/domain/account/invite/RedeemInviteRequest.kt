@@ -31,7 +31,7 @@ data class RedeemInviteRequest(
     data class Account(
         val guid: String,
         val username: String,
-        val credential: OpenEelCredential,
+        val credential: OpenEelCredential? = null,
     )
 
     companion object {

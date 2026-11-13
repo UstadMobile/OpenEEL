@@ -1,0 +1,277 @@
+[
+  {
+    "invitePrefix": "Algeria",
+    "baseUrl": "https://dz.onrespect.app/",
+    "name": "Algeria"
+  },
+  {
+    "invitePrefix": "Angola",
+    "baseUrl": "https://ao.onrespect.app/",
+    "name": "Angola"
+  },
+  {
+    "invitePrefix": "Benin",
+    "baseUrl": "https://bj.onrespect.app/",
+    "name": "Benin"
+  },
+  {
+    "invitePrefix": "Botswana",
+    "baseUrl": "https://bw.onrespect.app/",
+    "name": "Botswana"
+  },
+  {
+    "invitePrefix": "Burkina Faso",
+    "baseUrl": "https://bf.onrespect.app/",
+    "name": "Burkina Faso"
+  },
+  {
+    "invitePrefix": "Burundi",
+    "baseUrl": "https://bi.onrespect.app/",
+    "name": "Burundi"
+  },
+  {
+    "invitePrefix": "Cabo Verde",
+    "baseUrl": "https://cv.onrespect.app/",
+    "name": "Cabo Verde"
+  },
+  {
+    "invitePrefix": "Cameroon",
+    "baseUrl": "https://cm.onrespect.app/",
+    "name": "Cameroon"
+  },
+  {
+    "invitePrefix": "Central African Republic",
+    "baseUrl": "https://cf.onrespect.app/",
+    "name": "Central African Republic"
+  },
+  {
+    "invitePrefix": "Chad",
+    "baseUrl": "https://td.onrespect.app/",
+    "name": "Chad"
+  },
+  {
+    "invitePrefix": "Comoros",
+    "baseUrl": "https://km.onrespect.app/",
+    "name": "Comoros"
+  },
+  {
+    "invitePrefix": "Congo",
+    "baseUrl": "https://cg.onrespect.app/",
+    "name": "Congo"
+  },
+  {
+    "invitePrefix": "Congo, Democratic Republic of the",
+    "baseUrl": "https://cd.onrespect.app/",
+    "name": "Congo, Democratic Republic of the"
+  },
+  {
+    "invitePrefix": "Côte dIvoire",
+    "baseUrl": "https://ci.onrespect.app/",
+    "name": "Côte dIvoire"
+  },
+  {
+    "invitePrefix": "Demos and review",
+    "baseUrl": "https://respect-testing.ustadmobile.com/",
+    "name": "Demos and review"
+  },
+  {
+    "invitePrefix": "Djibouti",
+    "baseUrl": "https://dj.onrespect.app/",
+    "name": "Djibouti"
+  },
+  {
+    "invitePrefix": "Egypt",
+    "baseUrl": "https://eg.onrespect.app/",
+    "name": "Egypt"
+  },
+  {
+    "invitePrefix": "Equatorial Guinea",
+    "baseUrl": "https://gq.onrespect.app/",
+    "name": "Equatorial Guinea"
+  },
+  {
+    "invitePrefix": "Eritrea",
+    "baseUrl": "https://er.onrespect.app/",
+    "name": "Eritrea"
+  },
+  {
+    "invitePrefix": "Eswatini",
+    "baseUrl": "https://sz.onrespect.app/",
+    "name": "Eswatini"
+  },
+  {
+    "invitePrefix": "Ethiopia",
+    "baseUrl": "https://et.onrespect.app/",
+    "name": "Ethiopia"
+  },
+  {
+    "invitePrefix": "Gabon",
+    "baseUrl": "https://ga.onrespect.app/",
+    "name": "Gabon"
+  },
+  {
+    "invitePrefix": "Gambia",
+    "baseUrl": "https://gm.onrespect.app/",
+    "name": "Gambia"
+  },
+  {
+    "invitePrefix": "Ghana",
+    "baseUrl": "https://gh.onrespect.app/",
+    "name": "Ghana"
+  },
+  {
+    "invitePrefix": "Guinea",
+    "baseUrl": "https://gn.onrespect.app/",
+    "name": "Guinea"
+  },
+  {
+    "invitePrefix": "Guinea-Bissau",
+    "baseUrl": "https://gw.onrespect.app/",
+    "name": "Guinea-Bissau"
+  },
+  {
+    "invitePrefix": "Kenya",
+    "baseUrl": "https://ke.onrespect.app/",
+    "name": "Kenya"
+  },
+  {
+    "invitePrefix": "Lesotho",
+    "baseUrl": "https://ls.onrespect.app/",
+    "name": "Lesotho"
+  },
+  {
+    "invitePrefix": "Liberia",
+    "baseUrl": "https://lr.onrespect.app/",
+    "name": "Liberia"
+  },
+  {
+    "invitePrefix": "Libya",
+    "baseUrl": "https://ly.onrespect.app/",
+    "name": "Libya"
+  },
+  {
+    "invitePrefix": "Madagascar",
+    "baseUrl": "https://mg.onrespect.app/",
+    "name": "Madagascar"
+  },
+  {
+    "invitePrefix": "Malawi",
+    "baseUrl": "https://mw.onrespect.app/",
+    "name": "Malawi"
+  },
+  {
+    "invitePrefix": "Mali",
+    "baseUrl": "https://ml.onrespect.app/",
+    "name": "Mali"
+  },
+  {
+    "invitePrefix": "Mauritania",
+    "baseUrl": "https://mr.onrespect.app/",
+    "name": "Mauritania"
+  },
+  {
+    "invitePrefix": "Mauritius",
+    "baseUrl": "https://mu.onrespect.app/",
+    "name": "Mauritius"
+  },
+  {
+    "invitePrefix": "Morocco",
+    "baseUrl": "https://ma.onrespect.app/",
+    "name": "Morocco"
+  },
+  {
+    "invitePrefix": "Mozambique",
+    "baseUrl": "https://mz.onrespect.app/",
+    "name": "Mozambique"
+  },
+  {
+    "invitePrefix": "Namibia",
+    "baseUrl": "https://na.onrespect.app/",
+    "name": "Namibia"
+  },
+  {
+    "invitePrefix": "Niger",
+    "baseUrl": "https://ne.onrespect.app/",
+    "name": "Niger"
+  },
+  {
+    "invitePrefix": "Nigeria",
+    "baseUrl": "https://ng.onrespect.app/",
+    "name": "Nigeria"
+  },
+  {
+    "invitePrefix": "Rwanda",
+    "baseUrl": "https://rw.onrespect.app/",
+    "name": "Rwanda"
+  },
+  {
+    "invitePrefix": "Sao Tome and Principe",
+    "baseUrl": "https://st.onrespect.app/",
+    "name": "Sao Tome and Principe"
+  },
+  {
+    "invitePrefix": "Senegal",
+    "baseUrl": "https://sn.onrespect.app/",
+    "name": "Senegal"
+  },
+  {
+    "invitePrefix": "Seychelles",
+    "baseUrl": "https://sc.onrespect.app/",
+    "name": "Seychelles"
+  },
+  {
+    "invitePrefix": "Sierra Leone",
+    "baseUrl": "https://sl.onrespect.app/",
+    "name": "Sierra Leone"
+  },
+  {
+    "invitePrefix": "Somalia",
+    "baseUrl": "https://so.onrespect.app/",
+    "name": "Somalia"
+  },
+  {
+    "invitePrefix": "South Africa",
+    "baseUrl": "https://za.onrespect.app/",
+    "name": "South Africa"
+  },
+  {
+    "invitePrefix": "South Sudan",
+    "baseUrl": "https://ss.onrespect.app/",
+    "name": "South Sudan"
+  },
+  {
+    "invitePrefix": "Sudan",
+    "baseUrl": "https://sd.onrespect.app/",
+    "name": "Sudan"
+  },
+  {
+    "invitePrefix": "Tanzania, United Republic of",
+    "baseUrl": "https://tz.onrespect.app/",
+    "name": "Tanzania, United Republic of"
+  },
+  {
+    "invitePrefix": "Togo",
+    "baseUrl": "https://tg.onrespect.app/",
+    "name": "Togo"
+  },
+  {
+    "invitePrefix": "Tunisia",
+    "baseUrl": "https://tn.onrespect.app/",
+    "name": "Tunisia"
+  },
+  {
+    "invitePrefix": "Uganda",
+    "baseUrl": "https://ug.onrespect.app/",
+    "name": "Uganda"
+  },
+  {
+    "invitePrefix": "Zambia",
+    "baseUrl": "https://zm.onrespect.app/",
+    "name": "Zambia"
+  },
+  {
+    "invitePrefix": "Zimbabwe",
+    "baseUrl": "https://zw.onrespect.app/",
+    "name": "Zimbabwe"
+  }
+]

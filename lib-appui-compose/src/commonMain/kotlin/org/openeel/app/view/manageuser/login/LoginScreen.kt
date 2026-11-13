@@ -35,6 +35,7 @@ import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.continue_with_openid
 import org.openeel.shared.generated.resources.i_have_an_invite_code
 import org.openeel.shared.generated.resources.login
+import org.openeel.shared.generated.resources.select_another_school
 import org.openeel.shared.generated.resources.password_label
 import org.openeel.shared.generated.resources.school_server_url
 import org.openeel.shared.generated.resources.server_location
@@ -59,6 +60,7 @@ fun LoginScreen(
         onClickLogin = viewModel::onClickLogin,
         onClickInviteCode = viewModel::onClickInviteCode,
         onClickOpenId = viewModel::onClickOpenId,
+        onClickSelectAnotherSchool = viewModel::onClickSelectAnotherSchool,
     )
 }
 
@@ -71,6 +73,7 @@ fun LoginScreen(
     onClickLogin: () -> Unit,
     onClickInviteCode: () -> Unit = {},
     onClickOpenId: (AuthenticationOption) -> Unit = {},
+    onClickSelectAnotherSchool: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -87,6 +90,9 @@ fun LoginScreen(
                 { Text(uiTextStringResource(it)) }
             },
             enabled = !appUiState.isLoading,
+            keyboardOptions = KeyboardOptions(
+                autoCorrectEnabled = false,
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .testTag("username")
@@ -119,6 +125,14 @@ fun LoginScreen(
             enabled = !appUiState.isLoading,
         ) {
             Text(text = stringResource(Res.string.login))
+        }
+        if (uiState.showSelectOtherSchoolButton) {
+            OutlinedButton(
+                onClick = onClickSelectAnotherSchool,
+                modifier = Modifier.fillMaxWidth().defaultItemPadding()
+            ) {
+                Text(text = stringResource(Res.string.select_another_school))
+            }
         }
 
         OutlinedButton(

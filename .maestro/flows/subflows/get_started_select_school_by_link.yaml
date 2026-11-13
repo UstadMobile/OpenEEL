@@ -1,0 +1,15 @@
+appId: org.openeel.app
+---
+- assertVisible:
+      id: "app_title"
+      text: "Let's get started"
+- tapOn: "Connect to an existing learning space"
+- assertVisible:
+      id: "app_title"
+      text: "Connect to an existing learning space"
+- tapOn: "Paste the link here"
+- inputText: ${SCHOOL_URL}
+- tapOn: "Next"
+- assertVisible:
+      id: "app_title"
+      text: "Login"

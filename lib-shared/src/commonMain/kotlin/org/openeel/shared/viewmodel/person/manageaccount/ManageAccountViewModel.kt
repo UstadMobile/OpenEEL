@@ -20,12 +20,11 @@ import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.db.school.ext.isStudent
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.datalayer.school.PersonQrBadgeDataSource
 import org.openeel.datalayer.school.adapters.toPersonPasskey
 import org.openeel.datalayer.school.findByPersonGuidAsFlow
 import org.openeel.datalayer.school.model.PersonPassword
 import org.openeel.datalayer.school.model.PersonQrBadge
-import org.openeel.datalayer.school.model.StatusEnum
+import org.openeel.datalayer.school.writequeue.EnqueueSavePersonQrBadgeUseCase
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.UserSessionAndPerson
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
@@ -97,6 +96,8 @@ class ManageAccountViewModel(
 
     private val schoolDataSource: SchoolDataSource by inject()
 
+    private val enqueueSavePersonQrBadgeUseCase: EnqueueSavePersonQrBadgeUseCase by inject()
+
     private val route: ManageAccount = savedStateHandle.toRoute()
 
     private val personGuid = route.guid
@@ -152,7 +153,14 @@ class ManageAccountViewModel(
                 QR_SELECT_RESULT
             ).collect { navResult ->
                 val qrUrl = navResult.result as? String ?: return@collect
-                storeQrCodeForPerson(personGuid = personGuid, url = Url(qrUrl))
+                launchWithLoadingIndicator(
+                    runIfAlreadyLoading = true,
+                    onShowError = { error ->
+                        _uiState.update { it.copy(errorText = error) }
+                    },
+                ) {
+                    storeQrCodeForPerson(personGuid = personGuid, url = Url(qrUrl))
+                }
             }
         }
 
@@ -296,45 +304,28 @@ class ManageAccountViewModel(
     }
 
     private suspend fun storeQrCodeForPerson(personGuid: String, url: Url) {
-        try {
-            val qrCodeAlreadyAssignedToAnotherPerson =
-                schoolDataSource.personQrBadgeDataSource.listAll(
-                    loadParams = DataLoadParams(),
-                    listParams = PersonQrBadgeDataSource.GetListParams(
-                        qrCodeUrl = url
-                    )
-                ).dataOrNull()?.firstOrNull() != null
-
-            if (qrCodeAlreadyAssignedToAnotherPerson) {
-                _uiState.update { prev ->
-                    prev.copy(
-                        errorText = Res.string.error_qr_already_assigned.asUiText()
-                    )
+        enqueueSavePersonQrBadgeUseCase(
+            EnqueueSavePersonQrBadgeUseCase.Request(
+                personGuid = personGuid,
+                qrCodeUrl = url,
+            )
+        ).collect { status ->
+            when (status) {
+                EnqueueSavePersonQrBadgeUseCase.Status.SAVED -> {
+                    _uiState.update { prev -> prev.copy(errorText = null) }
                 }
-            } else {
-                schoolDataSource.personQrBadgeDataSource.store(
-                    listOf(
-                        PersonQrBadge(
-                            personGuid = personGuid,
-                            qrCodeUrl = url,
-                            lastModified = Clock.System.now(),
-                            status = StatusEnum.ACTIVE,
-                        )
-                    )
-                )
-                _uiState.update { prev ->
-                    prev.copy(errorText = null)
+                EnqueueSavePersonQrBadgeUseCase.Status.ALREADY_ASSIGNED -> {
+                    _uiState.update { prev ->
+                        prev.copy(errorText = Res.string.error_qr_already_assigned.asUiText())
+                    }
+                }
+                EnqueueSavePersonQrBadgeUseCase.Status.FAILED -> {
+                    _uiState.update { prev ->
+                        prev.copy(errorText = Res.string.error_assign_qr_code.asUiText())
+                    }
                 }
             }
-        } catch (e: Exception) {
-            _uiState.update { prev ->
-                prev.copy(
-                    errorText = "${Res.string.error_assign_qr_code}: ${e.message ?: "Unknown error"}".asUiText()
-                )
-            }
-            throw e
         }
-
     }
 
     private suspend fun saveUsername(username: String?) {

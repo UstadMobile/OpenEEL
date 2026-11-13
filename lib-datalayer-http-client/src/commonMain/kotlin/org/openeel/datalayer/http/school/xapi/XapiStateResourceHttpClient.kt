@@ -15,6 +15,7 @@ import org.openeel.datalayer.ext.getDataLoadResultAsFlow
 import org.openeel.datalayer.ext.useTokenProvider
 import org.openeel.datalayer.http.school.xapi.ext.setXapiDocumentBody
 import org.openeel.datalayer.http.school.xapi.ext.throwXapiExceptionIfNotSuccessful
+import org.openeel.datalayer.http.school.xapi.ext.useRetry
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.xapi.model.XapiDocument
@@ -48,6 +49,8 @@ class XapiStateResourceHttpClient(
             url = params.urlWithParams(),
         ) {
             useTokenProvider(tokenProvider)
+            useRetry()
+
             headers.appendAll(dataLoadParams.requestHeaders)
         }
     }
@@ -63,6 +66,8 @@ class XapiStateResourceHttpClient(
             }
         ) {
             useTokenProvider(tokenProvider)
+            useRetry()
+
             headers.appendAll(dataLoadParams.requestHeaders)
         }
     }
@@ -76,6 +81,7 @@ class XapiStateResourceHttpClient(
             bodyAdapter = { it.bodyAsXapiDocument() },
         ) {
             useTokenProvider(tokenProvider)
+            useRetry()
             headers.appendAll(dataLoadParams.requestHeaders)
         }
     }
@@ -86,6 +92,7 @@ class XapiStateResourceHttpClient(
     ) {
         httpClient.post(params.urlWithParams()) {
             useTokenProvider(tokenProvider)
+            useRetry()
             setXapiDocumentBody(document)
         }.throwXapiExceptionIfNotSuccessful()
     }
@@ -96,6 +103,7 @@ class XapiStateResourceHttpClient(
     ) {
         httpClient.put(params.urlWithParams()) {
             useTokenProvider(tokenProvider)
+            useRetry()
             setXapiDocumentBody(document)
         }.throwXapiExceptionIfNotSuccessful()
     }
@@ -103,6 +111,7 @@ class XapiStateResourceHttpClient(
     override suspend fun delete(params: XapiStateResource.SingleDocumentParams) {
         httpClient.delete(params.urlWithParams()) {
             useTokenProvider(tokenProvider)
+            useRetry()
         }.throwXapiExceptionIfNotSuccessful()
     }
 }

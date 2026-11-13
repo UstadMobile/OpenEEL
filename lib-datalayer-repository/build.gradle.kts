@@ -36,7 +36,7 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(libs.androidx.work.runtime)
+            implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.koin.android)
         }
 

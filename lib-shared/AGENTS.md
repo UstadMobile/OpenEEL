@@ -109,4 +109,10 @@ class DoSomethingUseCaseAndroid(
 }
 ```
 
+## Anti-Patterns: - Never Generate these
+
+NEVER: In AppRoutes.kt: `data class SomeDetailScreen(val uid: String, val name: String)`
+
+ALWAYS: `data class SomeDetailScreen(val uid: String)` The name should be looked up in one place,
+        the detail screen itself
 

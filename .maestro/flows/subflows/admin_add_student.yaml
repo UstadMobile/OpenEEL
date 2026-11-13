@@ -8,7 +8,6 @@ appId: org.openeel.app
 - copyTextFrom:
     id: "invite_code"
 
-
 # Student sign-up via invite code to the class
 - runFlow:
     file: "e2e_artifact_upload.yaml"
@@ -22,9 +21,9 @@ appId: org.openeel.app
 - tapOn: "Get Started"
 
 - runFlow:
-    file: "get_started_select_school_by_name.yaml"
+    file: "get_started_select_school_by_link.yaml"
     env:
-      SCHOOL_NAME: ${SCHOOL_NAME}
+      SCHOOL_URL: ${output.SCHOOL_URL}
 - tapOn: "I have an invite code"
 - tapOn: "Invite code"
 - pasteText

@@ -4,16 +4,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import io.github.aakira.napier.Napier
-import io.ktor.http.URLBuilder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.respect.model.SchoolDirectory
-import org.openeel.libutil.ext.appendEndpointSegments
-import org.openeel.shared.domain.appversioninfo.GetAppVersionInfoUseCase
-import org.openeel.shared.domain.school.LaunchCustomTabUseCase
+import org.openeel.shared.domain.school.LaunchSchoolSelfRegistrationUseCase
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.school_directories
@@ -35,8 +32,7 @@ data class SchoolDirectoryListUiState(
 class SchoolDirectoryListViewModel(
     savedStateHandle: SavedStateHandle,
     private val schoolDirectoryDataSource: SchoolDirectoryDataSource,
-    private val launchCustomTabUseCase: LaunchCustomTabUseCase,
-    private val getAppVersionInfoUseCase: GetAppVersionInfoUseCase,
+    private val launchSchoolSelfRegistrationUseCase: LaunchSchoolSelfRegistrationUseCase,
     private val snackBarDispatcher: SnackBarDispatcher,
 ) : OpenEelViewModel(savedStateHandle) {
 
@@ -95,15 +91,7 @@ class SchoolDirectoryListViewModel(
             SchoolDirectoryMode.SELECT -> {
                 viewModelScope.launch {
                     snackBarDispatcher.tryOrShowSnackbarOnError {
-                        val appInfo = getAppVersionInfoUseCase()
-
-                        launchCustomTabUseCase(
-                            url = URLBuilder(
-                                directory.baseUrl.appendEndpointSegments("school-directory/register-school")
-                            ).apply {
-                                parameters.append("packageName", appInfo.packageName)
-                            }.build()
-                        )
+                        launchSchoolSelfRegistrationUseCase(directory.baseUrl)
                     }
                 }
             }

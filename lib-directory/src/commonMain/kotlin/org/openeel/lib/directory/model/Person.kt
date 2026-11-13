@@ -50,6 +50,14 @@ data class Person(
 
         const val METADATA_KEY_INVITE_UID = "inviteUid"
 
+        const val DEVICE_INFO = "deviceInfo"
+
+        const val DEVICE_MODEL = "deviceModel"
+
+        const val DEVICE_PLATFORM = "devicePlatform"
+
+        const val DEVICE_OS_VERSION = "deviceOsVersion"
+
     }
 
 }

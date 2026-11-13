@@ -1,9 +1,23 @@
 <resources>
+    <string name="type">Type</string>
+    <string name="game">Game</string>
+    <string name="book">Book</string>
+    <string name="video">Video</string>
+    <string name="clear_all">Clear all</string>
+    <string name="filter_selected_count">%1$s +%2$d</string>
+    <string name="search_filter_options">Search %1$s</string>
+    <string name="no_matching_options">No matching options</string>
+    <string name="clear">Clear</string>
+    <string name="app_name">OpenEEL</string>
     <string name="empty_list">Empty List</string>
     <string name="empty_list_description">"Add an app from the app list and it will show up here"</string>
     <string name="add_link">Add Link</string>
     <string name="add_from_link">Add from Link</string>
-    <string name="app_link_provided_message">Copy/paste the RESPECT app link provided by the app developer</string>
+    <string name="enter_link_manually">Enter link manually</string>
+    <string name="registration_url">Registration URL</string>
+    <string name="registration_url_label">Registration url:</string>
+    <string name="registration_url_info">Use the link provided by the administrator of the server you want to use to create your new leaning space. This will only be available if the administrator has enabled it.</string>
+    <string name="app_link_provided_message">Copy/paste the launchable app link provided by the app developer</string>
     <string name="error_link_message">"ERROR: Invalid link. Please check the URL and try again."</string>
     <string name="link_label">Link*</string>
     <string name="start_date_label">Start date</string>
@@ -23,6 +37,30 @@
     <string name="app">App</string>
     <string name="assignments">Assignments</string>
     <string name="assignment">Assignment</string>
+    <string name="device">Device</string>
+    <string name="image_shared_device">Image shared device</string>
+    <string name="pending_device_requests">Pending device request to join</string>
+    <string name="teacher_admin_unlock_pin">Teacher/admin unlock PIN</string>
+
+    <string name="shared_device">Shared Device</string>
+    <string name="shared_device_description_1">Student can login without the school name</string>
+    <string name="shared_device_description_2">Device auto sync offline to reduce data usage</string>
+    <string name="shared_device_description_3">School admin can manually manage</string>
+    <string name="enable">Enable</string>
+    <string name="device_already_shared">This device is already a shared device</string>
+    <string name="no_shared_devices_available">No Shared Devices Available</string>
+    <string name="no_shared_devices_available_info">Shared school devices allow multiple users to securely access the app on the same device using their profile</string>
+
+
+    <string name="tablet_android_last_seen">last seen</string>
+    <string name="add_device">Add Device</string>
+    <string name="this_device">This device</string>
+    <string name="this_device_enable">Enable shared school device on mode on this device</string>
+    <string name="another_device_add">Add using QR code, link, or invite code</string>
+    <string name="another_device">Another device</string>
+    <string name="set_pin">Set PIN</string>
+    <string name="devices">Devices</string>
+
     <string name="add_assignment">Add assignment</string>
     <string name="edit_assignment">Edit assignment</string>
     <string name="classes">Classes</string>
@@ -39,7 +77,6 @@
     <string name="apps_detail">App detail</string>
     <string name="lesson_list">Lesson List</string>
     <string name="search">Search</string>
-    <string name="app_name">App name</string>
     <string name="score_or_progress">Score or Progress</string>
     <string name="play">Play</string>
     <string name="install">Install</string>
@@ -52,6 +89,8 @@
     <string name="msg_see_bookmark">Bookmark a lesson or a collection to see it here.</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="remove_bookmark">Bookmark removed</string>
+    <string name="unpin">Unpin</string>
+    <string name="unpinned_1_collection">Unpinned 1 Collection</string>
     <string name="undo">Undo</string>
     <string name="related_lessons">Related Lessons</string>
     <string name="duration">Duration</string>
@@ -188,12 +227,15 @@
     <string name="enter_roll_number">Enter Roll Number</string>
     <string name="shared_device_setting">Shared device setting</string>
     <string name="scan_qr_code">Scan QR code badge</string>
-    <string name="teacher_admin_login">Teacher or admin login</string>
+    <string name="teacher_admin_login">Teacher/admin login</string>
     <string name="school_directory">School Directory</string>
     <string name="lets_get_started">Let's get started</string>
     <string name="school_name">School name</string>
+    <string name="enter_school_device_pin">Enter school device PIN</string>
     <string name="school_name_placeholder">Type school name here...</string>
     <string name="i_have_an_invite_code">I have an invite code</string>
+    <string name="select_another_school">Select another school</string>
+
     <string name="invalid_school_name">Invalid school name</string>
     <string name="school_not_found">School not found: please ask your admin to add your school.</string>
     <string name="add_directory">Add Directory</string>
@@ -243,22 +285,16 @@
     <string name="add_account">Add account</string>
     <string name="send_feedback">Send feedback</string>
     <string name="feedback_submitted">Feedback submitted</string>
-    <string name="feedback_submitted_message">Thank you for your feedback. Respect team will review it internally.</string>
+    <string name="feedback_submitted_message">Thank you for your feedback. The team will review it internally.</string>
     <string name="quick_contact">Quick Contact</string>
-    <string name="whatsapp_respect">Message the developers on WhatsApp</string>
-    <string name="email_respect">Email the developers</string>
+    <string name="message_on_whatsapp">Message the developers on WhatsApp</string>
+    <string name="email_the_developers">Email the developers</string>
     <string name="public_forum">Public forum</string>
     <string name="category">Category</string>
     <string name="your_feedback">Your feedback</string>
     <string name="describe_feedback_placeholder">Describe your issue or feedback in detail</string>
-    <string name="want_response_from_team">I want a response from the Respect team</string>
+    <string name="want_response_from_team">I want a response from the development team</string>
     <string name="submit_feedback">Submit feedback</string>
-    <string name="feedback_respect">Feedback about RESPECT</string>
-    <string name="category_launcher">Respect launcher related issues</string>
-    <string name="category_integrated_apps">Integrated Apps related issues</string>
-    <string name="category_question">Question</string>
-    <string name="category_rate_us">Rate us</string>
-    <string name="category_other">Other</string>
     <string name="error_message">Error: try again</string>
     <string name="logout">Logout</string>
     <string name="profile">Profile</string>
@@ -269,12 +305,12 @@
     <string name="onboardingTitle3">Assignments</string>
     <string name="onboardingTitle4">Data Reporting</string>
 
-    <string name="onboardingDescription1">RESPECT™ makes it easy to discover and use great edtech apps with a single account.</string>
-    <string name="onboardingDescription2">Download lessons to use offline. RESPECT™'s compression can reduce data usage.</string>
-    <string name="onboardingDescription3">Teachers can easily assign lessons from any edtech app on RESPECT™ as homework for students to complete on their parents' phone or any other device.</string>
+    <string name="onboardingDescription1">OpenEEL makes it easy to discover and use great edtech apps with a single account.</string>
+    <string name="onboardingDescription2">Download lessons to use offline. OpenEEL's compression can reduce data usage.</string>
+    <string name="onboardingDescription3">Teachers can easily assign lessons from any edtech app on OpenEEL™ as homework for students to complete on their parents' phone or any other device.</string>
     <string name="onboardingDescription4">Track progress with detailed reports.</string>
 
-    <string name="send_usage_stats_and_crash_reports">Send anonymous usage data and crash reports to RESPECT™.</string>
+    <string name="send_usage_stats_and_crash_reports">Send anonymous usage data and crash reports to developers.</string>
 
     <!-- Edit Report -->
     <string name="edit_report">Edit report</string>
@@ -314,7 +350,7 @@
     <string name="indicator_name">Indicator Name</string>
     <string name="sql">SQL</string>
     <string name="edit_filters">Edit Filters</string>
-    <string name="blank_template">Blank Template</string>>
+    <string name="blank_template">Blank Template</string>
 
     <!-- Duration Metrics -->
     <string name="total_content_usage_duration">Total Content Usage Duration</string>
@@ -391,6 +427,13 @@
     <string name="school">School</string>
     <string name="grade_level">Grade Level</string>
     <string name="assessment_type">Assessment Type (Self/Assignment)</string>
+    <string name="shared_school_devices">Shared school device</string>
+    <string name="enable_shared_school_device_mode">Enable shared school device mode</string>
+
+    <string name="device_name">Device name</string>
+    <string name="enable_shared_device_mode">Enable shared device mode</string>
+    <string name="students_must_enter_their_roll_number">Students must enter their roll number to login</string>
+    <string name="student_can_self_select_their_class_name">Student can self-select their class and name</string>
 
 
     <!-- Demographic Dimensions -->
@@ -463,6 +506,7 @@
 
     <string name="first_names">First names</string>
     <string name="mappings">Mappings</string>
+    <string name="policies_shared_devices">School name, policies, shared device</string>
     <string name="mapping">Mapping</string>
     <string name="edit_mapping">Edit mapping</string>
     <string name="textbooks">Textbooks</string>
@@ -505,7 +549,7 @@
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
 
-    <string name="app_version">App version</string>\
+    <string name="app_version">App version</string>
     <string name="android6_warning">Your device is running Android 6, which is not fully supported. You may experience issues. We recommend using Android 7 or higher</string>
 
     <string name="old_password">Old password</string>
@@ -553,6 +597,7 @@
     <string name="select_family_person">Select family person</string>
     <string name="add_new_person">Add new person</string>
     <string name="invite_person">Invite person</string>
+    <string name="add_shared_school_device">Add shared school device</string>
 
     <string name="empty_list_description_admin">You haven't added any apps for your school yet.</string>
     <string name="empty_list_description_non_admin">No apps added for your school yet. Ask your admin to add some.</string>
@@ -606,13 +651,13 @@
 
     <string name="developed_by">Developed by UstadMobile FZ-LLC</string>
 
-    <string name="license_text">RESPECT App. Copyright 2025-2026 UstadMobile FZ-LLC.</string>
+    <string name="license_text">%1$s App. Copyright 2025-2026 UstadMobile FZ-LLC.</string>
 
     <string name="open_source">Open Source</string>
 
     <string name="proprietary">Proprietary</string>
 
-    <string name="respect_is_open_source">The RESPECT App is open-source software licensed under the AGPLv3 license. Contains open source libraries copyright respective contributors.</string>
+    <string name="app_is_open_source">%1$s is open-source software licensed under the AGPLv3 license. Contains open source libraries copyright respective contributors.</string>
 
     <string name="supported_by_spix_foundation">Supported by Spix Foundation.</string>
 
@@ -654,7 +699,7 @@
     <string name="select_none">Select none</string>
     <string name="copy_of">copy the %1$s</string>
     <string name="add_tasks_to_assignment">Add %1$d task to assignment</string>
-    <string name="move_to_section">Move to section…</string>
+    <string name="move_to">Move to</string>
     <string name="n_items">%1$d items</string>
     <string name="share_collection">Share collection</string>
     <string name="who_can_view">Who can view</string>
@@ -669,7 +714,7 @@
     <string name="select_this_collection">Select this collection</string>
     <string name="choose_item_type">Choose Item Type:</string>
     <string name="browse">Browse</string>
-    <string name="browse_description">Add from RESPECT apps, lessons, collections</string>
+    <string name="browse_description">Add from apps, bookmarks, and collections</string>
     <string name="use_link">Use link</string>
     <string name="use_link_description">Add from an external link</string>
     <string name="external_link">External Link</string>
@@ -746,5 +791,22 @@
 
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
+
+    <string name="links_to_learning_items">Links to learning items</string>
+
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>
+
+    <string name="collection_not_found">Collection not found</string>
+    <string name="this_collection_may_have_been_deleted">This collection may have been deleted by its creator or no longer available</string>
+
+    <string name="connect_existing_learning_space">Connect to an existing learning space</string>
+    <string name="connect_existing_learning_space_description">Connect to an existing learning space or use a standard Experience API (xAPI) server.</string>
+    <string name="create_new_learning_space">Create new learning space</string>
+    <string name="create_new_learning_space_description">Create a new learning space. You can invite friends and colleagues if you want, or keep it personal for yourself.</string>
+    <string name="select_where_to_store_data">Select where your data will be stored</string>
+
+    <string name="pin_error">Error: please enter 4 digit number</string>
+    <string name="invalid_pin">Invalid PIN</string>
 
 </resources>

@@ -14,13 +14,13 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.lib.directory.model.Person
 import org.openeel.server.util.ext.offsetLimitPagingLoadParams
-import org.openeel.server.util.ext.requireAccountScope
+import org.openeel.server.util.ext.getUserAccountScope
 import org.openeel.server.util.ext.respondOffsetLimitPaging
 
 @Suppress("FunctionName")
 fun Route.PersonRoute(
     schoolDataSource: (ApplicationCall) -> SchoolDataSource = { call ->
-        call.requireAccountScope().get()
+        call.getUserAccountScope().get()
     },
 ) {
     get(BuiltinPersonDirectoryResource.ENDPOINT_NAME) {

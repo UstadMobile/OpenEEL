@@ -36,6 +36,9 @@ val ACRA_PROP_NAMES = listOf("uri", "basicAuthLogin", "basicAuthPassword")
 // The applist list - see main README
 val defaultAppList = System.getenv("DEFAULT_APPLIST") ?: "https://respect.directory/respect-ds/base.json"
 
+// The list of learning space hosts - see main README
+val defaultHostList = System.getenv("DEFAULT_HOSTLIST")
+    ?: "http://10.0.2.2:8098/static-resources/hosts.json"
 // The IP address country lookup server endpoint
 val geolocationApiEndpoint = System.getenv("GEOLOCATION_API_ENDPOINT") ?: "https://geoip.ustadmobile.com/"
 
@@ -46,56 +49,6 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
-    }
-
-    dependencies {
-        api(projects.libCredentials)
-        implementation(projects.libCache)
-
-        implementation(projects.libAppuiCompose)
-        implementation(projects.libSharedSe)
-        implementation(projects.libXapiIpcServer)
-        implementation(projects.libDatalayerRepository)
-        implementation(projects.libDirectoryKeycloak)
-        implementation(projects.libPrimarykeygen)
-        implementation(projects.libHttpIpcServer)
-        implementation(projects.libHttpIpcClient)
-
-        implementation(libs.multiplatformsettings)
-        implementation(libs.androidx.credentials)
-        implementation(libs.androidx.credentials.play.service.auth)
-        implementation(compose.preview)
-        implementation(compose.components.resources)
-        implementation(libs.androidx.activity.compose)
-        implementation(libs.androidx.appcompat)
-
-        implementation(project.dependencies.platform(libs.koin.bom))
-        implementation(libs.koin.core)
-        implementation(libs.koin.android)
-        implementation(libs.okhttp)
-        implementation(libs.ktor.client.okhttp)
-        implementation(libs.ktor.client.core)
-        implementation(libs.ktor.client.json)
-        implementation(libs.ktor.client.content.negotiation)
-        implementation(libs.ktor.serialization.kotlinx.json)
-        implementation(libs.compose.material3.window.size.clazz)
-        implementation(projects.libDatalayerDb)
-        implementation(libs.androidx.room.runtime)
-        implementation(libs.androidx.sqlite.bundled)
-        implementation(libs.androidx.webkit)
-        implementation(libs.appauth)
-        implementation(libs.material)
-        implementation(libs.androidx.appcompat)
-        implementation(libs.coil3.coil.svg)
-        implementation(libs.acra.http)
-        implementation(libs.acra.core)
-        implementation(libs.libphonenumber.android)
-        implementation(libs.accompanist.permissions)
-        implementation(libs.coil.network.okhttp)
-        implementation(libs.coil3.coil.compose)
-        implementation(libs.napier)
-
-        implementation(compose.material3)
     }
 }
 
@@ -127,7 +80,7 @@ android {
         manifestPlaceholders["appAuthRedirectScheme"] = "org.openeel.oauth"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 133
+        versionCode = 134
         versionName = project.version.toString()
 
         for(propName in ACRA_PROP_NAMES) {
@@ -142,6 +95,11 @@ android {
             type = "String",
             name = "DEFAULT_APP_LIST",
             value = "\"$defaultAppList\""
+        )
+        buildConfigField(
+            type = "String",
+            name = "DEFAULT_HOST_LIST",
+            value = "\"$defaultHostList\""
         )
         buildConfigField(
             type = "String",
@@ -182,5 +140,53 @@ android {
 }
 
 dependencies {
+    api(projects.libCredentials)
+    implementation(projects.libCache)
 
+    implementation(projects.libAppuiCompose)
+    implementation(projects.libSharedSe)
+    implementation(projects.libXapiIpcServer)
+    implementation(projects.libDatalayerRepository)
+    implementation(projects.libDirectoryKeycloak)
+    implementation(projects.libPrimarykeygen)
+    implementation(projects.libHttpIpcServer)
+    implementation(projects.libHttpIpcClient)
+
+    implementation(libs.multiplatformsettings)
+
+    //noinspection LoginCredentials - we know we need to provide Google Play credentials
+    implementation(libs.androidx.credentials)
+    //noinspection LoginCredentials - we know we need to provide Google Play credentials
+    implementation(libs.androidx.credentials.play.service.auth)
+    implementation(compose.preview)
+    implementation(compose.components.resources)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.okhttp)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.json)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.compose.material3.window.size.clazz)
+    implementation(projects.libDatalayerDb)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.sqlite.bundled)
+    implementation(libs.androidx.webkit)
+    implementation(libs.appauth)
+    implementation(libs.material)
+    implementation(libs.coil3.coil.svg)
+    implementation(libs.acra.http)
+    implementation(libs.acra.core)
+    implementation(libs.libphonenumber.android)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.coil3.coil.compose)
+    implementation(libs.napier)
+
+    implementation(compose.material3)
 }

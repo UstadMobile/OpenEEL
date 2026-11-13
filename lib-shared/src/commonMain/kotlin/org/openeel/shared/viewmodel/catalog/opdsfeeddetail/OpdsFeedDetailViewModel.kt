@@ -5,13 +5,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
-import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.db.school.ext.isAdmin
+import org.openeel.datalayer.db.school.ext.isAdminOrTeacher
+import org.openeel.datalayer.school.opds.OpdsFeedDataSource
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
@@ -20,29 +21,33 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.lib.opds.model.OpdsFeed
-import org.openeel.lib.opds.model.ext.OpdsFeedItemIndex
+import org.openeel.lib.opds.model.OpdsGroup
 import org.openeel.lib.opds.model.ext.allPublications
 import org.openeel.lib.opds.model.ext.getNavigationLinkByIndex
 import org.openeel.lib.opds.model.ext.getNavigationLinksByIndexes
 import org.openeel.lib.opds.model.ext.getPublicationByIndex
 import org.openeel.lib.opds.model.ext.getPublicationsByIndexes
 import org.openeel.lib.opds.model.findSelfLinks
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
 import org.openeel.libutil.ext.resolve
 import org.openeel.libutil.ext.toggle
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.catalog.checkcanwritefeedusecase.CheckCanWriteFeedUseCase
+import org.openeel.shared.domain.catalog.deleteopdsfeed.DeleteOpdsFeedUseCase
+import org.openeel.shared.domain.clipboard.SetClipboardStringUseCase
 import org.openeel.shared.ext.resultExpected
+import org.openeel.shared.ext.tryOrShowSnackbarOnError
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.edit
 import org.openeel.shared.generated.resources.language
 import org.openeel.shared.generated.resources.not_found
 import org.openeel.shared.generated.resources.something_went_wrong
 import org.openeel.shared.navigation.AssignmentEdit
-import org.openeel.shared.navigation.PublicationDetail
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.NavResultReturner
 import org.openeel.shared.navigation.OpdsFeedDetail
 import org.openeel.shared.navigation.OpdsFeedEdit
-import org.openeel.shared.navigation.PlaylistShare
+import org.openeel.shared.navigation.PublicationDetail
 import org.openeel.shared.navigation.sendResultIfResultExpected
 import org.openeel.shared.util.SortOrderOption
 import org.openeel.shared.util.ext.appbarTitleString
@@ -65,6 +70,7 @@ data class OpdsFeedDetailUiState(
         Res.string.language, 1, true
     ),
     val quickActionsVisible: Boolean = true,
+    val deleteButtonVisible: Boolean = false,
     val isTeacherOrAdmin: Boolean = false,
     val collapsedGroupIndexes: Set<Int> = emptySet(),
     val selectedPublications: Set<OpdsFeedItemIndex> = emptySet(),
@@ -110,6 +116,9 @@ data class OpdsFeedDetailUiState(
     val showFeedTitleInContent: Boolean
         get() = pickType != null
 
+    val remixButtonVisible: Boolean
+        get() = isTeacherOrAdmin
+
 }
 
 /**
@@ -120,17 +129,22 @@ class OpdsFeedDetailViewModel(
     private val accountManager: AppAccountManager,
     private val resultReturner: NavResultReturner,
     private val snackBarDispatcher: SnackBarDispatcher,
+    private val setClipboardStringUseCase: SetClipboardStringUseCase
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
-
-    private val schoolDataSource: SchoolDataSource by inject()
 
     private val _uiState = MutableStateFlow(OpdsFeedDetailUiState())
 
     val uiState = _uiState.asStateFlow()
 
     private val route: OpdsFeedDetail = savedStateHandle.toRoute()
+
+    private val checkCanWriteFeedUseCase: CheckCanWriteFeedUseCase by inject()
+
+    private val deleteOpdsFeedUseCase: DeleteOpdsFeedUseCase by inject()
+
+    private val opdsMediator: OpdsFeedDataSource by inject()
 
     init {
         _uiState.update {
@@ -148,13 +162,19 @@ class OpdsFeedDetailViewModel(
         }
 
         viewModelScope.launch {
+            val canWriteFeed = checkCanWriteFeedUseCase(route.opdsFeedUrl).also { canWrite ->
+                _uiState.update { prev -> prev.copy(deleteButtonVisible = canWrite) }
+            }
+
             accountManager.selectedAccountAndPersonFlow.collect { sessionAndPerson ->
-                val isTeacherOrAdmin = sessionAndPerson?.person?.isAdmin() == true
-                _uiState.update { it.copy(isTeacherOrAdmin = isTeacherOrAdmin) }
+                _uiState.update {
+                    it.copy(isTeacherOrAdmin = sessionAndPerson?.person?.isAdminOrTeacher() == true)
+                }
+
                 _appUiState.update {
                     it.copy(
                         fabState = FabUiState(
-                            visible = false,//temporarily disabled 3/Oct - isTeacherOrAdmin && route.resultDest == null,
+                            visible = canWriteFeed && route.resultDest == null,
                             icon = FabUiState.FabIcon.EDIT,
                             text = Res.string.edit.asUiText(),
                             onClick = ::onClickEdit,
@@ -165,10 +185,10 @@ class OpdsFeedDetailViewModel(
         }
 
         viewModelScope.launch {
-            schoolDataSource.opdsFeedDataSource.getByUrlAsFlow(
+            opdsMediator.getByUrlAsFlow(
                 url = route.opdsFeedUrl,
                 params = DataLoadParams()
-            ).collect { result ->
+            ).collectLatest { result ->
                 _uiState.update { prev ->
                     prev.copy(
                         feed = result.map { it.resolve(route.opdsFeedUrl) }
@@ -366,22 +386,19 @@ class OpdsFeedDetailViewModel(
         }
     }
 
-    fun onClickShare() {
-        _navCommandFlow.tryEmit(
-            NavCommand.Navigate(PlaylistShare.create(playlistUrl = route.opdsFeedUrl))
-        )
+    fun onClickCopyLink() {
+        setClipboardStringUseCase(route.opdsFeedUrl.toString())
     }
 
-    fun onClickCopy() {
-        /*
-        val feed = _uiState.value.feed
-            ?: throw IllegalStateException("onClickCopy called but feed is null")
-        _uiState.update {
-            it.copy(
-                showCopyDialog = true,
-                copyDialogName = feed.metadata.title,
+    fun onClickRemix() {
+        _navCommandFlow.tryEmit(
+            NavCommand.Navigate(
+                OpdsFeedEdit.create(
+                    urlStr = route.opdsFeedUrl,
+                    isRemix = true,
+                )
             )
-        }*/
+        )
     }
 
     fun onCopyDialogDismiss() {
@@ -390,49 +407,6 @@ class OpdsFeedDetailViewModel(
 
     fun onCopyDialogNameChanged(name: String) {
         _uiState.update { it.copy(copyDialogName = name) }
-    }
-
-    fun onCopyDialogConfirm() {
-        /*
-        val feed = _uiState.value.feed
-            ?: throw IllegalStateException("onCopyDialogConfirm called but feed is null")
-        val newName = _uiState.value.copyDialogName.trim()
-        if (newName.isBlank())
-            throw IllegalStateException("onCopyDialogConfirm called but the new name is blank")
-
-        viewModelScope.launch {
-            val sessionAndPerson = accountManager.selectedAccountAndPersonFlow.first()
-                ?: throw IllegalStateException("No active session when copying feed")
-
-            val username = sessionAndPerson.person.username
-                ?: throw IllegalStateException(
-                    "Active person has no username: ${sessionAndPerson.person.guid}"
-                )
-
-            @OptIn(ExperimentalUuidApi::class)
-            val copiedFeed = makePlaylistOpdsFeedUseCase.invoke(
-                base = feed.copy(
-                    metadata = feed.metadata.copy(title = newName)
-                ),
-                username = username,
-            )
-
-            schoolDataSource.opdsFeedDataSource.store(listOf(copiedFeed))
-
-            _uiState.update { it.copy(showCopyDialog = false, copyDialogName = "") }
-
-            val copiedUrl = copiedFeed.selfUrl()
-                ?: throw IllegalStateException("Copied feed has no self URL")
-
-            _navCommandFlow.tryEmit(
-                NavCommand.Navigate(
-                    PlaylistEdit.create(
-                        playlistUrl = copiedUrl,
-                        isCopy = true,
-                    )
-                )
-            )
-        }*/
     }
 
     fun onClickDelete() {
@@ -444,22 +418,30 @@ class OpdsFeedDetailViewModel(
     }
 
     fun onDeleteDialogConfirm() {
-        /*
-        viewModelScope.launch {
-            val feed = _uiState.value.feed
-                ?: throw IllegalStateException("onDeleteDialogConfirm called but feed is null")
-            val selfUrl = feed.selfUrl()
-                ?: throw IllegalStateException("Cannot delete: feed has no self URL")
+        launchWithLoadingIndicator {
+            snackBarDispatcher.tryOrShowSnackbarOnError {
+                deleteOpdsFeedUseCase(route.opdsFeedUrl)
+                _navCommandFlow.tryEmit(
+                    NavCommand.PopUp()
+                )
+            }
+        }
+    }
 
-            schoolDataSource.opdsFeedDataSource.deleteByUrl(selfUrl)
-
-            _uiState.update { it.copy(showDeleteDialog = false) }
-            _navCommandFlow.tryEmit(
-                NavCommand.Navigate(
-                    destination = RespectAppLauncher.create()
+    fun onClickAssignGroup(
+        group: OpdsGroup
+    ) {
+        _navCommandFlow.tryEmit(
+            NavCommand.Navigate(
+                AssignmentEdit.create(
+                    assignmentActivityId = null,
+                    learningUnitSelected = PublicationsSelection(
+                        url = route.opdsFeedUrl,
+                        selectedPublications = group.publications.orEmpty(),
+                    )
                 )
             )
-        }*/
+        )
     }
 
     fun onClickAssignQuickActionButton() {
@@ -480,49 +462,9 @@ class OpdsFeedDetailViewModel(
         )
     }
 
-    fun onClickAssignSection(sectionIndex: Int) {
-        /*
-        val feed = _uiState.value.feed
-            ?: throw IllegalStateException("Cannot assign: no feed loaded")
-        val feedUrl = feed.selfUrl()
-            ?: throw IllegalStateException("Cannot assign: feed has no self URL")
-
-        val targetSection = if (sectionIndex == ASSIGN_HEADER_SECTION_INDEX) {
-            _uiState.value.group.firstOrNull { it.publications?.isNotEmpty() == true }
-                ?: throw IllegalStateException("No learning unit section with items found to assign")
-        } else {
-            _uiState.value.group.getOrNull(sectionIndex)
-                ?: throw IllegalStateException("No section at index $sectionIndex")
-        }
-
-        val firstPublication = targetSection.publications?.firstOrNull()
-            ?: throw IllegalStateException(
-                "Assign clicked but section at index $sectionIndex has no learning items"
-            )
-
-        val learningUnitManifestUrl = feedUrl.resolve(
-            publicationSelfLink(firstPublication).href
-        )
-
-        _navCommandFlow.tryEmit(
-            NavCommand.Navigate(
-                destination = AssignmentEdit.create(
-                    assignmentActivityId = null,
-                    learningUnitSelected = LearningUnitSelection(
-                        learningUnitManifestUrl = learningUnitManifestUrl,
-                        selectedPublication = firstPublication,
-                    )
-                )
-            )
-        )
-
-         */
-    }
-
-
     fun onClickEdit() {
         _navCommandFlow.tryEmit(
-            NavCommand.Navigate(OpdsFeedEdit.create(playlistUrl = route.opdsFeedUrl))
+            NavCommand.Navigate(OpdsFeedEdit.create(urlStr = route.opdsFeedUrl))
         )
     }
 

@@ -22,7 +22,7 @@ import org.openeel.lib.xapi.resources.XapiResource
 
 abstract class AbstractXapiDocumentResourceResponder<
         MultiDocParams: Any,
-        SingleDocParams: ISingleDocumentParams<MultiDocParams>,
+        SingleDocParams: ISingleDocumentParams,
         T: XapiDocumentResource<MultiDocParams, SingleDocParams>
 >
 (

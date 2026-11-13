@@ -34,6 +34,7 @@ import org.openeel.shared.generated.resources.something_went_wrong
 import org.openeel.shared.generated.resources.invalid_username_password
 import org.openeel.shared.navigation.EnterInviteCode
 import org.openeel.shared.navigation.Home
+import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.WaitingForApproval
@@ -55,6 +56,7 @@ data class LoginUiState(
     val schoolUrl: Url,
     val authenticationOptions: List<AuthenticationOption> =
         AuthenticationOption.BUILTIN_DEFAULT_OPTIONS,
+    val showSelectOtherSchoolButton: Boolean = false,
 )
 
 class LoginViewModel(
@@ -68,7 +70,12 @@ class LoginViewModel(
 
     private val route: LoginScreen = savedStateHandle.toRoute()
 
-    private val _uiState = MutableStateFlow(LoginUiState(schoolUrl = route.schoolUrl))
+    private val _uiState = MutableStateFlow(
+        LoginUiState(
+            schoolUrl = route.schoolUrl,
+            showSelectOtherSchoolButton = route.showSelectOtherSchool == true
+        )
+    )
 
     val uiState = _uiState.asStateFlow()
 
@@ -272,4 +279,9 @@ class LoginViewModel(
         }
     }
 
+    fun onClickSelectAnotherSchool() {
+        _navCommandFlow.tryEmit(
+            NavCommand.Navigate(GetStartedScreen(canGoBack = true))
+        )
+    }
 }

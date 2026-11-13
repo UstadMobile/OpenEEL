@@ -19,6 +19,7 @@ class XapiStateResourceRepositoryIntegrationTest : AbstractXapiDocumentResourceR
 
     override suspend fun withEmbeddedServerAndRepoClients(
         getAuthenticatedXapiAgentsUseCase: GetAuthenticatedXapiAgentsUseCase,
+        numClients: Int,
         block: suspend RepositoryTestContext.() -> Unit
     ) {
         withEmbeddedServerAndRepositoryClients(
@@ -34,6 +35,7 @@ class XapiStateResourceRepositoryIntegrationTest : AbstractXapiDocumentResourceR
                     )
                 }
             },
+            numClients = numClients,
             block = block,
         )
     }
@@ -60,6 +62,15 @@ class XapiStateResourceRepositoryIntegrationTest : AbstractXapiDocumentResourceR
     @Test
     fun givenDocumentPostedOnServer_whenGetAsFlowCalledOnClient_thenFlowReceivesMatchingData() {
         givenDocumentPostedOnServer_whenGetAsFlowCalledOnClient_thenFlowReceivesMatchingData(
+            params = XapiStateTestParams.SINGLE_DOC_PARAMS1,
+            document = XapiStateTestParams.DOC,
+            authenticatedXapiAgents = { listOf(XapiStateTestParams.SINGLE_DOC_PARAMS1.agent) }
+        )
+    }
+
+    @Test
+    fun givenDocumentDeletedByFirstClient_whenGetCalledOnSecondClient_thenIsNotFound() {
+        givenDocumentDeletedByFirstClient_whenGetCalledOnSecondClient_thenIsNotFound(
             params = XapiStateTestParams.SINGLE_DOC_PARAMS1,
             document = XapiStateTestParams.DOC,
             authenticatedXapiAgents = { listOf(XapiStateTestParams.SINGLE_DOC_PARAMS1.agent) }

@@ -39,6 +39,19 @@ class XapiRemoteWriteQueueDbImpl(
         )
     }
 
+    override suspend fun isPending(
+        resource: XapiRemoteWriteQueueItem.Resource,
+        methods: List<XapiRemoteWriteQueueItem.Method>,
+        itemId: String
+    ): Boolean {
+        return schoolDb.getXapiRemoteWriteQueueItemEntityDao().isPending(
+            accountGuid = account.guid,
+            methods = methods,
+            resource = resource,
+            itemId = itemId,
+        )
+    }
+
     override fun queueSizeAsFlow(): Flow<Int> {
         return schoolDb.getXapiRemoteWriteQueueItemEntityDao().pendingCountAsFlow(
             accountGuid = account.guid,

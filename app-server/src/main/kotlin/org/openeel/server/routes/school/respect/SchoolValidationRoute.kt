@@ -5,6 +5,7 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import org.koin.ktor.ext.inject
+import org.openeel.server.domain.school.verify.VerifySchoolUrlPointsToThisServerUseCase
 import org.openeel.server.util.SchoolUrlVerificationManager
 
 /**
@@ -17,7 +18,7 @@ fun Route.SchoolValidationRoute() {
     val verificationManager: SchoolUrlVerificationManager by inject()
 
     /**
-     * GET /.well-known/respect-server-verify?code=<verification_code>
+     * GET /.well-known/server-verify?code=<verification_code>
      *
      * This endpoint is called by the server itself to verify that a school URL
      * actually points to this server instance.
@@ -30,8 +31,8 @@ fun Route.SchoolValidationRoute() {
      * - 200 OK if verification code is received and processed
      * - 400 Bad Request if code parameter is missing
      */
-    get("respect-server-verify") {
-        val code = call.request.queryParameters["code"]
+    get(VerifySchoolUrlPointsToThisServerUseCase.ENDPOINT_NAME) {
+        val code = call.request.queryParameters[VerifySchoolUrlPointsToThisServerUseCase.PARAM_NAME_CODE]
 
         if (code == null) {
             call.respond(

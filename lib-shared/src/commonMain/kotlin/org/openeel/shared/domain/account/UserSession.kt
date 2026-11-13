@@ -13,10 +13,20 @@ import kotlinx.serialization.Serializable
  * @param profilePersonUid where the active user of the session is not the account holder, this
  *        will be the personuid of the active user (e.g. the child's personUid when the session
  *        was started through the parent's account).
+ * @param isParentInitiatedChildSession true when a parent account starts a session using a
+ *        child's profile.
  */
 @Serializable
 data class UserSession(
     val account: UserAccount,
     val profilePersonUid: String?,
-)
+    val isParentInitiatedChildSession: Boolean = false
+) {
 
+    /**
+     * Get the active person uid: as above, where profilePersonUid is not null, this takes precedence
+     */
+    val activePersonUid: String
+        get() = profilePersonUid ?: account.userGuid
+
+}

@@ -19,7 +19,7 @@ import kotlin.time.Duration.Companion.seconds
  *
  * Flow:
  * 1. Generate random verification code
- * 2. Make HTTP request to {school-url}/.well-known/respect-server-verify?code={random-code}
+ * 2. Make HTTP request to {school-url}/.well-known/server-verify?code={random-code}
  * 3. Server's verification endpoint receives request and puts code on verification flow
  * 4. AddSchoolUseCase checks if the same code appears in the flow
  * 5. If code matches → URL points to this server ✓

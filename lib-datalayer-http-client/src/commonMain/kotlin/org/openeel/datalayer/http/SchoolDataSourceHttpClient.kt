@@ -20,7 +20,6 @@ import org.openeel.datalayer.http.school.xapi.XapiResourceHttpClient
 import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
 import org.openeel.datalayer.school.ClassDataSource
-import org.openeel.datalayer.school.DummySchoolConfigSettingsDataSource
 import org.openeel.datalayer.school.EnrollmentDataSource
 import org.openeel.datalayer.school.IndicatorDataSource
 import org.openeel.datalayer.school.InviteDataSource
@@ -29,7 +28,6 @@ import org.openeel.datalayer.school.PersonPasskeyDataSource
 import org.openeel.datalayer.school.PersonPasswordDataSource
 import org.openeel.datalayer.school.PersonQrBadgeDataSource
 import org.openeel.datalayer.school.ReportDataSource
-import org.openeel.datalayer.school.SchoolConfigSettingDataSource
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
 import org.openeel.datalayer.school.opds.OpdsFeedDataSource
 import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
@@ -145,12 +143,6 @@ class SchoolDataSourceHttpClient(
     override val opdsFeedDataSource: OpdsFeedDataSource by lazy {
         OpdsFeedDataSourceHttpClient(
             httpClient = httpClient,
-        )
-    }
-
-    override val schoolConfigSettingDataSource: SchoolConfigSettingDataSource by lazy {
-        DummySchoolConfigSettingsDataSource(
-            defaultAppCatalogUrl = defaultAppCatalogUrl,
         )
     }
 

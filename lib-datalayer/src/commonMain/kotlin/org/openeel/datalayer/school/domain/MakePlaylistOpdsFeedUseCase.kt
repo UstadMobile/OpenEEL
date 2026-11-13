@@ -13,7 +13,6 @@ import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.libutil.ext.appendEndpointPathSegments
 import org.openeel.libutil.ext.appendEndpointSegments
 import kotlin.time.Clock
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 /**
@@ -28,7 +27,6 @@ class MakePlaylistOpdsFeedUseCase(
     private val schoolDirectoryEntryResource: SchoolDirectoryEntryResource,
 ) {
 
-    @OptIn(ExperimentalUuidApi::class)
     suspend operator fun invoke(
         base: OpdsFeed,
         username: String,

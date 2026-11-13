@@ -25,6 +25,19 @@ import kotlin.uuid.Uuid
 @Serializable
 sealed interface OpenEelAppRoute
 
+/** Optional Boolean route argument requesting AppBar search focus on entry. */
+const val ARG_FOCUS_SEARCH = "focusSearch"
+
+/**
+ * AppRoutes: important:
+ *
+ * a) NEVER include extra data that can be looked up using an ID e.g. a person/class name etc. This
+ *    leads to duplication.
+ * b) Routes are data classes with only primitive and string arguments. If a non-primitive argument
+ *    is required then add a string property, use a serializer, and create a transient property.
+ *    This is because Jetpack compose navigation does not handle objects.
+ */
+
 @Serializable
 data class Acknowledgement(
     val schoolUrlStr: String? = null,
@@ -77,13 +90,20 @@ object SchoolDirectoryEdit : OpenEelAppRoute
 @Serializable
 data class LoginScreen(
     val schoolUrlStr: String,
+    val showSelectOtherSchool: Boolean? = null,
 ) : OpenEelAppRoute {
 
     @Transient
     val schoolUrl = Url(schoolUrlStr)
 
     companion object {
-        fun create(schoolUrl: Url) = LoginScreen(schoolUrl.toString())
+        fun create(
+            schoolUrl: Url,
+            showSelectOtherSchool: Boolean? = null
+        ) = LoginScreen(
+            schoolUrlStr = schoolUrl.toString(),
+            showSelectOtherSchool = showSelectOtherSchool,
+        )
     }
 }
 
@@ -309,7 +329,16 @@ class IndictorEdit(val indicatorId: String?) : OpenEelAppRoute
 object OpenEelAppList : OpenEelAppRoute
 
 @Serializable
+data class OpdsSearch(
+    @SerialName(ARG_FOCUS_SEARCH)
+    val focusSearch: Boolean = true,
+) : OpenEelAppRoute
+
+@Serializable
 object EnterLink : OpenEelAppRoute
+
+@Serializable
+object EnterHostLink : OpenEelAppRoute
 
 @Serializable
 data class GetStartedScreen(
@@ -317,7 +346,10 @@ data class GetStartedScreen(
 ) : OpenEelAppRoute
 
 @Serializable
-object OtherOption : OpenEelAppRoute
+object ConnectToExistingLearningSpace : OpenEelAppRoute
+
+@Serializable
+object CreateNewLearningSpace : OpenEelAppRoute
 
 @Serializable
 object HowPasskeyWorks : OpenEelAppRoute
@@ -439,6 +471,7 @@ class AcceptInvite(
     val schoolUrlStr: String,
     val code: String,
     val canGoBack: Boolean = true,
+    val useActiveUserAuth: Boolean? = null,
 ) : OpenEelAppRoute {
 
     @Transient
@@ -449,10 +482,12 @@ class AcceptInvite(
             schoolUrl: Url,
             code: String,
             canGoBack: Boolean = true,
+            useActiveUserAuth: Boolean? = null,
         ) = AcceptInvite(
             schoolUrlStr = schoolUrl.toString(),
             code = code,
             canGoBack = canGoBack,
+            useActiveUserAuth = useActiveUserAuth,
         )
     }
 }
@@ -742,7 +777,8 @@ data class ScanQRCode(
     val resultDestStr: String? = null,
     private val schoolUrlStr: String? = null,
     val username: String? = null,
-    private val nextAfterScanStr: String? = null
+    private val nextAfterScanStr: String? = null,
+    val isSharedDevice: Boolean = false
 ) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
@@ -762,18 +798,20 @@ data class ScanQRCode(
             resultDest: ResultDest? = null,
             schoolUrl: Url? = null,
             username: String? = null,
-            nextAfterScan: NextAfterScan? = null
+            nextAfterScan: NextAfterScan? = null,
+            isSharedDevice: Boolean = false
         ) = ScanQRCode(
             guid = guid,
             resultDestStr = resultDest?.encodeToJsonStringOrNull(),
             username = username,
             schoolUrlStr = schoolUrl?.toString(),
-            nextAfterScanStr = nextAfterScan?.name
+            nextAfterScanStr = nextAfterScan?.name,
+            isSharedDevice = isSharedDevice
         )
     }
 }
 @Serializable
-class PlaylistList private constructor(
+class OpdsFeedList private constructor(
     private val resultDestStr: String? = null,
     val opdsPickTypeStr: String? = null,
 ) : OpenEelAppRoute, RouteWithResultDest {
@@ -790,7 +828,7 @@ class PlaylistList private constructor(
         fun create(
             resultDest: ResultDest? = null,
             opdsPickType: OpdsPickType? = null,
-        ) = PlaylistList(
+        ) = OpdsFeedList(
             resultDestStr = resultDest.encodeToJsonStringOrNull(),
             opdsPickTypeStr = opdsPickType?.let {
                 Json.encodeToString(OpdsPickType.serializer(), it)
@@ -798,6 +836,38 @@ class PlaylistList private constructor(
         )
     }
 }
+
+@Serializable
+object OpdsFeedListPinUsingLink: OpenEelAppRoute
+
+@Serializable
+data object SchoolSettings : OpenEelAppRoute
+
+@Serializable
+data object SharedDevicesSettings : OpenEelAppRoute
+
+@Serializable
+data object LoginSelectClass : OpenEelAppRoute {
+
+}
+
+@Serializable
+data object TeacherPinConfirmation : OpenEelAppRoute
+
+@Serializable
+data class LoginSelectStudent(
+    val guid: String,
+) : OpenEelAppRoute {
+
+    companion object {
+        fun create(
+            guid: String,
+        ) = LoginSelectStudent(
+            guid = guid,
+        )
+    }
+}
+
 @Serializable
 class OpdsFeedEdit private constructor(
     private val urlStr: String? = null,
@@ -809,11 +879,11 @@ class OpdsFeedEdit private constructor(
 
     companion object {
         fun create(
-            playlistUrl: Url? = null,
-            isCopy: Boolean = false,
+            urlStr: Url? = null,
+            isRemix: Boolean = false,
         ) = OpdsFeedEdit(
-            urlStr = playlistUrl?.toString(),
-            isCopy = isCopy,
+            urlStr = urlStr?.toString(),
+            isCopy = isRemix,
         )
     }
 }
@@ -833,18 +903,28 @@ class PlaylistShare private constructor(
 }
 
 @Serializable
-class ExternalLinkEdit private constructor(
+class OpdsFeedEditAddLink private constructor(
     private val resultDestStr: String? = null,
+    private val opdsPickTypeStr: String,
 ) : OpenEelAppRoute, RouteWithResultDest {
 
     @Transient
     override val resultDest: ResultDest? = ResultDest.fromStringOrNull(resultDestStr)
 
+    @Transient
+    val opdsPickType: OpdsPickType = Json.decodeFromString(
+        OpdsPickType.serializer(), opdsPickTypeStr
+    )
+
     companion object {
         fun create(
             resultDest: ResultDest? = null,
-        ) = ExternalLinkEdit(
-            resultDestStr = resultDest.encodeToJsonStringOrNull()
+            opdsPickType: OpdsPickType,
+        ) = OpdsFeedEditAddLink(
+            resultDestStr = resultDest.encodeToJsonStringOrNull(),
+            opdsPickTypeStr = Json.encodeToString(
+                OpdsPickType.serializer(), opdsPickType
+            ),
         )
     }
 }

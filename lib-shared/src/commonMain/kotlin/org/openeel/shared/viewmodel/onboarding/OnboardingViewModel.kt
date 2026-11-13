@@ -49,14 +49,12 @@ class OnboardingViewModel(
     }
 
     fun onClickGetStartedButton() {
-
-        settings.putString(ShouldShowOnboardingUseCase.KEY_ONBOARDING_SHOWN, true.toString())
         setUsageReportingEnabledUseCase(_uiState.value.usageStatsOptInChecked)
+        settings.putString(ShouldShowOnboardingUseCase.KEY_ONBOARDING_SHOWN, true.toString())
 
         viewModelScope.launch {
             _navCommandFlow.tryEmit(navigateOnAppStartUseCase())
         }
-
     }
 
 }

@@ -18,7 +18,6 @@ import org.openeel.datalayer.repository.school.xapi.XapiResourceRepository
 import org.openeel.datalayer.school.IndicatorDataSource
 import org.openeel.datalayer.school.PersonPasskeyDataSource
 import org.openeel.datalayer.school.ReportDataSource
-import org.openeel.datalayer.school.SchoolConfigSettingDataSource
 import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
 import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
 import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
@@ -131,9 +130,5 @@ class SchoolDataSourceRepository(
             remoteWriteQueue = xapiRemoteWriteQueue,
             json = json,
         )
-    }
-
-    override val schoolConfigSettingDataSource: SchoolConfigSettingDataSource by lazy {
-        local.schoolConfigSettingDataSource
     }
 }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
-import org.openeel.lib.dataloadstate.ext.firstOrNotLoaded
+import org.openeel.lib.dataloadstate.ext.firstOrNotFound
 import org.openeel.datalayer.ext.getAsDataLoadState
 import org.openeel.datalayer.ext.getDataLoadResultAsFlow
 import org.openeel.datalayer.ext.useTokenProvider
@@ -59,7 +59,7 @@ class ClassDataSourceHttpClient(
             useTokenProvider(tokenProvider)
             useValidationCacheControl(validationHelper)
         }.map {
-            it.firstOrNotLoaded()
+            it.firstOrNotFound()
         }
     }
 
@@ -74,7 +74,7 @@ class ClassDataSourceHttpClient(
         ) {
             useTokenProvider(tokenProvider)
             useValidationCacheControl(validationHelper)
-        }.firstOrNotLoaded()
+        }.firstOrNotFound()
     }
 
     override fun listAsPagingSource(

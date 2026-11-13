@@ -90,6 +90,7 @@ class BookmarkListViewModel(
             it.copy(
                 title = route.opdsPickType?.appbarTitleString?.asUiText() ?: Res.string.home.asUiText(),
                 hideBottomNavigation = route.resultDest != null,
+                showBackButton = route.resultDest != null,
             )
         }
 

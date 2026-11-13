@@ -57,11 +57,11 @@ class RunLearningUnitTestUseCase {
                 it.parentFile.mkdirs()
         }.writeText(
             buildString {
-                append("appId: world.respect.app\n")
+                append("appId: $APP_PACKAGE_ID\n")
                 append("---\n")
                 params.clickSteps.forEach { step ->
                     append("- scrollUntilVisible:\n")
-                    append("    timeout: 60000\n")
+                    append("    timeout: $SCROLL_UNTIL_VISIBLE_TIMEOUT\n")
                     append("    element: ${step.text.quote()}\n")
                     append("- tapOn: ${step.text.quote()}\n")
                 }
@@ -119,6 +119,13 @@ class RunLearningUnitTestUseCase {
 
     companion object {
 
-        const val APP_PACKAGE_ID = "world.respect.app"
+        const val APP_PACKAGE_ID = "org.openeel.app"
+
+        /**
+         * Timeout to use in generated YAML flows for the flow to scroll down to find the lesson
+         * name.
+         */
+        const val SCROLL_UNTIL_VISIBLE_TIMEOUT = 120_000
+
     }
 }

@@ -17,7 +17,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.dataloadstate.ext.firstOrNotLoaded
+import org.openeel.lib.dataloadstate.ext.firstOrNotFound
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.xapi.ext.objectActivityNameOrNull
 import org.openeel.lib.xapi.ext.objectActivityOrNull
@@ -93,7 +93,7 @@ class StatementDetailViewModel(
 
                 _uiState.update { state ->
                     state.copy(
-                        statements = loadState.map { it.statements }.firstOrNotLoaded()
+                        statements = loadState.map { it.statements }.firstOrNotFound()
                     )
                 }
             }

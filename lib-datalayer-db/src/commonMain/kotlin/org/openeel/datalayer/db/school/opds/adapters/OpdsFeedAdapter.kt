@@ -14,6 +14,7 @@ import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity.PropertyT
 import org.openeel.datalayer.db.school.opds.entities.ReadiumSubjectEntity
 import org.openeel.datalayer.school.opds.ext.requireSelfUrl
 import org.openeel.datalayer.db.shared.entities.LangMapEntity
+import org.openeel.lib.dataloadstate.ext.responseETagAndLastModified
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
@@ -39,6 +40,7 @@ fun OpdsFeed.asEntities(
     val url = requireSelfUrl()
 
     val ofeUid = uidNumberMapper(url.toString())
+    val dataLoadValidationHeaders = dataLoadMetaInfo.headers.responseETagAndLastModified()
 
     fun List<ReadiumLink>?.asEntitiesSub(
         propType: ReadiumLinkEntity.PropertyType,
@@ -90,8 +92,9 @@ fun OpdsFeed.asEntities(
             ofeUrl = url,
             ofeUrlHash = ofeUid,
             ofeLastModified = this.metadata.modified ?: Clock.System.now(),
-            ofeLastModifiedHeader = Instant.fromEpochMilliseconds(dataLoadMetaInfo.lastModified),
-            ofeEtag = dataLoadMetaInfo.etag,
+            ofeLastModifiedHeader = dataLoadValidationHeaders.lastModified ?:
+                Instant.fromEpochMilliseconds(dataLoadMetaInfo.lastModified),
+            ofeEtag = dataLoadValidationHeaders.etag ?: dataLoadMetaInfo.etag,
         ),
         feedMetaData = buildList {
             add(feedMetadata)

@@ -9,6 +9,7 @@ import org.openeel.lib.xapi.model.XapiContextActivities
 import org.openeel.lib.xapi.model.XapiObjectType
 import org.openeel.lib.xapi.model.XapiStatement
 import kotlin.time.Instant
+import kotlin.uuid.Uuid
 
 /**
  * When an xAPI agent is used in an actor field, objectType is not required. When it is the object
@@ -212,4 +213,8 @@ fun XapiStatement.copyWithObjectActivityDescription(
     return copy(
         `object` = objectActivityOrNull()?.copyWithDefinitionDescription(description) ?: this.`object`
     )
+}
+
+fun XapiStatement.requireId(): Uuid {
+    return id ?: throw IllegalStateException("XapiStatement.requireId: id was null")
 }

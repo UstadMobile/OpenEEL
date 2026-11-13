@@ -57,6 +57,7 @@ interface BuiltinPersonDirectoryResource: PersonDirectoryResource, WritableDataS
         val filterByName: String? = null,
         val filterByPersonStatus: PersonStatusEnum? = null,
         val filterByPersonRole: PersonRoleEnum? = null,
+        val excludeByPersonRole: PersonRoleEnum? = null,
         val includeRelated: Boolean = false,
         val inClassOnDay: LocalDate? = null,
     ) {
@@ -79,8 +80,10 @@ interface BuiltinPersonDirectoryResource: PersonDirectoryResource, WritableDataS
                     filterByPersonRole = stringValues[FILTER_BY_PERSON_ROLE]?.let {
                         PersonRoleEnum.fromValue(it)
                     },
+                    excludeByPersonRole = stringValues[EXCLUDE_BY_PERSON_ROLE]?.let {
+                        PersonRoleEnum.fromValue(it)
+                    },
                     includeRelated = stringValues[DataLayerParams.INCLUDE_RELATED]?.toBoolean() ?: false,
-
                 )
             }
         }
@@ -131,6 +134,8 @@ interface BuiltinPersonDirectoryResource: PersonDirectoryResource, WritableDataS
 
 
         const val FILTER_BY_PERSON_ROLE = "filterByPersonRole"
+
+        const val EXCLUDE_BY_PERSON_ROLE = "excludeByPersonRole"
 
 
     }

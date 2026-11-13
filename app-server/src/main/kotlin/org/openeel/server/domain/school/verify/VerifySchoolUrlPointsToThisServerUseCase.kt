@@ -19,7 +19,7 @@ class VerifySchoolUrlPointsToThisServerUseCase(
         val verificationCode = verificationManager.generateVerificationCode()
 
         val verificationEndpoint = Url(
-            "${schoolUrl.toString().removeSuffix("/")}/.well-known/respect-server-verify?code=$verificationCode"
+            "${schoolUrl.toString().removeSuffix("/")}/.well-known/$ENDPOINT_NAME?$PARAM_NAME_CODE=$verificationCode"
         )
 
         // Start waiting for the verification code BEFORE making the request
@@ -53,5 +53,13 @@ class VerifySchoolUrlPointsToThisServerUseCase(
                 HttpStatusCode.BadRequest
             )
         }
+    }
+
+    companion object {
+
+        const val ENDPOINT_NAME = "server-verify"
+
+        const val PARAM_NAME_CODE = "code"
+
     }
 }

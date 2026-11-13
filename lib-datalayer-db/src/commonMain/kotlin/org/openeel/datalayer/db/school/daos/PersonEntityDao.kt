@@ -57,6 +57,7 @@ interface PersonEntityDao {
         roleTeacherPermissionRequired: Long = PermissionFlags.PERSON_TEACHER_WRITE,
         roleStudentPermissionRequired: Long = PermissionFlags.PERSON_STUDENT_WRITE,
         roleParentPermissionRequired: Long = PermissionFlags.PERSON_PARENT_WRITE,
+        roleSharedDevicePermissionRequired: Long = PermissionFlags.PERSON_STUDENT_READ,
     ): LastModifiedAndPermission
 
 
@@ -117,6 +118,7 @@ interface PersonEntityDao {
         filterByName: String? = null,
         timeNow: Long = systemTimeInMillis(),
         filterByPersonRole: Int = 0,
+        excludeByPersonRole: Int = 0,
         filterByPersonStatus: Int = 0,
         includeRelated: Boolean = false,
         includeDeleted: Boolean = false,
@@ -144,6 +146,7 @@ interface PersonEntityDao {
         filterByName: String? = null,
         timeNow: Long = systemTimeInMillis(),
         filterByPersonRole: Int = 0,
+        excludeByPersonRole: Int = 0,
         filterByPersonStatus: Int = 0,
         includeRelated: Boolean = false,
         includeDeleted: Boolean = false,
@@ -175,7 +178,7 @@ interface PersonEntityDao {
           WHERE PersonEntity.pGuidHash IN (
                 SELECT DISTINCT uidNum
                   FROM AllPersons)
-          ORDER BY PersonEntity.pGivenName
+       ORDER BY PersonEntity.pGivenName
     """)
     fun listAsPagingSource(
         authenticatedPersonUidNum: Long,
@@ -187,6 +190,7 @@ interface PersonEntityDao {
         filterByName: String? = null,
         timeNow: Long = systemTimeInMillis(),
         filterByPersonRole: Int = 0,
+        excludeByPersonRole: Int = 0,
         filterByPersonStatus: Int = 0,
         includeRelated: Boolean = false,
         includeDeleted: Boolean = false,
@@ -225,6 +229,7 @@ interface PersonEntityDao {
         filterByName: String? = null,
         timeNow: Long = systemTimeInMillis(),
         filterByPersonRole: Int = 0,
+        excludeByPersonRole: Int = 0,
         filterByPersonStatus: Int = 0,
         includeRelated: Boolean = false,
         includeDeleted: Boolean = false,
@@ -332,6 +337,7 @@ interface PersonEntityDao {
              WHEN ${PersonRoleEnum.TEACHER_INT} THEN ${PermissionFlags.PERSON_TEACHER_READ}
              WHEN ${PersonRoleEnum.STUDENT_INT} THEN ${PermissionFlags.PERSON_STUDENT_READ}
              WHEN ${PersonRoleEnum.PARENT_INT} THEN ${PermissionFlags.PERSON_PARENT_READ}
+              WHEN ${PersonRoleEnum.SHARED_SCHOOL_DEVICE_INT} THEN ${PermissionFlags.PERSON_STUDENT_READ}
              ELSE ${Long.MAX_VALUE}
         """
 
@@ -435,6 +441,10 @@ interface PersonEntityDao {
                            (SELECT PersonRoleEntity.prRoleEnum
                               FROM PersonRoleEntity
                              WHERE PersonRoleEntity.prPersonGuidHash = PersonEntity.pGuidHash))
+                      AND (:excludeByPersonRole = 0 OR :excludeByPersonRole NOT IN 
+                           (SELECT PersonRoleEntity.prRoleEnum
+                              FROM PersonRoleEntity
+                             WHERE PersonRoleEntity.prPersonGuidHash = PersonEntity.pGuidHash))
                       AND (:filterByPersonStatus = 0 OR PersonEntity.pStatus = :filterByPersonStatus)
                       AND (:includeDeleted OR PersonEntity.pStatus != ${PersonStatusEnum.TO_BE_DELETED_INT})       
             ),
@@ -478,6 +488,7 @@ interface PersonEntityDao {
                           WHEN ${PersonRoleEnum.TEACHER_INT} THEN :roleTeacherPermissionRequired
                           WHEN ${PersonRoleEnum.STUDENT_INT} THEN :roleStudentPermissionRequired
                           WHEN ${PersonRoleEnum.PARENT_INT} THEN :roleParentPermissionRequired
+                          WHEN ${PersonRoleEnum.SHARED_SCHOOL_DEVICE_INT} THEN :roleSharedDevicePermissionRequired
                           ELSE ${Long.MAX_VALUE}
                         END
                  )

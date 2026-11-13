@@ -1,11 +1,9 @@
 package org.openeel.app.view.catalog.opdsfeededit
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material3.Icon
@@ -14,17 +12,15 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
-import sh.calvin.reorderable.ReorderableColumn
 import sh.calvin.reorderable.ReorderableListItemScope
 import org.openeel.lib.opds.model.OpdsGroup
+import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
 import org.openeel.shared.generated.resources.Res
-import org.openeel.shared.generated.resources.add_item
-import org.openeel.shared.generated.resources.add_link_to_collection_here
 import org.openeel.shared.generated.resources.delete
 import org.openeel.shared.generated.resources.move
 import org.openeel.shared.generated.resources.section_title
@@ -33,6 +29,7 @@ import org.openeel.shared.generated.resources.section_title
 @Composable
 fun ReorderableListItemScope.OpdsFeedGroupEditItem(
     group: OpdsGroup,
+    baseUrl: Url,
     groupIndex: Int,
     showMoveItemOption: Boolean,
     onGroupTitleChanged: (String) -> Unit,
@@ -41,7 +38,7 @@ fun ReorderableListItemScope.OpdsFeedGroupEditItem(
     onClickAddPlaylist: () -> Unit,
     onClickDeleteItem: (Int) -> Unit,
     onClickMoveItem: (Int) -> Unit,
-    onGroupItemsReordered: (fromIndex: Int, toIndex: Int) -> Unit,
+    onItemReorderSettle: (from: OpdsFeedItemIndex, toIndex: Int) -> Unit,
 ) {
     val isNavigationSection = group.navigation != null
 
@@ -88,88 +85,29 @@ fun ReorderableListItemScope.OpdsFeedGroupEditItem(
         )
 
         if (isNavigationSection) {
-            val navItems = group.navigation.orEmpty()
-
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickAddPlaylist()
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        modifier = Modifier.padding(
-                            start = (ICON_BUTTON_DEFAULT_WIDTH+8).dp,
-                            end = 8.dp,
-                        )
-                    )
-                },
-                headlineContent = {
-                    Text(text = stringResource(Res.string.add_link_to_collection_here))
-                }
-            )
-
-            ReorderableColumn(
-                list = navItems,
-                onSettle = onGroupItemsReordered,
+            NavigationItemsReorderableColumn(
+                navItems = group.navigation.orEmpty(),
+                baseUrl = baseUrl,
+                groupIndex = groupIndex,
+                showMoveItemOption = showMoveItemOption,
+                onClickAdd = onClickAddPlaylist,
+                onItemReorderSettle = onItemReorderSettle,
+                onClickDeleteItem = onClickDeleteItem,
+                onClickMoveItem = onClickMoveItem,
                 modifier = Modifier.fillMaxWidth(),
-            ) { itemIndex, navLink, _ ->
-                //Would probably be nicer to use actual identifiers where possible.
-                key(itemIndex) {
-                    ReorderableItem {
-                        OpdsFeedEditNavigationItemRow(
-                            itemIndex = itemIndex,
-                            navItem = navLink,
-                            groupIndex = groupIndex,
-                            hasMoveOption = showMoveItemOption,
-                            onClickDelete = { onClickDeleteItem(itemIndex) },
-                            onClickMove = { onClickMoveItem(itemIndex) },
-                        )
-                    }
-                }
-            }
-
-
+            )
         } else {
-            val pubItems = group.publications ?: emptyList()
-
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickAddItem()
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        modifier = Modifier.padding(
-                            start = (ICON_BUTTON_DEFAULT_WIDTH+8).dp,
-                            end = 8.dp,
-                        )
-                    )
-                },
-                headlineContent = {
-                    Text(text = stringResource(Res.string.add_item))
-                }
+            OpdsFeedEditPublicationsReorderableColumn(
+                pubItems = group.publications.orEmpty(),
+                baseUrl = baseUrl,
+                groupIndex = groupIndex,
+                onClickAddItem = onClickAddItem,
+                onItemReorderSettle = onItemReorderSettle,
+                showMoveItemOption = showMoveItemOption,
+                onClickDeleteItem = onClickDeleteItem,
+                onClickMoveItem = onClickMoveItem,
+                modifier = Modifier.fillMaxWidth()
             )
-
-            ReorderableColumn(
-                list = pubItems,
-                onSettle = onGroupItemsReordered,
-                modifier = Modifier.fillMaxWidth(),
-            ) { itemIndex, publication, _ ->
-                key(itemIndex) {
-                    ReorderableItem {
-                        PlaylistPublicationItemRow(
-                            itemIndex = itemIndex,
-                            publication = publication,
-                            groupIndex = groupIndex,
-                            hasMovableSections = showMoveItemOption,
-                            onClickDelete = { onClickDeleteItem(itemIndex) },
-                            onClickMove = { onClickMoveItem(itemIndex) },
-                        )
-                    }
-                }
-            }
         }
     }
 }

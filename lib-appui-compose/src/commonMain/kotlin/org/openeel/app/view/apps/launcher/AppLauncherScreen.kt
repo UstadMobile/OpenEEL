@@ -184,7 +184,6 @@ fun AppGridItem(
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.surfaceVariant)
                 )
             }
             Box(
@@ -235,12 +234,5 @@ fun AppGridItem(
             modifier = Modifier.align(Alignment.Start)
         )
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = "-")
-            Text(text = "-")
-        }
     }
 }

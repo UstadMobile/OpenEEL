@@ -19,7 +19,7 @@ class OpdsFeedDataSourceRepository(
 
     override fun getByUrlAsFlow(
         url: Url,
-        params: DataLoadParams
+        params: DataLoadParams,
     ): Flow<DataLoadState<OpdsFeed>> {
         return local.getByUrlAsFlow(url, params).asRepoFlow(
             dataLoadParams =  params,

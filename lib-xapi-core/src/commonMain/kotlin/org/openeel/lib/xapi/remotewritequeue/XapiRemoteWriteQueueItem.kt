@@ -1,15 +1,16 @@
 package org.openeel.lib.xapi.remotewritequeue
 
-import io.ktor.http.Parameters
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import org.openeel.lib.xapi.ext.decodeFromXapiDocument
-import org.openeel.lib.xapi.ext.isJson
-import org.openeel.lib.xapi.ext.toParametersFormUrlEncoded
-import org.openeel.lib.xapi.model.XapiDocument
-
 /**
  * Represents a piece of Xapi data that needs written to the remote datasource.
+ *
+ * @param xrqItemId the queue item id (normally auto-generated)
+ * @param resource the resource to write to
+ * @param method the HTTP method to use to write POST, PUT, or DELETE
+ * @param itemId the ID of the item to send [org.openeel.lib.xapi.model.XapiStatement.id]
+ *        for statements and the SingleDocumentParams query parameters URL-encoded for document
+ *        resources.
+ * @param keysToPost when method is POST, the json keys to post. As per the xAPI spec POST merges
+ *        json documents by top level keys.
  */
 data class XapiRemoteWriteQueueItem(
     val xrqItemId: Int = 0,

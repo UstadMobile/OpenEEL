@@ -25,7 +25,7 @@ import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.dataloadstate.ext.firstOrNotLoaded
+import org.openeel.lib.dataloadstate.ext.firstOrNotFound
 import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.Publication
@@ -65,7 +65,6 @@ import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.catalog.PublicationsSelection
 import kotlin.time.Clock
-import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 data class AssignmentEditUiState(
@@ -83,7 +82,6 @@ data class AssignmentEditUiState(
         get() = nameError != null || classError != null
 }
 
-@OptIn(ExperimentalUuidApi::class)
 class AssignmentEditViewModel(
     savedStateHandle: SavedStateHandle,
     private val accountManager: AppAccountManager,
@@ -163,7 +161,7 @@ class AssignmentEditViewModel(
                             result.statements.mostRecentByTimestampOrNull()?.let {
                                 listOf(it)
                             } ?: emptyList()
-                        }.firstOrNotLoaded()
+                        }.firstOrNotFound()
                     },
                     uiUpdateFn = { entity ->
                         _uiState.update { prev ->

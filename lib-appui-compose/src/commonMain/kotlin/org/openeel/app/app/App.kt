@@ -164,7 +164,7 @@ fun App(
     val accountManager: AppAccountManager = koinInject()
     val biometricAuthUseCase : BiometricAuthUseCase = koinInject()
     val activeAccount by accountManager.selectedAccountAndPersonFlow.collectAsState(null)
-    val topLevelNavItems = if (activeAccount?.isChild == true) {
+    val topLevelNavItems = if (activeAccount?.isSimplifiedChildMode == true) {
         APP_TOP_LEVEL_NAV_ITEMS_FOR_CHILD
     } else {
         APP_TOP_LEVEL_NAV_ITEMS
@@ -212,9 +212,9 @@ fun App(
                             navController = navController,
                             topLevelItems = topLevelNavItems,
                             onProfileClick = {
-                                if (activeAccount?.isChild == false) {
+                                if (activeAccount?.session?.isParentInitiatedChildSession == false) {
                                     navController.navigate(AccountList)
-                                }else {
+                                } else {
                                     coroutineScope.launch {
                                         val result = biometricAuthUseCase(
                                             BiometricAuthUseCase.BiometricPromptData(

@@ -25,7 +25,8 @@ class CheckPersonPermissionUseCaseDbImpl(
             roleAdminPermissionRequired = permissionsRequiredByRole.roleAdminPermissionRequired,
             roleTeacherPermissionRequired = permissionsRequiredByRole.roleTeacherPermissionRequired,
             roleParentPermissionRequired = permissionsRequiredByRole.roleParentPermissionRequired,
-            roleStudentPermissionRequired = permissionsRequiredByRole.roleStudentPermissionRequired
+            roleStudentPermissionRequired = permissionsRequiredByRole.roleStudentPermissionRequired,
+            roleSharedDevicePermissionRequired =  permissionsRequiredByRole.roleSharedDevicePermissionRequired
         ).hasPermission
     }
 }

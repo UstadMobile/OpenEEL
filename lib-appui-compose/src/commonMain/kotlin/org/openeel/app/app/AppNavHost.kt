@@ -9,6 +9,9 @@ import androidx.navigation.compose.composable
 import org.openeel.app.view.acknowledgement.AcknowledgementScreen
 import org.openeel.app.view.apps.detail.AppsDetailScreen
 import org.openeel.app.view.apps.enterlink.EnterLinkScreen
+import org.openeel.app.view.manageuser.learningspace.EnterHostLinkScreen
+import org.openeel.shared.navigation.EnterHostLink
+import org.openeel.shared.viewmodel.manageuser.learningspace.EnterHostLinkViewModel
 import org.openeel.app.view.apps.list.AppListScreen
 import org.openeel.app.view.assignment.detail.AssignmentDetailScreen
 import org.openeel.app.view.assignment.edit.AssignmentEditScreen
@@ -22,6 +25,7 @@ import org.openeel.app.view.enrollment.list.EnrollmentListScreen
 import org.openeel.app.view.home.HomeScreen
 import org.openeel.app.view.catalog.publicationdetail.PublicationDetailScreen
 import org.openeel.app.view.catalog.opdsfeeddetail.OpdsFeedDetailScreen
+import org.openeel.app.view.catalog.opdssearch.OpdsSearchScreen
 import org.openeel.app.view.manageuser.accountlist.AccountListScreen
 import org.openeel.app.view.manageuser.acceptinvite.AcceptInviteScreen
 import org.openeel.app.view.manageuser.createaccount.CreateAccountScreen
@@ -30,7 +34,7 @@ import org.openeel.app.view.manageuser.getstarted.GetStartedScreen
 import org.openeel.app.view.manageuser.howpasskeywork.HowPasskeyWorksScreen
 import org.openeel.app.view.manageuser.enterinvitecode.EnterInviteCodeScreen
 import org.openeel.app.view.manageuser.login.LoginScreen
-import org.openeel.app.view.manageuser.otheroption.OtherOptionsScreen
+import org.openeel.app.view.manageuser.learningspace.ConnectToExistingLearningSpaceScreen
 import org.openeel.app.view.manageuser.otheroptionsignup.OtherOptionsSignupScreen
 import org.openeel.app.view.manageuser.sharefeedback.ShareFeedbackScreen
 import org.openeel.app.view.manageuser.signup.SignupScreen
@@ -51,7 +55,8 @@ import org.openeel.app.view.person.setusernameandpassword.CreateAccountSetUserna
 import org.openeel.app.view.catalog.opdsfeededitaddlink.OpdsFeedEditAddLinkScreen
 import org.openeel.app.view.catalog.opdsfeededit.OpdsFeedEditScreen
 import org.openeel.app.view.catalog.opdsfeedlist.OpdsFeedListScreen
-import org.openeel.app.view.catalog.opdsfeedshare.PlaylistShareScreen
+import org.openeel.app.view.catalog.opdsfeedlistpinusinglink.OpdsFeedListPinUsingLinkScreen
+import org.openeel.app.view.manageuser.learningspace.CreateNewLearningSpaceScreen
 import org.openeel.app.view.report.detail.ReportDetailScreen
 import org.openeel.app.view.report.edit.ReportEditScreen
 import org.openeel.app.view.report.filteredit.ReportFilterEditScreen
@@ -68,6 +73,11 @@ import org.openeel.app.view.statement.detail.RawStatementScreen
 import org.openeel.app.view.statement.detail.StatementDetailScreen
 import org.openeel.app.view.statement.list.StatementListScreen
 import org.openeel.app.viewmodel.openEelViewModel
+import org.openeel.app.view.settings.school.SchoolSettingsScreen
+import org.openeel.app.view.settings.sharedschooldevices.SharedDevicesSettingsScreen
+import org.openeel.app.view.sharedschooldevice.TeacherPinConfirmationScreen
+import org.openeel.app.view.sharedschooldevice.login.LoginSelectClassScreen
+import org.openeel.app.view.sharedschooldevice.login.LoginSelectStudentScreen
 import org.openeel.shared.navigation.AccountList
 import org.openeel.shared.navigation.Acknowledgement
 import org.openeel.shared.navigation.AppsDetail
@@ -80,10 +90,12 @@ import org.openeel.shared.navigation.ClazzEdit
 import org.openeel.shared.navigation.ClazzList
 import org.openeel.shared.navigation.AcceptInvite
 import org.openeel.shared.navigation.BookmarkList
+import org.openeel.shared.navigation.ConnectToExistingLearningSpace
 import org.openeel.shared.navigation.CopyCode
 import org.openeel.shared.navigation.CreateAccount
 import org.openeel.shared.navigation.CreateAccountSetPassword
 import org.openeel.shared.navigation.CreateAccountSetUsername
+import org.openeel.shared.navigation.CreateNewLearningSpace
 import org.openeel.shared.navigation.EnrollmentEdit
 import org.openeel.shared.navigation.EnrollmentList
 import org.openeel.shared.navigation.EnterLink
@@ -95,22 +107,22 @@ import org.openeel.shared.navigation.IndicatorList
 import org.openeel.shared.navigation.IndictorEdit
 import org.openeel.shared.navigation.InvitePerson
 import org.openeel.shared.navigation.EnterInviteCode
-import org.openeel.shared.navigation.ExternalLinkEdit
+import org.openeel.shared.navigation.OpdsFeedEditAddLink
 import org.openeel.shared.navigation.Home
 import org.openeel.shared.navigation.PublicationDetail
 import org.openeel.shared.navigation.OpdsFeedDetail
+import org.openeel.shared.navigation.OpdsSearch
 import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.ManageAccount
 import org.openeel.shared.navigation.Onboarding
-import org.openeel.shared.navigation.OtherOption
 import org.openeel.shared.navigation.OtherOptionsSignup
 import org.openeel.shared.navigation.PasskeyList
 import org.openeel.shared.navigation.PersonDetail
 import org.openeel.shared.navigation.PersonEdit
 import org.openeel.shared.navigation.PersonList
 import org.openeel.shared.navigation.OpdsFeedEdit
-import org.openeel.shared.navigation.PlaylistList
-import org.openeel.shared.navigation.PlaylistShare
+import org.openeel.shared.navigation.OpdsFeedListPinUsingLink
+import org.openeel.shared.navigation.OpdsFeedList
 import org.openeel.shared.navigation.QrCode
 import org.openeel.shared.navigation.RawStatement
 import org.openeel.shared.navigation.Report
@@ -124,11 +136,16 @@ import org.openeel.shared.navigation.OpenEelComposeNavController
 import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.navigation.SchoolDirectoryEdit
 import org.openeel.shared.navigation.SchoolDirectoryList
+import org.openeel.shared.navigation.SchoolSettings
 import org.openeel.shared.navigation.Settings
 import org.openeel.shared.navigation.ShareFeedback
 import org.openeel.shared.navigation.SignupScreen
+import org.openeel.shared.navigation.LoginSelectClass
+import org.openeel.shared.navigation.SharedDevicesSettings
 import org.openeel.shared.navigation.StatementDetail
 import org.openeel.shared.navigation.StatementList
+import org.openeel.shared.navigation.LoginSelectStudent
+import org.openeel.shared.navigation.TeacherPinConfirmation
 import org.openeel.shared.navigation.TermsAndCondition
 import org.openeel.shared.navigation.WaitingForApproval
 import org.openeel.shared.viewmodel.acknowledgement.AcknowledgementViewModel
@@ -148,7 +165,8 @@ import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
 import org.openeel.shared.viewmodel.manageuser.howpasskeywork.HowPasskeyWorksViewModel
 import org.openeel.shared.viewmodel.manageuser.enterinvitecode.EnterInviteCodeViewModel
 import org.openeel.shared.viewmodel.manageuser.login.LoginViewModel
-import org.openeel.shared.viewmodel.manageuser.otheroption.OtherOptionsViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceViewModel
+import org.openeel.shared.viewmodel.manageuser.learningspace.CreateNewLearningSpaceViewModel
 import org.openeel.shared.viewmodel.manageuser.otheroptionsignup.OtherOptionsSignupViewModel
 import org.openeel.shared.viewmodel.manageuser.profile.SignupViewModel
 import org.openeel.shared.viewmodel.manageuser.signup.CreateAccountViewModel
@@ -165,7 +183,7 @@ import org.openeel.shared.viewmodel.report.list.ReportListViewModel
 import org.openeel.shared.viewmodel.report.list.ReportTemplateListViewModel
 import org.openeel.shared.viewmodel.schooldirectory.edit.SchoolDirectoryEditViewModel
 import org.openeel.shared.viewmodel.schooldirectory.list.SchoolDirectoryListViewModel
-import org.openeel.shared.viewmodel.settings.SettingsViewModel
+import org.openeel.shared.viewmodel.settings.main.SettingsViewModel
 
 @Composable
 fun AppNavHost(
@@ -425,6 +443,14 @@ fun AppNavHost(
             EnterLinkScreen(viewModel = viewModel)
         }
 
+        composable<EnterHostLink> {
+            val viewModel: EnterHostLinkViewModel = openEelViewModel(
+                onSetAppUiState = onSetAppUiState,
+                navController = respectNavController,
+            )
+            EnterHostLinkScreen(viewModel = viewModel)
+        }
+
         composable<GetStartedScreen> {
             val viewModel: GetStartedViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
@@ -433,16 +459,36 @@ fun AppNavHost(
             GetStartedScreen(viewModel = viewModel)
         }
 
-        composable<OtherOption> {
-            val viewModel: OtherOptionsViewModel = openEelViewModel(
+
+
+        composable<ConnectToExistingLearningSpace> {
+            val viewModel: ConnectToExistingLearningSpaceViewModel = openEelViewModel(
                 onSetAppUiState = onSetAppUiState,
                 navController = respectNavController
             )
-            OtherOptionsScreen(viewModel = viewModel)
+            ConnectToExistingLearningSpaceScreen(viewModel = viewModel)
         }
+
+        composable<CreateNewLearningSpace> {
+            val viewModel: CreateNewLearningSpaceViewModel = openEelViewModel(
+                onSetAppUiState = onSetAppUiState,
+                navController = respectNavController
+            )
+            CreateNewLearningSpaceScreen(viewModel = viewModel)
+        }
+
 
         composable<OpdsFeedDetail> {
             OpdsFeedDetailScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController
+                )
+            )
+        }
+
+        composable<OpdsSearch> {
+            OpdsSearchScreen(
                 viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
                     navController = respectNavController
@@ -594,7 +640,7 @@ fun AppNavHost(
             )
         }
 
-        composable<PlaylistList> {
+        composable<OpdsFeedList> {
             OpdsFeedListScreen(
                 viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
@@ -602,6 +648,16 @@ fun AppNavHost(
                 )
             )
         }
+
+        composable<OpdsFeedListPinUsingLink> {
+            OpdsFeedListPinUsingLinkScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
+
         composable<OpdsFeedEdit> {
             OpdsFeedEditScreen(
                 viewModel = openEelViewModel(
@@ -610,15 +666,8 @@ fun AppNavHost(
                 )
             )
         }
-        composable<PlaylistShare> {
-            PlaylistShareScreen(
-                viewModel = openEelViewModel(
-                    onSetAppUiState = onSetAppUiState,
-                    navController = respectNavController,
-                )
-            )
-        }
-        composable<ExternalLinkEdit> {
+
+        composable<OpdsFeedEditAddLink> {
             OpdsFeedEditAddLinkScreen(
                 viewModel = openEelViewModel(
                     onSetAppUiState = onSetAppUiState,
@@ -626,6 +675,41 @@ fun AppNavHost(
                 )
             )
         }
+        composable<SchoolSettings> {
+            SchoolSettingsScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
+
+        composable<SharedDevicesSettings> {
+            SharedDevicesSettingsScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
+
+        composable<LoginSelectClass> {
+            LoginSelectClassScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
+        composable<TeacherPinConfirmation> {
+            TeacherPinConfirmationScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
+
 
         composable<SchoolDirectoryList> {
             val viewModel: SchoolDirectoryListViewModel = openEelViewModel(
@@ -697,5 +781,14 @@ fun AppNavHost(
             )
         }
 
+
+        composable<LoginSelectStudent> {
+            LoginSelectStudentScreen(
+                viewModel = openEelViewModel(
+                    onSetAppUiState = onSetAppUiState,
+                    navController = respectNavController,
+                )
+            )
+        }
     }
 }

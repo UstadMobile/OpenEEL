@@ -41,6 +41,9 @@ class AddDefaultSchoolPermissionGrantsUseCase(
                 PersonRoleEnum.PARENT.newInitialGrant(
                     PermissionFlags.PARENT_DEFAULT_SCHOOL_PERMISSIONS
                 ),
+                PersonRoleEnum.SHARED_SCHOOL_DEVICE.newInitialGrant(
+                    PermissionFlags.SHARED_DEVICE_DEFAULT_SCHOOL_PERMISSIONS
+                ),
             ).map {
                 it.toEntity(uidNumberMapper)
             }

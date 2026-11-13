@@ -30,12 +30,13 @@ import org.openeel.lib.directory.model.Person
 import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_account
+import org.openeel.shared.generated.resources.app_name
 import org.openeel.shared.generated.resources.developed_by
 import org.openeel.shared.generated.resources.family_members
 import org.openeel.shared.generated.resources.license_text
 import org.openeel.shared.generated.resources.logout
 import org.openeel.shared.generated.resources.profile
-import org.openeel.shared.generated.resources.respect_is_open_source
+import org.openeel.shared.generated.resources.app_is_open_source
 import org.openeel.shared.generated.resources.supported_by_spix_foundation
 import org.openeel.shared.generated.resources.send_feedback
 import org.openeel.shared.viewmodel.manageuser.accountlist.AccountListUiState
@@ -97,7 +98,7 @@ fun AccountListScreen(
             }
         }
 
-        if (!familyPersons.isEmpty()) {
+        if (familyPersons.isNotEmpty()) {
             item("family_member_header") {
                 Text(
                     modifier = Modifier.defaultItemPadding(),
@@ -130,7 +131,7 @@ fun AccountListScreen(
         }
 
         items(
-            items = uiState.accounts,
+            items = uiState.visibleAccounts,
             key = { it.session.account.userGuid }
         ) { account ->
             AccountListItem(
@@ -143,41 +144,45 @@ fun AccountListScreen(
             HorizontalDivider()
         }
 
-        item("add_account") {
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickAddAccount()
-                },
-                headlineContent = {
-                    Text(stringResource(Res.string.add_account))
-                },
-                leadingContent = {
-                    Icon(Icons.Default.Add, contentDescription = "")
-                }
-            )
-        }
-        item("divider3") {
-            HorizontalDivider()
-        }
-        item {
-            ListItem(
-                modifier = Modifier.clickable {
-                    onClickShareFeedback()
-                },
-                headlineContent = {
-                    Text(
-                        stringResource(
-                            Res.string.send_feedback
+        if(uiState.showAddAccountButton) {
+            item("add_account") {
+                ListItem(
+                    modifier = Modifier.clickable {
+                        onClickAddAccount()
+                    },
+                    headlineContent = {
+                        Text(stringResource(Res.string.add_account))
+                    },
+                    leadingContent = {
+                        Icon(Icons.Default.Add, contentDescription = "")
+                    }
+                )
+            }
+
+            item("divider3") {
+                HorizontalDivider()
+            }
+
+            item("share_feedback") {
+                ListItem(
+                    modifier = Modifier.clickable {
+                        onClickShareFeedback()
+                    },
+                    headlineContent = {
+                        Text(
+                            stringResource(
+                                Res.string.send_feedback
+                            )
                         )
-                    )
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.ChatBubbleOutline,
-                        contentDescription = stringResource(Res.string.send_feedback)
-                    )
-                }
-            )
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.ChatBubbleOutline,
+                            contentDescription = stringResource(Res.string.send_feedback)
+                        )
+                    }
+                )
+            }
         }
 
         item("version_info") {
@@ -193,8 +198,13 @@ fun AccountListScreen(
                 supportingContent = {
                     Column {
                         Text(stringResource(Res.string.supported_by_spix_foundation))
-                        Text(stringResource(Res.string.respect_is_open_source))
-                        Text(stringResource(Res.string.license_text))
+                        Text(stringResource(
+                            resource = Res.string.app_is_open_source,
+                            stringResource(Res.string.app_name))
+                        )
+                        Text(
+                            stringResource(Res.string.license_text, stringResource(Res.string.app_name))
+                        )
                     }
                 }
             )

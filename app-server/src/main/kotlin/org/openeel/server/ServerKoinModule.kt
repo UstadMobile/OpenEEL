@@ -33,6 +33,7 @@ import org.openeel.datalayer.db.addCommonMigrations
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
 import org.openeel.datalayer.db.school.domain.GetPermissionLastModifiedUseCaseDbImpl
+import org.openeel.datalayer.db.school.xapi.XapiResourceDb
 import org.openeel.datalayer.db.schooldirectory.SchoolDirectoryResourceDb
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
@@ -40,6 +41,11 @@ import org.openeel.datalayer.school.domain.GetPermissionLastModifiedUseCase
 import org.openeel.datalayer.schooldirectory.SchoolDirectoryResourceLocal
 import org.openeel.datalayer.shared.XXHashUidNumberMapper
 import org.openeel.lib.primarykeygen.PrimaryKeyGenerator
+import org.openeel.lib.xapi.model.XapiAccount
+import org.openeel.lib.xapi.model.XapiAgent
+import org.openeel.lib.xapi.permissionmanager.XapiResourcePermissionManager
+import org.openeel.lib.xapi.permissionmanager.policy.XapiPolicy
+import org.openeel.lib.xapi.resources.XapiResource
 import org.openeel.libutil.ext.sanitizedForFilename
 import org.openeel.libxxhash.XXStringHasher
 import org.openeel.libxxhash.jvmimpl.XXStringHasherCommonJvm
@@ -58,6 +64,7 @@ import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitManifestU
 import org.openeel.server.domain.school.demoapp.MakeDemoAppManifestUseCase
 import org.openeel.server.domain.school.demoapp.MakeDemoAppLearningUnitTinCanXmlUseCase
 import org.openeel.server.domain.school.verify.VerifySchoolUrlPointsToThisServerUseCase
+import org.openeel.server.domain.school.xapipolicy.ServerAppXapiPolicy
 import org.openeel.server.util.SchoolUrlVerificationManager
 import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.domain.account.authenticatepassword.AuthenticatePasswordUseCase
@@ -99,7 +106,7 @@ import org.openeel.sharedse.domain.account.authenticatepassword.AuthenticateQrBa
 import java.io.File
 
 const val APP_DB_FILENAME = "respect-app.db"
-const val CUSTOM_PROTO = "world.respect.app"
+const val CUSTOM_PROTO = "org.openeel.app"
 
 fun serverKoinModule(
     config: ApplicationConfig,
@@ -435,7 +442,7 @@ fun serverKoinModule(
             val accountScopeId = UserAccountScopeId.parse(id)
 
             CheckPersonPermissionUseCaseDbImpl(
-                authenticatedUser = accountScopeId.accountPrincipalId,
+                authenticatedUser = requireNotNull(accountScopeId.accountPrincipalId),
                 schoolDb = get(),
                 uidNumberMapper = get(),
             )
@@ -460,13 +467,49 @@ fun serverKoinModule(
             get<SchoolDataSourceLocal>()
         }
 
+        factory<XapiPolicy> {
+            ServerAppXapiPolicy(
+                authenticatedUser = UserAccountScopeId.parse(id).accountPrincipalId,
+                uidNumberMapper = get(),
+                schoolDb = get(),
+            )
+        }
+
+        factory<XapiResource> {
+            val accountScopeId = UserAccountScopeId.parse(id)
+
+            XapiResourcePermissionManager(
+                resource = XapiResourceDb(
+                    schoolDb = get(),
+                    uidNumberMapper = get(),
+                    json = get(),
+                    authenticatedUser = accountScopeId.accountPrincipalId,
+                    schoolUrl = accountScopeId.schoolUrl,
+                    getAuthenticatedXapiAgentsUseCase = {
+                        accountScopeId.accountPrincipalId?.let {
+                            listOf(
+                                XapiAgent(
+                                    name = it.guid,
+                                    account = XapiAccount(
+                                        homePage = accountScopeId.schoolUrl.toString(),
+                                        name = it.guid,
+                                    )
+                                )
+                            )
+                        }.orEmpty()
+                    }
+                ),
+                policy = get(),
+            )
+        }
+
         factory<GetPermissionLastModifiedUseCase> {
             val accountScopeId = UserAccountScopeId.parse(id)
 
             GetPermissionLastModifiedUseCaseDbImpl(
                 schoolDb = get(),
                 numberMapper = get(),
-                authenticatedUser = accountScopeId.accountPrincipalId,
+                authenticatedUser = requireNotNull(accountScopeId.accountPrincipalId),
             )
         }
 
@@ -475,7 +518,7 @@ fun serverKoinModule(
 
             AddChildAccountUseCaseDb(
                 schoolPrimaryKeyGenerator = get(),
-                authenticatedUser = accountScopeId.accountPrincipalId,
+                authenticatedUser = requireNotNull(accountScopeId.accountPrincipalId),
                 schoolDataSource = get(),
             )
         }
@@ -485,7 +528,7 @@ fun serverKoinModule(
 
             UpdateClazzStudentXapiGroupUseCase(
                 schoolDataSource = get(),
-                authenticatedUserPrincipalId = accountScopeId.accountPrincipalId,
+                authenticatedUserPrincipalId = requireNotNull(accountScopeId.accountPrincipalId),
                 schoolUrl = accountScopeId.schoolUrl,
             )
         }

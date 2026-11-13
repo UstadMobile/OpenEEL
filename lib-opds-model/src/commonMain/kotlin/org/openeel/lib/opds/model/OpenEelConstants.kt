@@ -6,4 +6,6 @@ object OpenEelConstants {
 
     const val REL_ANDROID_APP_STORE = "https://id.openeel.org/rel/appstore-android"
 
+    const val TYPE_LAUNCHABLE_APP = "https://id.openeel.org/schema/launchable-app"
+
 }

@@ -9,7 +9,7 @@ appId: org.openeel.app
 - tapOn: "Get Started"
 
 - runFlow:
-      file: "get_started_select_school_by_name.yaml"
+      file: "get_started_select_school_by_link.yaml"
       env:
           SCHOOL_NAME: ${SCHOOL_NAME}
 

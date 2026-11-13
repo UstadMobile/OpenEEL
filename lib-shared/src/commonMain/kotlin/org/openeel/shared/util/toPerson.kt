@@ -15,7 +15,7 @@ fun RedeemInviteRequest.PersonInfo.toPerson(
         guid =  guid,
         status = PersonStatusEnum.PENDING_APPROVAL,
         givenName = name.substringBeforeLast(" "),
-        familyName = name.substringAfterLast(" "),
+        familyName = name.substringAfterLast(" ", missingDelimiterValue = ""),
         username = username,
         gender = gender,
         roles = listOf(

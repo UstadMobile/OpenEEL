@@ -88,6 +88,7 @@ The following environment variables can be set:
 
 ```
 DEFAULT_APPLIST - the default list of launchable app manifest URLs e.g. https://respect.world/respect-ds/manifestlist.json
+DEFAULT_HOSTLIST - the JSON URL loaded online for learning space hosts; the host list is not stored in the database
 ```
 
 ## Publishing

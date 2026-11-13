@@ -1,23 +1,38 @@
 package org.openeel.app.view.manageuser.acceptinvite
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.OpenEelDetailField
 import org.openeel.app.components.defaultItemPadding
@@ -27,11 +42,20 @@ import org.openeel.datalayer.school.model.ClassInvite
 import org.openeel.datalayer.school.model.NewUserInvite
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.class_name
+import org.openeel.shared.generated.resources.device_name
+import org.openeel.shared.generated.resources.enable
+import org.openeel.shared.generated.resources.image_shared_device
 import org.openeel.shared.generated.resources.loading
 import org.openeel.shared.generated.resources.next
+import org.openeel.shared.generated.resources.required_field
 import org.openeel.shared.generated.resources.role
 import org.openeel.shared.generated.resources.school_name
 import org.openeel.shared.generated.resources.school_server_url
+import org.openeel.shared.generated.resources.shared_device
+import org.openeel.shared.generated.resources.shared_device_description_1
+import org.openeel.shared.generated.resources.shared_device_description_2
+import org.openeel.shared.generated.resources.shared_device_description_3
+import org.openeel.shared.generated.resources.undraw_sync_pe2t_1
 import org.openeel.shared.util.ext.isLoading
 import org.openeel.shared.util.ext.label
 import org.openeel.shared.util.ext.roleLabel
@@ -46,11 +70,19 @@ fun AcceptInviteScreen(
     val uiState by viewModel.uiState.collectAsState()
     val appUiState by viewModel.appUiState.collectAsState()
 
-    AcceptInviteScreen(
-        uiState = uiState,
-        appUiState = appUiState,
-        onClickNext = viewModel::onClickNext
-    )
+    if (!uiState.isSharedDeviceMode) {
+        AcceptInviteScreen(
+            uiState = uiState,
+            appUiState = appUiState,
+            onClickNext = viewModel::onClickNext
+        )
+    } else {
+        SharedSchoolDeviceEnableScreenContent(
+            uiState = uiState,
+            onDeviceNameChange = viewModel::onUpdateDeviceName,
+            onEnableSharedDeviceMode = viewModel::enableSharedDeviceMode,
+        )
+    }
 }
 
 @Composable
@@ -147,9 +179,6 @@ fun AcceptInviteScreen(
                 }
             }
         }
-
-
-
     }
-
 }
+
