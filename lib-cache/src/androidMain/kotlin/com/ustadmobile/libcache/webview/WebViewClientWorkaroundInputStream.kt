@@ -12,30 +12,28 @@ private fun Map<String, String>.getCaseInsensitive(
 }
 
 /**
- *
- *
+ * FilterInputStream that works around issues in [android.webkit.WebViewClient.shouldInterceptRequest]
+ * used together with [WebResourceResponseWorkaround].
  *
  * Wraps an InputStream so that available() reports the number of bytes remaining according to the
- * known content length. Android's WebView (e.g. for media playback) can rely on available().
- *
- * See: https://issues.chromium.org/issues/40739128#comment24
- *  if the cache does not have it, then can return shouldIntercept=false.
- *
- * https://issuetracker.google.com/issues/283693355?pli=1
- *
- * See also: https://github.com/tauri-apps/wry/issues/1864
- *
- * https://github.com/apache/cordova-android/issues/1494#issuecomment-2982796417
+ * known total content length. Android's WebView (e.g. for media playback) can rely on available().
  *
  * If contentLength is negative (unknown), available() delegates to the wrapped stream.
  */
 class WebViewClientWorkaroundInputStream(
     inputStream: InputStream,
-    private val headers: Map<String, String>,
+    headers: Map<String, String>,
     private val statusCode: Int,
 ): FilterInputStream(inputStream) {
 
+    /**
+     * Content-Length needs to be based on the full length of the resource.
+     */
     private val contentLength = if(statusCode == 206) {
+        /*
+         * When serving a partial response, we need to use the content range header, which comes in
+         * the form of "Content-Range: from-to/total"
+         */
         headers.getCaseInsensitive("Content-Range")?.substringAfterLast("Content-Range")
             ?.substringAfterLast("/")?.toLong() ?: -1
     }else {
@@ -54,7 +52,6 @@ class WebViewClientWorkaroundInputStream(
 
     override fun read(): Int {
         return super.read().also {
-            //logPartial(LOGTAG, "read")
             if(it != -1)
                 bytesReadOrSkipped++
         }
@@ -62,7 +59,6 @@ class WebViewClientWorkaroundInputStream(
 
     override fun read(b: ByteArray): Int {
         return read(b, 0, b.size).also {
-            logPartial(LOGTAG, "read $it bytes")
             if(it > 0)
                 bytesReadOrSkipped += it
         }
@@ -70,7 +66,6 @@ class WebViewClientWorkaroundInputStream(
 
     override fun read(b: ByteArray, off: Int, len: Int): Int {
         return super.read(b, off, len).also {
-            logPartial(LOGTAG, "read $it bytes")
             if(it > 0)
                 bytesReadOrSkipped += it
         }
