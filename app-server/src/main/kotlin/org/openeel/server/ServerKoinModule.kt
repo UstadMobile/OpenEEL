@@ -94,7 +94,7 @@ import org.openeel.shared.domain.account.validateauth.ValidateAuthorizationUseCa
 import org.openeel.shared.domain.account.validateauth.ValidateAuthorizationUseCaseDbImpl
 import org.openeel.shared.domain.createlink.CreateInviteLinkUseCase
 import org.openeel.shared.domain.enrollments.UpdateClazzStudentXapiGroupUseCase
-import org.openeel.shared.domain.navigation.deeplink.UrlToCustomDeepLinkUseCase
+import org.openeel.shared.domain.navigation.deeplink.CreateAndroidIntentUriUseCase
 import org.openeel.shared.domain.school.SchoolPath
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator
 import org.openeel.shared.domain.school.add.RegisterSchoolUseCase
@@ -105,7 +105,6 @@ import org.openeel.sharedse.domain.account.authenticatepassword.AuthenticateQrBa
 import java.io.File
 
 const val APP_DB_FILENAME = "respect-app.db"
-const val CUSTOM_PROTO = "org.openeel.app"
 
 fun serverKoinModule(
     config: ApplicationConfig,
@@ -211,8 +210,8 @@ fun serverKoinModule(
     single<DecodeUserHandleUseCase> {
         DecodeUserHandleUseCaseImpl()
     }
-    single<UrlToCustomDeepLinkUseCase> {
-        UrlToCustomDeepLinkUseCase(customProtocol = CUSTOM_PROTO)
+    single<CreateAndroidIntentUriUseCase> {
+        CreateAndroidIntentUriUseCase()
     }
     single<LoadAaguidJsonUseCase> {
         LoadAaguidJsonUseCaseJvm(
