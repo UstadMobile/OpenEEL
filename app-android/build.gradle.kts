@@ -36,6 +36,9 @@ val ACRA_PROP_NAMES = listOf("uri", "basicAuthLogin", "basicAuthPassword")
 // The applist list - see main README
 val defaultAppList = System.getenv("DEFAULT_APPLIST") ?: "https://respect.directory/respect-ds/base.json"
 
+// The list of learning space hosts - see main README
+val defaultHostList = System.getenv("DEFAULT_HOSTLIST")
+    ?: "http://10.0.2.2:8098/static-resources/hosts.json"
 // The IP address country lookup server endpoint
 val geolocationApiEndpoint = System.getenv("GEOLOCATION_API_ENDPOINT") ?: "https://geoip.ustadmobile.com/"
 
@@ -90,6 +93,11 @@ android {
             type = "String",
             name = "DEFAULT_APP_LIST",
             value = "\"$defaultAppList\""
+        )
+        buildConfigField(
+            type = "String",
+            name = "DEFAULT_HOST_LIST",
+            value = "\"$defaultHostList\""
         )
         buildConfigField(
             type = "String",

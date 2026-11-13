@@ -207,7 +207,7 @@ fun Route.SchoolRegistrationRoute() {
                             name = RegisterSchoolUseCase.PARAM_NAME_REDIRECT
                         ) {
                             value = call.request.queryParameters["redirect"]
-                                ?: "world.respect.app://school-registered"
+                                ?: "org.openeel.app://school-registered"
                         }
 
                         button(type = ButtonType.submit, classes = "submit-btn") {

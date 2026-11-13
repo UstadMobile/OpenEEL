@@ -10,7 +10,7 @@ onFlowStart:
         SCHOOL_URL: ${SCHOOL_URL}
         NO_SCHOOL_CREATION: "true"
         URL_SUBSTITUTION: ${URL_SUBSTITUTION}
-        NAME: "001_005_add_school_self_registration_test"
+        NAME: "001_005_add_school_self_registration_using_link_test"
 
 onFlowComplete:
   - runFlow:
@@ -22,30 +22,31 @@ onFlowComplete:
 - launchApp:
     arguments:
       respect_directory: ${output.SCHOOL_URL}
-
 - tapOn: "Get Started"
-
-- tapOn:
-    id: "school_name"
-- inputText: "test"
-- tapOn:
-    text: "Add my school"
-    index: 1
 - assertVisible:
     id: "app_title"
-    text: "Select Host"
-- tapOn:
-    text: ${output.SCHOOL_URL}
+    text: "Let's get started"
+- tapOn: "Create new learning space"
+- assertVisible:
+    id: "app_title"
+    text: "Select where your data will be stored"
+- tapOn: "Enter link manually"
+- assertVisible:
+       id: "app_title"
+       text: "Registration URL"
+- assertVisible: "Use the link provided by the administrator of the server you want to use to create your new leaning space. This will only be available if the administrator has enabled it."
+- tapOn: "Registration url:"
+- inputText: ${output.SCHOOL_URL}
+- tapOn: "Next"
 - runFlow:
     when:
       notVisible: "Register New School"
     file: "subflows/chrome-first-run-check.yaml"
 - assertVisible: "Register New School"
-- tapOn:
-    id: "schoolName"
+# Tap the field labels: some Chrome versions (e.g. on CI) do not expose the HTML input id
+- tapOn: "School Name:"
 - inputText: "TestSchool"
-- tapOn:
-    id: "schoolUrl"
+- tapOn: "School URL:"
 - inputText: ${output.SCHOOL_URL}
 - tapOn: "Next"
 - assertVisible:
@@ -53,8 +54,6 @@ onFlowComplete:
     text: "Invitation"
 - assertVisible: "Role"
 - assertVisible: "System administrator"
-- assertVisible: "School name"
-- assertVisible: "TestSchool"
 - assertVisible: "School server URL"
 - assertVisible: ${output.SCHOOL_URL}
 - tapOn: "Next"
@@ -86,7 +85,7 @@ onFlowComplete:
 - tapOn: "Sign-up"
 - assertVisible:
     id: "app_title"
-    text: "Apps"
+    text: "Home"
 - tapOn:
     id: "user_account_icon"
 - assertVisible: "Profile"
@@ -94,9 +93,9 @@ onFlowComplete:
 - assertVisible: ${output.SCHOOL_URL}
 - tapOn: "Logout"
 - runFlow:
-    file: "subflows/get_started_select_school_by_name.yaml"
+    file: "subflows/get_started_select_school_by_link.yaml"
     env:
-      SCHOOL_NAME: "TestSchool"
+      SCHOOL_URL: ${output.SCHOOL_URL}
 - tapOn:
     id: "username"
 - inputText: "admin"
@@ -108,4 +107,6 @@ onFlowComplete:
     when:
       visible: "Save password for Respect?"
     file: "subflows/save_password_prompt_cancel.yaml"
-- assertVisible: "Apps"
+- assertVisible:
+       id: "app_title"
+       text: "Home"
