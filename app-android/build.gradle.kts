@@ -56,6 +56,7 @@ kotlin {
         implementation(projects.libSharedSe)
         implementation(projects.libXapiIpcServer)
         implementation(projects.libDatalayerRepository)
+        implementation(projects.libDirectoryKeycloak)
         implementation(projects.libPrimarykeygen)
         implementation(projects.libHttpIpcServer)
         implementation(projects.libHttpIpcClient)

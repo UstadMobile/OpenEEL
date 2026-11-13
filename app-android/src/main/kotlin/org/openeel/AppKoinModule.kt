@@ -1155,7 +1155,7 @@ val appKoinModule = module {
             )
         }
 
-        scoped<SchoolDataSource> {
+        scoped<SchoolDataSourceRepository> {
             val schoolUrl = get<UserAccountSchoolScopeLink>()
             val localDs = get<SchoolDataSourceLocal>()
 

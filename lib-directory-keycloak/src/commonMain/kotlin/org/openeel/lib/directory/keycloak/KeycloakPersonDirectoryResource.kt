@@ -20,6 +20,7 @@ import org.openeel.lib.directory.keycloak.adapters.toPerson
 import org.openeel.lib.directory.keycloak.model.KeycloakUserRepresentation
 import org.openeel.lib.directory.model.Person
 import org.openeel.lib.directory.resources.PersonDirectoryResource
+import kotlin.collections.orEmpty
 
 class KeycloakPersonDirectoryResource(
     val config: KeycloakUserDirectoryConfig,
@@ -33,15 +34,10 @@ class KeycloakPersonDirectoryResource(
     }.build()
 
     private fun PersonDirectoryResource.GetListParams.urlWithParams(): Url {
-        val roleName = filterByPersonRole?.value
         val personGuid = filterByPersonGuid
         return URLBuilder(adminEndpoint).apply {
             if (personGuid != null) {
                 appendPathSegments(KEYCLOAK_USERS_PATH, personGuid)
-            } else if (roleName != null) {
-                //https://www.keycloak.org/docs-api/26.8.1/rest-api/#_get_adminrealmsrealmrolesrole_nameusers
-                // GET /admin/realms/{realm}/roles/{role-name}/users
-                appendPathSegments(KEYCLOAK_ROLES_PATH, roleName, KEYCLOAK_USERS_PATH)
             } else {
                 // Docs: https://www.keycloak.org/docs-api/latest/rest-api/index.html
                 // See GET /admin/realms/{realm}/users
@@ -61,7 +57,11 @@ class KeycloakPersonDirectoryResource(
         ) {
             bearerAuth(tokenProvider.provideToken().accessToken)
         }.map { users ->
-            users.map { it.toPerson() }
+            val filteredUsers = filters(
+                params = params,
+                users = users
+            )
+            filteredUsers.map { it.toPerson() }
         }
     }
 
@@ -77,7 +77,10 @@ class KeycloakPersonDirectoryResource(
                 bearerAuth(tokenProvider.provideToken().accessToken)
             }.map {
                 state -> state.map { user ->
-                    listOf(user.toPerson())
+                    filters(
+                       params = params,
+                       users =  listOf(user)
+                    ).map { it.toPerson() }
                 }
             }
         }
@@ -89,8 +92,10 @@ class KeycloakPersonDirectoryResource(
             },
         ).map { dataLoadState ->
             dataLoadState.map { users ->
-                users.map { it.toPerson() }
-            }
+                filters(
+                    params = params,
+                    users =  users
+                ).map { it.toPerson() }            }
         }
     }
 
@@ -109,9 +114,16 @@ class KeycloakPersonDirectoryResource(
     override suspend fun store(list: List<Person>) {
     }
 
+    private fun filters(
+        params: PersonDirectoryResource.GetListParams,
+        users: List<KeycloakUserRepresentation>,
+    ): List<KeycloakUserRepresentation> {
+        val roleName = params.filterByPersonRole?.value ?: return users
+        return users.filter { roleName in it.realmRoles.orEmpty() }
+    }
+
     companion object {
         const val KEYCLOAK_USERS_PATH = "users"
-        private const val KEYCLOAK_ROLES_PATH = "roles"
         private const val REALM_PATH = "/realms/"
         private const val ADMIN_REALM_PATH = "/admin/realms/"
         private const val MAX_PARAM = "max"
