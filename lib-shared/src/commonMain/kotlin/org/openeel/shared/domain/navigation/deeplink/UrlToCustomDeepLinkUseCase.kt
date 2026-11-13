@@ -13,9 +13,9 @@ import io.ktor.http.encodedPath
  * App links: verified https URLs that open automatically using the RESPECT app (once verified)
  * Custom deep links: using a custom protocol in the form of package-name:///https/example.org/path
  *
- * Custom deep links: used when using Chrome Custom Tabs for self-sign-up of schools (similar to
- * standard practice when using OAuth). Custom deep links have the advantage of not requiring
- * verification.
+ * Custom deep links do not require verification. The app handles incoming custom deep links using
+ * CustomDeepLinkToUrlUseCase. School self-registration returns to the app using an Android intent
+ * Uri with an explicit package (see CreateAndroidIntentUriUseCase).
  *
  * Conversion is as follows:
  * https://schoolname.example.org/some/path?param=value

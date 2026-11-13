@@ -13,4 +13,11 @@ object OpenEelIntent {
      */
     const val ACTION_LAUNCH = "org.openeel.action.LAUNCH"
 
+    /**
+     * Opens an http(s) school link in the OpenEEL app (same as ACTION_VIEW). Sent with an
+     * explicit package (see CreateAndroidIntentUriUseCase) so it works for any school url without
+     * verified app links. Kept separate from ACTION_LAUNCH; must match AndroidManifest.xml.
+     */
+    const val ACTION_OPEN_LINK = "org.openeel.action.OPEN_LINK"
+
 }
