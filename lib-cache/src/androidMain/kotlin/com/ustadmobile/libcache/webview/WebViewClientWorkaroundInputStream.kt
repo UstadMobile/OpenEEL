@@ -1,8 +1,15 @@
 package com.ustadmobile.libcache.webview
 
 import android.util.Log
+import io.ktor.http.HttpHeaders
 import java.io.FilterInputStream
 import java.io.InputStream
+
+private fun Map<String, String>.getCaseInsensitive(
+    key: String
+): String? {
+    return get(key) ?: entries.firstOrNull { it.key.equals(key, true) }?.value
+}
 
 /**
  *
@@ -24,14 +31,30 @@ import java.io.InputStream
  */
 class WebViewClientWorkaroundInputStream(
     inputStream: InputStream,
-    private val contentLength: Long,
+    private val headers: Map<String, String>,
+    private val statusCode: Int,
 ): FilterInputStream(inputStream) {
 
+    private val contentLength = if(statusCode == 206) {
+        headers.getCaseInsensitive("Content-Range")?.substringAfterLast("Content-Range")
+            ?.substringAfterLast("/")?.toLong() ?: -1
+    }else {
+        headers.getCaseInsensitive(HttpHeaders.ContentLength)?.toLong() ?: -1
+    }
+
     private var bytesReadOrSkipped = 0L
+    
+    private fun logPartial(
+        tag: String,
+        message: String
+    ) {
+        if(statusCode == 206)
+            Log.d(tag, message)
+    }
 
     override fun read(): Int {
         return super.read().also {
-            //Log.d(LOGTAG, "read")
+            //logPartial(LOGTAG, "read")
             if(it != -1)
                 bytesReadOrSkipped++
         }
@@ -39,7 +62,7 @@ class WebViewClientWorkaroundInputStream(
 
     override fun read(b: ByteArray): Int {
         return read(b, 0, b.size).also {
-            //Log.d(LOGTAG, "read $it bytes")
+            logPartial(LOGTAG, "read $it bytes")
             if(it > 0)
                 bytesReadOrSkipped += it
         }
@@ -47,7 +70,7 @@ class WebViewClientWorkaroundInputStream(
 
     override fun read(b: ByteArray, off: Int, len: Int): Int {
         return super.read(b, off, len).also {
-            //Log.d(LOGTAG, "read $it bytes")
+            logPartial(LOGTAG, "read $it bytes")
             if(it > 0)
                 bytesReadOrSkipped += it
         }
@@ -58,45 +81,49 @@ class WebViewClientWorkaroundInputStream(
      * the correct data to be delivered.
      */
     override fun skip(n: Long): Long {
-        //This is being handled VERY wrong
-        Log.d(LOGTAG, "skip request $n")
-        return n
-//        return super.skip(n).also {
-//            Log.d(LOGTAG, "skip $it/request $n")
-//            if(it > 0)
-//                bytesReadOrSkipped += it
-//        }
+        return if(statusCode == 206) {
+            bytesReadOrSkipped += n
+            logPartial(LOGTAG, "skip request $n")
+            n
+        }else {
+            super.skip(n).also {
+                logPartial(LOGTAG, "skip $it/request $n")
+                if (it > 0) {
+                    bytesReadOrSkipped += it
+                }
+            }
+        }
     }
 
     override fun markSupported(): Boolean {
-        Log.d(LOGTAG, "markSupported")
+        logPartial(LOGTAG, "markSupported")
         return false
     }
 
     override fun mark(readlimit: Int) {
-        Log.d(LOGTAG, "mark $readlimit")
+        logPartial(LOGTAG, "mark $readlimit")
         //Do nothing - mark/reset is not supported
     }
 
     override fun reset() {
-        Log.d(LOGTAG, "reset")
+        logPartial(LOGTAG, "reset")
         throw java.io.IOException("mark/reset not supported")
     }
 
     override fun available(): Int {
         return if(contentLength >= 0) {
             (contentLength - bytesReadOrSkipped).coerceIn(0L, Int.MAX_VALUE.toLong()).toInt().also {
-                Log.d(LOGTAG, "available: $it bytes")
+                logPartial(LOGTAG, "available: $it bytes")
             }
         }else {
             super.available().also {
-                Log.d(LOGTAG, "super.available: $it bytes")
+                logPartial(LOGTAG, "super.available: $it bytes")
             }
         }
     }
 
     override fun close() {
-        Log.d(LOGTAG, "close")
+        logPartial(LOGTAG, "close")
         super.close()
     }
 
