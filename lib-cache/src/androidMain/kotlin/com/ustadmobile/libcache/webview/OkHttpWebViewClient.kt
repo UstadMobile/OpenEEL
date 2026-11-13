@@ -30,6 +30,7 @@ class OkHttpWebViewClient(
 
     }
 
+    //Could be replaced with call factory
     class OkHttpClientRequestCaller(
         private val client: OkHttpClient,
     ): RequestCaller {
@@ -101,14 +102,7 @@ class OkHttpWebViewClient(
 
                 val responseBody = response.takeIf { it.promisesBody() }?.body
 
-                val responseHeaders2 = response.headers.names().associate { headerName ->
-                    val modHeaderName = RESERVED_HEADERS.firstOrNull {
-                        it.equals(headerName, ignoreCase = true)
-                    }
-
-                    (modHeaderName ?: headerName) to response.header(headerName)!!
-                }
-
+                // See https://issues.chromium.org/issues/40739128#comment24
                 /*
                  * As per:
                  * https://developer.android.com/reference/android/webkit/WebResourceResponse#WebResourceResponse(java.lang.String,%20java.lang.String,%20java.io.InputStream)
@@ -116,12 +110,12 @@ class OkHttpWebViewClient(
                  * The encoding is the charset (if provided), otherwise null (as expected for non-text
                  * responses such as images).
                  */
-                return WebResourceResponse(
+                return WebResourceResponseWorkaround(
                     mimeType,
                     contentType.charset()?.name(),
                     response.code,
                     HttpStatusCode.fromValue(response.code).description,
-                    responseHeaders2,
+                    response.headers.toMap(),
                     responseBody?.byteStream() ?: ByteArrayInputStream(byteArrayOf()),
                 )
             }catch(e: Throwable) {
@@ -173,6 +167,12 @@ class OkHttpWebViewClient(
         val DEFAULT_DONT_INTERCEPT_HOSTS = listOf("localhost", "127.0.0.1")
 
         val RESERVED_HEADERS = listOf("Content-Type", "Content-Length", "Content-Encoding")
+
+        private val WEBVIEW_HANDLED_REQUEST_HEADERS = setOf("range", "if-range")
+
+        private val WEBVIEW_GENERATED_RESPONSE_HEADERS = setOf(
+            "content-type", "content-length"
+        )
 
 
     }
