@@ -4,7 +4,7 @@ import io.ktor.http.HttpStatusCode
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.UidNumberMapper
 import org.openeel.datalayer.db.SchoolDatabase
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.lib.xapi.OpenEelXapiConstants
 import org.openeel.lib.xapi.auth.requireNotNullOrThrowXapiException
 import org.openeel.lib.xapi.exceptions.XapiException
