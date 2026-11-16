@@ -11,6 +11,7 @@ import org.openeel.datalayer.db.school.opds.daos.OpdsFeedEntityDao
 import org.openeel.datalayer.db.school.opds.daos.OpdsFeedMetadataEntityDao
 import org.openeel.datalayer.db.school.opds.daos.OpdsGroupEntityDao
 import org.openeel.datalayer.db.school.opds.daos.OpdsPublicationEntityDao
+import org.openeel.datalayer.db.school.opds.daos.CrawlPublicationQueueItemEntityDao
 import org.openeel.datalayer.db.school.opds.daos.PersonPasskeyEntityDao
 import org.openeel.datalayer.db.school.opds.daos.ReadiumLinkEntityDao
 import org.openeel.datalayer.db.school.opds.daos.ReadiumSubjectEntityDao
@@ -19,6 +20,7 @@ import org.openeel.datalayer.db.school.opds.entities.OpdsFeedEntity
 import org.openeel.datalayer.db.school.opds.entities.OpdsFeedMetadataEntity
 import org.openeel.datalayer.db.school.opds.entities.OpdsGroupEntity
 import org.openeel.datalayer.db.school.opds.entities.OpdsPublicationEntity
+import org.openeel.datalayer.db.school.opds.entities.CrawlPublicationQueueItemEntity
 import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity
 import org.openeel.datalayer.db.school.opds.entities.ReadiumSubjectEntity
 import org.openeel.datalayer.db.school.SchoolTypeConverters
@@ -134,6 +136,7 @@ import org.openeel.datalayer.school.model.Report
         OpdsGroupEntity::class,
         OpdsFeedEntity::class,
         OpdsFeedMetadataEntity::class,
+        CrawlPublicationQueueItemEntity::class,
 
         //xAPI
         XapiActivityEntity::class,
@@ -156,7 +159,7 @@ import org.openeel.datalayer.school.model.Report
         XapiStateDocumentShaEntity::class,
         XapiRemoteWriteQueueItemEntity::class,
     ],
-    version = 21,
+    version = 22,
 )
 @TypeConverters(SharedConverters::class, SchoolTypeConverters::class, OpdsTypeConverters::class)
 @ConstructedBy(SchoolDatabaseConstructor::class)
@@ -207,6 +210,8 @@ abstract class SchoolDatabase: RoomDatabase() {
     abstract fun getReadiumSubjectEntityDao(): ReadiumSubjectEntityDao
 
     abstract fun getOpdsGroupEntityDao(): OpdsGroupEntityDao
+
+    abstract fun getCrawlPublicationQueueItemEntityDao(): CrawlPublicationQueueItemEntityDao
 
     abstract fun getActivityEntityDao(): XapiActivityEntityDao
 
