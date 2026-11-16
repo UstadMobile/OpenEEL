@@ -44,9 +44,9 @@ class CrawlPublicationQueueDbImpl(
         }
     }
 
-    override suspend fun updateStatus(itemId: Int, status: CrawlPublicationQueueItemStatus) {
+    override suspend fun updateStatus(itemIds: List<Int>, status: CrawlPublicationQueueItemStatus) {
         schoolDb.getCrawlPublicationQueueItemEntityDao().updateStatus(
-            itemId = itemId,
+            itemIds = itemIds,
             status = status,
         )
     }

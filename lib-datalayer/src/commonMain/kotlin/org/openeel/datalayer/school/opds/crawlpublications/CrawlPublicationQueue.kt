@@ -20,7 +20,7 @@ interface CrawlPublicationQueue {
      */
     suspend fun insertItemIfNotInJob(
         item: CrawlPublicationQueueItem,
-        newJob: Boolean,
+        newJob: Boolean = false,
     ): Int
 
     /**
@@ -35,11 +35,11 @@ interface CrawlPublicationQueue {
 
     /**
      * Update the status of the given itemId
-     * @param itemId as per [CrawlPublicationQueueItem.itemId]
+     * @param itemIds list of item ids as per [CrawlPublicationQueueItem.itemId]
      * @param status status to set
      */
     suspend fun updateStatus(
-        itemId: Int,
+        itemIds: List<Int>,
         status: CrawlPublicationQueueItemStatus,
     )
 

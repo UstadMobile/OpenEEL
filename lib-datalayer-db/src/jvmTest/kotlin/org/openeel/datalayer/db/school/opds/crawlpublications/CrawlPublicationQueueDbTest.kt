@@ -7,10 +7,8 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.datalayer.db.school.testSchoolDb
-import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueue
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItem
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatus
-import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -49,18 +47,7 @@ class CrawlPublicationQueueDbTest {
 
     @Test
     fun givenSameUrlInQueue_whenStatusChanges_thenFlowsReflectQueuedAndRemainingItems() = runBlocking {
-        suspend fun CrawlPublicationQueue.updateStatusList(
-            list: List<CrawlPublicationQueueItem>,
-            newQueueItemStatus: CrawlPublicationQueueItemStatus
-        ) {
-            list.forEach {
-                this.updateStatus(it.itemId, newQueueItemStatus)
-            }
-        }
-
-        testSchoolDb(
-            File("/home/mike/tmp/ffsdb/")
-        ) { db ->
+        testSchoolDb(temporaryFolder.newFolder()) { db ->
             val queue = CrawlPublicationQueueDbImpl(db)
             val initialNumItems = 10
             val extraNumItems = 6
@@ -91,17 +78,19 @@ class CrawlPublicationQueueDbTest {
                 //Set status on half of items to be running
                 val firstHalf = initialQueue.filterIndexed { index, _ -> index.mod(2) == 0 }
                 val secondHalf = initialQueue.filter { it !in firstHalf }
-                queue.updateStatusList(firstHalf, CrawlPublicationQueueItemStatus.RUNNING)
+                queue.updateStatus(
+                    firstHalf.map { it.itemId }, CrawlPublicationQueueItemStatus.RUNNING
+                )
 
                 val queueAfterStatusUpdate = awaitItemWhere { it.size == initialNumItems / 2 }
                 assertEquals(initialNumItems / 2, queueAfterStatusUpdate.size)
                 assertEquals(initialNumItems, queue.remainingItemsCount(jobId).first())
 
                 //Update those items as done
-                queue.updateStatusList(firstHalf, CrawlPublicationQueueItemStatus.DONE)
+                queue.updateStatus(firstHalf.map { it.itemId }, CrawlPublicationQueueItemStatus.DONE)
                 queue.remainingItemsCount(jobId).first { it == initialNumItems / 2 }
 
-                queue.updateStatusList(secondHalf, CrawlPublicationQueueItemStatus.RUNNING)
+                queue.updateStatus(secondHalf.map { it.itemId }, CrawlPublicationQueueItemStatus.RUNNING)
                 val queueAfterFirstHalfRunning = awaitItemWhere { it.isEmpty() }
                 assertTrue(queueAfterFirstHalfRunning.isEmpty())
                 assertEquals(initialNumItems / 2, queue.remainingItemsCount(jobId).first())
@@ -117,7 +106,7 @@ class CrawlPublicationQueueDbTest {
                 }
 
 
-                queue.updateStatusList(secondHalf, CrawlPublicationQueueItemStatus.DONE)
+                queue.updateStatus(secondHalf.map { it.itemId }, CrawlPublicationQueueItemStatus.DONE)
 
                 assertEquals(
                     extraNumItems,
@@ -131,12 +120,12 @@ class CrawlPublicationQueueDbTest {
                     }
                 }
 
-                queue.updateStatusList(
-                    extraItems, CrawlPublicationQueueItemStatus.RUNNING
+                queue.updateStatus(
+                    extraItems.map { it.itemId }, CrawlPublicationQueueItemStatus.RUNNING
                 )
                 awaitItemWhere { it.isEmpty() }
-                queue.updateStatusList(
-                    extraItems, CrawlPublicationQueueItemStatus.DONE
+                queue.updateStatus(
+                    extraItems.map { it.itemId }, CrawlPublicationQueueItemStatus.DONE
                 )
 
                 assertEquals(0, queue.remainingItemsCount(jobId).first { it == 0 })

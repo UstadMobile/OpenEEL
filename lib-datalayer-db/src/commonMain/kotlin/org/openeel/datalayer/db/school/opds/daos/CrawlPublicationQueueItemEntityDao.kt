@@ -35,10 +35,10 @@ interface CrawlPublicationQueueItemEntityDao {
     @Query("""
         UPDATE CrawlPublicationQueueItemEntity
            SET status = :status
-         WHERE itemId = :itemId
+         WHERE itemId IN (:itemIds)
     """)
     suspend fun updateStatus(
-        itemId: Int,
+        itemIds: List<Int>,
         status: CrawlPublicationQueueItemStatus,
     )
 
