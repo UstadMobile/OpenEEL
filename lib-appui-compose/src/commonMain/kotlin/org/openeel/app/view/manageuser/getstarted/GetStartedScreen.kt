@@ -15,7 +15,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,15 +25,17 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.defaultItemPadding
-import org.openeel.app.generated.resources.Res as AppRes
 import org.openeel.app.generated.resources.connect_space
 import org.openeel.app.generated.resources.create_space
+import org.openeel.app.generated.resources.scan_qr_code
+import org.openeel.app.generated.resources.Res as AppRes
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.connect_existing_learning_space
 import org.openeel.shared.generated.resources.connect_existing_learning_space_description
 import org.openeel.shared.generated.resources.create_new_learning_space
 import org.openeel.shared.generated.resources.create_new_learning_space_description
 import org.openeel.shared.generated.resources.scan_qr_code_badge
+import org.openeel.shared.generated.resources.scan_qr_code_badge_description
 import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
 
 
@@ -75,12 +76,13 @@ fun GetStartedScreen(
             image = AppRes.drawable.create_space,
             modifier = Modifier.clickable(onClick = onClickCreateNewLearningSpace)
         )
-        OutlinedButton(
-            onClick = onClickScanQRBadge,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(text = stringResource(Res.string.scan_qr_code_badge))
-        }
+
+        LearningSpaceCard(
+            headline = stringResource(Res.string.scan_qr_code_badge),
+            subtitle = stringResource(Res.string.scan_qr_code_badge_description),
+            image = AppRes.drawable.scan_qr_code,
+            modifier = Modifier.clickable(onClick = onClickScanQRBadge)
+        )
     }
 }
 

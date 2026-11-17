@@ -181,6 +181,7 @@
     <string name="camera_permission">Please enable camera access in app settings to scan QR codes</string>
     <string name="other_options">Other options</string>
     <string name="scan_qr_code_badge">Scan QR code/badge</string>
+    <string name="scan_qr_code_badge_description">Scan a QR code from your teacher or school administrator</string>
     <string name="something_went_wrong">Something went wrong.</string>
     <string name="waiting_title">Waiting for approval</string>
     <string name="please_wait">Please wait</string>
