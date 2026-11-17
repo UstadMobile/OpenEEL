@@ -59,6 +59,7 @@ class CrawlPublicationCollectionsUseCase(
             Napier.d(tag = LOGTAG) {
                 "#${item.jobId}-${item.itemId} Processor #$processorId start ${item.itemUrl}"
             }
+
             val feedLoadState = opdsFeedDataSource.getByUrl(
                 url = item.itemUrl,
                 params = DataLoadParams()
@@ -71,14 +72,22 @@ class CrawlPublicationCollectionsUseCase(
 
                 Napier.d(tag = LOGTAG) { "#${item.jobId}-${item.itemId} Found ${otherFeedLinks.size}" }
 
-                queue.insertItemsIfNotInJob(
-                    items = otherFeedLinks.map { link ->
-                        CrawlPublicationQueueItem(
-                            jobId = item.jobId,
-                            itemUrl = item.itemUrl.resolve(link.href),
-                        )
+                if (item.depth < MAX_DEPTH) {
+                    queue.insertItemsIfNotInJob(
+                        items = otherFeedLinks.map { link ->
+                            CrawlPublicationQueueItem(
+                                jobId = item.jobId,
+                                itemUrl = item.itemUrl.resolve(link.href),
+                                depth = item.depth + 1,
+                            )
+                        }
+                    )
+                }else {
+                    Napier.d(tag = LOGTAG) {
+                        "#${item.jobId}-${item.itemId} : not adding ${otherFeedLinks.size} - " +
+                                "max depth ($MAX_DEPTH) reached"
                     }
-                )
+                }
             }
 
             Napier.d(tag = LOGTAG) { "#${item.jobId}-${item.itemId} Finished ${item.itemUrl}" }

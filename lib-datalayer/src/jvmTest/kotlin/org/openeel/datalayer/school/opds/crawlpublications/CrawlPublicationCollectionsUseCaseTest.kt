@@ -28,7 +28,9 @@ import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.opds.model.ReadiumMetadata
 import org.openeel.libutil.ext.resolve
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.seconds
 
 /**
@@ -161,4 +163,60 @@ class CrawlPublicationCollectionsUseCaseTest {
         }
     }
 
+    /**
+     * The mock returns a feed for every requested URL, each linking to another deeper feed.
+     * Crawling should stop after loading the initial feed and its descendants through
+     * [CrawlPublicationCollectionsUseCase.MAX_DEPTH].
+     */
+    @Test
+    fun givenCollectionLinksThatExceedDepthCount_whenDepthCountReached_thenNoMoreCrawlingIsDone() = runBlocking {
+        Napier.base(DebugAntilog())
+        val rootUrl = Url("https://example.org/path")
+        val requestedUrls = ConcurrentHashMap.newKeySet<Url>()
+        val feedDataSource: OpdsFeedDataSource = mock {
+            on { getByUrl(any(), any()) } doAnswer { invocation ->
+                val url = invocation.getArgument<Url>(0)
+                requestedUrls.add(url)
+                DataReadyState(
+                    data = OpdsFeed(
+                        metadata = OpdsFeedMetadata(title = url.toString()),
+                        links = listOf(ReadiumLink(href = url.toString(), rel = listOf("self"))),
+                        navigation = listOf(
+                            ReadiumLink(href = "${url.toString().trimEnd('/')}/child")
+                        ),
+                    )
+                )
+            }
+        }
+
+        val expectedUrls = (0..CrawlPublicationCollectionsUseCase.MAX_DEPTH).map { depth ->
+            Url(rootUrl.toString() + "/child".repeat(depth))
+        }.toSet()
+
+        val database = Room.databaseBuilder<SchoolDatabase>(
+            temporaryFolder.newFile("school-depth.db").absolutePath
+        ).setDriver(BundledSQLiteDriver()).build()
+
+        try {
+            val queue = CrawlPublicationQueueDbImpl(database)
+            val jobId = queue.insertItemsIfNotInJob(
+                items = listOf(CrawlPublicationQueueItem(jobId = 0, itemUrl = rootUrl)),
+                newJob = true,
+            )
+
+            withTimeout(20.seconds) {
+                CrawlPublicationCollectionsUseCase(queue, feedDataSource)(jobId)
+            }
+
+            assertEquals(expected = expectedUrls, actual = requestedUrls)
+            expectedUrls.forEach { url ->
+                verifyBlocking(feedDataSource) {
+                    getByUrl(eq(url), any())
+                }
+            }
+            verifyNoMoreInteractions(feedDataSource)
+        } finally {
+            database.close()
+        }
+    }
 }

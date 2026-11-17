@@ -113,6 +113,14 @@ val MIGRATION_21_22 = object: Migration(21, 22) {
     }
 }
 
+val MIGRATION_22_23 = object: Migration(22, 23) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL(
+            "ALTER TABLE `CrawlPublicationQueueItemEntity` ADD COLUMN `depth` INTEGER NOT NULL DEFAULT 0"
+        )
+    }
+}
+
 
 
 fun RoomDatabase.Builder<SchoolDatabase>.addCommonMigrations(
@@ -121,7 +129,7 @@ fun RoomDatabase.Builder<SchoolDatabase>.addCommonMigrations(
     return this.addMigrations(
         MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16,
         MIGRATION_16_17, MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21,
-        MIGRATION_21_22,
+        MIGRATION_21_22, MIGRATION_22_23,
     )
 }
 

@@ -1,5 +1,6 @@
 package org.openeel.datalayer.db.school.opds.entities
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -16,5 +17,7 @@ data class CrawlPublicationQueueItemEntity(
     val itemId: Int = 0,
     val jobId: Int,
     val itemUrl: Url,
+    @ColumnInfo(defaultValue = "0")
+    val depth: Int = 0,
     val status: CrawlPublicationQueueItemStatus,
 )

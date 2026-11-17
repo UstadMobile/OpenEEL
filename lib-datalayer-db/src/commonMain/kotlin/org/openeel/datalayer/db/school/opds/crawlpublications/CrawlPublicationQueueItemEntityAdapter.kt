@@ -7,6 +7,7 @@ fun CrawlPublicationQueueItem.toEntity(): CrawlPublicationQueueItemEntity {
     return CrawlPublicationQueueItemEntity(
         jobId = jobId,
         itemUrl = itemUrl,
+        depth = depth,
         status = status,
     )
 }
@@ -16,6 +17,7 @@ fun CrawlPublicationQueueItemEntity.toModel(): CrawlPublicationQueueItem {
         itemId = itemId,
         jobId = jobId,
         itemUrl = itemUrl,
+        depth = depth,
         status = status,
     )
 }
