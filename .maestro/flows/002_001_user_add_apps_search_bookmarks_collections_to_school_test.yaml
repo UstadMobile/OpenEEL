@@ -55,6 +55,12 @@ onFlowComplete:
     visible: "Lesson 001"
     timeout: 10000
 - assertVisible: "Hello World Lesson"
+- tapOn: "total time: 0:08"
+- tapOn: "play"
+- assertVisible: "pause"
+- extendedWaitUntil:
+    visible: "play"
+    timeout: 10000
 - tapOn: "Close"
 - setAirplaneMode: disabled
 - tapOn:
