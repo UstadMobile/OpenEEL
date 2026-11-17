@@ -18,7 +18,7 @@ interface CrawlPublicationQueueItemEntityDao {
     suspend fun getLargestJobId(): Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertOrIgnore(item: CrawlPublicationQueueItemEntity)
+    suspend fun insertOrIgnore(items: List<CrawlPublicationQueueItemEntity>)
 
     @Query("""
         SELECT *

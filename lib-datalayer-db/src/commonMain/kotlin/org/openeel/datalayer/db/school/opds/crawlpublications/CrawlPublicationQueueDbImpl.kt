@@ -13,24 +13,32 @@ class CrawlPublicationQueueDbImpl(
     private val schoolDb: SchoolDatabase,
 ) : CrawlPublicationQueue {
 
-    override suspend fun insertItemIfNotInJob(
-        item: CrawlPublicationQueueItem,
+    override suspend fun insertItemsIfNotInJob(
+        items: List<CrawlPublicationQueueItem>,
         newJob: Boolean,
     ): Int {
         return schoolDb.useWriterConnection { connection ->
             connection.withTransaction(Transactor.SQLiteTransactionType.IMMEDIATE) {
                 val queueDao = schoolDb.getCrawlPublicationQueueItemEntityDao()
-                val jobId = if (newJob) {
+                val newJobId = if (newJob) {
                     queueDao.getLargestJobId() + 1
                 } else {
-                    item.jobId
+                    0
                 }
 
                 queueDao.insertOrIgnore(
-                    item.copy(jobId = jobId).toEntity()
+                    items = items.let {
+                        if(newJob) {
+                            items.map { it.copy(jobId = newJobId) }
+                        }else {
+                            items
+                        }
+                    }.map {
+                        it.toEntity()
+                    }
                 )
 
-                jobId
+                newJobId
             }
         }
     }

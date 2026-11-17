@@ -47,8 +47,13 @@ kotlin {
         }
 
         jvmTest.dependencies {
+            implementation(projects.libDatalayerDb)
             implementation(projects.libTestResources)
             implementation(projects.libXapiTest)
+            implementation(libs.junit)
+            implementation(libs.mockito.kotlin)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
         }
 
         commonTest.dependencies {

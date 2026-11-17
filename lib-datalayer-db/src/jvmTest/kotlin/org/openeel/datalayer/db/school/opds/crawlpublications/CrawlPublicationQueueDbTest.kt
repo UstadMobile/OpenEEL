@@ -24,16 +24,20 @@ class CrawlPublicationQueueDbTest {
     fun givenExistingJob_whenNewJobIsCreated_thenNextJobIdIsAllocated() = runBlocking {
         testSchoolDb(temporaryFolder.newFolder()) { db ->
             val queue = CrawlPublicationQueueDbImpl(db)
-            queue.insertItemIfNotInJob(
-                item = CrawlPublicationQueueItem(
-                    jobId = 12, itemUrl = Url("https://example.org/existing")
+            queue.insertItemsIfNotInJob(
+                items = listOf(
+                    CrawlPublicationQueueItem(
+                        jobId = 12, itemUrl = Url("https://example.org/existing")
+                    )
                 ),
                 newJob = false,
             )
 
-            val newJobId = queue.insertItemIfNotInJob(
-                item = CrawlPublicationQueueItem(
-                    jobId = 1, itemUrl = Url("https://example.org/new")
+            val newJobId = queue.insertItemsIfNotInJob(
+                items = listOf(
+                    CrawlPublicationQueueItem(
+                        jobId = 1, itemUrl = Url("https://example.org/new")
+                    )
                 ),
                 newJob = true,
             )
@@ -53,19 +57,22 @@ class CrawlPublicationQueueDbTest {
             val extraNumItems = 6
             val jobId = 1
 
-            (0 until initialNumItems).forEach {
-                queue.insertItemIfNotInJob(
-                    item = CrawlPublicationQueueItem(
+            queue.insertItemsIfNotInJob(
+                items = (0 until initialNumItems).map {
+                    CrawlPublicationQueueItem(
                         jobId = jobId, itemUrl = Url("https://example.org/shared-$it"),
-                    ),
-                    newJob = false,
-                )
-            }
+                    )
+                },
+                newJob = false,
+            )
+
 
             //should not be added - URL is already in the job
-            queue.insertItemIfNotInJob(
-                item = CrawlPublicationQueueItem(
-                    jobId = jobId, itemUrl = Url("https://example.org/shared-0"),
+            queue.insertItemsIfNotInJob(
+                items = listOf(
+                    CrawlPublicationQueueItem(
+                        jobId = jobId, itemUrl = Url("https://example.org/shared-0"),
+                    )
                 ),
                 newJob = false,
             )
@@ -96,15 +103,14 @@ class CrawlPublicationQueueDbTest {
                 assertEquals(initialNumItems / 2, queue.remainingItemsCount(jobId).first())
 
                 //Simulate finding extra items
-                (0 until extraNumItems).forEach {
-                    queue.insertItemIfNotInJob(
-                        item = CrawlPublicationQueueItem(
+                queue.insertItemsIfNotInJob(
+                    items = (0 until extraNumItems).map {
+                        CrawlPublicationQueueItem(
                             jobId = jobId, itemUrl = Url("https://example.org/shared-extra-$it"),
-                        ),
-                        newJob = false,
-                    )
-                }
-
+                        )
+                    },
+                    newJob = false,
+                )
 
                 queue.updateStatus(secondHalf.map { it.itemId }, CrawlPublicationQueueItemStatus.DONE)
 

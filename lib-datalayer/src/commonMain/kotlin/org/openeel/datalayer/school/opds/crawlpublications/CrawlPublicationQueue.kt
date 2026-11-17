@@ -12,14 +12,14 @@ interface CrawlPublicationQueue {
      * Adds a [CrawlPublicationQueueItem] to the queue _if_ no other item in the job as per
      * [CrawlPublicationQueueItem.jobId] has the same URL (avoid potential infinite loop).
      *
-     * @param item [CrawlPublicationQueueItem] item to queue if no item in the crawl job matches
+     * @param items [CrawlPublicationQueueItem] item to queue if no item in the crawl job matches
      *        [CrawlPublicationQueueItem.itemUrl].
      * @param newJob if true, then a new job id is generated and returned.
      * @return the job id as per [CrawlPublicationQueueItem.jobId]. If [newJob] was true, then the
      *         value of the newly assigned job id.
      */
-    suspend fun insertItemIfNotInJob(
-        item: CrawlPublicationQueueItem,
+    suspend fun insertItemsIfNotInJob(
+        items: List<CrawlPublicationQueueItem>,
         newJob: Boolean = false,
     ): Int
 
