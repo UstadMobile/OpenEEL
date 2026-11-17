@@ -26,7 +26,6 @@ import org.openeel.shared.generated.resources.enter_school_link
 import org.openeel.shared.generated.resources.manage_school_directories
 import org.openeel.shared.generated.resources.next
 import org.openeel.shared.generated.resources.paste_link_here
-import org.openeel.shared.generated.resources.scan_qr_code_badge
 import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceUiState
 import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceViewModel
 
@@ -40,7 +39,6 @@ fun ConnectToExistingLearningSpaceScreen(
         uiState = uiState,
         onLinkChanged = viewModel::onLinkChanged,
         onClickNext = viewModel::onClickNext,
-        onClickScanQRBadge = viewModel::onClickScanQRBadge,
         onClickManageSchoolDirectories = viewModel::onClickManageSchoolDirectories,
     )
 }
@@ -51,7 +49,6 @@ fun ConnectToExistingLearningSpaceScreen(
     onLinkChanged: (String) -> Unit,
     onClickNext: () -> Unit,
     onClickManageSchoolDirectories: () -> Unit,
-    onClickScanQRBadge: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -81,15 +78,6 @@ fun ConnectToExistingLearningSpaceScreen(
             Text(
                 text = stringResource(Res.string.next),
             )
-        }
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        OutlinedButton(
-            onClick = onClickScanQRBadge,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = stringResource(Res.string.scan_qr_code_badge))
         }
 
         if(uiState.manageDirectoriesVisible) {

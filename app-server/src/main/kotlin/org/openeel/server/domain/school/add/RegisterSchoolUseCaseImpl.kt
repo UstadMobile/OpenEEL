@@ -18,7 +18,8 @@ import org.openeel.server.domain.school.verify.VerifySchoolUrlPointsToThisServer
 import org.openeel.server.util.ext.HttpStatusException
 import org.openeel.shared.domain.account.invite.CreateInviteUseCase
 import org.openeel.shared.domain.createlink.CreateInviteLinkUseCase
-import org.openeel.shared.domain.navigation.deeplink.UrlToCustomDeepLinkUseCase
+import org.openeel.shared.domain.navigation.deeplink.CreateAndroidIntentUriUseCase
+import org.openeel.shared.domain.respectappmanifest.validator.RespectAppManifestValidator.Companion.PACKAGE_ID_ALLOWED_CHARS
 import org.openeel.shared.domain.school.add.RegisterSchoolUseCase
 import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import kotlin.time.Clock
@@ -30,7 +31,7 @@ class RegisterSchoolUseCaseImpl(
 
     private val addSchoolUseCase: AddSchoolUseCase by inject()
     private val schoolConfig: SchoolConfig by inject()
-    private val urlToCustomDeepLinkUseCase: UrlToCustomDeepLinkUseCase  by inject()
+    private val createAndroidIntentUriUseCase: CreateAndroidIntentUriUseCase by inject()
     private val verifySchoolUrlUseCase: VerifySchoolUrlPointsToThisServerUseCase by inject()
 
     override suspend operator fun invoke(
@@ -43,6 +44,14 @@ class RegisterSchoolUseCaseImpl(
         // Validate inputs
         if (request.schoolName.isBlank() || request.schoolUrl.isBlank()) {
             throw HttpStatusException("School name and URL are required", HttpStatusCode.BadRequest)
+        }
+
+        val packageName = request.packageName
+        if (
+            packageName != null &&
+            (packageName.isEmpty() || packageName.any { it !in PACKAGE_ID_ALLOWED_CHARS })
+        ) {
+            throw HttpStatusException("Invalid package name", HttpStatusCode.BadRequest)
         }
 
         // Parse and validate URL
@@ -121,16 +130,14 @@ class RegisterSchoolUseCaseImpl(
 
             createInviteUseCase(invite)
 
-            // Create the regular invite URL first
-            val regularInviteUrl = createInviteLinkUseCase(inviteCode)
-
-            // Convert to custom deep link so it opens directly in the app
-            val customDeepLinkUrl = urlToCustomDeepLinkUseCase(regularInviteUrl)
+            val inviteUrl = createInviteLinkUseCase(inviteCode)
 
             RegisterSchoolUseCase.RegisterSchoolResponse(
                 schoolName = request.schoolName,
                 schoolUrl = Url(request.schoolUrl),
-                redirectUrl = customDeepLinkUrl,
+                redirectUrl = packageName?.let {
+                    createAndroidIntentUriUseCase(url = inviteUrl, packageName = it)
+                } ?: inviteUrl,
                 inDirectoryUrl = request.inDirectoryUrl,
             )
         }
