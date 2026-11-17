@@ -35,7 +35,13 @@ onFlowComplete:
     id: "app_title"
     text: "App detail"
 - assertVisible: "Example Web App"
-# verify App got added to Apps section
+# Verify the catalog is loaded when app is added to the OpenEEL app
+- extendedWaitUntil:    #Sync is done
+    visible:
+      id: "pending_write_count"
+      text: "0"
+    timeout: 10000
+- setAirplaneMode: enabled
 - tapOn: "Add to school apps"
 - tapOn:
     id: "nav_home"
@@ -45,6 +51,15 @@ onFlowComplete:
 - assertVisible: "Example Web App"
 - tapOn: "Example Web App"
 - assertVisible: "Lessons"
+- assertVisible:   "Assignment Result Statement Demo"
+- assertVisible: "Statement Maker"
+- assertVisible: "JS Tetris"
+- setAirplaneMode: disabled
+- extendedWaitUntil:
+    visible:
+      id: "pending_write_count"
+      text: "0"
+    timeout: 10000
 - tapOn: "Lessons"
 - tapOn: "Examples"
 - tapOn: "Lesson 001"
@@ -56,7 +71,6 @@ onFlowComplete:
     timeout: 10000
 - assertVisible: "Hello World Lesson"
 - tapOn: "Close"
-- setAirplaneMode: disabled
 - tapOn:
     id: "nav_home"
 - tapOn: "Example Web App"
