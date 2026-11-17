@@ -90,8 +90,6 @@ onFlowComplete:
     id: "user_account_icon"
 - assertVisible: "Profile"
 - assertVisible: "admin"
-# The account list shows the school URL followed by the server's country flag when it can be
-# looked up (e.g. on CI, but not for a private IP address) - see AccountListItem.
 - assertVisible: "${output.SCHOOL_URL}( .+)?"
 - tapOn: "Logout"
 - runFlow:
