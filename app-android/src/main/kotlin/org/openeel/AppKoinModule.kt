@@ -78,6 +78,7 @@ import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.addCommonMigrations
 import org.openeel.datalayer.db.networkvalidation.ExtendedDataSourceValidationHelperImpl
+import org.openeel.datalayer.db.school.opds.crawlpublications.CrawlPublicationQueueDbImpl
 import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
 import org.openeel.datalayer.db.school.writequeue.RemoteWriteQueueDbImpl
@@ -88,6 +89,7 @@ import org.openeel.datalayer.http.SchoolDataSourceHttpClient
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
 import org.openeel.datalayer.repository.SchoolDirectoryResourceRepository
 import org.openeel.datalayer.repository.SchoolDataSourceRepository
+import org.openeel.datalayer.repository.school.opds.crawlpublications.EnqueueCrawlPublicationCollectionUseCaseAndroidImpl
 import org.openeel.datalayer.repository.school.pullsync.EnqueueRunPullSyncUseCaseAndroidImpl
 import org.openeel.datalayer.repository.school.pullsync.RunPullSyncUseCase
 import org.openeel.datalayer.repository.school.qrbadge.EnqueueSavePersonQrBadgeUseCaseAndroidImpl
@@ -100,6 +102,9 @@ import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCase
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCaseImpl
 import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationCollectionsUseCase
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueue
+import org.openeel.datalayer.school.opds.crawlpublications.EnqueueCrawlPublicationCollectionUseCase
 import org.openeel.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
 import org.openeel.datalayer.school.writequeue.EnqueueSavePersonQrBadgeUseCase
 import org.openeel.datalayer.school.writequeue.EnqueueRunPullSyncUseCase
@@ -960,6 +965,10 @@ val appKoinModule = module {
                 .build()
         }
 
+        scoped<CrawlPublicationQueue> {
+            CrawlPublicationQueueDbImpl(schoolDb = get())
+        }
+
         scoped<SchoolPrimaryKeyGenerator> {
             SchoolPrimaryKeyGenerator(
                 primaryKeyGenerator = PrimaryKeyGenerator(SchoolPrimaryKeyGenerator.TABLE_IDS)
@@ -1121,6 +1130,15 @@ val appKoinModule = module {
                 context = androidContext().applicationContext,
                 scopeId = id,
                 scopeClass = UserAccount::class,
+            )
+        }
+
+        scoped<EnqueueCrawlPublicationCollectionUseCase> {
+            EnqueueCrawlPublicationCollectionUseCaseAndroidImpl(
+                context = androidContext().applicationContext,
+                scopeId = id,
+                scopeClass = UserAccount::class,
+                crawlPublicationQueue = get(),
             )
         }
 
@@ -1422,6 +1440,14 @@ val appKoinModule = module {
                     schoolDirectoryEntryResource.schoolDirectoryEntryOrNull(schoolUrl)?.xapi
                         ?: throw IllegalStateException("SchoolUrl $schoolUrl has no XAPI URL")
                 }
+            )
+        }
+
+        scoped<CrawlPublicationCollectionsUseCase> {
+            get<UserAccountSchoolScopeLink>()
+            CrawlPublicationCollectionsUseCase(
+                queue = get(),
+                opdsFeedDataSource = get(),
             )
         }
     }

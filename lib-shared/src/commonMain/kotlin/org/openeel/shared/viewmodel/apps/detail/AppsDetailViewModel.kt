@@ -31,6 +31,7 @@ import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.datalayer.db.school.ext.isAdmin
+import org.openeel.datalayer.school.opds.crawlpublications.EnqueueCrawlPublicationCollectionUseCase
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.findCollection
 import org.openeel.lib.opds.model.findHighlightCardLinks
@@ -89,6 +90,8 @@ class AppsDetailViewModel(
     private val getLicenseLabelUseCase: GetLicenseLabelUseCase by inject()
 
     private val launchCustomTabUseCase: LaunchCustomTabUseCase by inject()
+
+    private val enqueueCrawlPublicationCollectionUseCase: EnqueueCrawlPublicationCollectionUseCase by inject()
 
     init {
         _appUiState.update {
@@ -227,7 +230,10 @@ class AppsDetailViewModel(
         )
     }
 
+    //Make the add button unclickable if not loaded.
     fun onClickAdd() {
+        val appDetailPub = _uiState.value.appDetail?.dataOrNull() ?: return
+
         viewModelScope.launch {
             val actor = accountManager.selectedAccountAndPersonFlow.first()?.xapiAgent ?: run {
                 Napier.w("AppsDetailViewModel: cannot add app, no actor for selected account")
@@ -236,12 +242,20 @@ class AppsDetailViewModel(
 
             val statement = createBlankAppListingStatement(
                 appActivityId = route.manifestUrl.toString(),
-                appTitle = uiState.value.appDetail?.dataOrNull()?.metadata?.title?.toStringMap()
-                    ?: emptyMap(),
+                appTitle = appDetailPub.metadata.title.toStringMap(),
                 actor = actor,
                 manifestUrl = route.manifestUrl.toString()
             )
+
             schoolDataSource.xapiResource.statements.post(listOf(statement))
+
+            appDetailPub.findCollection()?.also {
+                enqueueCrawlPublicationCollectionUseCase(
+                    EnqueueCrawlPublicationCollectionUseCase.Request(
+                        url = route.manifestUrl.resolve(it.href)
+                    )
+                )
+            }
         }
     }
 
