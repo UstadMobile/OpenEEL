@@ -19,7 +19,8 @@ import org.openeel.libutil.ext.resolve
  * https://kotlinlang.org/docs/channels.html#fan-out
  *
  * The producer consumes a flow of all queued jobs : in one transaction the status of each queued
- * job item will be changed to running and it will be sent from the producer function.
+ * job item will be changed to running and it will be sent from the producer function to the
+ * fanned-out processors.
  *
  * The processor picks a job, loads the feed (e.g. such that it is cached), and then adds new jobs
  * for links found.
@@ -55,7 +56,9 @@ class CrawlPublicationCollectionsUseCase(
         channel: ReceiveChannel<CrawlPublicationQueueItem>,
     ) = launch {
         for(item in channel) {
-            Napier.d(tag = LOGTAG) { "#${item.jobId}-${item.itemId} Process ${item.itemUrl}" }
+            Napier.d(tag = LOGTAG) {
+                "#${item.jobId}-${item.itemId} Processor #$processorId start ${item.itemUrl}"
+            }
             val feedLoadState = opdsFeedDataSource.getByUrl(
                 url = item.itemUrl,
                 params = DataLoadParams()
@@ -84,27 +87,26 @@ class CrawlPublicationCollectionsUseCase(
             )
         }
 
-        Napier.d("Processor $processorId done")
+        Napier.d(tag = LOGTAG, message = "Processor $processorId done")
     }
 
     suspend operator fun invoke(
         jobId: Int
     ) {
         coroutineScope {
+            Napier.d(tag = LOGTAG) { "#$jobId - start job"}
             val producer = produceJobs(jobId)
             repeat(NUM_PROCESSORS) {
-                println("Launch processor $it update job list")
                 launchProcessor(it, producer)
             }
 
-            println("Wait for all jobs to be done")
+            Napier.d(tag = LOGTAG) { "#$jobId - waiting for job items to finish"}
             queue.remainingItemsCount(jobId).first { it == 0 }
-            println("All done - cancelling")
+            Napier.d(tag = LOGTAG) { "#$jobId - no remaining job items, cancelling producer" }
             producer.cancel()
         }
 
-        println("All done")
-
+        Napier.d(tag = LOGTAG) { "#$jobId - DONE"}
     }
 
     companion object {
@@ -112,6 +114,8 @@ class CrawlPublicationCollectionsUseCase(
         const val LOGTAG = "CrawlPublicationCollection"
 
         const val NUM_PROCESSORS = 10
+
+        const val MAX_DEPTH = 5
 
     }
 
