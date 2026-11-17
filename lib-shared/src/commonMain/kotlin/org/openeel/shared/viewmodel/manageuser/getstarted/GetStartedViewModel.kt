@@ -9,6 +9,7 @@ import org.openeel.shared.navigation.ConnectToExistingLearningSpace
 import org.openeel.shared.navigation.CreateNewLearningSpace
 import org.openeel.shared.navigation.GetStartedScreen
 import org.openeel.shared.navigation.NavCommand
+import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 
@@ -35,5 +36,9 @@ class GetStartedViewModel(
 
     fun onClickCreateNewLearningSpace() {
         _navCommandFlow.tryEmit(NavCommand.Navigate(CreateNewLearningSpace))
+    }
+
+    fun onClickScanQRBadge() {
+        _navCommandFlow.tryEmit(NavCommand.Navigate(ScanQRCode()))
     }
 }

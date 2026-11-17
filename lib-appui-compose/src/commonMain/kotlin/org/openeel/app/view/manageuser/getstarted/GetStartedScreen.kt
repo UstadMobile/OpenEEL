@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,6 +34,7 @@ import org.openeel.shared.generated.resources.connect_existing_learning_space
 import org.openeel.shared.generated.resources.connect_existing_learning_space_description
 import org.openeel.shared.generated.resources.create_new_learning_space
 import org.openeel.shared.generated.resources.create_new_learning_space_description
+import org.openeel.shared.generated.resources.scan_qr_code_badge
 import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
 
 
@@ -43,6 +45,7 @@ fun GetStartedScreen(
     GetStartedScreen(
         onClickConnectToExistingLearningSpace = viewModel::onClickConnectToExistingLearningSpace,
         onClickCreateNewLearningSpace = viewModel::onClickCreateNewLearningSpace,
+        onClickScanQRBadge = viewModel::onClickScanQRBadge,
     )
 }
 
@@ -50,7 +53,8 @@ fun GetStartedScreen(
 @Composable
 fun GetStartedScreen(
     onClickConnectToExistingLearningSpace: () -> Unit,
-    onClickCreateNewLearningSpace: () -> Unit
+    onClickCreateNewLearningSpace: () -> Unit,
+    onClickScanQRBadge: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -71,6 +75,12 @@ fun GetStartedScreen(
             image = AppRes.drawable.create_space,
             modifier = Modifier.clickable(onClick = onClickCreateNewLearningSpace)
         )
+        OutlinedButton(
+            onClick = onClickScanQRBadge,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(text = stringResource(Res.string.scan_qr_code_badge))
+        }
     }
 }
 
