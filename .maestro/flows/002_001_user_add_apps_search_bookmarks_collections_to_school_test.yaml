@@ -36,8 +36,8 @@ onFlowComplete:
     text: "App detail"
 - assertVisible: "Example Web App"
 - runFlow: "subflows/wait_for_sync_complete.yaml"
-- setAirplaneMode: enabled
 - tapOn: "Add to school apps"
+- setAirplaneMode: enabled
 - tapOn:
     id: "nav_home"
 - assertVisible:
