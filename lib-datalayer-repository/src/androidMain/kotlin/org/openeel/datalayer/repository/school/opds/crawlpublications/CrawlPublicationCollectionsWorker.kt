@@ -21,7 +21,10 @@ class CrawlPublicationCollectionsWorker(
                 workerKoinScope.get()
             val jobId = inputData.getInt(KEY_JOB_ID, -1)
 
-            crawlPublicationCollectionsUseCase(jobId)
+            crawlPublicationCollectionsUseCase(
+                jobId = jobId,
+                visitor = workerKoinScope.getOrNull(),
+            )
             Result.success()
         } catch (e: CancellationException) {
             throw e

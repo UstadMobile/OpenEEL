@@ -268,6 +268,7 @@ import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
 import org.openeel.shared.domain.catalog.PinOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.checkcanwritefeedusecase.CheckCanWriteFeedUseCase
 import org.openeel.shared.domain.catalog.deleteopdsfeed.DeleteOpdsFeedUseCase
+import org.openeel.shared.domain.catalog.downloadimagesforfeed.DownloadImagesForOpdsFeedVisitor
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.unpinopdsfeedusecase.UnpinOpdsFeedUseCase
 import org.openeel.shared.domain.createclass.CreateClassUseCase
@@ -1151,6 +1152,10 @@ val appKoinModule = module {
                 scopeId = id,
                 scopeClass = UserAccount::class,
             )
+        }
+
+        factory<CrawlPublicationCollectionsUseCase.OpdsFeedVisitor> {
+            DownloadImagesForOpdsFeedVisitor(httpClient = get())
         }
 
         scoped<CrawlPublicationsForUserUseCase> {

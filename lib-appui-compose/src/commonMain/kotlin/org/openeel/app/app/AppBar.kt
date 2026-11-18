@@ -175,7 +175,9 @@ fun OpenEelAppBar(
                     Column {
                         /*
                          * Used by Maestro end-to-end tests to wait for sync to complete (e.g. before
-                         * enabling airplane mode and/or before clearing/resetting)
+                         * enabling airplane mode and/or before clearing/resetting).
+                         *
+                         * Note: size needs to be 8.dp or higher for this to work reliably.
                          */
                         Spacer(
                             Modifier.size(8.dp)
@@ -184,7 +186,9 @@ fun OpenEelAppBar(
 
                         /*
                          * Used by Maestro end-to-end tests to wait for a connection to be available or
-                         * disconnected after setting airplane mode
+                         * disconnected after setting airplane mode.
+                         *
+                         * Note: size needs to be 8.dp or higher for this to work reliably.
                          */
                         Spacer(
                             Modifier.size(8.dp)
