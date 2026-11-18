@@ -136,6 +136,7 @@ class CrawlPublicationCollectionsUseCaseTest {
                     ?: NoDataLoadedState.notFound()
             }
         }
+        val visitor = mock<CrawlPublicationCollectionsUseCase.OpdsFeedVisitor>()
 
         val database = Room.databaseBuilder<SchoolDatabase>(
             temporaryFolder.newFile("school.db").absolutePath
@@ -149,7 +150,7 @@ class CrawlPublicationCollectionsUseCaseTest {
             )
 
             withTimeout(20.seconds) {
-                CrawlPublicationCollectionsUseCase(queue, feedDataSource)(jobId)
+                CrawlPublicationCollectionsUseCase(queue, feedDataSource)(jobId, visitor)
             }
 
             expectedFeeds.keys.forEach { url ->
@@ -158,6 +159,12 @@ class CrawlPublicationCollectionsUseCaseTest {
                 }
             }
             verifyNoMoreInteractions(feedDataSource)
+            expectedFeeds.values.forEach { feed ->
+                verifyBlocking(visitor) {
+                    onVisit(eq(DataReadyState(data = feed)))
+                }
+            }
+            verifyNoMoreInteractions(visitor)
         } finally {
             database.close()
         }
@@ -173,21 +180,23 @@ class CrawlPublicationCollectionsUseCaseTest {
         Napier.base(DebugAntilog())
         val rootUrl = Url("https://example.org/path")
         val requestedUrls = ConcurrentHashMap.newKeySet<Url>()
+
+        fun feed(url: Url) = OpdsFeed(
+            metadata = OpdsFeedMetadata(title = url.toString()),
+            links = listOf(ReadiumLink(href = url.toString(), rel = listOf("self"))),
+            navigation = listOf(
+                ReadiumLink(href = "${url.toString().trimEnd('/')}/child")
+            ),
+        )
+
         val feedDataSource: OpdsFeedDataSource = mock {
             on { getByUrl(any(), any()) } doAnswer { invocation ->
                 val url = invocation.getArgument<Url>(0)
                 requestedUrls.add(url)
-                DataReadyState(
-                    data = OpdsFeed(
-                        metadata = OpdsFeedMetadata(title = url.toString()),
-                        links = listOf(ReadiumLink(href = url.toString(), rel = listOf("self"))),
-                        navigation = listOf(
-                            ReadiumLink(href = "${url.toString().trimEnd('/')}/child")
-                        ),
-                    )
-                )
+                DataReadyState(data = feed(url))
             }
         }
+        val visitor = mock<CrawlPublicationCollectionsUseCase.OpdsFeedVisitor>()
 
         val expectedUrls = (0..CrawlPublicationCollectionsUseCase.MAX_DEPTH).map { depth ->
             Url(rootUrl.toString() + "/child".repeat(depth))
@@ -205,7 +214,7 @@ class CrawlPublicationCollectionsUseCaseTest {
             )
 
             withTimeout(20.seconds) {
-                CrawlPublicationCollectionsUseCase(queue, feedDataSource)(jobId)
+                CrawlPublicationCollectionsUseCase(queue, feedDataSource)(jobId, visitor)
             }
 
             assertEquals(expected = expectedUrls, actual = requestedUrls)
@@ -215,6 +224,12 @@ class CrawlPublicationCollectionsUseCaseTest {
                 }
             }
             verifyNoMoreInteractions(feedDataSource)
+            expectedUrls.forEach { url ->
+                verifyBlocking(visitor) {
+                    onVisit(eq(DataReadyState(data = feed(url))))
+                }
+            }
+            verifyNoMoreInteractions(visitor)
         } finally {
             database.close()
         }
