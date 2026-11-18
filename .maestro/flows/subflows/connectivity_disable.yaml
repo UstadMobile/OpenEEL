@@ -7,6 +7,5 @@ appId: org.openeel.app
 - setAirplaneMode: enabled
 - extendedWaitUntil:
     visible:
-      id: "connectivity_state"
-      text: "0"
+      id: "connectivity_disconnected"
     timeout: 10000
