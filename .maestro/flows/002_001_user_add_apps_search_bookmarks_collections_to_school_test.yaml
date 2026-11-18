@@ -50,21 +50,27 @@ onFlowComplete:
     text: "Home"
 - assertVisible: "Example Web App"
 - tapOn: "Example Web App"
-- assertVisible: "Lessons"
-- assertVisible:   "Assignment Result Statement Demo"
-- assertVisible: "Statement Maker"
-- assertVisible: "JS Tetris"
+- tapOn: "Lessons"
+- tapOn: "Examples"
+- tapOn: "Lesson 001"
+- assertVisible:
+      id: "app_title"
+      text: "Lesson 001"
+- assertVisible:
+        text: "Bookmark"
+        enabled: true
+- assertVisible:
+         text: "Download"
+         enabled: true
+- assertVisible:
+    text: "Open"
+    enabled: true
 - setAirplaneMode: disabled
 - extendedWaitUntil:
     visible:
       id: "pending_write_count"
       text: "0"
     timeout: 10000
-- tapOn: "Lessons"
-- tapOn: "Examples"
-- tapOn: "Lesson 001"
-- assertVisible: "Lesson 001"
-- assertVisible: "Download"
 - tapOn: "Open"
 - extendedWaitUntil:
     visible: "Lesson 001"
