@@ -63,6 +63,9 @@ onFlowComplete:
          text: "Download"
          enabled: true
 - assertVisible:
+       text: "Assign"
+       enabled: true
+- assertVisible:
     text: "Open"
     enabled: true
 - setAirplaneMode: disabled
