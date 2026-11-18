@@ -53,6 +53,7 @@ import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.app.util.ext.toImageVector
 import org.openeel.datalayer.db.school.ext.fullName
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueue
 import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
 import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
 import org.openeel.shared.domain.account.AppAccountManager
@@ -102,9 +103,15 @@ fun OpenEelAppBar(
         if(activeSessionVal != null) {
             val scope = koin.getScope(activeSessionVal.account.scopeId)
             scope.get<RemoteWriteQueue>().queueSizeAsFlow().combine(
-                scope.get<XapiRemoteWriteQueue>().queueSizeAsFlow()
+                flow = scope.get<XapiRemoteWriteQueue>().queueSizeAsFlow()
             ) { queueSize, xapiQueueSize ->
                 queueSize + xapiQueueSize
+            }.combine(
+                flow = scope.get<CrawlPublicationQueue>().remainingItemsCount(
+                    jobId = CrawlPublicationQueue.ALL_JOBS
+                )
+            ) { queueSize, crawlQueueSize ->
+                queueSize + crawlQueueSize
             }
         }else{
             flowOf(0)

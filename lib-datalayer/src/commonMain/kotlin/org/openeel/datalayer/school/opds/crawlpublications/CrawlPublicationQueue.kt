@@ -46,7 +46,15 @@ interface CrawlPublicationQueue {
     /**
      * Returns a flow of the count of items with a non-final status (items that do not have the
      * status [CrawlPublicationQueueItemStatus.DONE] or [CrawlPublicationQueueItemStatus.FAILED]).
+     *
+     * @param jobId the jobId as per [CrawlPublicationQueueItem.jobId] or [ALL_JOBS] to get the count
+     *        across all jobs.
      */
-    suspend fun remainingItemsCount(jobId: Int): Flow<Int>
+    fun remainingItemsCount(jobId: Int): Flow<Int>
 
+    companion object {
+
+        const val ALL_JOBS = -1
+
+    }
 }

@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.db.school.opds.entities.CrawlPublicationQueueItemEntity
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueue
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatus
 
 @Dao
@@ -45,7 +46,7 @@ interface CrawlPublicationQueueItemEntityDao {
     @Query("""
         SELECT COUNT(*)
           FROM CrawlPublicationQueueItemEntity
-         WHERE CrawlPublicationQueueItemEntity.jobId= :jobId 
+         WHERE (:jobId = ${CrawlPublicationQueue.ALL_JOBS} OR CrawlPublicationQueueItemEntity.jobId= :jobId)
            AND status != :doneStatus
            AND status != :failedStatus
     """)
