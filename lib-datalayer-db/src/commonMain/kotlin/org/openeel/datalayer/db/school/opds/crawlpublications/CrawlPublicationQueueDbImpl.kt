@@ -59,7 +59,7 @@ class CrawlPublicationQueueDbImpl(
         )
     }
 
-    override suspend fun remainingItemsCount(jobId: Int): Flow<Int> {
+    override fun remainingItemsCount(jobId: Int): Flow<Int> {
         return schoolDb.getCrawlPublicationQueueItemEntityDao().remainingItemsCountFlow(
             jobId = jobId,
             doneStatus = CrawlPublicationQueueItemStatus.DONE,
