@@ -1,6 +1,7 @@
 package org.openeel.app.app
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -168,7 +169,7 @@ fun OpenEelAppBar(
                         text = appUiState.title?.let { uiTextStringResource(it) } ?: "",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.testTag("app_title"),
+                        modifier = Modifier.testTag("app_title").weight(1f),
                     )
 
                     /*
@@ -176,7 +177,7 @@ fun OpenEelAppBar(
                      * enabling airplane mode and/or before clearing/resetting)
                      */
                     Text(
-                        modifier = Modifier.testTag("sync_pending").alpha(0f),
+                        modifier = Modifier.testTag("sync_pending")/*.alpha(0f)*/,
                         text = pendingWriteCount.toString(),
                         fontSize = 1.sp,
                     )
@@ -186,7 +187,7 @@ fun OpenEelAppBar(
                      * disconnected after setting airplane mode
                      */
                     Text(
-                        modifier = Modifier.testTag("connectivity_state").alpha(0f),
+                        modifier = Modifier.testTag("connectivity_state")/*.alpha(0f)*/,
                         text = if(connectivityState.isConnected) "1" else "0",
                         fontSize = 1.sp,
                     )

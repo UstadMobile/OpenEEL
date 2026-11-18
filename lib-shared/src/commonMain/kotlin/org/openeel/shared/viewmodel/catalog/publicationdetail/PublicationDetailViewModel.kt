@@ -28,7 +28,7 @@ import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
+import org.openeel.lib.dataloadstate.ext.isSettled
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
@@ -78,7 +78,7 @@ data class PublicationDetailUiState(
 
     //The bookmark state is a separate API call.
     val bookmarkButtonEnabled: Boolean
-        get() = bookmarks.isReadyAndSettled()
+        get() = bookmarks.isSettled()
 
     val isBookmarked: Boolean
         get() = bookmarks.dataOrNull()?.statements?.isNotEmpty() == true
