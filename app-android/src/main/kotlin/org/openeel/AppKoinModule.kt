@@ -69,6 +69,9 @@ import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.shared.viewmodel.manageuser.learningspace.HostListConfig
+import org.openeel.shared.domain.crawlpublicationsforuser.CrawlPublicationsForUserUseCase
+import org.openeel.shared.domain.crawlpublicationsforuser.EnqueueCrawlPublicationForUserUseCase
+import org.openeel.shared.domain.crawlpublicationsforuser.EnqueueCrawlPublicationForUserUseCaseAndroidImpl
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
@@ -1139,6 +1142,23 @@ val appKoinModule = module {
                 scopeId = id,
                 scopeClass = UserAccount::class,
                 crawlPublicationQueue = get(),
+            )
+        }
+
+        scoped<EnqueueCrawlPublicationForUserUseCase> {
+            EnqueueCrawlPublicationForUserUseCaseAndroidImpl(
+                context = androidContext().applicationContext,
+                scopeId = id,
+                scopeClass = UserAccount::class,
+            )
+        }
+
+        scoped<CrawlPublicationsForUserUseCase> {
+            val schoolDataSource = get<SchoolDataSource>()
+            CrawlPublicationsForUserUseCase(
+                xapiResource = schoolDataSource.xapiResource,
+                opdsPublicationDataSource = schoolDataSource.opdsPublicationDataSource,
+                enqueueCrawlPublicationCollectionUseCase = get(),
             )
         }
 

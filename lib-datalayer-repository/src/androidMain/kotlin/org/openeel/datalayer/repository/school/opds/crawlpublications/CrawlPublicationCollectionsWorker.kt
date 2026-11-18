@@ -6,7 +6,7 @@ import androidx.work.WorkerParameters
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CancellationException
 import org.koin.core.component.KoinComponent
-import org.openeel.datalayer.repository.school.worker.getWorkerKoinScope
+import org.openeel.datalayer.worker.getWorkerKoinScope
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationCollectionsUseCase
 
 class CrawlPublicationCollectionsWorker(

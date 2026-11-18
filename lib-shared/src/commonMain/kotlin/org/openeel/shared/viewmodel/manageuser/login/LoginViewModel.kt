@@ -24,6 +24,7 @@ import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.lib.dataloadstate.throwable.unwrapHttpStatusCode
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.username.filterusername.FilterUsernameUseCase
+import org.openeel.shared.domain.crawlpublicationsforuser.EnqueueCrawlPublicationForUserUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.login
 import org.openeel.shared.generated.resources.required_field
@@ -219,12 +220,15 @@ class LoginViewModel(
                     schoolUrl = route.schoolUrl
                 )
 
-               if (!usingSavedPassword){
-                   savePasswordUseCase(
-                       username = username,
-                       password = password
-                   )
-               }
+                accountManager.requireActiveAccountScope()
+                    .get<EnqueueCrawlPublicationForUserUseCase>().invoke()
+
+                if (!usingSavedPassword){
+                    savePasswordUseCase(
+                        username = username,
+                        password = password
+                    )
+                }
 
                 _navCommandFlow.tryEmit(
                     NavCommand.Navigate(

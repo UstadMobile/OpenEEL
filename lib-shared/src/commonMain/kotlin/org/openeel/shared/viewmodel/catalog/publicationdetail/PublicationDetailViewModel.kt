@@ -124,7 +124,7 @@ class PublicationDetailViewModel(
         val learningUnitFlow = schoolDataSource.opdsPublicationDataSource.getByUrlAsFlow(
             url = route.learningUnitManifestUrl,
             params = DataLoadParams(),
-            referrerUrl = route.learningUnitManifestUrl,
+            referrerUrl = route.refererUrl,
             expectedPublicationId = route.expectedIdentifier
         ).shareIn(viewModelScope, SharingStarted.Lazily)
 

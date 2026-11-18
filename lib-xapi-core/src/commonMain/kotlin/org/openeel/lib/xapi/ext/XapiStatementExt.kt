@@ -8,6 +8,7 @@ import org.openeel.lib.xapi.model.XapiContext
 import org.openeel.lib.xapi.model.XapiContextActivities
 import org.openeel.lib.xapi.model.XapiObjectType
 import org.openeel.lib.xapi.model.XapiStatement
+import org.openeel.lib.xapi.model.XapiStatementRef
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
 
@@ -175,6 +176,22 @@ fun XapiStatement.objectActivityNameOrNull(): Map<String, String>? {
 
 fun XapiStatement.objectSubstatementOrNull(): XapiStatement? {
     return `object` as? XapiStatement
+}
+
+/**
+ * Where the receiver [XapiStatement.`object`] is an [XapiActivity] or [XapiStatementRef]
+ * which have a string ID, then return the id, otherwise, null.
+ *
+ * @receiver any [XapiStatement]
+ * @return ID string of [XapiStatement.`object`] is an [XapiActivity] or
+ *         [XapiStatementRef], otherwise null
+ */
+fun XapiStatement.objectIdOrNull(): String? {
+    return when(`object`) {
+        is XapiActivity -> `object`.id
+        is XapiStatementRef -> `object`.id
+        else -> null
+    }
 }
 
 /**

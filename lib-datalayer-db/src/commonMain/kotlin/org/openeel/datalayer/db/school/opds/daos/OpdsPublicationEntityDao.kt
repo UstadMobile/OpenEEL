@@ -61,6 +61,20 @@ abstract class OpdsPublicationEntityDao {
     """)
     abstract suspend fun getLastModifiedAndETag(urlHash: Long): LastModifiedAndETagDb?
 
+    @Query(
+        """
+        SELECT OpdsPublicationEntity.*
+          FROM OpdsPublicationEntity
+         WHERE OpdsPublicationEntity.opeOfeUid = :feedUrlHash
+           AND OpdsPublicationEntity.opeMdIdentifier = :publicationIdentifier
+         LIMIT 1  
+    """
+    )
+    abstract suspend fun findByFeedUrlAndPublicationId(
+        feedUrlHash: Long,
+        publicationIdentifier: String,
+    ): OpdsPublicationEntity?
+
     companion object {
 
         const val PUBLICATION_UIDS_FOR_FEED_UID_CTE = """

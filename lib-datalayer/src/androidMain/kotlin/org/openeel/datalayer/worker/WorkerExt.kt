@@ -1,10 +1,9 @@
-package org.openeel.datalayer.repository.school.worker
+package org.openeel.datalayer.worker
 
 import androidx.work.ListenableWorker
 import org.koin.core.qualifier.TypeQualifier
 import org.koin.core.scope.Scope
 import org.koin.mp.KoinPlatform.getKoin
-import org.openeel.datalayer.repository.school.RepoWorkerConstants
 
 /**
  * Get a Koin Scope for a Worker. This works by storing the scopeId and scopeQualifier class name

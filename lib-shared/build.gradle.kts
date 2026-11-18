@@ -75,6 +75,7 @@ kotlin {
             api(projects.libXapiNanohttpd)
             implementation(libs.androidx.preference)
             implementation(libs.androidx.preference.ktx)
+            implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.acra.core)
             implementation(libs.libphonenumber.android)
             implementation(libs.androidx.biometric.ktx)
