@@ -1,6 +1,7 @@
 package org.openeel.app.app
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -44,6 +45,7 @@ import androidx.savedstate.read
 import com.ustadmobile.libcache.connectivitymonitor.ConnectivityMonitor
 import com.ustadmobile.libuicompose.theme.appBarSelectionModeBackgroundColor
 import com.ustadmobile.libuicompose.theme.appBarSelectionModeContentColor
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -115,7 +117,10 @@ fun OpenEelAppBar(
                 )
             ) { queueSize, crawlQueueSize ->
                 queueSize + crawlQueueSize
-            }.map { if(it > 0) 1 else 0 }.distinctUntilChanged()
+            }.map {
+                Napier.d("SyncState: queue size = $it")
+                if(it > 0) 1 else 0
+            }.distinctUntilChanged()
         }else{
             flowOf(0)
         }
@@ -158,32 +163,34 @@ fun OpenEelAppBar(
     ) {
         TopAppBar(
             title = {
-                Text(
-                    text = appUiState.title?.let { uiTextStringResource(it) } ?: "",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.testTag("app_title"),
-                )
+                Row {
+                    Text(
+                        text = appUiState.title?.let { uiTextStringResource(it) } ?: "",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.testTag("app_title"),
+                    )
 
-                /*
-                 * Used by Maestro end-to-end tests to wait for sync to complete (e.g. before
-                 * enabling airplane mode and/or before clearing/resetting)
-                 */
-                Text(
-                    modifier = Modifier.testTag("sync_pending").alpha(0f),
-                    text = pendingWriteCount.toString(),
-                    fontSize = 1.sp,
-                )
+                    /*
+                     * Used by Maestro end-to-end tests to wait for sync to complete (e.g. before
+                     * enabling airplane mode and/or before clearing/resetting)
+                     */
+                    Text(
+                        modifier = Modifier.testTag("sync_pending").alpha(0f),
+                        text = pendingWriteCount.toString(),
+                        fontSize = 1.sp,
+                    )
 
-                /*
-                 * Used by Maestro end-to-end tests to wait for a connection to be available or
-                 * disconnected after setting airplane mode
-                 */
-                Text(
-                    modifier = Modifier.testTag("connectivity_state").alpha(0f),
-                    text = if(connectivityState.isConnected) "1" else "0",
-                    fontSize = 1.sp,
-                )
+                    /*
+                     * Used by Maestro end-to-end tests to wait for a connection to be available or
+                     * disconnected after setting airplane mode
+                     */
+                    Text(
+                        modifier = Modifier.testTag("connectivity_state").alpha(0f),
+                        text = if(connectivityState.isConnected) "1" else "0",
+                        fontSize = 1.sp,
+                    )
+                }
             },
             navigationIcon = {
                 if (canGoBack) {
