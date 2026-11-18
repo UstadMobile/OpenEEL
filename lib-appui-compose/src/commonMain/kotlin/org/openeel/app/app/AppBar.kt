@@ -41,11 +41,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.savedstate.read
+import com.ustadmobile.libcache.connectivitymonitor.ConnectivityMonitor
 import com.ustadmobile.libuicompose.theme.appBarSelectionModeBackgroundColor
 import com.ustadmobile.libuicompose.theme.appBarSelectionModeContentColor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.getKoin
 import org.koin.compose.koinInject
@@ -112,13 +115,18 @@ fun OpenEelAppBar(
                 )
             ) { queueSize, crawlQueueSize ->
                 queueSize + crawlQueueSize
-            }
+            }.map { if(it > 0) 1 else 0 }.distinctUntilChanged()
         }else{
             flowOf(0)
         }
     }
 
+    val connectivityStateFlow = remember {
+        koin.get<ConnectivityMonitor>().statusFlow
+    }
+
     val pendingWriteCount by writeQueueSizeFlow.collectAsState(1)
+    val connectivityState by connectivityStateFlow.collectAsState()
 
     var searchActive by remember(currentEntry) {
         mutableStateOf(false)
@@ -157,10 +165,23 @@ fun OpenEelAppBar(
                     modifier = Modifier.testTag("app_title"),
                 )
 
+                /*
+                 * Used by Maestro end-to-end tests to wait for sync to complete (e.g. before
+                 * enabling airplane mode and/or before clearing/resetting)
+                 */
                 Text(
-                    modifier = Modifier.testTag("pending_write_count")
-                        .alpha(0f),
+                    modifier = Modifier.testTag("sync_pending").alpha(0f),
                     text = pendingWriteCount.toString(),
+                    fontSize = 1.sp,
+                )
+
+                /*
+                 * Used by Maestro end-to-end tests to wait for a connection to be available or
+                 * disconnected after setting airplane mode
+                 */
+                Text(
+                    modifier = Modifier.testTag("connectivity_state").alpha(0f),
+                    text = if(connectivityState.isConnected) "1" else "0",
                     fontSize = 1.sp,
                 )
             },

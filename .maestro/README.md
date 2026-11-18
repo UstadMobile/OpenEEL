@@ -81,6 +81,35 @@ export MAESTRO_FLOW=./maestro/flows/flow_name.yaml
 * ```TEST_APP_URL```: A launchable app publication URL (used with 002_browse_lessons_test and 
   assignment tests.
 
+## Online/offline scenarios
+
+Before finishing a test stage (and clearing the app for the next stage) the app normally needs to 
+wait for any data that has been updated locally to be written to the remote server. This only takes
+a fraction of a second, but if one does not wait for this, tests can become flakey. `AppBar.kt`
+has an invisible text with the test tag `sync_pending` which will be either 0 or 1. So to wait for
+sync to complete:
+
+```yaml
+- extendedWaitUntil:
+    visible:
+      id: "sync_pending"
+      text: "0"
+    timeout: 10000
+```
+
+Enabling and disabling airplane mode can take time to take effect (particularly disabling airplane)
+mode. A test that requires connectivity to be active should not proceed until the connection is 
+actually active again. There is an invisible text with the test tag `connectivity_state` which will
+be either 0 (disconnected) or 1 (connected). To wait for connectivity to be active:
+
+```yaml
+- extendedWaitUntil:
+    visible:
+      id: "connectivity_state"
+      text: "1"
+    timeout: 10000
+```
+
 ## Available test flows
 ---
 ### 001_001_invite_users_using_qr_code_or_link_test
