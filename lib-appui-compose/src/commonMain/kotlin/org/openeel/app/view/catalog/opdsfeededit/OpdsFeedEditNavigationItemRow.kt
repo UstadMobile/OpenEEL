@@ -19,10 +19,10 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
+import org.openeel.datalayer.school.opds.ext.findIcons
 import sh.calvin.reorderable.ReorderableListItemScope
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.libutil.ext.resolve
-import org.openeel.shared.ext.findIcons
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.move
 
