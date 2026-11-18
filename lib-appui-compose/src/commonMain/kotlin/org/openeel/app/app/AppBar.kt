@@ -1,6 +1,7 @@
 package org.openeel.app.app
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -171,28 +172,30 @@ fun OpenEelAppBar(
                         modifier = Modifier.testTag("app_title").weight(1f),
                     )
 
-                    /*
-                     * Used by Maestro end-to-end tests to wait for sync to complete (e.g. before
-                     * enabling airplane mode and/or before clearing/resetting)
-                     */
-                    Spacer(
-                        Modifier.size(4.dp)
-                            .testTag(if(pendingWriteCount == 0) "sync_complete" else "sync_pending")
-                    )
+                    Column {
+                        /*
+                         * Used by Maestro end-to-end tests to wait for sync to complete (e.g. before
+                         * enabling airplane mode and/or before clearing/resetting)
+                         */
+                        Spacer(
+                            Modifier.size(8.dp)
+                                .testTag(if(pendingWriteCount == 0) "sync_complete" else "sync_pending")
+                        )
 
-                    /*
-                     * Used by Maestro end-to-end tests to wait for a connection to be available or
-                     * disconnected after setting airplane mode
-                     */
-                    Spacer(
-                        Modifier.size(4.dp)
-                            .testTag(
-                                if(connectivityState.isConnected)
-                                    "connectivity_connected"
-                                else
-                                    "connectivity_disconnected"
-                            )
-                    )
+                        /*
+                         * Used by Maestro end-to-end tests to wait for a connection to be available or
+                         * disconnected after setting airplane mode
+                         */
+                        Spacer(
+                            Modifier.size(8.dp)
+                                .testTag(
+                                    if(connectivityState.isConnected)
+                                        "connectivity_connected"
+                                    else
+                                        "connectivity_disconnected"
+                                )
+                        )
+                    }
                 }
             },
             navigationIcon = {
