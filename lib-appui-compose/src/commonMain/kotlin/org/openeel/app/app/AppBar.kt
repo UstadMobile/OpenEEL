@@ -1,10 +1,11 @@
 package org.openeel.app.app
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -33,14 +34,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.savedstate.read
 import com.ustadmobile.libcache.connectivitymonitor.ConnectivityMonitor
@@ -65,9 +64,9 @@ import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.back
+import org.openeel.shared.generated.resources.more_options
 import org.openeel.shared.generated.resources.search
 import org.openeel.shared.generated.resources.settings
-import org.openeel.shared.generated.resources.more_options
 import org.openeel.shared.navigation.ARG_FOCUS_SEARCH
 import org.openeel.shared.util.ext.isLoading
 import org.openeel.shared.viewmodel.app.appstate.AppActionButton
@@ -176,20 +175,23 @@ fun OpenEelAppBar(
                      * Used by Maestro end-to-end tests to wait for sync to complete (e.g. before
                      * enabling airplane mode and/or before clearing/resetting)
                      */
-                    Text(
-                        modifier = Modifier.testTag("sync_pending")/*.alpha(0f)*/,
-                        text = pendingWriteCount.toString(),
-                        fontSize = 1.sp,
+                    Spacer(
+                        Modifier.size(4.dp)
+                            .testTag(if(pendingWriteCount == 0) "sync_complete" else "sync_pending")
                     )
 
                     /*
                      * Used by Maestro end-to-end tests to wait for a connection to be available or
                      * disconnected after setting airplane mode
                      */
-                    Text(
-                        modifier = Modifier.testTag("connectivity_state")/*.alpha(0f)*/,
-                        text = if(connectivityState.isConnected) "1" else "0",
-                        fontSize = 1.sp,
+                    Spacer(
+                        Modifier.size(4.dp)
+                            .testTag(
+                                if(connectivityState.isConnected)
+                                    "connectivity_connected"
+                                else
+                                    "connectivity_disconnected"
+                            )
                     )
                 }
             },

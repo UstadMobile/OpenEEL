@@ -5,6 +5,5 @@ appId: org.openeel.app
 #AppBar.kt has an invisible text with the test tag sync_pending which will be either 0 or 1. So to wait for sync to complete.
 - extendedWaitUntil:
     visible:
-      id: "sync_pending"
-      text: "0"
+      id: "sync_complete"
     timeout: 10000
