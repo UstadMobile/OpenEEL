@@ -35,12 +35,7 @@ onFlowComplete:
     id: "app_title"
     text: "App detail"
 - assertVisible: "Example Web App"
-# Verify the catalog is loaded when app is added to the OpenEEL app
-- extendedWaitUntil:    #Sync is done
-    visible:
-      id: "pending_write_count"
-      text: "0"
-    timeout: 10000
+- runFlow: "subflows/wait_for_sync_complete.yaml"
 - setAirplaneMode: enabled
 - tapOn: "Add to school apps"
 - tapOn:
@@ -69,11 +64,7 @@ onFlowComplete:
     text: "Open"
     enabled: true
 - setAirplaneMode: disabled
-- extendedWaitUntil:
-    visible:
-      id: "pending_write_count"
-      text: "0"
-    timeout: 10000
+- runFlow: "subflows/wait_for_connectivity_to_be_active.yaml"
 - tapOn: "Open"
 - extendedWaitUntil:
     visible: "Lesson 001"
@@ -547,8 +538,4 @@ onFlowComplete:
 - tapOn: "Assignments"
 - assertVisible: "Homework 1"
 - assertVisible: "Homework 2"
-
-
-
-
 
