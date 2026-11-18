@@ -1,0 +1,12 @@
+appId: org.openeel.app
+
+---
+# https://github.com/UstadMobile/OpenEEL/blob/ffe220ba8892840ed953101d55090feb9a8f3f0b/.maestro/README.md#onlineoffline-scenarios
+#There is an invisible text with the test tag connectivity_state which will be either 0 (disconnected) or 1 (connected).
+#To wait for connectivity to be inactive: text=0
+
+- extendedWaitUntil:
+    visible:
+      id: "connectivity_state"
+      text: "0"
+    timeout: 10000

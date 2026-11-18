@@ -38,6 +38,7 @@ onFlowComplete:
 - runFlow: "subflows/wait_for_sync_complete.yaml"
 - tapOn: "Add to school apps"
 - setAirplaneMode: enabled
+- runFlow: "subflows/wait_for_connectivity_Off.yaml"
 - tapOn:
     id: "nav_home"
 - assertVisible:
@@ -64,7 +65,7 @@ onFlowComplete:
     text: "Open"
     enabled: true
 - setAirplaneMode: disabled
-- runFlow: "subflows/wait_for_connectivity_to_be_active.yaml"
+- runFlow: "subflows/wait_for_connectivity_On.yaml"
 - tapOn: "Open"
 - extendedWaitUntil:
     visible: "Lesson 001"
@@ -86,6 +87,7 @@ onFlowComplete:
     timeout: 10000
 # Set device on Offline mode
 - setAirplaneMode: enabled
+- runFlow: "subflows/wait_for_connectivity_Off.yaml"
 - assertVisible: "Downloaded"
 - stopApp
 
@@ -115,6 +117,7 @@ onFlowComplete:
       - assertVisible: "Statement sent.*"
 - tapOn: "Close"
 - setAirplaneMode: disabled # Set device on Online mode
+- runFlow: "subflows/wait_for_connectivity_On.yaml"
 - tapOn:
     id: "nav_home"
 - tapOn: "Apps"
