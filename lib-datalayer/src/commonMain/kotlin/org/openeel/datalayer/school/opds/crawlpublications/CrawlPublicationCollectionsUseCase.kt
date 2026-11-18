@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.openeel.datalayer.school.opds.OpdsFeedDataSource
 import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.libutil.ext.resolve
 
 /**
@@ -31,6 +33,19 @@ class CrawlPublicationCollectionsUseCase(
     private val queue: CrawlPublicationQueue,
     private val opdsFeedDataSource: OpdsFeedDataSource,
 ) {
+
+    /**
+     * Interface that can be provided to be invoked on each [OpdsFeed] visited e.g. to download
+     * icons, validate content, etc.
+     */
+    fun interface OpdsFeedVisitor {
+
+        /**
+         * @param feed The [OpdsFeed] visited
+         */
+        suspend fun onVisit(feed: DataLoadState<OpdsFeed>)
+
+    }
 
     //Could search db based on job id or such . Produce itself is asynchronous
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -54,6 +69,7 @@ class CrawlPublicationCollectionsUseCase(
     fun CoroutineScope.launchProcessor(
         processorId: Int,
         channel: ReceiveChannel<CrawlPublicationQueueItem>,
+        visitor: OpdsFeedVisitor?,
     ) = launch {
         for(item in channel) {
             Napier.d(tag = LOGTAG) {
@@ -65,6 +81,7 @@ class CrawlPublicationCollectionsUseCase(
                 params = DataLoadParams()
             )
 
+            visitor?.onVisit(feedLoadState)
             feedLoadState.dataOrNull()?.also { feed ->
                 val otherFeedLinks = feed.navigation.orEmpty() + feed.groups.orEmpty().flatMap {
                     it.navigation.orEmpty()
@@ -100,13 +117,14 @@ class CrawlPublicationCollectionsUseCase(
     }
 
     suspend operator fun invoke(
-        jobId: Int
+        jobId: Int,
+        visitor: OpdsFeedVisitor? = null,
     ) {
         coroutineScope {
             Napier.d(tag = LOGTAG) { "#$jobId - start job"}
             val producer = produceJobs(jobId)
             repeat(NUM_PROCESSORS) {
-                launchProcessor(it, producer)
+                launchProcessor(it, producer, visitor)
             }
 
             Napier.d(tag = LOGTAG) { "#$jobId - waiting for job items to finish"}

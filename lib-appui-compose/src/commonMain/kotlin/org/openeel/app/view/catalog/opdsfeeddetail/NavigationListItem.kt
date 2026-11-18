@@ -1,8 +1,8 @@
 package org.openeel.app.view.catalog.opdsfeeddetail
 
 import androidx.compose.runtime.Composable
+import org.openeel.datalayer.school.opds.ext.findIcons
 import org.openeel.lib.opds.model.ReadiumLink
-import org.openeel.shared.viewmodel.catalog.opdsfeeddetail.OpdsFeedDetailViewModel.Companion.ICON
 
 
 @Composable
@@ -19,9 +19,7 @@ fun NavigationListItem(
         title = navigation.title
             ?.takeIf { it != "null" && it.isNotBlank() }
             ?: navigation.href,
-        iconUrl = navigation.alternate?.find {
-            it.rel?.contains(ICON) == true
-        }?.href,
+        iconUrl = navigation.findIcons().firstOrNull()?.href,
         description = description,
         language = navigation.language,
         duration = navigation.duration,
