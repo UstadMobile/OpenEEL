@@ -43,13 +43,20 @@ onFlowComplete:
     text: "Teacher"
 - scroll
 - assertVisible: "Reset code"
-# The switch ignores taps while the invite is loading or saving, so retry the tap and wait
-- tapOn:
-    text: "Approval required" # turn the switch off
-    retryTapIfNoChange: true
-- extendedWaitUntil:
-    visible: "Approval not required until:.*"
-    timeout: 10000
+## The switch ignores taps while the invite is loading or saving, so retry the tap and wait
+#- tapOn:
+#    text: "Approval required" # turn the switch off
+#    retryTapIfNoChange: true
+# Approve OFF
+- runFlow:
+    when:
+      notVisible: "Approval not required until:.*"
+    commands:
+      - tapOn: "Approval required" # turn the switch off
+      - assertVisible: "Approval not required until:.*"
+#- extendedWaitUntil:
+#    visible: "Approval not required until:.*"
+#    timeout: 10000
 - copyTextFrom:
       id: "invite_url"
 
@@ -132,6 +139,12 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Invite person"
+- runFlow:
+    when:
+      visible: "Approval not required until:.*"
+    commands:
+      - tapOn: "Approval required" # turn the switch ON
+      - assertNotVisible: "Approval not required until:.*"
 - assertVisible: "Approval required"    #switch is On
 - copyTextFrom:
     id: "invite_code"
@@ -239,13 +252,20 @@ onFlowComplete:
 - tapOn: "Add student"
 - tapOn: "Invite person"
 - tapOn: "Invite via parents"
-# The switch ignores taps while the invite is loading or saving, so retry the tap and wait
-- tapOn:
-    text: "Approval required" # turn the switch off
-    retryTapIfNoChange: true
-- extendedWaitUntil:
-    visible: "Approval not required until:.*"
-    timeout: 10000
+## The switch ignores taps while the invite is loading or saving, so retry the tap and wait
+#- tapOn:
+#    text: "Approval required" # turn the switch off
+#    retryTapIfNoChange: true
+# Approve OFF
+- runFlow:
+    when:
+      notVisible: "Approval not required until:.*"
+    commands:
+      - tapOn: "Approval required" # turn the switch off
+      - assertVisible: "Approval not required until:.*"
+#- extendedWaitUntil:
+#    visible: "Approval not required until:.*"
+#    timeout: 10000
 - copyTextFrom:
      id: "invite_url"
 
