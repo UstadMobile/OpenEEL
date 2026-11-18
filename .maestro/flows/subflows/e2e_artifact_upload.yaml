@@ -1,6 +1,8 @@
 appId: org.openeel.app
 ---
-- runFlow: "connectivity_enable.yaml"
+- setAirplaneMode: disabled
+# Wait for all pending remote writes to complete. See AppBar.kt for note on this.
+- runFlow: "wait_for_sync_complete.yaml"
 - stopApp
 - openLink: "org.openeel.app.e2eartifactupload:///?schoolUrl=${output.SCHOOL_URL_ENCODED}&name=${NAME}"
 
