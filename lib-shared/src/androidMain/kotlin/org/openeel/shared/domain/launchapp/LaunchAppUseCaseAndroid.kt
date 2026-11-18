@@ -90,13 +90,16 @@ class LaunchAppUseCaseAndroid(
     override suspend fun invoke(
         request: LaunchAppRequest
     ): LaunchAppUseCase.LaunchAppResult {
-        //
+        Log.d(LaunchAppTags.LOGTAG, "LaunchApp request for ${request.publicationUrl} " +
+                "assignmentActivityId=${request.assignmentActivityId}")
         val launchableAppsNotInstalled = mutableListOf<LaunchableAppNotInstalled>()
 
         try {
             val optionsResult = getLaunchOptionsForPublicationUseCase(
                 request.publication, request.publicationUrl
             )
+            Log.d(LaunchAppTags.LOGTAG, "Launch ${request.publicationUrl} : " +
+                    "options = ${optionsResult.options.joinToString()}")
 
             val launchableAppManifest = request.launchableApp ?:
                 request.publication.findLaunchableAppLink()?.let { link ->
