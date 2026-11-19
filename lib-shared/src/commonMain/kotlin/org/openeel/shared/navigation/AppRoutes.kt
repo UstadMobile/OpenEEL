@@ -8,10 +8,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.Json
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.Person
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.lib.xapi.extensions.reportoptions.ReportFilter
 import org.openeel.lib.xapi.model.XapiActor
 import org.openeel.shared.ext.NextAfterScan

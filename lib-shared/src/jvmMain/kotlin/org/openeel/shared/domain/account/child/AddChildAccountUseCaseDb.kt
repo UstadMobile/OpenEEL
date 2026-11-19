@@ -11,9 +11,9 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.ext.copyWithInviteInfo
 import org.openeel.datalayer.school.model.ClassInvite
 import org.openeel.datalayer.school.model.Enrollment
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.shared.domain.account.child.AddChildAccountUseCase.AddChildAccountRequest
 import org.openeel.shared.domain.school.SchoolPrimaryKeyGenerator

@@ -97,7 +97,7 @@ import org.openeel.datalayer.school.model.Clazz
 import org.openeel.datalayer.school.model.Enrollment
 import org.openeel.lib.xapi.extensions.reportoptions.Indicator
 import org.openeel.datalayer.school.model.Invite2
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.Report
 
 

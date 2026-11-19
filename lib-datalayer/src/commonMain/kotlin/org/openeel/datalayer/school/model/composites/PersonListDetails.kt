@@ -1,6 +1,6 @@
 package org.openeel.datalayer.school.model.composites
 
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 
 
 /**

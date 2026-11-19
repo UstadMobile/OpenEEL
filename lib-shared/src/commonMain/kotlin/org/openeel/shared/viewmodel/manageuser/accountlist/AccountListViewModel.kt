@@ -12,9 +12,9 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.school.ext.primaryRole
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonGenderEnum
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonGenderEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.libutil.ext.replaceOrAppend
 import org.openeel.shared.domain.account.UserAccount
@@ -130,7 +130,7 @@ class AccountListViewModel(
                         accounts = storedAccountList.map {
                             UserSessionAndPerson(
                                 session = UserSession(it, null),
-                                person = Person(
+                                person = it.externalPerson ?: Person(
                                     guid = it.userGuid,
                                     givenName = "",
                                     familyName = "",
@@ -142,7 +142,7 @@ class AccountListViewModel(
                     )
                 }
 
-                storedAccountList.forEach { account ->
+                storedAccountList.filter { it.externalPerson == null }.forEach { account ->
                     this@launch.launch {
                         val accountScope = appAccountManager.getOrCreateAccountScope(account)
                         val dataSource: SchoolDataSource = accountScope.get()
@@ -178,6 +178,10 @@ class AccountListViewModel(
         appAccountManager.switchAccount(account)
 
         viewModelScope.launch {
+            if (account.externalPerson != null) {
+                _navCommandFlow.tryEmit(NavCommand.Navigate(Home, clearBackStack = true))
+                return@launch
+            }
             val accountScope = appAccountManager.getOrCreateAccountScope(account)
             val person = accountScope.get<SchoolDataSource>().personDataSource.findByGuid(
                 loadParams = DataLoadParams(onlyIfCached = true),

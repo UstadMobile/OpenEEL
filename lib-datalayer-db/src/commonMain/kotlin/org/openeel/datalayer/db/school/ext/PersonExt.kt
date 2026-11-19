@@ -1,7 +1,7 @@
 package org.openeel.datalayer.db.school.ext
 
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonRoleEnum
 
 fun Person.fullName(): String = buildString {
     append(givenName)

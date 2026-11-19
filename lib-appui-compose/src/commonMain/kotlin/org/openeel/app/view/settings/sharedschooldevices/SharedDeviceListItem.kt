@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.ext.getDeviceInfo
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.this_device
 

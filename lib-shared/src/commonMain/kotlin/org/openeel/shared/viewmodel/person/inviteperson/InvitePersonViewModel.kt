@@ -29,10 +29,10 @@ import org.openeel.datalayer.school.ext.isApprovalRequiredNow
 import org.openeel.datalayer.school.ext.newUserInviteUid
 import org.openeel.datalayer.school.model.ClassInvite
 import org.openeel.datalayer.school.model.ClassInviteModeEnum
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.datalayer.school.model.Invite2
 import org.openeel.datalayer.school.model.NewUserInvite
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.libutil.ext.CHAR_POOL_NUMBERS
 import org.openeel.libutil.ext.randomString
 import org.openeel.libutil.util.time.systemTimeInMillis

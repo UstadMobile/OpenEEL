@@ -16,7 +16,7 @@ import org.openeel.app.components.openEelPagingItems
 import org.openeel.app.components.openEelRememberPager
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.ClassDataSource
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.shared.viewmodel.sharedschooldevice.login.LoginSelectStudentUiState
 import org.openeel.shared.viewmodel.sharedschooldevice.login.LoginSelectStudentViewModel
 

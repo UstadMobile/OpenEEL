@@ -18,7 +18,7 @@ import org.openeel.datalayer.school.InviteDataSource
 import org.openeel.datalayer.school.InviteDataSourceLocal
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.model.ClassInvite
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.datalayer.school.model.FamilyMemberInvite
 import org.openeel.datalayer.school.model.Invite2
 import org.openeel.datalayer.school.model.NewUserInvite

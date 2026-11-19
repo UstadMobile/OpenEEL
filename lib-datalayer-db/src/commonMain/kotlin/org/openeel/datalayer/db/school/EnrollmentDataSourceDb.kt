@@ -17,7 +17,7 @@ import org.openeel.datalayer.db.school.adapters.toModel
 import org.openeel.datalayer.school.EnrollmentDataSource
 import org.openeel.datalayer.school.EnrollmentDataSourceLocal
 import org.openeel.datalayer.school.model.Enrollment
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.datalayer.school.model.PermissionFlags
 import org.openeel.datalayer.shared.maxLastModifiedOrNull
 import org.openeel.datalayer.shared.maxLastStoredOrNull

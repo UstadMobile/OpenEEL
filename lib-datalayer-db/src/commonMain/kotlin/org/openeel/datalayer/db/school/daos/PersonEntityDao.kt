@@ -11,7 +11,7 @@ import org.openeel.datalayer.db.school.entities.LastModifiedAndPermission
 import org.openeel.datalayer.db.school.entities.PersonEntity
 import org.openeel.datalayer.db.school.entities.PersonEntityWithRoles
 import org.openeel.datalayer.school.model.PermissionFlags
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.datalayer.school.model.StatusEnum
 import org.openeel.datalayer.school.model.composites.PersonListDetails

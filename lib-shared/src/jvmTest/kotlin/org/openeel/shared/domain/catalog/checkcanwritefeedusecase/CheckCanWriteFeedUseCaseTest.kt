@@ -6,10 +6,10 @@ import io.ktor.http.appendPathSegments
 import kotlinx.coroutines.runBlocking
 import net.thauvin.erik.urlencoder.UrlEncoderUtil
 import org.mockito.kotlin.mock
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonGenderEnum
-import org.openeel.datalayer.school.model.PersonRole
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonGenderEnum
+import org.openeel.lib.directory.model.PersonRole
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.lib.xapi.OpenEelXapiConstants
 import kotlin.test.Test
 import kotlin.test.assertFalse

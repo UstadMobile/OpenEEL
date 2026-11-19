@@ -76,6 +76,8 @@ android {
 
     defaultConfig {
         applicationId = "org.openeel.app"
+        // AppAuth uses this scheme to receive the authorization redirect.
+        manifestPlaceholders["appAuthRedirectScheme"] = "org.openeel.oauth"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 134
@@ -145,6 +147,7 @@ dependencies {
     implementation(projects.libSharedSe)
     implementation(projects.libXapiIpcServer)
     implementation(projects.libDatalayerRepository)
+    implementation(projects.libDirectoryKeycloak)
     implementation(projects.libPrimarykeygen)
     implementation(projects.libHttpIpcServer)
     implementation(projects.libHttpIpcClient)
@@ -174,6 +177,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.sqlite.bundled)
     implementation(libs.androidx.webkit)
+    implementation(libs.appauth)
     implementation(libs.material)
     implementation(libs.coil3.coil.svg)
     implementation(libs.acra.http)

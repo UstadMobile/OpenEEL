@@ -3,6 +3,7 @@ package org.openeel.shared.domain.account
 import kotlinx.serialization.Serializable
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.lib.directory.model.Person
 import org.openeel.shared.util.di.UserAccountScopeId
 
 /**
@@ -15,6 +16,7 @@ import org.openeel.shared.util.di.UserAccountScopeId
 data class UserAccount(
     val userGuid: String,
     val school: SchoolDirectoryEntry,
+    val externalPerson: Person? = null,
 ) {
 
     /**

@@ -19,11 +19,11 @@ import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.school.EnrollmentDataSource
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.model.Clazz
 import org.openeel.datalayer.school.model.Enrollment
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.StatusEnum
 import org.openeel.datalayer.shared.paging.EmptyPagingSourceFactory
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
@@ -128,7 +128,7 @@ class ClazzDetailViewModel(
         return PagingSourceFactoryHolder {
             schoolDataSource.personDataSource.listAsPagingSource(
                 loadParams = DataLoadParams(),
-                params = PersonDataSource.GetListParams(
+                params = BuiltinPersonDirectoryResource.GetListParams(
                     filterByClazzUid = route.guid,
                     filterByEnrolmentRole = role,
                     inClassOnDay = localDateInCurrentTimeZone(),

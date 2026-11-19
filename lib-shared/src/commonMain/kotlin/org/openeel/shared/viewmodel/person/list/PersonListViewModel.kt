@@ -12,8 +12,8 @@ import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.datalayer.school.PersonDataSource
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.datalayer.shared.paging.EmptyPagingSource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
@@ -37,8 +37,8 @@ import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCase
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUseCase
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
@@ -94,7 +94,7 @@ class PersonListViewModel(
     private val pendingPersonsPagingSource = PagingSourceFactoryHolder {
         schoolDataSource.personDataSource.listAsPagingSource(
             DataLoadParams(),
-            PersonDataSource.GetListParams(
+            BuiltinPersonDirectoryResource.GetListParams(
                 filterByPersonStatus = PersonStatusEnum.PENDING_APPROVAL,
                 excludeByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
             )
@@ -104,7 +104,7 @@ class PersonListViewModel(
     private val pagingSourceFactoryHolder = PagingSourceFactoryHolder {
         schoolDataSource.personDataSource.listDetailsAsPagingSource(
             DataLoadParams(),
-            PersonDataSource.GetListParams(
+            BuiltinPersonDirectoryResource.GetListParams(
                 filterByName = _appUiState.value.searchState.searchText.takeIf { it.isNotBlank() },
                 filterByPersonRole = route.filterByRole,
                 filterByPersonStatus = PersonStatusEnum.ACTIVE,

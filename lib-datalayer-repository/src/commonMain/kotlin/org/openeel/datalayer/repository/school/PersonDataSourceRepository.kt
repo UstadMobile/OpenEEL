@@ -11,9 +11,9 @@ import org.openeel.datalayer.ext.updateFromRemoteListIfNeeded
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
 import org.openeel.datalayer.repository.shared.paging.RepositoryPagingSourceFactory
 import org.openeel.datalayer.repository.shared.paging.loadAndUpdateLocal2
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.PersonDataSourceLocal
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
 import org.openeel.datalayer.school.writequeue.WriteQueueItem
@@ -23,10 +23,10 @@ import org.openeel.libutil.util.time.systemTimeInMillis
 
 class PersonDataSourceRepository(
     override val local: PersonDataSourceLocal,
-    override val remote: PersonDataSource,
+    override val remote: BuiltinPersonDirectoryResource,
     private val validationHelper: ExtendedDataSourceValidationHelper,
     private val remoteWriteQueue: RemoteWriteQueue,
-) : PersonDataSource, RepositoryModelDataSource<Person> {
+) : BuiltinPersonDirectoryResource, RepositoryModelDataSource<Person> {
 
     override suspend fun findByUsername(username: String): Person? {
         return local.findByUsername(username)
@@ -56,7 +56,7 @@ class PersonDataSourceRepository(
 
     override fun listAsFlow(
         loadParams: DataLoadParams,
-        params: PersonDataSource.GetListParams,
+        params: BuiltinPersonDirectoryResource.GetListParams,
     ): Flow<DataLoadState<List<Person>>> {
         val remoteParams = params.copy(
             common = params.common.copy(includeDeleted = true),
@@ -71,7 +71,7 @@ class PersonDataSourceRepository(
 
     override suspend fun list(
         loadParams: DataLoadParams,
-        params: PersonDataSource.GetListParams,
+        params: BuiltinPersonDirectoryResource.GetListParams,
     ): DataLoadState<List<Person>> {
         val remote = remote.list(loadParams, params)
         if(remote is DataReadyState) {
@@ -84,7 +84,7 @@ class PersonDataSourceRepository(
 
     override fun listAsPagingSource(
         loadParams: DataLoadParams,
-        params: PersonDataSource.GetListParams,
+        params: BuiltinPersonDirectoryResource.GetListParams,
     ): IPagingSourceFactory<Int, Person> {
         val remoteSource = remote.takeIf { !loadParams.onlyIfCached }?.listAsPagingSource(
             loadParams = loadParams,
@@ -107,7 +107,7 @@ class PersonDataSourceRepository(
 
     override fun listDetailsAsPagingSource(
         loadParams: DataLoadParams,
-        listParams: PersonDataSource.GetListParams
+        listParams: BuiltinPersonDirectoryResource.GetListParams
     ): IPagingSourceFactory<Int, PersonListDetails> {
         return RepositoryPagingSourceFactory(
             onRemoteLoad = { remoteLoadParams ->

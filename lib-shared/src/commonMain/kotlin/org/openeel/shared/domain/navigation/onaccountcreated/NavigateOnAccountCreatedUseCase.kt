@@ -4,7 +4,7 @@ import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.openeel.datalayer.school.model.ClassInvite
 import org.openeel.datalayer.school.model.ClassInviteModeEnum
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.shared.navigation.Home

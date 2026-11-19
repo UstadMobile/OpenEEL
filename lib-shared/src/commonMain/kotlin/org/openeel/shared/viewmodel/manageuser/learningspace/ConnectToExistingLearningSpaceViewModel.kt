@@ -9,21 +9,24 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.mp.KoinPlatform.getKoin
 import org.openeel.datalayer.SchoolDirectoryDataSource
+import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.libutil.ext.normalizeForEndpoint
+import org.openeel.shared.domain.account.login.GoToLoginUseCase
 import org.openeel.shared.domain.devmode.GetDevModeEnabledUseCase
 import org.openeel.shared.domain.urltonavcommand.ResolveUrlToNavCommandUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.connect_existing_learning_space
 import org.openeel.shared.generated.resources.invalid_code
 import org.openeel.shared.generated.resources.invalid_url
-import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.NavCommand
 import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.util.ext.asUiText
+import org.openeel.shared.util.di.SchoolDirectoryEntryScopeId
 import org.openeel.shared.viewmodel.OpenEelViewModel
 
 
@@ -79,15 +82,18 @@ class ConnectToExistingLearningSpaceViewModel(
         launchWithLoadingIndicator {
             try {
                 val url = Url(uiState.value.link)
-                _navCommandFlow.tryEmit(
-                    resolveUrlToNavCommandUseCase(url) ?: url.normalizeForEndpoint().let { schoolUrl ->
-                        requireNotNull(
+                val navCommand = resolveUrlToNavCommandUseCase(url)
+                    ?: url.normalizeForEndpoint().let { schoolUrl ->
+                        val school = requireNotNull(
                             schoolDirectoryDataSource.schoolDirectoryEntryResource
                                 .getSchoolDirectoryEntryByUrl(schoolUrl).dataOrNull()
                         ) { "No school found for $schoolUrl" }
-                        NavCommand.Navigate(LoginScreen.create(schoolUrl))
+                        val schoolScope = getKoin().getOrCreateScope<SchoolDirectoryEntry>(
+                            SchoolDirectoryEntryScopeId(schoolUrl, null).scopeId
+                        )
+                        schoolScope.get<GoToLoginUseCase>()(school)
                     }
-                )
+                navCommand?.let { _navCommandFlow.tryEmit(it) }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {

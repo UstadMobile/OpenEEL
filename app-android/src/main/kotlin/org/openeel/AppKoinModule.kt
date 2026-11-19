@@ -171,6 +171,12 @@ import org.openeel.datalayer.repository.opds.OpdsFeedActivityProfileMediator
 import org.openeel.datalayer.school.opds.OpdsFeedDataSource
 import org.openeel.lib.xapi.auth.GetXapiAuthorityActorUseCase
 import org.openeel.shared.domain.activitycontextjobprocessor.EnqueueActivityContextJobUseCase
+import org.openeel.shared.domain.account.authwithopenid.GetTokenAndUserProfileWithOpenIdUseCase
+import org.openeel.lib.directory.keycloak.KeycloakPersonDirectoryResource
+import org.openeel.lib.directory.resources.PersonDirectoryResource
+import org.openeel.datalayer.respect.model.KeycloakUserDirectoryConfig
+import org.openeel.shared.domain.account.login.GoToLoginUseCase
+import org.openeel.shared.domain.account.authwithopenid.LaunchOpenIdAuthorizationUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCase
 import org.openeel.shared.domain.getdeviceinfo.GetDeviceInfoUseCaseAndroid
 import org.openeel.shared.domain.e2eartifactupload.GetDbFilesForE2EArtifactUploadUseCase
@@ -896,6 +902,21 @@ val appKoinModule = module {
         EnqueueActivityContextJobUseCase()
     }
 
+    single {
+        GetTokenAndUserProfileWithOpenIdUseCase(
+            httpClient = get(),
+        )
+    }
+
+    single {
+        HandleOpenIdAuthorizationResultUseCaseAndroid(
+            context = androidContext().applicationContext,
+            getTokenAndUserProfileWithOpenIdUseCase = get(),
+            accountManager = get(),
+            tokenManager = get(),
+        )
+    }
+
     single<GoToAppStoreUseCase> {
         GoToAppStoreUseCaseAndroid(
             appContext = androidApplication(),
@@ -928,6 +949,20 @@ val appKoinModule = module {
      * can be shared
      */
     scope<SchoolDirectoryEntry> {
+        scoped<LaunchOpenIdAuthorizationUseCase> {
+            LaunchOpenIdAuthorizationUseCaseAndroid(
+                schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
+                enqueueActivityContextJobUseCase = get(),
+            )
+        }
+
+        scoped<GoToLoginUseCase> {
+            GoToLoginUseCase(
+                schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
+                launchOpenIdAuthorizationUseCase = get(),
+            )
+        }
+
         scoped<GetTokenAndUserProfileWithCredentialUseCase> {
             GetTokenAndUserProfileWithCredentialUseCaseClient(
                 schoolUrl = SchoolDirectoryEntryScopeId.parse(id).schoolUrl,
@@ -1082,6 +1117,26 @@ val appKoinModule = module {
             get<TokenManager>().providerFor(id)
         }
 
+        scoped<KeycloakPersonDirectoryResource> {
+            val account = get<AppAccountManager>().accounts.value.firstOrNull()
+            val config = account?.school?.userDirectory as? KeycloakUserDirectoryConfig
+                ?: error(" directory is not configured ")
+            KeycloakPersonDirectoryResource(
+                config = config,
+                httpClient = get(),
+                tokenProvider = get(),
+            )
+        }
+
+        scoped<PersonDirectoryResource> {
+            val account = get<AppAccountManager>().accounts.value.firstOrNull()
+            if (account?.school?.userDirectory is KeycloakUserDirectoryConfig) {
+                get<KeycloakPersonDirectoryResource>()
+            } else {
+                get<SchoolDataSourceRepository>().personDataSource
+            }
+        }
+
         scoped<RemoteWriteQueue> {
             get<UserAccountSchoolScopeLink>()
             val accountScopeId = UserAccountScopeId.parse(id)
@@ -1178,7 +1233,7 @@ val appKoinModule = module {
             )
         }
 
-        scoped<SchoolDataSource> {
+        scoped<SchoolDataSourceRepository> {
             val schoolUrl = get<UserAccountSchoolScopeLink>()
             val localDs = get<SchoolDataSourceLocal>()
 
@@ -1201,6 +1256,10 @@ val appKoinModule = module {
                 xapiRemoteWriteQueue = get(),
                 json = get(),
             )
+        }
+
+        scoped<SchoolDataSource> {
+            get<SchoolDataSourceRepository>()
         }
 
         scoped<ApproveOrDeclineInviteRequestUseCase> {

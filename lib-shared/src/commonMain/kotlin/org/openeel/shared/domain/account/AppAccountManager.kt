@@ -26,11 +26,12 @@ import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.respect.model.KeycloakUserDirectoryConfig
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.libutil.util.putDebugCrashCustomData
 import org.openeel.shared.domain.account.gettokenanduser.GetTokenAndUserProfileWithCredentialUseCase
 import org.openeel.shared.domain.account.invite.RedeemInviteUseCase
@@ -95,12 +96,22 @@ class AppAccountManager(
     val selectedAccountAndPersonFlow: Flow<UserSessionAndPerson?> = channelFlow {
         _activeSession.collectLatest { session ->
             if(session != null) {
+                val externalPerson = session.account.externalPerson
+                if (externalPerson != null) {
+                    send(
+                        element = UserSessionAndPerson(
+                            session = session,
+                            person = externalPerson
+                        )
+                    )
+                    return@collectLatest
+                }
                 val accountScope = getOrCreateAccountScope(session.account)
                 val schoolDataSource: SchoolDataSource = accountScope.get()
 
                 schoolDataSource.personDataSource.listAsFlow(
                     loadParams = DataLoadParams(),
-                    params = PersonDataSource.GetListParams(
+                    params = BuiltinPersonDirectoryResource.GetListParams(
                         common = GetListCommonParams(
                             guid = session.activePersonUid
                         ),
@@ -111,7 +122,7 @@ class AppAccountManager(
                     //needed
                     flow = schoolDataSource.personDataSource.listAsFlow(
                         loadParams = DataLoadParams(),
-                        params = PersonDataSource.GetListParams(
+                        params = BuiltinPersonDirectoryResource.GetListParams(
                             common = GetListCommonParams(
                                 guid = session.account.userGuid,
                             ),
@@ -176,6 +187,30 @@ class AppAccountManager(
         return authResponse
     }
 
+    suspend fun startSession(
+        authResponse: AuthResponse,
+        schoolUrl: Url,
+    ) {
+        val schoolDirectoryEntry = appDataSource.schoolDirectoryEntryResource
+            .getSchoolDirectoryEntryByUrl(schoolUrl)
+            .dataOrNull() ?: throw IllegalStateException("School directory entry is unavailable")
+
+        initSession(
+            authResponse = authResponse,
+            session = UserSession(
+                account = UserAccount(
+                    userGuid = authResponse.person.guid,
+                    school = schoolDirectoryEntry,
+                    externalPerson = authResponse.person.takeIf {
+                        schoolDirectoryEntry.userDirectory is KeycloakUserDirectoryConfig
+                    },
+                ),
+                profilePersonUid = null,
+            ),
+        )
+    }
+
+    @Suppress("unused")
     /**
      * Register a new user by redeeming an invite.
      * @param redeemInviteRequest the request to redeem the invite
@@ -230,23 +265,25 @@ class AppAccountManager(
 
         val accountScope = getOrCreateAccountScope(session.account)
 
-        val schoolDataSource: SchoolDataSource = accountScope.get()
+        if (session.account.externalPerson == null) {
+            val schoolDataSource: SchoolDataSource = accountScope.get()
 
-        //Ensure the active user is loaded into the database
-        schoolDataSource.personDataSource.list(
-            loadParams = DataLoadParams(),
-            params = PersonDataSource.GetListParams(
-                common = GetListCommonParams(
-                    guid = authResponse.person.guid
-                ),
-                includeRelated = true,
+            //Ensure the active user is loaded into the database
+            schoolDataSource.personDataSource.list(
+                loadParams = DataLoadParams(),
+                params = BuiltinPersonDirectoryResource.GetListParams(
+                    common = GetListCommonParams(
+                        guid = authResponse.person.guid
+                    ),
+                    includeRelated = true,
+                )
             )
-        )
 
-        //Load school permission grants (rules)
-        schoolDataSource.schoolPermissionGrantDataSource.list(
-            DataLoadParams(), SchoolPermissionGrantDataSource.GetListParams()
-        ).dataOrNull() ?: throw IllegalStateException("Could not load permission grants")
+            //Load school permission grants (rules)
+            schoolDataSource.schoolPermissionGrantDataSource.list(
+                DataLoadParams(), SchoolPermissionGrantDataSource.GetListParams()
+            ).dataOrNull() ?: throw IllegalStateException("Could not load permission grants")
+        }
 
         //now we can get the datalayer by creating a UserAccount scope
         val mkDirUseCase: MakeSchoolPathDirUseCase? = schoolScope.getOrNull()

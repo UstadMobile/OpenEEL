@@ -20,10 +20,10 @@ import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.respect.model.invite.InviteInfo
 import org.openeel.datalayer.school.ext.accepterPersonRole
 import org.openeel.datalayer.school.ext.isChildUser
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.lib.opds.model.LangMap
 import org.openeel.shared.domain.account.shareddevice.enableshareddevicemode.EnableSharedDeviceModeUseCase
 import org.openeel.shared.domain.account.shareddevice.enableshareddevicemode.EnableSharedDeviceModeUseCase.Companion.CURRENT_DEVICE_GUID

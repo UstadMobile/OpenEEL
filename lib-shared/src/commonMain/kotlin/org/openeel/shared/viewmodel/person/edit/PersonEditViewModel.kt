@@ -22,12 +22,12 @@ import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCase
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonGenderEnum
-import org.openeel.datalayer.school.model.PersonRole
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonGenderEnum
+import org.openeel.lib.directory.model.PersonRole
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.shared.params.GetListCommonParams
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.phonenumber.PhoneNumValidatorUseCase
@@ -183,7 +183,7 @@ class PersonEditViewModel(
                     loadFn = { loadParams ->
                         schoolDataSource.personDataSource.list(
                             loadParams = loadParams,
-                            params = PersonDataSource.GetListParams(
+                            params = BuiltinPersonDirectoryResource.GetListParams(
                                 common = GetListCommonParams(
                                     guid = route.guid
                                 ),

@@ -20,4 +20,8 @@ class SchoolDirectoryEntryAuthOptionEntity(
     val sdeAoName: String,
     val sdeAoConfigType: AuthOptionConfigTypeEnum,
     val sdeAoOpenIdIssuerUrl: Url?,
+    val sdeAoOpenIdClientId: String?,
+    val sdeAoOpenIdScope: String?,
+    val sdeAoOpenIdRedirectUri: String?,
+    val sdeAoOpenIdPrompt: String?,
 )
