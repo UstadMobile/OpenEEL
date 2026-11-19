@@ -6,7 +6,7 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.db.school.domain.AddDefaultSchoolPermissionGrantsUseCase
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.directory.model.Person
 import org.openeel.lib.directory.model.PersonGenderEnum
@@ -123,7 +123,7 @@ class TestPersonStorage {
 
                 val listWithoutStudents = schoolDs.personDataSource.list(
                     loadParams = DataLoadParams(),
-                    params = PersonDataSource.GetListParams(
+                    params = BuiltinPersonDirectoryResource.GetListParams(
                         excludeByPersonRole = PersonRoleEnum.STUDENT
                     )
                 ).dataOrNull()
@@ -135,7 +135,7 @@ class TestPersonStorage {
 
                 val listOnlyTeachers = schoolDs.personDataSource.list(
                     loadParams = DataLoadParams(),
-                    params = PersonDataSource.GetListParams(
+                    params = BuiltinPersonDirectoryResource.GetListParams(
                         filterByPersonRole = PersonRoleEnum.TEACHER
                     )
                 ).dataOrNull()
