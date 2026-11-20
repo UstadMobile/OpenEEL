@@ -180,10 +180,10 @@ class AssignmentEditViewModel(
                     instructor = instructor
                 )
 
-                val initialStmt = route.learningUnitSelected?.let {
+                val initialStmt = route.learningUnitSelected?.let { selected ->
                     try {
                         baseStmt.addActivitiesToContextActivitiesGrouping(
-                            getXapiActivityForPublicationUseCase(it.selectedPublications)
+                            getXapiActivityForPublicationUseCase(selected)
                         )
                     }catch(e: Throwable) {
                         Napier.w("Could not load activity unit for assignment init", e)
@@ -202,7 +202,7 @@ class AssignmentEditViewModel(
             viewModelScope.launch {
                 resultReturner.filteredResultFlowForKey(KEY_LEARNING_UNIT).collect { result ->
                     val learningUnit = result.result as? PublicationsSelection ?: return@collect
-                    val activities = getXapiActivityForPublicationUseCase(learningUnit.selectedPublications)
+                    val activities = getXapiActivityForPublicationUseCase(learningUnit)
 
                     _uiState.update { prev ->
                         val preStatementData = prev.statementData.dataOrNull() ?: return@update prev

@@ -9,7 +9,6 @@ import io.ktor.http.Url
 import io.ktor.utils.io.discard
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationCollectionsUseCase
 import org.openeel.datalayer.school.opds.ext.findIcons
-import org.openeel.datalayer.school.opds.ext.requireSelfUrl
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.opds.model.OpdsFeed
@@ -36,7 +35,7 @@ class DownloadImagesForOpdsFeedVisitor(
                 it.images.orEmpty()
             }.distinctBy { it.href }
 
-            val feedUrl = feed.data.requireSelfUrl()
+            val feedUrl = feed.metaInfo.requireUrl()
 
             allImageLinks.forEach {
                 try {

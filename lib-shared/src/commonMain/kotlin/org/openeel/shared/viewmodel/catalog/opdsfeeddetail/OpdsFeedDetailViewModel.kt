@@ -3,6 +3,7 @@ package org.openeel.shared.viewmodel.catalog.opdsfeeddetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -64,6 +65,7 @@ import org.openeel.shared.viewmodel.catalog.OpdsPickType
 import org.openeel.shared.viewmodel.catalog.PublicationsSelection
 
 data class OpdsFeedDetailUiState(
+    val url: Url,
     val feed: DataLoadState<OpdsFeed> = DataLoadingState(),
     val sortOptions: List<SortOrderOption> = emptyList(),
     val activeSortOrderOption: SortOrderOption = SortOrderOption(
@@ -134,11 +136,13 @@ class OpdsFeedDetailViewModel(
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
-    private val _uiState = MutableStateFlow(OpdsFeedDetailUiState())
+    private val route: OpdsFeedDetail = savedStateHandle.toRoute()
+
+    private val _uiState = MutableStateFlow(
+        OpdsFeedDetailUiState(url = route.opdsFeedUrl)
+    )
 
     val uiState = _uiState.asStateFlow()
-
-    private val route: OpdsFeedDetail = savedStateHandle.toRoute()
 
     private val checkCanWriteFeedUseCase: CheckCanWriteFeedUseCase by inject()
 

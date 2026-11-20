@@ -3,13 +3,13 @@ package org.openeel.shared.domain.opds.getxapiactivityid
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.Url
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import nl.adaptivity.xmlutil.serialization.XML
-import org.openeel.datalayer.school.opds.ext.requireAbsoluteSelfUrl
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.findLearningUnitAcquisitionLinks
 import org.openeel.lib.opds.model.findTinCanXmlLink
@@ -20,6 +20,7 @@ import org.openeel.lib.xapi.model.XapiActivityDefinition
 import org.openeel.lib.xapi.rusticilaunch.model.TinCanXmlDocument
 import org.openeel.libutil.ext.resolve
 import org.openeel.shared.util.ext.legacyActivityIdForLink
+import org.openeel.shared.viewmodel.catalog.PublicationsSelection
 
 /**
  * Get an XapiActivity (including definition) for a given publication. If the publication includes
@@ -32,10 +33,9 @@ class GetXapiActivityForPublicationUseCase(
 ) {
 
     suspend operator fun invoke(
-        publication: Publication
+        publication: Publication,
+        publicationUrl: Url,
     ) : XapiActivity {
-        val publicationUrl = publication.requireAbsoluteSelfUrl()
-
         val tinCanXmlLink = publication.findTinCanXmlLink()
         return if(tinCanXmlLink != null) {
             val tinCanXmlUrl = publicationUrl.resolve(tinCanXmlLink.href)
@@ -78,14 +78,19 @@ class GetXapiActivityForPublicationUseCase(
     }
 
     suspend operator fun invoke(
-        publications: List<Publication>
+        publications: List<Pair<Publication, Url>>,
     ): List<XapiActivity> {
         return coroutineScope {
-            publications.map { publication ->
-                async { invoke(publication) }
+            publications.map { (publication, url) ->
+                async { invoke(publication = publication, publicationUrl = url) }
             }.awaitAll()
         }
     }
 
+    suspend operator fun invoke(selection: PublicationsSelection): List<XapiActivity> {
+        return invoke(
+            selection.selectedPublications.map { it to selection.url }
+        )
+    }
 
 }

@@ -15,8 +15,7 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
-import org.openeel.datalayer.school.opds.ext.requireSelfUrl
+import org.openeel.shared.domain.catalog.adaptfeedforcollections.MakePlaylistOpdsFeedUseCase
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.mapAsync
 import org.openeel.lib.opds.model.OpdsFeed
@@ -31,6 +30,7 @@ import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
 import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.libutil.ext.moveItem
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.catalog.makecollectionurl.MakeCollectionUrlUseCase
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_collection
@@ -91,7 +91,7 @@ data class MoveItemDestination(
 
 data class OpdsFeedEditUiState(
     val feed: OpdsFeed? = null,
-    val baseUrl: Url = Url("http://localhost:8080/"),
+    val url: Url = Url("http://localhost:8080/"),
     val addGroupTypeDialogVisible: Boolean = false,
     val titleError: UiText? = null,
     val movingItem: OpdsFeedItemIndex? = null,
@@ -175,12 +175,14 @@ class OpdsFeedEditViewModel(
     private val route: OpdsFeedEdit = savedStateHandle.toRoute()
 
     private val _uiState = MutableStateFlow(
-        OpdsFeedEditUiState(baseUrl = accountManager.requireActiveSchoolUrl())
+        OpdsFeedEditUiState(url = accountManager.requireActiveSchoolUrl())
     )
 
     val uiState = _uiState.asStateFlow()
 
     private val saveOpdsFeedUseCase: SaveOpdsFeedUseCase by inject()
+
+    private val makeCollectionUrlUseCase: MakeCollectionUrlUseCase by inject()
 
     private var pendingAddItemGroupIndex: Int?
         get() = savedStateHandle.get<Int>(KEY_PENDING_ADD_ITEM_GROUP_INDEX)
@@ -208,6 +210,9 @@ class OpdsFeedEditViewModel(
         launchWithLoadingIndicator(
             onShowError = { snackBarDispatcher.showSnackBar(Snack(it)) }
         ) {
+            val feedUrl = route.url ?: makeCollectionUrlUseCase()
+            _uiState.update { it.copy(url = feedUrl) }
+
             if(route.url != null) {
                 loadEntity(
                     json = json,
@@ -221,6 +226,7 @@ class OpdsFeedEditViewModel(
                                 dataLoadState.mapAsync {
                                     makePlaylistOpdsFeedUseCase(
                                         base = it.resolve(route.url),
+                                        feedUrl = feedUrl,
                                         username = accountManager.activeAccount?.userGuid ?: ""
                                     ).copy(
                                         metadata = it.metadata.copy(
@@ -237,7 +243,6 @@ class OpdsFeedEditViewModel(
                         _uiState.update {
                             it.copy(
                                 feed = state.dataOrNull(),
-                                baseUrl = state.dataOrNull()?.requireSelfUrl() ?: it.baseUrl,
                             )
                         }
                     }
@@ -250,6 +255,7 @@ class OpdsFeedEditViewModel(
                         publications = emptyList(),
                         groups = emptyList(),
                     ),
+                    feedUrl = feedUrl,
                     username = accountManager.activeAccount?.userGuid ?: ""
                 )
                 _uiState.update { it.copy(feed = newFeed) }
@@ -451,7 +457,7 @@ class OpdsFeedEditViewModel(
                     feed = prev.feed.removeItemAt(fromIndex)
                         .addFeedSelection(
                             OpdsFeedSelection(
-                                url = prev.feed.requireSelfUrl(),
+                                url = prev.url,
                                 selectedFeeds = listOf(item)
                             ),
                             toGroupIndex = destination.groupIndex,
@@ -466,7 +472,7 @@ class OpdsFeedEditViewModel(
                     feed = prev.feed.removeItemAt(fromIndex)
                         .addPublicationSelection(
                             PublicationsSelection(
-                                url = prev.feed.requireSelfUrl(),
+                                url = prev.url,
                                 selectedPublications = listOf(item),
                             ),
                             toGroupIndex = destination.groupIndex
@@ -538,8 +544,13 @@ class OpdsFeedEditViewModel(
     }
 
     fun onClickSave() {
-        val feed = _uiState.value.feed
-            ?: throw IllegalStateException("onClickSave called but feed is null")
+        //As per the init function, the url is _always_ set before the feed is non-null
+        //The save button will not be enabled when loading, so it will not be possible to click it
+        //if the feed is null
+        val (feed, feedUrl) = _uiState.value.let { it.feed to it.url }
+        if(feed == null)
+            throw IllegalStateException("onClickSave called but feed is null")
+
         if (feed.metadata.title.isBlank()) {
             _uiState.update {
                 it.copy(
@@ -554,12 +565,12 @@ class OpdsFeedEditViewModel(
             val actor = accountManager.selectedAccountAndPersonFlow.first()?.xapiAgent
                 ?: throw IllegalStateException("onClickSave: no active account, cannot save")
 
-            saveOpdsFeedUseCase(feed, actor)
+            saveOpdsFeedUseCase(feed, feedUrl, actor)
             if(route.isNewFeedOrNewRemix) {
                 _navCommandFlow.tryEmit(
                     NavCommand.Navigate(
                         destination = OpdsFeedDetail.create(
-                            opdsFeedUrl = feed.requireSelfUrl(),
+                            opdsFeedUrl = feedUrl,
                         ),
                         popUpTo = route,
                         popUpToInclusive = true,

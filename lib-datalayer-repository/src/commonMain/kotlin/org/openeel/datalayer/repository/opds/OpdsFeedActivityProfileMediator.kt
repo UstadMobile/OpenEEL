@@ -15,6 +15,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
+import org.openeel.lib.dataloadstate.ext.copyLoadState
 import org.openeel.lib.dataloadstate.ext.mapAsync
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.xapi.ext.decodeFromXapiDocument
@@ -52,12 +53,16 @@ class OpdsFeedActivityProfileMediator(
                 this.encodedPath == xapiUrlVal.appendEndpointSegments("activities/profile").encodedPath
     }
 
-    private suspend fun DataLoadState<XapiDocument>.toOpdsFeed(): DataLoadState<OpdsFeed> {
+    private suspend fun DataLoadState<XapiDocument>.toOpdsFeed(
+        url: Url,
+    ): DataLoadState<OpdsFeed> {
         return mapAsync { document ->
             withContext(Dispatchers.IO) {
                 json.decodeFromXapiDocument(OpdsFeed.serializer(), document)
             }
-        }
+        }.copyLoadState(
+            metaInfo = metaInfo.copy(url = url)
+        )
     }
 
     private fun Url.toSingleDocParams() : XapiActivityProfileResource.SingleDocumentParams {
@@ -65,16 +70,15 @@ class OpdsFeedActivityProfileMediator(
     }
 
     private suspend fun updateOpdsLocalIfNeeded(
-        url: Url,
         dataLoadState: DataLoadState<OpdsFeed>
     ) {
         when{
             dataLoadState is DataReadyState -> {
-                opdsLocal.updateLocal(url, dataLoadState)
+                opdsLocal.updateLocal(dataLoadState)
             }
 
             (dataLoadState as? NoDataLoadedState)?.reason == NoDataLoadedState.Reason.NOT_FOUND -> {
-                opdsLocal.delete(url)
+                opdsLocal.delete(dataLoadState.metaInfo.requireUrl())
             }
         }
     }
@@ -90,8 +94,8 @@ class OpdsFeedActivityProfileMediator(
                         params = url.toSingleDocParams(),
                         dataLoadParams = params,
                     ).map { dataLoadState ->
-                        dataLoadState.toOpdsFeed().also {
-                            updateOpdsLocalIfNeeded(url, it)
+                        dataLoadState.toOpdsFeed(url = url).also {
+                            updateOpdsLocalIfNeeded(it)
                         }
                     }
                 }else {
@@ -109,8 +113,8 @@ class OpdsFeedActivityProfileMediator(
             activityProfileRepo.get(
                 params = url.toSingleDocParams(),
                 dataLoadParams = params,
-            ).toOpdsFeed().also { dataLoadState ->
-                updateOpdsLocalIfNeeded(url, dataLoadState)
+            ).toOpdsFeed(url = url).also { dataLoadState ->
+                updateOpdsLocalIfNeeded(dataLoadState)
             }
         }else {
             opdsRepo.getByUrl(url, params)

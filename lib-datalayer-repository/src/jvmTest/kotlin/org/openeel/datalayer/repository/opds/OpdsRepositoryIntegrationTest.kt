@@ -18,6 +18,7 @@ import io.ktor.server.routing.routing
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.Json
@@ -171,7 +172,9 @@ class OpdsRepositoryIntegrationTest {
                 val loadStart = Clock.System.now().toEpochMilliseconds()
                 opdsFeedRepository.getByUrlAsFlow(
                     url, DataLoadParams()
-                ).filterIsInstance<DataReadyState<OpdsFeed>>().test(timeout = 10.seconds) {
+                ).onEach {
+                    println("flow emit=$it")
+                }.filterIsInstance<DataReadyState<OpdsFeed>>().test(timeout = 10_000.seconds) {
                     val data = awaitItem()
                     val waitTime = Clock.System.now().toEpochMilliseconds() - loadStart
                     println("Loaded in $waitTime ms")
@@ -192,7 +195,6 @@ class OpdsRepositoryIntegrationTest {
         }
     }
 
-    @OptIn(ExperimentalTime::class)
     @Test
     fun givenOpdsFeedLoaded_whenLoadedAgain_thenDataIsLoadedAndNetworkResponseIsNotModified() {
         opdsIntegrationTest {

@@ -104,7 +104,7 @@ import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCase
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCaseImpl
-import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
+import org.openeel.shared.domain.catalog.adaptfeedforcollections.MakePlaylistOpdsFeedUseCase
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationCollectionsUseCase
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueue
 import org.openeel.datalayer.school.opds.crawlpublications.EnqueueCrawlPublicationCollectionUseCase
@@ -269,6 +269,7 @@ import org.openeel.shared.domain.catalog.PinOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.checkcanwritefeedusecase.CheckCanWriteFeedUseCase
 import org.openeel.shared.domain.catalog.deleteopdsfeed.DeleteOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.downloadimagesforfeed.DownloadImagesForOpdsFeedVisitor
+import org.openeel.shared.domain.catalog.makecollectionurl.MakeCollectionUrlUseCase
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.unpinopdsfeedusecase.UnpinOpdsFeedUseCase
 import org.openeel.shared.domain.createclass.CreateClassUseCase
@@ -1395,9 +1396,15 @@ val appKoinModule = module {
              val accountScopeId = UserAccountScopeId.parse(id)
              MakePlaylistOpdsFeedUseCase(
                  schoolUrl = accountScopeId.schoolUrl,
-                 schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryResource,
              )
          }
+
+        scoped<MakeCollectionUrlUseCase> {
+            MakeCollectionUrlUseCase(
+                schoolUrl = UserAccountScopeId.parse(id).schoolUrl,
+                schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryResource,
+            )
+        }
 
         scoped<SaveOpdsFeedUseCase> {
             SaveOpdsFeedUseCase(
