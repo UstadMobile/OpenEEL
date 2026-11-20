@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.map
 import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueue
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItem
-import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatus
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatusEnum
 
 class CrawlPublicationQueueDbImpl(
     private val schoolDb: SchoolDatabase,
@@ -46,13 +46,13 @@ class CrawlPublicationQueueDbImpl(
     override suspend fun queuedItemsFlow(jobId: Int): Flow<List<CrawlPublicationQueueItem>> {
         return schoolDb.getCrawlPublicationQueueItemEntityDao().queuedItemsFlow(
             jobId = jobId,
-            queuedStatus = CrawlPublicationQueueItemStatus.QUEUED,
+            queuedStatus = CrawlPublicationQueueItemStatusEnum.QUEUED,
         ).map { entities ->
             entities.map { it.toModel() }
         }
     }
 
-    override suspend fun updateStatus(itemIds: List<Int>, status: CrawlPublicationQueueItemStatus) {
+    override suspend fun updateStatus(itemIds: List<Int>, status: CrawlPublicationQueueItemStatusEnum) {
         schoolDb.getCrawlPublicationQueueItemEntityDao().updateStatus(
             itemIds = itemIds,
             status = status,
@@ -62,8 +62,8 @@ class CrawlPublicationQueueDbImpl(
     override fun remainingItemsCount(jobId: Int): Flow<Int> {
         return schoolDb.getCrawlPublicationQueueItemEntityDao().remainingItemsCountFlow(
             jobId = jobId,
-            doneStatus = CrawlPublicationQueueItemStatus.DONE,
-            failedStatus = CrawlPublicationQueueItemStatus.FAILED,
+            doneStatus = CrawlPublicationQueueItemStatusEnum.DONE,
+            failedStatus = CrawlPublicationQueueItemStatusEnum.FAILED,
         )
     }
 }

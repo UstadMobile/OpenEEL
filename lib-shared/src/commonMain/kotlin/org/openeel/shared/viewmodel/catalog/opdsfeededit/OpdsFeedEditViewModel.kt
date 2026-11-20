@@ -239,7 +239,13 @@ class OpdsFeedEditViewModel(
                         schoolDataSource.opdsFeedDataSource.getByUrl(
                             url = remixUrl,
                             params = DataLoadParams()
-                        ).dataOrNull()?.resolve(remixUrl)
+                        ).dataOrNull()?.resolve(remixUrl)?.let { remixedFeed ->
+                            remixedFeed.copy(
+                                metadata = remixedFeed.metadata.copy(
+                                    title = "Remix of ${remixedFeed.metadata.title}",
+                                ),
+                            )
+                        }
                     } ?: OpdsFeed.BLANK,
                     feedUrl = feedUrl,
                     username = accountManager.activeAccount?.userGuid ?: ""

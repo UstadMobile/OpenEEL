@@ -7,7 +7,7 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.db.school.opds.entities.CrawlPublicationQueueItemEntity
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueue
-import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatus
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatusEnum
 
 @Dao
 interface CrawlPublicationQueueItemEntityDao {
@@ -30,7 +30,7 @@ interface CrawlPublicationQueueItemEntityDao {
     """)
     fun queuedItemsFlow(
         jobId: Int,
-        queuedStatus: CrawlPublicationQueueItemStatus,
+        queuedStatus: CrawlPublicationQueueItemStatusEnum,
     ): Flow<List<CrawlPublicationQueueItemEntity>>
 
     @Query("""
@@ -40,7 +40,7 @@ interface CrawlPublicationQueueItemEntityDao {
     """)
     suspend fun updateStatus(
         itemIds: List<Int>,
-        status: CrawlPublicationQueueItemStatus,
+        status: CrawlPublicationQueueItemStatusEnum,
     )
 
     @Query("""
@@ -52,7 +52,7 @@ interface CrawlPublicationQueueItemEntityDao {
     """)
     fun remainingItemsCountFlow(
         jobId: Int,
-        doneStatus: CrawlPublicationQueueItemStatus,
-        failedStatus: CrawlPublicationQueueItemStatus,
+        doneStatus: CrawlPublicationQueueItemStatusEnum,
+        failedStatus: CrawlPublicationQueueItemStatusEnum,
     ): Flow<Int>
 }

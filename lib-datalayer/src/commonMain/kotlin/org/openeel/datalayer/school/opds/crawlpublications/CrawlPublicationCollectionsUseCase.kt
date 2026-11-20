@@ -56,11 +56,11 @@ class CrawlPublicationCollectionsUseCase(
         queue.queuedItemsFlow(jobId).collect { jobsToStart ->
             queue.updateStatus(
                 jobsToStart.map { it.itemId },
-                CrawlPublicationQueueItemStatus.RUNNING
+                CrawlPublicationQueueItemStatusEnum.RUNNING
             )
 
             jobsToStart.forEach {
-                send(it.copy(status = CrawlPublicationQueueItemStatus.RUNNING))
+                send(it.copy(status = CrawlPublicationQueueItemStatusEnum.RUNNING))
             }
         }
 
@@ -109,7 +109,7 @@ class CrawlPublicationCollectionsUseCase(
 
             Napier.d(tag = LOGTAG) { "#${item.jobId}-${item.itemId} Finished ${item.itemUrl}" }
             queue.updateStatus(
-                itemIds = listOf(item.itemId), CrawlPublicationQueueItemStatus.DONE
+                itemIds = listOf(item.itemId), CrawlPublicationQueueItemStatusEnum.DONE
             )
         }
 

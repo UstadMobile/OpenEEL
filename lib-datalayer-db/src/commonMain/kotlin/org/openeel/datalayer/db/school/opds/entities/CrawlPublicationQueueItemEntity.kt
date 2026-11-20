@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import io.ktor.http.Url
-import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatus
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatusEnum
 
 @Entity(
     indices = [
@@ -19,5 +19,5 @@ data class CrawlPublicationQueueItemEntity(
     val itemUrl: Url,
     @ColumnInfo(defaultValue = "0")
     val depth: Int = 0,
-    val status: CrawlPublicationQueueItemStatus,
+    val status: CrawlPublicationQueueItemStatusEnum,
 )

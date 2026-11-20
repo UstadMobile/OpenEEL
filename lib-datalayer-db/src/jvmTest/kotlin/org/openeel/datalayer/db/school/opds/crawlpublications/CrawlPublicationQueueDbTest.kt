@@ -8,7 +8,7 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.datalayer.db.school.testSchoolDb
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItem
-import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatus
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatusEnum
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -86,7 +86,7 @@ class CrawlPublicationQueueDbTest {
                 val firstHalf = initialQueue.filterIndexed { index, _ -> index.mod(2) == 0 }
                 val secondHalf = initialQueue.filter { it !in firstHalf }
                 queue.updateStatus(
-                    firstHalf.map { it.itemId }, CrawlPublicationQueueItemStatus.RUNNING
+                    firstHalf.map { it.itemId }, CrawlPublicationQueueItemStatusEnum.RUNNING
                 )
 
                 val queueAfterStatusUpdate = awaitItemWhere { it.size == initialNumItems / 2 }
@@ -94,10 +94,10 @@ class CrawlPublicationQueueDbTest {
                 assertEquals(initialNumItems, queue.remainingItemsCount(jobId).first())
 
                 //Update those items as done
-                queue.updateStatus(firstHalf.map { it.itemId }, CrawlPublicationQueueItemStatus.DONE)
+                queue.updateStatus(firstHalf.map { it.itemId }, CrawlPublicationQueueItemStatusEnum.DONE)
                 queue.remainingItemsCount(jobId).first { it == initialNumItems / 2 }
 
-                queue.updateStatus(secondHalf.map { it.itemId }, CrawlPublicationQueueItemStatus.RUNNING)
+                queue.updateStatus(secondHalf.map { it.itemId }, CrawlPublicationQueueItemStatusEnum.RUNNING)
                 val queueAfterFirstHalfRunning = awaitItemWhere { it.isEmpty() }
                 assertTrue(queueAfterFirstHalfRunning.isEmpty())
                 assertEquals(initialNumItems / 2, queue.remainingItemsCount(jobId).first())
@@ -112,7 +112,7 @@ class CrawlPublicationQueueDbTest {
                     newJob = false,
                 )
 
-                queue.updateStatus(secondHalf.map { it.itemId }, CrawlPublicationQueueItemStatus.DONE)
+                queue.updateStatus(secondHalf.map { it.itemId }, CrawlPublicationQueueItemStatusEnum.DONE)
 
                 assertEquals(
                     extraNumItems,
@@ -127,11 +127,11 @@ class CrawlPublicationQueueDbTest {
                 }
 
                 queue.updateStatus(
-                    extraItems.map { it.itemId }, CrawlPublicationQueueItemStatus.RUNNING
+                    extraItems.map { it.itemId }, CrawlPublicationQueueItemStatusEnum.RUNNING
                 )
                 awaitItemWhere { it.isEmpty() }
                 queue.updateStatus(
-                    extraItems.map { it.itemId }, CrawlPublicationQueueItemStatus.DONE
+                    extraItems.map { it.itemId }, CrawlPublicationQueueItemStatusEnum.DONE
                 )
 
                 assertEquals(0, queue.remainingItemsCount(jobId).first { it == 0 })

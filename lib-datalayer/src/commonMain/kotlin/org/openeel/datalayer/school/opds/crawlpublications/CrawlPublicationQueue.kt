@@ -24,10 +24,10 @@ interface CrawlPublicationQueue {
     ): Int
 
     /**
-     * Provides a flow of items in the queue with the status [CrawlPublicationQueueItemStatus.QUEUED]
+     * Provides a flow of items in the queue with the status [CrawlPublicationQueueItemStatusEnum.QUEUED]
      * @param jobId the jobId as per [CrawlPublicationQueueItem.jobId]
      * @return a flow with a list of [CrawlPublicationQueueItem] that have the status
-     * [CrawlPublicationQueueItemStatus.QUEUED]
+     * [CrawlPublicationQueueItemStatusEnum.QUEUED]
      */
     suspend fun queuedItemsFlow(
         jobId: Int,
@@ -40,12 +40,12 @@ interface CrawlPublicationQueue {
      */
     suspend fun updateStatus(
         itemIds: List<Int>,
-        status: CrawlPublicationQueueItemStatus,
+        status: CrawlPublicationQueueItemStatusEnum,
     )
 
     /**
      * Returns a flow of the count of items with a non-final status (items that do not have the
-     * status [CrawlPublicationQueueItemStatus.DONE] or [CrawlPublicationQueueItemStatus.FAILED]).
+     * status [CrawlPublicationQueueItemStatusEnum.DONE] or [CrawlPublicationQueueItemStatusEnum.FAILED]).
      *
      * @param jobId the jobId as per [CrawlPublicationQueueItem.jobId] or [ALL_JOBS] to get the count
      *        across all jobs.

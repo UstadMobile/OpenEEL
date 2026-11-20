@@ -7,12 +7,12 @@ import io.ktor.http.Url
  * @param jobId the CrawlPublication job id
  * @param itemUrl the URL of the publication
  * @param depth the number of links traversed from the initial publication
- * @param status [CrawlPublicationQueueItemStatus]
+ * @param status [CrawlPublicationQueueItemStatusEnum]
  */
 data class CrawlPublicationQueueItem(
     val itemId: Int = 0,
     val jobId: Int,
     val itemUrl: Url,
     val depth: Int = 0,
-    val status: CrawlPublicationQueueItemStatus = CrawlPublicationQueueItemStatus.QUEUED,
+    val status: CrawlPublicationQueueItemStatusEnum = CrawlPublicationQueueItemStatusEnum.QUEUED,
 )
