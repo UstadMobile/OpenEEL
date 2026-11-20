@@ -46,7 +46,7 @@ fun AccountListItem(
             Column(modifier = Modifier.fillMaxWidth()) {
                 val countryFlag = rememberCountryFlagEmoji(
                     account.session.account.school.self
-                )?.let { " $it" } ?: ""
+                )
 
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -73,10 +73,18 @@ fun AccountListItem(
                         )
 
                         Text(
-                            text = account.session.account.school.self.toString() + countryFlag,
+                            text = account.session.account.school.self.toString(),
                             maxLines = 1,
                             modifier = Modifier.padding(start = 8.dp)
                         )
+
+                        countryFlag?.also {
+                            Text(
+                                text = it,
+                                maxLines = 1,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
                     }
                 }
 
