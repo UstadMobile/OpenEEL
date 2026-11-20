@@ -26,6 +26,7 @@ import org.openeel.datalayer.db.school.ext.isAdminOrTeacher
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.isSettled
@@ -64,6 +65,7 @@ import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.catalog.PublicationsSelection
 
 data class PublicationDetailUiState(
+    val url: Url,
     val learningUnit: DataLoadState<Publication> = DataLoadingState(),
     val appDetail: DataLoadState<Publication> = DataLoadingState(),
     val pinState: PublicationPinState = PublicationPinState(
@@ -95,11 +97,13 @@ class PublicationDetailViewModel(
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
-    private val _uiState = MutableStateFlow(PublicationDetailUiState())
+    private val route: PublicationDetail = savedStateHandle.toRoute()
+
+    private val _uiState = MutableStateFlow(
+        PublicationDetailUiState(url = route.learningUnitManifestUrl)
+    )
 
     val uiState = _uiState.asStateFlow()
-
-    private val route: PublicationDetail = savedStateHandle.toRoute()
 
     private val schoolDataSource: SchoolDataSource by inject()
 
@@ -115,6 +119,9 @@ class PublicationDetailViewModel(
     private val removeBookmarkUseCase: RemoveBookmarkUseCase by inject()
 
     init {
+        Napier.d(tag = "LaunchApp") {
+            "PublicationDetail url=${route.learningUnitManifestUrl} referrer=${route.refererUrl}"
+        }
         _appUiState.update {
             it.copy(
                 title = route.title?.asUiText() ?: it.title
@@ -131,11 +138,7 @@ class PublicationDetailViewModel(
         viewModelScope.launch {
             learningUnitFlow.collect { result ->
                 _uiState.update { prev ->
-                    prev.copy(
-                        learningUnit = result.map {
-                            it.resolve(route.learningUnitManifestUrl)
-                        }
-                    )
+                    prev.copy(learningUnit = result)
                 }
             }
         }
@@ -295,11 +298,10 @@ class PublicationDetailViewModel(
         )
     }
 
-    fun onClickApp(app: Publication) {
-        val url = app.findSelfLinks().firstOrNull()?.href ?: return
+    fun onClickApp(app: DataReadyState<Publication>) {
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                destination = AppsDetail.create(manifestUrl = Url(url))
+                destination = AppsDetail.create(manifestUrl = app.metaInfo.requireUrl())
             )
         )
     }

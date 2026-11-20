@@ -3,6 +3,7 @@ package org.openeel.shared.viewmodel.catalog.opdsfeeddetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +20,6 @@ import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.OpdsGroup
@@ -54,7 +54,6 @@ import org.openeel.shared.util.SortOrderOption
 import org.openeel.shared.util.ext.appbarTitleString
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.firstSelfLinkOrNull
-import org.openeel.shared.util.ext.resolve
 import org.openeel.shared.viewmodel.OpenEelViewModel
 import org.openeel.shared.viewmodel.app.appstate.FabUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
@@ -151,6 +150,8 @@ class OpdsFeedDetailViewModel(
     private val opdsMediator: OpdsFeedDataSource by inject()
 
     init {
+        Napier.d(tag = "LaunchApp") { "OpdsFeedDetailViewModel: url = ${route.opdsFeedUrl}" }
+
         _uiState.update {
             it.copy(
                 quickActionsVisible = route.resultDest == null,
@@ -194,9 +195,7 @@ class OpdsFeedDetailViewModel(
                 params = DataLoadParams()
             ).collectLatest { result ->
                 _uiState.update { prev ->
-                    prev.copy(
-                        feed = result.map { it.resolve(route.opdsFeedUrl) }
-                    )
+                    prev.copy(feed = result)
                 }
 
                 if(result is DataReadyState && route.opdsPickType == null) {
@@ -251,7 +250,7 @@ class OpdsFeedDetailViewModel(
                             expectedIdentifier = publication.metadata.identifier?.toString(),
                             title = uiState.value.feed.dataOrNull()?.metadata?.title?.let {
                                 LangMapStringValue(it)
-                            }
+                            },
                         )
                     )
                 )
@@ -337,8 +336,7 @@ class OpdsFeedDetailViewModel(
 
 
     fun onClickNavigation(index: OpdsFeedItemIndex) {
-        val navigation = uiState.value.feed.dataOrNull()
-            ?.getNavigationLinkByIndex(index) ?: return
+        val navigation = uiState.value.feed.dataOrNull()?.getNavigationLinkByIndex(index) ?: return
 
         when {
             route.opdsPickType == OpdsPickType.CATALOG_FEED && uiState.value.isMultiSelectMode -> {
