@@ -24,7 +24,9 @@ appId: org.openeel.app
 - tapOn:
       id : "password"
 - inputText: ${SCHOOL_ADMIN_PASSWORD}
-- tapOn: "Login"
+- tapOn:
+    selector: "Login"
+    retryTapIfNoChange: true
 - runFlow:
     when:
       visible: "Save password for Respect?"
