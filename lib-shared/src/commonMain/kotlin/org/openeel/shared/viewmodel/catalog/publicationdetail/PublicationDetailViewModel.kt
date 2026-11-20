@@ -35,7 +35,6 @@ import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.opds.model.findLaunchableAppLink
 import org.openeel.lib.opds.model.findLicenseLink
-import org.openeel.lib.opds.model.findSelfLinks
 import org.openeel.lib.xapi.model.XapiStatementResult
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
@@ -64,6 +63,11 @@ import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.catalog.PublicationsSelection
 
+/**
+ * @property url the url where [Publication] data is actually loaded from. When displaying the
+ *           "preview" [Publication] as per [org.openeel.datalayer.school.opds.OpdsPublicationDataSource.getByUrl]
+ *           the url could be the Url of the OpdsFeed the user navigated from.
+ */
 data class PublicationDetailUiState(
     val url: Url,
     val learningUnit: DataLoadState<Publication> = DataLoadingState(),
@@ -138,7 +142,14 @@ class PublicationDetailViewModel(
         viewModelScope.launch {
             learningUnitFlow.collect { result ->
                 _uiState.update { prev ->
-                    prev.copy(learningUnit = result)
+                    prev.copy(
+                        learningUnit = result,
+                        url = if(result is DataReadyState && result.metaInfo.url == null) {
+                            route.refererUrl ?: route.learningUnitManifestUrl
+                        }else {
+                            route.learningUnitManifestUrl
+                        }
+                    )
                 }
             }
         }
@@ -221,15 +232,17 @@ class PublicationDetailViewModel(
     fun onClickOpen() {
         Napier.d("LauncherAppViewModel: onClickOpen")
 
-        //If app is null, then UiState.buttonsEnabled is false, so fallback return should never happen
         viewModelScope.launch {
             try {
-                val lessonPublication =
-                    _uiState.value.learningUnit.dataOrNull() ?: throw IllegalStateException("Not ready")
+                val uiStateVal = _uiState.value
+
+                //If app is null, then UiState.buttonsEnabled is false, so fallback return should never happen
+                val lessonPublication = uiStateVal.learningUnit.dataOrNull()
+                    ?: throw IllegalStateException("Not ready")
 
                 val result = launchAppUseCase(
                     LaunchAppUseCase.LaunchAppRequest(
-                        publicationUrl = route.learningUnitManifestUrl,
+                        publicationUrl = uiStateVal.url,
                         publication = lessonPublication,
                         assignmentActivityId = route.assignmentActivityId,
                         launchableApp = uiState.value.appDetail.dataOrNull(),
