@@ -10,7 +10,7 @@ appId: org.openeel.app
 - tapOn: "Paste the link here"
 - inputText: ${SCHOOL_URL}
 - tapOn:
-      selector: "Next"
+      text: "Next"
       retryTapIfNoChange: true
 - assertVisible:
       id: "app_title"
