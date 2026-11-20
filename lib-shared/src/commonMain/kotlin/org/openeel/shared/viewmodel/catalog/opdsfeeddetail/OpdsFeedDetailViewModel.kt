@@ -396,8 +396,7 @@ class OpdsFeedDetailViewModel(
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
                 OpdsFeedEdit.create(
-                    urlStr = route.opdsFeedUrl,
-                    isRemix = true,
+                    remixUrl = route.opdsFeedUrl,
                 )
             )
         )
