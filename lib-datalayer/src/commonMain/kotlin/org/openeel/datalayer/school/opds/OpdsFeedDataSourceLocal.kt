@@ -58,7 +58,6 @@ interface OpdsFeedDataSourceLocal: OpdsFeedDataSource, BaseDataSourceValidationH
      * the DataReadyState to access metadata.
      */
     suspend fun updateLocal(
-        url: Url,
         dataLoadResult: DataReadyState<OpdsFeed>,
     )
 

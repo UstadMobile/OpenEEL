@@ -15,10 +15,9 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
-import org.openeel.datalayer.school.opds.ext.requireSelfUrl
+import org.openeel.lib.dataloadstate.DataLoadParams
+import org.openeel.shared.domain.catalog.adaptfeedforcollections.MakePlaylistOpdsFeedUseCase
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.dataloadstate.ext.mapAsync
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.OpdsFeedMetadata
 import org.openeel.lib.opds.model.OpdsGroup
@@ -31,7 +30,9 @@ import org.openeel.lib.opds.model.util.OpdsFeedItemIndex
 import org.openeel.lib.opds.model.util.PublicationItemItemIndex
 import org.openeel.libutil.ext.moveItem
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.catalog.makecollectionurl.MakeCollectionUrlUseCase
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
+import org.openeel.shared.ext.getOrPut
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_collection
 import org.openeel.shared.generated.resources.collections_section
@@ -52,7 +53,6 @@ import org.openeel.shared.util.ext.addFeedSelection
 import org.openeel.shared.util.ext.addPublicationSelection
 import org.openeel.shared.util.ext.asUiText
 import org.openeel.shared.util.ext.groupType
-import org.openeel.shared.util.ext.isNewFeedOrNewRemix
 import org.openeel.shared.util.ext.removeItemAt
 import org.openeel.shared.util.ext.resolve
 import org.openeel.shared.viewmodel.OpenEelViewModel
@@ -91,7 +91,7 @@ data class MoveItemDestination(
 
 data class OpdsFeedEditUiState(
     val feed: OpdsFeed? = null,
-    val baseUrl: Url = Url("http://localhost:8080/"),
+    val url: Url = Url("http://localhost:8080/"),
     val addGroupTypeDialogVisible: Boolean = false,
     val titleError: UiText? = null,
     val movingItem: OpdsFeedItemIndex? = null,
@@ -175,12 +175,14 @@ class OpdsFeedEditViewModel(
     private val route: OpdsFeedEdit = savedStateHandle.toRoute()
 
     private val _uiState = MutableStateFlow(
-        OpdsFeedEditUiState(baseUrl = accountManager.requireActiveSchoolUrl())
+        OpdsFeedEditUiState(url = accountManager.requireActiveSchoolUrl())
     )
 
     val uiState = _uiState.asStateFlow()
 
     private val saveOpdsFeedUseCase: SaveOpdsFeedUseCase by inject()
+
+    private val makeCollectionUrlUseCase: MakeCollectionUrlUseCase by inject()
 
     private var pendingAddItemGroupIndex: Int?
         get() = savedStateHandle.get<Int>(KEY_PENDING_ADD_ITEM_GROUP_INDEX)
@@ -191,7 +193,7 @@ class OpdsFeedEditViewModel(
         _appUiState.update { prev ->
             prev.copy(
                 title = when {
-                    route.isCopy -> Res.string.remix_collection.asUiText()
+                    route.remixUrl != null -> Res.string.remix_collection.asUiText()
                     route.url == null -> Res.string.add_collection.asUiText()
                     else -> Res.string.edit_collection.asUiText()
                 },
@@ -208,48 +210,44 @@ class OpdsFeedEditViewModel(
         launchWithLoadingIndicator(
             onShowError = { snackBarDispatcher.showSnackBar(Snack(it)) }
         ) {
-            if(route.url != null) {
+            val feedUrl = savedStateHandle.getOrPut(KEY_URL) {
+                route.url ?: makeCollectionUrlUseCase()
+            }
+            _uiState.update { it.copy(url = feedUrl) }
+
+            if(route.url != null || savedStateHandle.contains(DEFAULT_SAVED_STATE_KEY)) {
                 loadEntity(
                     json = json,
                     serializer = OpdsFeed.serializer(),
                     loadFn = { params ->
                         schoolDataSource.opdsFeedDataSource.getByUrl(
-                            url = route.url,
+                            url = feedUrl,
                             params = params,
-                        ).let { dataLoadState ->
-                            if(route.isCopy) {
-                                dataLoadState.mapAsync {
-                                    makePlaylistOpdsFeedUseCase(
-                                        base = it.resolve(route.url),
-                                        username = accountManager.activeAccount?.userGuid ?: ""
-                                    ).copy(
-                                        metadata = it.metadata.copy(
-                                            title = "Remix of ${it.metadata.title}",
-                                        )
-                                    )
-                                }
-                            }else {
-                                dataLoadState
-                            }
-                        }
+                        )
                     },
                     uiUpdateFn = { state ->
                         _uiState.update {
                             it.copy(
                                 feed = state.dataOrNull(),
-                                baseUrl = state.dataOrNull()?.requireSelfUrl() ?: it.baseUrl,
                             )
                         }
                     }
                 )
             }else {
                 val newFeed = makePlaylistOpdsFeedUseCase(
-                    base = OpdsFeed(
-                        metadata = OpdsFeedMetadata(title = ""),
-                        links = emptyList(),
-                        publications = emptyList(),
-                        groups = emptyList(),
-                    ),
+                    base = route.remixUrl?.let { remixUrl ->
+                        schoolDataSource.opdsFeedDataSource.getByUrl(
+                            url = remixUrl,
+                            params = DataLoadParams()
+                        ).dataOrNull()?.resolve(remixUrl)?.let { remixedFeed ->
+                            remixedFeed.copy(
+                                metadata = remixedFeed.metadata.copy(
+                                    title = "Remix of ${remixedFeed.metadata.title}",
+                                ),
+                            )
+                        }
+                    } ?: OpdsFeed.BLANK,
+                    feedUrl = feedUrl,
                     username = accountManager.activeAccount?.userGuid ?: ""
                 )
                 _uiState.update { it.copy(feed = newFeed) }
@@ -451,7 +449,7 @@ class OpdsFeedEditViewModel(
                     feed = prev.feed.removeItemAt(fromIndex)
                         .addFeedSelection(
                             OpdsFeedSelection(
-                                url = prev.feed.requireSelfUrl(),
+                                url = prev.url,
                                 selectedFeeds = listOf(item)
                             ),
                             toGroupIndex = destination.groupIndex,
@@ -466,7 +464,7 @@ class OpdsFeedEditViewModel(
                     feed = prev.feed.removeItemAt(fromIndex)
                         .addPublicationSelection(
                             PublicationsSelection(
-                                url = prev.feed.requireSelfUrl(),
+                                url = prev.url,
                                 selectedPublications = listOf(item),
                             ),
                             toGroupIndex = destination.groupIndex
@@ -538,8 +536,13 @@ class OpdsFeedEditViewModel(
     }
 
     fun onClickSave() {
-        val feed = _uiState.value.feed
-            ?: throw IllegalStateException("onClickSave called but feed is null")
+        //As per the init function, the url is _always_ set before the feed is non-null
+        //The save button will not be enabled when loading, so it will not be possible to click it
+        //if the feed is null
+        val (feed, feedUrl) = _uiState.value.let { it.feed to it.url }
+        if(feed == null)
+            throw IllegalStateException("onClickSave called but feed is null")
+
         if (feed.metadata.title.isBlank()) {
             _uiState.update {
                 it.copy(
@@ -554,12 +557,14 @@ class OpdsFeedEditViewModel(
             val actor = accountManager.selectedAccountAndPersonFlow.first()?.xapiAgent
                 ?: throw IllegalStateException("onClickSave: no active account, cannot save")
 
-            saveOpdsFeedUseCase(feed, actor)
-            if(route.isNewFeedOrNewRemix) {
+            saveOpdsFeedUseCase(feed, feedUrl, actor)
+
+            if(route.url == null) {
+                //This is a newly created feed (which includes remixes of existing feeds).
                 _navCommandFlow.tryEmit(
                     NavCommand.Navigate(
                         destination = OpdsFeedDetail.create(
-                            opdsFeedUrl = feed.requireSelfUrl(),
+                            opdsFeedUrl = feedUrl,
                         ),
                         popUpTo = route,
                         popUpToInclusive = true,
@@ -572,6 +577,12 @@ class OpdsFeedEditViewModel(
     }
 
     companion object {
+
+        /**
+         * When a remix is being created a URL can be generated, we need to keep this consistent
+         */
+        const val KEY_URL = "url"
+
         const val KEY_PUBLICATION = "result_learning_unit"
         const val KEY_COLLECTION = "result_collection"
         private const val KEY_PENDING_ADD_ITEM_GROUP_INDEX = "pending_add_item_section_index"

@@ -2,6 +2,7 @@ package org.openeel.shared.viewmodel.person.inviteperson
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import kotlinx.coroutines.delay
 import org.openeel.shared.domain.sharelink.LaunchSendEmailUseCase
@@ -191,6 +192,7 @@ class InvitePersonViewModel(
 
     private fun launchUpdateInvite(invite: Invite2) {
         launchWithLoadingIndicator {
+            Napier.d("InvitePersonViewModel: launchUpdateInvite")
             schoolDataSource.inviteDataSource.store(listOf(invite))
         }
     }
@@ -203,6 +205,7 @@ class InvitePersonViewModel(
     }
 
     fun onApprovalEnabledChanged(enabled: Boolean) {
+        Napier.d("InvitePersonViewModel: setApprovalEnabled=$enabled")
         val currentInvite = _uiState.value.invite.dataOrNull() ?: return
         val now = Clock.System.now()
         launchUpdateInvite(

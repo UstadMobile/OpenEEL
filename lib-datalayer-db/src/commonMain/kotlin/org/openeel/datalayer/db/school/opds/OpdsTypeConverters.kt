@@ -2,6 +2,7 @@ package org.openeel.datalayer.db.school.opds
 
 import androidx.room.TypeConverter
 import org.openeel.datalayer.db.school.opds.entities.OpdsFeedMetadataEntity
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatusEnum
 
 class OpdsTypeConverters {
 
@@ -25,5 +26,14 @@ class OpdsTypeConverters {
         return OpdsFeedMetadataEntity.PropType.entries.first { it.id == value }
     }
 
+    @TypeConverter
+    fun fromCrawlPublicationQueueItemStatus(value: CrawlPublicationQueueItemStatusEnum): Int {
+        return value.ordinal
+    }
+
+    @TypeConverter
+    fun toCrawlPublicationQueueItemStatus(value: Int): CrawlPublicationQueueItemStatusEnum {
+        return CrawlPublicationQueueItemStatusEnum.entries[value]
+    }
 
 }

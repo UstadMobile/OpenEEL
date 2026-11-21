@@ -1,12 +1,12 @@
 package org.openeel.shared.domain.catalog.saveopdsfeed
 
 import io.ktor.http.HttpHeaders
+import io.ktor.http.Url
 import io.ktor.http.headersOf
 import io.ktor.http.toHttpDate
 import io.ktor.util.sha1
 import kotlinx.serialization.json.Json
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
-import org.openeel.datalayer.school.opds.ext.requireSelfUrl
 import org.openeel.lib.dataloadstate.DataLoadMetaInfo
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.datetime.toGMTDate
@@ -35,8 +35,11 @@ class SaveOpdsFeedUseCase(
     private val json: Json,
 ) {
 
-    suspend operator fun invoke(feed: OpdsFeed, actor: XapiActor) {
-        val feedUrl = feed.requireSelfUrl()
+    suspend operator fun invoke(
+        feed: OpdsFeed,
+        feedUrl: Url,
+        actor: XapiActor,
+    ) {
         val activityId = feedUrl.parameters["activityId"] ?: throw IllegalArgumentException()
 
         val now = Clock.System.now()
@@ -60,20 +63,21 @@ class SaveOpdsFeedUseCase(
         )
 
         opdsFeedDataSourceLocal.updateLocal(
-            url = feedUrl,
             dataLoadResult = DataReadyState(
                 data = feedToSave,
                 metaInfo = DataLoadMetaInfo(
                     headers = headersOf(
                         HttpHeaders.LastModified to listOf(updated.toHttpDate()),
                         HttpHeaders.ETag to listOf(sha1(xapiDocument.contentsAsByteArray()).toHexString()),
-                    )
+                    ),
+                    url = feedUrl,
                 )
             )
         )
 
         pinOpdsFeedUseCase(
             opdsFeed = feed,
+            feedUrl = feedUrl,
             contextCategoryId = OpenEelXapiConstants.CATEGORY_COLLECTION_LISTING_RECIPE,
         )
     }

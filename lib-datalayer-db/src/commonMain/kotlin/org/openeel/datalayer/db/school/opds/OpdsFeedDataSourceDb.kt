@@ -20,7 +20,6 @@ import org.openeel.datalayer.db.shared.adapters.asNetworkValidationInfo
 import org.openeel.datalayer.ext.EPOCH
 import org.openeel.datalayer.networkvalidation.NetworkValidationInfo
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
-import org.openeel.datalayer.school.opds.ext.requireSelfUrl
 import org.openeel.lib.dataloadstate.DataLoadMetaInfo
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
@@ -179,7 +178,7 @@ class OpdsFeedDataSourceDb(
             primaryKeyGenerator = primaryKeyGenerator,
             uidNumberMapper = uidNumberMapper,
         )
-        val feedUrl = opdsFeed.requireSelfUrl()
+        val feedUrl = dataLoadMetaInfo.requireUrl()
 
         val hasMetaData = feedEntities.feedMetaData.any {
             it.ofmeOfeUid == feedEntities.opdsFeed.ofeUid
@@ -223,13 +222,12 @@ class OpdsFeedDataSourceDb(
     }
 
     override suspend fun updateLocal(
-        url: Url,
         dataLoadResult: DataReadyState<OpdsFeed>,
     ) {
         schoolDb.useWriterConnection { con ->
             con.withTransaction(Transactor.SQLiteTransactionType.IMMEDIATE) {
                 val opdsFeedEntity = schoolDb.getOpdsFeedEntityDao().findByUrlHash(
-                    uidNumberMapper(url.toString())
+                    uidNumberMapper(dataLoadResult.metaInfo.requireUrl().toString())
                 )
                 val dbLastModified = opdsFeedEntity?.ofeLastModified ?: EPOCH
                 val isMoreRecent = dataLoadResult.data.metadata.modified?.let {

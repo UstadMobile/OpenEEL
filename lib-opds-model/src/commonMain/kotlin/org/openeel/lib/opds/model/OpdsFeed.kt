@@ -26,5 +26,13 @@ data class OpdsFeed(
         
         // Default status value. Matches StatusEnum.ACTIVE from respect-datalayer.school.model
         const val DEFAULT_STATUS = "active"
+
+        val BLANK = OpdsFeed(
+            metadata = OpdsFeedMetadata(title = ""),
+            links = emptyList(),
+            publications = emptyList(),
+            groups = emptyList(),
+        )
+
     }
 }

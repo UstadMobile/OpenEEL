@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.ustadmobile.libuicompose.org.openeel.app.components.OpenEelAvatarBox
+import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.app.OpenEelAsyncImage
 import org.openeel.shared.generated.resources.Res
@@ -32,7 +33,7 @@ import org.openeel.shared.generated.resources.duration
 @Composable
 fun OpdsFeedListItem(
     title: String,
-    iconUrl: String?,
+    iconUrl: Url?,
     description: String?,
     language: List<String>?,
     duration: Double?,
@@ -59,7 +60,7 @@ fun OpdsFeedListItem(
             ) {
                 if(iconUrl != null) {
                     OpenEelAsyncImage(
-                        uri = iconUrl,
+                        uri = iconUrl.toString(),
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.size(36.dp),

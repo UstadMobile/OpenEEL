@@ -1,7 +1,7 @@
 package org.openeel.shared.domain.catalog
 
+import io.ktor.http.Url
 import kotlinx.serialization.json.JsonPrimitive
-import org.openeel.datalayer.school.opds.ext.requireSelfUrl
 import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.toStringMap
@@ -26,10 +26,9 @@ class PinOpdsFeedUseCase(
 
     suspend operator fun invoke(
         opdsFeed: OpdsFeed,
+        feedUrl: Url,
         contextCategoryId: String,
     ) {
-        val feedUrl = opdsFeed.requireSelfUrl()
-
         statementsResource.post(
             listOf(
                 XapiStatement(

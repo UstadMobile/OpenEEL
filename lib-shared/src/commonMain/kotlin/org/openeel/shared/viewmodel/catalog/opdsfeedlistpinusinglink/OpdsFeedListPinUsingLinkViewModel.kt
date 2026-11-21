@@ -79,8 +79,9 @@ class OpdsFeedListPinUsingLinkViewModel(
                 }
             }
         ) {
+            val url = Url(linkUrlStr)
             val feedResult = schoolDataSource.opdsFeedDataSource.getByUrl(
-                url = Url(linkUrlStr),
+                url = url,
                 params = DataLoadParams(),
             )
 
@@ -88,6 +89,7 @@ class OpdsFeedListPinUsingLinkViewModel(
                 pinOpdsFeedUseCase(
                     opdsFeed = feedResult.data,
                     contextCategoryId = OpenEelXapiConstants.CATEGORY_COLLECTION_LISTING_RECIPE,
+                    feedUrl = url,
                 )
 
                 _navCommandFlow.tryEmit(NavCommand.PopUp())

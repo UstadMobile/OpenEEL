@@ -70,6 +70,12 @@ call.respond(
 )
 ```
 
+## 6. Use TemporaryFolder in tests
+NEVER: `Files.createTempDirectory`
+
+ALWAYS `@Rule val temporaryFolder = TemporaryFolder();  temporaryFolder.newDirectory()`
+
+
 ## Repository Anti-Patterns: - Never Generate these:
 
 ## 1. Json processing

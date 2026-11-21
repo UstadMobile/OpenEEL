@@ -1,8 +1,12 @@
 package org.openeel.app.app
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -31,21 +35,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.savedstate.read
+import com.ustadmobile.libcache.connectivitymonitor.ConnectivityMonitor
 import com.ustadmobile.libuicompose.theme.appBarSelectionModeBackgroundColor
 import com.ustadmobile.libuicompose.theme.appBarSelectionModeContentColor
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.getKoin
 import org.koin.compose.koinInject
@@ -53,14 +59,15 @@ import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.uiTextStringResource
 import org.openeel.app.util.ext.toImageVector
 import org.openeel.datalayer.db.school.ext.fullName
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueue
 import org.openeel.datalayer.school.writequeue.RemoteWriteQueue
 import org.openeel.lib.xapi.remotewritequeue.XapiRemoteWriteQueue
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.back
+import org.openeel.shared.generated.resources.more_options
 import org.openeel.shared.generated.resources.search
 import org.openeel.shared.generated.resources.settings
-import org.openeel.shared.generated.resources.more_options
 import org.openeel.shared.navigation.ARG_FOCUS_SEARCH
 import org.openeel.shared.util.ext.isLoading
 import org.openeel.shared.viewmodel.app.appstate.AppActionButton
@@ -102,16 +109,30 @@ fun OpenEelAppBar(
         if(activeSessionVal != null) {
             val scope = koin.getScope(activeSessionVal.account.scopeId)
             scope.get<RemoteWriteQueue>().queueSizeAsFlow().combine(
-                scope.get<XapiRemoteWriteQueue>().queueSizeAsFlow()
+                flow = scope.get<XapiRemoteWriteQueue>().queueSizeAsFlow()
             ) { queueSize, xapiQueueSize ->
                 queueSize + xapiQueueSize
-            }
+            }.combine(
+                flow = scope.get<CrawlPublicationQueue>().remainingItemsCount(
+                    jobId = CrawlPublicationQueue.ALL_JOBS
+                )
+            ) { queueSize, crawlQueueSize ->
+                queueSize + crawlQueueSize
+            }.map {
+                Napier.d("SyncState: queue size = $it")
+                if(it > 0) 1 else 0
+            }.distinctUntilChanged()
         }else{
             flowOf(0)
         }
     }
 
+    val connectivityStateFlow = remember {
+        koin.get<ConnectivityMonitor>().statusFlow
+    }
+
     val pendingWriteCount by writeQueueSizeFlow.collectAsState(1)
+    val connectivityState by connectivityStateFlow.collectAsState()
 
     var searchActive by remember(currentEntry) {
         mutableStateOf(false)
@@ -143,19 +164,43 @@ fun OpenEelAppBar(
     ) {
         TopAppBar(
             title = {
-                Text(
-                    text = appUiState.title?.let { uiTextStringResource(it) } ?: "",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.testTag("app_title"),
-                )
+                Row {
+                    Text(
+                        text = appUiState.title?.let { uiTextStringResource(it) } ?: "",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.testTag("app_title").weight(1f),
+                    )
 
-                Text(
-                    modifier = Modifier.testTag("pending_write_count")
-                        .alpha(0f),
-                    text = pendingWriteCount.toString(),
-                    fontSize = 1.sp,
-                )
+                    Column {
+                        /*
+                         * Used by Maestro end-to-end tests to wait for sync to complete (e.g. before
+                         * enabling airplane mode and/or before clearing/resetting).
+                         *
+                         * Note: size needs to be 8.dp or higher for this to work reliably.
+                         */
+                        Spacer(
+                            Modifier.size(8.dp)
+                                .testTag(if(pendingWriteCount == 0) "sync_complete" else "sync_pending")
+                        )
+
+                        /*
+                         * Used by Maestro end-to-end tests to wait for a connection to be available or
+                         * disconnected after setting airplane mode.
+                         *
+                         * Note: size needs to be 8.dp or higher for this to work reliably.
+                         */
+                        Spacer(
+                            Modifier.size(8.dp)
+                                .testTag(
+                                    if(connectivityState.isConnected)
+                                        "connectivity_connected"
+                                    else
+                                        "connectivity_disconnected"
+                                )
+                        )
+                    }
+                }
             },
             navigationIcon = {
                 if (canGoBack) {
