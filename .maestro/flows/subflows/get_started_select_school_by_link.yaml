@@ -9,7 +9,9 @@ appId: org.openeel.app
       text: "Connect to an existing learning space"
 - tapOn: "Paste the link here"
 - inputText: ${SCHOOL_URL}
-- tapOn: "Next"
+- tapOn:
+      text: "Next"
+      retryTapIfNoChange: true
 - assertVisible:
       id: "app_title"
       text: "Login"

@@ -1,6 +1,6 @@
 appId: org.openeel.app
 tags:
-  - basic
+  - 001_003
 onFlowStart:
   - clearState: org.openeel.app
   - runScript:

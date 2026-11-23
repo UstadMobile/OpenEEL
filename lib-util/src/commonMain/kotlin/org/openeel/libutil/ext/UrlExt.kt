@@ -29,6 +29,21 @@ fun Url.resolve(href: String): Url {
 }
 
 /**
+ * Resolve an href using try-catch to avoid throwing any exception in the event of an invalid href
+ * (e.g. href contains unescaped space etc).
+ *
+ * @receiver a KTOR Url (an absolute URL)
+ * @param href href to resolve
+ */
+fun Url.resolveSafely(href: String): Url {
+    return try {
+        return resolve(href)
+    }catch(e: Throwable) {
+        return Url(href)
+    }
+}
+
+/**
  * API endpoints may or may not include a trailing / e.g. https://school.example.org/api/school/xapi .
  * If we want to get the URL for a specific endpoint resource (e.g. statements), we may need to add
  * a / and then the path segments

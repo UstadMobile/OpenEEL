@@ -78,6 +78,7 @@ suspend fun <T: Any> HttpResponse.toDataLoadState(
     validationInfoKey: Long = 0,
     bodyAdapter: suspend (HttpResponse) -> T
 ): DataLoadState<T> {
+
     val metaInfo = dataLoadMetaInfo(validationInfoKey = validationInfoKey)
     return when {
         status == HttpStatusCode.NotModified -> {

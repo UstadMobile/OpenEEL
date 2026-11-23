@@ -871,19 +871,22 @@ data class LoginSelectStudent(
 @Serializable
 class OpdsFeedEdit private constructor(
     private val urlStr: String? = null,
-    val isCopy: Boolean = false,
+    val remixUrlStr: String? = null,
 ) : OpenEelAppRoute {
 
     @Transient
     val url: Url? = urlStr?.let { Url(it) }
 
+    @Transient
+    val remixUrl: Url? = remixUrlStr?.let { Url(it) }
+
     companion object {
         fun create(
             urlStr: Url? = null,
-            isRemix: Boolean = false,
+            remixUrl: Url? = null,
         ) = OpdsFeedEdit(
             urlStr = urlStr?.toString(),
-            isCopy = isRemix,
+            remixUrlStr = remixUrl?.toString(),
         )
     }
 }

@@ -26,6 +26,9 @@ import org.openeel.shared.generated.resources.enter_school_link
 import org.openeel.shared.generated.resources.manage_school_directories
 import org.openeel.shared.generated.resources.next
 import org.openeel.shared.generated.resources.paste_link_here
+import org.openeel.shared.generated.resources.scan_qr_code_badge
+import org.openeel.shared.util.ext.isLoading
+import org.openeel.shared.viewmodel.app.appstate.AppUiState
 import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceUiState
 import org.openeel.shared.viewmodel.manageuser.learningspace.ConnectToExistingLearningSpaceViewModel
 
@@ -34,9 +37,11 @@ fun ConnectToExistingLearningSpaceScreen(
     viewModel: ConnectToExistingLearningSpaceViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val appUiState by viewModel.appUiState.collectAsState()
 
     ConnectToExistingLearningSpaceScreen(
         uiState = uiState,
+        appUiState = appUiState,
         onLinkChanged = viewModel::onLinkChanged,
         onClickNext = viewModel::onClickNext,
         onClickManageSchoolDirectories = viewModel::onClickManageSchoolDirectories,
@@ -46,6 +51,7 @@ fun ConnectToExistingLearningSpaceScreen(
 @Composable
 fun ConnectToExistingLearningSpaceScreen(
     uiState: ConnectToExistingLearningSpaceUiState,
+    appUiState: AppUiState,
     onLinkChanged: (String) -> Unit,
     onClickNext: () -> Unit,
     onClickManageSchoolDirectories: () -> Unit,
@@ -58,6 +64,7 @@ fun ConnectToExistingLearningSpaceScreen(
         Text(stringResource(Res.string.enter_school_link))
         OutlinedTextField(
             value = uiState.link,
+            enabled = !appUiState.isLoading,
             onValueChange = onLinkChanged,
             label = { Text(stringResource(Res.string.paste_link_here)) },
             placeholder = { Text(stringResource(Res.string.paste_link_here)) },
@@ -73,11 +80,10 @@ fun ConnectToExistingLearningSpaceScreen(
 
         Button(
             onClick = onClickNext,
+            enabled = !appUiState.isLoading,
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
         ) {
-            Text(
-                text = stringResource(Res.string.next),
-            )
+            Text(text = stringResource(Res.string.next),)
         }
 
         if(uiState.manageDirectoriesVisible) {

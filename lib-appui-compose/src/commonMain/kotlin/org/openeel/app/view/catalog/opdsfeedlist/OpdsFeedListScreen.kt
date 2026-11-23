@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import io.ktor.http.Url
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.view.catalog.opdsfeeddetail.NavigationListItem
@@ -36,6 +37,7 @@ import org.openeel.lib.dataloadstate.ext.isSettledNotFound
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.xapi.ext.objectActivityOrNull
+import org.openeel.lib.xapi.ext.objectIdOrNull
 import org.openeel.lib.xapi.ext.webPubManifestOrNull
 import org.openeel.lib.xapi.model.XapiStatement
 import org.openeel.shared.generated.resources.Res
@@ -103,66 +105,70 @@ fun OpdsFeedListScreen(
                     val activityDefinition = statement.objectActivityOrNull()?.definition
                     val isNotFound = feed.isSettledNotFound()
 
-                    NavigationListItem(
-                        navigation = ReadiumLink(
-                            href = activityDefinition?.webPubManifestOrNull().orEmpty(),
-                            type = OpdsFeed.MEDIA_TYPE,
-                            title = if(isNotFound) {
-                                stringResource(Res.string.collection_not_found)
-                            }else {
-                                activityDefinition?.name?.entries?.firstOrNull()?.value
+                    statement.objectIdOrNull()?.also { pinnedUrl ->
+                        NavigationListItem(
+                            baseUrl = Url(pinnedUrl),
+                            navigation = ReadiumLink(
+                                href = activityDefinition?.webPubManifestOrNull().orEmpty(),
+                                type = OpdsFeed.MEDIA_TYPE,
+                                title = if(isNotFound) {
+                                    stringResource(Res.string.collection_not_found)
+                                }else {
+                                    activityDefinition?.name?.entries?.firstOrNull()?.value
+                                },
+                            ),
+                            description = when {
+                                isNotFound -> {
+                                    stringResource(Res.string.this_collection_may_have_been_deleted)
+                                }
+                                feedVal != null -> buildString {
+                                    append(
+                                        stringResource(
+                                            Res.string.sections_and_items,
+                                            feedVal.groups?.size ?: 0,
+                                            feedVal.groups.orEmpty().sumOf { group ->
+                                                (group.publications?.size ?: 0) + (group.navigation?.size ?: 0)
+                                            } + feedVal.publications.orEmpty().size + feedVal.navigation.orEmpty().size,
+                                        )
+                                    )
+                                }
+
+                                else -> {
+                                    ""
+                                }
                             },
-                        ),
-                        description = when {
-                            isNotFound -> {
-                                stringResource(Res.string.this_collection_may_have_been_deleted)
-                            }
-                            feedVal != null -> buildString {
-                                append(
-                                    stringResource(
-                                        Res.string.sections_and_items,
-                                        feedVal.groups?.size ?: 0,
-                                        feedVal.groups.orEmpty().sumOf { group ->
-                                            (group.publications?.size ?: 0) + (group.navigation?.size ?: 0)
-                                        } + feedVal.publications.orEmpty().size + feedVal.navigation.orEmpty().size,
-                                    )
-                                )
-                            }
+                            onClickNavigation = { onClickCollection(statement) },
+                            onLongPress = { onClickCollection(statement) },
+                            trailingContent = {
+                                var menuExpanded by remember { mutableStateOf(false) }
 
-                            else -> {
-                                ""
-                            }
-                        },
-                        onClickNavigation = { onClickCollection(statement) },
-                        onLongPress = { onClickCollection(statement) },
-                        trailingContent = {
-                            var menuExpanded by remember { mutableStateOf(false) }
+                                Box {
+                                    IconButton(
+                                        onClick = { menuExpanded = true },
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Filled.MoreVert,
+                                            contentDescription = stringResource(Res.string.more_options),
+                                        )
+                                    }
 
-                            Box {
-                                IconButton(
-                                    onClick = { menuExpanded = true },
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.MoreVert,
-                                        contentDescription = stringResource(Res.string.more_options),
-                                    )
+                                    DropdownMenu(
+                                        expanded = menuExpanded,
+                                        onDismissRequest = { menuExpanded = false },
+                                    ) {
+                                        DropdownMenuItem(
+                                            text = { Text(stringResource(Res.string.unpin)) },
+                                            onClick = {
+                                                menuExpanded = false
+                                                onClickUnpinCollection(statement)
+                                            },
+                                        )
+                                    }
                                 }
+                            },
+                        )
+                    }
 
-                                DropdownMenu(
-                                    expanded = menuExpanded,
-                                    onDismissRequest = { menuExpanded = false },
-                                ) {
-                                    DropdownMenuItem(
-                                        text = { Text(stringResource(Res.string.unpin)) },
-                                        onClick = {
-                                            menuExpanded = false
-                                            onClickUnpinCollection(statement)
-                                        },
-                                    )
-                                }
-                            }
-                        },
-                    )
                 }
             }
         }

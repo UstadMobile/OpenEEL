@@ -51,6 +51,8 @@ import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.defaultScreenPadding
 import org.openeel.app.components.langMapString
 import org.openeel.app.components.uiTextStringResource
+import org.openeel.app.util.rememberResolvedHref
+import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
@@ -93,7 +95,7 @@ fun PublicationDetailScreen(
     onClickOpen: () -> Unit,
     onClickDownload: () -> Unit,
     onClickAssign: () -> Unit,
-    onClickApp: (Publication) -> Unit,
+    onClickApp: (DataReadyState<Publication>) -> Unit,
     onClickBookmark: () -> Unit,
     onClickLicense: (Publication) -> Unit,
     onClickAlternativeLangVersion: (ReadiumLink) -> Unit,
@@ -117,11 +119,13 @@ fun PublicationDetailScreen(
                     .fillMaxWidth().defaultItemPadding(top = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                val iconUrl = lessonDetail?.images?.firstOrNull()?.href
+                val iconUrl = lessonDetail?.images?.firstOrNull()?.href?.let {
+                    rememberResolvedHref(uiState.url, it)
+                }
 
                 iconUrl?.also { icon ->
                     OpenEelAsyncImage(
-                        uri = icon,
+                        uri = icon.toString(),
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -142,12 +146,12 @@ fun PublicationDetailScreen(
                         modifier = Modifier.testTag("publication_title"),
                     )
 
-                    uiState.appDetail.dataOrNull()?.also { app ->
+                    (uiState.appDetail as? DataReadyState)?.also { app ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.clickable { onClickApp(app) }
                         ) {
-                            val appIconUrl = app.images?.firstOrNull()?.href
+                            val appIconUrl = app.data.images?.firstOrNull()?.href
                             Box(
                                 modifier = Modifier
                                     .size(20.dp)
@@ -169,7 +173,7 @@ fun PublicationDetailScreen(
                             Spacer(modifier = Modifier.width(8.dp))
 
                             Text(
-                                text = langMapString(app.metadata.title),
+                                text = langMapString(app.data.metadata.title),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                         }

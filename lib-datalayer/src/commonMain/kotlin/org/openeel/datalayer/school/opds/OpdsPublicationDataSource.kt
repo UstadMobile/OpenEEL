@@ -13,8 +13,9 @@ interface OpdsPublicationDataSource {
      * @param url
      * @param params
      * @param referrerUrl where a publication is being loaded based on following a link from an
-     *        opds feed, providing the URL and publicationId of the feed can be used to load a first
-     *        version from the cache
+     *        opds feed, the referrerUrl and expectedPublicationId can be used to load a "preview"
+     *        [Publication] from the feed. This can be used to show most of the publication detail
+     *        without waiting for the full publication from the Url to load.
      * @param expectedPublicationId where a publication is being loaded based on following a link from an
      *        opds feed, providing the URL and publicationId of the feed can be used to load a first
      *        version from the cache
@@ -32,11 +33,12 @@ interface OpdsPublicationDataSource {
      * @param url
      * @param params
      * @param referrerUrl where a publication is being loaded based on following a link from an
-     *        opds feed, providing the URL and publicationId of the feed can be used to load a first
-     *        version from the cache
-     * @param expectedPublicationId where a publication is being loaded based on following a link from an
-     *        opds feed, providing the URL and publicationId of the feed can be used to load a first
-     *        version from the cache
+     *        opds feed, the referrerUrl and expectedPublicationId can be used to load a "preview"
+     *        [Publication] from the feed. This can be used to show most of the publication detail
+     *        without waiting for the full publication from the Url to load.
+     * @param expectedPublicationId where a publication is being loaded based on following a link
+     *        from an opds feed, providing the URL and publicationId of the feed can be used to load
+     *        a first version from the cache.
      */
     suspend fun getByUrl(
         url: Url,

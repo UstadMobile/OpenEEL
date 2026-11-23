@@ -110,9 +110,12 @@ fun BookmarkListScreen(
                     key = { it.id ?: error("BookmarkListScreen: statement id is null") }
                 ) { statement ->
                     val activityId = statement.objectActivityOrNull()?.id
+                    val publicationUrl = remember(activityId) {
+                        activityId?.let { Url(it) }
+                    }
                     val publicationFlow = remember(activityId) {
-                        if(activityId != null) {
-                            uiState.taskInfoFlow(Url(activityId))
+                        if(publicationUrl != null) {
+                            uiState.taskInfoFlow(publicationUrl)
                         } else {
                             flowOf(DataLoadingState())
                         }
@@ -121,8 +124,9 @@ fun BookmarkListScreen(
                     val publicationLoadState by publicationFlow.collectAsState(DataLoadingState())
                     val publication = publicationLoadState.dataOrNull()
 
-                    if (publication != null) {
+                    if (publication != null && publicationUrl != null) {
                         PublicationListItem(
+                            baseUrl = publicationUrl,
                             publication = publication,
                             onClickPublication = { onClickBookmark(statement) },
                             trailingContent = {

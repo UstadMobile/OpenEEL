@@ -105,12 +105,10 @@ class OpdsPublicationDataSourceDb(
         referrerUrl: Url?,
         expectedPublicationId: String?
     ): Flow<DataLoadState<Publication>> {
-        val urlHash = uidNumberMapper(url.toString())
-
-        return schoolDatabase.getOpdsPublicationEntityDao().findByUrlHashAsFlow(urlHash).map { entity ->
-            schoolDatabase.useReaderConnection {
-                entity?.loadPublicationEntities()?.asModel(json) ?: NoDataLoadedState.notFound()
-            }
+        return schoolDatabase.invalidationTracker.createFlow(
+            tables = arrayOf("OpdsPublicationEntity"), emitInitialState = true
+        ).map {
+            getByUrl(url, params, referrerUrl, expectedPublicationId)
         }
     }
 
@@ -120,10 +118,18 @@ class OpdsPublicationDataSourceDb(
         referrerUrl: Url?,
         expectedPublicationId: String?
     ) : DataLoadState<Publication> {
-    return schoolDatabase.useReaderConnection {
+        return schoolDatabase.useReaderConnection {
             schoolDatabase.getOpdsPublicationEntityDao().findByUrlHash(
                 uidNumberMapper(url.toString())
-            )?.loadPublicationEntities()?.asModel(json) ?: NoDataLoadedState.notFound()
+            )?.loadPublicationEntities()?.asModel(json)
+                ?: if(referrerUrl != null && expectedPublicationId != null) {
+                    schoolDatabase.getOpdsPublicationEntityDao().findByFeedUrlAndPublicationId(
+                        feedUrlHash = uidNumberMapper(referrerUrl.toString()),
+                        publicationIdentifier = expectedPublicationId
+                    )?.loadPublicationEntities()?.asModel(json)
+                }else {
+                    NoDataLoadedState.notFound()
+                } ?: NoDataLoadedState.notFound()
         }
     }
 
