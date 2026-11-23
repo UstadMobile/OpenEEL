@@ -16,9 +16,6 @@ import org.openeel.lib.opds.model.Publication
 /**
  * Note: referrerUrl and expectedPublicationId are used ONLY with the local data source
  * - see [OpdsPublicationDataSource.getByUrl].
- *
- *
- *
  */
 class OpdsPublicationDataSourceRepository(
     private val local: OpdsPublicationDataSourceLocal,
