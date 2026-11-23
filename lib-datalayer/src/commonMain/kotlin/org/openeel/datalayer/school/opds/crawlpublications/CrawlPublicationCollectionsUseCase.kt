@@ -15,6 +15,7 @@ import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.ext.allNavigationLinks
 import org.openeel.libutil.ext.resolve
+import kotlin.time.Clock
 
 /**
  * Crawls a [org.openeel.lib.opds.model.Publication]'s collections. This uses a producer / consumer
@@ -118,6 +119,7 @@ class CrawlPublicationCollectionsUseCase(
         jobId: Int,
         visitor: OpdsFeedVisitor? = null,
     ) {
+        val startTime = Clock.System.now()
         coroutineScope {
             Napier.d(tag = LOGTAG) { "#$jobId - start job"}
             val producer = produceJobs(jobId)
@@ -131,7 +133,7 @@ class CrawlPublicationCollectionsUseCase(
             producer.cancel()
         }
 
-        Napier.d(tag = LOGTAG) { "#$jobId - DONE"}
+        Napier.d(tag = LOGTAG) { "#$jobId - DONE: Duration=${Clock.System.now() - startTime}"}
     }
 
     companion object {

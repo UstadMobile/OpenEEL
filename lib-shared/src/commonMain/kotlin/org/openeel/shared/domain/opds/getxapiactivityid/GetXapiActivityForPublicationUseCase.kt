@@ -10,7 +10,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import nl.adaptivity.xmlutil.serialization.XML
+import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.Publication
+import org.openeel.lib.opds.model.ext.allPublications
 import org.openeel.lib.opds.model.findLearningUnitAcquisitionLinks
 import org.openeel.lib.opds.model.findSelfLinks
 import org.openeel.lib.opds.model.findTinCanXmlLink
@@ -90,6 +92,16 @@ class GetXapiActivityForPublicationUseCase(
             }.awaitAll()
         }
     }
+
+    suspend operator fun invoke(
+        feed: OpdsFeed,
+        url: Url,
+    ) : List<XapiActivity> {
+        return invoke(
+            publications = feed.allPublications().map { it to url }
+        )
+    }
+
 
     suspend operator fun invoke(selection: PublicationsSelection): List<XapiActivity> {
         return invoke(

@@ -1,5 +1,7 @@
-package org.openeel.shared.domain.catalog.downloadimagesforfeed
+package org.openeel.shared.domain.catalog.prefetchopdsfeedvisitor
 
+import com.ustadmobile.libcache.EntryLockRequest
+import com.ustadmobile.libcache.UstadCache
 import io.github.aakira.napier.Napier
 import io.github.reactivecircus.cache4k.Cache
 import io.ktor.client.HttpClient
@@ -19,18 +21,25 @@ import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.ext.allNavigationLinks
 import org.openeel.lib.opds.model.ext.allPublications
-import org.openeel.libutil.ext.resolve
+import org.openeel.lib.opds.model.findTinCanXmlLink
+import org.openeel.shared.util.ext.resolve
 
 /**
  * Implementation of [CrawlPublicationCollectionsUseCase.OpdsFeedVisitor] that will fetch all images
  * e.g. to pull them through the cache so that thumbnails will be visible if/when the user is
- * browsing offline later.
+ * browsing offline later and fetch the tincan.xml file for any publication such that the publication
+ * can be launched offline (tincan.xml is required to determine the xAPI activity id and href to
+ * launch).
+ *
+ * It will also add retention locks to the images and tincan.xml files as per
+ * [UstadCache.addRetentionLocks] to ensure they are retained.
  */
-class DownloadImagesForOpdsFeedVisitor(
+class PrefetchOpdsFeedVisitor(
     private val httpClient: HttpClient,
+    private val cache: UstadCache,
 ) : CrawlPublicationCollectionsUseCase.OpdsFeedVisitor {
 
-    private val imageCache = Cache.Builder<Url, Int>().build()
+    private val prefertchedUrls = Cache.Builder<Url, Int>().build()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun onVisit(feed: DataLoadState<OpdsFeed>) = coroutineScope {
@@ -39,25 +48,37 @@ class DownloadImagesForOpdsFeedVisitor(
         }
 
         val feedUrl = feed.metaInfo.requireUrl()
-        val allImageLinks = (
+
+        val linksToPrefetch = (
             feed.data.allNavigationLinks().flatMap {
                 it.findIcons()
             } + feed.data.allPublications().flatMap {
                 it.images.orEmpty()
+            } + feed.data.allPublications().mapNotNull {
+                it.findTinCanXmlLink()
             }
-        ).distinctBy { feedUrl.resolve(it.href) }
+        ).map {
+            it.resolve(feedUrl)
+        }.distinctBy { it.href }
 
         val producer = produce(capacity = DOWNLOAD_WORKER_COUNT) {
-            allImageLinks.forEach { send(it) }
+            linksToPrefetch.forEach { send(it) }
             close()
         }
+
+        cache.addRetentionLocks(
+            locks = linksToPrefetch.map {
+                EntryLockRequest(url = it.href)
+            }
+        )
 
         repeat(DOWNLOAD_WORKER_COUNT) {
             launch {
                 for (imageLink in producer) {
-                    val imageUrl = feedUrl.resolve(imageLink.href)
+                    //Href is already resolved
+                    val imageUrl = Url(imageLink.href)
                     try {
-                        imageCache.get(imageUrl) {
+                        prefertchedUrls.get(imageUrl) {
                             httpClient.get(imageUrl).also { response ->
                                 response.bodyAsChannel().discard()
                             }.status.value

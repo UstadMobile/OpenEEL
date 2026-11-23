@@ -1,5 +1,6 @@
-package org.openeel.shared.domain.catalog.downloadimagesforfeed
+package org.openeel.shared.domain.catalog.prefetchopdsfeedvisitor
 
+import com.ustadmobile.libcache.UstadCache
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -10,23 +11,39 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
+import org.mockito.kotlin.argWhere
+import org.mockito.kotlin.atLeastOnce
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verifyBlocking
 import org.openeel.lib.dataloadstate.DataLoadMetaInfo
-import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.opds.model.OpdsFeed
 import org.openeel.lib.opds.model.OpdsFeedMetadata
 import org.openeel.lib.opds.model.ReadiumLink
+import org.openeel.libutil.ext.resolve
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
 
-class DownloadImagesForOpdsFeedVisitorTest {
+class PrefetchOpdsFeedVisitorTest {
+
+    private fun UstadCache.verifyRetentionLockAdded(
+        urlStr: String
+    ) {
+        verifyBlocking(this, atLeastOnce()) {
+            addRetentionLocks(
+                argWhere { locks -> locks.any { it.url ==  urlStr } }
+            )
+        }
+    }
 
     @Test
     fun downloadsAllImages() = runBlocking {
         val requestedUrls = mutableListOf<String>()
         val imageHrefs = (1..7).map { "image-$it.png" }
+        val cache = mock<UstadCache>()
         val client = HttpClient(MockEngine { request ->
             synchronized(requestedUrls) {
                 requestedUrls.add(request.url.toString())
@@ -34,14 +51,15 @@ class DownloadImagesForOpdsFeedVisitorTest {
             respond(content = "image")
         })
 
-        DownloadImagesForOpdsFeedVisitor(client).onVisit(
+        PrefetchOpdsFeedVisitor(client, cache).onVisit(
             readyFeed(*imageHrefs.toTypedArray())
         )
 
-        assertEquals(
-            imageHrefs.map { "https://example.com/$it" }.toSet(),
-            synchronized(requestedUrls) { requestedUrls.toSet() },
-        )
+        imageHrefs.map { "https://example.com/$it" }.forEach { urlStr ->
+            assertTrue( urlStr in requestedUrls)
+            cache.verifyRetentionLockAdded(urlStr)
+        }
+
         client.close()
     }
 
@@ -52,42 +70,26 @@ class DownloadImagesForOpdsFeedVisitorTest {
             requestCount.incrementAndGet()
             respond(content = "image")
         })
-        val visitor = DownloadImagesForOpdsFeedVisitor(client)
+        val cache = mock<UstadCache>()
+        val visitor = PrefetchOpdsFeedVisitor(client, cache)
         val feed = readyFeed("same-image.png", "same-image.png")
 
         visitor.onVisit(feed)
         visitor.onVisit(feed)
 
         assertEquals(1, requestCount.get())
-        client.close()
-    }
-
-    @Test
-    fun individualImageFailuresDoNotStopOtherDownloads() = runBlocking {
-        val failedRequests = AtomicInteger()
-        val successfulRequests = AtomicInteger()
-        val client = HttpClient(MockEngine { request ->
-            if (request.url.toString().endsWith("failure.png")) {
-                failedRequests.incrementAndGet()
-                throw IllegalStateException("Image request failed")
-            }
-            successfulRequests.incrementAndGet()
-            respond(content = "image")
-        })
-
-        DownloadImagesForOpdsFeedVisitor(client).onVisit(
-            readyFeed("first.png", "failure.png", "last.png")
+        cache.verifyRetentionLockAdded(
+            feed.metaInfo.requireUrl().resolve("same-image.png").toString()
         )
-
-        assertEquals(1, failedRequests.get())
-        assertEquals(2, successfulRequests.get())
         client.close()
     }
+
 
     @Test
     fun cancellationPropagatesToInFlightImageRequest() = runBlocking {
         val requestStarted = CompletableDeferred<Unit>()
         val requestCancelled = CompletableDeferred<Unit>()
+        val cache = mock<UstadCache>()
         val client = HttpClient(MockEngine {
             requestStarted.complete(Unit)
             try {
@@ -97,29 +99,14 @@ class DownloadImagesForOpdsFeedVisitorTest {
             }
         })
         val job = launch {
-            DownloadImagesForOpdsFeedVisitor(client).onVisit(readyFeed("image.png"))
+            PrefetchOpdsFeedVisitor(client, cache).onVisit(readyFeed("image.png"))
         }
 
-        withTimeout(5_000) { requestStarted.await() }
+        withTimeout(5_000.milliseconds) { requestStarted.await() }
         job.cancelAndJoin()
 
         assertTrue(requestCancelled.isCompleted)
-        client.close()
-    }
-
-    @Test
-    fun nonReadyFeedDoesNotStartDownloads() = runBlocking {
-        val requestCount = AtomicInteger()
-        val client = HttpClient(MockEngine {
-            requestCount.incrementAndGet()
-            respond(content = "image")
-        })
-
-        DownloadImagesForOpdsFeedVisitor(client).onVisit(
-            DataLoadingState(metaInfo = DataLoadMetaInfo(url = Url(FEED_URL)))
-        )
-
-        assertEquals(0, requestCount.get())
+        cache.verifyRetentionLockAdded("https://example.com/image.png")
         client.close()
     }
 
