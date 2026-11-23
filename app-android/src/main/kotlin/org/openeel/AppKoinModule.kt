@@ -185,6 +185,7 @@ import org.openeel.shared.domain.bookmark.AddBookmarkUseCase
 import org.openeel.shared.domain.bookmark.RemoveBookmarkUseCase
 import org.openeel.shared.domain.launchapp.LaunchAppUseCase
 import org.openeel.shared.domain.launchapp.LaunchAppUseCaseAndroid
+import org.openeel.shared.domain.launchapp.openpublication.OpenPublicationUseCase
 import org.openeel.shared.domain.launchers.LaunchSendWhatsAppUseCase
 import org.openeel.shared.domain.launchers.LaunchSendWhatsAppUseCaseAndroid
 import org.openeel.shared.domain.openexternallink.OpenExternalLinkUseCase
@@ -1296,6 +1297,14 @@ val appKoinModule = module {
                 json = get(),
                 opdsPublicationDataSource = get<SchoolDataSource>().opdsPublicationDataSource,
                 getAndroidPackageIdForLaunchableAppUseCase = get(),
+            )
+        }
+
+        scoped<OpenPublicationUseCase> {
+            OpenPublicationUseCase(
+                launchAppUseCase = get(),
+                goToAppStoreUseCase = get(),
+                opdsPublicationDataSource = get<SchoolDataSource>().opdsPublicationDataSource,
             )
         }
 

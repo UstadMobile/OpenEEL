@@ -42,15 +42,11 @@ import org.openeel.libutil.ext.resolve
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.bookmark.AddBookmarkUseCase
 import org.openeel.shared.domain.bookmark.RemoveBookmarkUseCase
-import org.openeel.shared.domain.launchapp.gotoappstore.GoToAppStoreUseCase
-import org.openeel.shared.domain.launchapp.LaunchAppUseCase
+import org.openeel.shared.domain.launchapp.openpublication.OpenPublicationUseCase
 import org.openeel.shared.domain.license.GetLicenseLabelUseCase
 import org.openeel.shared.domain.license.GetLicenseLabelUseCase.LicenseLabelResult
 import org.openeel.shared.domain.school.LaunchCustomTabUseCase
 import org.openeel.shared.ext.tryOrShowSnackbarOnError
-import org.openeel.shared.generated.resources.Res
-import org.openeel.shared.generated.resources.app_not_found
-import org.openeel.shared.generated.resources.something_went_wrong
 import org.openeel.shared.navigation.AppsDetail
 import org.openeel.shared.navigation.AssignmentEdit
 import org.openeel.shared.navigation.PublicationDetail
@@ -89,7 +85,6 @@ class PublicationDetailViewModel(
     private val ustadCache: UstadCache,
     val accountManager: AppAccountManager,
     private val snackBarDispatcher: SnackBarDispatcher,
-    private val goToAppStoreUseCase: GoToAppStoreUseCase,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
 
@@ -103,7 +98,7 @@ class PublicationDetailViewModel(
 
     private val schoolDataSource: SchoolDataSource by inject()
 
-    private val launchAppUseCase: LaunchAppUseCase by inject()
+    private val openPublicationUseCase: OpenPublicationUseCase by inject()
 
     private val getLicenseLabelUseCase: GetLicenseLabelUseCase by inject()
 
@@ -218,43 +213,19 @@ class PublicationDetailViewModel(
     fun onClickOpen() {
         Napier.d("LauncherAppViewModel: onClickOpen")
 
-        //If app is null, then UiState.buttonsEnabled is false, so fallback return should never happen
         viewModelScope.launch {
-            try {
-                val lessonPublication =
-                    _uiState.value.learningUnit.dataOrNull() ?: throw IllegalStateException("Not ready")
-
-                val result = launchAppUseCase(
-                    LaunchAppUseCase.LaunchAppRequest(
+            snackBarDispatcher.tryOrShowSnackbarOnError(
+                logMessage = "PublicationDetailViewModel: something wrong opening learning unit"
+            ) {
+                openPublicationUseCase(
+                    OpenPublicationUseCase.OpenPublicationRequest(
                         publicationUrl = route.learningUnitManifestUrl,
-                        publication = lessonPublication,
+                        publication = uiState.value.learningUnit.dataOrNull(),
+                        expectedPublicationId = route.expectedIdentifier,
                         assignmentActivityId = route.assignmentActivityId,
                         launchableApp = uiState.value.appDetail.dataOrNull(),
                     )
                 )
-
-                if(result is LaunchAppUseCase.LaunchAppInstallRequired) {
-                    val launchableAppToInstall = result.launchableApp
-                    if(launchableAppToInstall != null) {
-                        goToAppStoreUseCase(
-                            GoToAppStoreUseCase.Request(
-                                launchableApp = launchableAppToInstall,
-                                referrer = result.referrerUrl.toString(),
-                            )
-                        )
-                    }else {
-                        snackBarDispatcher.showSnackBar(Snack(Res.string.app_not_found.asUiText()))
-                    }
-                }else if(result is LaunchAppUseCase.LaunchAppFailed) {
-                    snackBarDispatcher.showSnackBar(
-                        Snack(
-                            result.cause?.getUiTextOrGeneric() ?: Res.string.something_went_wrong.asUiText()
-                        )
-                    )
-                }
-            } catch (e: Throwable) {
-                Napier.w("Something wrong opening learning unit", e)
-                snackBarDispatcher.showSnackBar(Snack(e.getUiTextOrGeneric()))
             }
         }
     }

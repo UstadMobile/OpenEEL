@@ -1,5 +1,6 @@
 package org.openeel.app.view.assignment.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,9 +13,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -51,6 +54,7 @@ fun AssignmentListItem(
     summary: AssignmentSummary,
     onClick: (AssignmentSummary) -> Unit,
     learningUnitInfoFlow: (Url) -> Flow<DataLoadState<Publication>> = { emptyFlow() },
+    showCompletedCheck: Boolean = false,
 ) {
     val formattedDeadline = rememberFormattedDateTime(
         timeInMillis = summary.deadline?.toEpochMilliseconds() ?: 0,
@@ -139,13 +143,27 @@ fun AssignmentListItem(
                     .width(48.dp),
                 contentAlignment = Alignment.Center
             ) {
-                manifestIconUrl?.also { icon ->
-                    OpenEelAsyncImage(
-                        uri = icon.toString(),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(36.dp)
-                    )
+                Box(modifier = Modifier.size(36.dp)) {
+                    manifestIconUrl?.also { icon ->
+                        OpenEelAsyncImage(
+                            uri = icon.toString(),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.size(36.dp)
+                        )
+                    }
+
+                    if(showCompletedCheck) {
+                        Icon(
+                            imageVector = Icons.Filled.CheckBox,
+                            contentDescription = stringResource(Res.string.completed_status),
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier
+                                .align(Alignment.BottomStart)
+                                .size(18.dp)
+                                .background(MaterialTheme.colorScheme.surface)
+                        )
+                    }
                 }
             }
         },
