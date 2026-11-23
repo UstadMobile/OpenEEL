@@ -15,7 +15,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -24,6 +23,7 @@ import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.openeel.app.components.OpenEelSearchFilterChip
+import org.openeel.app.util.rememberResolvedHref
 import org.openeel.app.view.catalog.opdsfeeddetail.OpdsFeedListItem
 import org.openeel.datalayer.school.model.composites.OpdsSearchResult
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_BOOK
@@ -31,7 +31,6 @@ import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_GAME
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_OPTIONS
 import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal.Companion.TYPE_VIDEO
-import org.openeel.libutil.ext.resolve
 import org.openeel.shared.domain.getlanguageendonym.GetLanguageEndonymUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.book
@@ -140,15 +139,13 @@ fun OpdsSearchScreen(
                 items = uiState.results,
                 key = { index, _ -> index },
             ) { _, result ->
-                val iconUrl = remember(result) {
-                    result.iconHref?.let { iconHref ->
-                        (result.url ?: result.feedUrl)?.let { Url(it).resolve(iconHref).toString() }
-                    }
-                }
-
                 OpdsFeedListItem(
                     title = result.title,
-                    iconUrl = iconUrl,
+                    iconUrl = (result.url ?: result.feedUrl)?.let { urlVal ->
+                        result.iconHref?.let { iconHref ->
+                            rememberResolvedHref(Url(urlVal), iconHref)
+                        }
+                    },
                     description = null,
                     language = null,
                     duration = null,

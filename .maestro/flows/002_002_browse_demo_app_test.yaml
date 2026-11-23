@@ -1,4 +1,6 @@
 appId: org.openeel.app
+tags:
+  - 002_002
 onFlowStart:
   - clearState: org.openeel.app
   - runScript:
@@ -48,9 +50,6 @@ onFlowComplete:
     text: "App detail"
 - tapOn: "Open Source: AFL-3.0"
 - tapOn: "Close tab"
-#- tapOn:
-#    text: "Get it on Google Play"
-#    index: 1
 - tapOn: "Lessons"
 - assertVisible: "Native Demo"
 - tapOn: "Native Demo"

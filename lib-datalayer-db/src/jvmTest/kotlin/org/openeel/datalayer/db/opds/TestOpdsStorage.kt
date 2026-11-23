@@ -7,7 +7,6 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.openeel.datalayer.db.school.testSchoolDb
 import org.openeel.datalayer.db.school.toDataSource
-import org.openeel.datalayer.school.opds.ext.withAbsoluteSelfUrl
 import org.openeel.lib.dataloadstate.DataLoadMetaInfo
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataReadyState
@@ -32,7 +31,7 @@ class TestOpdsStorage {
             this::class.java.getResourceAsStream(
                 "/world/respect/datalayer/db/opds/adapters/lesson001.json"
             )!!.bufferedReader().use { it.readText() }
-        ).withAbsoluteSelfUrl(pubUrl)
+        )
 
         val adminUid = "1"
 

@@ -1,5 +1,6 @@
 package org.openeel.shared.domain.launchapp.getlaunchoptionsforpublication
 
+import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
@@ -47,6 +48,7 @@ class GetLaunchOptionsForPublicationUseCase(
         publication: Publication,
         publicationUrl: Url,
     ): GetLaunchOptionsResult {
+        Napier.d(tag = LOGTAG) { "Get options for url=$publicationUrl"}
         val launchOptions = mutableListOf<LaunchOption>()
         val tinCanLink = publication.findTinCanXmlLink()
         val launchableAppLink = publication.findLaunchableAppLink()?.let { link ->
@@ -56,7 +58,11 @@ class GetLaunchOptionsForPublicationUseCase(
             )
         }
 
-        val tinCanXmlUrl = tinCanLink?.let { publicationUrl.resolve(it.href) }
+        val tinCanXmlUrl = tinCanLink?.let { link ->
+            publicationUrl.resolve(link.href).also {
+                Napier.d(tag = LOGTAG) { " Found: TinCanXml link=${link.href} url=$it"}
+            }
+        }
 
         tinCanXmlUrl?.also {
             val tinCanXmlContent = httpClient.get(tinCanXmlUrl).bodyAsText()
@@ -78,6 +84,7 @@ class GetLaunchOptionsForPublicationUseCase(
 
         publication.findLearningUnitAcquisitionLinks().forEach { link ->
             val linkUrl = publicationUrl.resolve(link.href)
+            Napier.d(tag = LOGTAG) { " Found legacy link href=${link.href} url=$linkUrl" }
             launchOptions.add(
                 LaunchOption(
                     url = linkUrl,
@@ -91,6 +98,11 @@ class GetLaunchOptionsForPublicationUseCase(
             options = launchOptions.toList(),
             launchableApp = launchableAppLink?.dataOrNull(),
         )
+    }
+
+    companion object {
+
+        const val LOGTAG = "LaunchApp"
     }
 
 }

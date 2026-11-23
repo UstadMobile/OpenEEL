@@ -12,7 +12,6 @@ import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity
 import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity.PropertyType.OPDS_FEED_LINKS
 import org.openeel.datalayer.db.school.opds.entities.ReadiumLinkEntity.PropertyType.OPDS_FEED_NAVIGATION
 import org.openeel.datalayer.db.school.opds.entities.ReadiumSubjectEntity
-import org.openeel.datalayer.school.opds.ext.requireSelfUrl
 import org.openeel.datalayer.db.shared.entities.LangMapEntity
 import org.openeel.lib.dataloadstate.ext.responseETagAndLastModified
 import org.openeel.lib.opds.model.OpdsFeed
@@ -37,7 +36,7 @@ fun OpdsFeed.asEntities(
     primaryKeyGenerator: PrimaryKeyGenerator,
     uidNumberMapper: UidNumberMapper,
 ): OpdsFeedEntities {
-    val url = requireSelfUrl()
+    val url = dataLoadMetaInfo.requireUrl()
 
     val ofeUid = uidNumberMapper(url.toString())
     val dataLoadValidationHeaders = dataLoadMetaInfo.headers.responseETagAndLastModified()

@@ -85,6 +85,10 @@ fun DataLoadState<*>.isReadyAndSettled(): Boolean {
     return this is DataReadyState && this.remoteState !is DataLoadingState
 }
 
+fun DataLoadState<*>.isSettled(): Boolean {
+    return this !is DataLoadingState && this.remoteState !is DataLoadingState
+}
+
 fun DataLoadState<*>.isLoadedOrNotModified(): Boolean {
     return this is DataReadyState ||
             (this is NoDataLoadedState && reason == NoDataLoadedState.Reason.NOT_MODIFIED)

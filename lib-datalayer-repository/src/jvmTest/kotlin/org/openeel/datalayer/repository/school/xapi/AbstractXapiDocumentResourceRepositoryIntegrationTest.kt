@@ -119,6 +119,7 @@ abstract class AbstractXapiDocumentResourceRepositoryIntegrationTest<
                     expected = document.contentsAsByteArray(),
                     actual = awaitItem().data.contentsAsByteArray()
                 )
+                cancelAndIgnoreRemainingEvents()
             }
         }
     }

@@ -27,7 +27,7 @@ class OpdsFeedDataSourceRepository(
                 remote.getByUrlAsFlow(url, it)
             },
             onRemoteUpdated = {
-                local.updateLocal(url, it)
+                local.updateLocal(it)
             }
         )
     }
@@ -43,7 +43,7 @@ class OpdsFeedDataSourceRepository(
         )
 
         remoteData.takeIfShouldUpdateLocal(localData)?.also {
-            local.updateLocal(url, it)
+            local.updateLocal(it)
             return local.getByUrl(url = url, params = params).combineWithRemote(remoteData)
         }
 

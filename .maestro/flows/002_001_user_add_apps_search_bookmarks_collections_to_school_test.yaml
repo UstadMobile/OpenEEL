@@ -1,4 +1,6 @@
 appId: org.openeel.app
+tags:
+  - 002_001
 onFlowStart:
   - clearState: org.openeel.app
   - runScript:
@@ -35,8 +37,9 @@ onFlowComplete:
     id: "app_title"
     text: "App detail"
 - assertVisible: "Example Web App"
-# verify App got added to Apps section
+- runFlow: "subflows/wait_for_sync_complete.yaml"
 - tapOn: "Add to school apps"
+- runFlow: "subflows/connectivity_disable.yaml"
 - tapOn:
     id: "nav_home"
 - assertVisible:
@@ -44,19 +47,31 @@ onFlowComplete:
     text: "Home"
 - assertVisible: "Example Web App"
 - tapOn: "Example Web App"
-- assertVisible: "Lessons"
 - tapOn: "Lessons"
 - tapOn: "Examples"
 - tapOn: "Lesson 001"
-- assertVisible: "Lesson 001"
-- assertVisible: "Download"
+- assertVisible:
+      id: "app_title"
+      text: "Examples"
+- assertVisible:
+        text: "Bookmark"
+        enabled: true
+- assertVisible:
+         text: "Download"
+         enabled: true
+- assertVisible:
+       text: "Assign"
+       enabled: true
+- assertVisible:
+    text: "Open"
+    enabled: true
+- runFlow: "subflows/connectivity_enable.yaml"
 - tapOn: "Open"
 - extendedWaitUntil:
     visible: "Lesson 001"
     timeout: 10000
 - assertVisible: "Hello World Lesson"
 - tapOn: "Close"
-- setAirplaneMode: disabled
 - tapOn:
     id: "nav_home"
 - tapOn: "Example Web App"
@@ -71,7 +86,7 @@ onFlowComplete:
     visible: "Downloaded"
     timeout: 10000
 # Set device on Offline mode
-- setAirplaneMode: enabled
+- runFlow: "subflows/connectivity_disable.yaml"
 - assertVisible: "Downloaded"
 - stopApp
 
@@ -100,7 +115,7 @@ onFlowComplete:
       - tapOn: "Send statement"
       - assertVisible: "Statement sent.*"
 - tapOn: "Close"
-- setAirplaneMode: disabled # Set device on Online mode
+- runFlow: "subflows/connectivity_enable.yaml"
 - tapOn:
     id: "nav_home"
 - tapOn: "Apps"
@@ -524,8 +539,4 @@ onFlowComplete:
 - tapOn: "Assignments"
 - assertVisible: "Homework 1"
 - assertVisible: "Homework 2"
-
-
-
-
 

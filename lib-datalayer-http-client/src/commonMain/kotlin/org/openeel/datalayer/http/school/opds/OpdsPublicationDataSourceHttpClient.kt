@@ -16,7 +16,6 @@ import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.datalayer.networkvalidation.BaseDataSourceValidationHelper
 import org.openeel.datalayer.school.opds.OpdsPublicationDataSource
 import org.openeel.datalayer.school.opds.ext.asOpdsPublication
-import org.openeel.datalayer.school.opds.ext.withAbsoluteSelfUrl
 import org.openeel.lib.opds.model.Publication
 
 class OpdsPublicationDataSourceHttpClient(
@@ -53,9 +52,7 @@ class OpdsPublicationDataSourceHttpClient(
             dataLoadParams = params,
             validationHelper = publicationValidationHelper,
         ).map { dataLoadResult ->
-            dataLoadResult.asPublicationIfRespectAppManifest().map {
-                it.withAbsoluteSelfUrl(url)
-            }
+            dataLoadResult.asPublicationIfRespectAppManifest()
         }
     }
 
@@ -68,8 +65,6 @@ class OpdsPublicationDataSourceHttpClient(
         return httpClient.getAsDataLoadState<JsonElement>(
             url = url,
             validationHelper = publicationValidationHelper,
-        ).asPublicationIfRespectAppManifest().map {
-            it.withAbsoluteSelfUrl(url)
-        }
+        ).asPublicationIfRespectAppManifest()
     }
 }

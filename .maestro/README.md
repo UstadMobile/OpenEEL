@@ -50,15 +50,18 @@ export TESTSERVER_CONTROLLER_URL=http://192.168.1.2:8094/
 Where:
 * 192.168.1.2 is the local IP of the developer's laptop
 
-Note: You can filter which tests to run by setting the environment variable ```MAESTRO_EXTRA_ARGS```
+Note: You can filter which tests to run by setting the environment variable ```MAESTRO_INCLUDE_TAGS```
 with arguments as per [Maestro test discovery and tags](https://docs.maestro.dev/maestro-flows/workspace-management/test-discovery-and-tags)
 e.g.
 
 ```
 export TESTSERVER_CONTROLLER_URL=http://192.168.1.2:8094/
-export MAESTRO_EXTRA_ARGS=" --include-tags=basic "
+export MAESTRO_INCLUDE_TAGS=basic
 ./ci-run-e2e-tests.sh
 ```
+
+In Jenkins, add `MAESTRO_INCLUDE_TAGS=smoke` to the job's Properties Content. To run all flows, comment it out
+(`#MAESTRO_INCLUDE_TAGS=smoke`) or leave it out.
 
 or set a particular test to run using ```MAESTRO_FLOW``` arg
 
@@ -80,6 +83,35 @@ export MAESTRO_FLOW=./maestro/flows/flow_name.yaml
   replace _PORT_ with the port number created by the test server e.g. https://_PORT_.ustadtesting.ustadmobile.com/
 * ```TEST_APP_URL```: A launchable app publication URL (used with 002_browse_lessons_test and 
   assignment tests.
+
+## Online/offline scenarios
+
+Before finishing a test stage (and clearing the app for the next stage) the app normally needs to 
+wait for any data that has been updated locally to be written to the remote server. This only takes
+a fraction of a second, but if one does not wait for this, tests can become flakey. `AppBar.kt`
+has an invisible text with the test tag `sync_pending` which will be either 0 or 1. So to wait for
+sync to complete:
+
+```yaml
+- extendedWaitUntil:
+    visible:
+      id: "sync_pending"
+      text: "0"
+    timeout: 10000
+```
+
+Enabling and disabling airplane mode can take time to take effect (particularly disabling airplane)
+mode. A test that requires connectivity to be active should not proceed until the connection is 
+actually active again. There is an invisible text with the test tag `connectivity_state` which will
+be either 0 (disconnected) or 1 (connected). To wait for connectivity to be active:
+
+```yaml
+- extendedWaitUntil:
+    visible:
+      id: "connectivity_state"
+      text: "1"
+    timeout: 10000
+```
 
 ## Available test flows
 ---

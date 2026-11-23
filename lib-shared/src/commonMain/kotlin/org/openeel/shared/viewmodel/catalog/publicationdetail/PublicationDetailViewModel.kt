@@ -26,15 +26,15 @@ import org.openeel.datalayer.db.school.ext.isAdminOrTeacher
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
+import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.dataloadstate.ext.isReadyAndSettled
+import org.openeel.lib.dataloadstate.ext.isSettled
 import org.openeel.lib.dataloadstate.ext.map
 import org.openeel.lib.opds.model.Publication
 import org.openeel.lib.opds.model.ReadiumLink
 import org.openeel.lib.opds.model.findLaunchableAppLink
 import org.openeel.lib.opds.model.findLicenseLink
-import org.openeel.lib.opds.model.findSelfLinks
 import org.openeel.lib.xapi.model.XapiStatementResult
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
@@ -63,7 +63,13 @@ import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 import org.openeel.shared.viewmodel.catalog.PublicationsSelection
 
+/**
+ * @property url the url where [Publication] data is actually loaded from. When displaying the
+ *           "preview" [Publication] as per [org.openeel.datalayer.school.opds.OpdsPublicationDataSource.getByUrl]
+ *           the url could be the Url of the OpdsFeed the user navigated from.
+ */
 data class PublicationDetailUiState(
+    val url: Url,
     val learningUnit: DataLoadState<Publication> = DataLoadingState(),
     val appDetail: DataLoadState<Publication> = DataLoadingState(),
     val pinState: PublicationPinState = PublicationPinState(
@@ -78,7 +84,7 @@ data class PublicationDetailUiState(
 
     //The bookmark state is a separate API call.
     val bookmarkButtonEnabled: Boolean
-        get() = bookmarks.isReadyAndSettled()
+        get() = bookmarks.isSettled()
 
     val isBookmarked: Boolean
         get() = bookmarks.dataOrNull()?.statements?.isNotEmpty() == true
@@ -95,11 +101,13 @@ class PublicationDetailViewModel(
 
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
-    private val _uiState = MutableStateFlow(PublicationDetailUiState())
+    private val route: PublicationDetail = savedStateHandle.toRoute()
+
+    private val _uiState = MutableStateFlow(
+        PublicationDetailUiState(url = route.learningUnitManifestUrl)
+    )
 
     val uiState = _uiState.asStateFlow()
-
-    private val route: PublicationDetail = savedStateHandle.toRoute()
 
     private val schoolDataSource: SchoolDataSource by inject()
 
@@ -115,6 +123,9 @@ class PublicationDetailViewModel(
     private val removeBookmarkUseCase: RemoveBookmarkUseCase by inject()
 
     init {
+        Napier.d(tag = "LaunchApp") {
+            "PublicationDetail url=${route.learningUnitManifestUrl} referrer=${route.refererUrl}"
+        }
         _appUiState.update {
             it.copy(
                 title = route.title?.asUiText() ?: it.title
@@ -124,7 +135,7 @@ class PublicationDetailViewModel(
         val learningUnitFlow = schoolDataSource.opdsPublicationDataSource.getByUrlAsFlow(
             url = route.learningUnitManifestUrl,
             params = DataLoadParams(),
-            referrerUrl = route.learningUnitManifestUrl,
+            referrerUrl = route.refererUrl,
             expectedPublicationId = route.expectedIdentifier
         ).shareIn(viewModelScope, SharingStarted.Lazily)
 
@@ -132,8 +143,11 @@ class PublicationDetailViewModel(
             learningUnitFlow.collect { result ->
                 _uiState.update { prev ->
                     prev.copy(
-                        learningUnit = result.map {
-                            it.resolve(route.learningUnitManifestUrl)
+                        learningUnit = result,
+                        url = if(result is DataReadyState && result.metaInfo.url == null) {
+                            route.refererUrl ?: route.learningUnitManifestUrl
+                        }else {
+                            route.learningUnitManifestUrl
                         }
                     )
                 }
@@ -218,15 +232,17 @@ class PublicationDetailViewModel(
     fun onClickOpen() {
         Napier.d("LauncherAppViewModel: onClickOpen")
 
-        //If app is null, then UiState.buttonsEnabled is false, so fallback return should never happen
         viewModelScope.launch {
             try {
-                val lessonPublication =
-                    _uiState.value.learningUnit.dataOrNull() ?: throw IllegalStateException("Not ready")
+                val uiStateVal = _uiState.value
+
+                //If app is null, then UiState.buttonsEnabled is false, so fallback return should never happen
+                val lessonPublication = uiStateVal.learningUnit.dataOrNull()
+                    ?: throw IllegalStateException("Not ready")
 
                 val result = launchAppUseCase(
                     LaunchAppUseCase.LaunchAppRequest(
-                        publicationUrl = route.learningUnitManifestUrl,
+                        publicationUrl = uiStateVal.url,
                         publication = lessonPublication,
                         assignmentActivityId = route.assignmentActivityId,
                         launchableApp = uiState.value.appDetail.dataOrNull(),
@@ -295,11 +311,10 @@ class PublicationDetailViewModel(
         )
     }
 
-    fun onClickApp(app: Publication) {
-        val url = app.findSelfLinks().firstOrNull()?.href ?: return
+    fun onClickApp(app: DataReadyState<Publication>) {
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(
-                destination = AppsDetail.create(manifestUrl = Url(url))
+                destination = AppsDetail.create(manifestUrl = app.metaInfo.requireUrl())
             )
         )
     }
