@@ -201,15 +201,6 @@ fun Route.SchoolRegistrationRoute() {
                             }
                         }
 
-                        // Hidden redirect field for deep linking to app
-                        input(
-                            type = InputType.hidden,
-                            name = RegisterSchoolUseCase.PARAM_NAME_REDIRECT
-                        ) {
-                            value = call.request.queryParameters["redirect"]
-                                ?: "org.openeel.app://school-registered"
-                        }
-
                         button(type = ButtonType.submit, classes = "submit-btn") {
                             +"Next"
                         }

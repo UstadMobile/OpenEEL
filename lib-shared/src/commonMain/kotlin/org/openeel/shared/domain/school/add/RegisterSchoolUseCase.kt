@@ -17,6 +17,7 @@ interface RegisterSchoolUseCase {
         val adminUsername: String? = null,
         val adminPassword: String? = null,
         val schoolCreationPin: String? = null,
+        val packageName: String? = null,
     ) {
 
         companion object {
@@ -55,6 +56,7 @@ interface RegisterSchoolUseCase {
                     adminUsername = params[PARAM_ADMIN_USERNAME],
                     adminPassword = params[PARAM_ADMIN_PASSWORD],
                     schoolCreationPin = params[PARAM_SCHOOL_CREATION_PIN],
+                    packageName = params[PARAM_PACKAGE_NAME],
                 )
             }
 
@@ -93,8 +95,6 @@ interface RegisterSchoolUseCase {
         const val PARAM_SCHOOL_FULL_URL = "schoolUrl"
 
         const val PARAM_PACKAGE_NAME = "packageName"
-
-        const val PARAM_NAME_REDIRECT = "redirect"
 
         const val PARAM_ADMIN_USERNAME = "adminUsername"
 

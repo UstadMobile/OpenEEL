@@ -44,7 +44,6 @@ fun ConnectToExistingLearningSpaceScreen(
         appUiState = appUiState,
         onLinkChanged = viewModel::onLinkChanged,
         onClickNext = viewModel::onClickNext,
-        onClickScanQRBadge = viewModel::onClickScanQRBadge,
         onClickManageSchoolDirectories = viewModel::onClickManageSchoolDirectories,
     )
 }
@@ -56,7 +55,6 @@ fun ConnectToExistingLearningSpaceScreen(
     onLinkChanged: (String) -> Unit,
     onClickNext: () -> Unit,
     onClickManageSchoolDirectories: () -> Unit,
-    onClickScanQRBadge: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -86,15 +84,6 @@ fun ConnectToExistingLearningSpaceScreen(
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
         ) {
             Text(text = stringResource(Res.string.next),)
-        }
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        OutlinedButton(
-            onClick = onClickScanQRBadge,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = stringResource(Res.string.scan_qr_code_badge))
         }
 
         if(uiState.manageDirectoriesVisible) {

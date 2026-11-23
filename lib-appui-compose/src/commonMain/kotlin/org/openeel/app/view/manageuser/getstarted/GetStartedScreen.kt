@@ -25,14 +25,17 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.defaultItemPadding
-import org.openeel.app.generated.resources.Res as AppRes
 import org.openeel.app.generated.resources.connect_space
 import org.openeel.app.generated.resources.create_space
+import org.openeel.app.generated.resources.scan_qr_code
+import org.openeel.app.generated.resources.Res as AppRes
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.connect_existing_learning_space
 import org.openeel.shared.generated.resources.connect_existing_learning_space_description
 import org.openeel.shared.generated.resources.create_new_learning_space
 import org.openeel.shared.generated.resources.create_new_learning_space_description
+import org.openeel.shared.generated.resources.scan_qr_code_badge
+import org.openeel.shared.generated.resources.scan_qr_code_badge_description
 import org.openeel.shared.viewmodel.manageuser.getstarted.GetStartedViewModel
 
 
@@ -43,6 +46,7 @@ fun GetStartedScreen(
     GetStartedScreen(
         onClickConnectToExistingLearningSpace = viewModel::onClickConnectToExistingLearningSpace,
         onClickCreateNewLearningSpace = viewModel::onClickCreateNewLearningSpace,
+        onClickScanQRBadge = viewModel::onClickScanQRBadge,
     )
 }
 
@@ -50,7 +54,8 @@ fun GetStartedScreen(
 @Composable
 fun GetStartedScreen(
     onClickConnectToExistingLearningSpace: () -> Unit,
-    onClickCreateNewLearningSpace: () -> Unit
+    onClickCreateNewLearningSpace: () -> Unit,
+    onClickScanQRBadge: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -70,6 +75,13 @@ fun GetStartedScreen(
             subtitle = stringResource(Res.string.create_new_learning_space_description),
             image = AppRes.drawable.create_space,
             modifier = Modifier.clickable(onClick = onClickCreateNewLearningSpace)
+        )
+
+        LearningSpaceCard(
+            headline = stringResource(Res.string.scan_qr_code_badge),
+            subtitle = stringResource(Res.string.scan_qr_code_badge_description),
+            image = AppRes.drawable.scan_qr_code,
+            modifier = Modifier.clickable(onClick = onClickScanQRBadge)
         )
     }
 }
