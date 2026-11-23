@@ -394,7 +394,8 @@ val appKoinModule = module {
         OkHttpClient.Builder()
             .dispatcher(
                 Dispatcher().also {
-                    it.maxRequests = 30
+                    //Increase max requests per host to speed up parallel downloading a bit
+                    //MaxRequests itself will remain at the default - 64
                     it.maxRequestsPerHost = 10
                 }
             )
