@@ -7,6 +7,11 @@ import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.Url
 import io.ktor.utils.io.discard
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.produce
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationCollectionsUseCase
 import org.openeel.datalayer.school.opds.ext.findIcons
 import org.openeel.lib.dataloadstate.DataLoadState
@@ -27,32 +32,51 @@ class DownloadImagesForOpdsFeedVisitor(
 
     private val imageCache = Cache.Builder<Url, Int>().build()
 
-    override suspend fun onVisit(feed: DataLoadState<OpdsFeed>) {
-        if(feed is DataReadyState) {
-            val allImageLinks = feed.data.allNavigationLinks().flatMap {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override suspend fun onVisit(feed: DataLoadState<OpdsFeed>) = coroutineScope {
+        if (feed !is DataReadyState) {
+            return@coroutineScope
+        }
+
+        val feedUrl = feed.metaInfo.requireUrl()
+        val allImageLinks = (
+            feed.data.allNavigationLinks().flatMap {
                 it.findIcons()
             } + feed.data.allPublications().flatMap {
                 it.images.orEmpty()
-            }.distinctBy { it.href }
+            }
+        ).distinctBy { feedUrl.resolve(it.href) }
 
-            val feedUrl = feed.metaInfo.requireUrl()
+        val producer = produce(capacity = DOWNLOAD_WORKER_COUNT) {
+            allImageLinks.forEach { send(it) }
+            close()
+        }
 
-            allImageLinks.forEach {
-                try {
-                    val imageUrl = feedUrl.resolve(it.href)
-                    imageCache.get(imageUrl) {
-                        httpClient.get(imageUrl).also { response ->
-                            response.bodyAsChannel().discard()
-                        }.status.value
+        repeat(DOWNLOAD_WORKER_COUNT) {
+            launch {
+                for (imageLink in producer) {
+                    val imageUrl = feedUrl.resolve(imageLink.href)
+                    try {
+                        imageCache.get(imageUrl) {
+                            httpClient.get(imageUrl).also { response ->
+                                response.bodyAsChannel().discard()
+                            }.status.value
+                        }
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (e: Throwable) {
+                        Napier.w(
+                            message = "DownloadImagesForOpdsFeedVisitor: failure downloading image:" +
+                                " ${imageLink.href} for $feedUrl",
+                            throwable = e,
+                        )
                     }
-                }catch(e: Throwable) {
-                    Napier.w(
-                        message = "DownloadImagesForOpdsFeedVisitor: failure downloading image:" +
-                            " ${it.href} for $feedUrl",
-                        throwable = e,
-                    )
                 }
             }
         }
+    }
+
+    companion object {
+        internal const val DOWNLOAD_WORKER_COUNT = 5
     }
 }

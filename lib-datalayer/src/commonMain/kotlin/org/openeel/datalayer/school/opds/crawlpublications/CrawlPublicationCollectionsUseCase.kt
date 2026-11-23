@@ -13,6 +13,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.opds.model.OpdsFeed
+import org.openeel.lib.opds.model.ext.allNavigationLinks
 import org.openeel.libutil.ext.resolve
 
 /**
@@ -81,17 +82,12 @@ class CrawlPublicationCollectionsUseCase(
                 params = DataLoadParams()
             )
 
-            visitor?.onVisit(feedLoadState)
             feedLoadState.dataOrNull()?.also { feed ->
-                val otherFeedLinks = feed.navigation.orEmpty() + feed.groups.orEmpty().flatMap {
-                    it.navigation.orEmpty()
-                }
-
-                Napier.d(tag = LOGTAG) { "#${item.jobId}-${item.itemId} Found ${otherFeedLinks.size}" }
-
                 if (item.depth < MAX_DEPTH) {
                     queue.insertItemsIfNotInJob(
-                        items = otherFeedLinks.map { link ->
+                        items = feed.allNavigationLinks().also {
+                            Napier.d(tag = LOGTAG) { "#${item.jobId}-${item.itemId} Found ${it.size} feeds" }
+                        }.map { link ->
                             CrawlPublicationQueueItem(
                                 jobId = item.jobId,
                                 itemUrl = item.itemUrl.resolve(link.href),
@@ -101,11 +97,13 @@ class CrawlPublicationCollectionsUseCase(
                     )
                 }else {
                     Napier.d(tag = LOGTAG) {
-                        "#${item.jobId}-${item.itemId} : not adding ${otherFeedLinks.size} - " +
+                        "#${item.jobId}-${item.itemId} : not adding other feeds - " +
                                 "max depth ($MAX_DEPTH) reached"
                     }
                 }
             }
+
+            visitor?.onVisit(feedLoadState)
 
             Napier.d(tag = LOGTAG) { "#${item.jobId}-${item.itemId} Finished ${item.itemUrl}" }
             queue.updateStatus(

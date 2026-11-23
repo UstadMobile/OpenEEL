@@ -107,6 +107,7 @@ kotlin {
             implementation(libs.ktor.server.content.negotiation)
             implementation(libs.ktor.server.conditional.headers)
             implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.mock)
             implementation(libs.koin.test)
             implementation(libs.mockito.kotlin)
         }
