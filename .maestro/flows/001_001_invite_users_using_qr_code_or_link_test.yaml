@@ -121,10 +121,10 @@ onFlowComplete:
 - runFlow:
     file: "subflows/admin_add_class.yaml"
     env:
-      CLASSNAME: New Class
+      CLASSNAME: TestClass
 - assertVisible:
     id: "app_title"
-    text: "New Class"
+    text: "TestClass"
 - tapOn: "Add Student"
 - tapOn: "Invite person"
 - assertVisible:
@@ -158,7 +158,7 @@ onFlowComplete:
 - assertVisible: "Role"
 - assertVisible: "Student"
 - assertVisible: "Class name"
-- assertVisible: "New Class"
+- assertVisible: "TestClass"
 - assertVisible: "School server URL"
 - assertVisible: ${output.SCHOOL_URL}
 - tapOn: "Next"
@@ -223,10 +223,10 @@ onFlowComplete:
           id: "nav_people"
       - tapOn:
            id: "nav_classes"
-      - tapOn: "New Class"
+      - tapOn: "TestClass"
       - assertVisible:
           id: "app_title"
-          text: "New Class"
+          text: "TestClass"
       - extendedWaitUntil:
           visible: "Pending requests.*"
           timeout: 10000
@@ -260,7 +260,7 @@ onFlowComplete:
 - assertVisible: "Role"
 - assertVisible: "Parent"
 - assertVisible: "Class name"
-- assertVisible: "New Class"
+- assertVisible: "TestClass"
 - assertVisible: "School server URL"
 - assertVisible: ${output.SCHOOL_URL}
 - tapOn: "Next"
