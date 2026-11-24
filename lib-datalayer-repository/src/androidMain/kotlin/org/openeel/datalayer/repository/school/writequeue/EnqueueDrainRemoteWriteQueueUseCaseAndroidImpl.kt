@@ -8,7 +8,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
-import org.openeel.datalayer.repository.school.worker.putKoinScope
+import org.openeel.datalayer.worker.putKoinScope
 import org.openeel.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
 import kotlin.reflect.KClass
 

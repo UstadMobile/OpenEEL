@@ -516,8 +516,9 @@ class UstadCacheImpl(
                         fileSystem.requireMetadata(tmpFile).size
                     }else {
                         //"transfer" to a nulloutputstream sink to count uncompressed size
-                        fileSystem.source(tmpFile).buffered()
-                            .uncompress(storeCompressionType).transferTo(NullOutputStream().asSink())
+                        fileSystem.source(tmpFile).buffered().use {
+                            it.uncompress(storeCompressionType).transferTo(NullOutputStream().asSink())
+                        }
                     }
 
                     Sha256AndInflatedSize(null, inflatedSize)
@@ -531,12 +532,18 @@ class UstadCacheImpl(
                         throw e
                     }
 
-                    val transferResult = bodySource.transferToAndGetSha256(tmpFile,
-                        responseCompression, storeCompressionType)
-                    overrideHeaders["content-encoding"] = listOf(storeCompressionType.headerVal)
-                    overrideHeaders["content-length"] = listOf(fileSystem.requireMetadata(tmpFile).size.toString())
-
-                    Sha256AndInflatedSize(transferResult.sha256, transferResult.transferred)
+                    bodySource.use {
+                        bodySource.transferToAndGetSha256(
+                            path = tmpFile,
+                            sourceCompression = responseCompression,
+                            destCompressionType = storeCompressionType
+                        ).also {
+                            overrideHeaders["content-encoding"] = listOf(storeCompressionType.headerVal)
+                            overrideHeaders["content-length"] = listOf(fileSystem.requireMetadata(tmpFile).size.toString())
+                        }.let {
+                            Sha256AndInflatedSize(it.sha256, it.transferred)
+                        }
+                    }
                 }
 
                 val integrityFromHeaders = if(entryToStore.skipChecksumIfProvided)

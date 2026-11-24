@@ -20,7 +20,6 @@ import org.openeel.shared.generated.resources.invalid_code
 import org.openeel.shared.generated.resources.invalid_url
 import org.openeel.shared.navigation.LoginScreen
 import org.openeel.shared.navigation.NavCommand
-import org.openeel.shared.navigation.ScanQRCode
 import org.openeel.shared.navigation.SchoolDirectoryList
 import org.openeel.shared.resources.StringResourceUiText
 import org.openeel.shared.util.ext.asUiText
@@ -97,10 +96,6 @@ class ConnectToExistingLearningSpaceViewModel(
                 }
             }
         }
-    }
-
-    fun onClickScanQRBadge() {
-        _navCommandFlow.tryEmit(NavCommand.Navigate(ScanQRCode()))
     }
 
     fun onClickManageSchoolDirectories() {

@@ -17,9 +17,7 @@ import kotlinx.io.buffered
 import kotlinx.io.files.FileSystem
 import kotlinx.io.files.Path
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class HttpPathResponse(
     private val path: Path,
     private val fileSystem: FileSystem,

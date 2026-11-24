@@ -70,6 +70,50 @@ call.respond(
 )
 ```
 
+## 6. Use TemporaryFolder in tests
+NEVER: `Files.createTempDirectory`
+
+ALWAYS `@Rule val temporaryFolder = TemporaryFolder();  temporaryFolder.newDirectory()`
+
+
+## 7. Tests that verify the functionality of external dependencies
+
+NEVER:
+```kotlin
+//In code to be tested
+repeat(DOWNLOAD_WORKER_COUNT) {
+    launch {
+        for (imageLink in producer) {
+            //.. downloads images
+        }
+    }
+}
+
+//In test - this is in effect verifying the behavior of Kotlin's repeat and launch functions - NOT NEEDED 
+val maxActiveRequests = AtomicInteger()
+val client = HttpClient(MockEngine {
+    val active = activeRequests.incrementAndGet()
+    synchronized(maxActiveRequests) {
+        maxActiveRequests.set(maxOf(maxActiveRequests.get(), active))
+    }
+})
+assertEquals(DOWNLOAD_WORKER_COUNT, maxActiveRequests.get())
+```
+
+ALWAYS:
+```kotlin
+repeat(DOWNLOAD_WORKER_COUNT) {
+    launch {
+        for (imageLink in producer) {
+            //.. downloads images
+        }
+    }
+}
+
+//In test: verify image download was called for links found etc, DO NOT write extra test code to
+//verify Kotlin's repeat and launch functions.
+```
+
 ## Repository Anti-Patterns: - Never Generate these:
 
 ## 1. Json processing

@@ -12,7 +12,7 @@ import androidx.work.WorkInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.take
-import org.openeel.datalayer.repository.school.worker.putKoinScope
+import org.openeel.datalayer.worker.putKoinScope
 import org.openeel.datalayer.school.writequeue.EnqueueSavePersonQrBadgeUseCase
 import kotlin.reflect.KClass
 

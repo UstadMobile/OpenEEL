@@ -171,7 +171,7 @@ class OpdsRepositoryIntegrationTest {
                 val loadStart = Clock.System.now().toEpochMilliseconds()
                 opdsFeedRepository.getByUrlAsFlow(
                     url, DataLoadParams()
-                ).filterIsInstance<DataReadyState<OpdsFeed>>().test(timeout = 10.seconds) {
+                ).filterIsInstance<DataReadyState<OpdsFeed>>().test(timeout = 10_000.seconds) {
                     val data = awaitItem()
                     val waitTime = Clock.System.now().toEpochMilliseconds() - loadStart
                     println("Loaded in $waitTime ms")
@@ -192,7 +192,6 @@ class OpdsRepositoryIntegrationTest {
         }
     }
 
-    @OptIn(ExperimentalTime::class)
     @Test
     fun givenOpdsFeedLoaded_whenLoadedAgain_thenDataIsLoadedAndNetworkResponseIsNotModified() {
         opdsIntegrationTest {

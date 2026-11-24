@@ -90,7 +90,7 @@ onFlowComplete:
     id: "user_account_icon"
 - assertVisible: "Profile"
 - assertVisible: "admin"
-- assertVisible: ${output.SCHOOL_URL}
+- assertVisible: "${output.SCHOOL_URL}.*"
 - tapOn: "Logout"
 - runFlow:
     file: "subflows/get_started_select_school_by_link.yaml"
@@ -100,7 +100,7 @@ onFlowComplete:
     id: "username"
 - inputText: "admin"
 - tapOn:
-    id : "password"
+    id: "password"
 - inputText: ${SCHOOL_ADMIN_PASSWORD}
 - tapOn: "Login"
 - runFlow:

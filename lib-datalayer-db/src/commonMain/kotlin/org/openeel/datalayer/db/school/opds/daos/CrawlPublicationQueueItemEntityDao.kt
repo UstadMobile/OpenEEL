@@ -1,0 +1,58 @@
+package org.openeel.datalayer.db.school.opds.daos
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
+import org.openeel.datalayer.db.school.opds.entities.CrawlPublicationQueueItemEntity
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueue
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueueItemStatusEnum
+
+@Dao
+interface CrawlPublicationQueueItemEntityDao {
+
+    @Query("""
+        SELECT COALESCE(MAX(jobId), 0)
+          FROM CrawlPublicationQueueItemEntity
+    """)
+    suspend fun getLargestJobId(): Int
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertOrIgnore(items: List<CrawlPublicationQueueItemEntity>)
+
+    @Query("""
+        SELECT *
+          FROM CrawlPublicationQueueItemEntity
+         WHERE jobId = :jobId
+           AND status = :queuedStatus
+      ORDER BY itemId
+    """)
+    fun queuedItemsFlow(
+        jobId: Int,
+        queuedStatus: CrawlPublicationQueueItemStatusEnum,
+    ): Flow<List<CrawlPublicationQueueItemEntity>>
+
+    @Query("""
+        UPDATE CrawlPublicationQueueItemEntity
+           SET status = :status
+         WHERE itemId IN (:itemIds)
+    """)
+    suspend fun updateStatus(
+        itemIds: List<Int>,
+        status: CrawlPublicationQueueItemStatusEnum,
+    )
+
+    @Query("""
+        SELECT COUNT(*)
+          FROM CrawlPublicationQueueItemEntity
+         WHERE (:jobId = ${CrawlPublicationQueue.ALL_JOBS} OR CrawlPublicationQueueItemEntity.jobId= :jobId)
+           AND status != :doneStatus
+           AND status != :failedStatus
+    """)
+    fun remainingItemsCountFlow(
+        jobId: Int,
+        doneStatus: CrawlPublicationQueueItemStatusEnum,
+        failedStatus: CrawlPublicationQueueItemStatusEnum,
+    ): Flow<Int>
+}

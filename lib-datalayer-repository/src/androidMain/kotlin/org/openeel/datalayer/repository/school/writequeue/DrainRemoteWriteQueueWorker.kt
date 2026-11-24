@@ -5,7 +5,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.github.aakira.napier.Napier
 import org.koin.core.component.KoinComponent
-import org.openeel.datalayer.repository.school.worker.getWorkerKoinScope
+import org.openeel.datalayer.worker.getWorkerKoinScope
 
 class DrainRemoteWriteQueueWorker(
     context: Context,

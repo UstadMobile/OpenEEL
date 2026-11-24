@@ -18,6 +18,12 @@ fun OpdsFeed.allPublications(): List<Publication> {
     }
 }
 
+fun OpdsFeed.allNavigationLinks(): List<ReadiumLink> {
+    return navigation.orEmpty() + groups.orEmpty().flatMap {
+        it.navigation.orEmpty()
+    }
+}
+
 /**
  * Determine whether the given index, as part of the receiver feed, is part of a navigation
  * collection (either in the top level navigation collection or in a group).

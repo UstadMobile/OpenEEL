@@ -69,6 +69,9 @@ import org.openeel.datalayer.AuthTokenProvider
 import org.openeel.datalayer.AuthenticatedUserPrincipalId
 import org.openeel.datalayer.SchoolDirectoryDataSource
 import org.openeel.shared.viewmodel.manageuser.learningspace.HostListConfig
+import org.openeel.shared.domain.crawlpublicationsforuser.CrawlPublicationsForUserUseCase
+import org.openeel.shared.domain.crawlpublicationsforuser.EnqueueCrawlPublicationForUserUseCase
+import org.openeel.shared.domain.crawlpublicationsforuser.EnqueueCrawlPublicationForUserUseCaseAndroidImpl
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.SchoolDataSourceLocal
 import org.openeel.datalayer.UidNumberMapper
@@ -78,6 +81,7 @@ import org.openeel.datalayer.db.SchoolDatabase
 import org.openeel.datalayer.db.SchoolDataSourceDb
 import org.openeel.datalayer.db.addCommonMigrations
 import org.openeel.datalayer.db.networkvalidation.ExtendedDataSourceValidationHelperImpl
+import org.openeel.datalayer.db.school.opds.crawlpublications.CrawlPublicationQueueDbImpl
 import org.openeel.datalayer.db.school.auth.GetAuthenticatedPersonUseCase
 import org.openeel.datalayer.db.school.domain.CheckPersonPermissionUseCaseDbImpl
 import org.openeel.datalayer.db.school.writequeue.RemoteWriteQueueDbImpl
@@ -88,6 +92,7 @@ import org.openeel.datalayer.http.SchoolDataSourceHttpClient
 import org.openeel.datalayer.networkvalidation.ExtendedDataSourceValidationHelper
 import org.openeel.datalayer.repository.SchoolDirectoryResourceRepository
 import org.openeel.datalayer.repository.SchoolDataSourceRepository
+import org.openeel.datalayer.repository.school.opds.crawlpublications.EnqueueCrawlPublicationCollectionUseCaseAndroidImpl
 import org.openeel.datalayer.repository.school.pullsync.EnqueueRunPullSyncUseCaseAndroidImpl
 import org.openeel.datalayer.repository.school.pullsync.RunPullSyncUseCase
 import org.openeel.datalayer.repository.school.qrbadge.EnqueueSavePersonQrBadgeUseCaseAndroidImpl
@@ -99,7 +104,10 @@ import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.domain.CheckPersonPermissionUseCase
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCase
 import org.openeel.datalayer.school.domain.GetWritableRolesListUseCaseImpl
-import org.openeel.datalayer.school.domain.MakePlaylistOpdsFeedUseCase
+import org.openeel.shared.domain.catalog.adaptfeedforcollections.MakePlaylistOpdsFeedUseCase
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationCollectionsUseCase
+import org.openeel.datalayer.school.opds.crawlpublications.CrawlPublicationQueue
+import org.openeel.datalayer.school.opds.crawlpublications.EnqueueCrawlPublicationCollectionUseCase
 import org.openeel.datalayer.school.writequeue.EnqueueDrainRemoteWriteQueueUseCase
 import org.openeel.datalayer.school.writequeue.EnqueueSavePersonQrBadgeUseCase
 import org.openeel.datalayer.school.writequeue.EnqueueRunPullSyncUseCase
@@ -261,6 +269,8 @@ import org.openeel.shared.domain.biometric.BiometricAuthUseCaseAndroidImpl
 import org.openeel.shared.domain.catalog.PinOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.checkcanwritefeedusecase.CheckCanWriteFeedUseCase
 import org.openeel.shared.domain.catalog.deleteopdsfeed.DeleteOpdsFeedUseCase
+import org.openeel.shared.domain.catalog.prefetchopdsfeedvisitor.PrefetchOpdsFeedVisitor
+import org.openeel.shared.domain.catalog.makecollectionurl.MakeCollectionUrlUseCase
 import org.openeel.shared.domain.catalog.saveopdsfeed.SaveOpdsFeedUseCase
 import org.openeel.shared.domain.catalog.unpinopdsfeedusecase.UnpinOpdsFeedUseCase
 import org.openeel.shared.domain.createclass.CreateClassUseCase
@@ -385,7 +395,8 @@ val appKoinModule = module {
         OkHttpClient.Builder()
             .dispatcher(
                 Dispatcher().also {
-                    it.maxRequests = 30
+                    //Increase max requests per host to speed up parallel downloading a bit
+                    //MaxRequests itself will remain at the default - 64
                     it.maxRequestsPerHost = 10
                 }
             )
@@ -961,6 +972,10 @@ val appKoinModule = module {
                 .build()
         }
 
+        scoped<CrawlPublicationQueue> {
+            CrawlPublicationQueueDbImpl(schoolDb = get())
+        }
+
         scoped<SchoolPrimaryKeyGenerator> {
             SchoolPrimaryKeyGenerator(
                 primaryKeyGenerator = PrimaryKeyGenerator(SchoolPrimaryKeyGenerator.TABLE_IDS)
@@ -1122,6 +1137,36 @@ val appKoinModule = module {
                 context = androidContext().applicationContext,
                 scopeId = id,
                 scopeClass = UserAccount::class,
+            )
+        }
+
+        scoped<EnqueueCrawlPublicationCollectionUseCase> {
+            EnqueueCrawlPublicationCollectionUseCaseAndroidImpl(
+                context = androidContext().applicationContext,
+                scopeId = id,
+                scopeClass = UserAccount::class,
+                crawlPublicationQueue = get(),
+            )
+        }
+
+        scoped<EnqueueCrawlPublicationForUserUseCase> {
+            EnqueueCrawlPublicationForUserUseCaseAndroidImpl(
+                context = androidContext().applicationContext,
+                scopeId = id,
+                scopeClass = UserAccount::class,
+            )
+        }
+
+        factory<CrawlPublicationCollectionsUseCase.OpdsFeedVisitor> {
+            PrefetchOpdsFeedVisitor(httpClient = get(), cache = get())
+        }
+
+        scoped<CrawlPublicationsForUserUseCase> {
+            val schoolDataSource = get<SchoolDataSource>()
+            CrawlPublicationsForUserUseCase(
+                xapiResource = schoolDataSource.xapiResource,
+                opdsPublicationDataSource = schoolDataSource.opdsPublicationDataSource,
+                enqueueCrawlPublicationCollectionUseCase = get(),
             )
         }
 
@@ -1361,9 +1406,15 @@ val appKoinModule = module {
              val accountScopeId = UserAccountScopeId.parse(id)
              MakePlaylistOpdsFeedUseCase(
                  schoolUrl = accountScopeId.schoolUrl,
-                 schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryResource,
              )
          }
+
+        scoped<MakeCollectionUrlUseCase> {
+            MakeCollectionUrlUseCase(
+                schoolUrl = UserAccountScopeId.parse(id).schoolUrl,
+                schoolDirectoryEntryResource = get<SchoolDirectoryDataSource>().schoolDirectoryEntryResource,
+            )
+        }
 
         scoped<SaveOpdsFeedUseCase> {
             SaveOpdsFeedUseCase(
@@ -1431,6 +1482,14 @@ val appKoinModule = module {
                     schoolDirectoryEntryResource.schoolDirectoryEntryOrNull(schoolUrl)?.xapi
                         ?: throw IllegalStateException("SchoolUrl $schoolUrl has no XAPI URL")
                 }
+            )
+        }
+
+        scoped<CrawlPublicationCollectionsUseCase> {
+            get<UserAccountSchoolScopeLink>()
+            CrawlPublicationCollectionsUseCase(
+                queue = get(),
+                opdsFeedDataSource = get(),
             )
         }
     }

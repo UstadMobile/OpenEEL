@@ -89,7 +89,7 @@ fun OpdsFeedDetailScreen(
 
 @Composable
 fun OpdsFeedDetailScreen(
-    uiState: OpdsFeedDetailUiState = OpdsFeedDetailUiState(),
+    uiState: OpdsFeedDetailUiState,
     @Suppress("unused")
     onSortOrderChanged: (SortOrderOption) -> Unit = { },
     onClickPublication: (OpdsFeedItemIndex) -> Unit = {},
@@ -143,6 +143,7 @@ fun OpdsFeedDetailScreen(
                     ) { index, navigationItem ->
                         val feedIndex = NavigationItemItemIndex(index)
                         NavigationListItem(
+                            baseUrl = uiState.url,
                             navigation = navigationItem,
                             showCheckbox = uiState.showNavigationCheckboxes,
                             isSelected = uiState.isNavigationSelected(feedIndex),
@@ -161,6 +162,7 @@ fun OpdsFeedDetailScreen(
                     ) { index, publication ->
                         val feedItemIndex = PublicationItemItemIndex(index)
                         PublicationListItem(
+                            baseUrl = uiState.url,
                             publication = publication,
                             showCheckbox = uiState.showPublicationCheckboxes,
                             isSelected = uiState.isPublicationSelected(feedItemIndex),
@@ -188,6 +190,7 @@ fun OpdsFeedDetailScreen(
                         ) { itemIndex, navigation ->
                             val feedIndex = OpdsFeedGroupItemItemIndex(groupIndex = groupIndex, index = itemIndex)
                             NavigationListItem(
+                                baseUrl = uiState.url,
                                 navigation = navigation,
                                 showCheckbox = uiState.showNavigationCheckboxes,
                                 isSelected = uiState.isNavigationSelected(feedIndex),
@@ -202,6 +205,7 @@ fun OpdsFeedDetailScreen(
                         ) { itemIndex, publication ->
                             val feedItemIndex = OpdsFeedGroupItemItemIndex(groupIndex = groupIndex, index = itemIndex)
                             PublicationListItem(
+                                baseUrl = uiState.url,
                                 publication = publication,
                                 showCheckbox = uiState.showPublicationCheckboxes,
                                 isSelected = uiState.isPublicationSelected(feedItemIndex),

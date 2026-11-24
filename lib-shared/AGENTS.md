@@ -72,6 +72,8 @@ class DoSomethingUseCase(schoolUrl: Url) {
 
 Example UseCase with multiple implementations.
 
+The interface should be in the src/commonMain/kotlin source set of this module.
+
 Interface:
 ```
 interface DoSomethingUseCase {
@@ -94,6 +96,10 @@ interface DoSomethingUseCase {
 ```
 
 Implementation class for a given platform:
+
+The implementation class should be in the source set for the given platform (e.g. 
+src/androidMain/kotlin, src/jvmMain/kotlin, etc) of this module.
+
 ```
 class DoSomethingUseCaseAndroid(
     val appContext: Context,
