@@ -91,7 +91,10 @@ onFlowComplete:
 - runFlow: "subflows/admin_add_app.yaml"
 
 # Add an assignment
-- runFlow: "subflows/admin_add_class_and_assignment.yaml"
+- runFlow:
+     file: "subflows/admin_add_class_and_assignment.yaml"
+     env:
+       CLASSNAME: "TestClass"
 
 # Enable Shared Mode - Test Device 1
 - tapOn:

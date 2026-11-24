@@ -6,7 +6,7 @@ appId: org.openeel.app
 - assertVisible:
       id: "app_title"
       text: "Classes"
-- assertVisible: "TestClass"  #to make sure Class is already created before creating an assignment
+- assertVisible: ${CLASSNAME}  #to make sure Class is already created before creating an assignment
 - tapOn: "Assignments"
 - tapOn:
       id: "floating_action_button"   #  +Assignment button
