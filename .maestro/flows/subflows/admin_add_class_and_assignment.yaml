@@ -1,0 +1,63 @@
+appId: org.openeel.app
+
+---
+
+- tapOn: "Classes"
+- assertVisible:
+      id: "app_title"
+      text: "Classes"
+- assertVisible: "TestClass"  #to make sure Class is already created before creating an assignment
+- tapOn: "Assignments"
+- tapOn:
+      id: "floating_action_button"   #  +Assignment button
+- assertVisible:
+      id: "app_title"
+      text: "Add assignment"
+- tapOn: "Assignment title*"
+- inputText: "Homework 1"
+- tapOn: "Assign to"
+- tapOn: "TestClass"
+- tapOn: "Description"
+- inputText: "Please complete this Homework on time."
+- runFlow:
+      when:
+          notVisible: "Due date"
+      commands:
+          - hideKeyboard
+- tapOn: "Due date"
+- runScript:
+      file: "../scripts/setDate.js"
+- inputText: ${output.futureDate}
+- tapOn: "Time"
+- runScript:
+      file: "../scripts/setDate.js"
+- inputText: ${output.currentTime}
+- runFlow:
+      when:
+          notVisible: "Task"
+      commands:
+          - hideKeyboard
+- tapOn: "Task"
+- assertVisible:
+      id: "app_title"
+      text: "Home"
+- tapOn: "Example Web App"
+- assertVisible:
+      id: "app_title"
+      text: "Main Menu"
+- tapOn: "Examples"
+- tapOn: "Statement Maker"
+- tapOn: "Task"
+- assertVisible:
+      id: "app_title"
+      text: "Home"
+- tapOn: "Example Web App"
+- assertVisible:
+      id: "app_title"
+      text: "Main Menu"
+- tapOn: "Examples"
+- tapOn: "Assignment Result Statement Demo"
+- tapOn: "Save"
+- assertVisible:
+      id: "app_title"
+      text: "Homework 1"
