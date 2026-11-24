@@ -29,7 +29,7 @@ onFlowComplete:
 - runFlow:
      file: "subflows/admin_add_class.yaml"
      env:
-       CLASSNAME: New Class
+       CLASSNAME: TestClass
 - runFlow:
     file: "subflows/add_person_to_a_class.yaml"
     env:
@@ -37,7 +37,7 @@ onFlowComplete:
       FIRSTNAME: "StudentA"
       LASTNAME:  "User"
       GENDER: "Male"
-      CLASSNAME: "New Class"
+      CLASSNAME: "TestClass"
       USERNAME: "studentauser"
       PASSWORD: "test123"
       QR_BADGE_LINK: ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312
@@ -52,7 +52,7 @@ onFlowComplete:
       FIRSTNAME: "TeacherA"
       LASTNAME:  "User"
       GENDER: "Male"
-      CLASSNAME: "New Class"
+      CLASSNAME: "TestClass"
       USERNAME: "teacherauser"
       PASSWORD: "test123"
 # Add Family member to Student profile
@@ -168,7 +168,7 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Select class"
-- assertVisible: "New Class"
+- assertVisible: "TestClass"
 - assertVisible: "Scan QR code badge"
 
 # Enable Test Device 1
@@ -258,10 +258,10 @@ onFlowComplete:
     text: "Select class"
 - assertVisible: "Scan QR code badge"
 - assertVisible: "Teacher/admin login"
-- tapOn: "New Class"
+- tapOn: "TestClass"
 - assertVisible:
     id: "app_title"
-    text: "New Class"
+    text: "TestClass"
 - tapOn: "StudentA User"
 - assertVisible:
     id: "app_title"
@@ -338,7 +338,7 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Login"
-- assertNotVisible: "New Class"
+- assertNotVisible: "TestClass"
 - assertVisible: "Teacher/admin login"
 - tapOn: "Scan QR code badge"
 - assertVisible:
