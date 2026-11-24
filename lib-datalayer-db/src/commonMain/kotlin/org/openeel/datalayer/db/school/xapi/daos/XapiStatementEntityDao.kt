@@ -42,6 +42,7 @@ interface XapiStatementEntityDao {
         limit: Int,
         authenticatedPersonUidNum: Long,
         authenticatedActorUid: Long,
+        schoolUrl: String,
         appListingVerbUid: Long,
     ): List<XapiStatementAndJsonEntities>
 
@@ -62,8 +63,40 @@ interface XapiStatementEntityDao {
         limit: Int,
         authenticatedPersonUidNum: Long,
         authenticatedActorUid: Long,
+        schoolUrl: String,
         appListingVerbUid: Long,
     ): Flow<List<XapiStatementAndJsonEntities>>
+
+    /**
+     * Check if the authenticated person can make statements as the given person (e.g. the
+     * statement actor). Matches the persons included by [AUTHENTICATED_PERMISSION_ACTOR_UIDS_CTE_SQL]:
+     * a parent can act as their children and a shared school device can act as students.
+     */
+    @Query(
+        """
+        SELECT (    ${PersonRoleEnum.PARENT_INT} IN 
+                    (SELECT PersonRoleEntity.prRoleEnum
+                       FROM PersonRoleEntity
+                      WHERE PersonRoleEntity.prPersonGuidHash = :authenticatedPersonUidNum)
+                AND EXISTS(
+                        SELECT 1
+                          FROM PersonRelatedPersonEntity
+                         WHERE PersonRelatedPersonEntity.prpPersonUidNum = :authenticatedPersonUidNum
+                           AND PersonRelatedPersonEntity.prpOtherPersonUidNum = :personUidNum))
+            OR (    ${PersonRoleEnum.SHARED_SCHOOL_DEVICE_INT} IN 
+                    (SELECT PersonRoleEntity.prRoleEnum
+                       FROM PersonRoleEntity
+                      WHERE PersonRoleEntity.prPersonGuidHash = :authenticatedPersonUidNum)
+                AND ${PersonRoleEnum.STUDENT_INT} IN 
+                    (SELECT PersonRoleEntity.prRoleEnum
+                       FROM PersonRoleEntity
+                      WHERE PersonRoleEntity.prPersonGuidHash = :personUidNum))
+    """
+    )
+    suspend fun canActAsPerson(
+        authenticatedPersonUidNum: Long,
+        personUidNum: Long,
+    ): Boolean
 
 
     /**
@@ -384,6 +417,54 @@ interface XapiStatementEntityDao {
                  LIMIT 1)
         """
 
+        /**
+         * CTE of the xAPI actor uids that the authenticated person can see statements for as if
+         * they were that actor. Always includes the authenticated actor. Like
+         * PersonEntityDao.AUTHENTICATED_PERMISSION_PERSON_UIDS_CTE_SQL, this also includes:
+         *  a) If the authenticated person is a parent: their children (e.g. for a session started
+         *     by a parent for their child).
+         *  b) If the authenticated person is a shared school device: all students (e.g. for a
+         *     session started by a student selecting themselves on the shared device).
+         *
+         * Persons are matched to agents using the account (homePage = schoolUrl, name = guid) as
+         * per Person.asXapiAgent. Requires the :authenticatedPersonUidNum, :authenticatedActorUid
+         * and :schoolUrl parameters.
+         */
+        const val AUTHENTICATED_PERMISSION_ACTOR_UIDS_CTE_SQL = """
+            AuthenticatedPermissionActorUids(uid) AS (
+                SELECT :authenticatedActorUid AS uid
+                 UNION
+                SELECT XapiActorEntity.actorUid AS uid
+                  FROM PersonRelatedPersonEntity
+                       JOIN XapiActorEntity
+                            ON XapiActorEntity.actorAccountName = PersonRelatedPersonEntity.prpOtherPersonUid
+                 WHERE ${PersonRoleEnum.PARENT_INT} IN 
+                       (SELECT AuthenticatedPersonRole.prRoleEnum
+                          FROM PersonRoleEntity AuthenticatedPersonRole
+                         WHERE AuthenticatedPersonRole.prPersonGuidHash = :authenticatedPersonUidNum)
+                   AND PersonRelatedPersonEntity.prpPersonUidNum = :authenticatedPersonUidNum
+                   AND XapiActorEntity.actorObjectType = ${XapiEntityObjectTypeFlags.AGENT}
+                   AND XapiActorEntity.actorAccountHomePage = :schoolUrl
+                 UNION
+                SELECT XapiActorEntity.actorUid AS uid
+                  FROM PersonRoleEntity StudentRole
+                       JOIN PersonEntity
+                            ON PersonEntity.pGuidHash = StudentRole.prPersonGuidHash
+                       JOIN XapiActorEntity
+                            ON XapiActorEntity.actorAccountName = PersonEntity.pGuid
+                 WHERE ${PersonRoleEnum.SHARED_SCHOOL_DEVICE_INT} IN 
+                       (SELECT AuthenticatedPersonRole.prRoleEnum
+                          FROM PersonRoleEntity AuthenticatedPersonRole
+                         WHERE AuthenticatedPersonRole.prPersonGuidHash = :authenticatedPersonUidNum)
+                   AND StudentRole.prRoleEnum = ${PersonRoleEnum.STUDENT_INT}
+                   AND XapiActorEntity.actorObjectType = ${XapiEntityObjectTypeFlags.AGENT}
+                   AND XapiActorEntity.actorAccountHomePage = :schoolUrl
+            )
+        """
+
+        /**
+         * Requires [AUTHENTICATED_PERMISSION_ACTOR_UIDS_CTE_SQL] in the WITH clause of the query.
+         */
         const val XAPI_STATEMENT_PERMISSION_CLAUSE = """
             (   (SELECT EXISTS(
                         SELECT 1
@@ -392,17 +473,23 @@ interface XapiStatementEntityDao {
                            AND (     PersonRoleEntity.prRoleEnum = ${PersonRoleEnum.TEACHER_INT}
                                   OR PersonRoleEntity.prRoleEnum = ${PersonRoleEnum.SYSTEM_ADMINISTRATOR_INT}
                                   OR PersonRoleEntity.prRoleEnum = ${PersonRoleEnum.SITE_ADMINISTRATOR_INT})))
-                 OR (:authenticatedActorUid = XapiStatementEntity.statementActorUid)
-                 OR (     :authenticatedActorUid = XapiStatementEntity.statementObjectUid1
+                 OR (XapiStatementEntity.statementActorUid IN 
+                     (SELECT AuthenticatedPermissionActorUids.uid 
+                        FROM AuthenticatedPermissionActorUids))
+                 OR (     XapiStatementEntity.statementObjectUid1 IN 
+                          (SELECT AuthenticatedPermissionActorUids.uid 
+                             FROM AuthenticatedPermissionActorUids)
                       AND XapiStatementEntity.statementObjectType = ${XapiEntityObjectTypeFlags.AGENT})
                  OR (     XapiStatementEntity.statementVerbUid = :appListingVerbUid)     
-                 OR (:authenticatedActorUid IN 
-                     (SELECT XapiGroupMemberActorJoin.gmajMemberActorUid
-                        FROM XapiGroupMemberActorJoin
-                       WHERE XapiGroupMemberActorJoin.gmajGroupActorUid = XapiStatementEntity.statementActorUid
-                          OR (     XapiGroupMemberActorJoin.gmajGroupActorUid = XapiStatementEntity.statementObjectUid1
-                               AND XapiStatementEntity.statementObjectType = ${XapiEntityObjectTypeFlags.GROUP}))
-                    )          
+                 OR EXISTS(
+                        SELECT 1
+                          FROM XapiGroupMemberActorJoin
+                         WHERE XapiGroupMemberActorJoin.gmajMemberActorUid IN 
+                               (SELECT AuthenticatedPermissionActorUids.uid 
+                                  FROM AuthenticatedPermissionActorUids)
+                           AND (    XapiGroupMemberActorJoin.gmajGroupActorUid = XapiStatementEntity.statementActorUid
+                                 OR (     XapiGroupMemberActorJoin.gmajGroupActorUid = XapiStatementEntity.statementObjectUid1
+                                      AND XapiStatementEntity.statementObjectType = ${XapiEntityObjectTypeFlags.GROUP})))
                )
         """
 
@@ -425,7 +512,8 @@ interface XapiStatementEntityDao {
                 SELECT XapiGroupMemberActorJoin.gmajGroupActorUid AS uid
                   FROM XapiGroupMemberActorJoin
                  WHERE :agentUid != 0 
-                   AND XapiGroupMemberActorJoin.gmajMemberActorUid = :agentUid)
+                   AND XapiGroupMemberActorJoin.gmajMemberActorUid = :agentUid),
+               $AUTHENTICATED_PERMISSION_ACTOR_UIDS_CTE_SQL
             
             
         SELECT XapiStatementEntity.*, XapiVerbEntity.*

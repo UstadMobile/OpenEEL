@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import org.openeel.datalayer.db.school.xapi.composites.XapiStatementAndJsonEntities
+import org.openeel.datalayer.db.school.xapi.daos.XapiStatementEntityDao.Companion.AUTHENTICATED_PERMISSION_ACTOR_UIDS_CTE_SQL
 import org.openeel.datalayer.db.school.xapi.daos.XapiStatementEntityDao.Companion.SINCE_UNSET
 import org.openeel.datalayer.db.school.xapi.daos.XapiStatementEntityDao.Companion.UNTIL_UNSET
 import org.openeel.datalayer.db.school.xapi.daos.XapiStatementEntityDao.Companion.XAPI_STATEMENT_PERMISSION_CLAUSE
@@ -35,6 +36,7 @@ interface XapiStatementEntityJsonDao {
         limit: Int,
         authenticatedPersonUidNum: Long,
         authenticatedActorUid: Long,
+        schoolUrl: String,
         appListingVerbUid: Long,
     ): List<XapiStatementEntityJson>
 
@@ -56,6 +58,7 @@ interface XapiStatementEntityJsonDao {
         limit: Int,
         authenticatedPersonUidNum: Long,
         authenticatedActorUid: Long,
+        schoolUrl: String,
         appListingVerbUid: Long,
     ): Flow<List<XapiStatementEntityJson>>
 
@@ -96,7 +99,8 @@ interface XapiStatementEntityJsonDao {
                 SELECT XapiGroupMemberActorJoin.gmajGroupActorUid AS uid
                   FROM XapiGroupMemberActorJoin
                  WHERE :agentUid != 0 
-                   AND XapiGroupMemberActorJoin.gmajMemberActorUid = :agentUid)
+                   AND XapiGroupMemberActorJoin.gmajMemberActorUid = :agentUid),
+               $AUTHENTICATED_PERMISSION_ACTOR_UIDS_CTE_SQL
             
             
         SELECT XapiStatementEntityJson.*
