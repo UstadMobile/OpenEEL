@@ -233,9 +233,8 @@ class PublicationDetailViewModel(
             ) {
                 openPublicationUseCase(
                     OpenPublicationUseCase.OpenPublicationRequest(
-                        publicationUrl = route.learningUnitManifestUrl,
+                        publicationUrl = uiState.value.url,
                         publication = uiState.value.learningUnit.dataOrNull(),
-                        expectedPublicationId = route.expectedIdentifier,
                         assignmentActivityId = route.assignmentActivityId,
                         launchableApp = uiState.value.appDetail.dataOrNull(),
                     )

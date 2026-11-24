@@ -322,7 +322,6 @@ class AssignmentDetailViewModel(
                 openPublicationUseCase(
                     OpenPublicationUseCase.OpenPublicationRequest(
                         publicationUrl = manifestUrl,
-                        expectedPublicationId = activity.id,
                         assignmentActivityId = assignmentActivityId,
                     )
                 )
