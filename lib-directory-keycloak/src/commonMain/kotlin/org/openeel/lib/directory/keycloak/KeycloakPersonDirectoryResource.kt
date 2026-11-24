@@ -28,6 +28,8 @@ class KeycloakPersonDirectoryResource(
     private val tokenProvider: AuthTokenProvider,
 ) : PersonDirectoryResource {
 
+    override fun isReadOnly(): Boolean = true
+
     private val adminEndpoint = URLBuilder(config.endpoint).apply {
         val realm = encodedPath.substringAfterLast(REALM_PATH, "")
         encodedPath = encodedPath.removeSuffix("$REALM_PATH$realm") + "$ADMIN_REALM_PATH$realm"

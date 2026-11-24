@@ -11,6 +11,8 @@ import org.openeel.lib.directory.model.PersonRoleEnum
 
 interface PersonDirectoryResource {
 
+    fun isReadOnly(): Boolean
+
     /**
      * @param filterByPersonGuid load only this person and, when supported, their related persons.
      * @param includeRelated if true, then include all Persons related (as per

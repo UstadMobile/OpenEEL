@@ -14,6 +14,7 @@ import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.lib.dataloadstate.ext.dataOrNull
+import org.openeel.lib.directory.resources.PersonDirectoryResource
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.datalayer.shared.paging.EmptyPagingSource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
@@ -78,6 +79,8 @@ class PersonListViewModel(
     override val scope: Scope = accountManager.requireActiveAccountScope()
 
     private val schoolDataSource: SchoolDataSource by inject()
+
+    private val personDirectory: PersonDirectoryResource by inject()
 
     private val _uiState = MutableStateFlow(PersonListUiState())
 
@@ -169,7 +172,8 @@ class PersonListViewModel(
                 _uiState.update {
                     it.copy(
                         showAddPersonItem = canAddPerson && route.resultExpected,
-                        showInvitePersonItem = !route.hideInvite && canInvitePerson
+                        showInvitePersonItem = !personDirectory.isReadOnly()
+                                && !route.hideInvite && canInvitePerson
                                 && route.resultExpected,
                     )
                 }
@@ -180,7 +184,8 @@ class PersonListViewModel(
             it.copy(
                 pendingPersons = pendingPersonsPagingSource,
                 persons = pagingSourceFactoryHolder,
-                showInvite = !route.hideInvite && (route.filterByRole != null||route.addToClassUid!=null)
+                showInvite = !personDirectory.isReadOnly()
+                        && !route.hideInvite && (route.filterByRole != null||route.addToClassUid!=null)
             )
         }
     }

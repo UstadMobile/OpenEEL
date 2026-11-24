@@ -89,6 +89,7 @@ class PersonDetailViewModel(
             ).combine(accountManager.selectedAccountAndPersonFlow) { person, activeAccount ->
                 Pair(person, activeAccount)
             }.collect { (persons, activeAccount) ->
+                val isReadOnly = personDirectory.isReadOnly()
                 val personsVal = persons.dataOrNull()
 
                 val personVal = personsVal?.firstOrNull { it.guid == route.guid }
@@ -105,7 +106,7 @@ class PersonDetailViewModel(
                     prev.copy(
                         title = personVal?.fullName()?.asUiText(),
                         fabState = prev.fabState.copy(
-                            visible = hasWritePermission,
+                            visible = hasWritePermission && !isReadOnly,
                         )
                     )
                 }
@@ -113,8 +114,10 @@ class PersonDetailViewModel(
                 _uiState.update { prev ->
                     prev.copy(
                         persons = persons,
-                        manageAccountVisible = hasAccountPermission && personVal?.username != null,
-                        createAccountVisible = personVal != null &&
+                        manageAccountVisible = !isReadOnly
+                                && hasAccountPermission && personVal?.username != null,
+                        createAccountVisible = !isReadOnly
+                                && personVal != null &&
                                 activeAccount?.person?.isAdminOrTeacher() == true &&
                                 personVal.username == null,
                     )

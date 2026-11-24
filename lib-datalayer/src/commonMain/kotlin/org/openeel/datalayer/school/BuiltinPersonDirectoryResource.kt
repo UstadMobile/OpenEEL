@@ -18,6 +18,8 @@ import org.openeel.datalayer.shared.params.GetListCommonParams
 
 interface BuiltinPersonDirectoryResource: PersonDirectoryResource, WritableDataSource<Person> {
 
+    override fun isReadOnly(): Boolean = false
+
     private fun PersonDirectoryResource.GetListParams.toBuiltinParams(): GetListParams = GetListParams(
         common = GetListCommonParams(guid = filterByPersonGuid),
         filterByClazzUid = filterByClazzUid,
