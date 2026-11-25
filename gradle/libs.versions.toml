@@ -81,6 +81,7 @@ cache4k = "0.14.0"
 robolectric = "4.13"
 kotlinStdlib = "2.4.10"
 kotlinTest = "2.4.10"
+shadow-plugin="9.6.1"
 
 [libraries]
 argparse4j = { module = "net.sourceforge.argparse4j:argparse4j", version.ref = "argparse4j" }
@@ -218,3 +219,4 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 swagger-generator = { id= "org.hidetake.swagger.generator", version.ref = "swagger-generator" }
 buildconfigPlugin = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig-plugin"}
 android-lint = { id = "com.android.lint", version.ref = "agp" }
+shadow = { id = "com.gradleup.shadow" , version.ref = "shadow-plugin" }

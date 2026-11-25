@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     id("application")
+    alias(libs.plugins.shadow)
     alias(libs.plugins.kotlinJvm)
 }
 
