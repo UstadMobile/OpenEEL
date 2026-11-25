@@ -286,7 +286,6 @@ onFlowComplete:
       - tapOn: "Send statement"
       - assertVisible: "Statement sent.*"
 - tapOn: "Close"
-- back
 - tapOn: "Assignment Result Statement Demo"
 - assertVisible: "Assignment Result.*"
 - tapOn: "Score"
