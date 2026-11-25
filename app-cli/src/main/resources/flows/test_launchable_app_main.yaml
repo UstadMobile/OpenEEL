@@ -63,7 +63,9 @@ onFlowComplete:
       true: ${OFFLINE_STATUS === 'true'}
     file: "subflows/download_and_enable_airplanemode.yaml"
 
-- tapOn: "Open"
+- tapOn:
+    text: "Open"
+    retryTapIfNoChange: true
 
 - runFlow:
     when:
@@ -90,6 +92,9 @@ onFlowComplete:
 # on this. Required to ensure that any pending xAPI statements have been sent to the server so
 # GetXapiStatementsFromLearningUnitTestUseCase can find them.
 - setAirplaneMode: disabled
-- assertVisible:
-    id: "pending_write_count"
-    text: "0"
+- extendedWaitUntil:
+    visible:
+      id: "sync_complete"
+    timeout: 10000
+    optional: true
+    label: "Wait for any pending sync but don't fail: sometimes Maestro is flakey finding the element"

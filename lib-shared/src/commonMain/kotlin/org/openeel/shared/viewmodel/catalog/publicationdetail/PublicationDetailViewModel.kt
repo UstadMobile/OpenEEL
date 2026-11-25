@@ -232,7 +232,7 @@ class PublicationDetailViewModel(
     fun onClickOpen() {
         Napier.d("LauncherAppViewModel: onClickOpen")
 
-        viewModelScope.launch {
+        launchWithLoadingIndicator {
             try {
                 val uiStateVal = _uiState.value
 
