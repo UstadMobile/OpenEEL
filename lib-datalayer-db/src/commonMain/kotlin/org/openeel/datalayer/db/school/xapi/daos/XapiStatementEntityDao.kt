@@ -391,7 +391,8 @@ interface XapiStatementEntityDao {
                          WHERE PersonRoleEntity.prPersonGuidHash = :authenticatedPersonUidNum
                            AND (     PersonRoleEntity.prRoleEnum = ${PersonRoleEnum.TEACHER_INT}
                                   OR PersonRoleEntity.prRoleEnum = ${PersonRoleEnum.SYSTEM_ADMINISTRATOR_INT}
-                                  OR PersonRoleEntity.prRoleEnum = ${PersonRoleEnum.SITE_ADMINISTRATOR_INT})))
+                                  OR PersonRoleEntity.prRoleEnum = ${PersonRoleEnum.SITE_ADMINISTRATOR_INT}
+                                  OR PersonRoleEntity.prRoleEnum = ${PersonRoleEnum.SHARED_SCHOOL_DEVICE_INT})))
                  OR (:authenticatedActorUid = XapiStatementEntity.statementActorUid)
                  OR (     :authenticatedActorUid = XapiStatementEntity.statementObjectUid1
                       AND XapiStatementEntity.statementObjectType = ${XapiEntityObjectTypeFlags.AGENT})

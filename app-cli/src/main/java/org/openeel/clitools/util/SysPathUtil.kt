@@ -22,7 +22,13 @@ object SysPathUtil {
             ""
         }
 
-        return pathToSearch.split(fileSeparator).firstNotNullOfOrNull {
+        return pathToSearch.split(fileSeparator).filter {
+            /*
+             * Filter because there might be two or more fileSeparator chars together in the PATH,
+             * which could lead to looking for File(""), yielding unpredictable/undesired results.
+             */
+            it.isNotBlank()
+        }.firstNotNullOfOrNull {
             File(it, commandName).getCommandFile(osName)
         }
     }

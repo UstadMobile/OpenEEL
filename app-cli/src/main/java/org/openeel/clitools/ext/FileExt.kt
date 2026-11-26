@@ -20,11 +20,12 @@ fun isLinuxOs(osName: String = System.getProperty("os.name") ?: ""): Boolean {
 fun File.getCommandFile(
     osName: String = System.getProperty("os.name") ?: ""
 ): File? {
+    this.canExecute()
     val isWin = isWindowsOs(osName)
     return when {
-        exists() -> this
-        isWin && File(parent,"$name.exe").exists() -> File(parent,"$name.exe")
-        isWin && File(parent, "$name.bat").exists() -> File(parent,"$name.bat")
+        isWin && File(parent,"$name.exe").canExecute() -> File(parent,"$name.exe")
+        isWin && File(parent, "$name.bat").canExecute() -> File(parent,"$name.bat")
+        canExecute() -> this
         else -> null
     }
 }
