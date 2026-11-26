@@ -20,8 +20,47 @@ onFlowComplete:
         NAME: "db-final"
         TESTCONTROLLER_URL: ${TESTCONTROLLER_URL}
 ---
+# Admin Login flow
+- launchApp:
+    arguments:
+      respect_directory: ${output.SCHOOL_URL}
+- tapOn: "Get Started"
+- assertVisible:
+    id: "app_title"
+    text: "Let's get started"
+- assertVisible: "Connect to an existing learning space or use a standard Experience API (xAPI) server."
+- tapOn: "Connect to an existing learning space"
+- assertVisible:
+    id: "app_title"
+    text: "Connect to an existing learning space"
+# link field verification
+- tapOn: "Paste the link here"  # Blank link field
+- tapOn: "Next"
+- assertVisible: "Invalid link, try again"
+- tapOn: "Paste the link here"
+- inputText: "Test"  #Entering text instead of link
+- tapOn: "Next"
+- assertVisible: "Invalid app Url"
+- runFlow:
+    file: "subflows/erase_text.yaml"
+    env:
+      TEXT: "Paste the link here"
+- inputText: ${output.SCHOOL_URL}
+- tapOn: "Next"
+- tapOn:
+    id: "username"
+- inputText: "admin"
+- tapOn:
+    id : "password"
+- inputText: ${SCHOOL_ADMIN_PASSWORD}
+- tapOn: "Login"
+- runFlow:
+    when:
+      visible: "Save password for Respect?"
+    file: "subflows/save_password_prompt_cancel.yaml"
+- assertVisible:
+    id: "nav_home"
 # Invite new user:
-- runFlow: "subflows/school_admin_login_flow.yaml"
 - assertVisible:
     id: "app_title"
     text: "Home"
