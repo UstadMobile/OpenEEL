@@ -314,22 +314,11 @@ class XapiStatementsResourceDb(
                 ?: throw XapiException(403, "Not authenticated")
 
             if(!authenticatedPerson.isAdminOrTeacher()) {
-                val authenticatedPersonUidNum = uidNumberMapper(authenticatedPerson.guid)
-
                 statementsWithIdsSet.forEach {
-                    //Check all statements are for the authenticated user's actor, or a person they
-                    //can act for (e.g. a parent's child or a student using a shared school device)
-                    val actorAccount = it.actor.account
-                    val isPermittedActor = actorAccount != null &&
-                        actorAccount.homePage == schoolUrl.toString() && (
-                            actorAccount.name == loggedInActor.account?.name ||
-                            schoolDb.getStatementDao().canActAsPerson(
-                                authenticatedPersonUidNum = authenticatedPersonUidNum,
-                                personUidNum = uidNumberMapper(actorAccount.name),
-                            )
-                        )
-
-                    if(!isPermittedActor) {
+                    //Check all statements are for the authenticated user's actor only
+                    if(it.actor.account?.homePage != schoolUrl.toString()
+                        || it.actor.account?.name != loggedInActor.account?.name
+                    ) {
                         throw XapiException(403, "User does not have permission to post statement as any other actor")
                     }
                 }
@@ -440,7 +429,6 @@ class XapiStatementsResourceDb(
                         limit = listParams.limit ?: DEFAULT_MAX_STATEMENTS,
                         authenticatedPersonUidNum = uidNumberMapper.uidOrZero(authenticatedUser?.guid),
                         authenticatedActorUid = authenticatedAgent?.identifierHash(uidNumberMapper) ?: 0,
-                        schoolUrl = schoolUrl.toString(),
                         appListingVerbUid = uidNumberMapper(XapiVerb.ID_LISTED_APP),
                     ).map { entity ->
                         json.decodeFromString(
@@ -464,7 +452,6 @@ class XapiStatementsResourceDb(
                         limit = listParams.limit ?: DEFAULT_MAX_STATEMENTS,
                         authenticatedPersonUidNum = uidNumberMapper.uidOrZero(authenticatedUser?.guid),
                         authenticatedActorUid = authenticatedAgent?.identifierHash(uidNumberMapper) ?: 0,
-                        schoolUrl = schoolUrl.toString(),
                         appListingVerbUid = uidNumberMapper(XapiVerb.ID_LISTED_APP),
                     ).mapToCanonicalStatements(
                         idOnly = format == XapiStatementsResource.GetStatementFormatEnum.IDS
@@ -511,7 +498,6 @@ class XapiStatementsResourceDb(
                 limit = listParams.limit ?: DEFAULT_MAX_STATEMENTS,
                 authenticatedPersonUidNum = uidNumberMapper.uidOrZero(authenticatedUser?.guid),
                 authenticatedActorUid = authenticatedAgent?.identifierHash(uidNumberMapper) ?: 0,
-                schoolUrl = schoolUrl.toString(),
                 appListingVerbUid = uidNumberMapper(XapiVerb.ID_LISTED_APP),
             ).map { list ->
                 DataReadyState(
@@ -542,7 +528,6 @@ class XapiStatementsResourceDb(
                 limit = listParams.limit ?: DEFAULT_MAX_STATEMENTS,
                 authenticatedPersonUidNum = uidNumberMapper.uidOrZero(authenticatedUser?.guid),
                 authenticatedActorUid = authenticatedAgent?.identifierHash(uidNumberMapper) ?: 0,
-                schoolUrl = schoolUrl.toString(),
                 appListingVerbUid = uidNumberMapper(XapiVerb.ID_LISTED_APP),
             ).map { list ->
                 val consistentThrough = Clock.System.now()

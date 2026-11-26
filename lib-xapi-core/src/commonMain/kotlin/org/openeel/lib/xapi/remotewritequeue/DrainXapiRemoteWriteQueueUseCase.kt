@@ -1,13 +1,8 @@
 package org.openeel.lib.xapi.remotewritequeue
 
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.parseQueryString
 import kotlinx.serialization.json.Json
-import org.openeel.lib.dataloadstate.DataErrorResult
-import org.openeel.lib.dataloadstate.DataLoadState
-import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
-import org.openeel.lib.dataloadstate.throwable.ExceptionWithHttpStatusCode
 import org.openeel.lib.xapi.ext.paramsAdapter
 import org.openeel.lib.xapi.resources.ISingleDocumentParams
 import org.openeel.lib.xapi.resources.XapiDocumentResource
@@ -54,20 +49,6 @@ class DrainXapiRemoteWriteQueueUseCase(
     }
 
     /**
-     * Throw if the remote did not store the statement(s), so the queue item stays pending and will
-     * be retried. A 409 Conflict means the statement is already stored (e.g. the response to an
-     * earlier attempt was lost).
-     */
-    private fun DataLoadState<*>.requireStoredOnRemote() {
-        val error = (this as? DataErrorResult)?.error
-        val isConflict = (error as? ExceptionWithHttpStatusCode)?.statusCode == HttpStatusCode.Conflict.value
-
-        if(this !is DataReadyState && !isConflict) {
-            throw error ?: IllegalStateException("Statement not stored on remote: $this")
-        }
-    }
-
-    /**
      * Drain the Xapi Remote Write queue.
      */
     suspend operator fun invoke() {
@@ -81,10 +62,9 @@ class DrainXapiRemoteWriteQueueUseCase(
                                 statementId = Uuid.parse(queueItem.itemId),
                                 format = XapiStatementsResource.GetStatementFormatEnum.EXACT,
                             )
-                        ).dataOrNull()?.statements?.firstOrNull()
-                            ?: throw IllegalStateException("Statement ${queueItem.itemId} not found locally")
+                        ).dataOrNull()?.statements?.firstOrNull() ?: continue
 
-                        remoteDataSource.statements.post(listOf(statement)).requireStoredOnRemote()
+                        remoteDataSource.statements.post(listOf(statement))
                         xapiRemoteWriteQueue.markSent(listOf(queueItem.xrqItemId))
                     }
 

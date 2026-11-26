@@ -23,9 +23,8 @@ class DrainXapiRemoteWriteQueueWorker(
             Napier.d("$logPrefix completed successfully")
             Result.success()
         }catch(e: Throwable) {
-            //Items that could not be sent remain pending, so retry (with backoff) to send them
             Napier.w("$logPrefix error", e)
-            Result.retry()
+            Result.failure()
         }
     }
 
