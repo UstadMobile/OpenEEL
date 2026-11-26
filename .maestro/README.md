@@ -1,4 +1,4 @@
-# RESPECT App Maestro tests
+# OpenEEL App Maestro tests
 
 ## Development environment setup:
 * Complete development environment setup as per main [README](../README.md)
