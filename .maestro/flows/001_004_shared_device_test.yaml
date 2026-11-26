@@ -86,6 +86,8 @@ onFlowComplete:
 - tapOn: "Password*"
 - inputText: "test123"
 - tapOn: "Save"
+- tapOn:
+    id: "nav_home"
 
 # Add app
 - runFlow: "subflows/admin_add_app.yaml"
