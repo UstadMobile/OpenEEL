@@ -8,6 +8,8 @@ appId: org.openeel.app
     id: "floating_action_button"
 - tapOn: "Add from Link"
 - tapOn: "Link*"
+- runScript:
+      file: "../scripts/school_init.js"
 - inputText: ${output.TEST_APP_URL}
 - tapOn: "Next"
 - assertVisible:

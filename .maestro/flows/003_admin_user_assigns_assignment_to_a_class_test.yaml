@@ -81,22 +81,22 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Home"
-- tapOn: "Example Web App"
+- tapOn: "Demo Launchable App"
 - assertVisible:
     id: "app_title"
-    text: "Main Menu"
-- tapOn: "Examples"
-- tapOn: "Statement Maker"
+    text: "Demo Launchable App Lessons"
+- tapOn: "Grade 1"
+- tapOn: "Lesson 1 - Grade 1"
 - tapOn: "Task"
 - assertVisible:
     id: "app_title"
     text: "Home"
-- tapOn: "Example Web App"
+- tapOn: "Demo Launchable App"
 - assertVisible:
     id: "app_title"
-    text: "Main Menu"
-- tapOn: "Examples"
-- tapOn: "Assignment Result Statement Demo"
+    text: "Demo Launchable App Lessons"
+- tapOn: "Grade 1"
+- tapOn: "Lesson 3 - Grade 1"
 - tapOn: "Save"
 - assertVisible:
     id: "app_title"
@@ -110,8 +110,8 @@ onFlowComplete:
 - assertVisible: "StudentA User"
 - assertVisible: "StudentB User"
 - assertVisible: "StudentC User"
-- assertVisible: "Statement Maker"
-- assertVisible: "Assignment Result Statement Demo"
+- assertVisible: "Lesson 1 - Grade 1"
+- assertVisible: "Lesson 3 - Grade 1"
 - assertVisible: "Average"
 - tapOn: "Assignments"
 - assertVisible:
@@ -134,27 +134,31 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Homework 1"
-- tapOn: "Statement Maker"
+- tapOn: "Lesson 1 - Grade 1"
 - assertVisible:
-    text: "Statement Maker"
+    text: "Lesson 1 - Grade 1"
 - tapOn: "Open"
-- assertVisible: "Statement Maker"
+- assertVisible: "Lesson 1 - Grade 1"
 - retry:
     maxRetries: 3
     commands:
-      - tapOn: "Send statement"
+      - tapOn:
+          id: "score_text"
+      - inputText: 0.9
+      - tapOn: "Send result statement"
       - assertVisible: "Statement sent.*"
 - tapOn: "Close"
 - back
-- tapOn: "Assignment Result Statement Demo"
+- tapOn: "Lesson 3 - Grade 1"
 - tapOn: "Open"
-- assertVisible: "Assignment Result.*"
-- tapOn: "Score"
-- inputText: 1
+- assertVisible: "Lesson 3 - Grade 1"
 - retry:
     maxRetries: 3
     commands:
-      - tapOn: "Send statement"
+      - tapOn:
+          id: "score_text"
+      - inputText: 1
+      - tapOn: "Send result statement"
       - assertVisible: "Statement sent.*"
 - tapOn: "Close"
 - tapOn: "Assignments"
@@ -179,16 +183,17 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Homework 1"
-- assertVisible: "Statement Maker"
-- tapOn: "Assignment Result Statement Demo"
+- assertVisible: "Lesson 1 - Grade 1"
+- tapOn: "Lesson 3 - Grade 1"
 - tapOn: "Open"
-- assertVisible: "Assignment Result.*"
-- tapOn: "Score"
-- inputText: 1
+- assertVisible: "Lesson 3 - Grade 1"
 - retry:
     maxRetries: 3
     commands:
-      - tapOn: "Send statement"
+      - tapOn:
+          id: "score_text"
+      - inputText: 1
+      - tapOn: "Send result statement"
       - assertVisible: "Statement sent.*"
 - tapOn: "Close"
 - tapOn: "Assignments"
@@ -214,35 +219,28 @@ onFlowComplete:
 - assertVisible: "All (3)"
 - assertVisible: "Completed (1)"
 - assertVisible: "In-progress (1)"
-# 22/May: Disabled: needs horizontal scroll MD
-#- assertVisible: "Not started (1)"
 - assertVisible: "Please complete this Homework on time."
 - assertVisible: "Assigned to"
 - assertVisible: "TestClass.*"
 - assertVisible: "StudentA User"
 - assertVisible: "StudentB User"
 - assertVisible: "StudentC User"
-- assertVisible: "Statement Maker"
+- assertVisible: "Lesson 1 - Grade 1"
 - assertVisible: "Average"
 - assertVisible: "95%"
 - assertVisible: "100%"
-- tapOn: "90%"   #Statement Maker
+- tapOn: "90%"   #Lesson 1 - Grade 1
 - assertVisible:
     id: "app_title"
-    text: "statementmaker: StudentA User"
-- assertVisible: "statementmaker"
-- assertVisible: "Completed"
+    text: ": StudentA User"
+- assertVisible: "Passed"
 - assertVisible: "Score: 90%"
-#- assertVisible: ".*ago"
-- tapOn: "statementmaker"
-- assertVisible:
-    id: "app_title"
-    text: "statementmaker"
+- tapOn: "Score: 90%"
 - assertVisible: "Timestamp:"
 - assertVisible: "Verb:"
-- assertVisible: "Completed"
+- assertVisible: "Passed"
 - assertVisible: "Object:"
-- assertVisible: "Name: statementmaker"
+- assertVisible: "Name: "
 - assertVisible: "Actor:"
 - assertVisible: "Name: StudentA User"
 - assertVisible: "Account homepage: ${output.SCHOOL_URL}"
@@ -274,3 +272,5 @@ onFlowComplete:
 - inputText: "HW - Week 1"
 - tapOn: "Save"
 - assertVisible: "HW - Week 1"
+
+
