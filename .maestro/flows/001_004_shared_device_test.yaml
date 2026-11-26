@@ -420,7 +420,7 @@ onFlowComplete:
     text: "Login"
 - tapOn:
     id: "username"
-- inputText: "parentauser"
+- inputText: "parentuser"
 - tapOn:
     id : "password"
 - inputText: "test123"
