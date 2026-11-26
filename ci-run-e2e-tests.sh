@@ -160,6 +160,9 @@ TEST_APP_URL_ARG=""
 
 if [ "$TEST_APP_URL" != "" ]; then
     TEST_APP_URL_ARG=" --env TEST_APP_URL=$TEST_APP_URL "
+   echo "ci-run-e2e-tests: Using TEST_APP_URL=$TEST_APP_URL"
+else
+    echo "ci-run-e2e-tests: TEST_APP_URL not set, flows will use the school's demoapp manifest"
 fi
 
 if [ "$1" == "cloud" ]; then
