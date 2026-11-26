@@ -31,7 +31,7 @@ onFlowComplete:
     id: "floating_action_button"
 - tapOn: "Add from Link"
 - tapOn: "Link*"
-- inputText: "${output.SCHOOL_URL}demoapp/en-US/launchable-app-manifest.json"
+- inputText: ${output.TEST_APP_URL}
 - tapOn: "Next"
 - assertVisible:
     id: "app_title"

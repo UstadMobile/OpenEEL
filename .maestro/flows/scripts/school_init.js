@@ -105,4 +105,8 @@ if(!isSetString(output.SCHOOL_NAME)) {
     throw "SCHOOL_NAME not set and not using TESTCONTROLLER_URL. e.g. maestro test -e SCHOOL_NAME=TestSchool . See README"
 }
 
-output.TEST_APP_URL = output.SCHOOL_URL + "demoapp/en-US/launchable-app-manifest.json";
+
+if(isSetString(TEST_APP_URL)) {
+
+    output.TEST_APP_URL = output.SCHOOL_URL + "demoapp/en-US/launchable-app-manifest.json";
+}
