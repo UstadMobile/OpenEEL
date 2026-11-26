@@ -37,8 +37,8 @@ onFlowComplete:
     id: "app_title"
     text: "App detail"
 - assertVisible: "Example Web App"
-- runFlow: "subflows/wait_for_sync_complete.yaml"
 - tapOn: "Add to school apps"
+- runFlow: "subflows/wait_for_sync_complete.yaml"
 - runFlow: "subflows/connectivity_disable.yaml"
 - tapOn:
     id: "nav_home"
