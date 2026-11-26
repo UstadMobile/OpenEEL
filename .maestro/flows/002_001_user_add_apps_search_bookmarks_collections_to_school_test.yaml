@@ -318,7 +318,7 @@ onFlowComplete:
 - tapOn: "Demo Launchable App"
 - tapOn: "Select this collection"
 - scrollUntilVisible:
-    element: "Demo Launchable App"
+    element: "Demo Launchable App Lessons"
 - tapOn: "Section"
 - tapOn:
     text: "Learning item section"
