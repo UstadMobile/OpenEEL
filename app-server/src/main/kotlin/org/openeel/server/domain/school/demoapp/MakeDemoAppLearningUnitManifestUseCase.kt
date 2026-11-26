@@ -44,7 +44,8 @@ class MakeDemoAppLearningUnitManifestUseCase(
                 author = listOf(
                     ReadiumContributorStringValue("Mullah Nasruddin")
                 ),
-                identifier = Uri.parse(lessonBase.toString())
+                identifier = Uri.parse(lessonBase.toString()),
+                language = listOf(langCode),
             ),
             images = listOf(
                 ReadiumLink(
