@@ -103,7 +103,7 @@ abstract class OpdsFeedEntityDao {
                      OR EXISTS(
                         SELECT 1
                           FROM json_each(OpdsPublicationEntity.opeMdLanguage) AS PublicationLanguage
-                         WHERE PublicationLanguage.value IN (:languages)))
+                         WHERE substr(PublicationLanguage.value, 1, $LANG_CODE_LEN) IN (:languages)))
                 AND (NOT :filterBySubject
                      OR EXISTS(
                         SELECT 1
@@ -261,6 +261,12 @@ abstract class OpdsFeedEntityDao {
     ): Flow<List<String>>
 
     companion object {
+
+        /**
+         * When searching by language only the primary language, not the regional variant, if any
+         * should be considered. If "en-US" then trim to "en"
+         */
+        const val LANG_CODE_LEN = 2
 
         /**
          * The name of a ReadiumSubjectEntity: a subject is either a simple string value or an

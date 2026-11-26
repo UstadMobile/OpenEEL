@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * A debouncer (used to prevent a function from being called too frequently), generally
@@ -23,7 +24,7 @@ class LaunchDebouncer(
     ) {
         jobMap[debounceKey]?.cancel()
         jobMap[debounceKey] = scope.launch {
-            delay(delay)
+            delay(delay.milliseconds)
             block()
             jobMap.remove(debounceKey)
         }
