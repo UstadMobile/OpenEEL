@@ -1,6 +1,5 @@
 package org.openeel.app.view.assignment.detail
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -12,21 +11,19 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.openeel.app.components.OpenEelScoreBox
 import org.openeel.shared.generated.resources.Res
 import org.openeel.lib.xapi.composites.XapiAssignmentTaskProgress
 import org.openeel.shared.generated.resources.completed_status
 import org.openeel.shared.generated.resources.failed
-import kotlin.math.roundToInt
 
 /**
  * Show a cell with:
@@ -51,31 +48,13 @@ fun AssignmentDetailStudentProgressCell(
         .testTag("score_cell")) {
         when {
             score != null -> {
-                Box(
-                    Modifier
+                OpenEelScoreBox(
+                    scoreScaled = score,
+                    successful = progress.successful,
+                    modifier = Modifier
                         .fillMaxSize()
-                        .padding(8.dp)
-                        .background(
-                            color = when (progress.successful) {
-                                true -> Color.Green
-                                false -> Color.Red
-                                else -> Color.Transparent
-                            }
-                        )
-                ) {
-                    val currentTextStyle = LocalTextStyle.current
-                    Text(
-                        text = "${(score * 100).roundToInt()}%",
-                        modifier = Modifier.align(Alignment.Center),
-                        style = currentTextStyle.copy(
-                            color = if(progress.successful != null) {
-                                Color.White
-                            }else {
-                                currentTextStyle.color
-                            }
-                        )
-                    )
-                }
+                        .padding(8.dp),
+                )
             }
 
             (progress.completed == true && progress.successful != false) -> {

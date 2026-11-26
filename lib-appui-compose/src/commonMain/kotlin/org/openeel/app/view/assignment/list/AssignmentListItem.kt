@@ -10,10 +10,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.CheckBox
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.app.OpenEelAsyncImage
+import org.openeel.app.components.OpenEelScoreBox
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
@@ -47,7 +49,6 @@ import org.openeel.shared.generated.resources.completed_status
 import org.openeel.shared.generated.resources.menu
 import org.openeel.shared.generated.resources.task
 import org.openeel.shared.util.rememberFormattedDateTime
-import kotlin.math.roundToInt
 
 @Composable
 fun AssignmentListItem(
@@ -155,21 +156,25 @@ fun AssignmentListItem(
 
                     if(showCompletedCheck) {
                         Icon(
-                            imageVector = Icons.Filled.CheckBox,
+                            imageVector = Icons.Filled.CheckCircle,
                             contentDescription = stringResource(Res.string.completed_status),
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier
                                 .align(Alignment.BottomStart)
-                                .size(18.dp)
-                                .background(MaterialTheme.colorScheme.surface)
+                                .size(20.dp)
+                                .background(MaterialTheme.colorScheme.surface, CircleShape)
                         )
                     }
                 }
             }
         },
-        trailingContent = summary.averageScore?.let {
+        trailingContent = summary.averageScore?.let { averageScore ->
             {
-                Text((it * 100).roundToInt().toString() + "%")
+                OpenEelScoreBox(
+                    scoreScaled = averageScore,
+                    successful = true,
+                    modifier = Modifier.size(48.dp),
+                )
             }
         }
     )

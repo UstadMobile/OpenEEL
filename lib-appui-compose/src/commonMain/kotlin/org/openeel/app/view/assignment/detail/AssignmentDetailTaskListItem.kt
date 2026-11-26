@@ -1,13 +1,21 @@
 package org.openeel.app.view.assignment.detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -29,6 +37,7 @@ import org.openeel.lib.xapi.ext.webPubManifestAsUrlOrNull
 import org.openeel.lib.xapi.model.XapiActivity
 import org.openeel.libutil.ext.resolve
 import org.openeel.shared.generated.resources.Res
+import org.openeel.shared.generated.resources.completed_status
 import org.openeel.shared.generated.resources.task_image
 
 @Composable
@@ -37,6 +46,7 @@ fun AssignmentDetailTaskListItem(
     progress: XapiAssignmentTaskProgress,
     taskInfoFlow: (Url) -> Flow<DataLoadState<Publication>>,
     onClickTask: (XapiActivity) -> Unit = { },
+    showCompletedCheck: Boolean = false,
 ) {
     val title = activity.definition?.name?.asLangMap()
 
@@ -70,12 +80,26 @@ fun AssignmentDetailTaskListItem(
             Text(title?.let { langMapString(it) } ?: "")
         },
         leadingContent = {
-            if (iconUrl != null) {
-                AsyncImage(
-                    model = iconUrl.toString(),
-                    contentDescription = stringResource(Res.string.task_image),
-                    modifier = Modifier.size(40.dp)
-                )
+            Box(modifier = Modifier.size(40.dp)) {
+                if (iconUrl != null) {
+                    AsyncImage(
+                        model = iconUrl.toString(),
+                        contentDescription = stringResource(Res.string.task_image),
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
+
+                if (showCompletedCheck) {
+                    Icon(
+                        imageVector = Icons.Filled.CheckCircle,
+                        contentDescription = stringResource(Res.string.completed_status),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .size(20.dp)
+                            .background(MaterialTheme.colorScheme.surface, CircleShape)
+                    )
+                }
             }
         },
         trailingContent = {
@@ -99,5 +123,6 @@ fun AssignmentDetailTaskListItemPreview() {
             scoreScaled = 0.95f,
         ),
         taskInfoFlow = { emptyFlow() },
+        showCompletedCheck = true,
     )
 }
