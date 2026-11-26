@@ -61,7 +61,8 @@ class MakeDemoAppGradeCollectionsUseCase(
                         author = listOf(
                             ReadiumContributorStringValue("Mullah Nasruddin")
                         ),
-                        identifier = Uri.parse(lessonBase.toString())
+                        identifier = Uri.parse(lessonBase.toString()),
+                        language = listOf(langCode),
                     ),
                     links = listOf(
                         ReadiumLink(
