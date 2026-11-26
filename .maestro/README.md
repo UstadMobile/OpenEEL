@@ -88,30 +88,39 @@ export MAESTRO_FLOW=./maestro/flows/flow_name.yaml
 
 Before finishing a test stage (and clearing the app for the next stage) the app normally needs to 
 wait for any data that has been updated locally to be written to the remote server. This only takes
-a fraction of a second, but if one does not wait for this, tests can become flakey. `AppBar.kt`
-has an invisible text with the test tag `sync_pending` which will be either 0 or 1. So to wait for
-sync to complete:
+a fraction of a second, but if one does not wait for this, tests can become flakey. 
+[AppBar.kt](../lib-appui-compose/src/commonMain/kotlin/org/openeel/app/app/AppBar.kt)
+has spacer elements with specific IDs to indicate if there are any items pending sync. If sync
+is pending there will be an element with the id `sync_pending`, if sync is completed, there will be 
+an element with the id `sync_complete`.
 
+e.g.
 ```yaml
 - extendedWaitUntil:
     visible:
-      id: "sync_pending"
-      text: "0"
+      id: "sync_complete"
+      optional: true
     timeout: 10000
 ```
 
 Enabling and disabling airplane mode can take time to take effect (particularly disabling airplane)
 mode. A test that requires connectivity to be active should not proceed until the connection is 
-actually active again. There is an invisible text with the test tag `connectivity_state` which will
-be either 0 (disconnected) or 1 (connected). To wait for connectivity to be active:
+actually active again. When the [connectivity status](https://developer.android.com/training/monitoring-device-state/connectivity-status-type) 
+indicates that connectivity is available, there will be a Spacer element with the id 
+`connectivity_connected`. If the device is offline, there will be an element with the id 
+`connectivity_disconnected`.
 
+e.g.
 ```yaml
 - extendedWaitUntil:
     visible:
-      id: "connectivity_state"
-      text: "1"
+      id: "connectivity_connected"
+      optional: true
     timeout: 10000
 ```
+
+Important: 26/Nov/26: locating these elements has some flakiness, the visible command should be 
+optional until this is eliminated.
 
 ## Available test flows
 ---
