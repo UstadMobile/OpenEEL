@@ -1,9 +1,9 @@
 appId: org.openeel.app
 
 ---
-- assertVisible:
-    id: "app_title"
-    text: "Home"
+- tapOn:
+      id: "nav_home"
+- tapOn: "Apps"
 - tapOn:
     id: "floating_action_button"
 - tapOn: "Add from Link"

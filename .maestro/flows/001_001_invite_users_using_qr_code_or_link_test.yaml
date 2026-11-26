@@ -233,7 +233,17 @@ onFlowComplete:
 - assertVisible: "Student User.*"
 - tapOn: "Accept Invite"
 
-# E) Teacher share invite link for parent device based signup
+#Teacher add app and assignment - to test assignment in simplified mode
+# Add app
+- runFlow: "subflows/admin_add_app.yaml"
+
+# Add an assignment
+- runFlow:
+    file: "subflows/admin_add_class_and_assignment.yaml"
+    env:
+      CLASSNAME: "TestClass"
+
+# Teacher share invite link for parent device based signup
 - tapOn: "Add student"
 - tapOn: "Invite person"
 - tapOn: "Invite via parents"
@@ -304,4 +314,19 @@ onFlowComplete:
     file: "scripts/setDate.js"
 - inputText: ${output.pastYearDateC}
 - tapOn: "Done"
-# 1/Feb/2026: MD: Maestro AGAIN does not actually deliver the tap. Thanks.
+- tapOn:
+    id: "user_account_icon"
+- assertVisible: "Profile"
+- tapOn: "Student User2"
+# Verify simplified child mode
+- assertVisible: "Assignments"
+- assertVisible:
+    id: "app_title"
+    text: "Assignments"
+- assertVisible:
+    id: "nav_home"
+- assertNotVisible: "Classes"
+- assertNotVisible: "People"
+- tapOn: "Homework 1"
+- assertVisible: "Statement Maker"
+- assertVisible: "Assignment Result Statement Demo"
