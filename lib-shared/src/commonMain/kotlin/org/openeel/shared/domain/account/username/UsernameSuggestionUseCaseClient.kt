@@ -2,6 +2,8 @@ package org.openeel.shared.domain.account.username
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.expectSuccess
+import io.ktor.client.plugins.retry
 import io.ktor.client.request.post
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
@@ -22,6 +24,15 @@ class UsernameSuggestionUseCaseClient (
                 .apply {
                     parameters.append("name", name)
                 }.build()
-        ).body()
+        ) {
+            expectSuccess = true
+            retry {
+                retryOnExceptionOrServerErrors(DEFAULT_MAX_RETRIES)
+            }
+        }.body()
+    }
+
+    companion object {
+        private const val DEFAULT_MAX_RETRIES = 3
     }
 }

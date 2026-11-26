@@ -1,11 +1,12 @@
 appId: org.openeel.app
 
 ---
-# https://github.com/UstadMobile/OpenEEL/blob/ffe220ba8892840ed953101d55090feb9a8f3f0b/.maestro/README.md#onlineoffline-scenarios
-#There is an invisible text with the test tag connectivity_state which will be either 0 (disconnected) or 1 (connected).
-#To wait for connectivity to be active: text=1
+# Wait for element indicating connectivity is restored, see:
+# https://github.com/UstadMobile/OpenEEL/tree/main/.maestro#onlineoffline-scenarios
 - setAirplaneMode: disabled
 - extendedWaitUntil:
     visible:
       id: "connectivity_connected"
+      optional: true
+      label: "Wait for connectivity to be restored but don't fail because sometimes Maestro fails to find the element even though connectivity is enabled"
     timeout: 10000

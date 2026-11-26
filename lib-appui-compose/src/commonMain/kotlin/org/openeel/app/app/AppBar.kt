@@ -180,7 +180,7 @@ fun OpenEelAppBar(
                          * Note: size needs to be 8.dp or higher for this to work reliably.
                          */
                         Spacer(
-                            Modifier.size(8.dp)
+                            Modifier.size(16.dp)
                                 .testTag(if(pendingWriteCount == 0) "sync_complete" else "sync_pending")
                         )
 
@@ -191,7 +191,7 @@ fun OpenEelAppBar(
                          * Note: size needs to be 8.dp or higher for this to work reliably.
                          */
                         Spacer(
-                            Modifier.size(8.dp)
+                            Modifier.size(16.dp)
                                 .testTag(
                                     if(connectivityState.isConnected)
                                         "connectivity_connected"

@@ -87,7 +87,7 @@ fun OpdsSearchScreen(
             OpenEelSearchFilterChip(
                 chipLabel = stringResource(Res.string.language),
                 modifier = Modifier.testTag("language_filter_chip"),
-                options = uiState.languageOptions,
+                options = uiState.visibleLanguageOptions.map { it.langCode },
                 selectedOptions = uiState.searchParams.languages,
                 onSelectedOptionsChanged = onLanguagesChanged,
                 optionLabel = { langCode ->

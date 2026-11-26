@@ -3,6 +3,7 @@ package org.openeel.shared.viewmodel.catalog.opdssearch
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import io.ktor.http.Url
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -10,6 +11,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
@@ -19,7 +22,9 @@ import org.openeel.datalayer.school.opds.OpdsFeedDataSourceLocal
 import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.lib.opds.model.OpenEelConstants
 import org.openeel.libutil.ext.resolve
+import org.openeel.libutil.util.localeLanguage
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.getlanguageendonym.GetLanguageEndonymUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.not_found
 import org.openeel.shared.navigation.AppsDetail
@@ -33,10 +38,16 @@ import org.openeel.shared.viewmodel.app.appstate.AppBarSearchUiState
 import org.openeel.shared.viewmodel.app.appstate.Snack
 import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 
+
+data class OpdsSearchLanguageOption(
+    val langCode: String,
+    val endonym: String,
+)
+
 /**
  * The search text as displayed is held in the appbar search state (AppUiState.searchState).
  *
- * @property languageOptions the languages available to filter by (matching
+ * @property availableLanguageOptions the languages available to filter by (matching
  *           [languageOptionSearchText]).
  * @property subjectOptions the subjects available to filter by (matching
  *           [subjectOptionSearchText]).
@@ -48,10 +59,11 @@ import org.openeel.shared.viewmodel.app.appstate.SnackBarDispatcher
 data class OpdsSearchUiState(
     val searchParams: OpdsFeedDataSourceLocal.SearchParams = OpdsFeedDataSourceLocal.SearchParams(),
     val results: List<OpdsSearchResult> = emptyList(),
-    val languageOptions: List<String> = emptyList(),
+    val availableLanguageOptions: List<OpdsSearchLanguageOption> = emptyList(),
     val subjectOptions: List<String> = emptyList(),
     val languageOptionSearchText: String = "",
     val subjectOptionSearchText: String = "",
+    val visibleLanguageOptions: List<OpdsSearchLanguageOption> = emptyList(),
 ) {
 
     val hasFilters: Boolean
@@ -79,6 +91,8 @@ class OpdsSearchViewModel(
     val uiState = _uiState.asStateFlow()
 
     private val launchDebounced = LaunchDebouncer(viewModelScope)
+
+    private val getLanguageEndonymUseCase: GetLanguageEndonymUseCase by inject()
 
     init {
         _appUiState.update {
@@ -110,12 +124,51 @@ class OpdsSearchViewModel(
         }
 
         viewModelScope.launch {
-            uiState.map { it.languageOptionSearchText }.distinctUntilChanged()
-                .collectLatest { searchText ->
-                    schoolDataSourceLocal.opdsFeedDataSource.getLanguageOptionsAsFlow(
-                        searchText
-                    ).collectLatest { languageOptions ->
-                        _uiState.update { it.copy(languageOptions = languageOptions) }
+            withContext(Dispatchers.Default) {
+                schoolDataSourceLocal.opdsFeedDataSource.getLanguageOptionsAsFlow("")
+                    .distinctUntilChanged()
+                    .collectLatest { list ->
+                        val langOptions = list.map { it.localeLanguage() }.distinct()
+                            .map {
+                                OpdsSearchLanguageOption(
+                                    langCode = it,
+                                    endonym = getLanguageEndonymUseCase(it)?.let {
+                                        getString(it)
+                                    } ?: it
+                                )
+                            }.sortedBy { it.endonym }
+
+                        _uiState.update {
+                            it.copy(availableLanguageOptions = langOptions)
+                        }
+                    }
+            }
+        }
+
+        /**
+         * This is run through the debouncer to avoid running filtering of many languages on the
+         * main thread and avoid re-running on every keystroke
+         */
+        viewModelScope.launch {
+            _uiState.map { it.languageOptionSearchText }
+                .distinctUntilChanged()
+                .collectLatest { langSearchText ->
+                    launchDebounced.launch("lang") {
+                        val searchLower = langSearchText.lowercase()
+
+                        _uiState.update { prev ->
+                            prev.copy(
+                                visibleLanguageOptions = if(langSearchText.isNotBlank()) {
+                                    withContext(Dispatchers.Default) {
+                                        _uiState.value.availableLanguageOptions.filter {
+                                            it.endonym.lowercase().contains(searchLower)
+                                        }
+                                    }
+                                }else {
+                                    _uiState.value.availableLanguageOptions
+                                }
+                            )
+                        }
                     }
                 }
         }
