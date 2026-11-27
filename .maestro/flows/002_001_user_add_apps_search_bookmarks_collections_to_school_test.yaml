@@ -117,8 +117,7 @@ onFlowComplete:
     visible: "Lesson 3 - Grade 1"
     timeout: 10000
 - assertVisible: "Send result (pass/fail)"
-- tapOn:
-    id: "score_text"
+- tapOn: "Scaled score (must be between 0 and 1):"
 - inputText: 1
 - hideKeyboard
 - retry:

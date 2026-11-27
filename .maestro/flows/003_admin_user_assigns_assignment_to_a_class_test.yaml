@@ -139,12 +139,12 @@ onFlowComplete:
     text: "Lesson 1 - Grade 1"
 - tapOn: "Open"
 - assertVisible: "Lesson 1 - Grade 1"
+- tapOn: "Scaled score (must be between 0 and 1):"
+- inputText: 0.9
+- hideKeyboard
 - retry:
     maxRetries: 3
     commands:
-      - tapOn:
-          id: "score_text"
-      - inputText: 0.9
       - tapOn: "Send result statement"
       - assertVisible: "Statement sent.*"
 - tapOn: "Close"
@@ -152,12 +152,12 @@ onFlowComplete:
 - tapOn: "Lesson 3 - Grade 1"
 - tapOn: "Open"
 - assertVisible: "Lesson 3 - Grade 1"
+- tapOn: "Scaled score (must be between 0 and 1):"
+- inputText: 1
+- hideKeyboard
 - retry:
     maxRetries: 3
     commands:
-      - tapOn:
-          id: "score_text"
-      - inputText: 1
       - tapOn: "Send result statement"
       - assertVisible: "Statement sent.*"
 - tapOn: "Close"
@@ -187,12 +187,12 @@ onFlowComplete:
 - tapOn: "Lesson 3 - Grade 1"
 - tapOn: "Open"
 - assertVisible: "Lesson 3 - Grade 1"
+- tapOn: "Scaled score (must be between 0 and 1):"
+- inputText: 1
+- hideKeyboard
 - retry:
     maxRetries: 3
     commands:
-      - tapOn:
-          id: "score_text"
-      - inputText: 1
       - tapOn: "Send result statement"
       - assertVisible: "Statement sent.*"
 - tapOn: "Close"
