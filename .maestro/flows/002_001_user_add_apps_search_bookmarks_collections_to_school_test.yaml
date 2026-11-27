@@ -175,7 +175,7 @@ onFlowComplete:
 - tapOn:
     id: "nav_home"
 - tapOn: "Apps"
-
+- runFlow: "wait_for_sync_complete.yaml"
 # Search all available lessons
 - tapOn:
     id: "action_search"
