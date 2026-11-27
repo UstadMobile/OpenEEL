@@ -446,11 +446,3 @@ onFlowComplete:
     id: "nav_home"
 - assertNotVisible: "Classes"
 - assertNotVisible: "People"
-# TODO parent visibility: parent cannot see the child's assignments yet - re-enable when fixed
-#- tapOn: "Homework 1"
-#- assertVisible: "All (2)"
-#- assertVisible: "Completed (2)"
-#- assertVisible: "In-progress (0)"
-#- tapOn: "Statement Maker"
-#- assertVisible: "Statement Maker"
-#- tapOn: "Close"
