@@ -36,7 +36,15 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "App detail"
-- assertVisible: "Example Web App"
+- assertVisible: "Demo Launchable App"
+- assertVisible: "Add to school apps"
+- assertVisible: "Open Source: MIT"
+- assertVisible: "Get it on Google Play"
+- assertVisible: "Also available in:"
+- assertVisible: "Français"
+- assertVisible: "Lessons"
+- tapOn: "Open Source: MIT"
+- tapOn: "Close tab"
 - tapOn: "Add to school apps"
 - runFlow: "subflows/wait_for_sync_complete.yaml"
 - runFlow: "subflows/connectivity_disable.yaml"
@@ -45,14 +53,16 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Home"
-- assertVisible: "Example Web App"
-- tapOn: "Example Web App"
+- tapOn: "Demo Launchable App"
+- assertVisible:
+    id: "app_title"
+    text: "App detail"
 - tapOn: "Lessons"
-- tapOn: "Examples"
-- tapOn: "Lesson 001"
+- tapOn: "Grade 1"
+- tapOn: "Lesson 1 - Grade 1"
 - assertVisible:
       id: "app_title"
-      text: "Examples"
+      text: "Grade 1"
 - assertVisible:
         text: "Bookmark"
         enabled: true
@@ -68,19 +78,19 @@ onFlowComplete:
 - runFlow: "subflows/connectivity_enable.yaml"
 - tapOn: "Open"
 - extendedWaitUntil:
-    visible: "Lesson 001"
+    visible: "Lesson 1 - Grade 1"
     timeout: 10000
-- assertVisible: "Hello World Lesson"
+- assertVisible: "Demo Learning Unit Grade 1 Unit 1"
 - tapOn: "Close"
 - tapOn:
     id: "nav_home"
-- tapOn: "Example Web App"
+- tapOn: "Demo Launchable App"
 - tapOn: "Lessons"
-- tapOn: "Examples"
-- tapOn: "Assignment Result Statement Demo"
+- tapOn: "Grade 1"
+- tapOn: "Lesson 3 - Grade 1"
 - assertVisible:
     id: "publication_title"
-    text: "Assignment Result Statement Demo"
+    text: "Lesson 3 - Grade 1"
 - tapOn: "Download"
 - extendedWaitUntil:
     visible: "Downloaded"
@@ -94,25 +104,26 @@ onFlowComplete:
 - launchApp
 - assertVisible:
     id: "nav_home"
-- tapOn: "Example Web App"
+- tapOn: "Demo Launchable App"
 - tapOn: "Lessons"
-- tapOn: "Examples"
-- tapOn: "Assignment Result Statement Demo"
+- tapOn: "Grade 1"
+- tapOn: "Lesson 3 - Grade 1"
 - assertVisible:
     id: "publication_title"
-    text: "Assignment Result Statement Demo"
+    text: "Lesson 3 - Grade 1"
 - assertVisible: "Downloaded"
 - tapOn: "Open"
 - extendedWaitUntil:
-    visible: "Assignment Result Statement Demo"
+    visible: "Lesson 3 - Grade 1"
     timeout: 10000
-- assertVisible: "Assignment Result.*"
-- tapOn: "Score"
+- assertVisible: "Send result (pass/fail)"
+- tapOn: "Scaled score (must be between 0 and 1):"
 - inputText: 1
+- hideKeyboard
 - retry:
     maxRetries: 3
     commands:
-      - tapOn: "Send statement"
+      - tapOn: "Send result statement"
       - assertVisible: "Statement sent.*"
 - tapOn: "Close"
 - runFlow: "subflows/connectivity_enable.yaml"
@@ -121,32 +132,32 @@ onFlowComplete:
 - tapOn: "Apps"
 - assertVisible: "Collections"
 - assertVisible: "Bookmarks"
-- assertVisible: "Example Web App"
+- assertVisible: "Demo Launchable App"
 - tapOn: "Bookmarks"
 - assertVisible: "No bookmarks yet"
 - assertVisible: "Bookmark a lesson or a Collection to see it here."
 - tapOn: "Apps"
-- tapOn: "Example Web App"
-- tapOn: "Examples"
-- tapOn: "Lesson 001"
-- assertVisible: "Lesson 001"
+- tapOn: "Demo Launchable App"
+- tapOn: "Grade 1"
+- tapOn: "Lesson 1 - Grade 1"
+- assertVisible: "Lesson 1 - Grade 1"
 - tapOn: "Open"
 - extendedWaitUntil:
-    visible: "Lesson 001"
+    visible: "Lesson 1 - Grade 1"
     timeout: 1000
-- assertVisible: "Hello World Lesson"
+- assertVisible: "Demo Learning Unit Grade 1 Unit 1"
 - tapOn: "Close"
 - assertVisible: "Download"
 - assertVisible: "Assign"
 - assertVisible: "License:.*"
-- assertVisible: "Subject:.*"
+- assertVisible: "Also available in:"
 - tapOn: "Bookmark"
 - tapOn:
     id: "nav_home"
 - tapOn: "Apps"
-- tapOn: "Example Web App"
-- tapOn: "Examples"
-- tapOn: "Statement Maker"
+- tapOn: "Demo Launchable App"
+- tapOn: "Grade 1"
+- tapOn: "Lesson 2 - Grade 1"
 - tapOn: "Bookmark"
 - tapOn:
     id: "nav_home"
@@ -154,28 +165,28 @@ onFlowComplete:
     id: "app_title"
     text: "Home"
 - tapOn: "Bookmarks"
-- assertVisible: "Lesson 001"
-- assertVisible: "Statement Maker"
+- assertVisible: "Lesson 1 - Grade 1"
+- assertVisible: "Lesson 2 - Grade 1"
 - tapOn:                       #Remove bookmark
     text: "Bookmark"
     index: 0
-- assertNotVisible: "Lesson 001"
-- assertVisible: "Statement Maker"
+- assertNotVisible: "Lesson 1 - Grade 1"
+- assertVisible: "Lesson 2 - Grade 1"
 - tapOn:
     id: "nav_home"
 - tapOn: "Apps"
-
+- runFlow: "wait_for_sync_complete.yaml"
 # Search all available lessons
 - tapOn:
     id: "action_search"
-- inputText: "Lesson"
-- assertVisible: "Lesson 001"
+- inputText: "Lesson 1"
+- assertVisible: "Lesson 1 - Grade 1"
 - tapOn: "Language"
 - tapOn: "English"
 - tapOn:
     id: "close_filter_bottom_sheet_button"
 - assertVisible: "English"
-- assertVisible: "Lesson 001"
+- assertVisible: "Lesson 1 - Grade 1"
 - tapOn: "Type"
 - assertVisible: "Collection"
 - assertVisible: "Game"
@@ -185,7 +196,7 @@ onFlowComplete:
     id: "close_filter_bottom_sheet_button"
 - assertVisible: "English"
 - assertVisible: "Video"
-- assertNotVisible: "Lesson 001"
+- assertNotVisible: "Lesson 1 - Grade 1"
 - swipe:
    from:
       text: "Video"
@@ -194,15 +205,15 @@ onFlowComplete:
 - tapOn: "Clear all"
 - assertNotVisible: "English"
 - assertNotVisible: "Video"
-- assertVisible: "Lesson 001"
+- assertVisible: "Lesson 1 - Grade 1"
 - tapOn:
     id: "search_box"
 - eraseText
-- inputText: "JS"
-- assertVisible: "JS Tetris"
-- assertNotVisible: "Lesson 001"
-- tapOn: "JS Tetris"
-- assertVisible: "JS Tetris"
+- inputText: "Lesson 4"
+- assertVisible: "Lesson 4 - Grade 1"
+- assertNotVisible: "Lesson 1 - Grade 1"
+- tapOn: "Lesson 4 - Grade 1"
+- assertVisible: "Lesson 4 - Grade 1"
 
 - runFlow:
     file: "subflows/admin_add_class.yaml"
@@ -235,14 +246,14 @@ onFlowComplete:
         - hideKeyboard
 - assertVisible: "Links to other collections."
 - tapOn: "Link to collection here"
-- tapOn: "Example Web App"
-- tapOn: "Examples"
+- tapOn: "Demo Launchable App"
+- tapOn: "Grade 1"
 - tapOn: "Select this collection"
-- assertVisible: "Examples"
+- assertVisible: "Grade 1"
 - assertVisible: "Move"
 - tapOn: "Collapse"
 - assertNotVisible: "Link to collection here"
-- assertNotVisible: "Examples"
+- assertNotVisible: "Grade 1"
 - assertVisible: "Links to learning items"
 - tapOn: "Learning item here"
 - assertVisible: "Browse"
@@ -254,13 +265,13 @@ onFlowComplete:
     id: "app_title"
     text: "Select unit(s)"
 - tapOn: "Bookmarks"
-- tapOn: "Statement Maker"
+- tapOn: "Lesson 2 - Grade 1"
 - tapOn: "Save"
 - assertVisible:
     id: "app_title"
     text: "Collections for Grade 1"
-- assertVisible: "Examples"
-- assertVisible: "Statement Maker"
+- assertVisible: "Grade 1"
+- assertVisible: "Lesson 2 - Grade 1"
 - tapOn:
     id: "nav_home"
 - tapOn: "Collections"
@@ -303,10 +314,10 @@ onFlowComplete:
     id: "app_title"
     text: "Select collection(s)"
 - assertVisible: "Apps"
-- tapOn: "Example Web App"
+- tapOn: "Demo Launchable App"
 - tapOn: "Select this collection"
 - scrollUntilVisible:
-    element: "Main Menu"
+    element: "Demo Launchable App Lessons"
 - tapOn: "Section"
 - tapOn:
     text: "Learning item section"
@@ -332,14 +343,14 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Collections for Grade 1"
-- assertVisible: "Examples"
+- assertVisible: "Grade 1"
 - assertVisible: "Assignment Result Statement Demo"
-- assertVisible: "Statement Maker"
+- assertVisible: "Lesson 2 - Grade 1"
 - assertVisible: "Day 1-Collections section"
-- assertVisible: "Main Menu"
+- assertVisible: "Demo Launchable App Lessons"
 - tapOn:
     id: "expand_collapse_icon"
-- assertNotVisible: "Main Menu"
+- assertNotVisible: "Demo Launchable App Lessons"
 - tapOn:
     id: "nav_home"
 - tapOn: "Collections"
@@ -374,27 +385,27 @@ onFlowComplete:
 - inputText: ${output.currentTime}
 - hideKeyboard
 - assertVisible: "Tasks"
-- assertVisible: "Statement Maker"
+- assertVisible: "Lesson 2 - Grade 1"
 - assertVisible: "Assignment Result Statement Demo"
 - tapOn: "Task"
-- tapOn: "Example Web App"
-- tapOn: "Examples"
-- tapOn: "Lesson 001"
+- tapOn: "Demo Launchable App"
+- tapOn: "Grade 1"
+- tapOn: "Lesson 1 - Grade 1"
 - tapOn: "Save"
 - assertVisible:
     id: "app_title"
     text: "Homework 1"
-- assertVisible: "Statement Maker"
+- assertVisible: "Lesson 2 - Grade 1"
 - assertVisible: "Assignment Result Statement Demo"
-- assertVisible: "Lesson 001"
+- assertVisible: "Lesson 1 - Grade 1"
 
 
 # Test Copy link, Remix & Unpin a Collection - Add an app as a collection using link
 - tapOn:
     id: "nav_home"
 - tapOn: "Apps"
-- tapOn: "Example Web App"
-- tapOn: "Examples"
+- tapOn: "Demo Launchable App"
+- tapOn: "Grade 1"
 - tapOn: "Copy link"
 
 
@@ -427,41 +438,41 @@ onFlowComplete:
 - assertVisible:
       id: "app_title"
       text: "Home"
-- assertVisible: "Examples"
-- assertVisible: "0 sections, 4 items"
-- tapOn: "Examples"
+- assertVisible: "Grade 1"
+- assertVisible: "0 sections, 10 items"
+- tapOn: "Grade 1"
 - tapOn: "Remix collection"
 - assertVisible:
     id: "app_title"
     text: "Remix collection"
-- assertVisible: "Remix of Examples"
+- assertVisible: "Remix of Grade 1"
 - tapOn: "Save"
-- assertVisible: "Lesson 001"
-- assertVisible: "Statement Maker"
-- assertVisible: "Assignment Result Statement Demo"
-- assertVisible: "JS Tetris"
-- tapOn: "Assignment Result Statement Demo"
+- assertVisible: "Lesson 1 - Grade 1"
+- assertVisible: "Lesson 2 - Grade 1"
+- assertVisible: "Lesson 3 - Grade 1"
+- assertVisible: "Lesson 4 - Grade 1"
+- tapOn: "Lesson 3 - Grade 1"
 - assertVisible:
     id: "publication_title"
-    text: "Assignment Result Statement Demo"
+    text: "Lesson 3 - Grade 1"
 - assertVisible:
     id: "app_title"
-    text: "Remix of Examples"
+    text: "Remix of Grade 1"
 
 - tapOn:
     id: "nav_home"
 - tapOn: "Collections"
 - assertVisible: "Collections for Grade 1"
 - assertVisible: "2 sections, 4 items"
-- assertVisible: "Remix of Examples"
-- assertVisible: "0 sections, 4 items" 
+- assertVisible: "Remix of Grade 1"
+- assertVisible: "0 sections, 10 items"
 - tapOn:
     text: "More Options"
     index: 0
 - tapOn: "Unpin"
 - assertVisible: "Unpinned 1 Collection"
 - assertVisible: "Undo"
-- assertNotVisible: "Remix of Examples"
+- assertNotVisible: "Remix of Grade 1"
 
 #Test Remix & Delete a Collection
 - tapOn: "Collections for Grade 1"
@@ -528,7 +539,7 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Collections for Grade 1"
-- tapOn: "Statement Maker"
+- tapOn: "Lesson 2 - Grade 1"
 - assertVisible:
     id: "app_title"
     text: "Add assignment"
