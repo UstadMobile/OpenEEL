@@ -8,11 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import kotlin.math.roundToInt
-
-/**
- * Shows a scaled score (0 to 1) as a percentage. The background is green if [successful] is true,
- * red if it is false, and transparent if it is null.
- */
 @Composable
 fun OpenEelScoreBox(
     scoreScaled: Float,
