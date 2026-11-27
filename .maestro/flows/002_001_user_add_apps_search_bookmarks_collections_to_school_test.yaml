@@ -348,10 +348,10 @@ onFlowComplete:
 - assertVisible: "Assignment Result Statement Demo"
 - assertVisible: "Lesson 2 - Grade 1"
 - assertVisible: "Day 1-Collections section"
-- assertVisible: "Demo Launchable App"
+- assertVisible: "Demo Launchable App Lessons"
 - tapOn:
     id: "expand_collapse_icon"
-- assertNotVisible: "Demo Launchable App"
+- assertNotVisible: "Demo Launchable App Lessons"
 - tapOn:
     id: "nav_home"
 - tapOn: "Collections"

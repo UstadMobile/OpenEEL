@@ -106,7 +106,5 @@ if(!isSetString(output.SCHOOL_NAME)) {
 }
 
 
-if(isSetString(TEST_APP_URL)) {
 
-    output.TEST_APP_URL = output.SCHOOL_URL + "demoapp/en-US/launchable-app-manifest.json";
-}
+ output.TEST_APP_URL = "https://demo.openeel.org/en-US/launchable-app-manifest.json";
