@@ -6,6 +6,12 @@ appId: org.openeel.app
 - assertVisible:
       id: "app_title"
       text: "Classes"
+- runFlow:
+    when:
+      notVisible: ${CLASSNAME}
+    file: "admin_add_class.yaml"
+    env:
+      CLASSNAME: TestClass
 - assertVisible: ${CLASSNAME}  #to make sure Class is already created before creating an assignment
 - tapOn: "Assignments"
 - tapOn:

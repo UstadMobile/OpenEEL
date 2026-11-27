@@ -22,6 +22,18 @@ onFlowComplete:
 ---
 # Invite new user:
 - runFlow: "subflows/school_admin_login_flow.yaml"
+
+#Admin add app and assignment - to test assignment in simplified mode
+# Add app
+- runFlow: "subflows/admin_add_app.yaml"
+
+# Add an assignment
+- runFlow:
+    file: "subflows/admin_add_class_and_assignment.yaml"
+    env:
+      CLASSNAME: "TestClass"
+- tapOn:
+    id: "nav_home"
 - assertVisible:
     id: "app_title"
     text: "Home"
@@ -232,17 +244,6 @@ onFlowComplete:
           timeout: 10000
 - assertVisible: "Student User.*"
 - tapOn: "Accept Invite"
-
-#Teacher add app and assignment - to test assignment in simplified mode
-# Add app
-- runFlow: "subflows/admin_add_app.yaml"
-
-# Add an assignment
-- runFlow:
-    file: "subflows/admin_add_class_and_assignment.yaml"
-    env:
-      CLASSNAME: "TestClass"
-
 # Teacher share invite link for parent device based signup
 - tapOn: "Add student"
 - tapOn: "Invite person"
