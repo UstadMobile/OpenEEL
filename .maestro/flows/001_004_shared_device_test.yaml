@@ -446,10 +446,10 @@ onFlowComplete:
     id: "nav_home"
 - assertNotVisible: "Classes"
 - assertNotVisible: "People"
-# TODO parent visibility: parent cannot see the child's assignments yet ("Nothing here at the moment") - re-enable when fixed
+# TODO parent visibility: parent cannot see the child's assignments yet - re-enable when fixed
 #- tapOn: "Homework 1"
 #- assertVisible: "All (2)"
-#- assertVisible: "Completed (2)" # TODO 403: depends on the statements sent on Test Device 2
+#- assertVisible: "Completed (2)"
 #- assertVisible: "In-progress (0)"
 #- tapOn: "Statement Maker"
 #- assertVisible: "Statement Maker"
