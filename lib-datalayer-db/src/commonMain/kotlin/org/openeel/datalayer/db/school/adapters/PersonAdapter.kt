@@ -5,8 +5,8 @@ import org.openeel.datalayer.db.school.entities.PersonEntity
 import org.openeel.datalayer.db.school.entities.PersonEntityWithRoles
 import org.openeel.datalayer.db.school.entities.PersonRelatedPersonEntity
 import org.openeel.datalayer.db.school.entities.PersonRoleEntity
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRole
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonRole
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 

@@ -14,13 +14,13 @@ import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.test.clientservertest.clientServerDatasourceTest
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.SchoolPermissionGrantDataSource
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonGenderEnum
 import org.openeel.datalayer.shared.params.GetListCommonParams
-import org.openeel.datalayer.school.model.PersonRole
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRole
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.server.routes.school.respect.PersonRoute
 import org.openeel.server.routes.school.respect.SchoolPermissionGrantRoute
 import kotlin.test.Test
@@ -173,7 +173,7 @@ class PersonRepositoryIntegrationTest {
                 val dataSince = clients.first().schoolDataSource.personDataSource
                     .list(
                         loadParams = DataLoadParams(),
-                        PersonDataSource.GetListParams(
+                        BuiltinPersonDirectoryResource.GetListParams(
                             common = GetListCommonParams(
                                 since = answer1ConsistentThrough
                             )
@@ -226,7 +226,7 @@ class PersonRepositoryIntegrationTest {
                 val dataSince = clients.first().schoolDataSource.personDataSource
                     .list(
                         loadParams = DataLoadParams(),
-                        params = PersonDataSource.GetListParams(
+                        params = BuiltinPersonDirectoryResource.GetListParams(
                             common = GetListCommonParams(
                                 since = answer1ConsistentThrough
                             )
@@ -267,14 +267,14 @@ class PersonRepositoryIntegrationTest {
                 )
 
                 val pagingSource = clients.first().schoolDataSource.personDataSource
-                    .listAsPagingSource(DataLoadParams(), PersonDataSource.GetListParams())
+                    .listAsPagingSource(DataLoadParams(), BuiltinPersonDirectoryResource.GetListParams())
 
                 pagingSource().load(
                     PagingSource.LoadParams.Refresh(0, 50, false)
                 )
 
                 clients.first().schoolDataSource.personDataSource.listAsFlow(
-                    DataLoadParams(), PersonDataSource.GetListParams()
+                    DataLoadParams(), BuiltinPersonDirectoryResource.GetListParams()
                 ).filter { it is DataReadyState && it.data.isNotEmpty() }.test(
                     timeout = 10.seconds
                 ) {

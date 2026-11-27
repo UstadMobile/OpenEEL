@@ -28,7 +28,7 @@ import org.openeel.app.components.OpenEelExpandCollapseListItem
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.app.components.openEelPagingItems
 import org.openeel.app.components.openEelRememberPager
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.devices

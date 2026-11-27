@@ -17,7 +17,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.datalayer.db.school.ext.fullName
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.accept_invite
 import org.openeel.shared.generated.resources.date_of_birth

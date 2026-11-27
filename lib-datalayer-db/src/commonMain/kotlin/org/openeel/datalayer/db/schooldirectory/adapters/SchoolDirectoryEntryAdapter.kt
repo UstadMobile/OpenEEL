@@ -9,8 +9,10 @@ import org.openeel.datalayer.db.shared.adapters.asEntities
 import org.openeel.datalayer.db.shared.adapters.toIModel
 import org.openeel.datalayer.respect.model.AuthenticationOption
 import org.openeel.datalayer.respect.model.BuiltinAuthOptionConfig
+import org.openeel.datalayer.respect.model.KeycloakUserDirectoryConfig
 import org.openeel.datalayer.respect.model.OpenIdAuthOptionConfig
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
+import org.openeel.datalayer.respect.model.UserDirectoryConfigTypeEnum
 import org.openeel.datalayer.respect.model.invite.AuthOptionConfigTypeEnum
 import org.openeel.libxxhash.XXStringHasher
 
@@ -36,6 +38,7 @@ fun SchoolDirectoryEntry.toEntities(
     xxStringHasher: XXStringHasher,
 ): SchoolDirectoryEntryEntities {
     val reUid = xxStringHasher.hash(self.toString())
+    val userDirectoryConfig = userDirectory
     return SchoolDirectoryEntryEntities(
         school = SchoolDirectoryEntryEntity(
             reUid = reUid,
@@ -46,6 +49,14 @@ fun SchoolDirectoryEntry.toEntities(
             reLastModified = lastModified,
             reStored = stored,
             reInDirectoryUrl = inDirectoryUrl,
+            reUserDirectoryConfigType = when (userDirectoryConfig) {
+                is KeycloakUserDirectoryConfig -> UserDirectoryConfigTypeEnum.KEYCLOAK
+                null -> null
+            },
+            reUserDirectoryEndpoint = when (userDirectoryConfig) {
+                is KeycloakUserDirectoryConfig -> userDirectoryConfig.endpoint
+                null -> null
+            },
         ),
         langMapEntities = name.asEntities { lang, region, value ->
             SchoolDirectoryEntryLangMapEntity(
@@ -55,12 +66,17 @@ fun SchoolDirectoryEntry.toEntities(
                 sdelValue = value,
             )
         },
-        authOptionEntities = authenticationOptions.map {
+        authOptionEntities = authenticationOptions.map { option ->
+            val openIdConfig = option.provider as? OpenIdAuthOptionConfig
             SchoolDirectoryEntryAuthOptionEntity(
                 sdeAoRdUid = reUid,
-                sdeAoConfigType = it.provider.authType,
-                sdeAoName = it.name,
-                sdeAoOpenIdIssuerUrl = (it.provider as? OpenIdAuthOptionConfig)?.issuer,
+                sdeAoConfigType = option.provider.authType,
+                sdeAoName = option.name,
+                sdeAoOpenIdIssuerUrl = openIdConfig?.issuer,
+                sdeAoOpenIdClientId = openIdConfig?.clientId,
+                sdeAoOpenIdScope = openIdConfig?.scope,
+                sdeAoOpenIdRedirectUri = openIdConfig?.redirectUri,
+                sdeAoOpenIdPrompt = openIdConfig?.prompt,
             )
         }
     )
@@ -76,14 +92,23 @@ fun SchoolDirectoryEntryEntities.toModel() : SchoolDirectoryEntry {
         lastModified = school.reLastModified,
         stored = school.reStored,
         inDirectoryUrl = school.reInDirectoryUrl,
+        userDirectory = when (school.reUserDirectoryConfigType) {
+            UserDirectoryConfigTypeEnum.KEYCLOAK -> KeycloakUserDirectoryConfig(
+                endpoint = requireNotNull(school.reUserDirectoryEndpoint),
+            )
+            null -> null
+        },
         authenticationOptions = authOptionEntities.map {
             AuthenticationOption(
                 name = it.sdeAoName,
                 provider = when(it.sdeAoConfigType) {
                     AuthOptionConfigTypeEnum.OPENID -> {
                         OpenIdAuthOptionConfig(
-                            issuer = it.sdeAoOpenIdIssuerUrl
-                                ?: throw IllegalArgumentException("SchoolDirectoryEntry.toModel: OpenID type must have issuer")
+                            issuer = requireNotNull(it.sdeAoOpenIdIssuerUrl) { "Missing OpenID issuer" },
+                            clientId = requireNotNull(it.sdeAoOpenIdClientId) { "Missing OpenID client ID" },
+                            scope = requireNotNull(it.sdeAoOpenIdScope) { "Missing OpenID scope" },
+                            redirectUri = requireNotNull(it.sdeAoOpenIdRedirectUri) { "Missing OpenID redirect URI" },
+                            prompt = it.sdeAoOpenIdPrompt,
                         )
                     }
 

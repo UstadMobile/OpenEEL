@@ -6,16 +6,38 @@ import kotlinx.datetime.LocalDate
 import org.openeel.lib.dataloadstate.DataLayerParams
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.DataLoadState
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonRoleEnum
+import org.openeel.lib.directory.resources.PersonDirectoryResource
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 import org.openeel.datalayer.shared.WritableDataSource
 import org.openeel.datalayer.shared.paging.IPagingSourceFactory
 import org.openeel.datalayer.shared.params.GetListCommonParams
 
-interface PersonDataSource: WritableDataSource<Person> {
+interface BuiltinPersonDirectoryResource: PersonDirectoryResource, WritableDataSource<Person> {
+
+    override fun isReadOnly(): Boolean = false
+
+    private fun PersonDirectoryResource.GetListParams.toBuiltinParams(): GetListParams = GetListParams(
+        common = GetListCommonParams(guid = filterByPersonGuid),
+        filterByClazzUid = filterByClazzUid,
+        filterByEnrolmentRole = filterByEnrolmentRole,
+        filterByName = filterByName,
+        filterByPersonRole = filterByPersonRole,
+        includeRelated = includeRelated,
+    )
+
+    override suspend fun list(
+        loadParams: DataLoadParams,
+        params: PersonDirectoryResource.GetListParams,
+    ): DataLoadState<List<Person>> = list(loadParams, params.toBuiltinParams())
+
+    override fun listAsFlow(
+        loadParams: DataLoadParams,
+        params: PersonDirectoryResource.GetListParams,
+    ): Flow<DataLoadState<List<Person>>> = listAsFlow(loadParams, params.toBuiltinParams())
 
     /**
      * @param includeRelated if true, then include all Persons related (as per
@@ -78,12 +100,12 @@ interface PersonDataSource: WritableDataSource<Person> {
 
     fun listAsFlow(
         loadParams: DataLoadParams,
-        params: GetListParams = GetListParams(),
+        params: GetListParams,
     ): Flow<DataLoadState<List<Person>>>
 
     suspend fun list(
         loadParams: DataLoadParams,
-        params: GetListParams = GetListParams(),
+        params: GetListParams,
     ): DataLoadState<List<Person>>
 
     fun listAsPagingSource(

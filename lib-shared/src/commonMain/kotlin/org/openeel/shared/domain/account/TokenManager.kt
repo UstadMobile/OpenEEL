@@ -34,6 +34,14 @@ class TokenManager(
         return AuthTokenProviderImpl(accountKey)
     }
 
+    fun storeOpenIdAuthState(accountKey: String, authState: String) {
+        settings.putString("$SETTINGS_KEY_OPENID$accountKey", authState)
+    }
+
+    fun getOpenIdAuthState(accountKey: String): String? {
+        return settings.getStringOrNull("$SETTINGS_KEY_OPENID$accountKey")
+    }
+
     /**
      * @param accountKey string - should be in the form of user@server
      */
@@ -48,6 +56,8 @@ class TokenManager(
     }
 
     fun removeToken(accountKey: String) {
+        settings.remove("$SETTINGS_KEY_OPENID$accountKey")
+
         val newTokenMap = tokenFlow.updateAndGet { prev ->
             prev.toMutableMap().apply {
                 remove(accountKey)
@@ -60,6 +70,9 @@ class TokenManager(
     companion object {
 
         const val SETTINGS_KEY = "token-manager-"
+
+
+        private const val SETTINGS_KEY_OPENID = "token-manager-openid-"
 
     }
 

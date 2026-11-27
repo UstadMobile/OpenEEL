@@ -23,7 +23,7 @@ import org.openeel.datalayer.school.ClassDataSource
 import org.openeel.datalayer.school.EnrollmentDataSource
 import org.openeel.datalayer.school.IndicatorDataSource
 import org.openeel.datalayer.school.InviteDataSource
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.PersonPasskeyDataSource
 import org.openeel.datalayer.school.PersonPasswordDataSource
 import org.openeel.datalayer.school.PersonQrBadgeDataSource
@@ -56,7 +56,7 @@ class SchoolDataSourceHttpClient(
         )
     }
 
-    override val personDataSource: PersonDataSource by lazy {
+    override val personDataSource: BuiltinPersonDirectoryResource by lazy {
         PersonDataSourceHttpClient(
             schoolUrl = schoolUrl,
             schoolDirectoryEntryResource = schoolDirectoryEntryResource,

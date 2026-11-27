@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import org.openeel.credentials.passkey.OpenEelCredential
 import org.openeel.datalayer.school.model.DeviceInfo
 import org.openeel.datalayer.school.model.Invite2
-import org.openeel.datalayer.school.model.PersonGenderEnum
+import org.openeel.lib.directory.model.PersonGenderEnum
 
 /**
  *

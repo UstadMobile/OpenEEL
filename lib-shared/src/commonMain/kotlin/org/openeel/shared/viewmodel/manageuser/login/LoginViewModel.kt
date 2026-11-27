@@ -19,10 +19,13 @@ import org.openeel.credentials.passkey.OpenEelPasswordCredential
 import org.openeel.credentials.passkey.password.SavePasswordUseCase
 import org.openeel.lib.dataloadstate.DataReadyState
 import org.openeel.datalayer.SchoolDirectoryDataSource
+import org.openeel.datalayer.respect.model.AuthenticationOption
+import org.openeel.datalayer.respect.model.OpenIdAuthOptionConfig
 import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.lib.dataloadstate.throwable.unwrapHttpStatusCode
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.account.authwithopenid.LaunchOpenIdAuthorizationUseCase
 import org.openeel.shared.domain.account.username.filterusername.FilterUsernameUseCase
 import org.openeel.shared.domain.crawlpublicationsforuser.EnqueueCrawlPublicationForUserUseCase
 import org.openeel.shared.generated.resources.Res
@@ -52,7 +55,9 @@ data class LoginUiState(
     val usernameError: StringResourceUiText? = null,
     val passwordError: StringResourceUiText? = null,
     val schoolUrl: Url,
-    val showSelectOtherSchoolButton: Boolean = false
+    val authenticationOptions: List<AuthenticationOption> =
+        AuthenticationOption.BUILTIN_DEFAULT_OPTIONS,
+    val showSelectOtherSchoolButton: Boolean = false,
 )
 
 class LoginViewModel(
@@ -61,7 +66,7 @@ class LoginViewModel(
     getCredentialUseCase: GetCredentialUseCase,
     schoolDirectoryDataSource: SchoolDirectoryDataSource,
     private val filterUsernameUseCase: FilterUsernameUseCase,
-    private val savePasswordUseCase: SavePasswordUseCase
+    private val savePasswordUseCase: SavePasswordUseCase,
 ) : OpenEelViewModel(savedStateHandle), KoinScopeComponent {
 
     private val route: LoginScreen = savedStateHandle.toRoute()
@@ -79,7 +84,7 @@ class LoginViewModel(
         get() = getKoin().getOrCreateScope<SchoolDirectoryEntry>(
             SchoolDirectoryEntryScopeId(route.schoolUrl, null).scopeId
         )
-
+    private val launchOpenIdAuthorizationUseCase : LaunchOpenIdAuthorizationUseCase = scope.get()
     private val checkPasskeySupportUseCase: CheckPasskeySupportUseCase = scope.get()
 
     //Short-term internal variable used so that we can avoid showing a save password prompt if/when
@@ -100,10 +105,16 @@ class LoginViewModel(
             try {
                 val school = schoolDirectoryDataSource.schoolDirectoryEntryResource
                     .getSchoolDirectoryEntryByUrl(route.schoolUrl)
-                val rpId: String? = when (school) {
-                    is DataReadyState -> school.data.rpId
+                val schoolEntry = when (school) {
+                    is DataReadyState -> school.data
                     else -> null
                 }
+                val authenticationOptions = schoolEntry?.authenticationOptions
+                    ?: AuthenticationOption.BUILTIN_DEFAULT_OPTIONS
+
+                _uiState.update { it.copy(authenticationOptions = authenticationOptions) }
+
+                val rpId = schoolEntry?.rpId
 
                 val isPasskeySupported = checkPasskeySupportUseCase()
 
@@ -258,6 +269,18 @@ class LoginViewModel(
         _navCommandFlow.tryEmit(
             NavCommand.Navigate(EnterInviteCode.create(route.schoolUrl))
         )
+    }
+
+    fun onClickOpenId(option: AuthenticationOption) {
+        val config = option.provider as? OpenIdAuthOptionConfig ?: return
+        launchWithLoadingIndicator(
+            onShowError = { errorText ->
+                _uiState.update { it.copy(errorText = errorText) }
+            },
+        ) {
+            _uiState.update { it.copy(errorText = null) }
+            launchOpenIdAuthorizationUseCase(config = config)
+        }
     }
 
     fun onClickSelectAnotherSchool() {

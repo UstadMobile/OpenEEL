@@ -12,10 +12,8 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.ext.newUserInviteUid
-import org.openeel.datalayer.school.model.Person
-import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.PersonStatusEnum
 import org.openeel.datalayer.school.model.SHARED_DEVICE_SETTINGS_ACTIVITY_ID
 import org.openeel.datalayer.school.model.SHARED_DEVICE_SETTINGS_PROFILE_ID
@@ -31,6 +29,8 @@ import org.openeel.lib.dataloadstate.NoDataLoadedState
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.firstOrNotFound
 import org.openeel.lib.dataloadstate.ext.isSettledNotFound
+import org.openeel.lib.directory.model.Person
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.invite.ApproveOrDeclineInviteRequestUseCase
 import org.openeel.lib.xapi.ext.getJsonAsFlow
@@ -101,7 +101,7 @@ class SharedDevicesSettingsViewModel(
     private val pendingPersonsPagingSource = PagingSourceFactoryHolder {
         schoolDataSource.personDataSource.listAsPagingSource(
             DataLoadParams(),
-            PersonDataSource.GetListParams(
+            BuiltinPersonDirectoryResource.GetListParams(
                 filterByPersonStatus = PersonStatusEnum.PENDING_APPROVAL,
                 filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE
             )
@@ -111,7 +111,7 @@ class SharedDevicesSettingsViewModel(
     private val pagingSourceFactoryHolder = PagingSourceFactoryHolder {
         schoolDataSource.personDataSource.listAsPagingSource(
             DataLoadParams(),
-            PersonDataSource.GetListParams(
+            BuiltinPersonDirectoryResource.GetListParams(
                 filterByName = _appUiState.value.searchState.searchText.takeIf { it.isNotBlank() },
                 filterByPersonStatus = PersonStatusEnum.ACTIVE,
                 filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
@@ -168,7 +168,7 @@ class SharedDevicesSettingsViewModel(
                  */
                 schoolDataSource.personDataSource.listAsFlow(
                     loadParams = DataLoadParams(),
-                    params = PersonDataSource.GetListParams(
+                    params = BuiltinPersonDirectoryResource.GetListParams(
                         common = GetListCommonParams(guid = currentDeviceGuid),
                         filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
                     )

@@ -1,6 +1,6 @@
 package org.openeel.datalayer.school.adapters
 
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.datalayer.school.model.composites.PersonListDetails
 
 fun Person.asListDetails(): PersonListDetails {

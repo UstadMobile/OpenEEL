@@ -4,7 +4,7 @@ import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.school.model.ClassInvite
 import org.openeel.datalayer.school.model.ClassInviteModeEnum
 import org.openeel.datalayer.school.model.Clazz
-import org.openeel.datalayer.school.model.EnrollmentRoleEnum
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 import org.openeel.datalayer.school.model.Invite2
 
 /**

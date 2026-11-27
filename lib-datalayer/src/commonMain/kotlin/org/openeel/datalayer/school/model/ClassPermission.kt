@@ -2,6 +2,7 @@ package org.openeel.datalayer.school.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.openeel.lib.directory.model.EnrollmentRoleEnum
 
 /**
  * Represents class-based permissions

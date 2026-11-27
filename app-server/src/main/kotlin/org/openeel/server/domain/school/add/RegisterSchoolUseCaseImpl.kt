@@ -8,7 +8,7 @@ import org.openeel.datalayer.respect.model.SchoolDirectoryEntry
 import org.openeel.datalayer.school.ext.newUserInviteUid
 import org.openeel.datalayer.school.model.Invite2
 import org.openeel.datalayer.school.model.NewUserInvite
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.datalayer.school.model.StatusEnum
 import org.openeel.lib.opds.model.LangMapStringValue
 import org.openeel.libutil.ext.normalizeForEndpoint

@@ -26,7 +26,7 @@ import org.openeel.app.components.OpenEelLongVersionInfoItem
 import org.openeel.app.components.OpenEelPersonAvatar
 import org.openeel.app.components.defaultItemPadding
 import org.openeel.datalayer.db.school.ext.fullName
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.shared.domain.account.UserAccount
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.add_account

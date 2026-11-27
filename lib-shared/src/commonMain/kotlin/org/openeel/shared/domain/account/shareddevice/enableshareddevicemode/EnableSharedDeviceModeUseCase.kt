@@ -5,7 +5,7 @@ import io.github.aakira.napier.Napier
 import io.ktor.http.Url
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeout
-import org.openeel.datalayer.school.model.Person
+import org.openeel.lib.directory.model.Person
 import org.openeel.shared.domain.account.AppAccountManager
 import org.openeel.shared.domain.account.invite.RedeemInviteRequest
 import org.openeel.shared.util.ext.isSameAccount

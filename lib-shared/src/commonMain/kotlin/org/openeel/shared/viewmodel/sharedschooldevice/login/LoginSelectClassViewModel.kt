@@ -14,7 +14,7 @@ import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
 import org.openeel.datalayer.db.school.ext.fullName
 import org.openeel.datalayer.school.ClassDataSource
-import org.openeel.datalayer.school.PersonDataSource
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.model.Clazz
 import org.openeel.datalayer.school.model.SHARED_DEVICE_SETTINGS_ACTIVITY_ID
 import org.openeel.datalayer.school.model.SHARED_DEVICE_SETTINGS_PROFILE_ID
@@ -114,7 +114,7 @@ class LoginSelectClassViewModel(
         viewModelScope.launch {
             schoolDataSource.personDataSource.listAsFlow(
                 loadParams = DataLoadParams(),
-                params = PersonDataSource.GetListParams(
+                params = BuiltinPersonDirectoryResource.GetListParams(
                     common = GetListCommonParams(
                         guid = settings.getString(
                             key = EnableSharedDeviceModeUseCase.CURRENT_DEVICE_GUID, "0"

@@ -12,9 +12,9 @@ import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.inject
 import org.koin.core.scope.Scope
 import org.openeel.datalayer.SchoolDataSource
-import org.openeel.datalayer.school.PersonDataSource
-import org.openeel.datalayer.school.model.PersonRoleEnum
+import org.openeel.datalayer.school.BuiltinPersonDirectoryResource
 import org.openeel.datalayer.school.model.PersonStatusEnum
+import org.openeel.lib.directory.model.PersonRoleEnum
 import org.openeel.lib.dataloadstate.DataLoadParams
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.dataloadstate.ext.map
@@ -64,7 +64,7 @@ class SchoolSettingsViewModel(
 
             schoolDataSource.personDataSource.listAsFlow(
                 loadParams = DataLoadParams(),
-                params = PersonDataSource.GetListParams(
+                params = BuiltinPersonDirectoryResource.GetListParams(
                     filterByPersonRole = PersonRoleEnum.SHARED_SCHOOL_DEVICE,
                     filterByPersonStatus = PersonStatusEnum.ACTIVE,
                 )
