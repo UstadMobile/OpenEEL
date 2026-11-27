@@ -107,4 +107,8 @@ if(!isSetString(output.SCHOOL_NAME)) {
 
 
 
- output.TEST_APP_URL = "https://demo.openeel.org/en-US/launchable-app-manifest.json";
+if(isSetString(TEST_APP_URL)) {
+    output.TEST_APP_URL = TEST_APP_URL;
+}else {
+    output.TEST_APP_URL = output.SCHOOL_URL + "static-resources/respect-ds/case_valid/appmanifest.json";
+}
