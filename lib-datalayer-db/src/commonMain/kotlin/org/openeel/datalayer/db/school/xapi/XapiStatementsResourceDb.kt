@@ -318,8 +318,8 @@ class XapiStatementsResourceDb(
                 ?: throw XapiException(403, "Not authenticated")
 
             if(
-                !authenticatedPerson.isAdminOrTeacher() ||
-                    authenticatedPerson.hasRoleEnum(PersonRoleEnum.SHARED_SCHOOL_DEVICE)
+                !authenticatedPerson.isAdminOrTeacher() &&
+                    !authenticatedPerson.hasRoleEnum(PersonRoleEnum.SHARED_SCHOOL_DEVICE)
             ) {
                 statementsWithIdsSet.forEach {
                     //Check all statements are for the authenticated user's actor only
