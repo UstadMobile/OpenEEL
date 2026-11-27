@@ -55,6 +55,7 @@ import org.openeel.lib.xapi.composites.XapiAssignmentTaskProgress
 import org.openeel.lib.xapi.ext.addActivityToContextActivitiesGrouping
 import org.openeel.lib.xapi.ext.averageScore
 import org.openeel.lib.xapi.ext.extensionDeadlineAsInstantOrNull
+import org.openeel.lib.xapi.ext.isSuccessfullyCompleted
 import org.openeel.lib.xapi.ext.objectActivityOrNull
 import org.openeel.lib.xapi.model.XapiAccount
 import org.openeel.lib.xapi.model.XapiActivity
@@ -211,6 +212,7 @@ fun AssignmentDetailScreen(
                                         progress = taskProgress,
                                         taskInfoFlow = uiState.taskInfoFlow,
                                         onClickTask = onClickTask,
+                                        showCompletedCheck = taskProgress.isSuccessfullyCompleted(),
                                     )
                                 }
                             }

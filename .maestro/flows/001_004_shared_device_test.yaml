@@ -29,7 +29,7 @@ onFlowComplete:
 - runFlow:
      file: "subflows/admin_add_class.yaml"
      env:
-       CLASSNAME: New Class
+       CLASSNAME: "TestClass"
 - runFlow:
     file: "subflows/add_person_to_a_class.yaml"
     env:
@@ -37,7 +37,7 @@ onFlowComplete:
       FIRSTNAME: "StudentA"
       LASTNAME:  "User"
       GENDER: "Male"
-      CLASSNAME: "New Class"
+      CLASSNAME: "TestClass"
       USERNAME: "studentauser"
       PASSWORD: "test123"
       QR_BADGE_LINK: ${output.SCHOOL_URL}respect_school_link/personqrbadge/id/12312
@@ -52,7 +52,7 @@ onFlowComplete:
       FIRSTNAME: "TeacherA"
       LASTNAME:  "User"
       GENDER: "Male"
-      CLASSNAME: "New Class"
+      CLASSNAME: "TestClass"
       USERNAME: "teacherauser"
       PASSWORD: "test123"
 # Add Family member to Student profile
@@ -74,13 +74,35 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "StudentA User"
-- assertVisible: "Parent User"
+- tapOn: "Parent User"
+# Create account for Parent user  -- only username and password fields available for parent user
+- tapOn: "Create account"
+- assertVisible:
+    id: "app_title"
+    text: "Create account"
+- assertVisible:
+    id: "Username"
+    text: "parentuser"
+- tapOn: "Password*"
+- inputText: "test123"
+- tapOn: "Save"
 - tapOn:
     id: "nav_home"
 - assertVisible:
     id: "app_title"
     text: "Home"
+# Add app
+- runFlow: "subflows/admin_add_app.yaml"
+
+# Add an assignment
+- runFlow: "subflows/admin_add_class_and_assignment.yaml"
+
 # Enable Shared Mode - Test Device 1
+- tapOn:
+    id: "nav_home"
+- assertVisible:
+    id: "app_title"
+    text: "Home"
 - tapOn:
     id: "Settings"
 - assertVisible:
@@ -150,7 +172,7 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Select class"
-- assertVisible: "New Class"
+- assertVisible: "TestClass"
 - assertVisible: "Scan QR code badge"
 
 # Enable Test Device 1
@@ -240,10 +262,10 @@ onFlowComplete:
     text: "Select class"
 - assertVisible: "Scan QR code badge"
 - assertVisible: "Teacher/admin login"
-- tapOn: "New Class"
+- tapOn: "TestClass"
 - assertVisible:
     id: "app_title"
-    text: "New Class"
+    text: "TestClass"
 - tapOn: "StudentA User"
 - assertVisible:
     id: "app_title"
@@ -252,6 +274,33 @@ onFlowComplete:
 - assertVisible: "Home"
 - assertNotVisible: "Class"
 - assertNotVisible: "People"
+- tapOn: "Homework 1"
+- assertVisible:
+    id: "app_title"
+    text: "Homework 1"
+- tapOn: "Statement Maker"
+- assertVisible: "Statement Maker"
+- retry:
+    maxRetries: 3
+    commands:
+      - tapOn: "Send statement"
+      - assertVisible: "Statement sent.*"
+- tapOn: "Close"
+- tapOn: "Assignment Result Statement Demo"
+- assertVisible: "Assignment Result.*"
+- tapOn: "Score"
+- inputText: 1
+- retry:
+    maxRetries: 3
+    commands:
+      - tapOn: "Send statement"
+      - assertVisible: "Statement sent.*"
+- tapOn: "Close"
+- tapOn: "Assignments"
+- tapOn: "Homework 1"
+- assertVisible: "All (2)"
+- assertVisible: "Completed (2)"
+- assertVisible: "In-progress (0)"
 - tapOn:
     id: "user_account_icon"
 - assertNotVisible: "Share Feedback"
@@ -314,7 +363,7 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Login"
-- assertNotVisible: "New Class"
+- assertNotVisible: "TestClass"
 - assertVisible: "Teacher/admin login"
 - tapOn: "Scan QR code badge"
 - assertVisible:
@@ -332,6 +381,13 @@ onFlowComplete:
 - assertVisible: "Home"
 - assertNotVisible: "Class"
 - assertNotVisible: "People"
+- tapOn: "Homework 1"
+- assertVisible: "All (2)"
+- assertVisible: "Completed (2)"
+- assertVisible: "In-progress (0)"
+- tapOn: "Statement Maker"
+- assertVisible: "Statement Maker"
+- tapOn: "Close"
 - tapOn:
     id: "user_account_icon"
 - assertVisible: "StudentA User"
@@ -343,3 +399,50 @@ onFlowComplete:
 - assertVisible:
     id: "app_title"
     text: "Login"
+
+- clearState: org.openeel.app
+- launchApp:
+    arguments:
+      respect_directory: ${output.SCHOOL_URL}
+- tapOn: "Get Started"
+- assertVisible:
+    id: "app_title"
+    text: "Let's get started"
+- tapOn: "Connect to an existing learning space"
+- assertVisible:
+    id: "app_title"
+    text: "Connect to an existing learning space"
+- tapOn: "Paste the link here"
+- inputText: ${output.SCHOOL_URL}
+- tapOn: "Next"
+- assertVisible:
+    id: "app_title"
+    text: "Login"
+- tapOn:
+    id: "username"
+- inputText: "parentuser"
+- tapOn:
+    id : "password"
+- inputText: "test123"
+- hideKeyboard
+- tapOn: "Login"
+- runFlow:
+    when:
+      visible: "Save password for Respect?"
+    file: "subflows/save_password_prompt_cancel.yaml"
+- assertVisible: "Apps"
+- tapOn:
+    id: "user_account_icon"
+- assertVisible: "Profile"
+- assertVisible: "Logout"
+- assertVisible: "Family members"
+- tapOn: "StudentA User"
+# Verify simplified child mode
+- assertVisible: "Assignments"
+- assertVisible:
+    id: "app_title"
+    text: "Assignments"
+- assertVisible:
+    id: "nav_home"
+- assertNotVisible: "Classes"
+- assertNotVisible: "People"

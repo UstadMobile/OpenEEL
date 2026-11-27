@@ -45,6 +45,7 @@ fun AssignmentListScreen(
                     summary = summary,
                     onClick = onClickAssignment,
                     learningUnitInfoFlow = uiState.learningUnitInfoFlow,
+                    showCompletedCheck = uiState.isStudent && summary.isCompleted,
                 )
             }
 

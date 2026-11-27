@@ -1,5 +1,6 @@
 package org.openeel.app.view.assignment.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,12 +10,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,6 +36,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 import org.openeel.app.app.OpenEelAsyncImage
+import org.openeel.app.components.OpenEelScoreBox
 import org.openeel.lib.dataloadstate.DataLoadState
 import org.openeel.lib.dataloadstate.DataLoadingState
 import org.openeel.lib.dataloadstate.NoDataLoadedState
@@ -44,13 +49,13 @@ import org.openeel.shared.generated.resources.completed_status
 import org.openeel.shared.generated.resources.menu
 import org.openeel.shared.generated.resources.task
 import org.openeel.shared.util.rememberFormattedDateTime
-import kotlin.math.roundToInt
 
 @Composable
 fun AssignmentListItem(
     summary: AssignmentSummary,
     onClick: (AssignmentSummary) -> Unit,
     learningUnitInfoFlow: (Url) -> Flow<DataLoadState<Publication>> = { emptyFlow() },
+    showCompletedCheck: Boolean = false,
 ) {
     val formattedDeadline = rememberFormattedDateTime(
         timeInMillis = summary.deadline?.toEpochMilliseconds() ?: 0,
@@ -139,19 +144,37 @@ fun AssignmentListItem(
                     .width(48.dp),
                 contentAlignment = Alignment.Center
             ) {
-                manifestIconUrl?.also { icon ->
-                    OpenEelAsyncImage(
-                        uri = icon.toString(),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(36.dp)
-                    )
+                Box(modifier = Modifier.size(36.dp)) {
+                    manifestIconUrl?.also { icon ->
+                        OpenEelAsyncImage(
+                            uri = icon.toString(),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.size(36.dp)
+                        )
+                    }
+
+                    if(showCompletedCheck) {
+                        Icon(
+                            imageVector = Icons.Filled.CheckCircle,
+                            contentDescription = stringResource(Res.string.completed_status),
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier
+                                .align(Alignment.BottomStart)
+                                .size(20.dp)
+                                .background(MaterialTheme.colorScheme.surface, CircleShape)
+                        )
+                    }
                 }
             }
         },
-        trailingContent = summary.averageScore?.let {
+        trailingContent = summary.averageScore?.let { averageScore ->
             {
-                Text((it * 100).roundToInt().toString() + "%")
+                OpenEelScoreBox(
+                    scoreScaled = averageScore,
+                    successful = true,
+                    modifier = Modifier.size(48.dp),
+                )
             }
         }
     )

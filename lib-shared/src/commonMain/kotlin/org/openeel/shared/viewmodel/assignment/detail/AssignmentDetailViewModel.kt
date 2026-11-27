@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
@@ -42,6 +43,7 @@ import org.openeel.lib.xapi.model.XapiActor
 import org.openeel.lib.xapi.model.XapiVerb
 import org.openeel.lib.xapi.resources.XapiStatementsResource
 import org.openeel.shared.domain.account.AppAccountManager
+import org.openeel.shared.domain.launchapp.openpublication.OpenPublicationUseCase
 import org.openeel.shared.generated.resources.Res
 import org.openeel.shared.generated.resources.edit
 import org.openeel.shared.generated.resources.invalid_link
@@ -182,6 +184,8 @@ class AssignmentDetailViewModel(
 
     private val schoolDataSource: SchoolDataSource by inject()
 
+    private val openPublicationUseCase: OpenPublicationUseCase by inject()
+
     private val _uiState = MutableStateFlow(AssignmentDetailUiState())
 
     val uiState = _uiState.asStateFlow()
@@ -310,15 +314,29 @@ class AssignmentDetailViewModel(
             return
         }
 
-        _navCommandFlow.tryEmit(
-            NavCommand.Navigate(
-                PublicationDetail.create(
-                    learningUnitManifestUrl = manifestUrl,
-                    assignmentActivityId = assignmentActivityId,
-                    expectedIdentifier = activity.id,
+        launchWithLoadingIndicator(
+            onShowError = { snackBarDispatcher.showSnackBar(Snack(it)) }
+        ) {
+            //Simplified child mode skips the publication detail screen and opens the lesson directly
+            if(accountManager.selectedAccountAndPersonFlow.filterNotNull().first().isSimplifiedChildMode) {
+                openPublicationUseCase(
+                    OpenPublicationUseCase.OpenPublicationRequest(
+                        publicationUrl = manifestUrl,
+                        assignmentActivityId = assignmentActivityId,
+                    )
                 )
-            )
-        )
+            }else {
+                _navCommandFlow.tryEmit(
+                    NavCommand.Navigate(
+                        PublicationDetail.create(
+                            learningUnitManifestUrl = manifestUrl,
+                            assignmentActivityId = assignmentActivityId,
+                            expectedIdentifier = activity.id,
+                        )
+                    )
+                )
+            }
+        }
     }
 
     fun onStatusFilterChanged(filter: AssignmentStatusFilter) {

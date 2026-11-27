@@ -14,6 +14,14 @@ fun XapiAssignmentTaskProgress.isCompleted(): Boolean {
     return completed == true
 }
 
+/**
+ * True if the task is completed and was not marked as unsuccessful. A task that does not report
+ * success (successful = null) is considered successfully completed once completed.
+ */
+fun XapiAssignmentTaskProgress.isSuccessfullyCompleted(): Boolean {
+    return isCompleted() && successful != false
+}
+
 fun XapiAssignmentTaskProgress.isInProgress(): Boolean {
     return !isCompleted() && (progress ?: 0) > 0
 }
