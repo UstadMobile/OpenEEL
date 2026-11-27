@@ -42,6 +42,8 @@ import org.openeel.datalayer.db.school.xapi.ext.allActivityUids
 import org.openeel.datalayer.db.school.xapi.ext.allActorUids
 import org.openeel.datalayer.ext.appendIfNotNull
 import org.openeel.datalayer.ext.uidOrZero
+import org.openeel.datalayer.school.ext.hasRoleEnum
+import org.openeel.datalayer.school.model.PersonRoleEnum
 import org.openeel.lib.dataloadstate.ext.dataOrNull
 import org.openeel.lib.xapi.resources.local.XapiAgentsResourceLocal
 import org.openeel.datalayer.school.xapi.ext.allActivities
@@ -95,6 +97,8 @@ class XapiStatementsResourceDb(
     private val xapiVersion: String = XAPI_VERSION,
 ) : XapiStatementsResourceLocal {
 
+    //Problem: This comes from AuthenticatedUserPrincipalId : when using shared school device mode
+    // or parent initiated session this will be the device/parent, NOT the child.
     private val authenticatedAgent = authenticatedUser?.let {
         XapiAgent(
             account = XapiAccount(
@@ -313,7 +317,10 @@ class XapiStatementsResourceDb(
             val authenticatedPerson = getAuthenticatedPersonUseCase()
                 ?: throw XapiException(403, "Not authenticated")
 
-            if(!authenticatedPerson.isAdminOrTeacher()) {
+            if(
+                !authenticatedPerson.isAdminOrTeacher() ||
+                    authenticatedPerson.hasRoleEnum(PersonRoleEnum.SHARED_SCHOOL_DEVICE)
+            ) {
                 statementsWithIdsSet.forEach {
                     //Check all statements are for the authenticated user's actor only
                     if(it.actor.account?.homePage != schoolUrl.toString()
